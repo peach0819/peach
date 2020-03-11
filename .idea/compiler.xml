@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <bytecodeTargetLevel>
+      <module name="peach.peach-all.main" target="1.8" />
+      <module name="peach.peach-all.test" target="1.8" />
+      <module name="peach.peach-web.main" target="1.8" />
+      <module name="peach.peach-web.test" target="1.8" />
+    </bytecodeTargetLevel>
+  </component>
+</project>

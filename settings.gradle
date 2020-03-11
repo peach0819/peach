@@ -1,0 +1,5 @@
+rootProject.name = 'peach'
+
+include 'peach-all'
+include 'peach-web'
+
