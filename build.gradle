@@ -2,16 +2,14 @@
  * gradle 本身需要的配置
  */
 buildscript {
-    ext {
-        springBootVersion = '2.1.4.RELEASE'
-    }
+    apply from: "library.gradle"
     repositories {
         mavenCentral()
     }
-//    dependencies {
-//        /* 添加插件依赖路径（通过jar方式） */
-//        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}" as Object)
-//    }
+    dependencies {
+        /* 添加插件依赖路径（通过jar方式） */
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:${versions.springBoot}")
+    }
 }
 
 /* 所有子项目的通用配置 */

@@ -1,3 +1,11 @@
-dependencies {
+apply plugin: 'war'
 
+war {
+    baseName = 'peach'
+    version = null
+    archiveName = "peach.war"
+}
+
+dependencies {
+    compile project(":peach-web")
 }
