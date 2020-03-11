@@ -18,8 +18,8 @@ rebel.xml
 hs_err_pid*
 *.class
 .metadata/
-.bin
-.lock
+*.bin
+*.lock
 
 ### Java template
 *.class
