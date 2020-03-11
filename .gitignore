@@ -1,0 +1,31 @@
+build/
+target/
+out/
+bin/
+.idea/
+.settings/
+.gradle/
+classes/
+rebel.xml
+*.iml
+*.ipr
+*.iws
+.project
+.classpath
+*.orig
+*.war
+*.ear
+hs_err_pid*
+*.class
+.metadata/
+### Java template
+*.class
+
+# Mobile Tools for Java (J2ME)
+.mtj.tmp/
+
+# Package Files #
+*.war
+*.ear
+.vs/
+
