@@ -3,6 +3,8 @@
   <component name="CompilerConfiguration">
     <bytecodeTargetLevel>
       <module name="peach.main" target="1.8" />
+      <module name="peach.peach-all.main" target="1.8" />
+      <module name="peach.peach-all.test" target="1.8" />
       <module name="peach.test" target="1.8" />
     </bytecodeTargetLevel>
   </component>

@@ -1,5 +1,6 @@
 rootProject.name = 'peach'
 
-include 'peach-all'
 include 'peach-web'
+include 'peach-service'
+include 'peach-service-api'
 

@@ -11,7 +11,8 @@
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
-            <option value="$PROJECT_DIR$/peach-all" />
+            <option value="$PROJECT_DIR$/peach-service" />
+            <option value="$PROJECT_DIR$/peach-service-api" />
             <option value="$PROJECT_DIR$/peach-web" />
           </set>
         </option>
