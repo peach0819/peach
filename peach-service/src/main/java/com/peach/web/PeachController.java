@@ -1,4 +1,4 @@
-package com.peach.account.web;
+package com.peach.web;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class PeachController {
 
     @GetMapping("/pangzi/{name}")
-    public String helloWorld(@PathVariable String name) {
+    public String pangzi(@PathVariable String name) {
         return name + "是个胖子";
     }
 }
