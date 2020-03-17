@@ -3,7 +3,7 @@ package com.peach;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-@SpringBootApplication
+@SpringBootApplication(scanBasePackages = "com.peach")
 public class PeachApplication {
 
     public static void main(String[] args) {

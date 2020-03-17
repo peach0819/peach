@@ -1,3 +1,4 @@
 dependencies {
-
+    compile project(":peach-service")
+    compile project(":peach-service-api")
 }
