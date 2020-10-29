@@ -8,13 +8,13 @@
         <processorPath useClasspath="false">
           <entry name="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.projectlombok/lombok/1.18.4/7103ab519b1cdbb0642ad4eaf1db209d905d0f96/lombok-1.18.4.jar" />
         </processorPath>
-        <module name="peach.peach-web.main" />
+        <module name="peach.peach-service-api.main" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="peach.main" target="1.8" />
-      <module name="peach.peach-all.main" target="1.8" />
-      <module name="peach.peach-all.test" target="1.8" />
+      <module name="peach.peach-web.main" target="1.8" />
+      <module name="peach.peach-web.test" target="1.8" />
       <module name="peach.test" target="1.8" />
     </bytecodeTargetLevel>
   </component>

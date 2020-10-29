@@ -5,6 +5,9 @@ buildscript {
     apply from: "library.gradle" //对整个gradle文件，进行引入
     repositories {
         mavenCentral()
+        maven{
+            url 'http://maven.aliyun.com/nexus/content/groups/public/'
+        }
     }
     dependencies {
         /* 添加插件依赖路径（通过jar方式） */
@@ -50,12 +53,23 @@ subprojects {
     /* 添加通用依赖 */
     dependencies {
         //implementation 'org.springframework.boot:spring-boot-starter-web'  这种写法也可以
-        compile("org.springframework.boot:spring-boot-starter-web")
-        compile("org.springframework.boot:spring-boot-starter-security")
+        compile 'org.springframework.boot:spring-boot-starter-web'
+        compile 'org.springframework.boot:spring-boot-starter-security'
+        compile 'org.springframework.boot:spring-boot-starter-logging'
+        compile 'com.alibaba:druid:1.0.29'
+        compile 'com.alibaba:fastjson:1.2.29'
+        compile 'com.google.guava:guava:26.0-jre'
+        compile 'org.mybatis.spring.boot:mybatis-spring-boot-starter:1.2.1'
+        compile 'org.apache.commons:commons-lang3:3.5'
+
         compileOnly 'org.projectlombok:lombok'
         annotationProcessor 'org.projectlombok:lombok'
 
         testCompile("org.springframework.boot:spring-boot-starter-test")
         //testImplementation 'org.springframework.boot:spring-boot-starter-test'
     }
+}
+
+tasks.withType(JavaCompile){
+    options.encoding = "UTF-8"
 }

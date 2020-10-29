@@ -1,4 +1,4 @@
-package com.peach.Filter;
+package com.peach.filter;
 
 import javax.servlet.*;
 import java.io.IOException;

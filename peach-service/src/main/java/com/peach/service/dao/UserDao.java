@@ -1,8 +1,8 @@
 //package com.peach.dao;
 //
 //
-//import com.peach.domain.SecurityUser;
-//import com.peach.domain.User;
+//import com.com.domain.SecurityUser;
+//import com.com.domain.User;
 //import org.springframework.stereotype.Repository;
 //
 //@Repository
