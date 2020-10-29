@@ -40,9 +40,9 @@ public class DatabaseConfig {
     @Bean
     public MapperScannerConfigurer mapperScannerConfigurer() {
         MapperScannerConfigurer configurer = new MapperScannerConfigurer();
-        mapperScannerConfigurer().setBasePackage("com.peach.dao");
-        mapperScannerConfigurer().setSqlSessionFactoryBeanName("sqlSessionFactoryBean");
-        return mapperScannerConfigurer();
+        configurer.setBasePackage("com.peach.dao");
+        configurer.setSqlSessionFactoryBeanName("sqlSessionFactoryBean");
+        return configurer;
     }
 
     @Bean
