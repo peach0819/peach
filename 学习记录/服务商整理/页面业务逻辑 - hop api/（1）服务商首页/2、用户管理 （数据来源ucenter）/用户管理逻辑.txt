@@ -1,0 +1,5 @@
+
+一个服务商底下可以有用户：(服务ucenter的 userQueryApi，userOperateApi，用户中心) SpUserManagerApi
+(销售经理，销售主管，品牌经理，推广专员)
+用户新增，更新，查询都只是使用 userOperateApi
+用户停用时，异步需要对应冻结用户的伙伴门店 shopOptMidApi，然后失效伙伴门店用户 shopUserMidOptApi，最后停用用户 userOperateApi

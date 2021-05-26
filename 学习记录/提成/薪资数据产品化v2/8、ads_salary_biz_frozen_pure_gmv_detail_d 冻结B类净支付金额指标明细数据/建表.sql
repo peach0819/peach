@@ -1,0 +1,40 @@
+CREATE TABLE IF NOT EXISTS ads_salary_biz_frozen_pure_gmv_detail_d (
+  service_user_id                 string          comment '用户id',
+  service_user_name               string          comment '用户id',
+  is_split                        string          comment '销售拆分',
+  leave_time                      string          comment '离职时间',
+  pay_time                        string          comment '支付时间',
+  is_leave                        string          comment '是否算离职订单',
+  shop_id                         string          COMMENT '门店ID',
+  shop_name                       string          COMMENT '门店名',
+  order_id                        bigint          comment '订单编号，外部生成',
+  item_name                       string          comment '商品名称',
+  item_style                      tinyint         comment '商品标签类型默认是0：A类1：B类',
+  brand_id                        bigint          comment '品牌ID',
+  brand_name                      string          comment '品牌名称',
+  category_id_first               bigint          comment '一级类目ID',
+  category_id_first_name          string          comment '一级类目名称',
+  category_id_second              bigint          comment '二级类目ID',
+  category_id_second_name         string          comment '二级类目名称',
+  pickup_brand_id                 bigint          comment '提货hi卡品牌',
+  pickup_brand_name               string          comment '提货hi卡品牌名' ,
+  pickup_category_id_first        bigint          comment '提货hi卡一级类目id',
+  pickup_category_id_first_name   string          comment '提货hi卡一级类目名',
+  pickup_category_id_second       bigint          comment '提货hi卡二级类目id',
+  pickup_category_id_second_name  string          comment '提货hi卡二级类目名',
+  is_celeron                      tinyint         comment '是否低端/超低端品牌，1是0否',
+  is_pickup_recharge_order        int             comment '是否为充值提货hi卡订单 1 是 0 否',
+  is_spec_brand                   tinyint         COMMENT '是否特殊提点品牌,1是0否',
+  class_number                    string          COMMENT '分类',
+  class_number_info               string          comment '分类信息',
+  commission_actual_amount        decimal(11,2)   COMMENT '提成金额',
+  remark                          string          comment '备注字段，分类全信息',
+  category_id_third               bigint          comment '三级类目ID',
+  category_id_third_name          string          comment '三级类目名称',
+  pickup_category_id_third        bigint          comment '提货hi卡三级类目id',
+  pickup_category_id_third_name   string          comment '提货hi卡三级类目名'
+)
+comment '冻结B类净支付金额指标明细数据'
+partitioned by (dayid string)
+row format delimited fields terminated by '\001'
+stored as orc;

@@ -1,0 +1,25 @@
+
+
+消费的topic是yangtuo-order
+groupId 是 CID_order_hsp_snapshot_prod
+tag为<list>
+         <value>paid            </value>
+         <value>waitPay         </value>
+         <value>customerWaitPay</value>
+     </list>
+就是 已付完款订单消息
+
+1、com.yangt.hsp.ons.shop.SpOrderMessageListener
+判断SpBizSwitch.getConsumeOrderMsg() ，如果开关关了，就不消费
+如果商品的buId不是海拍客商品，不消费
+
+
+这里一定是服务商订单，才会保存到快照里面
+
+一次交易信息-> 多个关联订单，
+对每个订单，绑定快照信息，如果有任意一个订单是服务商订单，标记为服务商订单
+用责任链模式，处理一堆marker，绑定属性
+然后保存订单快照
+
+
+如果是服务商订单，回调订单信息，把该tradeId打标，标记为服务商订单

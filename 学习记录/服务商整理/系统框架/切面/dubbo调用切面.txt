@@ -1,0 +1,4 @@
+
+com.yangt.hsp.aop.DubboExceptionAspect
+
+@Pointcut("execution(* com.yangt.hsp.dubbo.impl..*.*(..))")

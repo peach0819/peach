@@ -1,0 +1,20 @@
+
+就一个接口：
+hipac.hsp.manager.stopSp
+
+（1）会要鉴权，通过 userPermissionApi 去鉴权
+（2）一个大事务去跑删除：
+    A: 删除授权相关，
+        t_sp_area_brand 服务商品牌区域授权
+        t_sp_area 服务商区域信息
+        t_sp_brand 服务商品牌信息
+    B： 删除所有服务商订单
+        t_sp_order 服务商订单
+    C: 删除服务商当月目标
+        t_sp_target 服务商月度目标
+    D: 删除服务商基本信息
+        t_sp_info 服务商基本信息，sp_status=2，并不是is_deleted
+（3）异步去删除服务商用户信息
+    A: userOperateApi去停用用户信息
+        shopOptMidApi去冻结服务商用户的关联门店
+    B：contractOperateApi 废弃服务商所有的已生效、待生效、待修改合同

@@ -1,0 +1,5 @@
+dubbo配置
+需要有一个@Configuration类，引入dubbo的xml配置
+
+dubbo-config.xml 这个是dubbo本身的配置,即本机服务的服务名，用什么注册中心，超时时间是多久
+dubbo-provider.xml  这个是dubbo服务的提供注册，在这里注册的@Service会被作为dubbo服务对外提供

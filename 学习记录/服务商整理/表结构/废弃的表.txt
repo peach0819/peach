@@ -1,0 +1,13 @@
+
+
+t_sp_contract 服务商合同表，已经迁移到合同服务
+
+t_sp_brand_shop_tag 品牌门店标记表
+
+t_sp_rebate_setting 已经迁移到新的表 t_sp_reward
+
+t_sp_shop 服务商门店，没用到
+
+t_sp_opt_record 服务商操作记录，没用到
+
+t_sp_shop_server表 服务商下的所有用户，现在已经废弃，迁移到 ucenter接口

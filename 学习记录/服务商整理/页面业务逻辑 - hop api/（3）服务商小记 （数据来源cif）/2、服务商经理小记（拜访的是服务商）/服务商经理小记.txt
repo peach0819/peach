@@ -1,0 +1,8 @@
+
+
+查询接口：
+----------------- visitType 0：全部 1：现场拜访 2：远程拜访
+----------------- visitResultType 0：全部 1：有效拜访 2：一般拜访
+1、 会根据userPermissionApi, 获取权限，判断能查看的拜访者名单
+2、 HspMgrVisitRecordApi#pageHspVisit  这个接口去获取，服务商经理拜访服务商的记录
+3、mono 绑定服务商信息，拜访者信息

@@ -1,0 +1,42 @@
+
+就是指这个服务商被授权的品牌，() BrandAreaApi
+------授权区域查询，来源hipac.ustone.area.queryValidAreaByParentIdWithAddress  ustone系统
+------服务商的品牌查询，来源icp.brand.queryBrandListByName
+A：服务商授权品牌查询：
+（0）查询的时候和新增的时候，会从 areaV2Api 查询到地区信息底层的所有地区
+（1）如果能查询到地区，会先根据areaIds从  t_sp_area_brand 表（服务商品牌的授权区域表），查询该服务商已经被授权区域的品牌
+    就是说，如果有地点信息，就只会查询该服务商已经被授权区域的品牌
+（2）然后再 t_sp_brand 表，根据包含的brandIds，和服务商id，去分页查询包含的品牌信息
+（3）查询到品牌信息之后，再从icp查询品牌信息，绑定，IC.brand
+
+B：新增服务商品牌授权：
+新增数据到t_sp_brand表里
+
+C：服务商授权品牌的授权区域
+---------------- 这里会先查询一下 t_sp_area_brand ，该服务商的该品牌，已经被授权的地区，用于做禁止标记
+（1）授权过程开始，这里会用到redis分布式锁，保证一个用户，不会对一个品牌授权太快
+（2）授权过程，会先从 t_sp_area_brand表，查询该品牌已经被授权的区域，避免授权区域到别人已经授权的区域
+（3）查询该服务商该品牌原先的授权区域，如果新的跟旧的一样，直接返回
+（4）事物保存内部表信息：t_sp_area, t_sp_area_brand
+    先判断哪些要新增，哪些要删除，然后直接计算出授权区域数量，先提前更新一次授权区域数量
+    对于新增的数据，先保存一份到t_sp_area表，表示服务商负责的区域，
+    然后再把品牌信息录入到 t_sp_area_brand;
+    保存完之后，调用AsyncEventBus，通过AreaBrandLogEventHandler 处理AreaBrandLogEvent，往t_sp_area_brand_log表写入授权日志记录
+（5）异步更新服务商用户授权信息
+    从t_sp_area_brand 同步
+    t_sp_user_area 服务商用户管理区域表
+    t_sp_user_brand 服务商用户管理品牌表
+   就有一个概念，如果服务商区域为空，那么就表示品牌一定为空，可以直接删除
+   目的就是把 t_sp_user_area 和 t_sp_user_brand 表的数据，和 t_sp_area_brand 表的数据同步
+    这里只是把没有的给删掉，并不会新增新的数据
+
+D：取消授权：
+（1）逻辑删除t_sp_brand表数据
+（2）根据 t_sp_area_brand 表，查询出来对应该品牌的 t_sp_area_brand_id 和 t_sp_area_id ,
+        逻辑删除 t_sp_area_brand 表数据
+        逻辑删除 t_sp_area 表数据
+（3）逻辑删除特殊返点数据 根据服务商id和品牌id 删除 t_sp_reward
+（4）逻辑删除当月目标数据 根据服务商id和品牌id 删除 t_sp_target
+（5）逻辑删除用户授权的品牌数据， t_sp_user_brand
+（6）发消息，记录服务商区域品牌的区域取消授权记录
+（7）同授权的第5步，对应的删除（这个删除只是删除一个服务商的一个品牌，所以可以差量同步，postDelete）

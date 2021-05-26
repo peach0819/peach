@@ -1,0 +1,8 @@
+
+数据来源crm
+
+hipac.crm.common.getSceneEnum.app
+----------------------------查询场景信息，用于查询条件
+
+hipac.crm.asamount.hsp.queryHspAsAmountLog.pc
+查询费用流水记录

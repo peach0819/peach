@@ -1,0 +1,22 @@
+CREATE TABLE `t_sp_area_brand` (
+  `id` bigint(10) NOT NULL AUTO_INCREMENT,
+  `sp_area_id` bigint(10) NOT NULL COMMENT '服务商+区域授权id,品牌只会授权于某个区域',
+  `sp_id` bigint(10) NOT NULL COMMENT '服务商id',
+  `area_id` varchar(45) NOT NULL COMMENT '区域id',
+  `group_id` bigint(10) DEFAULT NULL COMMENT '品牌id',
+  `brand_id` bigint(10) NOT NULL COMMENT '品牌id, 冗余字段',
+  `brand_type` int(11) unsigned DEFAULT '1' COMMENT '品牌类型 1海拍客品牌 2自有品牌',
+  `status` int(11) NOT NULL DEFAULT '1' COMMENT '授权状态 1 可用 0停止授权',
+  `is_deleted` tinyint(2) NOT NULL DEFAULT '0' COMMENT '删除标记',
+  `start_time` varchar(20) DEFAULT NULL COMMENT '授权开始时间',
+  `end_time` varchar(20) DEFAULT NULL COMMENT '授权结束时间',
+  `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `edit_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `creator` varchar(45) DEFAULT NULL,
+  `editor` varchar(45) DEFAULT NULL,
+  `begin_time` datetime DEFAULT NULL COMMENT '服务商品牌的最早授权时间',
+  PRIMARY KEY (`id`),
+  KEY `idx_sp_id` (`sp_id`),
+  KEY `idx_sp_area_id` (`sp_area_id`),
+  KEY `idx_brand_id_sp_id` (`brand_id`,`sp_id`) USING BTREE COMMENT '品牌，服务商索引'
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COMMENT='区域品牌授权';

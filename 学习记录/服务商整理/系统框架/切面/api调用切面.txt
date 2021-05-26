@@ -1,0 +1,8 @@
+
+com.yangt.hsp.aop.APIExceptionAspect
+
+@annotation(com.yangt.hsp.common.annotation.OfflineTag)
+有这个注解的，直接切了下线记录
+
+@Pointcut("execution(* com.yangt.hsp.api.impl..*.*(..))")
+其他的正常对api切面

@@ -1,0 +1,43 @@
+sp:服务商（service provider）
+
+基础表：
+t_sp_info 服务商表
+t_area 区域表
+t_brand 品牌表
+t_user 用户表
+
+一级关系表：
+t_sp_area  服务商区域
+t_sp_brand 服务商品牌
+
+二级关系表：
+t_sp_area_brand 服务商区域品牌表
+t_sp_area_brand_log 对服务商区域品牌的授权或者取消授权日志记录
+
+t_sp_user_area  用户区域表
+t_sp_user_brand 用户品牌表
+
+t_sp_info枚举
+公司人数 employee_num
+1 小于20
+2 10-20人
+3 20-50人
+4 50-100人
+5 100人以上
+
+业务员数量 sales_num
+1 小于20
+2 10-20人
+3 20-50人
+4 50-100人
+5 100人以上
+
+覆盖门店数 shop_num
+0 0家
+1 10家以内
+2 10-20家
+3 20-50家
+4 50-100家
+5 100-500家
+6 500-1000家
+7 1000家以上

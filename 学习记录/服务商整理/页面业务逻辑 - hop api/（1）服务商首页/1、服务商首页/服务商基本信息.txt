@@ -1,0 +1,8 @@
+
+服务商：(t_sp_info) SPManagerApi
+一个服务商就是一个代理，可以为个人，也可以为企业，
+服务商状态 status：null全部， 1已合作，2已停止
+服务商类型 spType: null全部，1企业，2个人
+
+
+t_sp_account 钱坤帐号的信息

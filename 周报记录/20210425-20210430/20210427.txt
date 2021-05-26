@@ -1,0 +1,7 @@
+
+
+服务商相关页面逻辑
+ER图补充，业务逻辑流程图补充
+http://k.yangtuojia.com/pages/viewpage.action?pageId=64562763
+
+2021类目迁移参与，梳理服务商业务所受影响

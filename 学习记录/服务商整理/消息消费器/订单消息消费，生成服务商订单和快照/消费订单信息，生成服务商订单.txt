@@ -1,0 +1,23 @@
+
+
+com.yangt.hsp.ons.shop.TradeMessageListener
+消费的topic是yangtuo-order
+groupId 是CID_order_hsp_prod
+tag是 <list>
+          <value>delivered</value>
+          <value>customerWaitPay</value>
+          <value>waitPay</value>
+          <value>finish</value>
+          <value>accept</value>
+          <value>close</value>
+          <value>preDelivered</value>
+          <value>clearanceNotPassedStatte</value>
+          <value>payProcessing</value>
+          <value>notice</value>
+          <value>choose_supply</value>
+          <value>refund_ing</value>
+          <value>refund_success_part</value>
+          <value>refund_success_all</value>
+          <value>refund_close</value>
+      </list>
+就是说所有消息都会消费

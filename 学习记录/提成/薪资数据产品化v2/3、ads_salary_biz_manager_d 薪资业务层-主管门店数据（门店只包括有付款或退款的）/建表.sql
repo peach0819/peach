@@ -1,0 +1,40 @@
+CREATE TABLE IF NOT EXISTS ads_salary_biz_manager_d (
+  user_type_subdivide string comment '类型',
+  user_id string comment 'user_id',
+  area_manager_dep_name string comment '归属大区',
+  shop_cnt int comment '库内门店数',
+  b_pay_shop_cnt int comment 'B类下单门店数 不含服务商',
+  pure_b_gmv  decimal(11,2) comment 'B类净GMV 不含服务商',
+  pure_b_pay_amount decimal(11,2)  comment 'B类净支付金额 不含服务商',
+  pure_b_offline_refund decimal(11,2)  comment 'B类线下退款金额之和',
+  pure_b_refund decimal(18,2)  comment 'B类线上退款金额之和',
+  num01_pure_b_pay_amount decimal(11,2)  comment '分类01 净支付金额',
+  num02_pure_b_pay_amount decimal(11,2)  comment '分类02 净支付金额',
+  num03_pure_b_pay_amount decimal(11,2)  comment '分类03 净支付金额',
+  num04_pure_b_pay_amount decimal(11,2)  comment '分类04 净支付金额',
+  num05_pure_b_pay_amount decimal(11,2)  comment '分类05 净支付金额',
+  num06_pure_b_pay_amount decimal(11,2)  comment '分类06 净支付金额',
+  shop_cnt_not_bigbd int comment '库内门店数_非大BD门店',
+  b_pay_shop_cnt_not_bigbd int comment 'B类下单门店数_非大BD门店 不含服务商',
+  pure_b_gmv_not_bigbd  decimal(11,2) comment 'B类净GMV_非大BD门店 不含服务商',
+  pure_b_pay_amount_not_bigbd decimal(11,2)  comment 'B类净支付金额_非大BD门店 不含服务商',
+  pure_b_offline_refund_not_bigbd decimal(11,2)  comment 'B类线下退款金额之和_非大BD门店',
+  pure_b_refund_not_bigbd decimal(18,2)  comment 'B类线上退款金额之和_非大BD门店',
+  num01_pure_b_pay_amount_not_bigbd decimal(11,2)  comment '分类01 净支付金额_非大BD门店',
+  num02_pure_b_pay_amount_not_bigbd decimal(11,2)  comment '分类02 净支付金额_非大BD门店',
+  num03_pure_b_pay_amount_not_bigbd decimal(11,2)  comment '分类03 净支付金额_非大BD门店',
+  num04_pure_b_pay_amount_not_bigbd decimal(11,2)  comment '分类04 净支付金额_非大BD门店',
+  num05_pure_b_pay_amount_not_bigbd decimal(11,2)  comment '分类05 净支付金额_非大BD门店',
+  num06_pure_b_pay_amount_not_bigbd decimal(11,2)  comment '分类06 净支付金额_非大BD门店',
+  class_number_info string comment '分类信息',
+  war_zone_dep_name string comment '战区' ,
+  num07_pure_b_pay_amount decimal(11,2)  comment '分类07 净支付金额',
+  num08_pure_b_pay_amount decimal(11,2)  comment '分类08 净支付金额',
+  num07_pure_b_pay_amount_not_bigbd decimal(11,2)  comment '分类07 净支付金额',
+  num08_pure_b_pay_amount_not_bigbd decimal(11,2)  comment '分类08 净支付金额',
+  cur_b_gmv_shop_cnt	int comment '当月满500支付门店数'--当月满500支付门店数
+)
+COMMENT 'BD主管/大区经理薪资基础表(包含提货卡)'
+PARTITIONED BY (dayid string)
+row format delimited fields terminated by '\001'
+stored as orc;

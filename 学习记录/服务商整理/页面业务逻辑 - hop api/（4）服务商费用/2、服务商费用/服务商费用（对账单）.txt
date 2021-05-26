@@ -1,0 +1,7 @@
+
+
+SPBillManagerApi
+t_sp_bill 服务商按月的账单信息
+
+查询：
+就从 t_sp_bill 表查询数据
