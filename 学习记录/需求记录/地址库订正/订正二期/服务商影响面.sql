@@ -447,3 +447,45 @@ WHERE area_id IN (
 1553050127848,
 3270
 );
+
+
+
+
+--t_sp_area_brand: 368
+SELECT count(*)
+FROM `t_sp_area_brand`
+WHERE area_id IN (1224,1225,1768);
+
+--t_sp_area: 172
+SELECT count(*)
+FROM `t_sp_area`
+WHERE area_id IN (1224,1225,1768);
+
+--t_sp_user_area: 68
+SELECT count(*)
+FROM `t_sp_user_area`
+WHERE area_id IN (1224,1225,1768);
+
+
+--重复数据
+SELECT count(*) as c ,area_id, sp_id, brand_id
+FROM `t_sp_area_brand`
+WHERE area_id IN (1223)
+and is_deleted = 0
+group by area_id,sp_id, brand_id
+having c>1;
+
+SELECT count(*) as c ,area_id, sp_id
+FROM `t_sp_area`
+WHERE area_id IN (1223)
+and is_deleted = 0
+group by area_id,sp_id
+having c>1;
+
+SELECT count(*) as c ,area_id, sp_id ,user_id
+FROM `t_sp_user_area`
+WHERE area_id IN (1223)
+and is_deleted = 0
+group by area_id,sp_id,user_id
+having c>1
+

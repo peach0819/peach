@@ -1,0 +1,11 @@
+
+
+https://data.hipac.cn/new/cloudatlas/reportcenter/reportBI?reportId=548&url=https%3A%2F%2Fytbi.hipac.cn%2Fshare.html%23%2Fshare%2Fdashboard%3FshareInfo%3D814%26prodDeploy%3Dtrue%26hideTitle%3Dtrue
+
+
+https%3A%2F%2Fytbi.hipac.cn%2Fshare.html%23%2Fshare%2Fdashboard%3FshareInfo%3D814%26prodDeploy%3Dtrue%26hideTitle%3Dtrue
+https%3A%2F%2Fytbi.hipac.cn%2Fshare.html%23%2Fshare%2Fdashboard%3FshareInfo%3D814%26prodDeploy%3Dtrue%26hideTitle%3Dtrue
+
+https://data.hipac.cn/new/cloudatlas/reportcenter/reportBI?reportId=548&url=https://ytbi.hipac.cn/share.html#/share/dashboard?shareInfo=814&prodDeploy=true&hideTitle=true
+
+ALTER TABLE t_salary_offline_refund modify column refund_amount double(20,2) DEFAULT NULL COMMENT '金额';
