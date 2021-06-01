@@ -57,5 +57,6 @@ left join (
   group by trade_id
 ) trade_shop_total on trade_shop_total.trade_id=order_shop.trade_id;
 " &&
+sh /alidata/workspace/yt_bigdata/edp/salary_data_prodcut_new/ads_salary_base_offline_refund_order_d.sh $v_date &&
 
 exit 0

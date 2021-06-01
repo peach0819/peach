@@ -1,18 +1,15 @@
 
 --删除一级类目的影响 240条
-SELECT count(*)
-FROM t_sp_reward
-WHERE is_deleted = 0
-and first_cate_id
-IN  (
-    1597
-);
+update t_sp_reward
+set is_deleted = 1, editor = '1290387026'
+WHERE first_cate_id = 1597
+AND is_deleted = 0;
 
 --删除二级类目的影响： 305条
-SELECT count(*)
-FROM t_sp_reward
+update t_sp_reward
+set is_deleted = 1, editor = '1290387026'
 WHERE is_deleted = 0
-and second_cate_id
+AND second_cate_id
 IN  (
 1624,
 1607,
@@ -31,28 +28,25 @@ IN  (
 );
 
 --二级类目迁移：三级变二级叶子（奶酪棒）影响  1条
-SELECT count(*)
-FROM t_sp_reward
+update t_sp_reward
+set is_deleted = 1, editor = '1290387026'
 WHERE is_deleted = 0
-and third_cate_id
-IN  (
-11354
-);
+AND third_cate_id
+IN  (11354);
+
 
 --二级类目迁移：一级类目变更（孕妇服纺类） 33条
-SELECT count(*)
-FROM t_sp_reward
+update t_sp_reward
+set first_cate_id = 1647, editor = '1290387026'
 WHERE is_deleted = 0
-and second_cate_id
-IN  (
-2368
-);
+AND second_cate_id
+IN  (2368);
 
 --三级类目删除： 1604条
-SELECT count(*)
-FROM t_sp_reward
+update t_sp_reward
+set is_deleted = 1, editor = '1290387026'
 WHERE is_deleted = 0
-and third_cate_id
+AND third_cate_id
 IN  (
 1874,
 1707,
@@ -357,38 +351,34 @@ IN  (
 );
 
 --二级变叶子并改名 49条
-SELECT count(*)
-FROM t_sp_reward
+update t_sp_reward
+set is_deleted = 1, editor = '1290387026'
 WHERE is_deleted = 0
-and second_cate_id
+AND second_cate_id
 IN  (
  5990
 );
 
 --三级类目迁移 三级类目合并（一次性成人口罩） 2条
-SELECT count(*)
-FROM t_sp_reward
+update t_sp_reward
+set is_deleted = 1, editor = '1290387026'
 WHERE is_deleted = 0
-and third_cate_id
-IN  (
- 9039
-);
+AND third_cate_id
+IN (9039);
 
 --三级类目迁移 一次性防溢乳垫 2条
-SELECT count(*)
-FROM t_sp_reward
+update t_sp_reward
+set first_cate_id = 1647, second_cate_id = 2119, editor = '1290387026'
 WHERE is_deleted = 0
-and third_cate_id
-IN  (
- 7772
-);
+AND third_cate_id
+IN (7772);
 
 --三级类目迁移 日常护理用品 3条
-SELECT count(*)
-FROM t_sp_reward
+update t_sp_reward
+set is_deleted = 1, editor = '1290387026'
 WHERE is_deleted = 0
-and third_cate_id
-IN  (
+AND third_cate_id
+IN (
 2246,
 6478,
 6479,
@@ -399,37 +389,30 @@ IN  (
 );
 
 --三级类目迁移 玩具/图书/文具 4条
-SELECT *
-FROM t_sp_reward
+update t_sp_reward
+set is_deleted = 1, editor = '1290387026'
 WHERE is_deleted = 0
-and third_cate_id
-IN  (
+AND third_cate_id
+IN (
 1466,
 1487,
 6680
 );
 
 --三级类目迁移 居家百货 4条
-SELECT count(*)
-FROM t_sp_reward
+update t_sp_reward
+set is_deleted = 1, editor = '1290387026'
 WHERE is_deleted = 0
-and third_cate_id
-IN  (
+AND third_cate_id
+IN (
 7511,
 7509,
 11446
 );
 
 --三级类目迁移 银杏/丹参/中药降血脂 6条
-SELECT *
-FROM t_sp_reward
+update t_sp_reward
+set second_cate_id = 1742, editor = '1290387026'
 WHERE is_deleted = 0
-and third_cate_id
-IN  (
-6427
-);
-
-
-
-
-
+AND third_cate_id
+IN  (6427);
