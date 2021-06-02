@@ -30,11 +30,7 @@ select
   from_unixtime(unix_timestamp(edit_time,'yyyyMMddHHmmss'),'yyyy-MM-dd HH:mm:ss') as update_time,
   data_month
 from source_table
-inner join (
-  select max(data_month) as max_month
-  from source_table
-  where data_month <= substr('$v_date',0,6)
-) max_month_data ON source_table.data_month = max_month_data.max_month
+where data_month = substr('$v_date',0,6)
 " &&
 
 exit 0
