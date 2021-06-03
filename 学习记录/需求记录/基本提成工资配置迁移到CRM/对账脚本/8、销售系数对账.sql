@@ -1,7 +1,7 @@
 with ads as (
     SELECT * FROM ads_salary_base_sales_coefficient_d WHERE dayid = '$v_date'
 ), dwd as (
-    SELECT * FROM dwd_salary_sales_coefficient_d WHERE dayid = '202104' and is_valid = 1
+    SELECT * FROM dwd_salary_sales_coefficient_d WHERE is_valid = 1 and dayid = substr('$v_date',0,6)
 ), only_new as (
     SELECT
         ads.sales_user_name as ads_sales_user_name,
