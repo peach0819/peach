@@ -1,0 +1,63 @@
+
+------------------------------------首页---------------------------------------
+1、归属业务组查询（查询条件）
+hipac.datacenter.filterContent.queryFilterContentList
+{"code":"BIZ_GROUP","dev":"prod"}
+
+云图的com.yangt.cloudatlas.api.BountyPlanApi
+
+2、实际查询接口
+hipac.cloudatlas.bountyPlan.listByPage： BountyPlanApi.listByPage
+表：bounty_plan 特殊提成方案表 （主表）
+
+
+-----------------------------------新增页面--------------------------------------
+方案基本信息：
+存到bounty_plan, 全信息
+
+
+统计范围：
+1、统计对象 （战区经理、大区经理……）
+    hipac.cloudatlas.bountyPlan.listPayoutObject
+表：bounty_payout_object 方案对象表
+
+2、模板规则  -- 根据统计对象获取模板规则（存量GMV，新签商品，新签品牌）
+    hipac.cloudatlas.bountyPlan.listRuleTypes
+{"payoutObjectId":1,"dev":"prod"}
+表：bounty_payout_object_rule 方案对象的模板规则表 payout_object_id -> bounty_rule_type(模板规则类型)  BountyRuleType枚举类
+
+3、业绩指标  -- 根据模板规则获取业绩指标（实货支付金额(去优惠券去退款)，实货GMV(去退款)）
+    hipac.cloudatlas.bountyPlan.listIndicator
+{"bountyRuleTypeId":4,"dev":"prod"}
+表：bounty_indicator 业绩指标表 bounty_rule_type(rule_code) -> (code(编码), title(中文名))
+
+4、过滤条件 --根据模板规则获取过滤条件
+    hipac.cloudatlas.bountyPlan.listFilter
+{"bountyRuleTypeId":4,"dev":"prod"}
+表：bounty_rule_filter 模板规则过滤条件id映射表 bounty_rule_type_id -> bounty_filter_id
+表：bounty_filter 过滤条件表   过滤条件信息 title, key, field_sql
+
+5、大区、战区、主管区域，用于过滤条件搜索
+    hipac.cloudatlas.bountyPlan.listSalesArea
+表：prod_data_sync.sync_cloudatlas_sales_area_snapshot_d 销售区域快照回流表
+
+
+提成计算规则：
+1、提成类型 --根据业绩指标查询提成类型
+    hipac.cloudatlas.bountyPlan.listPayoutRuleType
+{"bountyIndicatorId":1,"dev":"prod"}
+表：bounty_indicator_payout_rule_type  业绩指标对应的提成计算规则类型表 indicator_id -> 规则 BountyIndicatorPayoutRuleType枚举类
+
+
+-----------------------查看明细页面--------------------------
+
+1、crm的p0项目信息查询
+    hipac.crm.p0subject.querySubjectInfo.pc
+{"subjectId":"2362","dev":"prod"}
+表：t_p0_subject p0项目表
+表：t_p0_subject_data p0项目资料表，资源类型 1:执行部门；2:负责人；3:照片；4:知识文件；5:话术
+表：t_p0_subject_item p0项目商品范围表
+
+2、p0方案明细
+    hipac.cloudatlas.bountyPlan.viewDetail
+{"id":"2357","dev":"prod"}
