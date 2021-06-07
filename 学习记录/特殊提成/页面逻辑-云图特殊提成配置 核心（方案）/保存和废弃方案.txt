@@ -1,0 +1,16 @@
+
+
+
+
+
+
+
+
+
+
+
+
+-------------------------------- 废弃方案
+1、废弃bounty_plan表数据，更新status=9
+2、新增bounty_plan_operation_log表数据，记录废弃信息
+3、异步批量下线edp任务，taskApi.batchOfflineTask
