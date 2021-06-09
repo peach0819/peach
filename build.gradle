@@ -61,6 +61,7 @@ subprojects {
         compile 'com.google.guava:guava:26.0-jre'
         compile 'org.mybatis.spring.boot:mybatis-spring-boot-starter:1.2.1'
         compile 'org.apache.commons:commons-lang3:3.5'
+        compile 'joda-time:joda-time:2.10.4'
 
         compileOnly 'org.projectlombok:lombok'
         annotationProcessor 'org.projectlombok:lombok'
