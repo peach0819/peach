@@ -1,0 +1,15 @@
+
+
+BD离店签退页面，查询拜访目的接口:
+crm系统的   com.yt.crm.app.ao.visit.AppCrmVisitHistoryApiImpl#queryAimsTypeList
+处理：服务商的类型加一个就好了？
+
+
+服务商业务员拜访枚举：
+hsp 的 SPVisitObjectiveEnum
+
+
+
+下载小记
+app拜访小记查询
+
