@@ -26,7 +26,9 @@ create table if not exists ytdw.ads_order_biz_order_channel_d
     shop_pool_server_group_id string comment '门店服务人员职能',
     shop_pool_server_user_id  string comment '门店服务人员',
     shop_group_id             string comment '分店分组',
-    rule_execute_result       string comment '规则执行结果'
+    knowledge_package_id      string comment '规则执行知识包id',
+    result_rule_id            string comment '执行规则id',
+    result_user_id            string comment '执行规则结果，订单归属用户id'
 )
 comment '订单渠道数据表'
 partitioned by (dayid string)
