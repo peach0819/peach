@@ -1,0 +1,37 @@
+create table if not exists ytdw.ads_order_biz_frozen_order_channel_d
+(
+    order_id                  bigint comment '订单id',
+    shop_id                   string comment '门店id',
+    trade_id                  string comment '交易id',
+    shop_name                 string comment '门店名称',
+    sale_dc_id                int comment '分销订单标识',
+    sale_dc_id_name           string comment '分销订单标识名称',
+    bu_id                     int comment '业务线 0	海拍客 1	嗨清仓 2	批批平台 6	嗨家',
+    bu_id_name                string comment '业务线名称',
+    is_pickup_pay_order       int comment '是否为提货卡支付订单 1 是 0否',
+    supply_id                 string comment '供应商id',
+    supply_name               string comment '供应商名称',
+    category_1st_id           bigint comment '一级类目ID',
+    category_1st_name         string comment '一级类目名称',
+    category_2nd_id           bigint comment '二级类目ID',
+    category_2nd_name         string comment '二级类目名称',
+    category_3rd_id           bigint comment '三级类目ID',
+    category_3rd_name         string comment '三级类目名称',
+    item_style                tinyint comment '商品标签类型默认是0：A类1：B类',
+    item_style_name           string comment '商品标签类型默认是0：A类1：B类',
+    store_type                tinyint comment '门店类型',
+    sub_store_type            int comment '门店子类型',
+    sp_id                     bigint comment '服务商id',
+    sp_name                   string comment '服务商名称',
+    sp_operator_id            string comment '服务商经理id',
+    shop_pool_server_group_id string comment '门店服务人员职能',
+    shop_pool_server_user_id  string comment '门店服务人员',
+    shop_group_id             string comment '分店分组',
+    knowledge_package_id      string comment '规则执行知识包id',
+    result_rule_id            string comment '执行规则id',
+    result_user_id            string comment '执行规则结果，订单归属用户id'
+)
+comment '订单冻结渠道重刷数据表'
+partitioned by (dayid string)
+row format delimited fields terminated by '\001'
+stored as orc;
