@@ -1,3 +1,11 @@
+sleep 1m
+v_date=$1
+rule_month=$2
+begin_date=$3
+end_date=$4
+source ../sql_variable.sh $v_date
+
+hive -v -e "
 use ytdw;
 
 create table if not exists ytdw.ads_order_biz_frozen_order_channel_d
@@ -60,7 +68,7 @@ WITH order_base as (
            item_style_name
     FROM dw_trd_order_d
     WHERE dayid='$v_date'
-    AND order_pay_time between '$beginDate' AND '$endDate'
+    AND order_pay_time between '$begin_date' AND '$end_date'
 ),
 
 --门店基础信息
@@ -197,4 +205,6 @@ SELECT order_id,
        get_json_object(result_data, "$.userId") as result_user_id
 FROM rule_execute_result
 LATERAL VIEW explode(split(regexp_replace(regexp_replace(get_json_object(rule_execute_result, "$.resultData"), '\\[|\\]',''),  '\}\,','\}\;'),'\;')) temp as result_data
-;
+" &&
+
+exit 0

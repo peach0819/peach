@@ -97,6 +97,7 @@ rule_execute_result as (
            ytdw.rule_execute(
                '待填充测试知识包id/prod',
                 map(
+                     '规则月份', '$rule_month',
                      '分销渠道', order_base.sale_dc_id,
                      'bu_id', order_base.bu_id,
                      '是否提货卡充值订单', order_base.is_pickup_pay_order,

@@ -1,10 +1,16 @@
+sleep 1m
+v_date=$1
+rule_month=$2
+
+source ../sql_variable.sh $v_date
+
+hive -v -e "
 use ytdw;
 
-create table if not exists ytdw.ads_order_biz_frozen_order_channel_d
+create table if not exists ytdw.ads_order_biz_order_channel_test_d
 (
     order_id                  bigint comment '订单id',
     shop_id                   string comment '门店id',
-    trade_id                  string comment '交易id',
     shop_name                 string comment '门店名称',
     sale_dc_id                int comment '分销订单标识',
     sale_dc_id_name           string comment '分销订单标识名称',
@@ -33,7 +39,7 @@ create table if not exists ytdw.ads_order_biz_frozen_order_channel_d
     result_rule_id            string comment '执行规则id',
     result_user_id            string comment '执行规则结果，订单归属用户id'
 )
-comment '订单冻结渠道重刷数据表'
+comment '订单渠道数据测试表'
 partitioned by (dayid string)
 row format delimited fields terminated by '\001'
 stored as orc;
@@ -42,7 +48,6 @@ stored as orc;
 WITH order_base as (
     SELECT order_id,
            shop_id,
-           trade_id,
            sale_dc_id,
            sale_dc_id_name,
            bu_id,
@@ -60,7 +65,6 @@ WITH order_base as (
            item_style_name
     FROM dw_trd_order_d
     WHERE dayid='$v_date'
-    AND order_pay_time between '$beginDate' AND '$endDate'
 ),
 
 --门店基础信息
@@ -75,14 +79,14 @@ shop_base as (
 
 --门店服务人员信息
 shop_pool_server as (
-    SELECT o.order_id,
-           concat_ws(',' , sort_array(collect_set(cast(pool.group_id as string)))) as group_id,
-           concat_ws(',' , collect_set(pool.user_id)) as user_id
-    FROM dwd_order_after_server_d o
-    INNER JOIN dwd_shop_pool_server_d pool ON o.shop_pool_server_id = pool.id
-    WHERE o.dayid='$v_date'
-    AND pool.dayid = '$v_date'
-    group by o.order_id
+    SELECT shop_id,
+           concat_ws(',' , sort_array(collect_set(cast(group_id as string)))) as group_id,
+           concat_ws(',' , collect_set(user_id)) as user_id
+    FROM dwd_shop_pool_server_d
+    WHERE dayid='$v_date'
+    AND is_deleted = 0
+    AND is_enabled = 0
+    group by shop_id
 ),
 
 --门店分组关系
@@ -110,7 +114,6 @@ sp_order_snapshot as (
 rule_execute_result as (
     SELECT order_base.order_id,
            order_base.shop_id,
-           order_base.trade_id,
            order_base.sale_dc_id,
            order_base.sale_dc_id_name,
            order_base.bu_id,
@@ -158,15 +161,14 @@ rule_execute_result as (
            ) as rule_execute_result
     FROM order_base
     LEFT JOIN shop_base ON order_base.shop_id = shop_base.shop_id
-    LEFT JOIN shop_pool_server ON shop_pool_server.order_id = order_base.trade_id
+    LEFT JOIN shop_pool_server ON shop_pool_server.shop_id = shop_base.shop_id
     LEFT JOIN shop_group_mapping ON shop_group_mapping.shop_id = shop_base.shop_id
     LEFT JOIN sp_order_snapshot ON order_base.order_id = sp_order_snapshot.order_id
 )
 
-INSERT OVERWRITE TABLE ads_order_biz_frozen_order_channel_d partition (dayid='$v_date')
+INSERT OVERWRITE TABLE ads_order_biz_order_channel_test_d partition (dayid='$v_date')
 SELECT order_id,
        shop_id,
-       trade_id,
        sale_dc_id,
        sale_dc_id_name,
        bu_id,
@@ -197,4 +199,6 @@ SELECT order_id,
        get_json_object(result_data, "$.userId") as result_user_id
 FROM rule_execute_result
 LATERAL VIEW explode(split(regexp_replace(regexp_replace(get_json_object(rule_execute_result, "$.resultData"), '\\[|\\]',''),  '\}\,','\}\;'),'\;')) temp as result_data
-;
+" &&
+
+exit 0
