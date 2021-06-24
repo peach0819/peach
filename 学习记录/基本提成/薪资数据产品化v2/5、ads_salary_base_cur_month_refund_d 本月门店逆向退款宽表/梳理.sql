@@ -64,12 +64,19 @@ order_info as (
            pickup_category_id_third_name,
            shop_id
     from dw_order_d
+    left join (
+        select shop_id as douyin_shop_id, id as douyin_shop_mapping_id
+        from dwd_shop_data_cluster_mapping_d
+        where dayid = '$v_date'
+        and inuse = 1
+        and cluster_id in (1750) --167是长尾BD. 1750是对外合作门店
+    ) douyin_shop_mapping ON dw_order_d.shop_id = douyin_shop_mapping.douyin_shop_id
     where dayid='$v_date'
     and bu_id=0
     and sale_dc_id=-1   --分销渠道过滤
     and substr(pay_time,1,8)<='$v_date'
     -- 剔除抖音直播店
-    and shop_id!='bcfb591b919e48e1804fcdce670c6b55'
+    and douyin_shop_mapping.douyin_shop_mapping_id is null
 ),
 
 --门店基础信息表
