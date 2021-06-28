@@ -62,6 +62,7 @@ subprojects {
         compile 'org.mybatis.spring.boot:mybatis-spring-boot-starter:1.2.1'
         compile 'org.apache.commons:commons-lang3:3.5'
         compile 'joda-time:joda-time:2.10.4'
+        compile 'org.essentials4j:essentials4j:1.0.0'
 
         compileOnly 'org.projectlombok:lombok'
         annotationProcessor 'org.projectlombok:lombok'
