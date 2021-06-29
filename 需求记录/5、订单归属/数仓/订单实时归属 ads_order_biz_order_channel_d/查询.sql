@@ -1,5 +1,3 @@
-
-
 --订单基础信息
 WITH order_base as (
     SELECT order_id,
@@ -67,60 +65,59 @@ sp_order_snapshot as (
 ),
 
 --规则执行
-rule_execute_result as (
-    SELECT order_base.order_id,
-           order_base.shop_id,
-           order_base.sale_dc_id,
-           order_base.sale_dc_id_name,
-           order_base.bu_id,
-           order_base.bu_id_name,
-           order_base.is_pickup_pay_order,
-           order_base.supply_id,
-           order_base.supply_name,
-           order_base.category_1st_id,
-           order_base.category_2nd_id,
-           order_base.category_3rd_id,
-           order_base.category_1st_name,
-           order_base.category_2nd_name,
-           order_base.category_3rd_name,
-           order_base.item_style,
-           order_base.item_style_name,
-           shop_base.shop_name,
-           shop_base.store_type,
-           shop_base.sub_store_type,
-           sp_order_snapshot.sp_id,
-           sp_order_snapshot.sp_name,
-           sp_order_snapshot.operator_id as sp_operator_id,
-           shop_pool_server.group_id     as shop_pool_server_group_id,
-           shop_pool_server.user_id      as shop_pool_server_user_id,
-           shop_group_mapping.group_id   as shop_group_id,
-           ytdw.rule_execute(
-               '待填充知识包id/prod',
-                map(
-                     '规则月份', from_unixtime(unix_timestamp()),
-                     '分销渠道', order_base.sale_dc_id,
-                     'bu_id', order_base.bu_id,
-                     '是否提货卡充值订单', order_base.is_pickup_pay_order,
-                     '供应商名称', order_base.supply_id,
-                     '商品一级类目', order_base.category_1st_id,
-                     '商品二级类目', order_base.category_2nd_id,
-                     '商品三级类目', order_base.category_3rd_id,
-                     '商品AB类型', order_base.item_style,
-                     '门店名称', order_base.shop_id,
-                     '门店服务人员', shop_pool_server.user_id,
-                     '门店服务人员职能', shop_pool_server.group_id,
-                     '门店类型', shop_base.store_type,
-                     '门店子类型', shop_base.sub_store_type,
-                     '服务商', sp_order_snapshot.sp_id,
-                     '门店分组', shop_group_mapping.group_id
-                )
-           ) as rule_execute_result
-    FROM order_base
-    LEFT JOIN shop_base ON order_base.shop_id = shop_base.shop_id
-    LEFT JOIN shop_pool_server ON shop_pool_server.shop_id = shop_base.shop_id
-    LEFT JOIN shop_group_mapping ON shop_group_mapping.shop_id = shop_base.shop_id
-    LEFT JOIN sp_order_snapshot ON order_base.order_id = sp_order_snapshot.order_id
-)
+     rule_execute_result as (
+         SELECT order_base.order_id,
+                order_base.shop_id,
+                order_base.sale_dc_id,
+                order_base.sale_dc_id_name,
+                order_base.bu_id,
+                order_base.bu_id_name,
+                order_base.is_pickup_pay_order,
+                order_base.supply_id,
+                order_base.supply_name,
+                order_base.category_1st_id,
+                order_base.category_2nd_id,
+                order_base.category_3rd_id,
+                order_base.category_1st_name,
+                order_base.category_2nd_name,
+                order_base.category_3rd_name,
+                order_base.item_style,
+                order_base.item_style_name,
+                shop_base.shop_name,
+                shop_base.store_type,
+                shop_base.sub_store_type,
+                sp_order_snapshot.sp_id,
+                sp_order_snapshot.sp_name,
+                sp_order_snapshot.operator_id as sp_operator_id,
+                shop_pool_server.group_id     as shop_pool_server_group_id,
+                shop_pool_server.user_id      as shop_pool_server_user_id,
+                shop_group_mapping.group_id   as shop_group_id,
+                ytdw.rule_execute(
+                        '待填充知识包id/prod',
+                        map(
+                                'time', from_unixtime(unix_timestamp()),
+                                'sale_dc_id', order_base.sale_dc_id,
+                                'bu_id', order_base.bu_id,
+                                'is_pickup_pay_order', order_base.is_pickup_pay_order,
+                                'supply_id', order_base.supply_id,
+                                'category_id_first', order_base.category_1st_id,
+                                'category_id_second', order_base.category_2nd_id,
+                                'category_id_third', order_base.category_3rd_id,
+                                'item_style', order_base.item_style,
+                                'shop_id', order_base.shop_id,
+                                'user_id', shop_pool_server.user_id,
+                                'feature_id', shop_pool_server.group_id,
+                                'store_type', case when shop_base.sub_store_type is null then shop_base.store_type else CONCAT(shop_base.store_type,',',shop_base.sub_store_type) end,
+                                'sp_id', sp_order_snapshot.sp_id,
+                                'group_Id', shop_group_mapping.group_id
+                            )
+                    ) as rule_execute_result
+         FROM order_base
+                  LEFT JOIN shop_base ON order_base.shop_id = shop_base.shop_id
+                  LEFT JOIN shop_pool_server ON shop_pool_server.shop_id = shop_base.shop_id
+                  LEFT JOIN shop_group_mapping ON shop_group_mapping.shop_id = shop_base.shop_id
+                  LEFT JOIN sp_order_snapshot ON order_base.order_id = sp_order_snapshot.order_id
+     )
 
 INSERT OVERWRITE TABLE ads_order_biz_order_channel_d partition (dayid='$v_date')
 SELECT order_id,
