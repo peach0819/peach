@@ -39,7 +39,8 @@ create table if not exists ytdw.ads_order_biz_frozen_order_channel_d
     shop_group_id             string comment '分店分组',
     knowledge_package_id      string comment '规则执行知识包id',
     result_rule_id            string comment '执行规则id',
-    result_user_id            string comment '执行规则结果，订单归属用户id'
+    result_user_id            string comment '执行规则结果，订单归属用户id',
+    rule_execute_result       string comment '规则执行结果'
 )
 comment '订单冻结渠道重刷数据表'
 partitioned by (dayid string)
@@ -198,12 +199,12 @@ SELECT order_id,
        shop_pool_server_group_id,
        shop_pool_server_user_id,
        shop_group_id,
+       rule_execute_result,
 
        get_json_object(rule_execute_result, "$.knowledgePackageId") as knowledge_package_id,
-       get_json_object(result_data, "$.ruleId") as result_rule_id,
-       get_json_object(result_data, "$.userId") as result_user_id
+       get_json_object(get_json_object(rule_execute_result, "$.resultData"), "$.ruleId") as result_rule_id,
+       get_json_object(get_json_object(rule_execute_result, "$.resultData"), "$.userId") as result_user_id
 FROM rule_execute_result
-LATERAL VIEW explode(split(regexp_replace(regexp_replace(get_json_object(rule_execute_result, "$.resultData"), '\\[|\\]',''),  '\}\,','\}\;'),'\;')) temp as result_data
 " &&
 
 exit 0
