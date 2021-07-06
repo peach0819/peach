@@ -13,6 +13,8 @@ create table if not exists ytdw.ads_order_biz_frozen_order_channel_d
     order_id                  bigint comment '订单id',
     shop_id                   string comment '门店id',
     trade_id                  string comment '交易id',
+    trade_no                  string comment '交易编号',
+    order_place_time          string comment '下单时间',
     shop_name                 string comment '门店名称',
     sale_dc_id                int comment '分销订单标识',
     sale_dc_id_name           string comment '分销订单标识名称',
@@ -50,8 +52,10 @@ stored as orc;
 --订单基础信息
 WITH order_base as (
     SELECT order_id,
-           shop_id,
            trade_id,
+           trade_no,
+           order_place_time,
+           shop_id,
            sale_dc_id,
            sale_dc_id_name,
            bu_id,
@@ -118,8 +122,10 @@ sp_order_snapshot as (
 --规则执行
 rule_execute_result as (
     SELECT order_base.order_id,
-           order_base.shop_id,
            order_base.trade_id,
+           order_base.trade_no,
+           order_base.order_place_time,
+           order_base.shop_id,
            order_base.sale_dc_id,
            order_base.sale_dc_id_name,
            order_base.bu_id,
@@ -173,6 +179,9 @@ rule_execute_result as (
 
 INSERT OVERWRITE TABLE ads_order_biz_frozen_order_channel_d partition (dayid='$v_date')
 SELECT order_id,
+       trade_id,
+       trade_no,
+       order_place_time,
        shop_id,
        trade_id,
        sale_dc_id,
