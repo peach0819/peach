@@ -160,23 +160,22 @@ rule_execute_result as (
            shop_pool_server.user_id      as shop_pool_server_user_id,
            shop_group_mapping.group_id   as shop_group_id,
            ytdw.rule_execute(
-               '待填充知识包id/prod',
+               '32/test',
                 map(
                      'time', from_unixtime(unix_timestamp()),
                      'sale_dc_id', order_base.sale_dc_id,
                      'bu_id', order_base.bu_id,
                      'is_pickup_pay_order', order_base.is_pickup_pay_order,
                      'supply_id', order_base.supply_id,
-                     'category_id_first', order_base.category_1st_id,
-                     'category_id_second', order_base.category_2nd_id,
-                     'category_id_third', order_base.category_3rd_id,
-                     'item_style', order_base.item_style,
+                     'category_ids', CONCAT(order_base.category_1st_id, order_base.category_2nd_id, order_base.category_3rd_id),
+                     'pickup_category_ids', CONCAT(order_base.performance_category_1st_id, order_base.performance_category_2nd_id, order_base.performance_category_3rd_id),
+                     'item_ab_type', order_base.item_style,
                      'shop_id', order_base.shop_id,
-                     'user_id', shop_pool_server.user_id,
-                     'feature_id', shop_pool_server.group_id,
+                     'user_ids', shop_pool_server.user_id,
+                     'user_features', shop_pool_server.group_id,
                      'store_type', case when shop_base.sub_store_type is null then shop_base.store_type else CONCAT(shop_base.store_type,',',shop_base.sub_store_type) end,
                      'sp_id', sp_order_snapshot.sp_id,
-                     'group_Id', shop_group_mapping.group_id
+                     'group_ids', shop_group_mapping.group_id
                 )
            ) as rule_execute_result
     FROM order_base
