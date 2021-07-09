@@ -60,7 +60,7 @@ WITH order_base as (
            item_style_name
     FROM dw_trd_order_d
     WHERE dayid='$v_date'
-    AND order_pay_time between '$begin_date' AND '$end_date'
+    AND order_place_time between '$begin_date' AND '$end_date'
 ),
 
 --门店基础信息

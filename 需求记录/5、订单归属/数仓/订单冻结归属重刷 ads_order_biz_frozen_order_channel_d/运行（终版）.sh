@@ -85,7 +85,7 @@ WITH order_base as (
            item_style_name
     FROM dw_trd_order_d
     WHERE dayid='$v_date'
-    AND order_pay_time between '$begin_date' AND '$end_date'
+    AND order_place_time between '$begin_date' AND '$end_date'
 ),
 
 --门店基础信息
@@ -98,27 +98,32 @@ shop_base as (
     WHERE dayid='$v_date'
 ),
 
+--门店服务人员信息基础表
+shop_pool_server_base as (
+    SELECT after_server.order_id as trade_id,
+           pool_server.group_id,
+           pool_server.user_id
+    FROM dwd_order_after_server_d after_server
+    INNER JOIN dwd_shop_pool_server_d pool_server ON after_server.shop_pool_server_id = pool_server.id
+    WHERE after_server.day_id = '$v_date'
+    AND pool_server.day_id = '$v_date'
+),
+
 --门店服务人员信息合并表
 shop_pool_server as (
-    SELECT shop_id,
+    SELECT trade_id,
            concat_ws(',' , sort_array(collect_set(cast(group_id as string)))) as group_id,
            concat_ws(',' , collect_set(user_id)) as user_id
-    FROM dwd_shop_pool_server_d
-    WHERE dayid='$v_date'
-    AND is_deleted = 0
-    AND is_enabled = 0
-    group by shop_id
+    FROM shop_pool_server_base
+    group by trade_id
 ),
 
 --门店服务人员信息临时表
 shop_pool_server_temp as (
-    SELECT shop_id as temp_shop_id,
+    SELECT trade_id as temp_trade_id,
            group_id as temp_group_id,
            user_id as temp_user_id
-    FROM dwd_shop_pool_server_d
-    WHERE dayid='$v_date'
-    AND is_deleted = 0
-    AND is_enabled = 0
+    FROM shop_pool_server_base
 ),
 
 --门店分组关系
@@ -200,7 +205,7 @@ rule_execute_result as (
            ) as rule_execute_result
     FROM order_base
     LEFT JOIN shop_base ON order_base.shop_id = shop_base.shop_id
-    LEFT JOIN shop_pool_server ON shop_pool_server.order_id = order_base.trade_id
+    LEFT JOIN shop_pool_server ON shop_pool_server.shop_id = shop_base.shop_id
     LEFT JOIN shop_group_mapping ON shop_group_mapping.shop_id = shop_base.shop_id
     LEFT JOIN sp_order_snapshot ON order_base.order_id = sp_order_snapshot.order_id
 )
@@ -254,7 +259,7 @@ SELECT order_id,
                 then shop_pool_server_temp.user_id
             end as result_user_id
 FROM rule_execute_result
-LEFT JOIN shop_pool_server_temp ON rule_execute_result.shop_id = shop_pool_server_temp.temp_shop_id
+LEFT JOIN shop_pool_server_temp ON rule_execute_result.trade_id = shop_pool_server_temp.temp_trade_id
     and get_json_object(get_json_object(rule_execute_result.rule_execute_result, "$.resultData"), "$.user_feature") = cast(shop_pool_server_temp.temp_group_id as string)
 
 " &&
