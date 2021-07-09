@@ -1,8 +1,6 @@
 sleep 1m
 v_date=$1
 rule_month=$2
-begin_date=$3
-end_date=$4
 source ../sql_variable.sh $v_date
 
 hive -v -e "
@@ -85,7 +83,8 @@ WITH order_base as (
            item_style_name
     FROM dw_trd_order_d
     WHERE dayid='$v_date'
-    AND order_place_time between '$begin_date' AND '$end_date'
+    AND order_place_time between from_unixtime(UNIX_TIMESTAMP(CONCAT('$v_date', ' 00:00:00'), 'yyyyMMdd HH:mm:ss'))
+                             AND from_unixtime(UNIX_TIMESTAMP(CONCAT('$v_date', ' 23:59:59'), 'yyyyMMdd HH:mm:ss'))
 ),
 
 --门店基础信息
