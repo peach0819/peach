@@ -153,7 +153,7 @@ from
     null as reach_shop_coefficient,
     kn_pure_gmv.a_coefficient_summary,
     kn_pure_gmv.b_coefficient_summary,
-    from_unixtime(unix_timestamp()) as update_time,
+    from_unixtime(unix_timestamp(current_timestamp())) as update_time,
     kn_pure_gmv.a_target_finish,
     kn_pure_gmv.b_target_finish,
     cnt_silent_shop,
