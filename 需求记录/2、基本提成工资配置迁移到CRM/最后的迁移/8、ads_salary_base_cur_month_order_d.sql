@@ -159,12 +159,12 @@ left join
 )shop_info on cur_month_order.shop_id=shop_info.shop_id
 --特殊订单表
 left join
-(select trade_no from dw_offline_spec_refund_d where dayid ='$v_date' group by trade_no)spec_order on spec_order.trade_no=cur_month_order.trade_no
+(select trade_no from ads_salary_base_special_order_d where dayid ='$v_date' group by trade_no)spec_order on spec_order.trade_no=cur_month_order.trade_no
 --专属b
-left join(select brand_id from ytdw.dwd_salary_exclusive_b_brand_d where dayid='$v_date' group by brand_id) exclusive_b_brand on exclusive_b_brand.brand_id=cur_month_order.brand_id
+left join(select brand_id from ytdw.ads_salary_base_exclusive_b_brand_d where dayid='$v_date' group by brand_id) exclusive_b_brand on exclusive_b_brand.brand_id=cur_month_order.brand_id
 --特殊提点品牌表
 left join
-(select brand_id from dw_offline_spec_brand_d  where dayid ='$v_date' group by brand_id)spec_brand on spec_brand.brand_id=cur_month_order.brand_id
+(select brand_id from ads_salary_base_special_brand_d  where dayid ='$v_date' group by brand_id)spec_brand on spec_brand.brand_id=cur_month_order.brand_id
 --低端品牌标识
 left join
 ( SELECT id

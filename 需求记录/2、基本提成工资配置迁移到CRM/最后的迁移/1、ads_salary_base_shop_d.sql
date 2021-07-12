@@ -315,7 +315,7 @@ left join
       ) tmp1
       --省份达标线
       left join
-      (select shop_pro_id,new_sign_shop_mark_line from dwd_salary_pro_mark_line_d where dayid='$v_date') pro_mark_line on pro_mark_line.shop_pro_id=tmp1.shop_pro_id
+      (select shop_pro_id,new_sign_shop_mark_line from ads_salary_base_pro_mark_line_d where dayid='$v_date') pro_mark_line on pro_mark_line.shop_pro_id=tmp1.shop_pro_id
       where pure_pay_amount>=pro_mark_line.new_sign_shop_mark_line
     ) tmp2
     where rn=1 and substr(tmp2.pay_day,1,6)='$v_cur_month'
@@ -404,11 +404,11 @@ left join
       ) trade_shop_total on trade_shop_total.trade_id=order_shop.trade_id
       left join
       (
-        select trade_no,sum(refund_actual_amount) refund_actual_amount from dw_offline_refund_d where dayid='$v_date' group by trade_no
+        select trade_no,sum(refund_actual_amount) refund_actual_amount from ads_salary_base_offline_refund_d where dayid='$v_date' group by trade_no
       ) cur_month_offline_refund on cur_month_offline_refund.trade_no=trade_shop.trade_no
       left join
       (
-        select trade_no,sum(refund_actual_amount) refund_actual_amount from dw_offline_refund_d where dayid='$v_pre_month_last_day' group by trade_no
+        select trade_no,sum(refund_actual_amount) refund_actual_amount from ads_salary_base_offline_refund_d where dayid='$v_pre_month_last_day' group by trade_no
       ) last_month_offline_refun on last_month_offline_refun.trade_no=trade_shop.trade_no
     ) offline_refund on offline_refund.order_id=order.order_id
     group by shop_id
@@ -416,12 +416,12 @@ left join
   --上月省份达标线
   left join
   (
-    select shop_pro_id,reach_shop_mark_line from dwd_salary_pro_mark_line_d where dayid='$v_pre_month_last_day'
+    select shop_pro_id,reach_shop_mark_line from ads_salary_base_pro_mark_line_d where dayid='$v_pre_month_last_day'
   ) last_month_pro_mark_line on last_month_pro_mark_line.shop_pro_id=shop_base.shop_pro_id
   --本月省份达标线
   left join
   (
-    select shop_pro_id,reach_shop_mark_line from dwd_salary_pro_mark_line_d where dayid='$v_date'
+    select shop_pro_id,reach_shop_mark_line from ads_salary_base_pro_mark_line_d where dayid='$v_date'
   ) cur_month_pro_mark_line on cur_month_pro_mark_line.shop_pro_id=shop_base.shop_pro_id
   --门店订单信息
   left join
@@ -636,7 +636,7 @@ left join
         (
     		  select
     		    order_id,refund_actual_amount
-    	    from dw_order_offline_refund_d
+    	    from ads_salary_base_offline_refund_order_d
     		  where (dayid='$v_date' or dayid='20190831' or dayid='20190731' or dayid='20190630' or dayid='20190531' or dayid='20190430')
     		        and substr(dayid,1,6) <'$v_cur_month'
         ) offline_refund on offline_refund.order_id=order.order_id
@@ -728,7 +728,7 @@ left join
     ) orders
     left join
     (
-      select * from dwd_salary_user_d where dayid='$v_date' and is_split='新签'
+      select * from ads_salary_base_user_d where dayid='$v_date' and is_split='新签'
     ) salary_user on salary_user.user_name=orders.service_user_name
     where substr(shop_brand_sign_day,1,6)='$v_cur_month' and pure_pay_amount>=1000 and salary_user.user_name is not null
   ) brand_shop on shop_silent.shop_id=brand_shop.shop_id and rn=1

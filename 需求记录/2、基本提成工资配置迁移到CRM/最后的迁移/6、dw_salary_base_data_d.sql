@@ -774,7 +774,7 @@ from
       left join
       (
             select order_id,refund_actual_amount
-              from dw_order_offline_refund_d
+              from ads_salary_base_offline_refund_order_d
                   where dayid='$v_date'
       ) offline_refund on offline_refund.order_id=order.order_id
       --离职人员
@@ -785,17 +785,17 @@ from
       --专属b
       left join
       (
-        select * from ytdw.dwd_salary_exclusive_b_brand_d where dayid='$v_date'
+        select * from ytdw.ads_salary_base_exclusive_b_brand_d where dayid='$v_date'
       ) exclusive_b_brand on exclusive_b_brand.brand_id=order.brand_id
       --销售是否拆分，是否有系数
       left join
       (
-        select * from ytdw.dwd_salary_user_d where dayid='$v_date'
+        select * from ytdw.ads_salary_base_user_d where dayid='$v_date'
       ) salary_user on salary_user.user_name=ytdw.get_service_info('service_type:销售',order.bd_service_info,'service_user_name')
       --逻辑场景
       left join
       (
-        select * from ytdw.dwd_salary_logical_scene_d where dayid='$v_date'
+        select * from ytdw.ads_salary_base_logical_scene_d where dayid='$v_date'
       ) salary_logical_scene on salary_logical_scene.is_split=salary_user.is_split and salary_logical_scene.service_feature_names=concat_ws(',',ytdw.get_service_info('service_type:销售',order.service_info,'service_feature_name'),ytdw.get_service_info('service_type:电销',order.service_info,'service_feature_name'))
         and salary_logical_scene.service_feature_name=ytdw.get_service_info('service_type:销售',order.bd_service_info,'service_feature_name')
       group by
@@ -1232,7 +1232,7 @@ union all
       left join
     (
             select order_id,refund_actual_amount
-              from dw_order_offline_refund_d
+              from ads_salary_base_offline_refund_order_d
                   where dayid='$v_date'
       ) offline_refund on offline_refund.order_id=order.order_id
       --离职人员
@@ -1243,17 +1243,17 @@ union all
       --专属b
       left join
       (
-        select * from ytdw.dwd_salary_exclusive_b_brand_d where dayid='$v_date'
+        select * from ytdw.ads_salary_base_exclusive_b_brand_d where dayid='$v_date'
       ) exclusive_b_brand on exclusive_b_brand.brand_id=order.brand_id
       --销售是否拆分，是否有系数
       left join
       (
-        select * from ytdw.dwd_salary_user_d where dayid='$v_date'
+        select * from ytdw.ads_salary_base_user_d where dayid='$v_date'
       ) salary_user on salary_user.user_name=ytdw.get_service_info('service_type:销售',order.bd_service_info,'service_user_name')
       --逻辑场景
       left join
       (
-        select * from ytdw.dwd_salary_logical_scene_d where dayid='$v_date'
+        select * from ytdw.ads_salary_base_logical_scene_d where dayid='$v_date'
       ) salary_logical_scene on salary_logical_scene.is_split=salary_user.is_split and salary_logical_scene.service_feature_names=concat_ws(',',ytdw.get_service_info('service_type:销售',order.service_info_freezed,'service_feature_name'),ytdw.get_service_info('service_type:电销',order.service_info_freezed,'service_feature_name'))
        and salary_logical_scene.service_feature_name=ytdw.get_service_info('service_type:销售',order.bd_service_info,'service_feature_name')
       group by
@@ -1346,11 +1346,11 @@ service_user_id,
   ) salary_base
 --特殊提点品牌表
   left join
-  ( select brand_name from dw_offline_spec_brand_d  where dayid ='$v_date' group by brand_name
+  ( select brand_name from ads_salary_base_special_brand_d  where dayid ='$v_date' group by brand_name
    ) spec_brand on spec_brand.brand_name=salary_base.brand_name
 --提货卡品牌名关联特殊品牌表
    left join
-   ( select brand_name from dw_offline_spec_brand_d  where dayid ='$v_date' group by brand_name
+   ( select brand_name from ads_salary_base_special_brand_d  where dayid ='$v_date' group by brand_name
    ) pickup_spec_brand on pickup_spec_brand.brand_name=salary_base.pickup_brand_name
    --20200504
 --低端品牌标识

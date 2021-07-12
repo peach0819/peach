@@ -58,12 +58,12 @@ select
   --销售是否拆分，是否有系数
   left join
   (
-    select * from ytdw.dwd_salary_user_d where dayid='$v_date'
+    select * from ytdw.ads_salary_base_user_d where dayid='$v_date'
   ) salary_user on salary_user.user_name=ytdw.get_service_info('service_type:销售',order.bd_service_info,'service_user_name')
   --逻辑场景
   left join
   (
-    select * from ytdw.dwd_salary_logical_scene_d where dayid='$v_date'
+    select * from ytdw.ads_salary_base_logical_scene_d where dayid='$v_date'
   ) salary_logical_scene on salary_logical_scene.is_split=salary_user.is_split and salary_logical_scene.service_feature_names=concat_ws(',',ytdw.get_service_info('service_type:销售',order.service_info,'service_feature_name'),ytdw.get_service_info('service_type:电销',order.service_info,'service_feature_name'))
     and salary_logical_scene.service_feature_name=ytdw.get_service_info('service_type:销售',order.bd_service_info,'service_feature_name')
   group by
@@ -106,12 +106,12 @@ select
   --销售是否拆分，是否有系数
   left join
   (
-    select * from ytdw.dwd_salary_user_d where dayid='$v_date'
+    select * from ytdw.ads_salary_base_user_d where dayid='$v_date'
   ) salary_user on salary_user.user_name=ytdw.get_service_info('service_type:销售',order.bd_service_info,'service_user_name')
   --逻辑场景
   left join
   (
-    select * from ytdw.dwd_salary_logical_scene_d where dayid='$v_date'
+    select * from ytdw.ads_salary_base_logical_scene_d where dayid='$v_date'
   ) salary_logical_scene on salary_logical_scene.is_split=salary_user.is_split and salary_logical_scene.service_feature_names=concat_ws(',',ytdw.get_service_info('service_type:销售',order.service_info_freezed,'service_feature_name'),ytdw.get_service_info('service_type:电销',order.service_info_freezed,'service_feature_name'))
     and salary_logical_scene.service_feature_name=ytdw.get_service_info('service_type:销售',order.bd_service_info,'service_feature_name')
   group by

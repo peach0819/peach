@@ -152,7 +152,7 @@ select    shop_silent.shop_id,
       left join
       (
 		  select order_id,refund_actual_amount
-	      from dw_order_offline_refund_d
+	      from ads_salary_base_offline_refund_order_d
 		  where (dayid='$v_date' or dayid='20190831' or dayid='20190731' or dayid='20190630' or dayid='20190531' or dayid='20190430')
 		  and substr(dayid,1,6) <'$v_cur_month'
       ) offline_refund on offline_refund.order_id=order.order_id
@@ -238,7 +238,7 @@ where substr(min_b_date,1,6) < '$v_cur_month'
       ) orders
       left join
       (
-        select * from ytdw.dwd_salary_user_d where dayid='$v_date' and is_split='新签'
+        select * from ytdw.ads_salary_base_user_d where dayid='$v_date' and is_split='新签'
       ) salary_user on salary_user.user_name=orders.service_user_name
       where substr(shop_brand_sign_day,1,6)='$v_cur_month' and pure_pay_amount>=1000 and salary_user.user_name is not null
   ) brand_shop on shop_silent.shop_id=brand_shop.shop_id and rn=1

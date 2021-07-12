@@ -351,16 +351,16 @@ select
 	  --线下退款
 	  left join
 	  ( select order_id,refund_actual_amount
-	      from dw_order_offline_refund_d
+	      from ads_salary_base_offline_refund_order_d
 		  where dayid='$v_date'
       ) offline_refund on offline_refund.order_id=shop_order1.order_id
 	  --特殊提点品牌表
 	  left join
-       ( select brand_id from dw_offline_spec_brand_d  where dayid ='$v_date' group by brand_id
+       ( select brand_id from ads_salary_base_special_brand_d  where dayid ='$v_date' group by brand_id
         ) spec_brand on spec_brand.brand_id=shop_order1.brand_id
 	  --提货卡品牌名关联特殊品牌表
 	  left join
-       ( select brand_id from dw_offline_spec_brand_d  where dayid ='$v_date' group by brand_id
+       ( select brand_id from ads_salary_base_special_brand_d  where dayid ='$v_date' group by brand_id
         ) pickup_spec_brand on pickup_spec_brand.brand_id=shop_order1.pickup_brand_id
 	    --20200505
      --低端品牌标识

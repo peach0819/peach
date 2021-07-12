@@ -305,7 +305,7 @@ from
   on user.user_id=ytdw.get_service_info('service_type:销售',cur_month_order.bd_service_info,'service_user_id')
   --销售是否拆分，是否有系数
   left join
-  (select user_name,is_split,is_coefficient from dwd_salary_user_d where dayid='$v_date') salary_user
+  (select user_name,is_split,is_coefficient from ads_salary_base_user_d where dayid='$v_date') salary_user
   on salary_user.user_name=ytdw.get_service_info('service_type:销售',cur_month_order.bd_service_info,'service_user_name')
   --逻辑场景
   left join
@@ -315,7 +315,7 @@ from
       service_feature_names,
       service_feature_name,
       commission_logical
-    from dwd_salary_logical_scene_d where dayid='$v_date'
+    from ads_salary_base_logical_scene_d where dayid='$v_date'
   ) salary_logical_scene
   on salary_logical_scene.is_split=salary_user.is_split
     and salary_logical_scene.service_feature_names=concat_ws(',',ytdw.get_service_info('service_type:销售',cur_month_order.service_info_freezed,'service_feature_name'),ytdw.get_service_info('service_type:电销',cur_month_order.service_info_freezed,'service_feature_name'))

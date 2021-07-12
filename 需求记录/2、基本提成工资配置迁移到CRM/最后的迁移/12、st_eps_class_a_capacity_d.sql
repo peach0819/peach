@@ -74,7 +74,7 @@ left join
         select
           order_id,
           refund_actual_amount
-        from dw_order_offline_refund_d
+        from ads_salary_base_offline_refund_order_d
         where dayid = '$v_date'
 
       ) offline_refund on offline_refund.order_id = ord.order_id

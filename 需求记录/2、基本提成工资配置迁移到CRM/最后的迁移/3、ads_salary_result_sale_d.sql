@@ -242,7 +242,7 @@ from
     ) user_info on user_info.user_id=sales.service_user_id
     --销售是否拆分，是否有系数
     left join
-    (select user_name,is_split,is_coefficient from dwd_salary_user_d where dayid='$v_date') salary_user
+    (select user_name,is_split,is_coefficient from ads_salary_base_user_d where dayid='$v_date') salary_user
     on salary_user.user_name=user_info.user_real_name
   )salary_users
   left join

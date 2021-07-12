@@ -162,11 +162,11 @@ left join
     ) trade_shop_total on trade_shop_total.trade_id=order_shop.trade_id
     left join
     (
-      select trade_no,sum(refund_actual_amount) refund_actual_amount from ytdw.dw_offline_refund_d where dayid='$v_date' group by trade_no
+      select trade_no,sum(refund_actual_amount) refund_actual_amount from ytdw.ads_salary_base_offline_refund_d where dayid='$v_date' group by trade_no
     ) cur_month_offline_refund on cur_month_offline_refund.trade_no=trade_shop.trade_no
     left join
     (
-      select trade_no,sum(refund_actual_amount) refund_actual_amount from ytdw.dw_offline_refund_d where dayid='$v_pre_month_last_day' group by trade_no
+      select trade_no,sum(refund_actual_amount) refund_actual_amount from ytdw.ads_salary_base_offline_refund_d where dayid='$v_pre_month_last_day' group by trade_no
     ) last_month_offline_refun on last_month_offline_refun.trade_no=trade_shop.trade_no
   ) offline_refund on offline_refund.order_id=order.order_id
   --where
@@ -183,12 +183,12 @@ left join
 
 left join
 (
-  select * from ytdw.dwd_salary_pro_mark_line_d where dayid='$v_pre_month_last_day'
+  select * from ytdw.ads_salary_base_pro_mark_line_d where dayid='$v_pre_month_last_day'
 ) last_month_pro_mark_line on last_month_pro_mark_line.shop_pro_id=shop_base.shop_pro_id
 
 left join
 (
-  select * from ytdw.dwd_salary_pro_mark_line_d where dayid='$v_date'
+  select * from ytdw.ads_salary_base_pro_mark_line_d where dayid='$v_date'
 ) cur_month_pro_mark_line on cur_month_pro_mark_line.shop_pro_id=shop_base.shop_pro_id
 
 --门店订单信息
