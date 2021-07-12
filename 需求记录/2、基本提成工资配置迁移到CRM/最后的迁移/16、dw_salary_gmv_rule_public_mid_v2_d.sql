@@ -144,7 +144,7 @@ insert overwrite table dw_salary_gmv_rule_public_mid_v2_d partition(dayid='$v_da
 	 --特殊订单表
 	left join
 	( select trade_no
-  	   from dw_offline_spec_refund_d where dayid ='$v_date'
+  	   from ads_salary_base_special_order_d where dayid ='$v_date'
 	 ) spec_order on order.trade_no=spec_order.trade_no
 	 --门店表
 	left join
