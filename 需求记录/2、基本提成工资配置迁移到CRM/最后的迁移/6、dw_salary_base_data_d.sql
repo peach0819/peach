@@ -104,6 +104,71 @@ set hive.input.format=org.apache.hadoop.hive.ql.io.CombineHiveInputFormat;
 set hive.exec.reducers.bytes.per.reducer=512000000;
 set hive.map.aggr=true;
 
+with order_base as (
+        select dw_order_d.*
+        from dw_order_d
+        left join (
+           select shop_id as douyin_shop_id, id as douyin_shop_mapping_id
+           from dwd_shop_data_cluster_mapping_d
+           where dayid = '$v_date'
+           and inuse = 1
+           and cluster_id in (1750) --167是长尾BD. 1750是对外合作门店
+        ) douyin_shop_mapping ON dw_order_d.shop_id = douyin_shop_mapping.douyin_shop_id
+        where dayid='$v_date'
+        and substr(pay_time,1,8)<='$v_date'
+        and bu_id=0
+        --剔除服务商
+        and sp_id is null
+        --剔除 业务域等 卡券票和其他
+        and (business_unit not in ('卡券票','其他') or is_pickup_recharge_order = 1)
+                --20200504
+        --剔除员工店，二批商,美妆店,伙伴店11
+        and nvl(store_type,100) not in (3,9,10,11)
+        and sale_dc_id=-1
+        -- 剔除抖音直播店
+        and douyin_shop_mapping.douyin_shop_mapping_id is null
+),
+order1 as (
+      select
+          order_id,
+          trade_no,
+          brand_id,
+          bd_service_info,
+          shop_id,
+          shop_name,
+          shop_pro_name,
+          shop_city_name,
+          shop_area_name,
+          pay_time,
+          service_info,
+          service_info_freezed,
+          item_style,
+          item_sub_style,
+          business_unit,
+          category_id_first, --新增类目id
+          category_id_second,
+          category_id_first_name,
+          category_id_second_name,
+          category_id_third,
+          category_id_third_name,
+          brand_name,
+          total_pay_amount,
+          pay_amount,
+          pickup_card_amount,
+          pickup_category_id_first,
+          pickup_category_id_first_name,
+          pickup_category_id_second,
+          pickup_category_id_second_name,
+          pickup_category_id_third,
+          pickup_category_id_third_name,
+          pickup_brand_id,
+          pickup_brand_name,
+          is_pickup_order,
+          is_pickup_recharge_order
+        from order_base
+        lateral view explode(split(regexp_replace(ytdw.get_service_info('service_type:销售',service_info),'\},','\}\;'),'\;')) tmp as bd_service_info
+)
+
 insert overwrite table ytdw.dw_salary_base_data_d partition(dayid='$v_date')
 select service_user_id,
   service_user_name,
@@ -684,72 +749,7 @@ from
                 order1.pickup_brand_name,
                 order1.is_pickup_order,
                 order1.is_pickup_recharge_order
-            from
-                (
-        select
-          order_id,
-          trade_no,
-          brand_id,
-          bd_service_info,
-          shop_id,
-          shop_name,
-          shop_pro_name,
-          shop_city_name,
-          shop_area_name,
-          pay_time,
-          service_info,
-          item_style,
-          business_unit,
-          category_id_first, --新增类目id
-          category_id_second,
-          category_id_first_name,
-          category_id_second_name,
-          category_id_third,
-          category_id_third_name,
-          brand_name,
-          total_pay_amount,
-          pay_amount,
-          --refund_end_time,
-          --refund_status,
-          --refund_actual_amount,
-          pickup_card_amount,
-          --refund_pickup_card_amount,
-          pickup_category_id_first,
-          pickup_category_id_first_name,
-          pickup_category_id_second,
-          pickup_category_id_second_name,
-          pickup_category_id_third,
-          pickup_category_id_third_name,
-          pickup_brand_id,
-          pickup_brand_name,
-          is_pickup_order,
-          is_pickup_recharge_order
-        from ytdw.dw_order_d
-        lateral view explode(split(regexp_replace(ytdw.get_service_info('service_type:销售',service_info),'\},','\}\;'),'\;')) tmp as bd_service_info
-          left join (
-     select shop_id as douyin_shop_id, id as douyin_shop_mapping_id
-     from dwd_shop_data_cluster_mapping_d
-     where dayid = '$v_date'
-     and inuse = 1
-     and cluster_id in (1750) --167是长尾BD. 1750是对外合作门店
-  ) douyin_shop_mapping ON dw_order_d.shop_id = douyin_shop_mapping.douyin_shop_id
-
-        where dayid='$v_date'
-        and substr(pay_time,1,8)<='$v_date'
-        and bu_id=0
-        --剔除服务商
-        and sp_id is null
-        --剔除 业务域等 卡券票和其他
-        and (business_unit not in ('卡券票','其他') or is_pickup_recharge_order = 1)
-                --20200504
-        --剔除员工店，二批商,美妆店,伙伴店11
-        and nvl(store_type,100) not in (3,9,10,11)
-        and sale_dc_id=-1
-        -- 剔除抖音直播店
-  and douyin_shop_mapping.douyin_shop_mapping_id is null
-
-
-                ) order1
+            from order1
                 --退款改造 20200724
                 left join (
                  select order_id
@@ -1144,70 +1144,7 @@ union all
             order1.pickup_brand_name,
             order1.is_pickup_order,
             order1.is_pickup_recharge_order
-            from
-                (
-        select
-          order_id,
-          trade_no,
-          brand_id,
-          bd_service_info,
-          shop_id,
-          shop_name,
-          shop_pro_name,
-          shop_city_name,
-          shop_area_name,
-          pay_time,
-          service_info_freezed,
-          item_style,
-          item_sub_style,
-          business_unit,
-          category_id_first, --新增类目id
-          category_id_second,
-          category_id_third,
-          category_id_first_name,
-          category_id_second_name,
-          category_id_third_name,
-          brand_name,
-          total_pay_amount,
-          pay_amount,
-          --refund_end_time,
-          --refund_status,
-          --refund_actual_amount,
-          nvl(pickup_card_amount,0) as pickup_card_amount,
-          --nvl(order1.refund_pickup_card_amount,0) as refund_pickup_card_amount,
-          pickup_category_id_first,
-          pickup_category_id_first_name,
-          pickup_category_id_second,
-          pickup_category_id_second_name,
-          pickup_category_id_third,
-          pickup_category_id_third_name,
-          pickup_brand_id,
-          pickup_brand_name,
-          is_pickup_order,
-          is_pickup_recharge_order
-        from ytdw.dw_order_d
-        lateral view explode(split(regexp_replace(ytdw.get_service_info('service_type:销售',service_info_freezed),'\},','\}\;'),'\;')) tmp as bd_service_info
-        left join (
-          select shop_id as douyin_shop_id, id as douyin_shop_mapping_id
-          from dwd_shop_data_cluster_mapping_d
-          where dayid = '$v_date'
-          and inuse = 1
-          and cluster_id in (1750) --167是长尾BD. 1750是对外合作门店
-  ) douyin_shop_mapping ON dw_order_d.shop_id = douyin_shop_mapping.douyin_shop_id
-        where dayid='$v_date'
-        and substr(pay_time,1,8)<='$v_date'
-        and bu_id=0
-        --剔除服务商
-        and sp_id is null
-        --剔除 业务域等 卡券票和其他
-        and (business_unit not in ('卡券票','其他') or is_pickup_recharge_order = 1)
-                --20200504
-        --剔除员工店，二批商，美妆店,伙伴店11
-        and nvl(store_type,100) not in (3,9,10,11)
-        and sale_dc_id=-1
-        -- 剔除抖音直播店
-        and douyin_shop_mapping.douyin_shop_mapping_id is null
-                ) order1
+            from order1
                 left join (
                 --20200724 退款改造
                    select order_id
