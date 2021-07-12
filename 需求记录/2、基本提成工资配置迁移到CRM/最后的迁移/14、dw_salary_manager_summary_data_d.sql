@@ -487,10 +487,8 @@ union all
 
   left join
   --人工上传系数
-  ( select sales_user_name as user_name,coefficient from dwd_salary_sales_coefficient_d
-    where dayid ='$v_cur_month'
-    and data_month ='$v_op_month'  --当月
-    and is_valid=1 --有效系数
+  ( select sales_user_name as user_name,coefficient from ads_salary_base_sales_coefficient_d
+    where dayid ='$v_date'
     group by sales_user_name,coefficient
   ) sales_coefficient on sales_coefficient.user_name=user_info.user_real_name
   left join
