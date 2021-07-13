@@ -171,7 +171,7 @@ rule_execute_result as (
            shop_pool_server.user_id      as shop_pool_server_user_id,
            shop_group_mapping.group_id   as shop_group_id,
            ytdw.rule_execute(
-               '32/prod',
+               '3/prod',
                 map(
                      'time', from_unixtime(unix_timestamp()),
                      'sale_dc_id', order_base.sale_dc_id,
