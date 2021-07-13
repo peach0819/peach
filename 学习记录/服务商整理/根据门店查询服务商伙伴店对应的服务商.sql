@@ -29,3 +29,16 @@ WHERE
   temp_user.IS_MANAGER = 1  -- 是否管理员
   AND temp_user.USER_TYPE = 12  -- 是否服务商类型
  -- AND temp_user.user_status = 1   -- 是否启用
+
+
+ SELECT extra.biz_id as sp_id
+ FROM t_shop_extra extra
+ LEFT JOIN t_shop shop ON shop.SHOP_ID = extra.SHOP_ID
+ WHERE shop.id = '门店id';
+
+       SELECT  extra.shop_id,temp_user.biz_id
+      FROM t_shop_extra  extra
+      left join t_user temp_user ON extra.biz_id = temp_user.user_id
+      WHERE sub_store_type = 11104
+      AND  temp_user.IS_MANAGER = 1
+      AND temp_user.USER_TYPE = 12
