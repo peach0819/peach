@@ -167,6 +167,46 @@ order1 as (
           is_pickup_recharge_order
         from order_base
         lateral view explode(split(regexp_replace(ytdw.get_service_info('service_type:销售',service_info),'\},','\}\;'),'\;')) tmp as bd_service_info
+),
+order2 as (
+      select
+          order_id,
+          trade_no,
+          brand_id,
+          bd_service_info,
+          shop_id,
+          shop_name,
+          shop_pro_name,
+          shop_city_name,
+          shop_area_name,
+          pay_time,
+          service_info,
+          service_info_freezed,
+          item_style,
+          item_sub_style,
+          business_unit,
+          category_id_first, --新增类目id
+          category_id_second,
+          category_id_first_name,
+          category_id_second_name,
+          category_id_third,
+          category_id_third_name,
+          brand_name,
+          total_pay_amount,
+          pay_amount,
+          pickup_card_amount,
+          pickup_category_id_first,
+          pickup_category_id_first_name,
+          pickup_category_id_second,
+          pickup_category_id_second_name,
+          pickup_category_id_third,
+          pickup_category_id_third_name,
+          pickup_brand_id,
+          pickup_brand_name,
+          is_pickup_order,
+          is_pickup_recharge_order
+        from order_base
+        lateral view explode(split(regexp_replace(ytdw.get_service_info('service_type:销售',service_info_freezed),'\},','\}\;'),'\;')) tmp as bd_service_info
 )
 
 insert overwrite table ytdw.dw_salary_base_data_d partition(dayid='$v_date')
@@ -1107,44 +1147,44 @@ union all
             sum(case when substr(order.refund_end_time,1,6)='$v_cur_month' and order.refund_status=9 then order.refund_pickup_card_amount else 0 end) as refund_pickup_card_amount_freezed
       from
       (
-          select  order1.order_id,
-                 order1.brand_id,
-            order1.bd_service_info,
-            order1.shop_id,
-            order1.shop_name,
-            order1.shop_pro_name,
-            order1.shop_city_name,
-            order1.shop_area_name,
-            order1.pay_time,
-            order1.service_info_freezed,
-            case when order1.is_pickup_recharge_order=1 then '1' else order1.item_style end as item_style, --修改提货卡充值订单的商品类型为1
-            order1.item_sub_style,
-            order1.business_unit,
-            order1.category_id_first, --新增类目id
-            order1.category_id_second,
-            order1.category_id_third,
-            order1.category_id_first_name,
-            order1.category_id_second_name,
-            order1.category_id_third_name,
-            order1.brand_name,
-            order1.total_pay_amount,
-            order1.pay_amount,
+          select  order2.order_id,
+                 order2.brand_id,
+            order2.bd_service_info,
+            order2.shop_id,
+            order2.shop_name,
+            order2.shop_pro_name,
+            order2.shop_city_name,
+            order2.shop_area_name,
+            order2.pay_time,
+            order2.service_info_freezed,
+            case when order2.is_pickup_recharge_order=1 then '1' else order2.item_style end as item_style, --修改提货卡充值订单的商品类型为1
+            order2.item_sub_style,
+            order2.business_unit,
+            order2.category_id_first, --新增类目id
+            order2.category_id_second,
+            order2.category_id_third,
+            order2.category_id_first_name,
+            order2.category_id_second_name,
+            order2.category_id_third_name,
+            order2.brand_name,
+            order2.total_pay_amount,
+            order2.pay_amount,
             afs_refund.refund_end_mth as refund_end_time,
             afs_refund.refund_status,
             afs_refund.refund_actual_amount,
-            nvl(order1.pickup_card_amount,0) as pickup_card_amount,
+            nvl(order2.pickup_card_amount,0) as pickup_card_amount,
             nvl(afs_refund.refund_pickup_card_amount,0) as refund_pickup_card_amount,
-            order1.pickup_category_id_first,
-            order1.pickup_category_id_first_name,
-            order1.pickup_category_id_second,
-            order1.pickup_category_id_second_name,
-            order1.pickup_category_id_third,
-            order1.pickup_category_id_third_name,
-            order1.pickup_brand_id,
-            order1.pickup_brand_name,
-            order1.is_pickup_order,
-            order1.is_pickup_recharge_order
-            from order1
+            order2.pickup_category_id_first,
+            order2.pickup_category_id_first_name,
+            order2.pickup_category_id_second,
+            order2.pickup_category_id_second_name,
+            order2.pickup_category_id_third,
+            order2.pickup_category_id_third_name,
+            order2.pickup_brand_id,
+            order2.pickup_brand_name,
+            order2.is_pickup_order,
+            order2.is_pickup_recharge_order
+            from order2
                 left join (
                 --20200724 退款改造
                    select order_id
@@ -1158,11 +1198,11 @@ union all
             and refund_status=9
             and substr(refund_end_time,1,6)='$v_cur_month'
             group by order_id,refund_status,substr(refund_end_time,1,6)
-                ) afs_refund on order1.order_id = afs_refund.order_id
+                ) afs_refund on order2.order_id = afs_refund.order_id
                 --排除特殊订单
                 left join
                 ( select * from dw_offline_spec_refund_d where dayid ='$v_date'
-                ) spec_order on order1.trade_no=spec_order.trade_no
+                ) spec_order on order2.trade_no=spec_order.trade_no
                 where spec_order.trade_no is null
       ) order
       --线下退款
