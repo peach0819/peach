@@ -1,4 +1,3 @@
-sleep 1m
 v_date=$1
 rule_month=$2
 
@@ -178,7 +177,7 @@ rule_execute_result as (
            shop_pool_server.user_id      as shop_pool_server_user_id,
            shop_group_mapping.group_id   as shop_group_id,
            ytdw.rule_execute(
-               '32/test',
+               '3/prod',
                 map(
                      'time', '$rule_month',
                      'sale_dc_id', order_base.sale_dc_id,
