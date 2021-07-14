@@ -122,16 +122,15 @@ rule_execute_result as (
            shop_pool_server.user_id      as shop_pool_server_user_id,
            shop_group_mapping.group_id   as shop_group_id,
            ytdw.rule_execute(
-               '32/test',
+               '3/prod',
                 map(
-                        cast(shop_pool_server_temp.temp_group_id as string)
                      'time', from_unixtime(unix_timestamp()),
                      'sale_dc_id', order_base.sale_dc_id,
                      'bu_id', order_base.bu_id,
                      'is_pickup_pay_order', order_base.is_pickup_pay_order,
                      'supply_id', order_base.supply_id,
-                     'category_ids',  CONCAT(ifnull(order_base.category_1st_id, 0), ',', ifnull(order_base.category_2nd_id, 0), ',', ifnull(order_base.category_3rd_id, 0)),
-                     'pickup_category_ids', CONCAT(ifnull(order_base.performance_category_1st_id,0), ',', ifnull(order_base.performance_category_2nd_id, 0), ',', ifnull(order_base.performance_category_3rd_id, 0)),
+                     'category_ids',  CONCAT(COALESCE(order_base.category_1st_id, 0), ',', COALESCE(order_base.category_2nd_id, 0), ',', COALESCE(order_base.category_3rd_id, 0)),
+                     'pickup_category_ids', CONCAT(COALESCE(order_base.performance_category_1st_id,0), ',', COALESCE(order_base.performance_category_2nd_id, 0), ',', COALESCE(order_base.performance_category_3rd_id, 0)),
                      'item_ab_type', order_base.item_style,
                      'shop_id', order_base.shop_id,
                      'user_ids', shop_pool_server.user_id,
@@ -148,7 +147,6 @@ rule_execute_result as (
     LEFT JOIN sp_order_snapshot ON order_base.order_id = sp_order_snapshot.order_id
 )
 
-INSERT OVERWRITE TABLE ads_order_biz_order_channel_d partition (dayid='$v_date')
 SELECT order_id,
        trade_id,
        trade_no,
@@ -186,16 +184,16 @@ SELECT order_id,
        shop_group_id,
        rule_execute_result,
 
-       get_json_object(rule_execute_result, "$.knowledgePackageId") as knowledge_package_id,
-       get_json_object(get_json_object(rule_execute_result, "$.resultData"), "$.ruleId") as result_rule_id,
-       case when get_json_object(get_json_object(rule_execute_result, "$.resultData"), "$.no_channel") = 'true'
+       get_json_object(rule_execute_result, '$.knowledgePackageId') as knowledge_package_id,
+       get_json_object(get_json_object(rule_execute_result, '$.resultData'), '$.ruleId') as result_rule_id,
+       case when get_json_object(get_json_object(rule_execute_result, '$.resultData'), '$.no_channel') = 'true'
                 then '无归属'
-            when get_json_object(get_json_object(rule_execute_result, "$.resultData"), "$.user_id") != null
-                then get_json_object(get_json_object(rule_execute_result, "$.resultData"), "$.userId")
-            when get_json_object(get_json_object(rule_execute_result, "$.resultData"), "$.user_feature") != null
-                then shop_pool_server_temp.user_id
+            when get_json_object(get_json_object(rule_execute_result, '$.resultData'), '$.user_id') != null
+                then get_json_object(get_json_object(rule_execute_result, '$.resultData'), '$.userId')
+            when get_json_object(get_json_object(rule_execute_result, '$.resultData'), '$.user_feature') != null
+                then shop_pool_server_temp.temp_user_id
             end as result_user_id
 FROM rule_execute_result
 LEFT JOIN shop_pool_server_temp ON rule_execute_result.shop_id = shop_pool_server_temp.temp_shop_id
-    and get_json_object(get_json_object(rule_execute_result.rule_execute_result, "$.resultData"), "$.user_feature") = cast(shop_pool_server_temp.temp_group_id as string)
+    and get_json_object(get_json_object(rule_execute_result.rule_execute_result, '$.resultData'), '$.user_feature') = cast(shop_pool_server_temp.temp_group_id as string)
 ;

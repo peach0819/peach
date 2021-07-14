@@ -28,7 +28,8 @@ WITH order_base as (
            item_style_name
     FROM dw_trd_order_d
     WHERE dayid='$v_date'
-    AND order_place_time between '$begin_date' AND '$end_date'
+    AND order_place_time between from_unixtime(UNIX_TIMESTAMP(CONCAT('$v_date', ' 00:00:00'), 'yyyyMMdd HH:mm:ss'))
+                             AND from_unixtime(UNIX_TIMESTAMP(CONCAT('$v_date', ' 23:59:59'), 'yyyyMMdd HH:mm:ss'))
 ),
 
 --门店基础信息
@@ -48,8 +49,8 @@ shop_pool_server_base as (
            pool_server.user_id
     FROM dwd_order_after_server_d after_server
     INNER JOIN dwd_shop_pool_server_d pool_server ON after_server.shop_pool_server_id = pool_server.id
-    WHERE after_server.day_id = '$v_date'
-    AND pool_server.day_id = '$v_date'
+    WHERE after_server.dayid = '$v_date'
+    AND pool_server.dayid = '$v_date'
 ),
 
 --门店服务人员信息合并表
@@ -135,8 +136,8 @@ rule_execute_result as (
                      'bu_id', order_base.bu_id,
                      'is_pickup_pay_order', order_base.is_pickup_pay_order,
                      'supply_id', order_base.supply_id,
-                     'category_ids',  CONCAT(ifnull(order_base.category_1st_id, 0), ',', ifnull(order_base.category_2nd_id, 0), ',', ifnull(order_base.category_3rd_id, 0)),
-                     'pickup_category_ids', CONCAT(ifnull(order_base.performance_category_1st_id,0), ',', ifnull(order_base.performance_category_2nd_id, 0), ',', ifnull(order_base.performance_category_3rd_id, 0)),
+                     'category_ids',  CONCAT(COALESCE(order_base.category_1st_id, 0), ',', COALESCE(order_base.category_2nd_id, 0), ',', COALESCE(order_base.category_3rd_id, 0)),
+                     'pickup_category_ids', CONCAT(COALESCE(order_base.performance_category_1st_id,0), ',', COALESCE(order_base.performance_category_2nd_id, 0), ',', COALESCE(order_base.performance_category_3rd_id, 0)),
                      'item_ab_type', order_base.item_style,
                      'shop_id', order_base.shop_id,
                      'user_ids', shop_pool_server.user_id,
@@ -148,7 +149,7 @@ rule_execute_result as (
            ) as rule_execute_result
     FROM order_base
     LEFT JOIN shop_base ON order_base.shop_id = shop_base.shop_id
-    LEFT JOIN shop_pool_server ON shop_pool_server.shop_id = shop_base.shop_id
+    LEFT JOIN shop_pool_server ON shop_pool_server.trade_id = order_base.trade_id
     LEFT JOIN shop_group_mapping ON shop_group_mapping.shop_id = shop_base.shop_id
     LEFT JOIN sp_order_snapshot ON order_base.order_id = sp_order_snapshot.order_id
 )
@@ -192,15 +193,15 @@ SELECT order_id,
        shop_group_id,
        rule_execute_result,
 
-       get_json_object(rule_execute_result, "$.knowledgePackageId") as knowledge_package_id,
-       get_json_object(get_json_object(rule_execute_result, "$.resultData"), "$.ruleId") as result_rule_id,
-       case when get_json_object(get_json_object(rule_execute_result, "$.resultData"), "$.no_channel") = 'true'
+       get_json_object(rule_execute_result, '$.knowledgePackageId') as knowledge_package_id,
+       get_json_object(get_json_object(rule_execute_result, '$.resultData'), '$.ruleId') as result_rule_id,
+       case when get_json_object(get_json_object(rule_execute_result, '$.resultData'), '$.no_channel') = 'true'
                 then '无归属'
-            when get_json_object(get_json_object(rule_execute_result, "$.resultData"), "$.user_id") != null
-                then get_json_object(get_json_object(rule_execute_result, "$.resultData"), "$.userId")
-            when get_json_object(get_json_object(rule_execute_result, "$.resultData"), "$.user_feature") != null
-                then shop_pool_server_temp.user_id
+            when get_json_object(get_json_object(rule_execute_result, '$.resultData'), '$.user_id') != null
+                then get_json_object(get_json_object(rule_execute_result, '$.resultData'), '$.userId')
+            when get_json_object(get_json_object(rule_execute_result, '$.resultData'), '$.user_feature') != null
+                then shop_pool_server_temp.temp_user_id
             end as result_user_id
 FROM rule_execute_result
 LEFT JOIN shop_pool_server_temp ON rule_execute_result.trade_id = shop_pool_server_temp.temp_trade_id
-    and get_json_object(get_json_object(rule_execute_result.rule_execute_result, "$.resultData"), "$.user_feature") = cast(shop_pool_server_temp.temp_group_id as string)
+    and get_json_object(get_json_object(rule_execute_result.rule_execute_result, '$.resultData'), '$.user_feature') = cast(shop_pool_server_temp.temp_group_id as string)

@@ -1,4 +1,3 @@
-sleep 1m
 v_date=$1
 rule_month=$2
 source ../sql_variable.sh $v_date
@@ -104,8 +103,8 @@ shop_pool_server_base as (
            pool_server.user_id
     FROM dwd_order_after_server_d after_server
     INNER JOIN dwd_shop_pool_server_d pool_server ON after_server.shop_pool_server_id = pool_server.id
-    WHERE after_server.day_id = '$v_date'
-    AND pool_server.day_id = '$v_date'
+    WHERE after_server.dayid = '$v_date'
+    AND pool_server.dayid = '$v_date'
 ),
 
 --门店服务人员信息合并表
@@ -204,7 +203,7 @@ rule_execute_result as (
            ) as rule_execute_result
     FROM order_base
     LEFT JOIN shop_base ON order_base.shop_id = shop_base.shop_id
-    LEFT JOIN shop_pool_server ON shop_pool_server.shop_id = shop_base.shop_id
+    LEFT JOIN shop_pool_server ON shop_pool_server.trade_id = order_base.trade_id
     LEFT JOIN shop_group_mapping ON shop_group_mapping.shop_id = shop_base.shop_id
     LEFT JOIN sp_order_snapshot ON order_base.order_id = sp_order_snapshot.order_id
 )
