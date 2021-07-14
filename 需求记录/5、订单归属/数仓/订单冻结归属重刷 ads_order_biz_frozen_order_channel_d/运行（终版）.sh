@@ -82,8 +82,7 @@ WITH order_base as (
            item_style_name
     FROM dw_trd_order_d
     WHERE dayid='$v_date'
-    AND order_place_time between from_unixtime(UNIX_TIMESTAMP(CONCAT('$v_date', ' 00:00:00'), 'yyyyMMdd HH:mm:ss'))
-                             AND from_unixtime(UNIX_TIMESTAMP(CONCAT('$v_date', ' 23:59:59'), 'yyyyMMdd HH:mm:ss'))
+    AND substr(order_place_time,0,8)='$v_date'
 ),
 
 --门店基础信息
