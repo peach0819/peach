@@ -53,8 +53,21 @@ partitioned by (dayid string)
 row format delimited fields terminated by '\001'
 stored as orc;
 
---订单基础信息
-WITH order_base as (
+set hive.execution.engine=mr;
+
+--门店服务人员信息临时表
+shop_pool_server_temp as (
+    SELECT shop_id as temp_shop_id,
+           group_id as temp_group_id,
+           user_id as temp_user_id
+    FROM dwd_shop_pool_server_d
+    WHERE dayid='$v_date'
+    AND is_deleted = 0
+    AND is_enabled = 0
+),
+
+--规则执行
+rule_execute_result as (
     SELECT order_id,
            trade_id,
            trade_no,
@@ -80,126 +93,36 @@ WITH order_base as (
            performance_category_3rd_id,
            performance_category_3rd_name,
            item_style,
-           item_style_name
-    FROM dw_trd_order_d
-    WHERE dayid='$v_date'
-),
-
---门店基础信息
-shop_base as (
-    SELECT shop_id,
-           shop_name,
-           store_type,
-           sub_store_type
-    FROM dwd_shop_d
-    WHERE dayid='$v_date'
-),
-
---门店服务人员信息合并表
-shop_pool_server as (
-    SELECT shop_id,
-           concat_ws(',' , sort_array(collect_set(cast(group_id as string)))) as group_id,
-           concat_ws(',' , collect_set(user_id)) as user_id
-    FROM dwd_shop_pool_server_d
-    WHERE dayid='$v_date'
-    AND is_deleted = 0
-    AND is_enabled = 0
-    group by shop_id
-),
-
---门店服务人员信息临时表
-shop_pool_server_temp as (
-    SELECT shop_id as temp_shop_id,
-           group_id as temp_group_id,
-           user_id as temp_user_id
-    FROM dwd_shop_pool_server_d
-    WHERE dayid='$v_date'
-    AND is_deleted = 0
-    AND is_enabled = 0
-),
-
---门店分组关系
-shop_group_mapping as (
-    SELECT shop_id,
-           concat_ws(',' , sort_array(collect_set(cast(group_id as string)))) as group_id
-    FROM dwd_shop_group_mapping_d
-    WHERE dayid='$v_date'
-    AND is_deleted = 0
-    group by shop_id
-),
-
---服务商订单快照信息
-sp_order_snapshot as (
-    SELECT order_id,
-           sp_id,
-           sp_name,
-           operator_id
-    FROM dwd_sp_order_snapshot_d
-    WHERE dayid='$v_date'
-    AND is_deleted = 0
-),
-
---规则执行
-rule_execute_result as (
-    SELECT order_base.order_id,
-           order_base.trade_id,
-           order_base.trade_no,
-           order_base.order_place_time,
-           order_base.shop_id,
-           order_base.sale_dc_id,
-           order_base.sale_dc_id_name,
-           order_base.bu_id,
-           order_base.bu_id_name,
-           order_base.is_pickup_pay_order,
-           order_base.supply_id,
-           order_base.supply_name,
-           order_base.category_1st_id,
-           order_base.category_2nd_id,
-           order_base.category_3rd_id,
-           order_base.category_1st_name,
-           order_base.category_2nd_name,
-           order_base.category_3rd_name,
-           order_base.performance_category_1st_id,
-           order_base.performance_category_1st_name,
-           order_base.performance_category_2nd_id,
-           order_base.performance_category_2nd_name,
-           order_base.performance_category_3rd_id,
-           order_base.performance_category_3rd_name,
-           order_base.item_style,
-           order_base.item_style_name,
+           item_style_name,
            shop_base.shop_name,
            shop_base.store_type,
            shop_base.sub_store_type,
-           sp_order_snapshot.sp_id,
-           sp_order_snapshot.sp_name,
-           sp_order_snapshot.operator_id as sp_operator_id,
-           shop_pool_server.group_id     as shop_pool_server_group_id,
-           shop_pool_server.user_id      as shop_pool_server_user_id,
-           shop_group_mapping.group_id   as shop_group_id,
+           sp_id,
+           sp_name,
+           sp_operator_id,
+           shop_pool_server_group_id,
+           shop_pool_server_user_id,
+           shop_group_id,
            ytdw.rule_execute(
-               '3/prod',
+               '3/test',
                 map(
                      'time', '$rule_month',
-                     'sale_dc_id', order_base.sale_dc_id,
-                     'bu_id', order_base.bu_id,
-                     'is_pickup_pay_order', order_base.is_pickup_pay_order,
-                     'supply_id', order_base.supply_id,
-                     'category_ids',  CONCAT(COALESCE(order_base.category_1st_id, 0), ',', COALESCE(order_base.category_2nd_id, 0), ',', COALESCE(order_base.category_3rd_id, 0)),
-                     'pickup_category_ids', CONCAT(COALESCE(order_base.performance_category_1st_id,0), ',', COALESCE(order_base.performance_category_2nd_id, 0), ',', COALESCE(order_base.performance_category_3rd_id, 0)),
-                     'item_ab_type', order_base.item_style,
-                     'shop_id', order_base.shop_id,
-                     'user_ids', shop_pool_server.user_id,
-                     'user_features', shop_pool_server.group_id,
+                     'sale_dc_id', sale_dc_id,
+                     'bu_id', bu_id,
+                     'is_pickup_pay_order', is_pickup_pay_order,
+                     'supply_id', supply_id,
+                     'category_ids',  CONCAT(COALESCE(category_1st_id, 0), ',', COALESCE(category_2nd_id, 0), ',', COALESCE(category_3rd_id, 0)),
+                     'pickup_category_ids', CONCAT(COALESCE(performance_category_1st_id,0), ',', COALESCE(performance_category_2nd_id, 0), ',', COALESCE(performance_category_3rd_id, 0)),
+                     'item_ab_type', item_style,
+                     'shop_id', shop_id,
+                     'user_ids', shop_pool_server_user_id,
+                     'user_features', shop_pool_server_group_id,
                      'store_type', case when shop_base.sub_store_type is null then shop_base.store_type else CONCAT(shop_base.store_type,',',shop_base.sub_store_type) end,
-                     'sp_id', sp_order_snapshot.sp_id,
-                     'group_ids', shop_group_mapping.group_id
+                     'sp_id', sp_id,
+                     'group_ids', shop_group_id
                 )
            ) as rule_execute_result
-    FROM order_base
-    LEFT JOIN shop_base ON order_base.shop_id = shop_base.shop_id
-    LEFT JOIN shop_pool_server ON shop_pool_server.shop_id = shop_base.shop_id
-    LEFT JOIN shop_group_mapping ON shop_group_mapping.shop_id = shop_base.shop_id
-    LEFT JOIN sp_order_snapshot ON order_base.order_id = sp_order_snapshot.order_id
+    FROM ads_order_biz_order_channel_detail_d
 )
 
 INSERT OVERWRITE TABLE ads_order_biz_order_channel_test_d partition (dayid='$v_date')

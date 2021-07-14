@@ -43,6 +43,8 @@ partitioned by (dayid string)
 row format delimited fields terminated by '\001'
 stored as orc;
 
+set hive.execution.engine=mr;
+
 --订单基础信息
 WITH order_base as (
     SELECT order_id,

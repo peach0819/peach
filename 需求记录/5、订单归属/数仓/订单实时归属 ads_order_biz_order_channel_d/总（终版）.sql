@@ -47,6 +47,8 @@ partitioned by (dayid string)
 row format delimited fields terminated by '\001'
 stored as orc;
 
+set hive.execution.engine=mr;
+
 --门店服务人员信息临时表
 WITH shop_pool_server_temp as (
     SELECT shop_id as temp_shop_id,
