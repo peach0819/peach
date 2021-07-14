@@ -63,7 +63,7 @@ shop_pool_server_temp as (
     FROM dwd_shop_pool_server_d
     WHERE dayid='$v_date'
     AND is_deleted = 0
-    AND is_enabled = 0
+    AND is_enabled = 1
 ),
 
 --规则执行
