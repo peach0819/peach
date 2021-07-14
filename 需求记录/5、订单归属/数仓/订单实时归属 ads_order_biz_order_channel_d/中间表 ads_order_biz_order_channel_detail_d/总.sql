@@ -86,7 +86,7 @@ FROM (
            trade_no,
            order_place_time,
            shop_id,
-           sale_dc_id,
+           case when sale_dc_id = -1 then 0 else sale_dc_id end as sale_dc_id,
            sale_dc_id_name,
            bu_id,
            bu_id_name,
