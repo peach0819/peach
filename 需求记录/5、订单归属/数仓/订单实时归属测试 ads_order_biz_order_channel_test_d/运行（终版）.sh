@@ -57,7 +57,7 @@ stored as orc;
 set hive.execution.engine=mr;
 
 --门店服务人员信息临时表
-shop_pool_server_temp as (
+with shop_pool_server_temp as (
     SELECT shop_id as temp_shop_id,
            group_id as temp_group_id,
            user_id as temp_user_id
@@ -96,9 +96,9 @@ rule_execute_result as (
            performance_category_3rd_name,
            item_style,
            item_style_name,
-           shop_base.shop_name,
-           shop_base.store_type,
-           shop_base.sub_store_type,
+           shop_name,
+           store_type,
+           sub_store_type,
            sp_id,
            sp_name,
            sp_operator_id,
@@ -119,12 +119,13 @@ rule_execute_result as (
                      'shop_id', shop_id,
                      'user_ids', shop_pool_server_user_id,
                      'user_features', shop_pool_server_group_id,
-                     'store_type', case when shop_base.sub_store_type is null then shop_base.store_type else CONCAT(shop_base.store_type,',',shop_base.sub_store_type) end,
+                     'store_type', case when sub_store_type is null then store_type else CONCAT(store_type,',',sub_store_type) end,
                      'sp_id', sp_id,
                      'group_ids', shop_group_id
                 )
            ) as rule_execute_result
-    FROM ads_order_biz_order_channel_detail_d and order_place_time> '20210601000000'
+    FROM ads_order_biz_order_channel_detail_d
+    WHERE dayid = '$v_date' and order_place_time> '20210601000000'
 )
 
 INSERT OVERWRITE TABLE ads_order_biz_order_channel_test_d partition (dayid='$v_date')
