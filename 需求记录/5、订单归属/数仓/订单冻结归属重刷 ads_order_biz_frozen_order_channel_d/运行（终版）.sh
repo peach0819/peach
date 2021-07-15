@@ -143,11 +143,12 @@ rule_execute_result as (
                      'user_features', shop_pool_server.group_id,
                      'store_type', case when order_base.sub_store_type is null then order_base.store_type else CONCAT(order_base.store_type,',',order_base.sub_store_type) end,
                      'sp_id', order_base.sp_id,
-                     'group_ids', order_base.group_id
+                     'group_ids', order_base.shop_group_id
                 )
            ) as rule_execute_result
     FROM order_base
     LEFT JOIN shop_pool_server ON shop_pool_server.trade_id = order_base.trade_id
+    WHERE order_base.order_place_time> '20210601000000'
 )
 
 INSERT OVERWRITE TABLE ads_order_biz_frozen_order_channel_d partition (dayid='$v_date')
