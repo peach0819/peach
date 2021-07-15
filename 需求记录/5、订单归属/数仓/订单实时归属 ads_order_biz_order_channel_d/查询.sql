@@ -188,9 +188,9 @@ SELECT order_id,
        get_json_object(get_json_object(rule_execute_result, '$.resultData'), '$.ruleId') as result_rule_id,
        case when get_json_object(get_json_object(rule_execute_result, '$.resultData'), '$.no_channel') = 'true'
                 then '无归属'
-            when get_json_object(get_json_object(rule_execute_result, '$.resultData'), '$.user_id') != null
-                then get_json_object(get_json_object(rule_execute_result, '$.resultData'), '$.userId')
-            when get_json_object(get_json_object(rule_execute_result, '$.resultData'), '$.user_feature') != null
+            when get_json_object(get_json_object(rule_execute_result, '$.resultData'), '$.user_id') != ''
+                then get_json_object(get_json_object(rule_execute_result, '$.resultData'), '$.user_id')
+            when get_json_object(get_json_object(rule_execute_result, '$.resultData'), '$.user_feature') != ''
                 then shop_pool_server_temp.temp_user_id
             end as result_user_id
 FROM rule_execute_result

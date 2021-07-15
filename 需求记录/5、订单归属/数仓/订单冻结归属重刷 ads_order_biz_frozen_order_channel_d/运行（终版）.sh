@@ -150,7 +150,6 @@ rule_execute_result as (
            ) as rule_execute_result
     FROM order_base
     LEFT JOIN shop_pool_server ON shop_pool_server.trade_id = order_base.trade_id
-    WHERE order_base.order_place_time> '20210601000000'
 )
 
 INSERT OVERWRITE TABLE ads_order_biz_frozen_order_channel_d partition (dayid='$v_date')
@@ -195,12 +194,12 @@ SELECT order_id,
        get_json_object(get_json_object(rule_execute_result, '$.resultData'), '$.ruleId') as result_rule_id,
        case when get_json_object(get_json_object(rule_execute_result, '$.resultData'), '$.no_channel') = 'true'
                 then '无归属'
-            when get_json_object(get_json_object(rule_execute_result, '$.resultData'), '$.user_id') != null
-                then get_json_object(get_json_object(rule_execute_result, '$.resultData'), '$.userId')
-            when get_json_object(get_json_object(rule_execute_result, '$.resultData'), '$.user_feature') != null
+            when get_json_object(get_json_object(rule_execute_result, '$.resultData'), '$.user_id') != ''
+                then get_json_object(get_json_object(rule_execute_result, '$.resultData'), '$.user_id')
+            when get_json_object(get_json_object(rule_execute_result, '$.resultData'), '$.user_feature') != ''
                  and get_json_object(get_json_object(rule_execute_result, '$.resultData'), '$.user_feature') = '0'
                 then sp_operator_id
-            when get_json_object(get_json_object(rule_execute_result, '$.resultData'), '$.user_feature') != null
+            when get_json_object(get_json_object(rule_execute_result, '$.resultData'), '$.user_feature') != ''
                 then shop_pool_server_temp.temp_user_id
             end as result_user_id,
        rule_execute_result
