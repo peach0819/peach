@@ -19,6 +19,7 @@ create table if not exists ytdw.ads_order_biz_order_channel_test_d
     bu_id                                 int comment '业务线 0	海拍客 1	嗨清仓 2	批批平台 6	嗨家',
     bu_id_name                            string comment '业务线名称',
     is_pickup_pay_order                   int comment '是否为提货卡支付订单 1 是 0否',
+    is_pickup_recharge_order              int comment '是否为充值提货hi卡订单 1 是 0否',
     supply_id                             string comment '供应商id',
     supply_name                           string comment '供应商名称',
     category_1st_id                       bigint comment '一级类目ID',
@@ -78,6 +79,7 @@ rule_execute_result as (
            bu_id,
            bu_id_name,
            is_pickup_pay_order,
+           is_pickup_recharge_order,
            supply_id,
            supply_name,
            category_1st_id,
@@ -109,7 +111,7 @@ rule_execute_result as (
                      'time', '$rule_month',
                      'sale_dc_id', sale_dc_id,
                      'bu_id', bu_id,
-                     'is_pickup_pay_order', is_pickup_pay_order,
+                     'is_pickup_pay_order', is_pickup_recharge_order,
                      'supply_id', supply_id,
                      'category_ids',  CONCAT(COALESCE(category_1st_id, 0), ',', COALESCE(category_2nd_id, 0), ',', COALESCE(category_3rd_id, 0)),
                      'pickup_category_ids', CONCAT(COALESCE(performance_category_1st_id,0), ',', COALESCE(performance_category_2nd_id, 0), ',', COALESCE(performance_category_3rd_id, 0)),
@@ -122,7 +124,7 @@ rule_execute_result as (
                      'group_ids', shop_group_id
                 )
            ) as rule_execute_result
-    FROM ads_order_biz_order_channel_detail_d
+    FROM ads_order_biz_order_channel_detail_d and order_place_time> '20210601000000'
 )
 
 INSERT OVERWRITE TABLE ads_order_biz_order_channel_test_d partition (dayid='$v_date')
@@ -137,6 +139,7 @@ SELECT order_id,
        bu_id,
        bu_id_name,
        is_pickup_pay_order,
+       is_pickup_recharge_order,
        supply_id,
        supply_name,
        category_1st_id,
