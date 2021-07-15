@@ -109,7 +109,7 @@ shop_pool_server as (
     FROM dwd_shop_pool_server_d
     WHERE dayid='$v_date'
     AND is_deleted = 0
-    AND is_enabled = 0
+    AND is_enabled = 1
     group by shop_id
 ),
 
