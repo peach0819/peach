@@ -1,0 +1,30 @@
+
+
+
+user_id:2dd86c3ae9ea4da18a961fe7d58587f6
+
+ads_salary_result_sale_d 这个表少了，
+
+库容的话，是这张表少了，b_coefficient_summary这个字段数据变少了
+
+ select service_user_id,
+           coefficient_summary,
+           a_coefficient_summary,
+           b_coefficient_summary,
+           a_target_finish,
+           b_target_finish,
+           pickup_card_coefficient_summary,--提货卡充值系数总和
+           goods_coefficient_summary--实货支付系数总和
+    from ads_salary_biz_kn_pure_gmv_d  --薪资库内净GMV表
+    where dayid = '$v_date'
+    ;
+
+ 然后排查出来ads_salary_base_cur_month_refund_d表，这四单，20210716是多出来了退单
+ 73317175,
+ 68117337,
+ 73325856,
+ 68243523
+
+
+
+
