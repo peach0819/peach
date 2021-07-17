@@ -28,3 +28,34 @@ ads_salary_result_sale_d 这个表少了，
 
 
 
+
+        select
+            order_id,
+            case when order_id = '68243523' then '31002104242235241919'
+            when order_id = '68117337' then '31002104221325118170'
+            when order_id = '73317175' then '31002106226716595499'
+            when order_id = '73325856' then '31002106226770767999'
+            end as trade_no,
+
+           pay_time,
+           refund_actual_amount,
+           refund_pickup_card_amount
+
+    from ads_salary_base_cur_month_refund_d
+    lateral view explode(split(regexp_replace(ytdw.get_service_info('service_type:销售',service_info),'\},','\}\;'),'\;')) tmp as bd_service_info
+    where dayid='20210716'
+    and sp_id is null        --剔除服务商
+    and (business_unit not in ('卡券票','其他') or is_pickup_recharge_order = 1)        --剔除 业务域等 卡券票和其他
+    and nvl(store_type,100) not in (3,9,10,11)        --剔除员工店，二批商,美妆店,伙伴店11
+    and is_spec_order!=1  --  剔除薪资特殊订单
+    and ytdw.get_service_info('service_type:销售',bd_service_info,'service_user_id') = '2dd86c3ae9ea4da18a961fe7d58587f6'
+    and   order_id IN (
+     73317175,
+ 68117337,
+ 73325856,
+ 68243523
+)
+
+
+
+
