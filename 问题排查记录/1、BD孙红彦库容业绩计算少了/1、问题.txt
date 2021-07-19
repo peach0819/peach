@@ -1,0 +1,61 @@
+
+
+
+user_id:2dd86c3ae9ea4da18a961fe7d58587f6
+
+ads_salary_result_sale_d 这个表少了，
+
+库容的话，是这张表少了，b_coefficient_summary这个字段数据变少了
+
+ select service_user_id,
+           coefficient_summary,
+           a_coefficient_summary,
+           b_coefficient_summary,
+           a_target_finish,
+           b_target_finish,
+           pickup_card_coefficient_summary,--提货卡充值系数总和
+           goods_coefficient_summary--实货支付系数总和
+    from ads_salary_biz_kn_pure_gmv_d  --薪资库内净GMV表
+    where dayid = '$v_date'
+    ;
+
+ 然后排查出来ads_salary_base_cur_month_refund_d表，这四单，20210716是多出来了退单
+ 73317175,
+ 68117337,
+ 73325856,
+ 68243523
+
+
+
+
+
+        select
+            order_id,
+            case when order_id = '68243523' then '31002104242235241919'
+            when order_id = '68117337' then '31002104221325118170'
+            when order_id = '73317175' then '31002106226716595499'
+            when order_id = '73325856' then '31002106226770767999'
+            end as trade_no,
+
+           pay_time,
+           refund_actual_amount,
+           refund_pickup_card_amount
+
+    from ads_salary_base_cur_month_refund_d
+    lateral view explode(split(regexp_replace(ytdw.get_service_info('service_type:销售',service_info),'\},','\}\;'),'\;')) tmp as bd_service_info
+    where dayid='20210716'
+    and sp_id is null        --剔除服务商
+    and (business_unit not in ('卡券票','其他') or is_pickup_recharge_order = 1)        --剔除 业务域等 卡券票和其他
+    and nvl(store_type,100) not in (3,9,10,11)        --剔除员工店，二批商,美妆店,伙伴店11
+    and is_spec_order!=1  --  剔除薪资特殊订单
+    and ytdw.get_service_info('service_type:销售',bd_service_info,'service_user_id') = '2dd86c3ae9ea4da18a961fe7d58587f6'
+    and   order_id IN (
+     73317175,
+ 68117337,
+ 73325856,
+ 68243523
+)
+
+
+
+
