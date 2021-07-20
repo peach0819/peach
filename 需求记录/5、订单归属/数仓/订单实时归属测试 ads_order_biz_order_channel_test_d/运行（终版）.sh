@@ -111,7 +111,7 @@ rule_execute_result as (
                      'time', '$rule_month',
                      'sale_dc_id', sale_dc_id,
                      'bu_id', bu_id,
-                     'is_pickup_pay_order', is_pickup_recharge_order,
+                     'is_pickup_pay_order', case when is_pickup_recharge_order = 1 then 'true' else 'false' end,
                      'supply_id', supply_id,
                      'category_ids',  CONCAT(COALESCE(category_1st_id, 0), ',', COALESCE(category_2nd_id, 0), ',', COALESCE(category_3rd_id, 0)),
                      'pickup_category_ids', CONCAT(COALESCE(performance_category_1st_id,0), ',', COALESCE(performance_category_2nd_id, 0), ',', COALESCE(performance_category_3rd_id, 0)),
