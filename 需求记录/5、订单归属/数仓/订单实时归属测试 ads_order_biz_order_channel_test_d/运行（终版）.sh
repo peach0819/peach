@@ -125,7 +125,7 @@ rule_execute_result as (
                 )
            ) as rule_execute_result
     FROM ads_order_biz_order_channel_detail_d
-    WHERE dayid = '$v_date' and order_place_time> '20210601000000'
+    WHERE dayid = '$v_date'
 )
 
 INSERT OVERWRITE TABLE ads_order_biz_order_channel_test_d partition (dayid='$v_date')
