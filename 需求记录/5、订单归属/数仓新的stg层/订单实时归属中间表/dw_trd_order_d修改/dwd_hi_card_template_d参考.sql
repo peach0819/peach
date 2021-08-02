@@ -1,0 +1,26 @@
+select
+id,
+name,
+money,
+stock,
+use_desc,
+link_type,
+link_value,
+user_type,
+use_reason,
+hipac_item_type,
+item_type,
+item_category,
+bg_img_url,
+normal_icon_url,
+invaild_icon_url,
+creator,
+editor,
+is_deleted,
+from_unixtime(unix_timestamp(create_time),'yyyyMMddHHmmss') as create_time,
+from_unixtime(unix_timestamp(edit_time),'yyyyMMddHHmmss') as edit_time,
+hi_card_type ,
+pickup_brand_id ,
+hi_card_temp_ext
+from ods_t_hi_card_template_d
+where dayid='$datadate' and is_deleted <> 99;
