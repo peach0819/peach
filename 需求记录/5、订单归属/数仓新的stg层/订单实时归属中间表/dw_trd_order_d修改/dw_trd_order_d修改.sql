@@ -6,7 +6,8 @@ with order_shop as (
            shop_id,
            sale_dc_id,
            bu_id,
-           supply_id
+           supply_id,
+           item_id
     from dwd_order_shop_full_d
     where dayid = '$v_date'
     and substr(create_time,1,8) <='$v_date'
@@ -15,7 +16,8 @@ with order_shop as (
 
 --商品维度
 item as (
-    select category_1st_id,
+    select item_id,
+           category_1st_id,
            category_2nd_id,
            category_3rd_id,
            performance_category_1st_id,
