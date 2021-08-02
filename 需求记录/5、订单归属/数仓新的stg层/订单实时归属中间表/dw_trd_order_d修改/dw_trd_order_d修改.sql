@@ -1,15 +1,17 @@
 --订单维度
 with order_shop as (
-    select order_id,
+    SELECT order_id,
            trade_id,
-           create_time,
+           from_unixtime(unix_timestamp(create_time),'yyyyMMddHHmmss') as create_time,,
            shop_id,
-           sale_dc_id,
+           nvl(ytdw.getValueFromKVString(attribute,'saleDcId'),-1) as sale_dc_id,
            bu_id,
            supply_id,
            item_id
-    from dwd_order_shop_full_d
-    where dayid = '$v_date'
+    from ods_pt_order_shop_d
+    where dayid='$v_date'
+    and regexp_extract(attribute,'(off:)([0-9]*)(\;?)',2) <> '1' --原因你懂的
+    and order_id<>36133857 --脏数据，订单金额过大
     and substr(create_time,1,8) <='$v_date'
     and is_deleted=0
 ),
