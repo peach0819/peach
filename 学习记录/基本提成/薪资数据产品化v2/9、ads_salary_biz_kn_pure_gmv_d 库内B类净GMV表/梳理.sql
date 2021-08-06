@@ -67,7 +67,8 @@ salary_logical_scene as (
     select is_split,
            service_feature_names,
            service_feature_name,
-           commission_logical
+           commission_logical,
+           coefficient_logical
     from dwd_salary_logical_scene_d
     where dayid='$v_date'
 ),

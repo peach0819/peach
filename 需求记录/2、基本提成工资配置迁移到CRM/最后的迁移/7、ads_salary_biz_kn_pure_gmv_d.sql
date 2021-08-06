@@ -80,7 +80,7 @@ with order_tmp as (
                     on user.user_id=ytdw.get_service_info('service_type:销售',cur_month_order.bd_service_info,'service_user_id')
                     --销售是否拆分，是否有系数
                     left join
-                    (select user_name,is_split,is_coefficient from dwd_salary_user_d where dayid='$v_date') salary_user
+                    (select user_name,is_split,is_coefficient from ads_salary_base_user_d where dayid='$v_date') salary_user
                     on salary_user.user_name=ytdw.get_service_info('service_type:销售',cur_month_order.bd_service_info,'service_user_name')
                     --逻辑场景
                     left join
