@@ -1,0 +1,33 @@
+
+https://api.hipac.cn/process/prod/1.0.0/hipac.crmapp.shop.queryFilterList
+
+{
+    "longitude": "120.06704172164831",
+    "moreCondition": "",
+    "pageSize": 10,
+    "latitude": "30.292063951656903",
+    "requestSource": "",
+    "optionList": [
+        {
+            "optionCode": "$SORT_TYPE$_2",
+            "redPill": {
+                "utrp": "901.1.5.1.3",
+                "extendFields": null,
+                "utp": null,
+                "areaExpose": null,
+                "uttl": "门店管理-排序",
+                "redPillType": null
+            },
+            "optionName": "距离排序",
+            "isChecked": true,
+            "optionValue": "2"
+        },
+        {
+            "optionName": "辖区门店",
+            "optionValue": "2",
+            "optionCode": "$SEARCH_TYPE$_2",
+            "isChecked": true
+        }
+    ],
+    "pageNo": 1
+}
