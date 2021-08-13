@@ -1,5 +1,5 @@
 
---订正服务商区域品牌表，影响条数: 8880
+--订正服务商区域品牌表，影响条数: 67290
 update t_sp_area_brand
 set is_deleted=1,status=0,end_time=now(), editor='1290387026'
 where area_id IN (1446462900523,
@@ -506,7 +506,7 @@ where area_id IN (1446462900523,
 1439549225278,
 2389);
 
---订正服务商区域表，影响条数: 3502
+--订正服务商区域表，影响条数: 30971
 update t_sp_area
 set is_deleted=1, status=0, editor='1290387026'
 where area_id IN (1446462900523,
@@ -1013,7 +1013,7 @@ where area_id IN (1446462900523,
 1439549225278,
 2389);
 
---订正服务商用户区域表，影响条数: 381
+--订正服务商用户区域表，影响条数: 7173
 update t_sp_user_area
 set is_deleted =1,editor='1290387026'
 where area_id IN (1446462900523,
