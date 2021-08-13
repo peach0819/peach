@@ -17,7 +17,8 @@ CREATE TABLE `t_crm_chat_tag_bind` (
   `tag_id` varchar(64) NOT NULL COMMENT '企微标签id',
   `tag_name` varchar(64) NOT NULL COMMENT '企微标签名',
   PRIMARY KEY (`id`),
-  KEY `idx_version` (`version`)
+  KEY `idx_version` (`version`),
+  KEY `idx_qw_external_user_id` (`qw_external_user_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COMMENT='企微客户标签绑定';
 
 
