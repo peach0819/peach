@@ -68,6 +68,7 @@ stored as orc;
 set hive.execution.engine=mr;
 
 insert overwrite table ads_salary_result_sale_d partition(dayid='$v_date')
+
 select
   service_user_id,
   service_user_name,
@@ -152,7 +153,7 @@ from
     null as reach_shop_coefficient,
     kn_pure_gmv.a_coefficient_summary,
     kn_pure_gmv.b_coefficient_summary,
-    from_unixtime(unix_timestamp()) as update_time,
+    from_unixtime(unix_timestamp(current_timestamp())) as update_time,
     kn_pure_gmv.a_target_finish,
     kn_pure_gmv.b_target_finish,
     cnt_silent_shop,
@@ -167,8 +168,8 @@ from
   --  '分类01：低端，超低端尿不湿,洗衣液,纸巾（BD和大BD通用）\；分类02：营养品,辅食,服纺，婴童洗护 （BD和大BD通用）\；分类03：奶粉（BD和大BD通用）\；分类04：其他（BD和大BD通用）\;
   --分类05：低端，超低端尿不湿,洗衣液,纸巾（大BD专供，BD不计提成）\；分类06：营养品,辅食,服纺，婴童洗护（大BD专供，BD不计提成）\；分类07：奶粉（大BD专供，BD不计提成）\；分类08：其他（大BD专供，BD不计提成）\;' as class_number_info,
       --20200724
-  	case when is_split='BD' then '分类01：低端和超低端尿不湿，洗衣液，干湿纸巾，BuffX品牌（元） \；分类02：营养品，用品玩具，服纺，洗护（元）\；分类03奶粉及面包/蛋糕(元)\；分类04：中端和高端尿不湿，辅食，其他品类(元) \；分类05：纽瑞优系列(元)；'
-  	     when is_split='大BD' then '分类01：低端和超低端尿不湿，洗衣液，干湿纸巾，BuffX品牌（通用品）（元）\；分类02：营养品，用品玩具，服纺，洗护（通用品）\；分类03奶粉及面包/蛋糕(元)（通用品）\；分类04：中端和高端尿不湿，辅食，其他品类（通用品）\；分类05：低端和超低端尿不湿，洗衣液，干湿纸巾（大BD专供品）\；分类06：营养品，用品玩具，服纺，洗护 （大BD专供品）\；分类07：奶粉及面包/蛋糕(元)（大BD专供品）\；分类08：中端和高端尿不湿，辅食，其他品类（大BD专供品）\；分类09：纽瑞优系列(元）'
+  	case when is_split='BD' then  '分类01：低端和超低端尿不湿，洗衣液，干湿纸巾，BuffX品牌（通用品）（元）\；分类02：营养品，用品玩具，服纺，洗护（通用品）\；分类03奶粉及面包/蛋糕(元)（通用品）\；分类04：中端和高端尿不湿，辅食，其他品类（通用品）\；分类09：纽瑞优系列，佑伉力（元）'
+         when is_split='大BD' then  '分类01：低端和超低端尿不湿，洗衣液，干湿纸巾，BuffX品牌（通用品）（元）\；分类02：营养品，用品玩具，服纺，洗护（通用品）\；分类03奶粉及面包/蛋糕(元)（通用品）\；分类04：中端和高端尿不湿，辅食，其他品类（通用品）\；分类05：低端和超低端尿不湿，洗衣液，干湿纸巾（大BD专供品）\；分类06：营养品，用品玩具，服纺，洗护 （大BD专供品）\；分类07：奶粉及面包/蛋糕(元)（大BD专供品）\；分类08：中端和高端尿不湿，辅食，其他品类（大BD专供品）\；分类09：纽瑞优系列，佑伉力（元）'
          else '' end
     as class_number_info,
     kn_pure_gmv.pickup_card_coefficient_summary,--提货卡充值系数总和
@@ -241,7 +242,7 @@ from
     ) user_info on user_info.user_id=sales.service_user_id
     --销售是否拆分，是否有系数
     left join
-    (select user_name,is_split,is_coefficient from dwd_salary_user_d where dayid='$v_date') salary_user
+    (select user_name,is_split,is_coefficient from ads_salary_base_user_d where dayid='$v_date') salary_user
     on salary_user.user_name=user_info.user_real_name
   )salary_users
   left join
@@ -351,10 +352,8 @@ from
   (
     select
       sales_user_name as user_name,coefficient
-    from dwd_salary_sales_coefficient_d
-    where dayid ='$v_cur_month'
-          and data_month ='$v_op_month'  --当月
-          and is_valid=1 --有效系数
+    from ads_salary_base_sales_coefficient_d
+    where dayid ='$v_date'
   	group by sales_user_name,coefficient
   ) sales_coefficient on sales_coefficient.user_name=salary_users.service_user_name
   left join
