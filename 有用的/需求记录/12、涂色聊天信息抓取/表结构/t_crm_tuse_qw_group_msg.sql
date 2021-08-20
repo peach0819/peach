@@ -14,6 +14,8 @@ CREATE TABLE `t_crm_tuse_qw_group_msg` (
   `tuse_msg_content` text NOT NULL COMMENT '涂色微信消息内容',
   `tuse_meta_msg_content` text NOT NULL COMMENT '涂色微信消息原内容',
   `tuse_msg_time` datetime NOT NULL COMMENT '涂色消息时间',
+  `from_chat_id` bigint(10) COMMENT '消息发送者crm系统chat_id',
+  `group_member` text COMMENT '群成员chat_id列表',
   PRIMARY KEY (`id`),
   KEY `idx_callback_id` (`callback_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COMMENT='涂色群聊消息';
