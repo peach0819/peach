@@ -1,0 +1,43 @@
+{
+  "businessId": "",
+  "clusterType": null,
+  "consumer": "",
+  "data": {
+    "toWxId": "773561A244FEB47C804BCDE19D76A48A",
+    "vcChatRoomId": "08B90FFDE0B56455B7707ED42DC58CF6",
+    "fromWxId": "02B3325C7724E70B5E833413AE78123D",
+    "msgId": "323641509990017601",
+    "msgInfo": {
+      "fileName": null,
+      "nMsgNum": -1,
+      "nSortId": 1629437582853,
+      "vcHref": "",
+      "downloadFileSerNo": "",
+      "dtMsgTime": 1629437580000,
+      "vcTitle": "",
+      "vcRelaSerialNo": "",
+      "nPlatformMsgType": 10,
+      "vcDesc": "",
+      "nVoiceTime": 0,
+      "msgContent": "@杯具熊大叔?    2000",
+      "nIsHit": "1",
+      "fileSize": null,
+      "atInGroup": null,
+      "nMsgType": 2001
+    },
+    "vcChatRoomSerialNo": "08B90FFDE0B56455B7707ED42DC58CF6"
+  },
+  "merchantId": "1406811688129855488",
+  "nTimeStamp": null,
+  "optSerNo": "20210820133303081810112327147",
+  "optUserId": "",
+  "originalParams": "",
+  "pushTime": null,
+  "resultCode": 1,
+  "resultMsg": "SUCCESS",
+  "serverName": "neighbour-message",
+  "type": 5151,
+  "vcMerchantNo": "202107210035515",
+  "version": "",
+  "wxId": "25047E68E621CF2EF742C9A6CBE45F3F"
+}

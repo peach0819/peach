@@ -1,0 +1,23 @@
+{
+  "businessId": "",
+  "clusterType": null,
+  "consumer": "",
+  "data": {
+    "base64_name": "",
+    "name": "",
+    "contact_serial_no": "A5B141E0492C867A34AF2A21D56513455194F219CF554649F1C4F9C615435A82"
+  },
+  "merchantId": "",
+  "nTimeStamp": null,
+  "optSerNo": "60fa5c0f0a4b490483f0b949bb866213",
+  "optUserId": "",
+  "originalParams": "",
+  "pushTime": null,
+  "resultCode": 1,
+  "resultMsg": "好友已经将你删除，你已经不在对方的通讯录中，如须重新添加好友,请调用’机器人被删重新发起好友申请‘接口",
+  "serverName": "neighbour-message",
+  "type": 703105,
+  "vcMerchantNo": "202004240382704",
+  "version": "",
+  "wxId": "58F6ED5EA9877EDAFC6321A94955ACBE5194F219CF554649F1C4F9C615435A82"
+}

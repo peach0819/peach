@@ -1,0 +1,43 @@
+{
+  "businessId": "",
+  "clusterType": null,
+  "consumer": "",
+  "data": {
+    "toWxId": "7A72FD71E964C18B56A451D5B93863CA5194F219CF554649F1C4F9C615435A82",
+    "fromWxId": "55AF869009C2D041757B431C954FBC6A5194F219CF554649F1C4F9C615435A82",
+    "msgId": "1048602",
+    "msgInfo": {
+      "fileName": "f61d0a0b48a94fd0960d603836d4b7d7.jpg",
+      "nMaxTimeValue": null,
+      "nMsgNum": null,
+      "nSortId": null,
+      "vcHref": null,
+      "downloadFileSerNo": "1dcdf2e76cb74d3abcf2239a06e466f0",
+      "dtMsgTime": 1629426846000,
+      "vcTitle": null,
+      "vcRelaSerialNo": null,
+      "nPlatformMsgType": 10,
+      "nMinTimeValue": null,
+      "vcDesc": null,
+      "nVoiceTime": 0,
+      "msgContent": "https://oss.bilinl.com/files/2021/08/20/85460661851955201ef67f50aa.jpg",
+      "nIsHit": null,
+      "fileSize": 188316,
+      "atInGroup": null,
+      "nMsgType": 2002
+    }
+  },
+  "merchantId": "1406811688129855488",
+  "nTimeStamp": null,
+  "optSerNo": "20210820103407530810110141324",
+  "optUserId": "",
+  "originalParams": "",
+  "pushTime": null,
+  "resultCode": 1,
+  "resultMsg": "SUCCESS",
+  "serverName": "neighbour-message",
+  "type": 905050,
+  "vcMerchantNo": "202004240382704",
+  "version": "",
+  "wxId": "55AF869009C2D041757B431C954FBC6A5194F219CF554649F1C4F9C615435A82"
+}

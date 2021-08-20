@@ -1,0 +1,43 @@
+{
+  "businessId": "",
+  "clusterType": null,
+  "consumer": "",
+  "data": {
+    "toWxId": "73114B99034205A956674793AE846DA05194F219CF554649F1C4F9C615435A82",
+    "fromWxId": "7B69A78DC3C46FB88B61F22CE88F2A695194F219CF554649F1C4F9C615435A82",
+    "msgId": "1003108",
+    "msgInfo": {
+      "fileName": null,
+      "nMaxTimeValue": null,
+      "nMsgNum": null,
+      "nSortId": null,
+      "vcHref": null,
+      "downloadFileSerNo": "",
+      "dtMsgTime": 1629382289000,
+      "vcTitle": null,
+      "vcRelaSerialNo": null,
+      "nPlatformMsgType": 10,
+      "nMinTimeValue": null,
+      "vcDesc": null,
+      "nVoiceTime": 0,
+      "msgContent": "5oKo5aW977yM5rW35ouN5a6i57q/5LiK5a6i5oi357uP55CG5Li65oKo5pyN5Yqh",
+      "nIsHit": null,
+      "fileSize": null,
+      "atInGroup": null,
+      "nMsgType": 2001
+    }
+  },
+  "merchantId": "1406811688129855488",
+  "nTimeStamp": null,
+  "optSerNo": "",
+  "optUserId": "",
+  "originalParams": "",
+  "pushTime": null,
+  "resultCode": 1,
+  "resultMsg": "SUCCESS",
+  "serverName": "neighbour-message",
+  "type": 905250,
+  "vcMerchantNo": "202004240382704",
+  "version": "",
+  "wxId": "7B69A78DC3C46FB88B61F22CE88F2A695194F219CF554649F1C4F9C615435A82"
+}

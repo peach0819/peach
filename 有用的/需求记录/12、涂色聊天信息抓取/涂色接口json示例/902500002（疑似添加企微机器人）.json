@@ -1,0 +1,31 @@
+{
+  "businessId": "",
+  "clusterType": null,
+  "consumer": "",
+  "data": {
+    "robot_range": 2,
+    "account_id": "qiang.sun7158",
+    "rela_serial_no": "1428524330642878464,",
+    "gender": 1,
+    "profile_photo": "https://wework.qpic.cn/wwhead/duc2TvpEgSQO4BpE0WZSZ25FyuyGA1fWs51ibk91H8y2hliaIheM4ZMyAyRD4NaiaS7Qr2Mj2pUKwE/0",
+    "robot_serial_no": "373355402392A23001ED079FD0430E9B5194F219CF554649F1C4F9C615435A82",
+    "name": "孙强7158",
+    "real_name": "孙强",
+    "company": "海拍客",
+    "is_verified": true,
+    "corp_id": "1970325119057396"
+  },
+  "merchantId": "1406811688129855488",
+  "nTimeStamp": null,
+  "optSerNo": "20210820090835813110110086098",
+  "optUserId": "",
+  "originalParams": "",
+  "pushTime": null,
+  "resultCode": 1,
+  "resultMsg": "SUCCESS",
+  "serverName": "neighbour-message",
+  "type": 902500002,
+  "vcMerchantNo": "",
+  "version": "",
+  "wxId": "373355402392A23001ED079FD0430E9B5194F219CF554649F1C4F9C615435A82"
+}

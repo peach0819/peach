@@ -1,0 +1,27 @@
+{
+  "businessId": "",
+  "clusterType": null,
+  "consumer": "",
+  "data": {
+    "add_by": 5,
+    "base64_name": "5LiH56eR5a6d5a6d5LmL5a625q+N5am055Sf5rS76aaG",
+    "profile_photo": "http://wx.qlogo.cn/mmhead/cyGvkxJZQ8NjhLySNMpUwul58Ntns8gyhaAgVa9lOQ8/0",
+    "gender": 2,
+    "name": "万科宝宝之家母婴生活馆",
+    "add_time": "2021-08-20 10:33:47.000",
+    "contact_serial_no": "79AD6BAAACDD2C1E81369A5FAF24746B5194F219CF554649F1C4F9C615435A82"
+  },
+  "merchantId": "1406811688129855488",
+  "nTimeStamp": null,
+  "optSerNo": "",
+  "optUserId": "",
+  "originalParams": "",
+  "pushTime": null,
+  "resultCode": 1,
+  "resultMsg": "SUCCESS",
+  "serverName": "neighbour-message",
+  "type": 902200004,
+  "vcMerchantNo": "",
+  "version": "",
+  "wxId": "D904C04947534C70A9B7F4C39F49335C5194F219CF554649F1C4F9C615435A82"
+}
