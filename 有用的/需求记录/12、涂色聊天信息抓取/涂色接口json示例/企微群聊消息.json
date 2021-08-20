@@ -1,0 +1,25 @@
+{
+  "businessId": "",
+  "data": {
+    "sender_serial_no": "69389F8441776C76F15D9C2AE54C18D05194F219CF554649F1C4F9C615435A82",
+    "group_serial_no": "F123BF62007A10698955D9528ABAF1283708F569D4A9F3DB070BD8014AF615F7",
+    "file_serial_no": "15bad18ccb1942a19421d52d9f2dff2f",
+    "nIsHit": "1",
+    "at_list": "",
+    "msg_type": 2002,
+    "msg_time": "2021-01-11 11:54:49.000",
+    "msg_id": "2505172",
+    "receiver_serial_no": "F123BF62007A10698955D9528ABAF1283708F569D4A9F3DB070BD8014AF615F7",
+    "voice_time": 0
+  },
+  "merchantId": "",
+  "nTimeStamp": 1605675593821,
+  "optSerNo": "",
+  "optUserId": "",
+  "originalParams": "",
+  "resultCode": 1,
+  "resultMsg": "SUCCESS",
+  "serverName": "neighbour-message",
+  "type": 400006,
+  "wxId": "C7B8578E04B1B7F80FEB3675CD16C075"
+}
