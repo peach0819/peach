@@ -1,0 +1,43 @@
+{
+  "businessId": "",
+  "clusterType": null,
+  "consumer": "",
+  "data": {
+    "toWxId": "",
+    "vcChatRoomId": "0986BAD5DF465B001554187AEA38BE68",
+    "fromWxId": "7F7B2054A36CA92599D58597D458976B",
+    "msgId": "7725148910010489327",
+    "msgInfo": {
+      "fileName": "yf4884719037943335424.jpg",
+      "nMsgNum": -1,
+      "nSortId": 1629356089309,
+      "vcHref": "",
+      "downloadFileSerNo": "202108191454495305101129622242002",
+      "dtMsgTime": 1629356088000,
+      "vcTitle": "",
+      "vcRelaSerialNo": "",
+      "nPlatformMsgType": 10,
+      "vcDesc": "",
+      "nVoiceTime": 0,
+      "msgContent": "https://oss.bilinl.com/files/2021/08/19/8249074757713920f3382c0df8.jpg",
+      "nIsHit": "1",
+      "fileSize": 860677,
+      "atInGroup": null,
+      "nMsgType": 2002
+    },
+    "vcChatRoomSerialNo": "0986BAD5DF465B001554187AEA38BE68"
+  },
+  "merchantId": "1406811688129855488",
+  "nTimeStamp": null,
+  "optSerNo": "202108191454495305101129622242002",
+  "optUserId": "",
+  "originalParams": "",
+  "pushTime": null,
+  "resultCode": 1,
+  "resultMsg": "SUCCESS",
+  "serverName": "neighbour-message",
+  "type": 5151,
+  "vcMerchantNo": "202107210035515",
+  "version": "",
+  "wxId": "BAAACA60EA3C5704DA9CD1306D142D3F"
+}
