@@ -1,0 +1,33 @@
+{
+  "businessId": "",
+  "clusterType": null,
+  "consumer": "",
+  "data": {
+    "group_serial_no": "C376E7E9500835374FCDBC59DC65FDA97037E7820F33559A2B90F6C2A36DBAC6",
+    "userList": [
+      {
+        "joinTime": 1629698494000,
+        "type": 2,
+        "innerAppUnionid": "ovEe-w-aP9ExQvnFfcQ1HwLgCp2w",
+        "userId": "wm9D3QEAAA7m6ge8m4uRAVpGF8pnoygQ"
+      }
+    ],
+    "chatId": "wr9D3QEAAApEr2PHwy3HOX2iyqVC2-9A",
+    "officialCorpId": "wxa41a4011c366e488",
+    "dataUpdateTime": 1629698497269,
+    "pushType": 2
+  },
+  "merchantId": "",
+  "nTimeStamp": 1629698497269,
+  "optSerNo": "",
+  "optUserId": "",
+  "originalParams": "",
+  "pushTime": null,
+  "resultCode": 1,
+  "resultMsg": "企微官方客户群回调01",
+  "serverName": "neighbour-message",
+  "type": 800003,
+  "vcMerchantNo": "",
+  "version": "",
+  "wxId": ""
+}
