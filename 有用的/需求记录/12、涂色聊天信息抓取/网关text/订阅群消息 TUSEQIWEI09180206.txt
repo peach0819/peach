@@ -1,4 +1,5 @@
 ## 涂色企微-订阅群聊消息
+#set($token=$!m.g("token"))
 #set($itemIds=$!m.g("itemIds"))##
 #set($subTypes=$!m.g("subTypes"))##
 #set($identity=$!m.g("identity"))##
