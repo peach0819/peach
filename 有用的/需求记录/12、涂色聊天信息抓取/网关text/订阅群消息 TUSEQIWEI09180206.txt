@@ -1,0 +1,13 @@
+## 涂色企微-订阅群聊消息
+#set($itemIds=$!m.g("itemIds"))##
+#set($subTypes=$!m.g("subTypes"))##
+#set($identity=$!m.g("identity"))##
+#set($paramJson="{""itemIds"":${itemIds}")
+#if($stringUtil.isNotBlank($subTypes))
+#set($paramJson=$paramJson+",""subTypes"":${subTypes}")
+#end
+#if($stringUtil.isNotBlank($identity))
+#set($paramJson=$paramJson+",""identity"":""${subTypes}""")
+#end
+#set($paramJson=$paramJson+"}")
+$paramJson

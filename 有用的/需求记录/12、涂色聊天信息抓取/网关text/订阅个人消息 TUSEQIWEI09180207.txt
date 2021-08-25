@@ -1,0 +1,11 @@
+## 涂色企微-订阅个人消息
+#set($itemIds="itemIds")##
+#set($subTypes="subTypes")##
+#set($identity="identity")##
+{
+    "itemIds": [
+        "测试"
+    ],
+    "subTypes": "",
+    "identity": ""
+}

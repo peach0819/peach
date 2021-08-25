@@ -1,0 +1,11 @@
+## 涂色企微-涂色-获取群列表
+#set($token=$!m.g("token"))
+#set($groupType=$!m.g("groupType"))##
+#set($page=$!m.g("page"))##
+#set($limit=$!m.g("limit"))##
+#set($paramJson="{""page"":${page},""limit"":${limit}")
+#if($stringUtil.isNotBlank($groupType))
+#set($paramJson=$paramJson+",""groupType"":""${groupType}""")
+#end
+#set($paramJson=$paramJson+"}")
+$paramJson
