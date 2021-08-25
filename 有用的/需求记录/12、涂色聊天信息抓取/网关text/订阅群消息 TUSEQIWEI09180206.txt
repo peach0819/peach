@@ -12,3 +12,15 @@
 #end
 #set($paramJson=$paramJson+"}")
 $paramJson
+
+--测试请求体：
+<?xml version="1.0" encoding="UTF-8"?>
+<M name="message">
+             <F name="itemIds">["08C0DA54C501EF0668E3FF78ACC934586CB77981F72E7003FD5FDB76BADF8AAD"]</F>
+             <F name="subTypes">""</F>
+             <F name="$identity">""</F>
+             <F name="token">5a1f2785-9323-4a9b-b5e5-82a9eb06fb88</F>
+</M>
+
+--交易ID:
+TUSEQIWEI09180206
