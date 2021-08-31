@@ -39,7 +39,7 @@ select * from
     )summary
     left JOIN
     (select user_id,count(DISTINCT shop_id) as cnt from yt_ustone.t_shop_pool_server where is_enabled=1 group by user_id)knShop on knShop.user_id= summary.user_id
-    group by user_real_name
+    group by user_real_name,user_id
 )tmp
 order by `电销组名` desc,`电销姓名` desc;
 
