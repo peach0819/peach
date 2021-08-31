@@ -3,4 +3,4 @@ SELECT count(DISTINCT shop_id) as 当日打标门店数,
        date_format(version_time, '%Y-%m-%d')
 FROM t_crm_chat_tag_bind
 WHERE version_type = 1
-order by version_time;
+order by date_format(version_time, '%Y-%m-%d');
