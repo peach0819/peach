@@ -1,0 +1,12 @@
+
+
+gmv
+新签商品
+新签品牌
+3类方案
+
+数据链路
+dw_order_d -> dw_salary_gmv_rule_public_mid_v2_d（gmv中间表）
+           -> dw_salary_sign_rule_public_mid_v2_d（新签中间表，包含新签品牌、商品数据）
+
+hirac手动重跑调度即可
