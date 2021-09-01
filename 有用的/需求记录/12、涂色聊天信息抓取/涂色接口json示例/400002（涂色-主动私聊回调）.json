@@ -1,0 +1,24 @@
+{
+  "businessId": "",
+  "clusterType": null,
+  "consumer": "",
+  "data": {
+    "msg_num": 1,
+    "rela_serial_no": "1432281044020166656,",
+    "msg_id": "2016869",
+    "contact_serial_no": "BDF987F2146FB5566AE2406C38FB4B995194F219CF554649F1C4F9C615435A82"
+  },
+  "merchantId": "1406811688129855488",
+  "nTimeStamp": null,
+  "optSerNo": "20210830175626068810111914794",
+  "optUserId": "1406811688129855488",
+  "originalParams": "{\"interfaceDesc\":\"\",\"merchant_no\":\"202004240382704\",\"authEnv\":\"0\",\"data\":[{\"msg_num\":1,\"msg_content\":\"涂色接口测试\",\"msg_type\":2001,\"href\":\"\",\"title\":\"\",\"desc\":\"\"}],\"methodUri\":\"https://merchant.wapi.tusepaas.com:8091/wxscrm/Message/SendMessagesToMyCustomer\",\"rela_serial_no\":\"1432281044020166656,\",\"robot_serial_no\":\"5FB409C4A4FA707E762CBEA7509F1FD45194F219CF554649F1C4F9C615435A82\",\"interfaceName\":\"【异步调用】机器人私聊发消息给我的客户接口\",\"contact_serial_no\":\"BDF987F2146FB5566AE2406C38FB4B995194F219CF554649F1C4F9C615435A82\",\"token\":\"147c24ae-82a7-4c13-9197-bd843f841864\"}",
+  "pushTime": null,
+  "resultCode": 1,
+  "resultMsg": "SUCCESS",
+  "serverName": "neighbour-message",
+  "type": 400002,
+  "vcMerchantNo": "202004240382704",
+  "version": "",
+  "wxId": "5FB409C4A4FA707E762CBEA7509F1FD45194F219CF554649F1C4F9C615435A82"
+}

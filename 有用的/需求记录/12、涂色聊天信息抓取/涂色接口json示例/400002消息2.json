@@ -1,0 +1,55 @@
+[
+  {
+    "businessId": "",
+    "clusterType": null,
+    "consumer": "",
+    "data": {
+      "msg_num": 1,
+      "rela_serial_no": "1432943310378291200,",
+      "msg_id": "2017206",
+      "contact_serial_no": "580C31A549181D61F40B54EC12D776845194F219CF554649F1C4F9C615435A82"
+    },
+    "merchantId": "1406811688129855488",
+    "nTimeStamp": null,
+    "optSerNo": "20210901134802671810110465102",
+    "optUserId": "1406811688129855488",
+    "originalParams": "",
+    "pushTime": null,
+    "resultCode": 1,
+    "resultMsg": "SUCCESS",
+    "serverName": "neighbour-message",
+    "type": 400002,
+    "vcMerchantNo": "202004240382704",
+    "version": "",
+    "wxId": "5FB409C4A4FA707E762CBEA7509F1FD45194F219CF554649F1C4F9C615435A82"
+  },
+  {
+    "interfaceDesc": "",
+    "merchant_no": "202004240382704",
+    "authEnv": "0",
+    "data": [
+      {
+        "msg_num": 1,
+        "msg_content": "涂色接口测试",
+        "msg_type": 2001,
+        "href": "",
+        "title": "",
+        "desc": ""
+      },
+      {
+        "msg_num": 2,
+        "msg_content": "https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fgss0.baidu.com%2F9vo3dSag_xI4khGko9WTAnF6hhy%2Fzhidao%2Fpic%2Fitem%2F1e30e924b899a901552a94eb17950a7b0308f5d4.jpg&refer=http%3A%2F%2Fgss0.baidu.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=jpeg?sec=1632993084&t=a643c4ce6bd760d4e369bade38e51128",
+        "msg_type": 2002,
+        "href": "",
+        "title": "图片标题",
+        "desc": "图片测试"
+      }
+    ],
+    "methodUri": "https://merchant.wapi.tusepaas.com:8091/wxscrm/Message/SendMessagesToMyCustomer",
+    "rela_serial_no": "1432943310378291200,",
+    "robot_serial_no": "5FB409C4A4FA707E762CBEA7509F1FD45194F219CF554649F1C4F9C615435A82",
+    "interfaceName": "【异步调用】机器人私聊发消息给我的客户接口",
+    "contact_serial_no": "580C31A549181D61F40B54EC12D776845194F219CF554649F1C4F9C615435A82",
+    "token": "1325d397-907a-4753-bf7f-bc8fe7e279e2"
+  }
+]
