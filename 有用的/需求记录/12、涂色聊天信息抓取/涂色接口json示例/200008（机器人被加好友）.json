@@ -1,0 +1,27 @@
+{
+  "businessId": "",
+  "clusterType": null,
+  "consumer": "",
+  "data": {
+    "base64_alias": "",
+    "base64_name": "5a6d5aaI5pe25YWJ44CC6L+b5Y+j5q+N5am0772e5p2O5p6X5aif",
+    "gender": 2,
+    "profile_photo": "http://wx.qlogo.cn/mmhead/ps68icnpRvDVdPSkpaCsbpsf2jdgP1om6lAu0EVtBp55wauADU9A7ow/0",
+    "name": "宝妈时光。进口母婴～李林娟",
+    "alias": "",
+    "contact_serial_no": "8D007E03C3B1AD1DF74045B9A8A0206E5194F219CF554649F1C4F9C615435A82"
+  },
+  "merchantId": "1406811688129855488",
+  "nTimeStamp": null,
+  "optSerNo": "",
+  "optUserId": "",
+  "originalParams": "",
+  "pushTime": null,
+  "resultCode": 1,
+  "resultMsg": "SUCCESS",
+  "serverName": "neighbour-message",
+  "type": 200008,
+  "vcMerchantNo": "202004240382704",
+  "version": "",
+  "wxId": "A794D5E03D7AEC89223B38FB7703DED45194F219CF554649F1C4F9C615435A82"
+}
