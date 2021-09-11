@@ -3,3 +3,7 @@
 Token: Ga7BxFFuRXSFQPa9FJ6KVAOqi
 EncodingAESKey: Mc54Ny5OO46KIV8ELnqiQGr8llTjsgz9yZ3XqID1SVy
 corpId: wxa41a4011c366e488
+
+网关消息
+topic: yangtuo-gateway-common-test
+tag: qwNotifyResult
