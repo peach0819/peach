@@ -1,0 +1,36 @@
+{
+  "tuseId": "DFD66B665D6A8F58CFC24B8A22D0724A5194F219CF554649F1C4F9C615435A82",
+  "tuseFreId": "580C31A549181D61F40B54EC12D776845194F219CF554649F1C4F9C615435A82",
+  "msgList": [
+    {
+      "maxTimeValue": "",
+      "minTimeValue": "",
+      "msgContent": "涂色接口测试",
+      "msgNum": 1,
+      "msgType": "2001",
+      "vcDesc": "",
+      "vcHref": "",
+      "vcTitle": ""
+    },
+    {
+      "maxTimeValue": "",
+      "minTimeValue": "",
+      "msgContent": "https://yangtuo.oss-cn-hangzhou.aliyuncs.com/crmPc/file/202109/15102238961WslgD1bn.mp4",
+      "msgNum": 2,
+      "msgType": "2004",
+      "vcDesc": "",
+      "vcHref": "",
+      "vcTitle": "分享的视频.mp4"
+    },
+    {
+      "maxTimeValue": "",
+      "minTimeValue": "",
+      "msgContent": "",
+      "msgNum": 3,
+      "msgType": "2010",
+      "vcDesc": "",
+      "vcHref": "https://image.baidu.com/search/down?tn=download&word=download&ie=utf8&fr=detail&url=https%3A%2F%2Fgimg2.baidu.com%2Fimage_search%2Fsrc%3Dhttp%253A%252F%252Fb-ssl.duitang.com%252Fuploads%252Fitem%252F201806%252F15%252F20180615215737_iyrjh.jpeg%26refer%3Dhttp%253A%252F%252Fb-ssl.duitang.com%26app%3D2002%26size%3Df9999%2C10000%26q%3Da80%26n%3D0%26g%3D0n%26fmt%3Djpeg%3Fsec%3D1633764978%26t%3Dbdf914d1dc4385c2c85b8a9ed9b35cf3&thumburl=https%3A%2F%2Fimg1.baidu.com%2Fit%2Fu%3D2581627158%2C2908622420%26fm%3D26%26fmt%3Dauto%26gp%3D0.jpg",
+      "vcTitle": "文件标题.jpg"
+    }
+  ]
+}

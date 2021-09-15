@@ -1,0 +1,25 @@
+{
+  "businessId": "",
+  "clusterType": null,
+  "consumer": "",
+  "data": {
+    "rela_serial_no": "1437971080026775552,",
+    "msg_num": 1,
+    "msg_id": "",
+    "state_change": false,
+    "contact_serial_no": "580C31A549181D61F40B54EC12D776845194F219CF554649F1C4F9C615435A82"
+  },
+  "merchantId": "1406811688129855488",
+  "nTimeStamp": null,
+  "optSerNo": "20210915104636377510110169137",
+  "optUserId": "1406811688129855488",
+  "originalParams": "{\"interfaceDesc\":\"\",\"merchant_no\":null,\"authEnv\":\"0\",\"data\":[{\"msg_num\":1,\"msg_content\":\"\",\"msg_type\":2004,\"href\":\"https://static.hipac.cn/crmPc/file/202109/15102238961WslgD1bn.mp4\",\"title\":\"分享的视频.mp4\",\"desc\":\"\"}],\"methodUri\":null,\"rela_serial_no\":\"1437971080026775552,\",\"robot_serial_no\":\"DFD66B665D6A8F58CFC24B8A22D0724A5194F219CF554649F1C4F9C615435A82\",\"interfaceName\":\"【异步调用】机器人私聊发消息给我的客户接口\",\"contact_serial_no\":\"580C31A549181D61F40B54EC12D776845194F219CF554649F1C4F9C615435A82\",\"token\":null}",
+  "pushTime": null,
+  "resultCode": 0,
+  "resultMsg": "错误的下载地址",
+  "serverName": "neighbour-message",
+  "type": 400002,
+  "vcMerchantNo": "202004240382704",
+  "version": "",
+  "wxId": "DFD66B665D6A8F58CFC24B8A22D0724A5194F219CF554649F1C4F9C615435A82"
+}
