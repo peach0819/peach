@@ -15,6 +15,7 @@ CREATE TABLE `t_touch_task_detail` (
   `shop_chat_id` bigint(32) DEFAULT NULL COMMENT '门店企微/微信id',
   `content_type` tinyint(4) DEFAULT NULL COMMENT '发送内容类型 1、文本，2、图片-自动抓取主图，3、图片-上传单图，4、文件，5、视频',
   `content` text NOT NULL COMMENT '发送内容',
+  `pkl` varchar(200) DEFAULT NULL COMMENT '拍口令',
   `file_name` varchar(200) COMMENT '文件名',
   `fail_type` tinyint(4) DEFAULT NULL COMMENT '失败类型，根据失败内容，映射成对应的type，页面展示默认用这个类型对应的描述覆盖失败原因',
   `fail_reason` varchar(1000) DEFAULT NULL COMMENT '失败原因，保存涂色元信息',
