@@ -30,5 +30,6 @@ CREATE TABLE `t_touch_task_detail` (
   KEY `idx_task_id_admin_chat_id` (`task_id`,`admin_chat_id`),
   KEY `idx_admin_chat_id` (`admin_chat_id`),
   KEY `idx_tuse_opt_ser_no` (`tuse_opt_ser_no`),
-  KEY `idx_batch_id` (`batch_id`)
+  KEY `idx_batch_id` (`batch_id`),
+  KEY `idx_detail_status_fail_type` (`detail_status`,`fail_type`)
 ) ENGINE=InnoDB AUTO_INCREMENT=586214 DEFAULT CHARSET=utf8mb4 COMMENT='触达任务明细'
