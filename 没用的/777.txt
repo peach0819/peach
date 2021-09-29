@@ -1,8 +1,1 @@
-
-
-
-
-
-
-
-标签1，标签2
+-Xms5g -Xmx5g -XX:NewSize=3g -XX:MaxNewSize=3g -XX:MaxMetaspaceSize=512M -XX:MetaspaceSize=512M -XX:+UseConcMarkSweepGC -XX:MaxGCPauseMillis=100 -XX:+ParallelRefProcEnabled -XX:ErrorFile=/alidata/log/hs_err_pid%p.log -Xloggc:/alidata/log/gc.log -XX:HeapDumpPath=/alidata/log -XX:+PrintGCDetails -XX:+PrintGCDateStamps -XX:+HeapDumpOnOutOfMemoryError -XX:+PrintClassHistogramBeforeFullGC -XX:+PrintClassHistogramAfterFullGC -XX:+PrintGCApplicationStoppedTime -XX:+PrintHeapAtGC -XX:+UseCMSInitiatingOccupancyOnly -XX:CMSInitiatingOccupancyFraction=75
