@@ -127,12 +127,19 @@ hi_pickup as (
                template.hi_card_type,
                row_number() over(partition by serial.out_biz_id order by serial.card_fund_serial_id desc) as rn --最近的模板id
         from (
+            select trade_id
+            from ods_pt_trade_shop_d
+            where dayid='$v_date'
+              and is_deleted=0
+              and trade_type=1  --卡票券充值
+        ) trade
+        inner join (
             select out_biz_id,
                    template_card_id,
                    card_fund_serial_id
             from ods_t_card_fund_serial_details_d
             where dayid='$v_date'
-        ) serial
+        ) serial ON serial.out_biz_id = trade.trade_id
         inner join (
             select id,
                    hi_card_type
