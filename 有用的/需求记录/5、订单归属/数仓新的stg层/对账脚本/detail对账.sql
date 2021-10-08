@@ -54,8 +54,6 @@ SELECT
        CASE WHEN old_detail.sp_operator_id != new_detail.sp_operator_id THEN new_detail.sp_operator_id ELSE null end as sp_operator_id2,
        CASE WHEN old_detail.shop_pool_server_group_id != new_detail.shop_pool_server_group_id THEN old_detail.shop_pool_server_group_id ELSE null end as shop_pool_server_group_id1,
        CASE WHEN old_detail.shop_pool_server_group_id != new_detail.shop_pool_server_group_id THEN new_detail.shop_pool_server_group_id ELSE null end as shop_pool_server_group_id2,
-       CASE WHEN old_detail.shop_pool_server_user_id != new_detail.shop_pool_server_user_id THEN old_detail.shop_pool_server_user_id ELSE null end as shop_pool_server_user_id1,
-       CASE WHEN old_detail.shop_pool_server_user_id != new_detail.shop_pool_server_user_id THEN new_detail.shop_pool_server_user_id ELSE null end as shop_pool_server_user_id2,
        CASE WHEN old_detail.shop_group_id != new_detail.shop_group_id THEN old_detail.shop_group_id ELSE null end as shop_group_id1,
        CASE WHEN old_detail.shop_group_id != new_detail.shop_group_id THEN new_detail.shop_group_id ELSE null end as shop_group_id2
 FROM new_detail
@@ -82,5 +80,4 @@ WHERE new_detail.trade_id != old_detail.trade_id
    OR new_detail.sp_name != old_detail.sp_name
    OR new_detail.sp_operator_id != old_detail.sp_operator_id
    OR new_detail.shop_pool_server_group_id != old_detail.shop_pool_server_group_id
-   OR new_detail.shop_pool_server_user_id != old_detail.shop_pool_server_user_id
    OR new_detail.shop_group_id != old_detail.shop_group_id
