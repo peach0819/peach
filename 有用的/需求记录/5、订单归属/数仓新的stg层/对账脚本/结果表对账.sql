@@ -88,6 +88,5 @@ OR old_detail.sp_name != new_detail.sp_name
 OR old_detail.sp_operator_id != new_detail.sp_operator_id
 OR old_detail.shop_pool_server_group_id != new_detail.shop_pool_server_group_id
 OR old_detail.shop_group_id != new_detail.shop_group_id
-OR old_detail.knowledge_package_id != new_detail.knowledge_package_id
 OR old_detail.result_rule_id != new_detail.result_rule_id
 OR old_detail.result_user_id != new_detail.result_user_id

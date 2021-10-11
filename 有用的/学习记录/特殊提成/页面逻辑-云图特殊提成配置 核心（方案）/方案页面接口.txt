@@ -24,7 +24,7 @@ hipac.cloudatlas.bountyPlan.listByPage： BountyPlanApi.listByPage
 2、模板规则  -- 根据统计对象获取模板规则（存量GMV，新签商品，新签品牌）
     hipac.cloudatlas.bountyPlan.listRuleTypes
 {"payoutObjectId":1,"dev":"prod"}
-表：bounty_payout_object_rule 方案对象的模板规则表 payout_object_id -> bounty_rule_type(模板规则类型)  BountyRuleType枚举类
+表：bounty_payout_object_rule 方案对象的模板规则表 payout_object_id -> bounty_rule_type(模板规则类型)  BountyRuleType 枚举类
 
 3、业绩指标  -- 根据模板规则获取业绩指标（实货支付金额(去优惠券去退款)，实货GMV(去退款)）
     hipac.cloudatlas.bountyPlan.listIndicator

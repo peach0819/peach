@@ -1,0 +1,64 @@
+{
+  "name": "测试方案1011",
+  "month": "2021-10",
+  "payoutObjectId": 1,
+  "bountyRuleTypeId": 4,
+  "indicatorId": 1,
+  "ownerType": 1,
+  "payoutRuleTypeCode": 1,
+  "payoutRules": [
+    {
+      "ladderAmt": "1",
+      "payoutStuff": "1"
+    }
+  ],
+  "filters": [
+    {
+      "operator": "=",
+      "value": "[\"2021-10-01\",\"2021-10-31\"]",
+      "values": [
+        "2021-10-01",
+        "2021-10-31"
+      ],
+      "id": 1,
+      "title": "奖励计算时间"
+    },
+    {
+      "operator": "=",
+      "value": "\"A\"",
+      "values": [
+        "A"
+      ],
+      "id": 2,
+      "title": "AB类型"
+    },
+    {
+      "operator": "!=",
+      "value": "[{\"key\":\"33\",\"label\":\"贝因美\"}]",
+      "values": [
+        "33"
+      ],
+      "id": 8,
+      "title": "品牌名称"
+    },
+    {
+      "operator": "=",
+      "value": "[{\"key\":\"11112\",\"label\":\"金典港行奶粉\"}]",
+      "values": [
+        "11112"
+      ],
+      "id": 9,
+      "title": "商品名称"
+    },
+    {
+      "operator": "=",
+      "value": "{\"key\":\"5\",\"label\":\"美妆销售团队\"}",
+      "values": [
+        "5"
+      ],
+      "id": 16,
+      "title": "冻结销售团队标识"
+    }
+  ],
+  "dev": "master"
+}
