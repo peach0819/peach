@@ -1,5 +1,9 @@
-use ytdw;
+v_date=$1
 
+source ../sql_variable.sh $v_date
+
+apache-spark-sql -e "
+use ytdw;
 create table if not exists dw_bounty_plan_d
 (
     id                      bigint comment '',
@@ -28,7 +32,6 @@ create table if not exists dw_bounty_plan_d
 )
 comment '特殊提成方案加工表'
 partitioned by (dayid string)
-row format delimited fields terminated by '\001'
 stored as orc;
 
 WITH detail as (
@@ -57,7 +60,7 @@ WITH detail as (
            owner_type,
            get_json_object(filter_config, '$.id') as filter_id,
            get_json_object(filter_config, '$.operator') as filter_operator,
-           regexp_replace(regexp_replace(regexp_replace(get_json_object(filter_config, '$.values'),'\\[',''),'\\]',''),'\\"','') as filter_values
+           get_json_object(filter_config, '$.values') as filter_values
     FROM (
         SELECT *
         FROM dwd_bounty_plan_d
@@ -152,3 +155,4 @@ group by id,
          is_deleted,
          subject_id,
          owner_type;
+"
