@@ -24,7 +24,7 @@ WITH detail as (
            owner_type,
            get_json_object(filter_config, '$.id') as filter_id,
            get_json_object(filter_config, '$.operator') as filter_operator,
-           regexp_replace(regexp_replace(regexp_replace(get_json_object(filter_config, '$.values'),'\\[',''),'\\]',''),'\\"','') as filter_values
+           get_json_object(filter_config, '$.values') as filter_values
     FROM (
         SELECT *
         FROM dwd_bounty_plan_d
