@@ -64,7 +64,7 @@ WITH detail as (
     FROM (
         SELECT *
         FROM dwd_bounty_plan_d
-        lateral view explode(split(regexp_replace(substr(filter_config_json, 2, length(filter_config_json) - 2), '\},','\}\;'), '\;')) tmp as filter_config
+        lateral view explode(split(regexp_replace(substr(filter_config_json, 2, length(filter_config_json) - 2), '\\\}\\\,\\\{\\\"id','\\\}\\\;\\\{\\\"id'), '\;')) tmp as filter_config
         WHERE dayid = '$v_date'
     ) temp
 ),
