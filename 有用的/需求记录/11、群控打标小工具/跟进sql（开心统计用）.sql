@@ -5,6 +5,9 @@ SELECT shop.shop_id as 门店id,
        case when linker.linker_type = 1 then '常用联系人'
             when linker.linker_type is not null then '非常用联系人'
             else null end as 联系人是否常用,
+       case when knShop.id is not null then '库内门店'
+            when knShop.id is null and shop.shop_id is not null then '非库内门店'
+            else null end as 是否库内门店,
 
        customer.qw_external_user_id as 客户企微外部id,
        customer.name as 客户微信昵称,
@@ -39,20 +42,26 @@ LEFT JOIN yt_crm.t_crm_chat_bind linker_bind ON customer.id = linker_bind.chat_i
 LEFT JOIN yt_ustone.t_linker linker ON linker_bind.biz_id = linker.linker_id
 LEFT JOIN yt_ustone.t_shop shop ON linker.linker_obj_id = shop.shop_id
 
---标签面
+--库内面
+LEFT JOIN (
+    select user_id, shop_id, id
+    from yt_ustone.t_shop_pool_server
+    where is_enabled=1
+) knShop on knShop.user_id= phone.bind_user_id AND knShop.shop_id = shop.shop_id
 
+--标签面
 LEFT JOIN (
     SELECT distinct qw_user_id, qw_external_user_id
     FROM yt_crm.t_crm_chat_tag_bind
     WHERE version_type = 0
-    AND version = 83
+    AND version = 88
 ) total ON total.qw_user_id = xiaoer.qw_user_id AND total.qw_external_user_id = customer.qw_external_user_id
 
 LEFT JOIN (
     SELECT qw_user_id, qw_external_user_id, GROUP_CONCAT(tag_name) as tag
     FROM yt_crm.t_crm_chat_tag_bind
     WHERE version_type = 0
-    AND version = 83
+    AND version = 88
     AND group_name = '性别(单选)'
     group by qw_user_id, qw_external_user_id
 ) group1 ON group1.qw_user_id = total.qw_user_id AND group1.qw_external_user_id = total.qw_external_user_id
@@ -61,7 +70,7 @@ LEFT JOIN (
     SELECT qw_user_id, qw_external_user_id, GROUP_CONCAT(tag_name) as tag
     FROM yt_crm.t_crm_chat_tag_bind
     WHERE version_type = 0
-    AND version = 83
+    AND version = 88
     AND group_name = '代操作服务(单选)'
     group by qw_user_id, qw_external_user_id
 ) group2 ON group2.qw_user_id = total.qw_user_id AND group2.qw_external_user_id = total.qw_external_user_id
@@ -70,7 +79,7 @@ LEFT JOIN (
     SELECT qw_user_id, qw_external_user_id, GROUP_CONCAT(tag_name) as tag
     FROM yt_crm.t_crm_chat_tag_bind
     WHERE version_type = 0
-    AND version = 83
+    AND version = 88
     AND group_name = '对接人角色(单选)'
     group by qw_user_id, qw_external_user_id
 ) group3 ON group3.qw_user_id = total.qw_user_id AND group3.qw_external_user_id = total.qw_external_user_id
@@ -79,7 +88,7 @@ LEFT JOIN (
     SELECT qw_user_id, qw_external_user_id, GROUP_CONCAT(tag_name) as tag
     FROM yt_crm.t_crm_chat_tag_bind
     WHERE version_type = 0
-    AND version = 83
+    AND version = 88
     AND group_name = '开店形式(单选)'
     group by qw_user_id, qw_external_user_id
 ) group4 ON group4.qw_user_id = total.qw_user_id AND group4.qw_external_user_id = total.qw_external_user_id
@@ -88,7 +97,7 @@ LEFT JOIN (
     SELECT qw_user_id, qw_external_user_id, GROUP_CONCAT(tag_name) as tag
     FROM yt_crm.t_crm_chat_tag_bind
     WHERE version_type = 0
-    AND version = 83
+    AND version = 88
     AND group_name = '其他比价拿货平台(多选)'
     group by qw_user_id, qw_external_user_id
 ) group5 ON group5.qw_user_id = total.qw_user_id AND group5.qw_external_user_id = total.qw_external_user_id
@@ -97,7 +106,7 @@ LEFT JOIN (
     SELECT qw_user_id, qw_external_user_id, GROUP_CONCAT(tag_name) as tag
     FROM yt_crm.t_crm_chat_tag_bind
     WHERE version_type = 0
-    AND version = 83
+    AND version = 88
     AND group_name = '门店类型(多选)'
     group by qw_user_id, qw_external_user_id
 ) group6 ON group6.qw_user_id = total.qw_user_id AND group6.qw_external_user_id = total.qw_external_user_id
@@ -106,7 +115,7 @@ LEFT JOIN (
     SELECT qw_user_id, qw_external_user_id, GROUP_CONCAT(tag_name) as tag
     FROM yt_crm.t_crm_chat_tag_bind
     WHERE version_type = 0
-    AND version = 83
+    AND version = 88
     AND group_name = '门店提供的附加服务(多选)'
     group by qw_user_id, qw_external_user_id
 ) group7 ON group7.qw_user_id = total.qw_user_id AND group7.qw_external_user_id = total.qw_external_user_id
@@ -115,7 +124,7 @@ LEFT JOIN (
     SELECT qw_user_id, qw_external_user_id, GROUP_CONCAT(tag_name) as tag
     FROM yt_crm.t_crm_chat_tag_bind
     WHERE version_type = 0
-    AND version = 83
+    AND version = 88
     AND group_name = '门店线上销售渠道(多选)'
     group by qw_user_id, qw_external_user_id
 ) group8 ON group8.qw_user_id = total.qw_user_id AND group8.qw_external_user_id = total.qw_external_user_id
