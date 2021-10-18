@@ -9,7 +9,7 @@ new_detail as (
     WHERE dayid = '$v_date'
 )
 
-SELECT
+SELECT old_detail.order_id,
 CASE WHEN old_detail.trade_id != new_detail.trade_id THEN old_detail.trade_id ELSE NULL END as trade_id1,
 CASE WHEN old_detail.trade_id != new_detail.trade_id then new_detail.trade_id ELSE NULL END as trade_id2,
 CASE WHEN old_detail.trade_no != new_detail.trade_no THEN old_detail.trade_no ELSE NULL END as trade_no1,
