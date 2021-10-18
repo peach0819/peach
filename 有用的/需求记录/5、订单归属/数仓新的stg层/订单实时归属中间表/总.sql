@@ -104,15 +104,50 @@ pickup_item as (
     where hi_card_template.hi_card_type = 1 -- 取提货卡
 ),
 
+pickup_trade as (
+    select trade_id,
+           pickup_category_id_first,
+           pickup_category_id_second,
+           pickup_category_id_third
+    from
+        (
+            select out_biz_id as trade_id,
+                   firstpickupcategoryid as pickup_category_id_first,
+                   secondarypickupcategoryid as pickup_category_id_second,
+                   tertiarypickupcategoryid as pickup_category_id_third,
+                   row_number() over (partition by out_biz_id order by out_biz_id) as rn
+            from (
+                select trade_id
+                from dwd_trade_shop_d
+                where dayid='$v_date' and is_deleted=0 and trade_type=1  --卡票券充值
+            ) trade
+            inner join (
+                select out_biz_id,template_card_id
+                from dwd_card_fund_serial_details_d
+                where dayid='$v_date'
+            ) serial on serial.out_biz_id=trade.trade_id
+            inner join (
+                select id,
+                       get_json_object(hi_card_temp_ext,'$.firstPickupCategoryId') as firstpickupcategoryid,
+                       get_json_object(hi_card_temp_ext,'$.secondaryPickupCategoryId') as secondarypickupcategoryid,
+                       get_json_object(hi_card_temp_ext,'$.tertiaryPickupCategoryId') as tertiarypickupcategoryid
+                from dwd_hi_card_template_d
+                where dayid ='$v_date'
+                and hi_card_type=1 --0 hi卡 1 提货卡
+            ) template on serial.template_card_id=template.id
+        ) pickup_card
+    where rn=1
+),
+
 --商品维度
 item as (
     select item_base.id                                                                 as item_id,
            item_base.category_id_first                                                  as category_1st_id,
            item_base.category_id_second                                                 as category_2nd_id,
            item_base.category_id_third                                                  as category_3rd_id,
-           coalesce(pickup_item.pickup_category_id_first,item_base.category_id_first)   as performance_category_1st_id,
-           coalesce(pickup_item.pickup_category_id_second,item_base.category_id_second) as performance_category_2nd_id,
-           coalesce(pickup_item.pickup_category_id_third,item_base.category_id_third)   as performance_category_3rd_id,
+           pickup_item.pickup_category_id_first as pickup_category_id_first,
+           pickup_item.pickup_category_id_second as pickup_category_id_second,
+           pickup_item.pickup_category_id_third as pickup_category_id_third,
            item_base.item_style
     from item_base
     left join pickup_item on pickup_item.item_id = item_base.id
@@ -165,14 +200,15 @@ order_detail as (
            item.category_1st_id,
            item.category_2nd_id,
            item.category_3rd_id,
-           item.performance_category_1st_id,
-           item.performance_category_2nd_id,
-           item.performance_category_3rd_id,
+           coalesce(item.pickup_category_id_first, pickup_trade.pickup_category_id_first, item.category_1st_id) as performance_category_1st_id,
+           coalesce(item.pickup_category_id_second, pickup_trade.pickup_category_id_second, item.category_2nd_id) as performance_category_2nd_id,
+           coalesce(item.pickup_category_id_third, pickup_trade.pickup_category_id_third, item.category_3rd_id) as performance_category_3rd_id,
            item.item_style
     from order_shop
     left join trade_shop ON order_shop.trade_id = trade_shop.trade_id
     left join item on order_shop.item_id = item.item_id
     left join hi_pickup on hi_pickup.trade_id = order_shop.trade_id
+    left join pickup_trade ON pickup_trade.trade_id = order_shop.trade_id
 ),
 --------------------------------订单宽表拆解结束
 
