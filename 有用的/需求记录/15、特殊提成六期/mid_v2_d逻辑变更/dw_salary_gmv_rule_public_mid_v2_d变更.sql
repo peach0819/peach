@@ -1,5 +1,4 @@
 use ytdw;
-
 create table if not exists dw_salary_gmv_rule_public_mid_v2_d
 (
 business_unit  string   comment '业务域',
@@ -56,7 +55,6 @@ sale_team_freezed_id int comment '冻结销售团队标识ID',
 shop_group string comment '门店分组信息'
 ) comment 'gmv规则通用方案中间表'
 partitioned by (dayid string)
-row format delimited fields terminated by '\001'
 stored as orc;
 
 

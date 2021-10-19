@@ -1,4 +1,4 @@
-
+use ytdw;
 CREATE TABLE if not exists dw_salary_sign_rule_public_mid_v2_d(
   order_id string,
   trade_no string,
@@ -58,7 +58,6 @@ CREATE TABLE if not exists dw_salary_sign_rule_public_mid_v2_d(
   ) COMMENT 'sign规则通用方案中间表'
 PARTITIONED BY (
   dayid string)
-row format delimited fields terminated by '\001'
 stored as orc
 ;
 
@@ -240,4 +239,3 @@ from dw_shop_base_d where dayid ='$v_date'
 where
 --is_bigbd_shop='否' --剔除大BD门店订单
 spec_order.trade_no is null --过滤特殊订单
-
