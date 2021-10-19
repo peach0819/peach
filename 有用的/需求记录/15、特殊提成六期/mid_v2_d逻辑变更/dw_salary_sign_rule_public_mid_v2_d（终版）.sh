@@ -1,4 +1,9 @@
+v_date=$1
 
+source ../sql_variable.sh $v_date
+
+apache-spark-sql -e "
+use ytdw;
 CREATE TABLE if not exists dw_salary_sign_rule_public_mid_v2_d(
   order_id string,
   trade_no string,
@@ -53,12 +58,10 @@ CREATE TABLE if not exists dw_salary_sign_rule_public_mid_v2_d(
   sale_team_name string comment '销售团队标识 1:电销部 2:BD部 3:大客户部 4:服务商部 5:美妆销售团队',
   sale_team_freezed_name string comment '冻结销售团队标识 1:电销部 2:BD部 3:大客户部 4:服务商部 5:美妆销售团队',
   sale_team_id int comment '销售团队标识ID',
-  sale_team_freezed_id int comment '冻结销售团队标识ID',
-  shop_group string comment '门店分组信息'
+  sale_team_freezed_id int comment '冻结销售团队标识ID'
   ) COMMENT 'sign规则通用方案中间表'
 PARTITIONED BY (
   dayid string)
-row format delimited fields terminated by '\001'
 stored as orc
 ;
 
@@ -240,4 +243,6 @@ from dw_shop_base_d where dayid ='$v_date'
 where
 --is_bigbd_shop='否' --剔除大BD门店订单
 spec_order.trade_no is null --过滤特殊订单
+;
 
+"

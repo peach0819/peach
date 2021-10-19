@@ -52,7 +52,8 @@ order_id string comment '子订单id',
 sale_team_name string comment '销售团队标识 1:电销部 2:BD部 3:大客户部 4:服务商部 5:美妆销售团队',
 sale_team_freezed_name string comment '冻结销售团队标识 1:电销部 2:BD部 3:大客户部 4:服务商部 5:美妆销售团队',
 sale_team_id int comment '销售团队标识ID',
-sale_team_freezed_id int comment '冻结销售团队标识ID'
+sale_team_freezed_id int comment '冻结销售团队标识ID',
+shop_group string comment '门店分组信息'
 ) comment 'gmv规则通用方案中间表'
 partitioned by (dayid string)
 row format delimited fields terminated by '\001'
