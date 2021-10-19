@@ -55,7 +55,7 @@ CREATE TABLE if not exists dw_salary_sign_rule_public_mid_v2_d
     sale_team_freezed_name          string comment '冻结销售团队标识 1:电销部 2:BD部 3:大客户部 4:服务商部 5:美妆销售团队',
     sale_team_id                    int comment '销售团队标识ID',
     sale_team_freezed_id            int comment '冻结销售团队标识ID',
-    shop_group                      string comment '门店分组信息'
+    shop_group_id                   string comment '门店分组信息'
 ) COMMENT 'sign规则通用方案中间表'
 PARTITIONED BY (dayid string)
 stored as orc
@@ -119,7 +119,8 @@ select order.order_id,
        case when sale_team_name='电销部' then 1 when sale_team_name='BD部' then 2 when sale_team_name='大客户部' then 3 when sale_team_name='服务商部' then 4
        		 when sale_team_name='美妆销售团队' then 5 else null end as sale_team_id,
        case when sale_team_freezed_name='电销部' then 1 when sale_team_freezed_name='BD部' then 2 when sale_team_freezed_name='大客户部' then 3 when sale_team_freezed_name='服务商部' then 4
-       		 when sale_team_freezed_name='美妆销售团队' then 5 else null end as sale_team_freezed_id
+       		 when sale_team_freezed_name='美妆销售团队' then 5 else null end as sale_team_freezed_id,
+       shop_group_mapping.group_id as shop_group_id
 --订单表
 from (
     select order_id,trade_no,
@@ -246,6 +247,17 @@ left join (
     from dw_shop_base_d
     where dayid ='$v_date'
 ) shop on order.shop_id=shop.shop_id
+
+--门店分组表
+LEFT JOIN (
+    SELECT shop_id,
+           concat_ws(',' , sort_array(collect_set(cast(group_id as string)))) as group_id
+    FROM dwd_shop_group_mapping_d
+    WHERE dayid='$v_date'
+    AND is_deleted = 0
+    AND biz_type = 8 --仅门店圈选
+    group by shop_id
+) shop_group_mapping ON order.shop_id=shop_group_mapping.shop_id
 where
 --is_bigbd_shop='否' --剔除大BD门店订单
 spec_order.trade_no is null --过滤特殊订单
