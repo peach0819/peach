@@ -1,0 +1,20 @@
+
+1、新增方案配置页面支持门店分组过滤器
+（1）数仓的两张mid_v2_d表新增字段shop_group_id字段
+
+2、新增 存量GMV 下 两个统计指标
+（1）数据库新增指标
+    a. 人均实货支付金额(去优惠券去退款)
+    b. 人均实货GMV(去退款)
+
+（2）发放对象下属人数 新增逻辑
+    发放对象下属人数：real_coefficient_goal_rate 历史原因，可扩展字段都拼到这个里面，
+    之前的下属人数数据是来源这个表，gmv没有，只有新签品牌有  ，这里gmv模板要改
+    ( select user_id,underling_cnt
+        from dws_usr_bd_manager_underling_d
+        where dayid ='$v_date'
+    ) t1 on t.grant_object_user_id=t1.user_id
+
+3、新增 人均相关指标支持 "累计阶梯单价返点"  提成类型（done）
+通过sql给 bounty_indicator_payout_rule_type 表加上相关的 映射数据
+原来的规则模板 都天然支持 计算逻辑
