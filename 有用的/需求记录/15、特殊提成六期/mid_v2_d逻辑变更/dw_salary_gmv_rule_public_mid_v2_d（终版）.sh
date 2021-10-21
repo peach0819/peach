@@ -57,7 +57,7 @@ create table if not exists dw_salary_gmv_rule_public_mid_v2_d
     sale_team_freezed_name           string comment '冻结销售团队标识 1:电销部 2:BD部 3:大客户部 4:服务商部 5:美妆销售团队',
     sale_team_id                     int comment '销售团队标识ID',
     sale_team_freezed_id             int comment '冻结销售团队标识ID',
-    shop_group_id                    string comment '门店分组信息'
+    shop_group                       string comment '门店分组信息'
 ) comment 'gmv规则通用方案中间表'
 partitioned by (dayid string)
 stored as orc;
@@ -118,13 +118,14 @@ select business_unit,--业务域,
             when sale_team_name='美妆销售团队' then 5 else null end as sale_team_id,
        case when sale_team_freezed_name='电销部' then 1 when sale_team_freezed_name='BD部' then 2 when sale_team_freezed_name='大客户部' then 3 when sale_team_freezed_name='服务商部' then 4
             when sale_team_freezed_name='美妆销售团队' then 5 else null end as sale_team_freezed_id,
-       shop_group_mapping.group_id as shop_group_id
+       shop_group_mapping.group_id as shop_group
 --订单表
 from (
     select *
     from dw_order_d
     where dayid ='$v_date'
-    and substr(pay_time,1,8) >='$v_120_days_ago' --过滤4个月以前数据,目前只允许配置近三个月内的方案
+    -- 保留近31天窗口时间内的数据
+    and substr(pay_time,1,8) >= replace(date_add('$v_op_time', -31), '-', '')
     and bu_id=0
     --剔除美妆店,员工店,伙伴店
     --and nvl(store_type,100) not in (3,9,11)
