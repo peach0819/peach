@@ -1,7 +1,7 @@
 ---------------------------存量gmv 新增两个指标
 --指标表 新增
 insert into `bounty_indicator` (`id`, `title`, `bounty_rule_type`, `code`, `sort`, `unit`)
-values (15, '人均实货支付金额(去优惠券去退款)', 1, 'STOCK_GMV_AVG_GOODS_PAY_AMT_MINUS_COUNPONS_MINUS_REF', 1, '元/人');
+values (15, '人均实货支付金额(去优惠券去退款)', 1, 'STOCK_GMV_AVG_GOODS_PAY_AMT_MINUS_COUNPONS_REF', 1, '元/人');
 insert into `bounty_indicator` (`id`, `title`, `bounty_rule_type`, `code`, `sort`, `unit`)
 values (16, '人均实货GMV(去退款)', 1, 'STOCK_GMV_AVG_GOODS_GMV_MINUS_REFUND', 2, '元/人');
 
