@@ -5,7 +5,11 @@ with a as (
 ),
 
 crm_chat_tag_bind as (
-    SELECT a.*
+    SELECT a.qw_user_id,
+           a.qw_external_user_id,
+           a.version as tag_version,
+           a.group_name,
+           a.tag_name
     FROM a
     LEFT JOIN (
         SELECT max(version) as v FROM a WHERE version_type = 0
@@ -74,7 +78,7 @@ shop as (
     WHERE dayid = '$v_date'
 )
 
-SELECT crm_chat_tag_bind.version as data_version,
+SELECT crm_chat_tag_bind.tag_version as data_version,
        shop.shop_id as shop_id, --`门店id`,
        shop.shop_name as shop_name, --`门店名`,
        linker.linker_id as linker_id, --`联系人id`,
