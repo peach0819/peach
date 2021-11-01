@@ -115,7 +115,7 @@ shop as (
 )
 
 insert overwrite table ads_chat_tag_bind_d partition(dayid='$v_date')
-SELECT crm_chat_tag_bind.tag_version as data_version,
+SELECT total.tag_version as data_version,
        shop.shop_id as shop_id,
        shop.shop_name as shop_name,
        linker.linker_id as linker_id,
@@ -129,7 +129,7 @@ SELECT crm_chat_tag_bind.tag_version as data_version,
 
        customer.qw_external_user_id as qw_external_user_id,
        customer.name as customer_name,
-       case when customer.type = 1 then '个微客户' else '企微客户' end as customer_type,
+       customer.type as customer_type,
 
        xiaoer.qw_user_id as qw_user_id,
        xiaoer.name as qw_nick_name,
@@ -173,7 +173,7 @@ LEFT JOIN (
 
 --标签面
 LEFT JOIN (
-    SELECT distinct qw_user_id, qw_external_user_id
+    SELECT distinct qw_user_id, qw_external_user_id, tag_version
     FROM crm_chat_tag_bind
 ) total ON total.qw_user_id = xiaoer.qw_user_id AND total.qw_external_user_id = customer.qw_external_user_id
 
