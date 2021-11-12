@@ -44,6 +44,8 @@ set hivevar:filter_expr_columns=get_json_object(get_json_object(filter_config_js
          get_json_object(get_json_object(filter_config_json,'$.bd_area'),'$.operator') as bd_area_operator,
          get_json_object(get_json_object(filter_config_json,'$.manage_area'),'$.value') as manage_area_value,
          get_json_object(get_json_object(filter_config_json,'$.manage_area'),'$.operator') as manage_area_operator,
+         get_json_object(get_json_object(filter_config_json,'$.shop_group'),'$.value') as shop_group_value,
+         get_json_object(get_json_object(filter_config_json,'$.shop_group'),'$.operator') as shop_group_operator,
          replace(replace(replace(split(get_json_object(get_json_object(filter_config_json,'$.calculate_date'),'$.value'),',')[0],'[',''),'\"',''),'-','') as calculate_date_value_start,
          replace(replace(replace(split(get_json_object(get_json_object(filter_config_json,'$.calculate_date'),'$.value'),',')[1],']',''),'\"',''),'-','') as calculate_date_value_end,
          replace(replace(replace(replace(get_json_object(get_json_object(filter_config_json,'$.calculate_date'),'$.value'),']',''),'\"',''),'[',''),',','~') as plan_pay_time;
@@ -94,6 +96,8 @@ bounty_plan2 as
         t2.bd_area_operator,
         t2.manage_area_value,
         t2.manage_area_operator,
+        t2.shop_group_value,
+        t2.shop_group_operator,
         t2.calculate_date_value_start,
         t2.calculate_date_value_end,
         t2.no as plan_no,
@@ -395,6 +399,7 @@ select
       and ytdw.simple_expr( war_zone_dep_id,'in',war_area_value)=(case when war_area_operator ='=' then 1 else 0 end)
       and ytdw.simple_expr( area_manager_dep_id,'in',bd_area_value)=(case when bd_area_operator ='=' then 1 else 0 end)
       and ytdw.simple_expr( bd_manager_dep_id,'in',manage_area_value)=(case when manage_area_operator ='=' then 1 else 0 end)
+      and if(a.shop_group = '' OR b.shop_group_value = '', 0, ytdw.simple_expr(substr(b.shop_group_value, 2, length(b.shop_group_value) - 2), 'in', concat('[', a.shop_group, ']'))) = (case when shop_group_operator ='=' then 1 else 0 end)
 
    group by a.dayid,
            a.business_unit,                                                                              --业务域
