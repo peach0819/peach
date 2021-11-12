@@ -123,7 +123,8 @@ select
         nvl(case when commission_plan_type ='排名返现' then grant_object_rk else null end,''),
         '\;',
         'grant_object_underling_cnt:',
-        '') as real_coefficient_goal_rate,
+        nvl(case when sts_target_name in ('人均实货支付金额(去优惠券去退款)','人均实货GMV(去退款)') then grant_object_underling_cnt else null end,'')
+        ) as real_coefficient_goal_rate,
         payout_upper_limit as commission_cap,
         --提成方案类型
         commission_plan_type as commission_plan_type,
@@ -165,6 +166,7 @@ select
         payout_upper_limit,
         payout_config_json,
         commission_plan_type,
+        grant_object_underling_cnt,
         if(sts_target>0,rank()over(partition by planno order by sts_target desc ),null) as grant_object_rk
  from (
         select
@@ -184,8 +186,13 @@ select
                 leave_time,--发放对象离职时间
                 --统计指标名称
                 sts_target_name,
+                max(nvl(underling_cnt,1)) as grant_object_underling_cnt,
+
                 --发放对象的当月系数
-                sum(sts_target) as sts_target,
+                case when sts_target_name in ('人均实货支付金额(去优惠券去退款)','人均实货GMV(去退款)')
+                          then sum(sts_target)/max(nvl(underling_cnt,1))
+                     else sum(sts_target)
+                     end as sts_target,
                 payout_rule_type,
                 payout_upper_limit,
                 payout_config_json,
@@ -198,6 +205,11 @@ select
                 ) t1
          inner join ${bounty_plan_table} t2
             on t1.planno = t2.no
+         left join (
+            select user_id,underling_cnt
+            from dws_usr_bd_manager_underling_d
+            where dayid ='$v_date'
+         ) t3 on t1.grant_object_user_id=t3.user_id
          group by
                 plan_month,--方案月份
                 plan_pay_time,--方案时间

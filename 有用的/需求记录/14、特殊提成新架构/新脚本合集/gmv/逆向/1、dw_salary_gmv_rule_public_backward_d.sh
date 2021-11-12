@@ -264,14 +264,14 @@ select
    --方案配置 无指标计算型 过滤条件
    sts_target_name as sts_target_name                                                                    --统计指标名称
    ,case when (users.leave_time is null or pay_day<=users.leave_time) then
-         case when indicator_code = 'STOCK_GMV_1_GOODS_GMV_MINUS_REFUND'
+         case when indicator_code in ('STOCK_GMV_1_GOODS_GMV_MINUS_REFUND', 'STOCK_GMV_AVG_GOODS_GMV_MINUS_REFUND')
               --实货GMV(去退款)
               then gmv_less_refund
               --实货GMV
               when indicator_code = 'STOCK_GMV_1_GOODS_GMV'
               then gmv
               --实货支付金额(去优惠券去退款)
-              when indicator_code = 'STOCK_GMV_1_GOODS_PAY_AMT_MINUS_COUNPONS_MINUS_REF'
+              when indicator_code in ('STOCK_GMV_1_GOODS_PAY_AMT_MINUS_COUNPONS_MINUS_REF', 'STOCK_GMV_AVG_GOODS_PAY_AMT_MINUS_COUNPONS_REF')
               then pay_amount_less_refund
          end
     else 0 end as sts_target,                                                                            --统计指标数值
