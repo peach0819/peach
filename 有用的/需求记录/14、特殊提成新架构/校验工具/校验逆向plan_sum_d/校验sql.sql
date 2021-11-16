@@ -36,7 +36,7 @@ case when a.commission_reward_type = '实物' then (
         then concat('存在差异【',a.pre_commission_reward,'：',coalesce(b.pre_commission_reward,'】'))
         else '无差异' end
      )
-     end as cur_commission_reward_diff_flg,
+     end as pre_commission_reward_diff_flg,
 
 case when coalesce(a.commission_reward_change,'#') <> coalesce(b.commission_reward_change,'#') then concat('存在差异【',a.commission_reward_change,'：',b.commission_reward_change,'】') else '无差异' end as commission_reward_change_diff_flg
  from ( select * from dw_salary_backward_plan_sum_d where dayid='20211031' ) a
