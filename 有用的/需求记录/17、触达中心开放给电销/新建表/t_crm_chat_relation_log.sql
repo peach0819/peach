@@ -12,3 +12,6 @@ CREATE TABLE `t_crm_chat_relation_log` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COMMENT='企微好友关系变更记录';
 
+ALTER TABLE t_crm_chat_bind ADD COLUMN sex tinyint(4) COMMENT '性别 0:女 1:男';
+ALTER TABLE t_crm_chat_relation ADD COLUMN sex tinyint(4) COMMENT '性别 0:女 1:男';
+
