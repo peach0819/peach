@@ -14,24 +14,24 @@ case when coalesce(a.commission_cap,'#') <> coalesce(b.commission_cap,'#') then 
 case when coalesce(a.commission_plan_type,'#') <> coalesce(b.commission_plan_type,'#') then concat('存在差异【',a.commission_plan_type,'：',b.commission_plan_type,'】') else '无差异' end as commission_plan_type_diff_flg,
 case when coalesce(a.commission_reward_type,'#') <> coalesce(b.commission_reward_type,'#') then concat('存在差异【',a.commission_reward_type,'：',b.commission_reward_type,'】') else '无差异' end as commission_reward_type_diff_flg,
 
-case when commission_reward_type = '实物' then (
+case when a.commission_reward_type = '实物' then (
         case when coalesce(a.cur_commission_reward,'#') <> coalesce(b.cur_commission_reward,'#')
         then concat('存在差异【',a.cur_commission_reward,'：',b.cur_commission_reward,'】')
         else '无差异' end
      )
-     when commission_reward_type = '金额' then (
+     when a.commission_reward_type = '金额' then (
         case when abs(coalesce(a.cur_commission_reward,0) - coalesce(b.cur_commission_reward,0))>0.0003
         then concat('存在差异【',a.cur_commission_reward,'：',coalesce(b.cur_commission_reward,'】'))
         else '无差异' end
      )
      end as cur_commission_reward_diff_flg,
 
-case when commission_reward_type = '实物' then (
+case when a.commission_reward_type = '实物' then (
         case when coalesce(a.pre_commission_reward,'#') <> coalesce(b.pre_commission_reward,'#')
         then concat('存在差异【',a.pre_commission_reward,'：',b.pre_commission_reward,'】')
         else '无差异' end
      )
-     when commission_reward_type = '金额' then (
+     when a.commission_reward_type = '金额' then (
         case when abs(coalesce(a.pre_commission_reward,0) - coalesce(b.pre_commission_reward,0))>0.0003
         then concat('存在差异【',a.pre_commission_reward,'：',coalesce(b.pre_commission_reward,'】'))
         else '无差异' end
