@@ -7,14 +7,13 @@ CREATE TABLE `t_shop_omo` (
   `omo_status` tinyint(1) DEFAULT NULL COMMENT '商城状态',
   `manager_commission_percentage` int(10) DEFAULT NULL COMMENT '店长佣金比例',
   `guide_commission_percentage` int(10) DEFAULT NULL COMMENT '导购佣金比例',
+  `memo` varchar(500) DEFAULT NULL COMMENT '备注',
   `is_deleted` tinyint(1) NOT NULL DEFAULT '0' COMMENT '是否有效 1无效 0有效',
   `creator` varchar(32) DEFAULT '' COMMENT '创建人id',
   `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `editor` varchar(32) DEFAULT '' COMMENT '修改人id',
   `edit_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
-  `extra_json` varchar(256) NOT NULL DEFAULT '' COMMENT '扩展字段:json',
+  `extra_json` varchar(256) NOT NULL DEFAULT '' COMMENT '扩展字段:切换货源商品数',
   PRIMARY KEY (`id`),
   KEY `idx_shop_id` (`shop_id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=188 DEFAULT CHARSET=utf8mb4 COMMENT='omo门店';
-
-ALTER TABLE t_shop_omo ADD COLUMN remark text COMMENT '备注';
+) ENGINE=InnoDB AUTO_INCREMENT=519271 DEFAULT CHARSET=utf8mb4 COMMENT='omo门店'
