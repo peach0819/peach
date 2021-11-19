@@ -47,6 +47,7 @@ left join (select * from dw_salary_backward_plan_sum_new_d where dayid='20211031
  and coalesce(a.planno,'#') = coalesce(b.planno,'#')
  left join (select * from dw_bounty_plan_d WHERE dayid = '$v_date') plan ON a.plan_no = plan.no
  WHERE plan.status = 1
+ and a.plan_no!=12531
  ) t where
  plan_month_diff_flg like '存在差异%'
  or plan_pay_time_diff_flg like '存在差异%'
