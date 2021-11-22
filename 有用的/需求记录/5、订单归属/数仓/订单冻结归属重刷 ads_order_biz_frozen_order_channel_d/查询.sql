@@ -78,7 +78,7 @@ rule_execute_result as (
                      'time', '$rule_month',
                      'sale_dc_id', order_base.sale_dc_id,
                      'bu_id', order_base.bu_id,
-                     'is_pickup_pay_order', order_base.is_pickup_recharge_order,
+                     'is_pickup_pay_order', case when order_base.is_pickup_recharge_order = 1 then 'true' else 'false' end,
                      'supply_id', order_base.supply_id,
                      'category_ids',  CONCAT(COALESCE(order_base.category_1st_id, 0), ',', COALESCE(order_base.category_2nd_id, 0), ',', COALESCE(order_base.category_3rd_id, 0)),
                      'pickup_category_ids', CONCAT(COALESCE(order_base.performance_category_1st_id,0), ',', COALESCE(order_base.performance_category_2nd_id, 0), ',', COALESCE(order_base.performance_category_3rd_id, 0)),
