@@ -1,4 +1,4 @@
-select * from (select
+select * from (select a.planno, a.grant_object_user_id,
 case when coalesce(a.plan_month,'#') <> coalesce(b.plan_month,'#') then concat('存在差异【',a.plan_month,'：',b.plan_month,'】') else '无差异' end as plan_month_diff_flg,
 case when coalesce(a.plan_pay_time,'#') <> coalesce(b.plan_pay_time,'#') then concat('存在差异【',a.plan_pay_time,'：',b.plan_pay_time,'】') else '无差异' end as plan_pay_time_diff_flg,
 case when coalesce(a.grant_object_type,'#') <> coalesce(b.grant_object_type,'#') then concat('存在差异【',a.grant_object_type,'：',b.grant_object_type,'】') else '无差异' end as grant_object_type_diff_flg,
@@ -26,11 +26,13 @@ case when a.commission_reward_type = '实物' then (
      )
      end as commission_reward_diff_flg
 
-from ( select * from dw_salary_forward_plan_sum_d where dayid='$v_date' ) a
-left join (select * from dw_salary_forward_plan_sum_new_d where dayid='$v_date' ) b on 1=1
+from ( select * from dw_salary_forward_plan_sum_d where dayid='20211031' ) a
+left join (select * from dw_salary_forward_plan_sum_new_d where dayid='20211031' ) b on 1=1
  and coalesce(a.plan_no,'#') = coalesce(b.plan_no,'#')
  and coalesce(a.grant_object_user_id,'#') = coalesce(b.grant_object_user_id,'#')
  and coalesce(a.planno,'#') = coalesce(b.planno,'#')
+left join (select * from dw_bounty_plan_d WHERE dayid = '$v_date') plan ON a.plan_no = plan.no
+ WHERE plan.status = 1
  ) t where
  plan_month_diff_flg like '存在差异%'
  or plan_pay_time_diff_flg like '存在差异%'
