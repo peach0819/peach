@@ -1,5 +1,12 @@
 v_date=$1
 rule_month=$2
+data_date=$3
+
+if [[ $data_date = "" ]]
+then
+	data_date=$v_date
+fi
+
 source ../sql_variable.sh $v_date
 
 hive -v -e "
@@ -59,7 +66,7 @@ set hive.execution.engine=mr;
 WITH order_base as (
     SELECT *
     FROM ads_order_biz_order_channel_detail_d
-    WHERE dayid='$v_date'
+    WHERE dayid='$data_date'
     AND substr(order_place_time,0,8)='$v_date'
 ),
 
