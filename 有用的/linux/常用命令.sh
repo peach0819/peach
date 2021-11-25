@@ -27,3 +27,13 @@ thread [threadid] 去看具体线程dump
 thread -n 3 -i 5000  去看最近5秒内最忙的3个线程（会等待5秒）
 
 top -H -p <pid> 去看一个进程中的子进程
+
+# cat > 的意思是重定向，如果已有源文件，直接覆盖，不然就新创建
+#  <<_EOF_  *******    _EOF_  的意思是往文件里面写一模一样的内容，包括格式
+# 这段shell指令的意思是 往这个文件里面写这部分内容
+cat > ${pre_month_where} <<_EOF_
+$pre_month_where
+_EOF_
+
+$pre_month_where 是指从环境变量里面取值
+${pre_month_where} 是指从当前定义的局部变量里面取值
