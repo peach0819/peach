@@ -14,7 +14,7 @@ if [[ $supply_data_mode != "" ]]
 then
 	bounty_plan_table='bounty_plan_supply_data'
 else
-	supply_data_where_condition='0 = 1'
+	supply_data_where_condition="dayid = '${v_date}' and 0 = '1'"
 	bounty_plan_table='bounty_plan'
 fi
 
@@ -77,6 +77,7 @@ bounty_plan as
  from dw_bounty_plan_d t1
 where dayid ='$v_date'
   and is_deleted =0
+  and status =1 --启用
   and bounty_rule_type=2--本任务仅为新签商品
   and month=concat(substr('$v_date',1,4),'-',substr('$v_date',5,2))--当月
 ),
