@@ -14,7 +14,7 @@ if [[ $supply_data_mode != "" ]]
 then
 	bounty_plan_table='bounty_plan_payout_supply_data'
 else
-	supply_data_where_condition='0 = 1'
+	supply_data_where_condition="dayid = '${v_date}' and 0 = '1'"
 	bounty_plan_table='bounty_plan_payout'
 fi
 
@@ -55,6 +55,7 @@ bounty_plan_payout as
   where dayid ='$v_date'
     and is_deleted =0
     and t1.bounty_rule_type =2
+    and status=1
     and month=concat(substr('$v_date',1,4),'-',substr('$v_date',5,2))
 ),
 bounty_plan_payout2 as

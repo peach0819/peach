@@ -14,7 +14,7 @@ if [[ $supply_data_mode != "" ]]
 then
 	bounty_plan_table='bounty_plan_supply_data'
 else
-	supply_data_where_condition='1 = 0'
+	supply_data_where_condition="dayid = '${v_date}' and 0 = '1'"
 	bounty_plan_table='bounty_plan'
 fi
 

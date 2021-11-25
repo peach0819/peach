@@ -85,7 +85,7 @@ where dayid ='$v_date'
 bounty_plan2 as
 (select
         '当月方案' as plan_type,
-        '$v_cur_month' as plan_month,
+        t2.month as plan_month,
         t2.plan_pay_time as plan_pay_time,
         t2.name as plan_name,
         t2.biz_group_id as plan_group_id,
