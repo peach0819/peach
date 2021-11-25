@@ -14,12 +14,12 @@ if [[ $supply_data_mode != "" ]]
 then
 	bounty_plan_table='bounty_plan_supply_data'
 else
-	supply_data_where_condition='1 = 0'
+	supply_data_where_condition="dayid = '${v_date}' and 0 = '1'"
 	bounty_plan_table='bounty_plan'
 fi
 
 source ../sql_variable.sh $v_date
-source ../yarn_variable.sh dw_salary_forward_gmv_rule_public_d '肥桃'
+source ../yarn_variable.sh dw_salary_gmv_rule_public_forward_d '肥桃'
 
 spark-sql $spark_yarn_job_name_conf $spark_yarn_queue_name_conf --master yarn --executor-memory 4G --num-executors 4 -v -e "
 use ytdw;

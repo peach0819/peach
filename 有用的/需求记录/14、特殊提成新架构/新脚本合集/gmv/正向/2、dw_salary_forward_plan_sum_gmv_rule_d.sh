@@ -14,12 +14,12 @@ if [[ $supply_data_mode != "" ]]
 then
 	bounty_plan_table='bounty_plan_payout_supply_data'
 else
-	supply_data_where_condition='1 = 0'
+	supply_data_where_condition="dayid = '${v_date}' and 0 = '1'"
 	bounty_plan_table='bounty_plan_payout'
 fi
 
 source ../sql_variable.sh $v_date
-source ../yarn_variable.sh dw_salary_forward_gmv_rule_plan_sum_d '肥桃'
+source ../yarn_variable.sh dw_salary_forward_plan_sum_gmv_rule_d '肥桃'
 
 spark-sql $spark_yarn_job_name_conf $spark_yarn_queue_name_conf --master yarn --executor-memory 4G --num-executors 4 -v -e "
 use ytdw;
@@ -52,6 +52,7 @@ bounty_plan_payout as
    from dw_bounty_plan_d t1
   where dayid ='$v_date'
     and is_deleted =0
+    and status =1 --启用
     and t1.bounty_rule_type =1
     and month=concat(substr('$v_date',1,4),'-',substr('$v_date',5,2))
 ),
