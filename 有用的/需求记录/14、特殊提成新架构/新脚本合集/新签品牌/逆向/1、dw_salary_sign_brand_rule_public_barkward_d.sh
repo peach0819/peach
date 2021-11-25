@@ -12,14 +12,14 @@ bounty_plan_table='bounty_plan'
 
 if [[ $supply_data_mode != "" ]]
 then
-	bounty_plan_table='bounty_plant_supply_data'
+    bounty_plan_table='bounty_plan_supply_data'
 else
-	supply_data_where_condition='1 = 0'
-	bounty_plan_table='bounty_plan'
+    supply_data_where_condition="dayid = '${v_date}' and 0 = '1'"
+    bounty_plan_table='bounty_plan'
 fi
 
 source ../sql_variable.sh $v_date
-source ../yarn_variable.sh dw_salary_sign_brand_rule_public_barkward_d '肥桃'
+source ../yarn_variable.sh dw_salary_sign_brand_rule_public_backward_d '肥桃'
 
 spark-sql $spark_yarn_job_name_conf $spark_yarn_queue_name_conf --master yarn --executor-memory 4G --num-executors 4 -v -e "
 use ytdw;
@@ -69,7 +69,7 @@ set hivevar:filter_expr_columns=get_json_object(get_json_object(filter_config_js
 with
 -- 补数情况下使用的表
 bounty_plan_supply_data as (
-	select \${filter_expr_columns}, t1.*
+    select \${filter_expr_columns}, t1.*
     from dw_bounty_plan_d t1
     where ${supply_data_where_condition}
 ),
@@ -146,8 +146,8 @@ bounty_plan2 as
 -- 计算的是不参与补数的计算结果数据
 without_supply_data_plan as (
 select
-	brand.update_time,
-	brand.update_month,
+    brand.update_time,
+    brand.update_month,
     brand.plan_type,
     brand.plan_month,
     brand.plan_pay_time,
@@ -209,7 +209,7 @@ from (
     from dw_salary_sign_brand_rule_public_new_d
     where dayid = '$v_date' and pltype = 'pre'
   ) brand left join (
-  	select no
+    select no
     from dw_bounty_plan_d t1
     where ${supply_data_where_condition}
   ) plan
@@ -635,7 +635,7 @@ select
       where sign_rule.grant_object_user_id is not null
 
       union all
-  	  select * from without_supply_data_plan
+      select * from without_supply_data_plan
 ;
 " &&
 
