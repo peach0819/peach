@@ -14,7 +14,7 @@ if [[ $supply_data_mode != "" ]]
 then
 	bounty_plan_table='bounty_plan_supply_data'
 else
-	supply_data_where_condition='0 = 1'
+	supply_data_where_condition="dayid = '${v_date}' and 0 = '1'"
 	bounty_plan_table='bounty_plan'
 fi
 
@@ -126,7 +126,7 @@ select
    select  * from dw_salary_backward_plan_sum_mid_new_d
     where dayid ='$v_pre_month_last_day'
       and plan_month < '$v_cur_month'
-      and plan_month>=replace(add_months('$v_op_month',-11),'-','')
+      and plan_month>=substr(replace(add_months('$v_op_month',-11),'-',''),1,6)
       --最近12个月内的方案月份
 	) pre_plan
 
