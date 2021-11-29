@@ -1,0 +1,6 @@
+
+onequery的application，在hadoop的application管理页面查询sts，然后1 3两台机器是给onequery使用的，5 6 是给CRM、云图的报表使用的
+
+spark会分为两种日志，一种是metric日志（spark的运行指标），会放在spark上，另一种是javalog，这个统计集中在hadoop管理
+
+onequery的application，会一直跑，不会跑完一个sql就停掉
