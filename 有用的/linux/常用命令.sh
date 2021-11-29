@@ -41,3 +41,6 @@ ${pre_month_where} 是指从当前定义的局部变量里面取值
 # dump 内存
 jmap -dump:live,format=b,file=/alidata/log/heap-dump.hprof  48
 curl ftp://172.16.222.129/dump/ -u ftpadmin:hipac.228 -T /alidata/log/heap-dump.hprof
+
+# 看一个日志第几行的内容
+sed -n '1800,1801p' hj_wx_chat_logger.log
