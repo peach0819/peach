@@ -7,3 +7,4 @@ SELECT  phone.phone as 工作手机号,
 FROM t_crm_work_phone phone
 LEFT JOIN yt_ustone.t_user_admin admin ON phone.bind_user_id = admin.user_id
 LEFT JOIN yt_ustone.t_department dept ON dept.id = admin.dept_id
+WHERE phone.is_deleted = 0;
