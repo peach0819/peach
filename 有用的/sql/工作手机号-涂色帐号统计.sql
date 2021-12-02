@@ -1,4 +1,5 @@
 SELECT  phone.phone as 工作手机号,
+        phone.bind_qw_user_id as 企微帐号,
         phone.bind_tu_account as 涂色帐号,
         phone.bind_tu_password as 涂色密码,
         admin.full_name as 绑定电销名,
