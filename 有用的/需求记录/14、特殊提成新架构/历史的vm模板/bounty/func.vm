@@ -1,0 +1,39 @@
+#* 过滤器构建 *#
+#macro(buildFilter $filter $customFieldSql)
+    #* 如果没有值，就跳过 *#
+    #if(!$filter.values || $filter.values.isEmpty())
+        #break
+    #end
+    #* 时间范围 *#
+    #if($filter.componentType == 'date_range')
+        $customFieldSql >= '$ytUtil.dateFormat($filter.values[0], "yyyy-MM-dd", "yyyyMMdd")'
+        and
+        $customFieldSql <= '$ytUtil.dateFormat($filter.values[1], "yyyy-MM-dd", "yyyyMMdd")'
+        #break
+    #end
+    #* 枚举就使用  = -> in, != -> not in *#
+    #if($filter.operator == '=')
+            #if(!$customFieldSql)
+                ${filter.fieldSql}
+            #else
+                $customFieldSql
+            #end
+            in (#foreach($valItem in $filter.values)'${valItem}' #if($velocityHasNext),#end #end)
+    #else
+            (
+            #if(!$customFieldSql)
+                ${filter.fieldSql}
+            #else
+                $customFieldSql
+            #end
+        not in
+        (#foreach($valItem in $filter.values)'${valItem}' #if($velocityHasNext),#end #end)
+        or
+            #if(!$customFieldSql)
+                ${filter.fieldSql}
+            #else
+                $customFieldSql
+            #end
+        is null)
+    #end
+#end
