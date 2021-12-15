@@ -1,0 +1,11 @@
+
+
+dw_salary_forward_plan_progress_sum_d
+
+st_sales_area_snapshot_d
+sync_cloudatlas_sales_area_snapshot_d
+
+sync_davinci_nrt_bounty_plan
+
+dw_salary_sign_rule_public_mid_v2_d
+dw_salary_gmv_rule_public_mid_v2_d
