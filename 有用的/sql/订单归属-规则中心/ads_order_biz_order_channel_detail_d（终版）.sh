@@ -1,4 +1,8 @@
-set hive.execution.engine=mr;
+v_date=$1
+
+source ../sql_variable.sh $v_date
+
+apache-spark-sql -e "
 use ytdw;
 
 create table if not exists ytdw.ads_order_biz_order_channel_detail_d
@@ -42,7 +46,6 @@ create table if not exists ytdw.ads_order_biz_order_channel_detail_d
 )
 comment '订单渠道数据中间表'
 partitioned by (dayid string)
-row format delimited fields terminated by '\001'
 stored as orc;
 
 --订单基础信息
@@ -104,9 +107,13 @@ shop_pool_server as (
 shop_group_mapping as (
     SELECT shop_id,
            concat_ws(',' , sort_array(collect_set(cast(group_id as string)))) as group_id
-    FROM dwd_shop_group_mapping_d
-    WHERE dayid='$v_date'
-    AND is_deleted = 0
+    FROM (
+        SELECT shop_id, group_id FROM dwd_shop_group_mapping_d WHERE dayid = '$v_date' AND is_deleted = 0
+
+        union all
+
+        SELECT shop_id, group_id FROM ads_hpc_shop_group_rule_inuse_mapping_d WHERE dayid = '$v_date'
+    ) t
     group by shop_id
 ),
 
@@ -163,3 +170,5 @@ LEFT JOIN shop_base ON order_base.shop_id = shop_base.shop_id
 LEFT JOIN shop_pool_server ON shop_pool_server.shop_id = shop_base.shop_id
 LEFT JOIN shop_group_mapping ON shop_group_mapping.shop_id = shop_base.shop_id
 LEFT JOIN sp_order_snapshot ON order_base.order_id = sp_order_snapshot.order_id
+;
+"
