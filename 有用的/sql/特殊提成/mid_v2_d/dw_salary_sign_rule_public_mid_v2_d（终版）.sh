@@ -257,10 +257,8 @@ left join (
 LEFT JOIN (
     SELECT shop_id,
            concat_ws(',' , sort_array(collect_set(cast(group_id as string)))) as group_id
-    FROM dwd_shop_group_mapping_d
+    FROM ads_hpc_shop_group_rule_inuse_mapping_d
     WHERE dayid='$v_date'
-    AND is_deleted = 0
-    AND biz_type = 8 --仅门店圈选
     group by shop_id
 ) shop_group_mapping ON order.shop_id=shop_group_mapping.shop_id
 where
