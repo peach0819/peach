@@ -3,7 +3,7 @@ update bounty_filter set component_value_config = '{\"type\":\"custom-area\",\"u
 update bounty_filter set component_value_config = '{\"type\":\"custom-area\",\"url\": \"hipac.crm.bountyPlan.listSalesArea\",\"code\":\"BD_AREA\"}' WHERE id = 13;
 update bounty_filter set component_value_config = '{\"type\":\"custom-area\",\"url\": \"hipac.crm.bountyPlan.listSalesArea\",\"code\":\"MANAGE_AREA\"}' WHERE id = 14;
 
-ALTER TABLE bounty_plan ADD COLUMN time_type tinyint(4) NOT NULL default 1 COMMENT '1.月度方案 2.季度方案';
+ALTER TABLE bounty_plan ADD COLUMN time_type tinyint(4) NOT NULL default 1 COMMENT '方案时间类型 1.月度方案 2.季度方案';
 
 --新增发放对象->规则模板映射
 INSERT INTO bounty_payout_object_rule(payout_object_id, bounty_rule_type)
