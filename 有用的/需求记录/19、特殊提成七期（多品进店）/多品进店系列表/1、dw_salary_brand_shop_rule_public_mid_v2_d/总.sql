@@ -81,7 +81,7 @@ select ord.order_id,
        ord.rfd_date,
        ord.act_pay_total_amt_1d as gmv, --gmv
        ord.act_rfd_amt_1d as refund, --退款
-       ord.act_net_pay_total_amt_1d as gmv_less_refund --gmv-退款
+       ord.act_net_pay_total_amt_1d as gmv_less_refund, --gmv-退款
 
        --销售团队信息
        ord_seller.sale_team_id,
