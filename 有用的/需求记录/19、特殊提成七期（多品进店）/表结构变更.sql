@@ -22,7 +22,8 @@ values (17, '有效品牌门店数', 4, 'VALID_BRAND_SHOP_COUNT', 1, '家'),
 INSERT INTO `bounty_filter` (`id`, `title`, `key`, `field_sql`, `required`, `global`, `global_type`, `plan_date_sign`, `component_type`, `component_value_config`)
 VALUES (19, '有效门槛线', 'valid_brand_line', 'valid_brand_line', 1, 0, 1, 0, 'posi_int_input', null),
        (20, '方案计算时间', 'calculate_date_quarter', 'calculate_date_quarter', 1, 1, 1, 0, 'date_range', null),
-       (21, '比对时间', 'compare_date', 'compare_date', 1, 1, 1, 0, 'date_range', null);
+       (21, '比对时间', 'compare_date', 'compare_date', 1, 1, 1, 0, 'date_range', null),
+       (22, '发放对象类型', 'payout_object_type', 'payout_object_type', 1, 1, 1, 0, 'enum_radio', '{"type":"fixed","data":[{"label":"库内","value":"库内"},{"label":"冻结","value":"冻结"}]}');
 
 -- 新增规则模板->过滤条件映射
 insert into `bounty_rule_filter` (`bounty_rule_type`,`bounty_rule_type_id`,`bounty_filter_id`)
@@ -37,7 +38,8 @@ values (0, 7, 2),
        (0, 7, 14),
        (0, 7, 19),
        (0, 7, 20),
-       (0, 7, 21);
+       (0, 7, 21),
+       (0, 7, 22);
 
 -- 新增业绩指标->提成奖励类型映射
 insert into `bounty_indicator_payout_rule_type` (`bounty_indicator_id`,`payout_rule_type_code`,`bounty_unit`,`sort`,`is_upper_limit`,`is_hidden`)
