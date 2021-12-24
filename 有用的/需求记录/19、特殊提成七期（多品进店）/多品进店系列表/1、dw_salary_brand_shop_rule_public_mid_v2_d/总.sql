@@ -2,6 +2,7 @@ use ytdw;
 create table if not exists dw_salary_brand_shop_rule_public_mid_v2_d
 (
     order_id                         string comment '子订单id',
+    trade_id                         string comment '交易id',
     category_1st_id                  bigint comment '商品一级类目id',
     category_1st_name                string comment '商品一级类目',
     category_2nd_id                  bigint comment '商品二级类目id',
@@ -44,6 +45,7 @@ stored as orc;
 
 insert overwrite table dw_salary_brand_shop_rule_public_mid_v2_d partition(dayid='$v_date')
 select ord.order_id,
+       ord.trade_id,
 
        --商品信息
        ord.category_1st_id,
@@ -91,6 +93,7 @@ select ord.order_id,
 --订单表
 from (
     SELECT order_id,
+           trade_id,
            category_1st_id,
            category_1st_name,
            category_2nd_id,
