@@ -232,7 +232,7 @@ SELECT * FROM current_execute_result
 
 UNION ALL
 
-SELECT *
+SELECT history.*
 FROM ads_order_biz_frozen_order_channel_d history
 LEFT JOIN current_execute_result cur ON cur.order_id = history.order_id
 WHERE dayid = '$v_date'
