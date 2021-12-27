@@ -2,19 +2,18 @@
 WITH order_base as (
     SELECT *
     FROM ads_order_biz_order_channel_detail_d
-    WHERE dayid='$v_date'
+    WHERE dayid='$data_date'
     AND substr(order_place_time,0,8)='$v_date'
 ),
 
 --门店服务人员信息基础表
 shop_pool_server_base as (
-    SELECT after_server.order_id as trade_id,
-           pool_server.group_id,
-           pool_server.user_id
-    FROM dwd_order_after_server_d after_server
-    INNER JOIN dwd_shop_pool_server_d pool_server ON after_server.shop_pool_server_id = pool_server.id
-    WHERE after_server.dayid = '$v_date'
-    AND pool_server.dayid = '$v_date'
+    SELECT trade_id,
+           get_json_object(service_info, '$.service_feature_id') as group_id,
+           get_json_object(service_info, '$.service_user_id') as user_id
+    FROM dim_hpc_trd_trade_service_d
+    lateral view explode(split(regexp_replace(service_info_frez,'\},','\}\;'),'\;')) tmp as service_info
+    WHERE dayid = '$v_date'
 ),
 
 --门店服务人员信息合并表
