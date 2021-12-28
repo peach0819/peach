@@ -59,15 +59,7 @@ cur as (
                 when plan.bounty_payout_object_code= 'AREA_MANAGER' then area_manager_id
                 when plan.bounty_payout_object_code= 'BD_MANAGER' then bd_manager_id
                 when plan.bounty_payout_object_code= 'BD' then if(plan.payout_object_type = '冻结', ord.frozen_sale_user_id, ord.newest_sale_user_id)
-           end as grant_object_user_id,
-           sum(ord.gmv_less_refund) over(partition by plan.no, ord.shop_id, ord.brand_id,
-               case when plan.bounty_payout_object_code= 'WAR_ZONE_MANAGE' then war_zone_id
-                    when plan.bounty_payout_object_code= 'AREA_MANAGER' then area_manager_id
-                    when plan.bounty_payout_object_code= 'BD_MANAGER' then bd_manager_id
-                    when plan.bounty_payout_object_code= 'BD' then if(plan.payout_object_type = '冻结', ord.frozen_sale_user_id, ord.newest_sale_user_id)
-               end
-               order by ord.pay_date
-           ) as current_total_gmv_less_refund
+           end as grant_object_user_id
     FROM plan
     CROSS JOIN (select * from dw_salary_brand_shop_rule_public_mid_v2_d where dayid ='$v_date') ord ON 1=1
     WHERE ord.pay_date between plan.calculate_date_value_start and plan.calculate_date_value_end
