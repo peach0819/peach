@@ -43,7 +43,9 @@ create table if not exists dw_salary_brand_shop_rule_public_mid_v2_d
     sale_team_id                     int comment '销售团队标识ID',
     sale_team_name                   string comment '销售团队标识 1:电销部 2:BD部 3:大客户部 4:服务商部 5:美妆销售团队',
     sale_team_freezed_id             int comment '冻结销售团队标识ID',
-    sale_team_freezed_name           string comment '冻结销售团队标识 1:电销部 2:BD部 3:大客户部 4:服务商部 5:美妆销售团队'
+    sale_team_freezed_name           string comment '冻结销售团队标识 1:电销部 2:BD部 3:大客户部 4:服务商部 5:美妆销售团队',
+    frozen_sale_user_id              string comment '冻结销售',
+    newest_sale_user_id              string comment '库内销售'
 ) comment 'gmv规则通用方案中间表'
 partitioned by (dayid string)
 stored as orc;
@@ -94,7 +96,11 @@ select ord.order_id,
        ord_seller.sale_team_id,
        ord_seller.sale_team_name,
        ord_seller.sale_team_freezed_id,
-       ord_seller.sale_team_freezed_name
+       ord_seller.sale_team_freezed_name,
+
+       --订单归属信息
+       frozen_trade.trade_service_bd_id_frez as frozen_sale_user_id,
+       rule_center.newest_user_id as newest_sale_user_id
 --订单表
 from (
     SELECT order_id,
@@ -163,5 +169,20 @@ LEFT JOIN (
     FROM dim_hpc_trd_ord_seller_d
     WHERE dayid = '$v_date'
 ) ord_seller ON ord.order_id = ord_seller.order_id
+
+--规则中心数据
+LEFT JOIN (
+    SELECT order_id,
+           newest_user_id
+    FROM dim_hpc_ord_finance_order_ascription
+) rule_center ON ord.order_id = rule_center.order_id
+
+--冻结数据
+LEFT JOIN (
+    SELECT trade_id,
+           trade_service_bd_id_frez
+    FROM dim_hpc_trd_trade_service_d
+    WHERE dayid = '$v_date'
+) frozen_trade ON frozen_trade.trade_id = ord.trade_id
 ;
 "
