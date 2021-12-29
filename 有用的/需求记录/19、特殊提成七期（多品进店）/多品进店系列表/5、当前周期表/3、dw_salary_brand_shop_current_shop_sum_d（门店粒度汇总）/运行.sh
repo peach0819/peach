@@ -7,7 +7,7 @@ then
 fi
 
 source ../sql_variable.sh $v_date
-source ../yarn_variable.sh dw_salary_brand_shop_current_object_sum_d '肥桃'
+source ../yarn_variable.sh dw_salary_brand_shop_current_shop_sum_d '肥桃'
 
 spark-sql $spark_yarn_job_name_conf $spark_yarn_queue_name_conf --master yarn --executor-memory 4G --num-executors 4 -v -e "
 use ytdw;

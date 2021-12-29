@@ -109,3 +109,19 @@ create table if not exists dw_salary_brand_shop_current_shop_sum_d
 ) comment '多品进店当前周期门店粒度汇总表'
 partitioned by (dayid string, pltype string)
 stored as orc;
+
+create table if not exists dw_salary_brand_shop_sum_d
+(
+    planno                 int comment '方案编号',
+    plan_month             string comment '方案月份',
+    update_time            string comment '更新时间',
+    update_month           string comment '执行月份',
+    shop_id                string comment '门店ID',
+    shop_name              string comment '门店名称',
+    grant_object_user_id   string comment '首个达成门槛线的发放对象id',
+    is_kn_sale_user        string comment '是否库内销售',
+    compare_brand_shop_num int comment '比对周期 门店粒度 有效品牌门店数',
+    current_brand_shop_num int comment '当前周期 销售粒度 有效品牌门店数'
+) comment '多品进店门店粒度汇总表'
+partitioned by (dayid string, pltype string)
+stored as orc;
