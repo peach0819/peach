@@ -82,7 +82,7 @@ user_admin as (
     FROM dim_ytj_pub_user_admin_ds
     WHERE start_time <= concat('$v_date', '235959')
     AND end_time >= concat('$v_date', '235959')
-)
+),
 
 cur as (
     SELECT from_unixtime(unix_timestamp(),'yyyy-MM-dd HH:mm:ss') as update_time,
@@ -94,7 +94,7 @@ cur as (
            plan_user.grant_object_user_id,
            plan_user.is_kn_sale_user,
            if(user_admin.dismiss_status = 0, ifnull(count(distinct compare_data.brand_id), 0), 0) as compare_brand_shop_num,
-           if(user_admin.dismiss_status = 0, ifnull(count(distinct current_data.brand_id), 0), 0), 0) as current_brand_shop_num
+           if(user_admin.dismiss_status = 0, ifnull(count(distinct current_data.brand_id), 0), 0) as current_brand_shop_num
     FROM plan
     INNER JOIN shop ON plan.no = shop.planno
     INNER JOIN (
@@ -110,7 +110,8 @@ cur as (
              shop.shop_id,
              shop.shop_name,
              plan_user.grant_object_user_id,
-             plan_user.is_kn_sale_user
+             plan_user.is_kn_sale_user,
+             user_admin.dismiss_status
 )
 
 insert overwrite table dw_salary_brand_shop_sum_d partition (dayid='$v_date', pltype='cur')
