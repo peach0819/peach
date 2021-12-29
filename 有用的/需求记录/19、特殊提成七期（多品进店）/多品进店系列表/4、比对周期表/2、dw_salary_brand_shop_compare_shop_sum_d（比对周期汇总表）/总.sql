@@ -1,0 +1,62 @@
+use ytdw;
+
+with plan as (
+    SELECT no,
+           replace(replace(replace(get_json_object(get_json_object(filter_config_json,'$.valid_brand_line'),'$.value'),'\"',''),'[',''),']','') as valid_brand_line,
+           replace(replace(replace(split(get_json_object(get_json_object(filter_config_json,'$.compare_date'),'$.value'),',')[1],']',''),'\"',''),'-','') as calculate_date_value_end
+    FROM dw_bounty_plan_schedule_d
+    WHERE dayid = '$v_date'
+    AND bounty_rule_type = 4
+),
+
+detail as (
+    SELECT planno,
+           plan_month,
+           order_id,
+           pay_date,
+           rfd_date,
+           gmv,
+           refund,
+           gmv_less_refund,
+           shop_id,
+           shop_name,
+           brand_id,
+           brand_name
+    FROM dw_salary_brand_shop_compare_public_d
+    WHERE dayid = '$v_date'
+),
+
+cur as (
+    SELECT from_unixtime(unix_timestamp(),'yyyy-MM-dd HH:mm:ss') as update_time,
+           from_unixtime(unix_timestamp(),'yyyy-MM') as update_month,
+           detail.planno,
+           detail.plan_month,
+           detail.shop_id,
+           detail.shop_name,
+           detail.brand_id,
+           detail.brand_name,
+           sum(if(detail.rfd_date is not null and detail.rfd_date > calculate_date_value_end, detail.gmv, detail.gmv_less_refund)) as total_gmv_less_refund,
+           plan.valid_brand_line
+    FROM detail
+    INNER JOIN plan ON detail.planno = plan.no
+    group by detail.planno,
+             detail.plan_month,
+             detail.shop_id,
+             detail.shop_name,
+             detail.brand_id,
+             detail.brand_name,
+             plan.valid_brand_line
+)
+
+insert overwrite table dw_salary_brand_shop_compare_shop_sum_d partition (dayid='$v_date')
+SELECT planno,
+       plan_month,
+       update_time,
+       update_month,
+       shop_id,
+       shop_name,
+       brand_id,
+       brand_name,
+       total_gmv_less_refund,
+       if(total_gmv_less_refund > valid_brand_line, 1, 0) as is_valid_brand
+FROM cur

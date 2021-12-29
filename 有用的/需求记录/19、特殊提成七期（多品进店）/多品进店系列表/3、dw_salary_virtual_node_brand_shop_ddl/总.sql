@@ -58,3 +58,19 @@ create table if not exists dw_salary_brand_shop_compare_public_d
 ) comment '多品进店比对周期明细表'
 partitioned by (dayid string)
 stored as orc;
+
+create table if not exists dw_salary_brand_shop_compare_shop_sum_d
+(
+    planno                int comment '方案编号',
+    plan_month            string comment '方案月份',
+    update_time           string comment '更新时间',
+    update_month          string comment '执行月份',
+    shop_id               string comment '门店ID',
+    shop_name             string comment '门店名称',
+    brand_id              bigint comment '商品品牌id',
+    brand_name            string comment '商品品牌',
+    total_gmv_less_refund decimal(18, 2) comment '实货gmv-退款',
+    is_valid_brand        tinyint comment '是否满足有效门槛线'
+) comment '多品进店比对周期门店粒度汇总表'
+partitioned by (dayid string)
+stored as orc;
