@@ -75,6 +75,15 @@ kn_plan_user as (
     INNER JOIN plan ON current_data.planno = plan.no AND plan.payout_object_type = '库内'
 ),
 
+--人员离职状态
+user_admin as (
+    SELECT user_id,
+           dismiss_status
+    FROM dim_ytj_pub_user_admin_ds
+    WHERE start_time <= concat('$v_date', '235959')
+    AND end_time >= concat('$v_date', '235959')
+)
+
 cur as (
     SELECT from_unixtime(unix_timestamp(),'yyyy-MM-dd HH:mm:ss') as update_time,
            from_unixtime(unix_timestamp(),'yyyy-MM') as update_month,
@@ -84,8 +93,8 @@ cur as (
            shop.shop_name,
            plan_user.grant_object_user_id,
            plan_user.is_kn_sale_user,
-           ifnull(count(distinct compare_data.brand_id), 0) as compare_brand_shop_num,
-           ifnull(count(distinct current_data.brand_id), 0) as current_brand_shop_num
+           if(user_admin.dismiss_status = 0, ifnull(count(distinct compare_data.brand_id), 0), 0) as compare_brand_shop_num,
+           if(user_admin.dismiss_status = 0, ifnull(count(distinct current_data.brand_id), 0), 0), 0) as current_brand_shop_num
     FROM plan
     INNER JOIN shop ON plan.no = shop.planno
     INNER JOIN (
@@ -93,6 +102,7 @@ cur as (
         UNION ALL
         SELECT planno, shop_id, grant_object_user_id, is_kn_sale_user FROM kn_plan_user
     ) plan_user ON shop.planno = plan_user.planno AND shop.shop_id = plan_user.shop_id
+    LEFT JOIN user_admin ON user_admin.user_id = plan_user.grant_object_user_id
     LEFT JOIN compare_data ON plan_user.planno = compare_data.planno and compare_data.shop_id = plan_user.shop_id
     LEFT JOIN current_data ON plan_user.planno = current_data.planno and current_data.shop_id = plan_user.shop_id AND current_data.grant_object_user_id = plan_user.grant_object_user_id
     GROUP BY plan.no,
