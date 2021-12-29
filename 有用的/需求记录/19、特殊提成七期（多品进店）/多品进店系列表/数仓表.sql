@@ -13,6 +13,9 @@ dw_salary_brand_shop_current_public_d (正逆分区)
 --当前周期销售粒度汇总表
 dw_salary_brand_shop_current_object_sum_d (正逆分区)
 
+--当前周期门店粒度汇总表
+dw_salary_brand_shop_current_shop_sum_d (正逆分区)
+
 --多品进店门店维度汇总表
 dw_salary_brand_shop_sum_d (正逆分区)
 
