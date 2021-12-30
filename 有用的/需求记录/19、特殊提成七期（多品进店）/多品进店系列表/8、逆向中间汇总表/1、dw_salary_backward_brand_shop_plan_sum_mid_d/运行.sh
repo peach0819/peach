@@ -1,7 +1,7 @@
 v_date=$1
 
 source ../sql_variable.sh $v_date
-source ../yarn_variable.sh dw_salary_forward_brand_shop_plan_sum_d '肥桃'
+source ../yarn_variable.sh dw_salary_backward_brand_shop_plan_sum_mid_d '肥桃'
 
 spark-sql $spark_yarn_job_name_conf $spark_yarn_queue_name_conf --master yarn --executor-memory 4G --num-executors 4 -v -e "
 use ytdw;
@@ -25,7 +25,7 @@ with plan as (
            replace(replace(replace(replace(get_json_object(get_json_object(filter_config_json,'$.calculate_date_quarter'),'$.value'),']',''),'\"',''),'[',''),',','~') as plan_pay_time
     FROM dw_bounty_plan_schedule_d
     WHERE dayid = '$v_date'
-    AND array_contains(split(forward_date, ','), '$v_date')
+    AND array_contains(split(backward_date, ','), '$v_date')
     AND bounty_rule_type = 4
 ),
 
@@ -37,7 +37,7 @@ detail as (
            sum(total_gmv_less_refund) as total_gmv_less_refund
     FROM dw_salary_brand_shop_sum_d
     WHERE dayid = '$v_date'
-    AND pltype = 'cur'
+    AND pltype = 'pre'
     group by planno, grant_object_user_id
 ),
 
@@ -98,7 +98,7 @@ cur as (
     LEFT JOIN user_admin ON user_admin.user_id = detail.grant_object_user_id
 )
 
-insert overwrite table dw_salary_forward_plan_sum_d partition (dayid='$v_date', bounty_rule_type=4)
+insert overwrite table dw_salary_backward_plan_sum_mid_d partition (dayid='$v_date',bounty_rule_type=4)
 SELECT update_time,
        update_month,
        plan_month,
