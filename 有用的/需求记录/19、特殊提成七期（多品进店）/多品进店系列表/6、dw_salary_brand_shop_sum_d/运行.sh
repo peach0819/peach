@@ -126,7 +126,8 @@ cur as (
              shop.shop_name,
              plan_user.grant_object_user_id,
              plan_user.is_kn_sale_user,
-             user_admin.dismiss_status
+             user_admin.dismiss_status,
+             user_admin.leave_time
 )
 
 insert overwrite table dw_salary_brand_shop_sum_d partition (dayid='$v_date', pltype='cur')
