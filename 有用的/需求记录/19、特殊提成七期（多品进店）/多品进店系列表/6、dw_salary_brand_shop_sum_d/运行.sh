@@ -40,7 +40,7 @@ current_data as (
            grant_object_user_id
     FROM dw_salary_brand_shop_current_shop_sum_d
     WHERE dayid = '$v_date'
-    AND pltype = 'cur'
+    AND pltype = '$pltype'
 ),
 
 --参与计算的门店， 取当前周期、比对周期 门店合集
@@ -127,7 +127,7 @@ cur as (
              user_admin.dismiss_status
 )
 
-insert overwrite table dw_salary_brand_shop_sum_d partition (dayid='$v_date', pltype='cur')
+insert overwrite table dw_salary_brand_shop_sum_d partition (dayid='$v_date', pltype='$pltype')
 SELECT planno,
        plan_month,
        update_time,
