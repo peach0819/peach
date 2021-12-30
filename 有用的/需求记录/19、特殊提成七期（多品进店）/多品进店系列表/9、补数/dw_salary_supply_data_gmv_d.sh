@@ -5,15 +5,21 @@ source ../sql_variable.sh $v_date
 function supply_forward() {
     supply_date=$1
     data_date=$2
-    echo "./dw_salary_forward_brand_shop_current_public_d.sh $data_date $supply_date"
-    #sh ./dw_salary_forward_brand_shop_current_public_d.sh $data_date $supply_date
+    sh ./dw_salary_forward_brand_shop_current_public_d.sh $data_date $supply_date
+    sh ./dw_salary_brand_shop_current_object_sum_d.sh $data_date 'cur' $supply_date
+    sh ./dw_salary_brand_shop_current_shop_sum_d.sh $data_date 'cur' $supply_date
+    sh ./dw_salary_brand_shop_sum_d.sh $data_date 'cur' $supply_date
+    sh ./dw_salary_forward_brand_shop_plan_sum_d.sh $data_date $supply_date
 }
 
 function supply_backward() {
     supply_date=$1
     data_date=$2
-    echo "./dw_salary_backward_brand_shop_current_public_d.sh $data_date $supply_date"
-    #sh ./dw_salary_backward_brand_shop_current_public_d.sh $data_date $supply_date
+    sh ./dw_salary_backward_brand_shop_current_public_d.sh $data_date $supply_date
+    sh ./dw_salary_brand_shop_current_object_sum_d.sh $data_date 'pre' $supply_date
+    sh ./dw_salary_brand_shop_current_shop_sum_d.sh $data_date 'pre' $supply_date
+    sh ./dw_salary_brand_shop_sum_d.sh $data_date 'pre' $supply_date
+    sh ./dw_salary_backward_brand_shop_plan_sum_mid_d.sh $data_date $supply_date
 }
 
 forward_supply_date=$(apache-spark-sql -e "
