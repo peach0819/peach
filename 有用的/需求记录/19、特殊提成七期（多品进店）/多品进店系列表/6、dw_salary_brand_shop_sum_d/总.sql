@@ -93,6 +93,7 @@ cur as (
            shop.shop_name,
            plan_user.grant_object_user_id,
            plan_user.is_kn_sale_user,
+           if(user_admin.dismiss_status = 0, '否', '是') as is_leave,
            if(user_admin.dismiss_status = 0, ifnull(count(distinct compare_data.brand_id), 0), 0) as compare_brand_shop_num,
            if(user_admin.dismiss_status = 0, ifnull(count(distinct current_data.brand_id), 0), 0) as current_brand_shop_num
     FROM plan
@@ -123,6 +124,7 @@ SELECT planno,
        shop_name,
        grant_object_user_id,
        is_kn_sale_user,
+       is_leave,
        compare_brand_shop_num,
        current_brand_shop_num
 FROM cur
