@@ -25,7 +25,8 @@ current_data as (
            shop_id,
            shop_name,
            brand_id,
-           grant_object_user_id
+           grant_object_user_id,
+           total_gmv_less_refund
     FROM dw_salary_brand_shop_current_shop_sum_d
     WHERE dayid = '$v_date'
     AND pltype = 'cur'
@@ -97,7 +98,8 @@ cur as (
            if(user_admin.dismiss_status = 0, '否', '是') as is_leave,
            user_admin.leave_time,
            if(user_admin.dismiss_status = 0, ifnull(count(distinct compare_data.brand_id), 0), 0) as compare_brand_shop_num,
-           if(user_admin.dismiss_status = 0, ifnull(count(distinct current_data.brand_id), 0), 0) as current_brand_shop_num
+           if(user_admin.dismiss_status = 0, ifnull(count(distinct current_data.brand_id), 0), 0) as current_brand_shop_num,
+           sum(current_data.total_gmv_less_refund) as total_gmv_less_refund
     FROM plan
     INNER JOIN shop ON plan.no = shop.planno
     INNER JOIN (
@@ -130,5 +132,6 @@ SELECT planno,
        is_leave,
        leave_time,
        compare_brand_shop_num,
-       current_brand_shop_num
+       current_brand_shop_num,
+       total_gmv_less_refund
 FROM cur

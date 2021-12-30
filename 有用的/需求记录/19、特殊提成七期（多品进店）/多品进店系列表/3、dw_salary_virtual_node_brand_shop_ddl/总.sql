@@ -123,7 +123,8 @@ create table if not exists dw_salary_brand_shop_sum_d
     is_leave               string comment '是否离职',
     leave_time             string comment '离职时间',
     compare_brand_shop_num int comment '比对周期 门店粒度 有效品牌门店数',
-    current_brand_shop_num int comment '当前周期 销售粒度 有效品牌门店数'
+    current_brand_shop_num int comment '当前周期 销售粒度 有效品牌门店数',
+    total_gmv_less_refund  decimal(18, 2) comment '实货gmv-退款'
 ) comment '多品进店门店粒度汇总表'
 partitioned by (dayid string, pltype string)
 stored as orc;
