@@ -40,7 +40,7 @@ current_data as (
            grant_object_user_id
     FROM dw_salary_brand_shop_current_shop_sum_d
     WHERE dayid = '$v_date'
-    AND pltype = '$pltype'
+    AND pltype = 'cur'
 ),
 
 --参与计算的门店， 取当前周期、比对周期 门店合集
@@ -90,7 +90,8 @@ kn_plan_user as (
 --人员离职状态
 user_admin as (
     SELECT user_id,
-           dismiss_status
+           dismiss_status,
+           leave_time
     FROM dim_ytj_pub_user_admin_ds
     WHERE start_time <= concat('$v_date', '235959')
     AND end_time >= concat('$v_date', '235959')
@@ -106,6 +107,7 @@ cur as (
            plan_user.grant_object_user_id,
            plan_user.is_kn_sale_user,
            if(user_admin.dismiss_status = 0, '否', '是') as is_leave,
+           user_admin.leave_time,
            if(user_admin.dismiss_status = 0, ifnull(count(distinct compare_data.brand_id), 0), 0) as compare_brand_shop_num,
            if(user_admin.dismiss_status = 0, ifnull(count(distinct current_data.brand_id), 0), 0) as current_brand_shop_num
     FROM plan
@@ -127,7 +129,7 @@ cur as (
              user_admin.dismiss_status
 )
 
-insert overwrite table dw_salary_brand_shop_sum_d partition (dayid='$v_date', pltype='$pltype')
+insert overwrite table dw_salary_brand_shop_sum_d partition (dayid='$v_date', pltype='cur')
 SELECT planno,
        plan_month,
        update_time,
@@ -137,6 +139,7 @@ SELECT planno,
        grant_object_user_id,
        is_kn_sale_user,
        is_leave,
+       leave_time,
        compare_brand_shop_num,
        current_brand_shop_num
 FROM cur
