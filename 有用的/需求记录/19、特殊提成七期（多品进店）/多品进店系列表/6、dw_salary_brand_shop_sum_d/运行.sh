@@ -1,9 +1,16 @@
 v_date=$1
 pltype=$2
+supply_date=$3
+supply_mode='not_supply'
 
 if [[ $pltype = "" ]]
 then
 	pltype='cur'
+fi
+
+if [[ $supply_date != "" ]]
+then
+  supply_mode='supply'
 fi
 
 source ../sql_variable.sh $v_date
@@ -18,8 +25,9 @@ with plan as (
            replace(replace(replace(get_json_object(get_json_object(filter_config_json,'$.payout_object_type'),'$.value'),'\"',''),'[',''),']','') as payout_object_type
     FROM dw_bounty_plan_schedule_d
     WHERE dayid = '$v_date'
-    AND array_contains(split(forward_date, ','), '$v_date')
     AND bounty_rule_type = 4
+    AND array_contains(split(if('$pltype' = 'cur', forward_date, backward_date), ','), '$v_date')
+    AND ('$supply_mode' = 'not_supply' OR array_contains(split(supply_date, ','), '$supply_date'))
 ),
 
 compare_data as (
@@ -41,7 +49,7 @@ current_data as (
            total_gmv_less_refund
     FROM dw_salary_brand_shop_current_shop_sum_d
     WHERE dayid = '$v_date'
-    AND pltype = 'cur'
+    AND pltype = '$pltype'
 ),
 
 --参与计算的门店， 取当前周期、比对周期 门店合集
@@ -132,7 +140,7 @@ cur as (
              user_admin.leave_time
 )
 
-insert overwrite table dw_salary_brand_shop_sum_d partition (dayid='$v_date', pltype='cur')
+insert overwrite table dw_salary_brand_shop_sum_d partition (dayid='$v_date', pltype='$pltype')
 SELECT planno,
        plan_month,
        update_time,
@@ -147,6 +155,32 @@ SELECT planno,
        current_brand_shop_num,
        total_gmv_less_refund
 FROM cur
+
+UNION ALL
+
+SELECT planno,
+       plan_month,
+       update_time,
+       update_month,
+       shop_id,
+       shop_name,
+       grant_object_user_id,
+       is_kn_sale_user,
+       is_leave,
+       leave_time,
+       compare_brand_shop_num,
+       current_brand_shop_num,
+       total_gmv_less_refund
+FROM (
+    SELECT *
+    FROM dw_salary_brand_shop_sum_d
+    WHERE dayid = '$v_date'
+    AND pltype = '$pltype'
+) history
+LEFT JOIN (
+    SELECT no FROM plan
+) cur_plan ON history.planno = cur_plan.no
+WHERE cur_plan.no is null
 ;
 " &&
 
