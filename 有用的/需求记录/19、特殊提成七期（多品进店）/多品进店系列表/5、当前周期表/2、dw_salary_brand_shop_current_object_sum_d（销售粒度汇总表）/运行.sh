@@ -1,9 +1,16 @@
 v_date=$1
 pltype=$2
+supply_date=$3
+supply_mode='not_supply'
 
 if [[ $pltype = "" ]]
 then
 	pltype='cur'
+fi
+
+if [[ $supply_date != "" ]]
+then
+  supply_mode='supply'
 fi
 
 source ../sql_variable.sh $v_date
@@ -18,6 +25,8 @@ with plan as (
     FROM dw_bounty_plan_schedule_d
     WHERE dayid = '$v_date'
     AND bounty_rule_type = 4
+    AND array_contains(split(if('$pltype' = 'cur', forward_date, backward_date), ','), '$v_date')
+    AND ('$supply_mode' = 'not_supply' OR array_contains(split(supply_date, ','), '$supply_date'))
 ),
 
 detail as (
@@ -77,6 +86,31 @@ SELECT planno,
        if(total_gmv_less_refund>valid_brand_line, 1, 0) as is_valid_brand,
        first_valid_date
 FROM cur
+
+UNION ALL
+
+SELECT planno,
+       plan_month,
+       update_time,
+       update_month,
+       shop_id,
+       shop_name,
+       brand_id,
+       brand_name,
+       grant_object_user_id,
+       total_gmv_less_refund,
+       is_valid_brand,
+       first_valid_date
+FROM (
+    SELECT *
+    FROM dw_salary_brand_shop_current_object_sum_d
+    WHERE dayid = '$v_date'
+    AND pltype = '$pltype'
+) history
+LEFT JOIN (
+    SELECT no FROM plan
+) cur_plan ON history.planno = cur_plan.no
+WHERE cur_plan.no is null
 ;
 " &&
 
