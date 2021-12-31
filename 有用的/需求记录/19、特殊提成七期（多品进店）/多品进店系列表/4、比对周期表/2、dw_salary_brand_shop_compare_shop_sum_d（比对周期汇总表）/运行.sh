@@ -41,7 +41,7 @@ cur as (
            detail.shop_name,
            detail.brand_id,
            detail.brand_name,
-           sum(if(detail.rfd_date is not null and detail.rfd_date > calculate_date_value_end, detail.gmv, detail.gmv_less_refund)) as total_gmv_less_refund,
+           sum(detail.gmv_less_refund) as total_gmv_less_refund,
            plan.valid_brand_line
     FROM detail
     INNER JOIN plan ON detail.planno = plan.no
