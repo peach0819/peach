@@ -53,10 +53,10 @@ cur as (
            ord.order_id,
            ord.trade_id,
            ord.pay_date,
-           ord.rfd_date,
-           ord.gmv,
-           ord.refund,
-           ord.gmv_less_refund,
+           max(ord.rfd_date) as rfd_date,
+           sum(ord.gmv) as gmv,
+           sum(ord.refund) as refund,
+           sum(ord.gmv_less_refund) as gmv_less_refund,
            ord.shop_id,
            ord.shop_name,
            ord.brand_id,
@@ -86,6 +86,28 @@ cur as (
     AND ytdw.simple_expr(ord.bd_manager_dep_id, 'in', plan.manage_area_value) = if(plan.manage_area_operator = '=', 1, 0)
     AND ytdw.simple_expr(if(plan.payout_object_type = '冻结', ord.sale_team_freezed_id, ord.sale_team_id), 'in', plan.sales_team_value) = if(plan.sales_team_operator = '=', 1, 0)
     AND if(ord.shop_group = '' OR plan.shop_group_value = '', 0, ytdw.simple_expr(substr(plan.shop_group_value, 2, length(plan.shop_group_value) - 2), 'in', concat('[', ord.shop_group, ']'))) = if(plan.shop_group_operator = '=', 1, 0)
+    GROUP BY plan.no,
+             plan.month,
+             ord.order_id,
+             ord.trade_id,
+             ord.pay_date,
+             ord.shop_id,
+             ord.shop_name,
+             ord.brand_id,
+             ord.brand_name,
+             ord.category_1st_id,
+             ord.category_1st_name,
+             ord.category_2nd_id,
+             ord.category_2nd_name,
+             ord.item_id,
+             ord.item_name,
+             ord.item_style,
+             ord.item_style_name,
+             case when plan.bounty_payout_object_code= 'WAR_ZONE_MANAGE' then war_zone_id
+                  when plan.bounty_payout_object_code= 'AREA_MANAGER' then area_manager_id
+                  when plan.bounty_payout_object_code= 'BD_MANAGER' then bd_manager_id
+                  when plan.bounty_payout_object_code= 'BD' then if(plan.payout_object_type = '冻结', ord.frozen_sale_user_id, ord.newest_sale_user_id)
+             end
 )
 
 insert overwrite table dw_salary_brand_shop_current_public_d partition (dayid='$v_date', pltype='cur')
