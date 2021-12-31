@@ -1,0 +1,17 @@
+
+
+--规则中心：
+ads_order_biz_order_channel_detail_d 订单中间表
+ads_order_biz_order_channel_d 最新归属
+ads_order_biz_frozen_order_channel_d 冻结重刷
+
+dwd_finance_order_ascription_d
+ads_finance_order_ascription_d 王磊的订单归属表
+
+dim_hpc_ord_finance_order_ascription onedata的订单归属表
+
+--订单基本属性表
+dws_hpc_trd_act_detail_d 订单实时表, 包含
+dim_hpc_trd_trade_service_d 交易的冻结服务人员信息
+dim_hpc_trd_ord_seller_d 订单的销售团队标识表
+dw_hpc_trd_act_rfd_d 退款数据表
