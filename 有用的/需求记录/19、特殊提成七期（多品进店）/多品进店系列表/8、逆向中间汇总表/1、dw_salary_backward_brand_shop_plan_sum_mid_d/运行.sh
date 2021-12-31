@@ -1,4 +1,11 @@
 v_date=$1
+supply_date=$2
+supply_mode='not_supply'
+
+if [[ $supply_date != "" ]]
+then
+  supply_mode='supply'
+fi
 
 source ../sql_variable.sh $v_date
 source ../yarn_variable.sh dw_salary_backward_brand_shop_plan_sum_mid_d '肥桃'
@@ -26,6 +33,7 @@ with plan as (
     FROM dw_bounty_plan_schedule_d
     WHERE dayid = '$v_date'
     AND array_contains(split(backward_date, ','), '$v_date')
+    AND ('$supply_mode' = 'not_supply' OR array_contains(split(supply_date, ','), '$supply_date'))
     AND bounty_rule_type = 4
 ),
 
@@ -126,6 +134,41 @@ SELECT update_time,
        ) as commission_reward,
        planno
 FROM cur
+
+UNION ALL
+
+SELECT update_time,
+       update_month,
+       plan_month,
+       plan_pay_time,
+       planno as plan_no,
+       plan_name,
+       plan_group_id,
+       plan_group_name,
+       grant_object_type,
+       grant_object_user_id,
+       grant_object_user_name,
+       grant_object_user_dep_id,
+       grant_object_user_dep_name,
+       leave_time,
+       sts_target_name,
+       sts_target,
+       real_coefficient_goal_rate,
+       commission_cap,
+       commission_plan_type,
+       commission_reward_type,
+       commission_reward,
+       planno
+FROM (
+    SELECT *
+    FROM dw_salary_backward_plan_sum_mid_d
+    WHERE dayid = '$v_date'
+    AND bounty_rule_type=4
+) history
+LEFT JOIN (
+    SELECT no FROM plan
+) cur_plan ON history.planno = cur_plan.no
+WHERE cur_plan.no is null
 ;
 " &&
 
