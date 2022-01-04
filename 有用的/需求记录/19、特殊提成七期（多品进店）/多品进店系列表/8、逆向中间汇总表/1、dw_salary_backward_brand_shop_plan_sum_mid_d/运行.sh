@@ -31,8 +31,7 @@ with plan as (
            payout_upper_limit,
            replace(replace(replace(replace(get_json_object(get_json_object(filter_config_json,'$.calculate_date_quarter'),'$.value'),']',''),'\"',''),'[',''),',','~') as plan_pay_time
     FROM dw_bounty_plan_schedule_d
-    WHERE dayid = '$v_date'
-    AND array_contains(split(backward_date, ','), '$v_date')
+    WHERE array_contains(split(backward_date, ','), '$v_date')
     AND ('$supply_mode' = 'not_supply' OR array_contains(split(supply_date, ','), '$supply_date'))
     AND bounty_rule_type = 4
 ),

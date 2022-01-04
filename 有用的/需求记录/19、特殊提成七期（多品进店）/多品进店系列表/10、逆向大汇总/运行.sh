@@ -18,8 +18,7 @@ with plan as (
            max(need_supply_date) as pre_date
     FROM dw_bounty_plan_schedule_d
     lateral view explode(split(backward_date,',')) temp as need_supply_date
-    WHERE dayid = '$v_date'
-    AND need_supply_date < '$v_date'
+    WHERE need_supply_date < '$v_date'
     AND array_contains(split(backward_date, ','), '$v_date')
     AND ('$supply_mode' = 'not_supply' OR array_contains(split(supply_date, ','), '$supply_date'))
     group by no
