@@ -27,8 +27,7 @@ forward_supply_date=$(apache-spark-sql -e "
     SELECT concat_ws('\;' , sort_array(collect_set(cast(need_supply_date as int))))
     FROM dw_bounty_plan_schedule_d
     lateral view explode(split(forward_date,',')) temp as need_supply_date
-    WHERE dayid = '$v_date'
-    AND bounty_rule_type = 4
+    WHERE bounty_rule_type = 4
     AND supply_date = '$v_date'
     AND need_supply_date < '$v_date'
 ")
@@ -38,8 +37,7 @@ backward_supply_date=$(apache-spark-sql -e "
     SELECT concat_ws('\;' , sort_array(collect_set(cast(need_supply_date as int))))
     FROM dw_bounty_plan_schedule_d
     lateral view explode(split(backward_date,',')) temp as need_supply_date
-    WHERE dayid = '$v_date'
-    AND bounty_rule_type = 4
+    WHERE bounty_rule_type = 4
     AND supply_date = '$v_date'
     AND need_supply_date < '$v_date'
 ")
