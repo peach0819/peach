@@ -34,10 +34,9 @@ create table if not exists dw_bounty_plan_schedule_d
     supply_date               string comment '需要补数的日期'
 )
 comment '特殊提成方案调度表'
-partitioned by (dayid string)
 stored as orc;
 
-insert overwrite table dw_bounty_plan_d partition(dayid='$v_date')
+insert overwrite table dw_bounty_plan_schedule_d
 SELECT plan.id,
        plan.no,
        plan.name,
