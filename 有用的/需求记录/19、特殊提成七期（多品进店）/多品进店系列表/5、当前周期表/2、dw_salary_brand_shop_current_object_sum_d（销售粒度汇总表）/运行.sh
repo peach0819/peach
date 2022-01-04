@@ -23,8 +23,7 @@ with plan as (
     SELECT no,
            replace(replace(replace(get_json_object(get_json_object(filter_config_json,'$.valid_brand_line'),'$.value'),'\"',''),'[',''),']','') as valid_brand_line
     FROM dw_bounty_plan_schedule_d
-    WHERE dayid = '$v_date'
-    AND bounty_rule_type = 4
+    WHERE bounty_rule_type = 4
     AND array_contains(split(if('$pltype' = 'cur', forward_date, backward_date), ','), '$v_date')
     AND ('$supply_mode' = 'not_supply' OR array_contains(split(supply_date, ','), '$supply_date'))
 ),

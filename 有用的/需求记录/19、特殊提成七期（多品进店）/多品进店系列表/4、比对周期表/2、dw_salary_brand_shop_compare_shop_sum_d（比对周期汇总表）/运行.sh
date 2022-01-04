@@ -11,8 +11,7 @@ with plan as (
            replace(replace(replace(get_json_object(get_json_object(filter_config_json,'$.valid_brand_line'),'$.value'),'\"',''),'[',''),']','') as valid_brand_line,
            replace(replace(replace(split(get_json_object(get_json_object(filter_config_json,'$.compare_date'),'$.value'),',')[1],']',''),'\"',''),'-','') as calculate_date_value_end
     FROM dw_bounty_plan_schedule_d
-    WHERE dayid = '$v_date'
-    AND bounty_rule_type = 4
+    WHERE bounty_rule_type = 4
 ),
 
 detail as (

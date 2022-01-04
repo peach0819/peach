@@ -30,8 +30,7 @@ with plan as (
            replace(replace(replace(split(get_json_object(get_json_object(filter_config_json,'$.compare_date'),'$.value'),',')[0],'[',''),'\"',''),'-','') as calculate_date_value_start,
            replace(replace(replace(split(get_json_object(get_json_object(filter_config_json,'$.compare_date'),'$.value'),',')[1],']',''),'\"',''),'-','') as calculate_date_value_end
     FROM dw_bounty_plan_schedule_d
-    WHERE dayid = '$v_date'
-    AND array_contains(split(forward_date, ','), '$v_date')
+    WHERE array_contains(split(forward_date, ','), '$v_date')
     AND bounty_rule_type = 4
 ),
 
