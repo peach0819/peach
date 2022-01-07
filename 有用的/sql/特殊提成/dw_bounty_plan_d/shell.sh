@@ -22,14 +22,15 @@ create table if not exists dw_bounty_plan_d
     payout_upper_limit      decimal comment '提成上限',
     last_edit_time          string comment '最后修改时间',
     creator                 string comment '创建人ID',
-    status					        string comment '方案状态 1开启，9废弃',
     editor                  string comment '修改人ID',
     create_time             string comment '创建时间',
     edit_time               string comment '修改时间',
     is_deleted              tinyint comment '',
     subject_id              bigint comment '方案对应的P0项目id',
     owner_type              tinyint comment '方案归属类型：1业务组 2销售部',
-    filter_config_json      string comment '过滤条件'
+    filter_config_json      string comment '过滤条件',
+    status					        string comment '方案状态 1开启，9废弃',
+    time_type               tinyint comment '方案时间类型'
 )
 comment '特殊提成方案加工表'
 partitioned by (dayid string)
@@ -60,6 +61,7 @@ WITH detail as (
            is_deleted,
            subject_id,
            owner_type,
+           time_type,
            get_json_object(filter_config, '$.id') as filter_id,
            get_json_object(filter_config, '$.operator') as filter_operator,
            get_json_object(filter_config, '$.values') as filter_values
@@ -105,6 +107,7 @@ mid as (
            filter.filter_key,
            detail.filter_operator,
            detail.filter_values,
+           detail.time_type,
            to_json(named_struct('operator', detail.filter_operator, 'value', detail.filter_values)) as filter_struct,
            to_json(map(filter.filter_key, to_json(named_struct('operator', detail.filter_operator, 'value', detail.filter_values)))) as filter_value_json
     FROM detail
@@ -135,7 +138,8 @@ SELECT id,
        subject_id,
        owner_type,
        concat('{',concat_ws(',', collect_list(substr(filter_value_json, 2, length(filter_value_json) - 2))),'}') as filter_config_json,
-       status
+       status,
+       time_type
 FROM mid
 group by id,
          no,
@@ -159,5 +163,6 @@ group by id,
          edit_time,
          is_deleted,
          subject_id,
-         owner_type;
+         owner_type,
+         time_type
 "
