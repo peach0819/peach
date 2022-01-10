@@ -1,4 +1,11 @@
 v_date=$1
+supply_date=$2
+supply_mode='not_supply'
+
+if [[ $supply_date != "" ]]
+then
+  supply_mode='supply'
+fi
 
 source ../sql_variable.sh $v_date
 source ../yarn_variable.sh dw_salary_brand_shop_compare_shop_sum_d '肥桃'
@@ -12,6 +19,8 @@ with plan as (
            replace(replace(replace(split(get_json_object(get_json_object(filter_config_json,'$.compare_date'),'$.value'),',')[1],']',''),'\"',''),'-','') as calculate_date_value_end
     FROM dw_bounty_plan_schedule_d
     WHERE bounty_rule_type = 4
+    AND array_contains(split(forward_date, ','), '$v_date')
+    AND ('$supply_mode' = 'not_supply' OR array_contains(split(supply_date, ','), '$supply_date'))
 ),
 
 detail as (
@@ -65,6 +74,28 @@ SELECT planno,
        total_gmv_less_refund,
        if(total_gmv_less_refund > valid_brand_line, 1, 0) as is_valid_brand
 FROM cur
+
+UNION ALL
+
+SELECT planno,
+       plan_month,
+       update_time,
+       update_month,
+       shop_id,
+       shop_name,
+       brand_id,
+       brand_name,
+       total_gmv_less_refund,
+       is_valid_brand
+FROM (
+    SELECT *
+    FROM dw_salary_brand_shop_compare_shop_sum_d
+    WHERE dayid = '$v_date'
+) history
+LEFT JOIN (
+    SELECT no FROM plan
+) cur_plan ON history.planno = cur_plan.no
+WHERE cur_plan.no is null
 " &&
 
 exit 0

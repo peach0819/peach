@@ -5,6 +5,8 @@ source ../sql_variable.sh $v_date
 function supply_forward() {
     supply_date=$1
     data_date=$2
+    sh ./dw_salary_brand_shop_compare_public_d.sh $data_date $supply_date
+    sh ./dw_salary_brand_shop_compare_shop_sum_d.sh $data_date $supply_date
     sh ./dw_salary_forward_brand_shop_current_public_d.sh $data_date $supply_date
     sh ./dw_salary_brand_shop_current_object_sum_d.sh $data_date 'cur' $supply_date
     sh ./dw_salary_brand_shop_current_shop_sum_d.sh $data_date 'cur' $supply_date
