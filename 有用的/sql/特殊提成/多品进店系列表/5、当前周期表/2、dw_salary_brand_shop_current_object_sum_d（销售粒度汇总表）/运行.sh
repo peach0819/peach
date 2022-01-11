@@ -1,7 +1,7 @@
 v_date=$1
-pltype=$2
-supply_date=$3
+supply_date=$4
 supply_mode='not_supply'
+pltype=$5
 
 if [[ $pltype = "" ]]
 then

@@ -5,7 +5,7 @@ source ../sql_variable.sh $v_date
 function supply_backward() {
     supply_date=$1
     data_date=$2
-    sh ./dw_salary_backward_plan_sum_d.sh $data_date $supply_date
+    sh ./dw_salary_backward_plan_sum_d.sh $data_date 0 0 $supply_date
 }
 
 backward_supply_date=$(apache-spark-sql -e "
