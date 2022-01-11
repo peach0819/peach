@@ -134,7 +134,7 @@ SELECT planno,
        item_style,
        item_style_name,
        grant_object_user_id,
-       sum(gmv_less_refund) over(partition by planno, shop_id, brand_id, grant_object_user_id order by pay_date) as current_total_gmv_less_refund
+       sum(gmv_less_refund) over(partition by planno, shop_id, brand_id, grant_object_user_id order by order_id) as current_total_gmv_less_refund
 FROM cur
 
 UNION ALL 
