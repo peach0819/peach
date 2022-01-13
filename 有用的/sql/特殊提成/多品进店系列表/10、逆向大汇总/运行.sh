@@ -70,7 +70,7 @@ cur as (
            pre.plan_no as planno
     FROM plan
     INNER JOIN pre ON plan.pre_date = pre.dayid and pre.planno = plan.no
-    LEFT JOIN today ON today.planno = plan.no
+    LEFT JOIN today ON today.planno = plan.no and pre.grant_object_user_id = today.grant_object_user_id
 )
 
 insert overwrite table dw_salary_backward_plan_sum_d partition (dayid='$v_date')
