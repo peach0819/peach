@@ -22,7 +22,8 @@ use ytdw;
 with plan as (
     SELECT no,
            month,
-           replace(replace(replace(get_json_object(get_json_object(filter_config_json,'$.payout_object_type'),'$.value'),'\"',''),'[',''),']','') as payout_object_type
+           replace(replace(replace(get_json_object(get_json_object(filter_config_json,'$.payout_object_type'),'$.value'),'\"',''),'[',''),']','') as payout_object_type,
+           if('$pltype' = 'cur', '$v_date', split(backward_date, ',')[0]) as plan_date
     FROM dw_bounty_plan_schedule_d
     WHERE bounty_rule_type = 4
     AND array_contains(split(if('$pltype' = 'cur', forward_date, backward_date), ','), '$v_date')
@@ -61,6 +62,10 @@ shop as (
     ) t
 ),
 
+shop_service as (
+    SELECT * FROM dim_hpc_shp_shop_service_d
+),
+
 --发放对象为冻结的方案涉及的人员
 frozen_plan_user as (
     SELECT distinct planno, shop_id, grant_object_user_id, is_kn_sale_user
@@ -71,7 +76,7 @@ frozen_plan_user as (
                         if(current_data.grant_object_user_id = shop_service.shop_service_bd_id, '库内', '非库内') as is_kn_sale_user
         FROM current_data
         INNER JOIN plan ON current_data.planno = plan.no AND plan.payout_object_type = '冻结'
-        LEFT JOIN (SELECT * FROM dim_hpc_shp_shop_service_d WHERE dayid  = '$v_date') shop_service ON current_data.shop_id = shop_service.shop_id
+        LEFT JOIN shop_service ON current_data.shop_id = shop_service.shop_id AND shop_service.dayid = plan.plan_date
 
         UNION ALL
 
@@ -81,7 +86,7 @@ frozen_plan_user as (
                         '库内' as is_kn_sale_user
         FROM current_data
         INNER JOIN plan ON current_data.planno = plan.no AND plan.payout_object_type = '冻结'
-        INNER JOIN (SELECT * FROM dim_hpc_shp_shop_service_d WHERE dayid  = '$v_date') shop_service ON current_data.shop_id = shop_service.shop_id and shop_service.shop_service_bd_id is not null
+        INNER JOIN shop_service ON current_data.shop_id = shop_service.shop_id and shop_service.shop_service_bd_id is not null AND shop_service.dayid = plan.plan_date
     ) t
 ),
 
@@ -99,10 +104,10 @@ kn_plan_user as (
 user_admin as (
     SELECT user_id,
            dismiss_status,
-           leave_time
+           leave_time,
+           start_time,
+           end_time
     FROM dim_ytj_pub_user_admin_ds
-    WHERE start_time <= concat('$v_date', '235959')
-    AND end_time >= concat('$v_date', '235959')
 ),
 
 cur as (
@@ -126,7 +131,7 @@ cur as (
         UNION ALL
         SELECT planno, shop_id, grant_object_user_id, is_kn_sale_user FROM kn_plan_user
     ) plan_user ON shop.planno = plan_user.planno AND shop.shop_id = plan_user.shop_id
-    LEFT JOIN user_admin ON user_admin.user_id = plan_user.grant_object_user_id
+    LEFT JOIN user_admin ON user_admin.user_id = plan_user.grant_object_user_id AND user_admin.start_time <= concat(plan.plan_date, '235959') AND user_admin.end_time >= concat(plan.plan_date, '235959')
     LEFT JOIN compare_data ON plan_user.planno = compare_data.planno and compare_data.shop_id = plan_user.shop_id
     LEFT JOIN current_data ON plan_user.planno = current_data.planno and current_data.shop_id = plan_user.shop_id AND current_data.grant_object_user_id = plan_user.grant_object_user_id
     GROUP BY plan.no,

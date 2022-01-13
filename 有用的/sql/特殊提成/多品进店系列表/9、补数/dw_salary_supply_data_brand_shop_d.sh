@@ -1,4 +1,13 @@
 v_date=$1
+supply_type=$2
+forward_type='forward'
+backward_type='backward'
+
+if [[ $supply_type != "" ]]
+then
+  forward_type=$supply_type
+  backward_type=$supply_type
+fi
 
 source ../sql_variable.sh $v_date
 
@@ -24,7 +33,11 @@ function supply_backward() {
     sh ./dw_salary_backward_brand_shop_plan_sum_mid_d.sh $data_date 0 0 $supply_date
 }
 
-forward_supply_date=$(apache-spark-sql -e "
+IFS=";"
+
+if [[ $forward_type = "forward" ]]
+then
+  forward_supply_date=$(apache-spark-sql -e "
     use ytdw;
     SELECT concat_ws('\;' , sort_array(collect_set(cast(need_supply_date as int))))
     FROM dw_bounty_plan_schedule_d
@@ -32,9 +45,17 @@ forward_supply_date=$(apache-spark-sql -e "
     WHERE bounty_rule_type = 4
     AND supply_date = '$v_date'
     AND need_supply_date < '$v_date'
-")
+  ")
+  echo forward_supply_date: $forward_supply_date
+  for data_date in ${forward_supply_date[@]}
+  do
+      supply_forward $v_date $data_date
+  done
+fi
 
-backward_supply_date=$(apache-spark-sql -e "
+if [[ $backward_type = "backward" ]]
+then
+  backward_supply_date=$(apache-spark-sql -e "
     use ytdw;
     SELECT concat_ws('\;' , sort_array(collect_set(cast(need_supply_date as int))))
     FROM dw_bounty_plan_schedule_d
@@ -42,18 +63,10 @@ backward_supply_date=$(apache-spark-sql -e "
     WHERE bounty_rule_type = 4
     AND supply_date = '$v_date'
     AND need_supply_date < '$v_date'
-")
-
-echo forward_supply_date: $forward_supply_date
-echo backward_supply_date: $backward_supply_date
-
-IFS=";"
-for data_date in ${forward_supply_date[@]}
-do
-    supply_forward $v_date $data_date
-done
-
-for data_date in ${backward_supply_date[@]}
-do
-    supply_backward $v_date $data_date
-done
+  ")
+  echo backward_supply_date: $backward_supply_date
+  for data_date in ${backward_supply_date[@]}
+  do
+      supply_backward $v_date $data_date
+  done
+fi

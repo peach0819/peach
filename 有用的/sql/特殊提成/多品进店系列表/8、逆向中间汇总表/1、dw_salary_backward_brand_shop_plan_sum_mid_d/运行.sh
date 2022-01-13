@@ -29,7 +29,8 @@ with plan as (
            payout_rule_type,
            payout_config_json,
            payout_upper_limit,
-           replace(replace(replace(replace(get_json_object(get_json_object(filter_config_json,'$.calculate_date_quarter'),'$.value'),']',''),'\"',''),'[',''),',','~') as plan_pay_time
+           replace(replace(replace(replace(get_json_object(get_json_object(filter_config_json,'$.calculate_date_quarter'),'$.value'),']',''),'\"',''),'[',''),',','~') as plan_pay_time,
+           if('$pltype' = 'cur', '$v_date', split(backward_date, ',')[0]) as plan_date
     FROM dw_bounty_plan_schedule_d
     WHERE array_contains(split(backward_date, ','), '$v_date')
     AND ('$supply_mode' = 'not_supply' OR array_contains(split(supply_date, ','), '$supply_date'))
@@ -53,10 +54,10 @@ user_admin as (
            user_real_name,
            leave_time,
            dept_id,
-           dept_name
+           dept_name,
+           start_time,
+           end_time
     FROM dim_ytj_pub_user_admin_ds
-    WHERE start_time <= concat('$v_date', '235959')
-    AND end_time >= concat('$v_date', '235959')
 ),
 
 cur as (
@@ -102,7 +103,7 @@ cur as (
            ) desc, detail.total_gmv_less_refund desc) as grant_object_rk
     from plan
     INNER JOIN detail ON plan.no = detail.planno
-    LEFT JOIN user_admin ON user_admin.user_id = detail.grant_object_user_id
+    LEFT JOIN user_admin ON user_admin.user_id = detail.grant_object_user_id AND user_admin.start_time <= concat(plan.plan_date, '235959') AND user_admin.end_time >= concat(plan.plan_date, '235959')
 )
 
 insert overwrite table dw_salary_backward_plan_sum_mid_d partition (dayid='$v_date',bounty_rule_type=4)
