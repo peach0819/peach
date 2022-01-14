@@ -35,9 +35,9 @@ compare_data as (
            shop_id,
            shop_name,
            brand_id
-    FROM dw_salary_brand_shop_compare_shop_sum_d
-    WHERE dayid = '$v_date'
-    AND is_valid_brand = 1
+    FROM dw_salary_brand_shop_compare_shop_sum_d compare_shop_sum
+    INNER JOIN plan ON plan.no = compare_shop_sum.planno AND compare_shop_sum.dayid = plan.plan_date
+    WHERE is_valid_brand = 1
 ),
 
 current_data as (
