@@ -41,6 +41,7 @@ detail as (
            grant_object_user_id,
            sum(compare_brand_shop_num) as compare_brand_shop_num,
            sum(current_brand_shop_num) as current_brand_shop_num,
+           sum(brand_shop_score) as brand_shop_score,
            sum(total_gmv_less_refund) as total_gmv_less_refund
     FROM dw_salary_brand_shop_sum_d
     WHERE dayid = '$v_date'
@@ -91,13 +92,13 @@ cur as (
            user_admin.leave_time,
            case when plan.bounty_indicator_name = '有效品牌门店数变化' then detail.current_brand_shop_num - detail.compare_brand_shop_num
                 when plan.bounty_indicator_name = '有效品牌门店数' then detail.current_brand_shop_num
-                when plan.bounty_indicator_name = '多品在店积分' then if(detail.current_brand_shop_num = 1 AND detail.compare_brand_shop_num = 0, 0, greatest(detail.current_brand_shop_num - detail.compare_brand_shop_num, 0))
+                when plan.bounty_indicator_name = '多品在店积分' then detail.brand_shop_score
            end as sts_target,
 
            row_number() over(partition by plan.no order by (
                 case when plan.bounty_indicator_name = '有效品牌门店数变化' then detail.current_brand_shop_num - detail.compare_brand_shop_num
                      when plan.bounty_indicator_name = '有效品牌门店数' then detail.current_brand_shop_num
-                     when plan.bounty_indicator_name = '多品在店积分' then if(detail.current_brand_shop_num = 1 AND detail.compare_brand_shop_num = 0, 0, greatest(detail.current_brand_shop_num - detail.compare_brand_shop_num, 0))
+                     when plan.bounty_indicator_name = '多品在店积分' then detail.brand_shop_score
                 end
            ) desc, detail.total_gmv_less_refund desc) as grant_object_rk
     from plan
