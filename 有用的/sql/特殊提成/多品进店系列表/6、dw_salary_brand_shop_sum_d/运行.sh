@@ -158,7 +158,7 @@ SELECT planno,
        compare_brand_shop_num,
        current_brand_shop_num,
        total_gmv_less_refund,
-       if(current_brand_shop_num = 1 AND compare_brand_shop_num = 0, 0, greatest(current_brand_shop_num - compare_brand_shop_num, 0)) as brand_shop_score
+       if(current_brand_shop_num = 1 AND compare_brand_shop_num = 0, 0, current_brand_shop_num - compare_brand_shop_num) as brand_shop_score
 FROM cur
 
 UNION ALL
