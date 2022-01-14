@@ -23,7 +23,8 @@ with plan as (
     SELECT no,
            month,
            replace(replace(replace(get_json_object(get_json_object(filter_config_json,'$.payout_object_type'),'$.value'),'\"',''),'[',''),']','') as payout_object_type,
-           if('$pltype' = 'cur', '$v_date', split(backward_date, ',')[0]) as plan_date
+           if('$pltype' = 'cur', '$v_date', split(backward_date, ',')[0]) as plan_date,
+           bounty_payout_object_code
     FROM dw_bounty_plan_schedule_d
     WHERE bounty_rule_type = 4
     AND array_contains(split(if('$pltype' = 'cur', forward_date, backward_date), ','), '$v_date')
@@ -92,12 +93,29 @@ frozen_plan_user as (
 
 --发放对象为库内的方案涉及的人员, 取当前周期发放对象即可
 kn_plan_user as (
-    SELECT distinct current_data.planno,
-                    current_data.shop_id,
-                    current_data.grant_object_user_id,
-                    '库内' as is_kn_sale_user
-    FROM current_data
-    INNER JOIN plan ON current_data.planno = plan.no AND plan.payout_object_type = '库内'
+    SELECT distinct planno, shop_id, grant_object_user_id, is_kn_sale_user
+    FROM (
+        SELECT distinct current_data.planno,
+                        current_data.shop_id,
+                        current_data.grant_object_user_id,
+                        '库内' as is_kn_sale_user
+        FROM current_data
+        INNER JOIN plan ON current_data.planno = plan.no AND plan.payout_object_type = '库内'
+
+        UNION ALL
+
+        SELECT distinct plan.no as planno,
+                        shop.shop_id,
+                        case when plan.bounty_payout_object_code= 'WAR_ZONE_MANAGE' then shop_service.shop_theater_manager_id
+                             when plan.bounty_payout_object_code= 'AREA_MANAGER' then shop_service.shop_region_manager_id
+                             when plan.bounty_payout_object_code= 'BD_MANAGER' then shop_service.shop_supervisor_id
+                             when plan.bounty_payout_object_code= 'BD' then shop_service.shop_service_bd_id
+                        end as grant_object_user_id,
+                        '库内' as is_kn_sale_user
+        FROM shop
+        INNER JOIN plan ON shop.planno = plan.no AND plan.payout_object_type = '库内'
+        LEFT JOIN shop_service ON shop.shop_id = shop_service.shop_id AND plan.plan_date = shop_service.dayid
+    ) t
 ),
 
 --人员离职状态
