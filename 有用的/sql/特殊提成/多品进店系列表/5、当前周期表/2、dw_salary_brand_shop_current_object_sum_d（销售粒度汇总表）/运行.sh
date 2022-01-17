@@ -44,6 +44,8 @@ detail as (
     FROM dw_salary_brand_shop_current_public_d
     WHERE dayid = '$v_date'
     AND pltype = '$pltype'
+    AND grant_object_user_id is not null
+    AND grant_object_user_id != ''
 ),
 
 cur as (
