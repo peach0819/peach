@@ -178,6 +178,8 @@ SELECT planno,
        total_gmv_less_refund,
        if(current_brand_shop_num = 1 AND compare_brand_shop_num = 0, 0, current_brand_shop_num - compare_brand_shop_num) as brand_shop_score
 FROM cur
+WHERE grant_object_user_id is not null
+AND grant_object_user_id != ''
 
 UNION ALL
 
