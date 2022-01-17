@@ -59,7 +59,7 @@ cur as (
            detail.brand_name,
            detail.grant_object_user_id,
            sum(detail.gmv_less_refund) as total_gmv_less_refund,
-           min(if(detail.current_total_gmv_less_refund > plan.valid_brand_line, detail.pay_date, null)) as first_valid_date,
+           min(if(detail.current_total_gmv_less_refund >= plan.valid_brand_line, detail.pay_date, null)) as first_valid_date,
            plan.valid_brand_line
     FROM detail
     INNER JOIN plan ON detail.planno = plan.no
@@ -84,7 +84,7 @@ SELECT planno,
        brand_name,
        grant_object_user_id,
        total_gmv_less_refund,
-       if(total_gmv_less_refund>valid_brand_line, 1, 0) as is_valid_brand,
+       if(total_gmv_less_refund >= valid_brand_line, 1, 0) as is_valid_brand,
        first_valid_date
 FROM cur
 

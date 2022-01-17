@@ -72,7 +72,7 @@ SELECT planno,
        brand_id,
        brand_name,
        total_gmv_less_refund,
-       if(total_gmv_less_refund > valid_brand_line, 1, 0) as is_valid_brand
+       if(total_gmv_less_refund >= valid_brand_line, 1, 0) as is_valid_brand
 FROM cur
 
 UNION ALL
