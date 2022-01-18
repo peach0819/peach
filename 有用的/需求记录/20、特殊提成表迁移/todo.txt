@@ -1,0 +1,21 @@
+
+
+
+
+需要数仓迁移的表
+ods_bounty_filter_d
+ods_bounty_indicator_d
+ods_bounty_payout_object_d
+ods_bounty_plan_d
+ods_vf_bounty_plan
+
+回流表迁移
+
+mysql
+crm库建一套一模一样的bounty系列表，然后完成数据迁移，直接改配置，上线
+
+crm_report库建一张一模一样的	sync_cloudatlas_sales_area_snapshot_d表，然后完成历史数据迁移，然后修改 sync_cloudatlas_sales_area_snapshot_d 回流脚本
+
+
+然后老脚本的调度，补数逻辑全部改成跟多品进店一样的，统一一下
+
