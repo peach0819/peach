@@ -87,7 +87,7 @@ frozen_plan_user as (
                         '库内' as is_kn_sale_user
         FROM shop
         INNER JOIN plan ON shop.planno = plan.no AND plan.payout_object_type = '冻结'
-        LEFT JOIN shop_service ON shop.shop_id = shop_service.shop_id AND plan.plan_date = shop_service.dayid and shop_service.shop_service_bd_id is not null
+        LEFT JOIN shop_service ON shop.shop_id = shop_service.shop_id AND plan.plan_date = shop_service.dayid
     ) t
 ),
 
