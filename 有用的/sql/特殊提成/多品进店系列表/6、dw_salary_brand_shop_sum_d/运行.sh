@@ -81,13 +81,13 @@ frozen_plan_user as (
 
         UNION ALL
 
-        SELECT distinct current_data.planno,
-                        current_data.shop_id,
+        SELECT distinct plan.no as planno,
+                        shop.shop_id,
                         shop_service.shop_service_bd_id as grant_object_user_id,
                         '库内' as is_kn_sale_user
-        FROM current_data
-        INNER JOIN plan ON current_data.planno = plan.no AND plan.payout_object_type = '冻结'
-        INNER JOIN shop_service ON current_data.shop_id = shop_service.shop_id and shop_service.shop_service_bd_id is not null AND shop_service.dayid = plan.plan_date
+        FROM shop
+        INNER JOIN plan ON shop.planno = plan.no AND plan.payout_object_type = '冻结'
+        LEFT JOIN shop_service ON shop.shop_id = shop_service.shop_id AND plan.plan_date = shop_service.dayid and shop_service.shop_service_bd_id is not null
     ) t
 ),
 
