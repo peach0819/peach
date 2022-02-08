@@ -12,10 +12,10 @@ bounty_plan_table='bounty_plan'
 
 if [[ $supply_data_mode != "" ]]
 then
-	bounty_plan_table='bounty_plan_supply_data'
+  bounty_plan_table='bounty_plan_supply_data'
 else
-	supply_data_where_condition="dayid = '${v_date}' and 0 = '1'"
-	bounty_plan_table='bounty_plan'
+  supply_data_where_condition="dayid = '${v_date}' and 0 = '1'"
+  bounty_plan_table='bounty_plan'
 fi
 
 source ../sql_variable.sh $v_date
@@ -68,7 +68,7 @@ set hivevar:filter_expr_columns=get_json_object(get_json_object(filter_config_js
 with
 -- 补数情况下使用的表
 bounty_plan_supply_data as (
-	select \${filter_expr_columns}, t1.*
+  select \${filter_expr_columns}, t1.*
     from dw_bounty_plan_d t1
     where ${supply_data_where_condition}
 ),
@@ -76,7 +76,7 @@ bounty_plan as
 (select
        \${filter_expr_columns}, t1.*
  from dw_bounty_plan_d t1
-where dayid ='$v_date'
+where dayid =replace(date_add(from_unixtime(unix_timestamp(),'yyyy-MM-dd'),-1),'-','')-------用系统日期的前一天作为方案表的取dayid日期
   and is_deleted =0
   and bounty_rule_type=3--本任务仅为新签品牌
   and status =1 --启用
@@ -145,8 +145,8 @@ bounty_plan2 as
 -- 计算的是不参与补数的计算结果数据
 without_supply_data_plan as (
 select
-	brand.update_time,
-	brand.update_month,
+  brand.update_time,
+  brand.update_month,
     brand.plan_type,
     brand.plan_month,
     brand.plan_pay_time,
@@ -203,10 +203,10 @@ select
     brand.sts_target_name,
     brand.planno
 from (
-    select * from dw_salary_sign_brand_rule_public_new_d
+    select * from dw_salary_sign_brand_rule_public_d
     where dayid = '$v_date' and pltype = 'cur'
   ) brand left join (
-  	select no
+    select no
     from dw_bounty_plan_d t1
     where ${supply_data_where_condition}
   ) plan
@@ -216,7 +216,7 @@ from (
   -- 非补数模式下自动跳过
   and 1='${supply_data_mode}'
 )
-insert overwrite table dw_salary_sign_brand_rule_public_new_d partition (dayid='$v_date',pltype='cur')
+insert overwrite table dw_salary_sign_brand_rule_public_d partition (dayid='$v_date',pltype='cur')
 select
        from_unixtime(unix_timestamp(),'yyyy-MM-dd HH:mm:ss') as update_time,--更新时间
        from_unixtime(unix_timestamp(),'yyyy-MM') as update_month,--执行月份
