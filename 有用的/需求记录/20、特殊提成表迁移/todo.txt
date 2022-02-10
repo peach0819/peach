@@ -17,5 +17,19 @@ crm库建一套一模一样的bounty系列表，然后完成数据迁移，直�
 crm_report库建一张一模一样的	sync_cloudatlas_sales_area_snapshot_d表，然后完成历史数据迁移，然后修改 sync_cloudatlas_sales_area_snapshot_d 回流脚本
 
 
-然后老脚本的调度，补数逻辑全部改成跟多品进店一样的，统一一下
+然后老脚本的调度，补数逻辑全部改成跟多品进店一样的，统一一下；
+
+yt_cloudatlas库迁移到crm库的表:
+bounty_filter -> bounty_filter
+bounty_indicator -> bounty_indicator
+bounty_indicator_payout_rule_type -> bounty_indicator_payout_rule_type
+bounty_payout_object -> bounty_payout_object
+bounty_payout_object_rule -> bounty_payout_object_rule
+bounty_plan -> bounty_plan
+bounty_plan_operation_log -> bounty_plan_operation_log
+bounty_rule_filter -> bounty_rule_filter
+
+prod_data_sync库迁移到crm_report库的表:
+sync_cloudatlas_sales_area_snapshot_d -> sync_crm_sales_area_snapshot_d
+
 
