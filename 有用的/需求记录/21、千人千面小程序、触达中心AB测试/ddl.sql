@@ -13,5 +13,5 @@ CREATE TABLE t_touch_miniprogram_material (
 `process` tinyint(4) DEFAULT '0' COMMENT '是否已处理 0未处理 1已处理',
 `material_content` MEDIUMTEXT COMMENT '素材内容，用于发送企微小程序的素材内容',
 PRIMARY KEY (`id`),
-KEY `idx_type_biz_id_process` (`material_type`, `biz_id`, `process`)
+KEY `idx_process_material_type_biz_id` (process,`material_type`, `biz_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COMMENT='小程序素材';
