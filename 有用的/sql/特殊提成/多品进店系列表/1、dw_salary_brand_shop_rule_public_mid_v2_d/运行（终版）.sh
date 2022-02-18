@@ -174,7 +174,8 @@ LEFT JOIN (
 LEFT JOIN (
     SELECT order_id,
            newest_user_id
-    FROM dim_hpc_ord_finance_order_ascription
+    FROM dim_hpc_ord_finance_order_ascription_d
+    WHERE dayid = '$v_date'
 ) rule_center ON ord.order_id = rule_center.order_id
 
 --冻结数据
