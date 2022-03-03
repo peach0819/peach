@@ -1,0 +1,101 @@
+﻿[2022-03-03 15:49:43.046] VRunWXWork path:C:\Program Files (x86)\WXWork,user:D59C0883B2E21C09024EEE563DC8E3A65194F219CF554649F1C4F9C615435A82,s5_addr:,s5_port:0,s5_user:,s5_pwd: pid:6116,RunTime:216.8052ms ret:True,result:{"Name": "Init","dwPid": 6116,"hWnd": 525322},error:
+[2022-03-03 15:50:22.100] VGetExternalUserTable发送中
+[2022-03-03 15:50:22.100] VGetExternalUserTable发送返回：True
+[2022-03-03 15:50:22.102] VGetExternalUserTable bRt:True,RunTime:1.9532ms ret:True,result:,error:
+[2022-03-03 15:50:22.209] VGetExternalUserInfoList发送中,idList：[1688857704233063,7881299933905862,7881300190911701,7881300225907675,7881300614930202,7881300837966084,7881301625902379,7881301691906071,7881302125021352,7881302296925488,7881302707937706]
+[2022-03-03 15:50:22.210] VGetExternalUserInfoList 发送返回：True
+[2022-03-03 15:50:22.214] VGetExternalUserInfoList  bRt:True,RunTime:10.7426ms ret:True,result:,error:
+[2022-03-03 15:50:22.369] VGetExternalUserTable发送中
+[2022-03-03 15:50:22.369] VGetExternalUserTable发送返回：True
+[2022-03-03 15:50:22.370] VGetExternalUserTable bRt:True,RunTime:0.9766ms ret:True,result:,error:
+[2022-03-03 15:50:22.471] VGetExternalUserInfoList发送中,idList：[1688857704233063,7881299933905862,7881300190911701,7881300225907675,7881300614930202,7881300837966084,7881301625902379,7881301691906071,7881302125021352,7881302296925488,7881302707937706]
+[2022-03-03 15:50:22.471] VGetExternalUserInfoList 发送返回：True
+[2022-03-03 15:50:22.475] VGetExternalUserInfoList  bRt:True,RunTime:3.9064ms ret:True,result:,error:
+[2022-03-03 15:52:28.939] VSendMsg发送中
+[2022-03-03 15:52:28.954] VSendMsg发送返回：True
+[2022-03-03 15:52:29.127] VSendMsg.SendTextMessage sjson:{"conversation_id": "S:1688854306235410_7881300837966084","content": [{"type": 0,"msg": "🔥【启赋蓝钻900g 3段】 2021.10 232.67\n🔥【皇家美素800g 3段】 2021.10 272.00\n🔥【皇家美素800g 2段】 2021.10 310.22 "}],"msg_type": 1} bRt:True,RunTime:188.4838ms ret:True,result:{"Name": "SendMsg","dwPid": 6116,"errCode": 0,"hWnd": 525322,"reqId": 552},error:
+[2022-03-03 15:52:29.824] VSendMsg发送中
+[2022-03-03 15:52:29.826] VSendMsg发送返回：True
+[2022-03-03 15:52:29.997] VSendMsg.SendTextMessage sjson:{"conversation_id": "S:1688854306235410_7881300837966084","content": [{"type": 0,"msg": "用于排查涂色的问题，打扰各位了，见谅~😇 "}],"msg_type": 1} bRt:True,RunTime:172.8582ms ret:True,result:{"Name": "SendMsg","dwPid": 6116,"errCode": 0,"hWnd": 525322,"reqId": 558},error:
+[2022-03-03 15:52:38.455] VSendMsg发送中
+[2022-03-03 15:52:38.457] VSendMsg发送返回：True
+[2022-03-03 15:52:38.619] VSendMsg.SendTextMessage sjson:{"conversation_id": "S:1688854306235410_7881300225907675","content": [{"type": 0,"msg": "🔥【启赋蓝钻900g 3段】 2021.10 232.67\n🔥【皇家美素800g 3段】 2021.10 272.00\n🔥【皇家美素800g 2段】 2021.10 310.22 "}],"msg_type": 1} bRt:True,RunTime:163.0922ms ret:True,result:{"Name": "SendMsg","dwPid": 6116,"errCode": 0,"hWnd": 525322,"reqId": 576},error:
+[2022-03-03 15:52:39.121] VSendMsg发送中
+[2022-03-03 15:52:39.124] VSendMsg发送返回：True
+[2022-03-03 15:52:39.304] VSendMsg.SendTextMessage sjson:{"conversation_id": "S:1688854306235410_7881300225907675","content": [{"type": 0,"msg": "用于排查涂色的问题，打扰各位了，见谅~😇 "}],"msg_type": 1} bRt:True,RunTime:182.6242ms ret:True,result:{"Name": "SendMsg","dwPid": 6116,"errCode": 0,"hWnd": 525322,"reqId": 582},error:
+[2022-03-03 15:52:48.007] VSendMsg发送中
+[2022-03-03 15:52:48.009] VSendMsg发送返回：True
+[2022-03-03 15:52:48.178] VSendMsg.SendTextMessage sjson:{"conversation_id": "S:1688854306235410_7881302296925488","content": [{"type": 0,"msg": "🔥【伊利珍护900g（新包装） 1段】 2021.09 255.57\n🔥【伊利金领冠珍护900g 1段】 2021.09 255.57\n🔥【澳洲a2白金 4段】 2023.09 174.69 "}],"msg_type": 1} bRt:True,RunTime:171.8816ms ret:True,result:{"Name": "SendMsg","dwPid": 6116,"errCode": 0,"hWnd": 525322,"reqId": 629},error:
+[2022-03-03 15:52:48.705] VSendMsg发送中
+[2022-03-03 15:52:48.707] VSendMsg发送返回：True
+[2022-03-03 15:52:48.871] VSendMsg.SendTextMessage sjson:{"conversation_id": "S:1688854306235410_7881302296925488","content": [{"type": 0,"msg": "用于排查涂色的问题，打扰各位了，见谅~😇 "}],"msg_type": 1} bRt:True,RunTime:166.022ms ret:True,result:{"Name": "SendMsg","dwPid": 6116,"errCode": 0,"hWnd": 525322,"reqId": 635},error:
+[2022-03-03 15:52:55.989] VSendMsg发送中
+[2022-03-03 15:52:55.991] VSendMsg发送返回：True
+[2022-03-03 15:52:56.155] VSendMsg.SendTextMessage sjson:{"conversation_id": "S:1688854306235410_7881302296925488","content": [{"type": 0,"msg": "🔥【启赋蓝钻900g 3段】 2021.10 232.42\n🔥【皇家美素800g 3段】 2021.10 272.00\n🔥【皇家美素800g 2段】 2021.10 310.22 "}],"msg_type": 1} bRt:True,RunTime:166.022ms ret:True,result:{"Name": "SendMsg","dwPid": 6116,"errCode": 0,"hWnd": 525322,"reqId": 641},error:
+[2022-03-03 15:52:56.751] VSendMsg发送中
+[2022-03-03 15:52:56.753] VSendMsg发送返回：True
+[2022-03-03 15:52:56.925] VSendMsg.SendTextMessage sjson:{"conversation_id": "S:1688854306235410_7881302296925488","content": [{"type": 0,"msg": "用于排查涂色的问题，打扰各位了，见谅~😇 "}],"msg_type": 1} bRt:True,RunTime:173.8348ms ret:True,result:{"Name": "SendMsg","dwPid": 6116,"errCode": 0,"hWnd": 525322,"reqId": 647},error:
+[2022-03-03 15:53:09.936] VSendMsg发送中
+[2022-03-03 15:53:09.938] VSendMsg发送返回：True
+[2022-03-03 15:53:10.107] VSendMsg.SendTextMessage sjson:{"conversation_id": "S:1688854306235410_7881302707937706","content": [{"type": 0,"msg": "🔥【A2至初白金900g 3段】 2021.06 252.53\n🔥【A2至初（刮码无积分） 3段】 2021.06 252.53\n🔥【澳洲爱他美金装加强 3段】 2023.10 113.03 "}],"msg_type": 1} bRt:True,RunTime:171.8816ms ret:True,result:{"Name": "SendMsg","dwPid": 6116,"errCode": 0,"hWnd": 525322,"reqId": 653},error:
+[2022-03-03 15:53:10.548] VSendMsg发送中
+[2022-03-03 15:53:10.550] VSendMsg发送返回：True
+[2022-03-03 15:53:10.727] VSendMsg.SendTextMessage sjson:{"conversation_id": "S:1688854306235410_7881302707937706","content": [{"type": 0,"msg": "用于排查涂色的问题，打扰各位了，见谅~😇 "}],"msg_type": 1} bRt:True,RunTime:178.7178ms ret:True,result:{"Name": "SendMsg","dwPid": 6116,"errCode": 0,"hWnd": 525322,"reqId": 659},error:
+[2022-03-03 15:53:16.267] VSendMsg发送中
+[2022-03-03 15:53:16.270] VSendMsg发送返回：True
+[2022-03-03 15:53:16.437] VSendMsg.SendTextMessage sjson:{"conversation_id": "S:1688854306235410_7881299933905862","content": [{"type": 0,"msg": "🔥【A2至初白金900g 3段】 2021.06 252.53\n🔥【A2至初（刮码无积分） 3段】 2021.06 252.53\n🔥【澳洲爱他美金装加强 3段】 2023.10 113.03 "}],"msg_type": 1} bRt:True,RunTime:169.9284ms ret:True,result:{"Name": "SendMsg","dwPid": 6116,"errCode": 0,"hWnd": 525322,"reqId": 665},error:
+[2022-03-03 15:53:16.969] VSendMsg发送中
+[2022-03-03 15:53:16.971] VSendMsg发送返回：True
+[2022-03-03 15:53:17.138] VSendMsg.SendTextMessage sjson:{"conversation_id": "S:1688854306235410_7881299933905862","content": [{"type": 0,"msg": "用于排查涂色的问题，打扰各位了，见谅~😇 "}],"msg_type": 1} bRt:True,RunTime:168.9518ms ret:True,result:{"Name": "SendMsg","dwPid": 6116,"errCode": 0,"hWnd": 525322,"reqId": 671},error:
+[2022-03-03 15:53:22.270] VGetExternalUserTable发送中
+[2022-03-03 15:53:22.270] VGetExternalUserTable发送返回：True
+[2022-03-03 15:53:22.271] VGetExternalUserTable bRt:True,RunTime:0.9766ms ret:True,result:,error:
+[2022-03-03 15:53:22.371] VGetExternalUserInfoList发送中,idList：[1688857704233063,7881299933905862,7881300190911701,7881300225907675,7881300614930202,7881300837966084,7881301625902379,7881301691906071,7881302125021352,7881302296925488,7881302707937706]
+[2022-03-03 15:53:22.371] VGetExternalUserInfoList 发送返回：True
+[2022-03-03 15:53:22.375] VGetExternalUserInfoList  bRt:True,RunTime:3.9064ms ret:True,result:,error:
+[2022-03-03 15:53:22.720] VGetExternalUserTable发送中
+[2022-03-03 15:53:22.720] VGetExternalUserTable发送返回：True
+[2022-03-03 15:53:22.720] VGetExternalUserTable bRt:True,RunTime:0ms ret:True,result:,error:
+[2022-03-03 15:53:22.820] VGetExternalUserInfoList发送中,idList：[1688857704233063,7881299933905862,7881300190911701,7881300225907675,7881300614930202,7881300837966084,7881301625902379,7881301691906071,7881302125021352,7881302296925488,7881302707937706]
+[2022-03-03 15:53:22.820] VGetExternalUserInfoList 发送返回：True
+[2022-03-03 15:53:22.824] VGetExternalUserInfoList  bRt:True,RunTime:3.9064ms ret:True,result:,error:
+[2022-03-03 15:53:23.542] VGetQRCodeNew bRt:True,RunTime:492.2064ms ret:True,result:{"Name": "QRCode","dwPid": 6116,"errMsg": "ok","hWnd": 525322,"id": "4bcd7c31baba123a68104ecdf268e3fe","url": "https://wework.qpic.cn/wwpic/287596_818vmL0tQL2wxy4_1646294003/0"},error:
+[2022-03-03 15:53:24.024] VGetDeptUserTable发送中
+[2022-03-03 15:53:24.024] VGetDeptUserTable发送返回：True
+[2022-03-03 15:53:24.026] VGetDeptUserTable bRt:True,RunTime:1.9532ms ret:True,result:,error:
+[2022-03-03 15:53:24.126] VGetUserInfoList发送中
+[2022-03-03 15:53:24.127] VGetUserInfoList 发送返回：True
+[2022-03-03 15:53:24.134] VGetUserInfoList  bRt:True,RunTime:7.8128ms ret:True,result:,error:
+[2022-03-03 15:53:24.235] VGetUserInfoList发送中
+[2022-03-03 15:53:24.235] VGetUserInfoList 发送返回：True
+[2022-03-03 15:53:24.242] VGetUserInfoList  bRt:True,RunTime:7.8128ms ret:True,result:,error:
+[2022-03-03 15:53:24.344] VGetUserInfoList发送中
+[2022-03-03 15:53:24.344] VGetUserInfoList 发送返回：True
+[2022-03-03 15:53:24.351] VGetUserInfoList  bRt:True,RunTime:6.8362ms ret:True,result:,error:
+[2022-03-03 15:53:24.451] VGetUserInfoList发送中
+[2022-03-03 15:53:24.451] VGetUserInfoList 发送返回：True
+[2022-03-03 15:53:24.458] VGetUserInfoList  bRt:True,RunTime:6.8362ms ret:True,result:,error:
+[2022-03-03 15:53:24.560] VGetUserInfoList发送中
+[2022-03-03 15:53:24.560] VGetUserInfoList 发送返回：True
+[2022-03-03 15:53:24.567] VGetUserInfoList  bRt:True,RunTime:6.8362ms ret:True,result:,error:
+[2022-03-03 15:53:24.667] VGetUserInfoList发送中
+[2022-03-03 15:53:24.667] VGetUserInfoList 发送返回：True
+[2022-03-03 15:53:24.674] VGetUserInfoList  bRt:True,RunTime:6.8362ms ret:True,result:,error:
+[2022-03-03 15:53:24.775] VGetUserInfoList发送中
+[2022-03-03 15:53:24.775] VGetUserInfoList 发送返回：True
+[2022-03-03 15:53:24.781] VGetUserInfoList  bRt:True,RunTime:6.8362ms ret:True,result:,error:
+[2022-03-03 15:53:25.231] VGetChatRoomList发送中
+[2022-03-03 15:53:25.231] VGetChatRoomList发送返回：True
+[2022-03-03 15:53:25.232] VGetChatRoomList bRt:True,RunTime:0.9766ms ret:True,result:,error:
+[2022-03-03 15:53:28.159] VSendMsg发送中
+[2022-03-03 15:53:28.162] VSendMsg发送返回：True
+[2022-03-03 15:53:28.335] VSendMsg.SendTextMessage sjson:{"conversation_id": "S:1688854306235410_7881300190911701","content": [{"type": 0,"msg": "🔥【A2至初白金900g 3段】 2021.06 252.53\n🔥【A2至初（刮码无积分） 3段】 2021.06 252.53\n🔥【澳洲爱他美金装加强 3段】 2023.10 113.03 "}],"msg_type": 1} bRt:True,RunTime:175.788ms ret:True,result:{"Name": "SendMsg","dwPid": 6116,"errCode": 0,"hWnd": 525322,"reqId": 691},error:
+[2022-03-03 15:53:28.929] VSendMsg发送中
+[2022-03-03 15:53:28.931] VSendMsg发送返回：True
+[2022-03-03 15:53:29.096] VSendMsg.SendTextMessage sjson:{"conversation_id": "S:1688854306235410_7881300190911701","content": [{"type": 0,"msg": "用于排查涂色的问题，打扰各位了，见谅~😇 "}],"msg_type": 1} bRt:True,RunTime:166.9986ms ret:True,result:{"Name": "SendMsg","dwPid": 6116,"errCode": 0,"hWnd": 525322,"reqId": 697},error:
+[2022-03-03 15:53:39.488] VSendMsg发送中
+[2022-03-03 15:53:39.490] VSendMsg发送返回：True
+[2022-03-03 15:53:39.677] VSendMsg.SendTextMessage sjson:{"conversation_id": "S:1688854306235410_7881301691906071","content": [{"type": 0,"msg": "🔥【启赋蓝钻900g 3段】 2021.10 232.42\n🔥【皇家美素800g 3段】 2021.10 272.00\n🔥【皇家美素800g 2段】 2021.10 310.22 "}],"msg_type": 1} bRt:True,RunTime:189.4604ms ret:True,result:{"Name": "SendMsg","dwPid": 6116,"errCode": 0,"hWnd": 525322,"reqId": 703},error:
+[2022-03-03 15:53:40.251] VSendMsg发送中
+[2022-03-03 15:53:40.254] VSendMsg发送返回：True
+[2022-03-03 15:53:40.429] VSendMsg.SendTextMessage sjson:{"conversation_id": "S:1688854306235410_7881301691906071","content": [{"type": 0,"msg": "用于排查涂色的问题，打扰各位了，见谅~😇 "}],"msg_type": 1} bRt:True,RunTime:178.7178ms ret:True,result:{"Name": "SendMsg","dwPid": 6116,"errCode": 0,"hWnd": 525322,"reqId": 709},error:

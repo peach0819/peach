@@ -1,0 +1,7 @@
+2022-03-03 15:49:31.733 +08:00 [INF] Now listening on: http://localhost:1234
+2022-03-03 15:49:31.800 +08:00 [INF] Application started. Press Ctrl+C to shut down.
+2022-03-03 15:49:31.801 +08:00 [INF] Hosting environment: Production
+2022-03-03 15:49:31.801 +08:00 [INF] Content root path: C:\Program Files (x86)\WinPC\uptool
+2022-03-03 15:49:32.909 +08:00 [INF] HTTP POST /api/api/regiser responded 200 in 889.1919 ms
+2022-03-03 15:49:42.728 +08:00 [INF] HTTP GET /api/api/checkversion responded 200 in 91.0881 ms
+2022-03-03 15:50:22.573 +08:00 [INF] HTTP POST /api/api/login responded 200 in 39763.8345 ms

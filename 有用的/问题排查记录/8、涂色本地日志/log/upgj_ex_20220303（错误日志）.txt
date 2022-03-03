@@ -1,0 +1,1 @@
+﻿[2022-03-03 15:53:25.249] ex:System.InvalidCastException: Unable to cast object of type 'Newtonsoft.Json.Linq.JValue' to type 'Newtonsoft.Json.Linq.JArray'.at PcWork.Func.WxGetContacts.GetContacts(WxAuth wxinfo, UInt32 hWnd, JPushMsg pushmsg) in D:\Company\UP管家\uptools\server\local_quanliangapi\PCWorkDll\Func\WxGetContacts.cs:line 339

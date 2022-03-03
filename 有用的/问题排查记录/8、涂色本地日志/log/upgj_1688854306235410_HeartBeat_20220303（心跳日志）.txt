@@ -1,0 +1,6 @@
+﻿[2022-03-03 15:50:22.143] recv msg:{"Name":"HeartBeat","dwPid":6116,"errMsg":"ok","hWnd":525322,"ip":"221.12.174.100","time":1646293822}
+[2022-03-03 15:51:21.855] recv msg:{"Name":"HeartBeat","dwPid":6116,"errMsg":"ok","hWnd":525322,"ip":"221.12.174.100","time":1646293881}
+[2022-03-03 15:51:36.679] recv msg:{"Name":"HeartBeat","dwPid":6116,"errMsg":"ok","hWnd":525322,"ip":"221.12.174.100","time":1646293896}
+[2022-03-03 15:52:21.936] recv msg:{"Name":"HeartBeat","dwPid":6116,"errMsg":"ok","hWnd":525322,"ip":"221.12.174.100","time":1646293941}
+[2022-03-03 15:53:22.020] recv msg:{"Name":"HeartBeat","dwPid":6116,"errMsg":"ok","hWnd":525322,"ip":"221.12.174.100","time":1646294001}
+[2022-03-03 15:54:22.100] recv msg:{"Name":"HeartBeat","dwPid":6116,"errMsg":"ok","hWnd":525322,"ip":"221.12.174.100","time":1646294062}
