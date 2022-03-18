@@ -1,0 +1,3 @@
+﻿[2022-03-18 09:45:28.934] VSendMsg发送中
+[2022-03-18 09:45:28.937] VSendMsg发送返回：True
+[2022-03-18 09:45:29.133] VSendMsg.SendAppMessage sjson: bRt:True,RunTime:199.206ms ret:True,result:{"Name": "SendMsg","dwPid": 4996,"errCode": 0,"hWnd": 131736,"reqId": 14659},error:
