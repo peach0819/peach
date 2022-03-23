@@ -39,17 +39,7 @@ public class weixin06069902 extends TextMessageParser {
         String responseMessage = "成功";
         try{
             response = doUpload(accessToken,fileName,type,ossPath);
-            def json = new JsonSlurper().parseText(response)
-            String errcode = handleNull(json.errcode)
-            String errmsg = handleNull(json.errmsg)
-            String mediaId = handleNull(json.media_id)
-            String createdAt = handleNull(json.created_at)
-            inMessage.addField("mediaId",mediaId);
-            inMessage.addField("createdAt",createdAt);
-            if(!StringUtils.equals(errcode,"0")){
-                responseMessage = errmsg;
-                responseCode = errcode;
-            }
+            inMessage.addField("origResponse",response);
         }catch(Exception e ){
             logger.error("weixin06069902 {} 解析时发生异常",e);
             responseCode = "FAIL";
