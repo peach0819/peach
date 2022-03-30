@@ -1,0 +1,4 @@
+
+
+ons.touch.taskMsg.topic=touch_task_test_temp
+ons.touch.taskMsg.consumerId=GID_touch_task_test_temp
