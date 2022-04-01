@@ -1,10 +1,12 @@
-package message.parser.weixin06
+package message.parser.weixin06;
 
-import com.ytgw.common.util.StringUtil
-import com.ytgw.core.shared.exception.code.ParserErrorCode
-import com.ytgw.core.shared.message.domain.SupergwMessage
-import com.ytgw.core.shared.message.domain.json.MessageJsonParser
-import com.ytgw.core.shared.service.message.parser.TextMessageParser
+import com.ytgw.common.util.StringUtil;
+import com.ytgw.core.shared.exception.code.ParserErrorCode;
+import com.ytgw.core.shared.message.domain.SupergwMessage;
+import com.ytgw.core.shared.service.message.parser.TextMessageParser;
+import com.ytgw.core.shared.message.domain.json.MessageJsonParser;
+import groovy.json.JsonSlurper;
+import com.ytgw.common.util.JsonUtil;
 
 /**
  * 企业微信-创建企业群发
@@ -23,10 +25,17 @@ public class weixin06069901 extends TextMessageParser {
         String responseCode = "SUCCESS";
         String businessResultCode = "SUCCESS";
         String responseMessage = "成功";
-        String resJson = "{\"res\":" + message + "}";
-        SupergwMessage outMessage = MessageJsonParser.toObject(resJson);
-        addFieldMappings(gw, outMessage);
-        gw.addField("origResponse", message);
+        //String resJson = "{\"res\":"+message+"}";
+        //SupergwMessage outMessage = MessageJsonParser.toObject(resJson);
+        //addFieldMappings(gw,outMessage);
+        def json = new JsonSlurper().parseText(message)
+        String errcode = json.errcode;
+        String errmsg = json.errmsg;
+        String msgid = json.msgid;
+        gw.addField("errcode",errcode);
+        gw.addField('errmsg',errmsg);
+        gw.addField('msgid',msgid);
+        gw.addField("origResponse",message);
         gw.setChannelResponseCode(responseCode);
         gw.setBusinessResultCode(businessResultCode);
         gw.setChannelResponseMessage(responseMessage);
@@ -37,11 +46,12 @@ public class weixin06069901 extends TextMessageParser {
     /**
      * outMessage: 从外面请求到hipac的消息
      * inMessage: 网关发送给后端的消息
-     **/
-    public void addFieldMappings(SupergwMessage inMessage, SupergwMessage outMessage) {
-        inMessage.addField("errcode", outMessage.g("errcode"));
-        inMessage.addField("errmsg", outMessage.g("errmsg"));
-    }
+     *
+     public void addFieldMappings(SupergwMessage inMessage, SupergwMessage outMessage){
+     inMessage.addField("errcode",outMessage.g("errcode"));
+     inMessage.addField("errmsg",outMessage.g("errmsg"));
+     inMessage.addField("msgid",outMessage.g("msgid"));
+     }*/
 
     public void share(SupergwMessage inMessage, SupergwMessage outMessage) {
         inMessage.addField("outOrderNo", outMessage.g("orderNo"));
