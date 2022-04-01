@@ -1,0 +1,7 @@
+#set($chat_type=$!m.g("chat_type"))
+#set($external_userid=$!m.g("external_userid"))
+#set($attachments=$!m.g("attachments"))
+#set($sender=$!m.g("sender"))
+#set($text=$!m.g("text.content"))
+
+{"chat_type":"$!chat_type","external_userid":$!external_userid,"attachments":$!attachments,"sender":"$!sender","text":{"content":"$!text"}}

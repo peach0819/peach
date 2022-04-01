@@ -41,8 +41,6 @@ public class weixin06069901 extends TextMessageParser {
     public void addFieldMappings(SupergwMessage inMessage, SupergwMessage outMessage) {
         inMessage.addField("errcode", outMessage.g("errcode"));
         inMessage.addField("errmsg", outMessage.g("errmsg"));
-        inMessage.addField("msgid", outMessage.g("msgid"));
-
     }
 
     public void share(SupergwMessage inMessage, SupergwMessage outMessage) {
