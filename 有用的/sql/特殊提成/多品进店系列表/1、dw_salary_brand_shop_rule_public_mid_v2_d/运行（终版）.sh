@@ -50,6 +50,12 @@ create table if not exists dw_salary_brand_shop_rule_public_mid_v2_d
 partitioned by (dayid string)
 stored as orc;
 
+with user_admin as (
+    SELECT user_id, job_name
+    FROM dim_ytj_pub_user_admin_m
+    WHERE dayid = '$v_cur_month'
+)
+
 insert overwrite table dw_salary_brand_shop_rule_public_mid_v2_d partition(dayid='$v_date')
 select ord.order_id,
        ord.trade_id,
@@ -99,8 +105,8 @@ select ord.order_id,
        ord_seller.sale_team_freezed_name,
 
        --订单归属信息
-       frozen_trade.trade_service_bd_id_frez as frozen_sale_user_id,
-       rule_center.newest_user_id as newest_sale_user_id
+       if(user_admin_kn.job_name = 'BD', frozen_trade.trade_service_bd_id_frez, null) as frozen_sale_user_id,
+       if(user_admin_frozen.job_name = 'BD', rule_center.newest_user_id, null) as newest_sale_user_id
 --订单表
 from (
     SELECT order_id,
@@ -177,6 +183,7 @@ LEFT JOIN (
     FROM dim_hpc_ord_finance_order_ascription_d
     WHERE dayid = '$v_date'
 ) rule_center ON ord.order_id = rule_center.order_id
+LEFT JOIN (SELECT * FROM user_admin) user_admin_kn ON rule_center.newest_user_id = user_admin_kn.user_id
 
 --冻结数据
 LEFT JOIN (
@@ -185,5 +192,7 @@ LEFT JOIN (
     FROM dim_hpc_trd_trade_service_d
     WHERE dayid = '$v_date'
 ) frozen_trade ON frozen_trade.trade_id = ord.trade_id
+LEFT JOIN (SELECT * FROM user_admin) user_admin_frozen ON frozen_trade.trade_service_bd_id_frez = user_admin_frozen.user_id
+
 ;
 "
