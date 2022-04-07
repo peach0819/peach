@@ -133,8 +133,8 @@ from (
            act_net_pay_total_amt_1d --gmv-退款
     FROM dws_hpc_trd_act_detail_d
     WHERE dayid = '$v_date'
-    -- 保留200天的订单数据
-    AND pay_date >= replace(date_add('$v_op_time', -200), '-', '')
+    -- 保留500天的订单数据
+    AND pay_date >= replace(date_add('$v_op_time', -500), '-', '')
 ) ord
 
 --门店表
