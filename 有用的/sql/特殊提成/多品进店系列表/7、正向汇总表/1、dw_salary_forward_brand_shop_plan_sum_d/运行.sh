@@ -8,9 +8,8 @@ then
 fi
 
 source ../sql_variable.sh $v_date
-source ../yarn_variable.sh dw_salary_forward_brand_shop_plan_sum_d '肥桃'
 
-spark-sql $spark_yarn_job_name_conf $spark_yarn_queue_name_conf --master yarn --executor-memory 4G --num-executors 4 -v -e "
+apache-spark-sql -e "
 use ytdw;
 
 with plan as (
@@ -60,6 +59,13 @@ user_admin as (
     AND end_time >= concat('$v_date', '235959')
 ),
 
+underling as (
+    select user_id, max(underling_cnt) as underling_cnt
+    from dws_usr_bd_manager_underling_d
+    where dayid ='$v_date'
+    group by user_id
+),
+
 cur as (
     select from_unixtime(unix_timestamp(),'yyyy-MM-dd HH:mm:ss') as update_time,
            from_unixtime(unix_timestamp(),'yyyy-MM') as update_month,
@@ -93,17 +99,25 @@ cur as (
            case when plan.bounty_indicator_name = '有效品牌门店数变化' then detail.current_brand_shop_num - detail.compare_brand_shop_num
                 when plan.bounty_indicator_name = '有效品牌门店数' then detail.current_brand_shop_num
                 when plan.bounty_indicator_name = '多品在店积分' then detail.brand_shop_score
+                when plan.bounty_indicator_name = '人均有效品牌门店数变化' then (detail.current_brand_shop_num - detail.compare_brand_shop_num)/nvl(underling.underling_cnt,1)
+                when plan.bounty_indicator_name = '人均有效品牌门店数' then detail.current_brand_shop_num/nvl(underling.underling_cnt,1)
+                when plan.bounty_indicator_name = '人均多品在店积分' then detail.brand_shop_score/nvl(underling.underling_cnt,1)
            end as sts_target,
+           nvl(underling.underling_cnt,1) as grant_object_underling_cnt,
 
            row_number() over(partition by plan.no order by (
                 case when plan.bounty_indicator_name = '有效品牌门店数变化' then detail.current_brand_shop_num - detail.compare_brand_shop_num
                      when plan.bounty_indicator_name = '有效品牌门店数' then detail.current_brand_shop_num
                      when plan.bounty_indicator_name = '多品在店积分' then detail.brand_shop_score
+                     when plan.bounty_indicator_name = '人均有效品牌门店数变化' then (detail.current_brand_shop_num - detail.compare_brand_shop_num)/nvl(underling.underling_cnt,1)
+                     when plan.bounty_indicator_name = '人均有效品牌门店数' then detail.current_brand_shop_num/nvl(underling.underling_cnt,1)
+                     when plan.bounty_indicator_name = '人均多品在店积分' then detail.brand_shop_score/nvl(underling.underling_cnt,1)
                 end
            ) desc, detail.total_gmv_less_refund desc) as grant_object_rk
     from plan
     INNER JOIN detail ON plan.no = detail.planno
     LEFT JOIN user_admin ON user_admin.user_id = detail.grant_object_user_id
+    LEFT JOIN underling ON detail.grant_object_user_id = underling.user_id
 )
 
 insert overwrite table dw_salary_forward_plan_sum_d partition (dayid='$v_date', bounty_rule_type=4)
@@ -123,7 +137,7 @@ SELECT update_time,
        leave_time,
        sts_target_name,
        sts_target,
-       concat('grant_object_rk:', if(commission_plan_type ='排名返现', if(sts_target > 0, grant_object_rk, ''), ''), '\;grant_object_underling_cnt:') as real_coefficient_goal_rate,
+       concat('grant_object_rk:', if(commission_plan_type ='排名返现', if(sts_target > 0, grant_object_rk, ''), ''), '\;grant_object_underling_cnt:', grant_object_underling_cnt) as real_coefficient_goal_rate,
        commission_cap,
        commission_plan_type,
        commission_reward_type,
