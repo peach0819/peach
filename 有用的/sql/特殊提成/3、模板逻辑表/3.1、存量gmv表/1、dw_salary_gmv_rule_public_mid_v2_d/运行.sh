@@ -124,12 +124,9 @@ from (
     select *
     from dw_order_d
     where dayid ='$v_date'
-    -- 保留近31天窗口时间内的数据
-    and substr(pay_time,1,8) >= replace(date_add('$v_op_time', -31), '-', '')
+    -- 保留近100天数据
+    and substr(pay_time,1,8) >= replace(date_add('$v_op_time', -100), '-', '')
     and bu_id=0
-    --剔除美妆店,员工店,伙伴店
-    --and nvl(store_type,100) not in (3,9,11)
-    --and sale_dc_id=-1
 ) order
 
 --退款表

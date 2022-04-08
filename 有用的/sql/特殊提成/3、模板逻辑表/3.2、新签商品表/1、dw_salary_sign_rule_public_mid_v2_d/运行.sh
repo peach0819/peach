@@ -176,7 +176,8 @@ from (
            sale_team_name,
       	   sale_team_freezed_name
     from (
-        select order_id,trade_no,
+        select order_id,
+               trade_no,
                business_unit,--业务域,
                category_id_first,  --商品一级类目,
                category_id_second, --商品二级类目,
@@ -195,20 +196,17 @@ from (
                shop_name,--门店名称,
                store_type,--门店类型,
                store_type_name,
-        	   service_info_freezed,
+        	     service_info_freezed,
 
                --默认指标--
                pay_amount,--实货支付金额
                total_pay_amount as gmv,--实货gmv
-        	   sale_team_name,
-        	   sale_team_freezed_name
+        	     sale_team_name,
+        	     sale_team_freezed_name
         from dw_order_d
         where dayid ='$v_date'
         and pay_time is not null
         and bu_id=0
-        --剔除美妆、员工店、伙伴店
-        -- and nvl(store_type,100) not in (3,9,11)
-        -- and sale_dc_id=-1
         and sp_id is null --剔除服务商订单
         and business_unit not in ('卡券票','其他')
         and item_style=1
