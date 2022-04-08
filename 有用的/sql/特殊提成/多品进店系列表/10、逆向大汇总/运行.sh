@@ -60,10 +60,10 @@ cur as (
            pre.commission_cap,
            pre.commission_plan_type,
            pre.commission_reward_type,
-           if(pre.commission_plan_type='排名返现' and today.commission_reward > pre.commission_reward, pre.commission_reward, today.commission_reward) as cur_commission_reward,
+           if(pre.commission_plan_type='排名返现' and cast(today.commission_reward as decimal) > cast(pre.commission_reward as decimal), pre.commission_reward, today.commission_reward) as cur_commission_reward,
            pre.commission_reward as pre_commission_reward,
            case when pre.commission_reward_type='金额'
-                then round(if(pre.commission_plan_type='排名返现' and today.commission_reward > pre.commission_reward, pre.commission_reward, today.commission_reward) - pre.commission_reward, 2)
+                then round(if(pre.commission_plan_type='排名返现' and cast(today.commission_reward as decimal) > cast(pre.commission_reward as decimal), pre.commission_reward, today.commission_reward) - pre.commission_reward, 2)
                 when pre.commission_reward_type='实物' and today.commission_reward != pre.commission_reward
                 then concat_ws('-', today.commission_reward, pre.commission_reward)
                 end as commission_reward_change,
