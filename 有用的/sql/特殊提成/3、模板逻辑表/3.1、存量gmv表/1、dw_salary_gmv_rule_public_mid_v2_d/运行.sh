@@ -112,12 +112,10 @@ select business_unit,--业务域,
        case when business_unit not in ('卡券票','其他') then nvl(refund.refund_retreat_amount,0) else 0 end as refund_retreat_amount,--实货清退金额
        substr(order.pay_time,1,8) as pay_day,
        order.order_id,
-       sale_team_name,
-       sale_team_freezed_name,
-       case when sale_team_name='电销部' then 1 when sale_team_name='BD部' then 2 when sale_team_name='大客户部' then 3 when sale_team_name='服务商部' then 4
-            when sale_team_name='美妆销售团队' then 5 else null end as sale_team_id,
-       case when sale_team_freezed_name='电销部' then 1 when sale_team_freezed_name='BD部' then 2 when sale_team_freezed_name='大客户部' then 3 when sale_team_freezed_name='服务商部' then 4
-            when sale_team_freezed_name='美妆销售团队' then 5 else null end as sale_team_freezed_id,
+       ord_seller.sale_team_name,
+       ord_seller.sale_team_freezed_name,
+       ord_seller.sale_team_id,
+       ord_seller.sale_team_freezed_id,
        shop_group_mapping.group_id as shop_group
 --订单表
 from (
@@ -174,5 +172,16 @@ LEFT JOIN (
     WHERE dayid='$v_date'
     group by shop_id
 ) shop_group_mapping ON order.shop_id=shop_group_mapping.shop_id
+
+--订单销售团队表
+LEFT JOIN (
+    SELECT order_id,
+           sale_team_id,
+           sale_team_name,
+           sale_team_freezed_id,
+           sale_team_freezed_name
+    FROM dim_hpc_trd_ord_seller_d
+    WHERE dayid = '$v_date'
+) ord_seller ON order.order_id = ord_seller.order_id
 ;
 "
