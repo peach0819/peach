@@ -12,10 +12,10 @@ bounty_plan_table='bounty_plan'
 
 if [[ $supply_data_mode != "" ]]
 then
-	bounty_plan_table='bounty_plan_supply_data'
+  bounty_plan_table='bounty_plan_supply_data'
 else
-	supply_data_where_condition="dayid = '${v_date}' and 0 = '1'"
-	bounty_plan_table='bounty_plan'
+  supply_data_where_condition="dayid = '${v_date}' and 0 = '1'"
+  bounty_plan_table='bounty_plan'
 fi
 
 source ../sql_variable.sh $v_date
@@ -53,14 +53,14 @@ set hivevar:filter_expr_columns=get_json_object(get_json_object(filter_config_js
 with
 -- 补数情况下使用的表
 bounty_plan_supply_data as (
-	select \${filter_expr_columns}, t1.*
+  select \${filter_expr_columns}, t1.*
     from dw_bounty_plan_d t1
     where ${supply_data_where_condition}
 ),
 bounty_plan as
 (select  \${filter_expr_columns}, t1.*
     from dw_bounty_plan_d t1
-    where dayid ='$v_date'
+    where dayid =replace(date_add(from_unixtime(unix_timestamp(),'yyyy-MM-dd'),-1),'-','')-------用系统日期的前一天作为方案表的取dayid日期
      and is_deleted =0
      and bounty_rule_type=1--本任务仅为GMV
      and status=1
@@ -115,7 +115,7 @@ bounty_plan2 as
 -- 计算的是不参与补数的计算结果数据
 without_supply_data_plan as (
 select
-	  gmv.update_time,
+    gmv.update_time,
       gmv.update_month,
       gmv.plan_type,
       gmv.plan_month,
@@ -182,10 +182,10 @@ select
 from (
     select
       *
-    from dw_salary_gmv_rule_public_new_d
+    from dw_salary_gmv_rule_public_d
     where dayid = '$v_date' and pltype='pre'
   ) gmv left join (
-  	select no
+    select no
     from dw_bounty_plan_d t1
     where ${supply_data_where_condition}
   ) plan
@@ -195,7 +195,7 @@ from (
   -- 非补数模式下自动跳过
   and 1='${supply_data_mode}'
 )
-insert overwrite table dw_salary_gmv_rule_public_new_d partition (dayid='$v_date',pltype='pre')
+insert overwrite table dw_salary_gmv_rule_public_d partition (dayid='$v_date',pltype='pre')
 select
    from_unixtime(unix_timestamp(),'yyyy-MM-dd HH:mm:ss') as update_time,                                 --更新时间
    from_unixtime(unix_timestamp(),'yyyy-MM') as update_month,                                            --执行月份
@@ -228,14 +228,14 @@ select
    war_zone_name     ,                                                                                   --战区经理
    war_zone_dep_id   ,                                                                                   --战区ID
    war_zone_dep_name ,                                                                                   --战区
-   area_manager_id     	,                                                                                --大区经理id
-   area_manager_name   	,                                                                                --大区经理
+   area_manager_id      ,                                                                                --大区经理id
+   area_manager_name    ,                                                                                --大区经理
    area_manager_dep_id,                                                                                  --大区区域ID
    area_manager_dep_name,                                                                                --大区
-   bd_manager_id       	,                                                                                --主管id
-   bd_manager_name     	,                                                                                --主管
+   bd_manager_id        ,                                                                                --主管id
+   bd_manager_name      ,                                                                                --主管
    bd_manager_dep_id,                                                                                    --主管区域ID
-   bd_manager_dep_name 	,                                                                                --区域
+   bd_manager_dep_name  ,                                                                                --区域
    sp_id,
    sp_name,                                                                                              --服务商名,
    sp_operator_name,                                                                                     --服务商经理名,
@@ -381,9 +381,9 @@ select
     left join
     (select order_id,sum(refund_actual_amount) as refund_actual_amount,
         sum(case when multiple_refund=10 then refund_actual_amount else 0 end) as refund_retreat_amount
-	   from dw_afs_order_refund_new_d --（后期通过type识别清退金额）
+     from dw_afs_order_refund_new_d --（后期通过type识别清退金额）
        where dayid ='$v_date'
-	   and refund_status=9
+     and refund_status=9
        group by order_id
      ) c on a.order_id=c.order_id
     cross join bounty_plan2 b
