@@ -89,12 +89,12 @@ ord as (
            shop_group,
            sale_team_freezed_id,
 
-           sum(gmv_less_refund) as gmv_less_refund,
-           sum(gmv) as gmv,
-           sum(pay_amount) as pay_amount,
-           sum(pay_amount_less_refund) as pay_amount_less_refund,
-           sum(refund_actual_amount) as refund_actual_amount,
-           sum(refund_retreat_amount) as refund_retreat_amount
+           sum(if(business_unit not in ('卡券票','其他'), gmv_less_refund, 0)) as gmv_less_refund,
+           sum(if(business_unit not in ('卡券票','其他'), gmv, 0)) as gmv,
+           sum(if(business_unit not in ('卡券票','其他'), pay_amount, 0)) as pay_amount,
+           sum(if(business_unit not in ('卡券票','其他'), pay_amount_less_refund, 0)) as pay_amount_less_refund,
+           sum(if(business_unit not in ('卡券票','其他'), refund_actual_amount, 0)) as refund_actual_amount,
+           sum(if(business_unit not in ('卡券票','其他'), refund_retreat_amount, 0)) as refund_retreat_amount
     FROM dw_salary_gmv_rule_public_mid_v2_d
     where dayid ='$v_date'
     group by pay_day,
