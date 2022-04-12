@@ -57,13 +57,11 @@ with plan as (
     FROM dw_bounty_plan_schedule_d
     WHERE array_contains(split(forward_date, ','), '$v_date')
     AND ('$supply_mode' = 'not_supply' OR array_contains(split(supply_date, ','), '$supply_date'))
-    AND bounty_rule_type = 2
+    AND bounty_rule_type = 3
 ),
 
 sign as (
-    select plan.no as plan_no,
-           item_id,
-           item_name,
+    select plan.no as planno,
            brand_id,
            brand_name,
            item_style,
@@ -92,7 +90,7 @@ sign as (
            service_department_name_freezed,
            min(pay_time) as new_sign_time,
            min(pay_day) as new_sign_day,          --新签日期
-           shop_item_sign_day,--门店商品新签时间
+           shop_brand_sign_day,  --门店品牌新签时间
            sum(gmv_less_refund) as gmv_less_refund,       --实货gmv-退款
            sum(gmv) as gmv,--实货gmv,
            sum(pay_amount) as pay_amount,--实货支付金额
@@ -102,21 +100,18 @@ sign as (
            case when sum(gmv_less_refund) >= new_sign_line then '是' else '否' end as is_over_sign_line--是否满足新签门槛
     from (select * from dw_salary_sign_rule_public_mid_v2_d where dayid = '$v_date') ord
     cross join plan ON 1 = 1
-    where shop_item_sign_day between calculate_date_value_start and calculate_date_value_end
+    where shop_brand_sign_day between calculate_date_value_start and calculate_date_value_end
     and pay_day <= calculate_date_value_end
-    and ytdw.simple_expr(sale_team_id, 'in', sales_team_value) = (case when sales_team_operator = '=' then 1 else 0 end)
-    and ytdw.simple_expr(item_style_name, 'in', item_style_value) = (case when item_style_operator = '=' then 1 else 0 end)
-    and ytdw.simple_expr(category_id_first, 'in', category_first_value) = (case when category_first_operator = '=' then 1 else 0 end)
-    and ytdw.simple_expr(category_id_second, 'in', category_second_value) = (case when category_second_operator = '=' then 1 else 0 end)
-    and ytdw.simple_expr(brand_id, 'in', brand_value) = (case when brand_operator = '=' then 1 else 0 end)
-    and ytdw.simple_expr(item_id, 'in', item_value) = (case when item_operator = '=' then 1 else 0 end)
-    and ytdw.simple_expr(war_zone_dep_id, 'in', war_area_value) = (case when war_area_operator = '=' then 1 else 0 end)
-    and ytdw.simple_expr(area_manager_dep_id, 'in', bd_area_value) = (case when bd_area_operator = '=' then 1 else 0 end)
-    and ytdw.simple_expr(bd_manager_dep_id, 'in', manage_area_value) = (case when manage_area_operator = '=' then 1 else 0 end)
-    and if(ord.shop_group = '' OR plan.shop_group_value = '', 0, ytdw.simple_expr(substr(plan.shop_group_value, 2, length(plan.shop_group_value) - 2), 'in', concat('[', ord.shop_group, ']'))) = (case when shop_group_operator = '=' then 1 else 0 end)
+    and ytdw.simple_expr( sale_team_id,'in',sales_team_value)=(case when sales_team_operator ='=' then 1 else 0 end)
+    and ytdw.simple_expr( item_style_name,'in',item_style_value)=(case when item_style_operator ='=' then 1 else 0 end)
+    and ytdw.simple_expr( category_id_first,'in',category_first_value)=(case when category_first_operator ='=' then 1 else 0 end)
+    and ytdw.simple_expr( category_id_second,'in',category_second_value)=(case when category_second_operator ='=' then 1 else 0 end)
+    and ytdw.simple_expr( brand_id,'in',brand_value)=(case when brand_operator ='=' then 1 else 0 end)
+    and ytdw.simple_expr( war_zone_dep_id,'in',war_area_value)=(case when war_area_operator ='=' then 1 else 0 end)
+    and ytdw.simple_expr( area_manager_dep_id,'in',bd_area_value)=(case when bd_area_operator ='=' then 1 else 0 end)
+    and ytdw.simple_expr( bd_manager_dep_id,'in',manage_area_value)=(case when manage_area_operator ='=' then 1 else 0 end)
+    and if(ord.shop_group = '' OR plan.shop_group_value = '', 0, ytdw.simple_expr(substr(plan.shop_group_value, 2, length(plan.shop_group_value) - 2), 'in', concat('[', ord.shop_group, ']'))) = (case when shop_group_operator ='=' then 1 else 0 end)
     group by plan.no,
-             item_id,
-             item_name,
              brand_id,
              brand_name,
              item_style,
@@ -143,7 +138,7 @@ sign as (
              service_feature_name_freezed,
              service_job_name_freezed,
              service_department_name_freezed,
-             shop_item_sign_day,
+             shop_brand_sign_day,
              plan.new_sign_line
 ),
 
@@ -168,8 +163,6 @@ cur as (
            plan.bounty_indicator_name as sts_target_name,
 
            --数据信息
-           item_id,
-           item_name,
            brand_id,
            brand_name,
            item_style,
@@ -198,8 +191,8 @@ cur as (
            service_department_name_freezed,
            new_sign_time,
            new_sign_day,
-           row_number() over (partition by plan_no,shop_id,item_id,is_over_sign_line order by new_sign_time) as new_sign_rn, --新签时间排名达成
-           shop_item_sign_day,
+           row_number() over (partition by planno,shop_id,brand_id,is_over_sign_line order by new_sign_time) as new_sign_rn, --新签时间排名达成
+           shop_brand_sign_day,
            gmv_less_refund,
            gmv,
            pay_amount,
@@ -208,7 +201,7 @@ cur as (
            refund_retreat_amount,
            new_sign_line,
            is_over_sign_line,
-           plan_no,
+           planno,
 
            --方案信息
            plan.bounty_payout_object_name as grant_object_type,--发放对象类型
@@ -234,10 +227,10 @@ cur as (
                 when plan.bounty_payout_object_code  in('BD','BIG_BD')  then service_department_name_freezed
                 end as grant_object_user_dep_name
     FROM sign
-    INNER JOIN plan ON sign.plan_no = plan.no
+    INNER JOIN plan ON sign.planno = plan.no
 )
 
-insert overwrite table dw_salary_sign_item_rule_public_d partition (dayid='$v_date',pltype='cur')
+insert overwrite table dw_salary_sign_brand_rule_public_d partition (dayid='$v_date',pltype='cur')
 SELECT update_time,
        update_month,
        plan_type,
@@ -246,8 +239,6 @@ SELECT update_time,
        plan_name,
        plan_group_id,
        plan_group_name,
-       item_id,
-       item_name,
        brand_id,
        brand_name,
        item_style,
@@ -277,7 +268,7 @@ SELECT update_time,
        new_sign_time,
        new_sign_day,
        new_sign_rn,
-       shop_item_sign_day,
+       shop_brand_sign_day,
        gmv_less_refund,
        gmv,
        pay_amount,
@@ -294,9 +285,8 @@ SELECT update_time,
        grant_object_user_dep_id,
        grant_object_user_dep_name,
        user_admin.leave_time as leave_time,
-       if(user_admin.leave_time is not null and new_sign_day > user_admin.leave_time, '是', '否') as is_leave,
-       sts_target_name,
-       plan_no
+       if(user_admin.leave_time is not null and new_sign_day > user_admin.leave_time, '是', '否') as is_leave,       sts_target_name,
+       planno
 FROM cur
 LEFT JOIN user_admin on cur.grant_object_user_id = user_admin.user_id
 WHERE cur.grant_object_user_id is not null
@@ -311,8 +301,6 @@ SELECT update_time,
        plan_name,
        plan_group_id,
        plan_group_name,
-       item_id,
-       item_name,
        brand_id,
        brand_name,
        item_style,
@@ -342,7 +330,7 @@ SELECT update_time,
        new_sign_time,
        new_sign_day,
        new_sign_rn,
-       shop_item_sign_day,
+       shop_brand_sign_day,
        gmv_less_refund,
        gmv,
        pay_amount,
@@ -364,7 +352,7 @@ SELECT update_time,
        planno
 FROM (
     SELECT *
-    FROM dw_salary_sign_item_rule_public_d
+    FROM dw_salary_sign_brand_rule_public_d
     WHERE dayid = '$v_date'
     AND pltype='cur'
 ) history

@@ -300,7 +300,7 @@ SELECT update_time,
        refund_retreat_amount,
        new_sign_line,
        is_over_sign_line,
-       if(new_sign_rn = 1, '是', '否') as first_sign,--是否首次达成
+       if(new_sign_rn = 1, '是', '否') as is_first_sign,--是否首次达成
        if(gmv_less_refund >= new_sign_line and new_sign_rn = 1, '是', '否') as is_succ_sign,--是否新签成功
        grant_object_type,
        grant_object_user_id,
