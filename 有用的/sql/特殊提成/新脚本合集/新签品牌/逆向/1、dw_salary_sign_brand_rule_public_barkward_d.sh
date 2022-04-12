@@ -76,7 +76,7 @@ bounty_plan_supply_data as (
 bounty_plan as
 (select \${filter_expr_columns}, t1.*
  from dw_bounty_plan_d t1
-where dayid ='$v_date'
+where dayid =replace(date_add(from_unixtime(unix_timestamp(),'yyyy-MM-dd'),-1),'-','')-------用系统日期的前一天作为方案表的取dayid日期
   and is_deleted =0
   and bounty_rule_type=3--本任务仅为新签品牌
   and status=1
@@ -206,7 +206,7 @@ select
 from (
     select
       *
-    from dw_salary_sign_brand_rule_public_new_d
+    from dw_salary_sign_brand_rule_public_d
     where dayid = '$v_date' and pltype = 'pre'
   ) brand left join (
     select no
@@ -219,7 +219,7 @@ from (
   -- 非补数模式下自动跳过
   and 1='${supply_data_mode}'
 )
-insert overwrite table dw_salary_sign_brand_rule_public_new_d partition (dayid='$v_date',pltype='pre')
+insert overwrite table dw_salary_sign_brand_rule_public_d partition (dayid='$v_date',pltype='pre')
 select
        from_unixtime(unix_timestamp(),'yyyy-MM-dd HH:mm:ss') as update_time,--更新时间
        from_unixtime(unix_timestamp(),'yyyy-MM') as update_month,--执行月份
