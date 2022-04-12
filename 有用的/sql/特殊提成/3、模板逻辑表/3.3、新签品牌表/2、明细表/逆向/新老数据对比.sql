@@ -1,17 +1,3 @@
-v_date=$1
-supply_date=$4
-supply_mode='not_supply'
-
-if [[ $supply_date != "" ]]
-then
-  supply_mode='supply'
-fi
-
-source ../sql_variable.sh $v_date
-
-apache-spark-sql -e "
-use ytdw;
-
 with plan as (
     SELECT *,
            get_json_object(get_json_object(filter_config_json,'$.calculate_date'),'$.value') as calculate_date_value,
@@ -55,8 +41,8 @@ with plan as (
            replace(replace(replace(get_json_object(get_json_object(filter_config_json,'$.new_sign_line'),'$.value'),'\"',''),'[',''),']','') as new_sign_line,
            replace(replace(replace(replace(get_json_object(get_json_object(filter_config_json,'$.calculate_date'),'$.value'),']',''),'\"',''),'[',''),',','~') as plan_pay_time
     FROM dw_bounty_plan_schedule_d
-    WHERE array_contains(split(backward_date, ','), '$v_date')
-    AND ('$supply_mode' = 'not_supply' OR array_contains(split(supply_date, ','), '$supply_date'))
+    WHERE array_contains(split(backward_date, ','), '20220331')
+    AND ('not_supply' = 'not_supply' OR array_contains(split(supply_date, ','), '$supply_date'))
     AND bounty_rule_type = 3
 ),
 
@@ -65,7 +51,7 @@ refund as (
            sum(refund_actual_amount) as refund_actual_amount,
            sum(case when multiple_refund = 10 then refund_actual_amount else 0 end) as refund_retreat_amount
     from dw_afs_order_refund_new_d --（后期通过type识别清退金额）
-    where dayid ='$v_date'
+    where dayid ='20220331'
     and refund_status=9
     group by order_id
 ),
@@ -109,7 +95,7 @@ sign as (
            sum(nvl(refund.refund_actual_amount,0)) as refund_actual_amount,--实货退款
            sum(nvl(refund.refund_retreat_amount,0)) as refund_retreat_amount,--实货清退金额
            case when sum(gmv_less_refund - nvl(refund.refund_actual_amount,0)) >= new_sign_line then '是' else '否' end as is_over_sign_line--是否满足新签门槛
-    from (select * from dw_salary_sign_rule_public_mid_v2_d) ord
+    from (select * from dw_salary_sign_rule_public_mid_v2_d WHERE dayid > '0') ord
     LEFT JOIN refund ON ord.order_id = refund.order_id
     cross join plan ON ord.dayid = split(plan.backward_date, ',')[0]
     where shop_brand_sign_day between calculate_date_value_start and calculate_date_value_end
@@ -160,6 +146,7 @@ user_admin as (
            substr(leave_time,1,8) as leave_time,
            dayid
     from dwd_user_admin_d
+    WHERE dayid > '0'
 ),
 
 cur as (
@@ -242,9 +229,9 @@ cur as (
            sign.dayid
     FROM sign
     INNER JOIN plan ON sign.planno = plan.no
-)
+),
 
-insert overwrite table dw_salary_sign_brand_rule_public_d partition (dayid='$v_date',pltype='pre')
+new_data as (
 SELECT update_time,
        update_month,
        plan_type,
@@ -305,76 +292,12 @@ SELECT update_time,
 FROM cur
 LEFT JOIN user_admin on cur.grant_object_user_id = user_admin.user_id AND cur.dayid = user_admin.dayid
 WHERE cur.grant_object_user_id is not null
+),
 
-UNION ALL
+old_data as (
+    SELECT * FROM dw_salary_sign_brand_rule_public_d WHERE dayid='20220331' AND pltype='pre'
+)
 
-SELECT update_time,
-       update_month,
-       plan_type,
-       plan_month,
-       plan_pay_time,
-       plan_name,
-       plan_group_id,
-       plan_group_name,
-       brand_id,
-       brand_name,
-       item_style,
-       item_style_name,
-       shop_id,
-       shop_name,
-       store_type,
-       store_type_name,
-       war_zone_id,
-       war_zone_name,
-       war_zone_dep_id,
-       war_zone_dep_name,
-       area_manager_id,
-       area_manager_name,
-       area_manager_dep_id,
-       area_manager_dep_name,
-       bd_manager_id,
-       bd_manager_name,
-       bd_manager_dep_id,
-       bd_manager_dep_name,
-       service_user_id_freezed,
-       service_department_id_freezed,
-       service_user_name_freezed,
-       service_feature_name_freezed,
-       service_job_name_freezed,
-       service_department_name_freezed,
-       new_sign_time,
-       new_sign_day,
-       new_sign_rn,
-       shop_brand_sign_day,
-       gmv_less_refund,
-       gmv,
-       pay_amount,
-       pay_amount_less_refund,
-       refund_actual_amount,
-       refund_retreat_amount,
-       new_sign_line,
-       is_over_sign_line,
-       is_first_sign,
-       is_succ_sign,
-       grant_object_type,
-       grant_object_user_id,
-       grant_object_user_name,
-       grant_object_user_dep_id,
-       grant_object_user_dep_name,
-       leave_time,
-       is_leave,
-       sts_target_name,
-       planno
-FROM (
-    SELECT *
-    FROM dw_salary_sign_brand_rule_public_d
-    WHERE dayid = '$v_date'
-    AND pltype='pre'
-) history
-LEFT JOIN (
-    SELECT no FROM plan
-) cur_plan ON history.planno = cur_plan.no
-WHERE cur_plan.no is null
-" &&
-
-exit 0
+SELECT t1.planno, t1.c, t2.planno, t2.c
+FROM (SELECT count(*) as c, planno FROM new_data group by planno) t1
+FULL JOIN (SELECT count(*) as c, planno FROM old_data group by planno) t2 ON t1.planno = t2.planno

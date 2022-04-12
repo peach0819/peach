@@ -285,7 +285,8 @@ SELECT update_time,
        grant_object_user_dep_id,
        grant_object_user_dep_name,
        user_admin.leave_time as leave_time,
-       if(user_admin.leave_time is not null and new_sign_day > user_admin.leave_time, '是', '否') as is_leave,       sts_target_name,
+       if(user_admin.leave_time is not null and new_sign_day > user_admin.leave_time, '是', '否') as is_leave,
+       sts_target_name,
        planno
 FROM cur
 LEFT JOIN user_admin on cur.grant_object_user_id = user_admin.user_id
