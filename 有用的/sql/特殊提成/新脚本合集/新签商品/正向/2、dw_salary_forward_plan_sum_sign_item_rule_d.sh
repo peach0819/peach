@@ -12,10 +12,10 @@ bounty_plan_table='bounty_plan_payout'
 
 if [[ $supply_data_mode != "" ]]
 then
-	bounty_plan_table='bounty_plan_payout_supply_data'
+  bounty_plan_table='bounty_plan_payout_supply_data'
 else
-	supply_data_where_condition="dayid = '${v_date}' and 0 = '1'"
-	bounty_plan_table='bounty_plan_payout'
+  supply_data_where_condition="dayid = '${v_date}' and 0 = '1'"
+  bounty_plan_table='bounty_plan_payout'
 fi
 
 source ../sql_variable.sh $v_date
@@ -44,15 +44,15 @@ set hivevar:bounty_columns=t1.no,
 with
 bounty_plan_payout_supply_data as
 (select
-	\${bounty_columns}
+  \${bounty_columns}
    from dw_bounty_plan_d t1
   where ${supply_data_where_condition}
 ),
 bounty_plan_payout as
 (select
-	\${bounty_columns}
+  \${bounty_columns}
    from dw_bounty_plan_d t1
-  where dayid ='$v_date'
+  where dayid =replace(date_add(from_unixtime(unix_timestamp(),'yyyy-MM-dd'),-1),'-','')-------用系统日期的前一天作为方案表的取dayid日期
     and is_deleted =0
     and t1.bounty_rule_type =2
     and status=1
@@ -75,7 +75,7 @@ bounty_plan_payout2 as
 -- 计算的是不参与补数的计算结果数据
 without_supply_data_plan as (
 select
-	  t1.update_time,
+    t1.update_time,
       t1.update_month,
       t1.plan_month,
       t1.plan_pay_time,
@@ -100,10 +100,10 @@ select
 from (
     select
       *
-    from dw_salary_forward_plan_sum_new_d
+    from dw_salary_forward_plan_sum_d
     where dayid = '$v_date' and bounty_rule_type=2
   ) t1 left join (
-  	select no
+    select no
     from dw_bounty_plan_d t1
     where ${supply_data_where_condition}
   ) plan
@@ -114,14 +114,14 @@ from (
   and 1='${supply_data_mode}'
 )
 
-insert overwrite table dw_salary_forward_plan_sum_new_d partition (dayid='$v_date',bounty_rule_type=2)
+insert overwrite table dw_salary_forward_plan_sum_d partition (dayid='$v_date',bounty_rule_type=2)
 select
     from_unixtime(unix_timestamp(),'yyyy-MM-dd HH:mm:ss') as update_time,--更新时间
     from_unixtime(unix_timestamp(),'yyyy-MM') as update_month,--执行月份
     --方案基础信息,
     plan_month,--方案月份
     plan_pay_time,--方案时间
-	planno,--方案编号
+  planno,--方案编号
     plan_name,--方案名称
     plan_group_id,--归属业务组ID
     plan_group_name,--归属业务组
@@ -129,12 +129,12 @@ select
     grant_object_type,--发放对象类型
     grant_object_user_id, --发放对象ID
     grant_object_user_name,--发放对象名称
-	grant_object_user_dep_id,--发放对象部门ID
+  grant_object_user_dep_id,--发放对象部门ID
     grant_object_user_dep_name,--发放对象部门
     leave_time,--发放对象离职时间
     --统计指标名称
     sts_target_name,
-	sts_target,--统计指标数值
+  sts_target,--统计指标数值
     --方案扩展字段
     concat('grant_object_rk:',nvl(case when commission_plan_type ='排名返现' then grant_object_rk else null end,''),'\;','grant_object_underling_cnt:','') as real_coefficient_goal_rate
     --提成上限
@@ -208,7 +208,7 @@ from
                      payout_upper_limit,
                      payout_rule_type,
                      payout_config_json
-                 from (select * from dw_salary_sign_item_rule_public_new_d where dayid ='$v_date' and pltype='cur') t1
+                 from (select * from dw_salary_sign_item_rule_public_d where dayid ='$v_date' and pltype='cur') t1
                 inner join bounty_plan_payout2 t2
                    on t1.planno = t2.no
                 group by

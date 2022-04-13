@@ -12,14 +12,14 @@ bounty_plan_table='bounty_plan_payout'
 
 if [[ $supply_data_mode != "" ]]
 then
-	bounty_plan_table='bounty_plan_payout_supply_data'
+  bounty_plan_table='bounty_plan_payout_supply_data'
 else
-	supply_data_where_condition="dayid = '${v_date}' and 0 = '1'"
-	bounty_plan_table='bounty_plan_payout'
+  supply_data_where_condition="dayid = '${v_date}' and 0 = '1'"
+  bounty_plan_table='bounty_plan_payout'
 fi
 
 source ../sql_variable.sh $v_date
-source ../yarn_variable.sh dw_salary_backward_plan_sum_mid_sign_item_rule_d '尹昶胜'
+source ../yarn_variable.sh dw_salary_backward_plan_sum_mid_sign_item_rule_d '肥桃'
 
 spark-sql $spark_yarn_job_name_conf $spark_yarn_queue_name_conf --master yarn --executor-memory 4G --num-executors 4 -v -e "
 use ytdw;
@@ -51,9 +51,9 @@ bounty_plan_payout_supply_data as
 -- 正常方案表
 bounty_plan_payout as
 (select
-	\${bounty_columns}
+  \${bounty_columns}
    from dw_bounty_plan_d t1
-  where dayid ='$v_date'
+  where dayid =replace(date_add(from_unixtime(unix_timestamp(),'yyyy-MM-dd'),-1),'-','')-------用系统日期的前一天作为方案表的取dayid日期
     and is_deleted =0
     and t1.bounty_rule_type =2
     and month >= substr(add_months('$v_op_month', -12), 1, 7)
@@ -75,7 +75,7 @@ bounty_plan_payout2 as
 -- 计算的是不参与补数的计算结果数据
 without_supply_data_plan as (
 select
-	  t1.update_time,
+    t1.update_time,
       t1.update_month,
       t1.plan_month,
       t1.plan_pay_time,
@@ -100,10 +100,10 @@ select
 from (
     select
       *
-    from dw_salary_backward_plan_sum_mid_new_d
+    from dw_salary_backward_plan_sum_mid_d
     where dayid = '$v_date' and bounty_rule_type=2
   ) t1 left join (
-  	select no
+    select no
     from dw_bounty_plan_d t1
     where ${supply_data_where_condition}
   ) plan
@@ -113,7 +113,7 @@ from (
   -- 非补数模式下自动跳过
   and 1='${supply_data_mode}'
 )
-insert overwrite table dw_salary_backward_plan_sum_mid_new_d partition (dayid='$v_date',bounty_rule_type=2)
+insert overwrite table dw_salary_backward_plan_sum_mid_d partition (dayid='$v_date',bounty_rule_type=2)
 select
        from_unixtime(unix_timestamp(),'yyyy-MM-dd HH:mm:ss') as update_time,--更新时间
        from_unixtime(unix_timestamp(),'yyyy-MM') as update_month,--执行月份
@@ -214,7 +214,7 @@ select
                      payout_config_json,
                      commission_plan_type
                 from (select *
-                        from dw_salary_sign_item_rule_public_new_d
+                        from dw_salary_sign_item_rule_public_d
                        where dayid ='$v_date'
                          and pltype='pre'
                          and day(date_add('$v_op_time', 1))=1--过滤非月末日期
@@ -245,7 +245,7 @@ select
             ) forward_plan_tmp
     ) forward_plan
     union all
-  	select * from without_supply_data_plan
+    select * from without_supply_data_plan
 ;
 " &&
 
