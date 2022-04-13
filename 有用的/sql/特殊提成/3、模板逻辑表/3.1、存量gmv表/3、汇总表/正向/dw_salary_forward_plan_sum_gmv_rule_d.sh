@@ -119,7 +119,7 @@ SELECT update_time,
        if(
           payout_rule_type=5 and (grant_object_rk is null OR (commission_cap is not null AND sts_target < commission_cap)),
           0,
-          ytdw.bounty_payout(payout_rule_type, if(payout_rule_type IN (1,2,3), sts_target, grant_object_rk), commission_cap, payout_config_json)
+          ytdw.bounty_payout(payout_rule_type, if(payout_rule_type IN (1,2,3,4), sts_target, grant_object_rk), commission_cap, payout_config_json)
        ) as commission_reward,
        planno
 FROM cur
