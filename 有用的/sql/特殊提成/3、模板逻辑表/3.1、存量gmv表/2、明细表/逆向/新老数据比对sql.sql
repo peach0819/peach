@@ -86,7 +86,7 @@ ord as (
            shop_group,
            sale_team_freezed_id,
 
-           sum(if(business_unit not in ('卡券票','其他'), gmv_less_refund - nvl(refund.refund_actual_amount, 0), 0)) as gmv_less_refund,
+           sum(if(business_unit not in ('卡券票','其他'), gmv - nvl(refund.refund_actual_amount, 0), 0)) as gmv_less_refund,
            sum(if(business_unit not in ('卡券票','其他'), gmv, 0)) as gmv,
            sum(if(business_unit not in ('卡券票','其他'), pay_amount, 0)) as pay_amount,
            sum(if(business_unit not in ('卡券票','其他'), pay_amount - nvl(refund.refund_actual_amount, 0), 0)) as pay_amount_less_refund,

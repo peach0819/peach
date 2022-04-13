@@ -102,13 +102,13 @@ sign as (
            min(pay_time) as new_sign_time,
            min(pay_day) as new_sign_day,          --新签日期
            shop_brand_sign_day,--门店商品新签时间
-           sum(gmv_less_refund - nvl(refund.refund_actual_amount,0)) as gmv_less_refund,       --实货gmv-退款
+           sum(gmv - nvl(refund.refund_actual_amount,0)) as gmv_less_refund,       --实货gmv-退款
            sum(gmv) as gmv,--实货gmv,
            sum(pay_amount) as pay_amount,--实货支付金额
            sum(pay_amount - nvl(refund.refund_actual_amount,0)) as pay_amount_less_refund,--实货支付金额-退款
            sum(nvl(refund.refund_actual_amount,0)) as refund_actual_amount,--实货退款
            sum(nvl(refund.refund_retreat_amount,0)) as refund_retreat_amount,--实货清退金额
-           case when sum(gmv_less_refund - nvl(refund.refund_actual_amount,0)) >= new_sign_line then '是' else '否' end as is_over_sign_line--是否满足新签门槛
+           case when sum(gmv - nvl(refund.refund_actual_amount,0)) >= new_sign_line then '是' else '否' end as is_over_sign_line--是否满足新签门槛
     from (select * from dw_salary_sign_rule_public_mid_v2_d) ord
     LEFT JOIN refund ON ord.order_id = refund.order_id
     cross join plan ON ord.dayid = split(plan.backward_date, ',')[0]
