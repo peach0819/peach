@@ -308,6 +308,7 @@ old_data as (
     SELECT * FROM dw_salary_sign_item_rule_public_d WHERE dayid='20220331' AND pltype='pre'
 )
 
-SELECT t1.planno, t1.c, t2.planno, t2.c
-FROM (SELECT count(*) as c, planno FROM new_data group by planno) t1
-FULL JOIN (SELECT count(*) as c, planno FROM old_data group by planno) t2 ON t1.planno = t2.planno
+SELECT t1.planno, t1.grant_object_user_id, t1.c,  t2.planno, t2.grant_object_user_id, t2.c
+FROM (SELECT count(if(is_succ_sign = '是', 1,null)) as c, planno,grant_object_user_id FROM new_data group by planno, grant_object_user_id) t1
+FULL JOIN (SELECT count(if(is_succ_sign = '是', 1,null)) as c, planno, grant_object_user_id FROM old_data group by planno, grant_object_user_id) t2 ON t1.planno = t2.planno AND t1.grant_object_user_id = t2.grant_object_user_id
+order by t1.planno limit 3000
