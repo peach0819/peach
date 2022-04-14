@@ -1,17 +1,3 @@
-v_date=$1
-supply_date=$4
-supply_mode='not_supply'
-
-if [[ $supply_date != "" ]]
-then
-  supply_mode='supply'
-fi
-
-source ../sql_variable.sh $v_date
-
-apache-spark-sql -e "
-use ytdw;
-
 with plan as (
     SELECT *,
            if(payout_rule_type = 3, '实物', '金额') as commission_reward_type,
@@ -23,8 +9,8 @@ with plan as (
                 end as commission_plan_type,
            replace(replace(replace(replace(get_json_object(get_json_object(filter_config_json,'$.calculate_date'),'$.value'),']',''),'\"',''),'[',''),',','~') as plan_pay_time
     FROM dw_bounty_plan_schedule_d
-    WHERE array_contains(split(backward_date, ','), '$v_date')
-    AND ('$supply_mode' = 'not_supply' OR array_contains(split(supply_date, ','), '$supply_date'))
+    WHERE array_contains(split(backward_date, ','), '20220331')
+    AND ('not_supply' = 'not_supply' OR array_contains(split(supply_date, ','), '$supply_date'))
     AND bounty_rule_type = 3
 ),
 
@@ -40,7 +26,7 @@ detail as (
            sum(if(is_leave='否' and is_succ_sign='是', gmv_less_refund, 0)) as gmv_less_refund,
            sum(if(is_leave='否' and is_succ_sign='是', pay_amount_less_refund, 0)) as pay_amount_less_refund
     FROM dw_salary_sign_brand_rule_public_d
-    WHERE dayid = '$v_date'
+    WHERE dayid = '20220331'
     AND pltype = 'pre'
     group by planno,
              grant_object_user_id,
@@ -108,9 +94,9 @@ cur as (
     from plan
     INNER JOIN detail ON plan.no = detail.planno
     LEFT JOIN underling ON detail.grant_object_user_id = underling.user_id AND underling.dayid = split(plan.backward_date, ',')[0]
-)
+),
 
-insert overwrite table dw_salary_backward_plan_sum_mid_d partition (dayid='$v_date', bounty_rule_type=3)
+new_data as (
 SELECT update_time,
        update_month,
        plan_month,
@@ -138,42 +124,22 @@ SELECT update_time,
        ) as commission_reward,
        planno
 FROM cur
+),
 
-UNION ALL
+old_data as (
+    SELECT planno, grant_object_user_id, sts_target, commission_reward FROM dw_salary_backward_plan_sum_mid_d WHERE dayid='20220331' AND  bounty_rule_type=3
+)
 
-SELECT update_time,
-       update_month,
-       plan_month,
-       plan_pay_time,
-       plan_no,
-       plan_name,
-       plan_group_id,
-       plan_group_name,
-       grant_object_type,
-       grant_object_user_id,
-       grant_object_user_name,
-       grant_object_user_dep_id,
-       grant_object_user_dep_name,
-       leave_time,
-       sts_target_name,
-       sts_target,
-       real_coefficient_goal_rate,
-       commission_cap,
-       commission_plan_type,
-       commission_reward_type,
-       commission_reward,
-       planno
-FROM (
-    SELECT *
-    FROM dw_salary_backward_plan_sum_mid_d
-    WHERE dayid = '$v_date'
-    AND bounty_rule_type=3
-) history
-LEFT JOIN (
-    SELECT no FROM plan
-) cur_plan ON history.planno = cur_plan.no
-WHERE cur_plan.no is null
-;
-" &&
-
-exit 0
+SELECT old_data.planno,
+       old_data.grant_object_user_id,
+       old_data.sts_target,
+       old_data.commission_reward,
+       new_data.planno,
+       new_data.grant_object_user_id,
+       new_data.sts_target,
+       new_data.commission_reward
+FROM old_data
+FULL JOIN new_data ON old_data.planno = new_data.planno AND old_data.grant_object_user_id = new_data.grant_object_user_id
+WHERE new_data.planno is null OR old_data.sts_target != new_data.sts_target OR old_data.commission_reward != new_data.commission_reward
+order by old_data.planno
+limit 3000
