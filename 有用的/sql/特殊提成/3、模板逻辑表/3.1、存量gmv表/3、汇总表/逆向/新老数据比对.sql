@@ -35,10 +35,10 @@ detail as (
 ),
 
 underling as (
-    select user_id, max(underling_cnt) as underling_cnt
+    select user_id, max(underling_cnt) as underling_cnt, dayid
     from dws_usr_bd_manager_underling_d
-    where dayid ='20220331'
-    group by user_id
+    where dayid > '0'
+    group by user_id, dayid
 ),
 
 cur as (
@@ -77,7 +77,7 @@ cur as (
            ) desc, detail.gmv_less_refund desc) as grant_object_rk
     from plan
     INNER JOIN detail ON plan.no = detail.planno
-    LEFT JOIN underling ON detail.grant_object_user_id = underling.user_id
+    LEFT JOIN underling ON detail.grant_object_user_id = underling.user_id AND underling.dayid = split(plan.backward_date, ',')[0]
 ),
 
 new_data as (
@@ -124,5 +124,6 @@ SELECT old_data.planno,
        new_data.commission_reward
 FROM old_data
 FULL JOIN new_data ON old_data.planno = new_data.planno AND old_data.grant_object_user_id = new_data.grant_object_user_id
+WHERE new_data.planno is null OR old_data.sts_target != new_data.sts_target OR old_data.commission_reward != new_data.commission_reward
 order by old_data.planno
 limit 3000
