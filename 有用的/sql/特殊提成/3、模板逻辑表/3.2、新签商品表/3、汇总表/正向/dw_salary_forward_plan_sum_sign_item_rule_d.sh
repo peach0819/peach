@@ -35,15 +35,13 @@ detail as (
            grant_object_user_dep_id,
            grant_object_user_dep_name,
            leave_time,
-           count(distinct shop_id) as sign_shop_count,
-           count(distinct shop_id, item_id) as sign_shop_item_count,
-           sum(gmv_less_refund) as gmv_less_refund,
-           sum(pay_amount_less_refund) as pay_amount_less_refund
+           count(distinct if(is_leave='否' and is_succ_sign='是', shop_id, null)) as sign_shop_count,
+           count(distinct if(is_leave='否' and is_succ_sign='是', concat(shop_id, '_', item_id), null)) as sign_shop_item_count,
+           sum(if(is_leave='否' and is_succ_sign='是', gmv_less_refund, 0)) as gmv_less_refund,
+           sum(if(is_leave='否' and is_succ_sign='是', pay_amount_less_refund, 0)) as pay_amount_less_refund
     FROM dw_salary_sign_item_rule_public_d
     WHERE dayid = '$v_date'
     AND pltype = 'cur'
-    AND is_leave='否'
-    and is_succ_sign='是'
     group by planno,
              grant_object_user_id,
              grant_object_user_name,
