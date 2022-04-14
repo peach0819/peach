@@ -84,12 +84,11 @@ cur as (
            --统计指标
            nvl(underling.underling_cnt,1) as grant_object_underling_cnt,
            if(plan.bounty_indicator_name in ('人均实货支付金额(去优惠券去退款)','人均实货GMV(去退款)'), sts_target/nvl(underling_cnt,1), sts_target) as sts_target,
-           if(sts_target > 0,
-              row_number() over(partition by plan.no order by (
-                   if(plan.bounty_indicator_name in ('人均实货支付金额(去优惠券去退款)','人均实货GMV(去退款)'), sts_target/nvl(underling_cnt,1), sts_target)
-              ) desc, detail.gmv_less_refund desc),
-              null
-           ) as grant_object_rk
+
+           --排名
+           row_number() over(partition by plan.no order by (
+                if(plan.bounty_indicator_name in ('人均实货支付金额(去优惠券去退款)','人均实货GMV(去退款)'), sts_target/nvl(underling_cnt,1), sts_target)
+           ) desc, detail.gmv_less_refund desc) as grant_object_rk
     from plan
     INNER JOIN detail ON plan.no = detail.planno
     LEFT JOIN underling ON detail.grant_object_user_id = underling.user_id
@@ -117,7 +116,7 @@ SELECT update_time,
        commission_plan_type,
        commission_reward_type,
        if(
-          payout_rule_type=5 and (grant_object_rk is null OR (commission_cap is not null AND sts_target < commission_cap)),
+          payout_rule_type=5 and (sts_target <= 0 OR (commission_cap is not null AND sts_target < commission_cap)),
           0,
           ytdw.bounty_payout(payout_rule_type, if(payout_rule_type IN (1,2,3,4), sts_target, grant_object_rk), commission_cap, payout_config_json)
        ) as commission_reward,
