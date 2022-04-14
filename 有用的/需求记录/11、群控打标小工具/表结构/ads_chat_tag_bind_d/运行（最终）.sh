@@ -29,7 +29,8 @@ create table if not exists ads_chat_tag_bind_d
     group_5_tag         string comment '其他比价拿货平台（多选）',
     group_6_tag         string comment '门店类型（多选）',
     group_7_tag         string comment '门店提供的附加服务（多选）',
-    group_8_tag         string comment '门店线上销售渠道（多选）'
+    group_8_tag         string comment '门店线上销售渠道（多选）',
+    union_id            string comment '客户unionid'
 ) comment '企微标签数据统计表'
 partitioned by (dayid string)
 stored as orc;
@@ -144,7 +145,8 @@ SELECT total.tag_version as data_version,
        group5.tag as group_5_tag,
        group6.tag as group_6_tag,
        group7.tag as group_7_tag,
-       group8.tag as group_8_tag
+       group8.tag as group_8_tag,
+       customer.union_id
 FROM (
     SELECT chat_id, biz_id
     FROM crm_chat_bind
