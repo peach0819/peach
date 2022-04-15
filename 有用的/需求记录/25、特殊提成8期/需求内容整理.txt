@@ -1,0 +1,45 @@
+
+
+√  1、新增 多品在店 BD岗位的明细过滤
+    mid_v2_d增加逻辑就行了，已经改完了
+
+√  2、新增 提成类型为 "排名返现" 时 的 指标门槛
+    复用老的字段 payout_upper_limit
+
+    -- 排名返现类型 新增门槛
+    UPDATE bounty_indicator_payout_rule_type SET is_upper_limit = 1 WHERE payout_rule_type_code = 5;
+
+    数仓汇总表正逆向，排名的奖励逻辑都修改一下，排名还是正常拍，奖励要大于门槛才有奖励
+
+3、修改 月度方案/季度方案 的数据支持范围
+    1）老模板改造，调度，补数
+    2）mid_v2_d 老模板支持100天，多品支持500天
+
+
+√  4、修改 特殊提成配置 列表页
+    新增字段timeType, 月份查询逻辑新增兼容逻辑，仅页面改动
+
+
+√  5、新增 多品在店方案新指标- 人均有效品牌门店数,人均多品在店积分, 人均有效品牌门店数变化
+    -- 指标表 新增
+    insert into `bounty_indicator` (`id`, `title`, `bounty_rule_type`, `code`, `sort`, `unit`)
+    values (20, '人均有效品牌门店数', 4, 'AVG_VALID_BRAND_SHOP_COUNT', 4, '家/人'),
+           (21, '人均多品在店积分', 4, 'AVG_BRAND_SHOP_SCORE', 5, '分/人'),
+           (22, '人均有效品牌门店数变化', 4, 'AVG_VALID_BRAND_SHOP_COUNT_CHANGE', 6, '家/人');
+
+    --指标奖励映射表 新增
+    insert into `bounty_indicator_payout_rule_type` (`bounty_indicator_id`, `payout_rule_type_code`, `bounty_unit`, `sort`, `is_upper_limit`)
+    values (20, 1, '元', 1, 0),
+           (20, 3, '', 2, 0),
+           (20, 4, '元/(家/人)', 3, 0),
+           (20, 5, '元', 4, 1),
+           (21, 1, '元', 1, 0),
+           (21, 3, '', 2, 0),
+           (21, 4, '元/(分/人)', 3, 0),
+           (21, 5, '元', 4, 1),
+           (22, 1, '元', 1, 0),
+           (22, 3, '', 2, 0),
+           (22, 4, '元/(家/人)', 3, 0),
+           (22, 5, '元', 4, 1);
+
+    脚本支持逻辑
