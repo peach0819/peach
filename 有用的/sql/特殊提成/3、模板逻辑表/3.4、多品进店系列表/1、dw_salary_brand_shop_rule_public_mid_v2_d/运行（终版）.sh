@@ -106,7 +106,7 @@ select ord.order_id,
 
        --订单归属信息
        if(user_admin_frozen.job_id = 8, frozen_trade.trade_service_bd_id_frez, null) as frozen_sale_user_id,
-       if(user_admin_kn.job_id = '8', rule_center.newest_user_id, null) as newest_sale_user_id
+       if(user_admin_kn.job_id = 8, rule_center.newest_user_id, null) as newest_sale_user_id
 --订单表
 from (
     SELECT order_id,
