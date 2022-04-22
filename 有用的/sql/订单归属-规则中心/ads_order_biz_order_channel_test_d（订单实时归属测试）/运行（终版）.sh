@@ -57,14 +57,13 @@ stored as orc;
 set hive.execution.engine=mr;
 
 --门店服务人员信息临时表
-with shop_pool_server_temp as (
+WITH shop_pool_server_temp as (
     SELECT shop_id as temp_shop_id,
-           group_id as temp_group_id,
+           feature_id as temp_group_id,
            user_id as temp_user_id
-    FROM dwd_shop_pool_server_d
+    FROM dw_ytj_shp_shop_feature_service_d
     WHERE dayid='$v_date'
-    AND is_deleted = 0
-    AND is_enabled = 1
+    AND shop_feature_service_is_enabled = 1
 ),
 
 --规则执行
@@ -182,6 +181,7 @@ SELECT order_id,
 FROM rule_execute_result
 LEFT JOIN shop_pool_server_temp ON rule_execute_result.shop_id = shop_pool_server_temp.temp_shop_id
     and get_json_object(get_json_object(rule_execute_result.rule_execute_result, '$.resultData'), '$.user_feature') = cast(shop_pool_server_temp.temp_group_id as string)
+;
 " &&
 
 exit 0
