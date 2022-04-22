@@ -57,7 +57,7 @@ WITH shop_pool_server_temp as (
            user_id as temp_user_id
     FROM dw_ytj_shp_shop_feature_service_d
     WHERE dayid='$v_date'
-      AND shop_feature_service_is_enabled = 1
+    AND shop_feature_service_is_enabled = 1
 ),
 
 --规则执行
