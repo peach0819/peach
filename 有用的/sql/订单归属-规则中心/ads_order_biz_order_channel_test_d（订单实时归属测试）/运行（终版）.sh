@@ -105,7 +105,7 @@ rule_execute_result as (
            shop_pool_server_user_id,
            shop_group_id,
            ytdw.rule_execute(
-               '3/test',
+               '3/prod',
                 map(
                      'time', '$rule_month',
                      'sale_dc_id', sale_dc_id,
