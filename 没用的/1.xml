@@ -1,0 +1,85 @@
+日志名称:          System
+        来源:            Schannel
+        日期:            2022/4/8 10:55:09
+        事件 ID:         36871
+        任务类别:          无
+        级别:            错误
+        关键字:
+        用户:            SYSTEM
+        计算机:           DESKTOP-NE84ENN
+        描述:
+        创建 TLS 客户端 凭据时发生严重错误。内部错误状态为 10013。
+        事件 Xml:
+<Event xmlns="http://schemas.microsoft.com/win/2004/08/events/event">
+    <System>
+        <Provider Name="Schannel" Guid="{1f678132-5938-4686-9fdc-c8ff68f15c85}" />
+        <EventID>36871</EventID>
+        <Version>0</Version>
+        <Level>2</Level>
+        <Task>0</Task>
+        <Opcode>0</Opcode>
+        <Keywords>0x8000000000000000</Keywords>
+        <TimeCreated SystemTime="2022-04-08T02:55:09.8397327Z" />
+        <EventRecordID>73921</EventRecordID>
+        <Correlation ActivityID="{577665c4-49c2-0002-5266-7657c249d801}" />
+        <Execution ProcessID="944" ThreadID="15844" />
+        <Channel>System</Channel>
+        <Computer>DESKTOP-NE84ENN</Computer>
+        <Security UserID="S-1-5-18" />
+    </System>
+    <EventData>
+        <Data Name="Type">客户端</Data>
+        <Data Name="ErrorState">10013</Data>
+    </EventData>
+</Event>
+
+
+
+
+        日志名称:          System
+        来源:            Microsoft-Windows-DistributedCOM
+        日期:            2022/4/8 10:39:16
+        事件 ID:         10016
+        任务类别:          无
+        级别:            警告
+        关键字:           经典
+        用户:            DESKTOP-NE84ENN\EDZ
+        计算机:           DESKTOP-NE84ENN
+        描述:
+        计算机-默认 权限设置并未向在应用程序容器 不可用 SID (不可用)中运行的地址 LocalHost (使用 LRPC) 中的用户 DESKTOP-NE84ENN\EDZ SID (S-1-5-21-906058987-3344769626-3975075136-1001)授予针对 CLSID 为
+        {C2F03A33-21F5-47FA-B4BB-156362A2F239}
+        、APPID 为
+        {316CDED5-E4AE-4B15-9113-7055D84DCC97}
+        的 COM 服务器应用程序的 本地 激活 权限。此安全权限可以使用组件服务管理工具进行修改。
+        事件 Xml:
+<Event xmlns="http://schemas.microsoft.com/win/2004/08/events/event">
+<System>
+    <Provider Name="Microsoft-Windows-DistributedCOM" Guid="{1B562E86-B7AA-4131-BADC-B6F3A001407E}" EventSourceName="DCOM" />
+    <EventID Qualifiers="0">10016</EventID>
+    <Version>0</Version>
+    <Level>3</Level>
+    <Task>0</Task>
+    <Opcode>0</Opcode>
+    <Keywords>0x8080000000000000</Keywords>
+    <TimeCreated SystemTime="2022-04-08T02:39:16.5249293Z" />
+    <EventRecordID>73904</EventRecordID>
+    <Correlation ActivityID="{87a3bfa7-b6a1-41e5-9b61-56af1fb8722c}" />
+    <Execution ProcessID="1108" ThreadID="20096" />
+    <Channel>System</Channel>
+    <Computer>DESKTOP-NE84ENN</Computer>
+    <Security UserID="S-1-5-21-906058987-3344769626-3975075136-1001" />
+</System>
+<EventData>
+    <Data Name="param1">计算机-默认</Data>
+    <Data Name="param2">本地</Data>
+    <Data Name="param3">激活</Data>
+    <Data Name="param4">{C2F03A33-21F5-47FA-B4BB-156362A2F239}</Data>
+    <Data Name="param5">{316CDED5-E4AE-4B15-9113-7055D84DCC97}</Data>
+    <Data Name="param6">DESKTOP-NE84ENN</Data>
+    <Data Name="param7">EDZ</Data>
+    <Data Name="param8">S-1-5-21-906058987-3344769626-3975075136-1001</Data>
+    <Data Name="param9">LocalHost (使用 LRPC)</Data>
+    <Data Name="param10">不可用</Data>
+    <Data Name="param11">不可用</Data>
+</EventData>
+</Event>
