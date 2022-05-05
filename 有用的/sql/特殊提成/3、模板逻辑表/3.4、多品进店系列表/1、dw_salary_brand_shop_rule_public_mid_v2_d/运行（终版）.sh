@@ -1,8 +1,9 @@
 v_date=$1
 
 source ../sql_variable.sh $v_date
+source ../yarn_variable.sh dw_salary_brand_shop_rule_public_mid_v2_d '肥桃'
 
-apache-spark-sql -e "
+spark-sql $spark_yarn_job_name_conf $spark_yarn_queue_name_conf --master yarn --executor-memory 4G --num-executors 4 -v -e "
 use ytdw;
 create table if not exists dw_salary_brand_shop_rule_public_mid_v2_d
 (
