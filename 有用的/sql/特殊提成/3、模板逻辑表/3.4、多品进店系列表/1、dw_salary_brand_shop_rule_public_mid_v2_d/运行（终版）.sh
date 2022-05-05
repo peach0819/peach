@@ -179,18 +179,18 @@ LEFT JOIN (
 --规则中心数据
 LEFT JOIN (
     SELECT order_id,
-           if(user_admin_kn.job_id = 8, r.newest_user_id, null) as newest_user_id
+           if(user_admin.job_id = 8, r.newest_user_id, null) as newest_user_id
     FROM dim_hpc_ord_finance_order_ascription_d r
-    LEFT JOIN (SELECT * FROM user_admin) user_admin_kn ON r.newest_user_id = user_admin_kn.user_id
+    LEFT JOIN user_admin ON r.newest_user_id = user_admin.user_id
     WHERE dayid = '$v_date'
 ) rule_center ON ord.order_id = rule_center.order_id
 
 --冻结数据
 LEFT JOIN (
     SELECT trade_id,
-           if(user_admin_frozen.job_id = 8, f.trade_service_bd_id_frez, null) as trade_service_bd_id_frez
+           if(user_admin.job_id = 8, f.trade_service_bd_id_frez, null) as trade_service_bd_id_frez
     FROM dim_hpc_trd_trade_service_d f
-    LEFT JOIN (SELECT * FROM user_admin) user_admin_frozen ON f.trade_service_bd_id_frez = user_admin_frozen.user_id
+    LEFT JOIN user_admin ON f.trade_service_bd_id_frez = user_admin.user_id
     WHERE dayid = '$v_date'
 ) frozen_trade ON frozen_trade.trade_id = ord.trade_id
 
