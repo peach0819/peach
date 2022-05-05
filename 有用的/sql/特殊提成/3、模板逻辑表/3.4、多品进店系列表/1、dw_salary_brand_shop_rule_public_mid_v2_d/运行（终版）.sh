@@ -1,9 +1,8 @@
 v_date=$1
 
 source ../sql_variable.sh $v_date
-source ../yarn_variable.sh dw_salary_brand_shop_rule_public_mid_v2_d '肥桃'
 
-spark-sql $spark_yarn_job_name_conf $spark_yarn_queue_name_conf --master yarn --executor-memory 4G --num-executors 4 -v -e "
+apache-spark-sql -e "
 use ytdw;
 create table if not exists dw_salary_brand_shop_rule_public_mid_v2_d
 (
@@ -106,8 +105,8 @@ select ord.order_id,
        ord_seller.sale_team_freezed_name,
 
        --订单归属信息
-       if(user_admin_frozen.job_id = 8, frozen_trade.trade_service_bd_id_frez, null) as frozen_sale_user_id,
-       if(user_admin_kn.job_id = 8, rule_center.newest_user_id, null) as newest_sale_user_id
+       frozen_trade.trade_service_bd_id_frez as frozen_sale_user_id,
+       rule_center.newest_user_id as newest_sale_user_id
 --订单表
 from (
     SELECT order_id,
@@ -180,20 +179,20 @@ LEFT JOIN (
 --规则中心数据
 LEFT JOIN (
     SELECT order_id,
-           newest_user_id
-    FROM dim_hpc_ord_finance_order_ascription_d
+           if(user_admin_kn.job_id = 8, r.newest_user_id, null) as newest_user_id
+    FROM dim_hpc_ord_finance_order_ascription_d r
+    LEFT JOIN (SELECT * FROM user_admin) user_admin_kn ON r.newest_user_id = user_admin_kn.user_id
     WHERE dayid = '$v_date'
 ) rule_center ON ord.order_id = rule_center.order_id
-LEFT JOIN (SELECT * FROM user_admin) user_admin_kn ON rule_center.newest_user_id = user_admin_kn.user_id
 
 --冻结数据
 LEFT JOIN (
     SELECT trade_id,
-           trade_service_bd_id_frez
-    FROM dim_hpc_trd_trade_service_d
+           if(user_admin_frozen.job_id = 8, f.trade_service_bd_id_frez, null) as trade_service_bd_id_frez
+    FROM dim_hpc_trd_trade_service_d f
+    LEFT JOIN (SELECT * FROM user_admin) user_admin_frozen ON f.trade_service_bd_id_frez = user_admin_frozen.user_id
     WHERE dayid = '$v_date'
 ) frozen_trade ON frozen_trade.trade_id = ord.trade_id
-LEFT JOIN (SELECT * FROM user_admin) user_admin_frozen ON frozen_trade.trade_service_bd_id_frez = user_admin_frozen.user_id
 
 ;
 "
