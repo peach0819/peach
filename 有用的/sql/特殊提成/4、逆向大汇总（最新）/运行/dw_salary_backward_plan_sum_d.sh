@@ -55,7 +55,7 @@ cur as (
 
            --统计指标
            pre.sts_target_name,
-           pre.sts_target,
+           today.sts_target,
            today.real_coefficient_goal_rate,
            pre.commission_cap,
            pre.commission_plan_type,
