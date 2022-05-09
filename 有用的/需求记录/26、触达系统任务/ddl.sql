@@ -16,11 +16,12 @@ CREATE TABLE `t_touch_task_instance` (
   `end_time` datetime DEFAULT NULL COMMENT '结束时间',
   PRIMARY KEY (`id`),
   KEY `idx_biz_type_biz_id` (`biz_type`, `biz_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COMMENT='触达任务实例';
+) ENGINE=InnoDB AUTO_INCREMENT=100000 DEFAULT CHARSET=utf8mb4 COMMENT='触达任务实例';
 
-ALTER TABLE t_touch_task_detail ADD COLUMN task_instance_id bigint(32) NOT NULL COMMENT '触达实例id';
-UPDATE t_touch_task_detail SET task_instance_id = task_id WHERE task_instance_id = 0;
+ALTER TABLE t_touch_task_detail ADD COLUMN task_instance_id bigint(32) NOT NULL DEFAULT '0' COMMENT '触达实例id';
 ALTER TABLE t_touch_task_detail ADD KEY `idx_instance_id_admin_chat_id` (`task_instance_id`, `admin_chat_id`);
 ALTER TABLE t_touch_task_detail ADD KEY `idx_instance_id_detail_status_second_push` (`task_instance_id`, `detail_status`, `second_push`);
+
+--先不提交
 ALTER TABLE t_touch_task_detail DROP KEY `idx_task_id_admin_chat_id`;
 ALTER TABLE t_touch_task_detail DROP KEY `idx_task_id_detail_status_second_push`;
