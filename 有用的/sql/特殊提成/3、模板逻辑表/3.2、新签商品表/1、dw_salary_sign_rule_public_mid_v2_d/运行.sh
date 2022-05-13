@@ -255,7 +255,7 @@ left join (
 LEFT JOIN (
     SELECT shop_id,
            concat_ws(',' , sort_array(collect_set(cast(group_id as string)))) as group_id
-    FROM ads_hpc_shop_group_rule_inuse_mapping_d
+    FROM ads_dmp_group_data_d
     WHERE dayid='$v_date'
     group by shop_id
 ) shop_group_mapping ON order.shop_id=shop_group_mapping.shop_id

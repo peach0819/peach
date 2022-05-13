@@ -112,7 +112,7 @@ shop_group_mapping as (
 
         union all
 
-        SELECT shop_id, group_id FROM ads_hpc_shop_group_rule_inuse_mapping_d WHERE dayid = '$v_date'
+        SELECT shop_id, group_id FROM ads_dmp_group_data_d WHERE dayid = '$v_date'
     ) t
     group by shop_id
 ),
