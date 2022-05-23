@@ -66,7 +66,7 @@ SELECT plan.id,
        plan.filter_config_json,
 
        ytdw.plan_schedule_time(plan.month, plan.create_time, 1, 1) as forward_date,
-       ytdw.plan_schedule_time(plan.month, plan.create_time, 1, 2) as backward_date,
+       if(plan.bounty_rule_type = 5, '', ytdw.plan_schedule_time(plan.month, plan.create_time, 1, 2)) as backward_date,
        ytdw.plan_schedule_time(plan.month, plan.create_time, 1, 3) as supply_date
 FROM (
     SELECT *
