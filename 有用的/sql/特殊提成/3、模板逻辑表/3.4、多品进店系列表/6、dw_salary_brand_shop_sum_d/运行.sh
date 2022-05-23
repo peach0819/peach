@@ -14,9 +14,8 @@ then
 fi
 
 source ../sql_variable.sh $v_date
-source ../yarn_variable.sh dw_salary_brand_shop_sum_d '肥桃'
 
-spark-sql $spark_yarn_job_name_conf $spark_yarn_queue_name_conf --master yarn --executor-memory 4G --num-executors 4 -v -e "
+apache-spark-sql -e "
 use ytdw;
 
 with plan as (
@@ -24,7 +23,10 @@ with plan as (
            month,
            replace(replace(replace(get_json_object(get_json_object(filter_config_json,'$.payout_object_type'),'$.value'),'\"',''),'[',''),']','') as payout_object_type,
            if('$pltype' = 'cur', '$v_date', split(backward_date, ',')[0]) as plan_date,
-           bounty_payout_object_code
+           bounty_payout_object_code,
+           get_json_object(get_json_object(filter_config_json,'$.filter_user'),'$.value') as filter_user_value,
+           get_json_object(get_json_object(filter_config_json,'$.filter_user'),'$.operator') as filter_user_operator,
+           replace(replace(replace(split(get_json_object(get_json_object(filter_config_json,'$.grant_user'),'$.value'),',')[0],'[',''),'\"',''),'-','') as grant_user
     FROM dw_bounty_plan_schedule_d
     WHERE bounty_rule_type = 4
     AND array_contains(split(if('$pltype' = 'cur', forward_date, backward_date), ','), '$v_date')
@@ -135,13 +137,16 @@ cur as (
            plan.month as plan_month,
            shop.shop_id,
            shop.shop_name,
-           plan_user.grant_object_user_id,
+           if(plan.bounty_payout_object_code = 'GRANT_USER', plan.grant_user, plan_user.grant_object_user_id) as grant_object_user_id,
            plan_user.is_kn_sale_user,
            if(user_admin.dismiss_status = 0, '否', '是') as is_leave,
            user_admin.leave_time,
            if(user_admin.dismiss_status = 0, ifnull(count(distinct compare_data.brand_id), 0), 0) as compare_brand_shop_num,
            if(user_admin.dismiss_status = 0, ifnull(count(distinct current_data.brand_id), 0), 0) as current_brand_shop_num,
-           sum(current_data.total_gmv_less_refund) as total_gmv_less_refund
+           sum(current_data.total_gmv_less_refund) as total_gmv_less_refund,
+
+           plan.filter_user_value,
+           plan.filter_user_operator
     FROM plan
     INNER JOIN shop ON plan.no = shop.planno
     INNER JOIN (
@@ -149,17 +154,20 @@ cur as (
         UNION ALL
         SELECT planno, shop_id, grant_object_user_id, is_kn_sale_user FROM kn_plan_user
     ) plan_user ON shop.planno = plan_user.planno AND shop.shop_id = plan_user.shop_id
-    LEFT JOIN user_admin ON user_admin.user_id = plan_user.grant_object_user_id AND user_admin.start_time <= concat(plan.plan_date, '235959') AND user_admin.end_time >= concat(plan.plan_date, '235959')
+    LEFT JOIN user_admin ON user_admin.user_id = if(plan.bounty_payout_object_code = 'GRANT_USER', plan.grant_user, plan_user.grant_object_user_id) AND user_admin.start_time <= concat(plan.plan_date, '235959') AND user_admin.end_time >= concat(plan.plan_date, '235959')
     LEFT JOIN compare_data ON plan_user.planno = compare_data.planno and compare_data.shop_id = plan_user.shop_id
     LEFT JOIN current_data ON plan_user.planno = current_data.planno and current_data.shop_id = plan_user.shop_id AND current_data.grant_object_user_id = plan_user.grant_object_user_id
     GROUP BY plan.no,
              plan.month,
              shop.shop_id,
              shop.shop_name,
-             plan_user.grant_object_user_id,
+             if(plan.bounty_payout_object_code = 'GRANT_USER', plan.grant_user, plan_user.grant_object_user_id),
              plan_user.is_kn_sale_user,
              user_admin.dismiss_status,
-             user_admin.leave_time
+             user_admin.leave_time,
+             plan.filter_user_value,
+             plan.filter_user_operator
+    HAVING ytdw.simple_expr(grant_object_user_id, 'in', filter_user_value) = (case when filter_user_operator = '=' then 1 else 0 end)
 )
 
 insert overwrite table dw_salary_brand_shop_sum_d partition (dayid='$v_date', pltype='$pltype')

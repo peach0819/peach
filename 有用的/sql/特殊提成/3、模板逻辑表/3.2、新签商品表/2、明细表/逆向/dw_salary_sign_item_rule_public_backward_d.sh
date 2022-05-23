@@ -53,7 +53,10 @@ with plan as (
            replace(replace(replace(split(get_json_object(get_json_object(filter_config_json,'$.calculate_date'),'$.value'),',')[0],'[',''),'\"',''),'-','') as calculate_date_value_start,
            replace(replace(replace(split(get_json_object(get_json_object(filter_config_json,'$.calculate_date'),'$.value'),',')[1],']',''),'\"',''),'-','') as calculate_date_value_end,
            replace(replace(replace(get_json_object(get_json_object(filter_config_json,'$.new_sign_line'),'$.value'),'\"',''),'[',''),']','') as new_sign_line,
-           replace(replace(replace(replace(get_json_object(get_json_object(filter_config_json,'$.calculate_date'),'$.value'),']',''),'\"',''),'[',''),',','~') as plan_pay_time
+           replace(replace(replace(replace(get_json_object(get_json_object(filter_config_json,'$.calculate_date'),'$.value'),']',''),'\"',''),'[',''),',','~') as plan_pay_time,
+           get_json_object(get_json_object(filter_config_json,'$.filter_user'),'$.value') as filter_user_value,
+           get_json_object(get_json_object(filter_config_json,'$.filter_user'),'$.operator') as filter_user_operator,
+           replace(replace(replace(split(get_json_object(get_json_object(filter_config_json,'$.grant_user'),'$.value'),',')[0],'[',''),'\"',''),'-','') as grant_user
     FROM dw_bounty_plan_schedule_d
     WHERE array_contains(split(backward_date, ','), '$v_date')
     AND ('$supply_mode' = 'not_supply' OR array_contains(split(supply_date, ','), '$supply_date'))
@@ -162,6 +165,8 @@ sign as (
 
 user_admin as (
     select user_id,
+           user_real_name,
+           dept_id,
            substr(leave_time,1,8) as leave_time,
            dayid
     from dwd_user_admin_d
@@ -230,25 +235,33 @@ cur as (
                 when plan.bounty_payout_object_code = 'AREA_MANAGER' then area_manager_id
                 when plan.bounty_payout_object_code = 'BD_MANAGER' then bd_manager_id
                 when plan.bounty_payout_object_code  in('BD','BIG_BD')  then service_user_id_freezed
+                when plan.bounty_payout_object_code = 'GRANT_USER' then plan.grant_user
                 end as grant_object_user_id,                                                                      --发放对象ID
            case when plan.bounty_payout_object_code = 'WAR_ZONE_MANAGE' then war_zone_name
                 when plan.bounty_payout_object_code = 'AREA_MANAGER' then area_manager_name
                 when plan.bounty_payout_object_code = 'BD_MANAGER' then bd_manager_name
                 when plan.bounty_payout_object_code  in('BD','BIG_BD')  then service_user_name_freezed
+                when plan.bounty_payout_object_code = 'GRANT_USER' then null
                 end as grant_object_user_name,                                                                       --发放对象名称
            case when plan.bounty_payout_object_code = 'WAR_ZONE_MANAGE' then war_zone_dep_id
                 when plan.bounty_payout_object_code = 'AREA_MANAGER' then area_manager_dep_id
                 when plan.bounty_payout_object_code = 'BD_MANAGER' then bd_manager_dep_id
                 when plan.bounty_payout_object_code  in('BD','BIG_BD')  then service_department_id_freezed
+                when plan.bounty_payout_object_code = 'GRANT_USER' then null
                 end as grant_object_user_dep_id,                                                                      --发放对象部门ID
            case when plan.bounty_payout_object_code = 'WAR_ZONE_MANAGE' then war_zone_dep_name
                 when plan.bounty_payout_object_code = 'AREA_MANAGER' then area_manager_dep_name
                 when plan.bounty_payout_object_code = 'BD_MANAGER' then bd_manager_dep_name
                 when plan.bounty_payout_object_code  in('BD','BIG_BD')  then service_department_name_freezed
+                when plan.bounty_payout_object_code = 'GRANT_USER' then null
                 end as grant_object_user_dep_name,
-           sign.dayid
+           sign.dayid,
+
+           plan.filter_user_value,
+           plan.filter_user_operator
     FROM sign
     INNER JOIN plan ON sign.plan_no = plan.no
+    HAVING ytdw.simple_expr(grant_object_user_id, 'in', filter_user_value) = (case when filter_user_operator = '=' then 1 else 0 end)
 )
 
 insert overwrite table dw_salary_sign_item_rule_public_d partition (dayid='$v_date',pltype='pre')
@@ -304,8 +317,8 @@ SELECT update_time,
        if(gmv_less_refund >= new_sign_line and new_sign_rn = 1, '是', '否') as is_succ_sign,--是否新签成功
        grant_object_type,
        grant_object_user_id,
-       grant_object_user_name,
-       grant_object_user_dep_id,
+       nvl(cur.grant_object_user_name, user_admin.user_real_name),
+       nvl(cur.grant_object_user_dep_id, user_admin.dept_id),
        grant_object_user_dep_name,
        user_admin.leave_time as leave_time,
        if(user_admin.leave_time is not null and new_sign_day > user_admin.leave_time, '是', '否') as is_leave,
