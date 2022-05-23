@@ -83,11 +83,11 @@ cur as (
 
            --统计指标
            nvl(underling.underling_cnt,1) as grant_object_underling_cnt,
-           if(plan.bounty_indicator_name in ('人均实货支付金额(去优惠券去退款)','人均实货GMV(去退款)'), sts_target/nvl(underling_cnt,1), sts_target) as sts_target,
+           if(plan.bounty_indicator_name like '人均%', sts_target/nvl(underling_cnt,1), sts_target) as sts_target,
 
            --排名
            row_number() over(partition by plan.no order by (
-                if(plan.bounty_indicator_name in ('人均实货支付金额(去优惠券去退款)','人均实货GMV(去退款)'), sts_target/nvl(underling_cnt,1), sts_target)
+                if(plan.bounty_indicator_name like '人均%', sts_target/nvl(underling_cnt,1), sts_target)
            ) desc, detail.gmv_less_refund desc) as grant_object_rk
     from plan
     INNER JOIN detail ON plan.no = detail.planno
