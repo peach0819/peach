@@ -92,12 +92,20 @@ ord as (
            shop_group,
            sale_team_freezed_id,
 
-           sum(if(business_unit not in ('卡券票','其他'), gmv_less_refund, 0)) as gmv_less_refund,
-           sum(if(business_unit not in ('卡券票','其他'), gmv, 0)) as gmv,
-           sum(if(business_unit not in ('卡券票','其他'), pay_amount, 0)) as pay_amount,
-           sum(if(business_unit not in ('卡券票','其他'), pay_amount_less_refund, 0)) as pay_amount_less_refund,
-           sum(if(business_unit not in ('卡券票','其他'), refund_actual_amount, 0)) as refund_actual_amount,
-           sum(if(business_unit not in ('卡券票','其他'), refund_retreat_amount, 0)) as refund_retreat_amount
+           sum(gmv_less_refund) as gmv_less_refund,
+           sum(gmv) as gmv,
+           sum(pay_amount) as pay_amount,
+           sum(pay_amount_less_refund) as pay_amount_less_refund,
+           sum(refund_actual_amount) as refund_actual_amount,
+           sum(refund_retreat_amount) as refund_retreat_amount,
+           sum(pickup_pay_gmv) as pickup_pay_gmv,
+           sum(pickup_pay_pay_amount) as pickup_pay_pay_amount,
+           sum(pickup_recharge_gmv) as pickup_recharge_gmv,
+           sum(pickup_recharge_pay_amount) as pickup_recharge_pay_amount,
+           sum(pickup_pay_gmv_less_refund) as pickup_pay_gmv_less_refund,
+           sum(pickup_pay_pay_amount_less_refund) as pickup_pay_pay_amount_less_refund,
+           sum(pickup_recharge_gmv_less_refund) as pickup_recharge_gmv_less_refund,
+           sum(pickup_recharge_pay_amount_less_refund) as pickup_recharge_pay_amount_less_refund
     FROM dw_salary_gmv_rule_public_mid_v2_d
     where dayid ='$v_date'
     group by pay_day,
@@ -254,15 +262,36 @@ cur as (
            ---统计指标----
            plan.bounty_indicator_name as sts_target_name,
            case when plan.bounty_indicator_code in ('STOCK_GMV_1_GOODS_GMV_MINUS_REFUND', 'STOCK_GMV_AVG_GOODS_GMV_MINUS_REFUND') then ord.gmv_less_refund --实货GMV(去退款)
-                when plan.bounty_indicator_code = 'STOCK_GMV_1_GOODS_GMV' then ord.gmv --实货GMV
                 when plan.bounty_indicator_code in ('STOCK_GMV_1_GOODS_PAY_AMT_MINUS_COUNPONS_MINUS_REF', 'STOCK_GMV_AVG_GOODS_PAY_AMT_MINUS_COUNPONS_REF') then ord.pay_amount_less_refund  --实货支付金额(去优惠券去退款)
+                when plan.bounty_indicator_code in ('PICKUP_PAY_GMV_LESS_REFUND', 'AVG_PICKUP_PAY_GMV_LESS_REFUND') then ord.pickup_pay_gmv_less_refund  --提货卡口径GMV(去退款)
+                when plan.bounty_indicator_code in ('PICKUP_PAY_AMT_LESS_COUPON_REFUND', 'AVG_PICKUP_PAY_AMT_LESS_COUPON_REFUND') then ord.pickup_pay_pay_amount_less_refund  --提货卡口径支付金额(去优惠券去退款)
+                when plan.bounty_indicator_code in ('PICKUP_RECHARGE_GMV_LESS_REFUND', 'AVG_PICKUP_RECHARGE_GMV_LESS_REFUND') then ord.pickup_recharge_gmv_less_refund  --提货卡充值GMV(去退款)
+                when plan.bounty_indicator_code in ('PICKUP_RECHARGE_AMT_LESS_COUPON_REFUND', 'AVG_PICKUP_RECHARGE_AMT_LESS_COUPON_REFUND') then ord.pickup_recharge_pay_amount_less_refund  --提货卡充值支付金额(去优惠券去退款)
                 end as sts_target,
 
            ord.pay_day,
            plan.no as planno,
 
            plan.filter_user_value,
-           plan.filter_user_operator
+           plan.filter_user_operator,
+
+           --冗余字段
+           to_json(named_struct(
+               'gmv_less_refund', ord.gmv_less_refund,
+               'gmv', ord.gmv,
+               'pay_amount', ord.pay_amount,
+               'pay_amount_less_refund', ord.pay_amount_less_refund,
+               'refund_actual_amount', ord.refund_actual_amount,
+               'refund_retreat_amount', ord.refund_retreat_amount,
+               'pickup_pay_gmv', ord.pickup_pay_gmv,
+               'pickup_pay_pay_amount', ord.pickup_pay_pay_amount,
+               'pickup_recharge_gmv', ord.pickup_recharge_gmv,
+               'pickup_recharge_pay_amount', ord.pickup_recharge_pay_amount,
+               'pickup_pay_gmv_less_refund', ord.pickup_pay_gmv_less_refund,
+               'pickup_pay_pay_amount_less_refund', ord.pickup_pay_pay_amount_less_refund,
+               'pickup_recharge_gmv_less_refund', ord.pickup_recharge_gmv_less_refund,
+               'pickup_recharge_pay_amount_less_refund', ord.pickup_recharge_pay_amount_less_refund
+           )) as extra
     FROM plan
     CROSS JOIN ord ON 1 = 1
     where ord.pay_day between calculate_date_value_start and calculate_date_value_end
@@ -343,7 +372,8 @@ SELECT cur.update_time,
        cur.sts_target_name,
        if(user_admin.leave_time is not null and cur.pay_day > user_admin.leave_time, 0, cur.sts_target) as sts_target,
        cur.pay_day,
-       cur.planno
+       cur.planno,
+       cur.extra
 FROM cur
 LEFT JOIN user_admin on cur.grant_object_user_id = user_admin.user_id
 WHERE cur.grant_object_user_id is not null
@@ -413,7 +443,8 @@ SELECT update_time,
        sts_target_name,
        sts_target,
        pay_day,
-       planno
+       planno,
+       extra
 FROM (
     SELECT *
     FROM dw_salary_gmv_rule_public_d
