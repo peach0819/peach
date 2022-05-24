@@ -103,7 +103,6 @@ cur as (
 
            --指标计算
            plan.bounty_indicator_name as sts_target_name,
-
            ((case when plan.bounty_indicator_code = 'B_PFM_RATE_NO_C' then data.b_pfm
                   when plan.bounty_indicator_code = 'B_SHIHUO_RATE_NO_C' then data.b_shihuo
                   end)
