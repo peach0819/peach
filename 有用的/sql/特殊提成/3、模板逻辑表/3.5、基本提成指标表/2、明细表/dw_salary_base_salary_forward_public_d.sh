@@ -103,12 +103,11 @@ cur as (
 
            --指标计算
            plan.bounty_indicator_name as sts_target_name,
-           if(nvl(max(target.target), 0) = 0,
-                (case when plan.bounty_indicator_code = 'B_PFM_RATE_NO_C' then data.b_pfm
-                      when plan.bounty_indicator_code = 'B_SHIHUO_RATE_NO_C' then data.b_shihuo
-                      end) / max(target.target),
-                null
-           ) as sts_target,
+
+           ((case when plan.bounty_indicator_code = 'B_PFM_RATE_NO_C' then data.b_pfm
+                  when plan.bounty_indicator_code = 'B_SHIHUO_RATE_NO_C' then data.b_shihuo
+                  end)
+             / max(target.target)) * 100 as sts_target,
 
            --冗余字段
            to_json(named_struct(
