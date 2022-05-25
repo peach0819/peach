@@ -38,7 +38,8 @@ with plan as (
            get_json_object(get_json_object(filter_config_json,'$.shop_group'),'$.operator') as shop_group_operator,
            replace(replace(replace(split(get_json_object(get_json_object(filter_config_json,'$.calculate_date_quarter'),'$.value'),',')[0],'[',''),'\"',''),'-','') as calculate_date_value_start,
            replace(replace(replace(split(get_json_object(get_json_object(filter_config_json,'$.calculate_date_quarter'),'$.value'),',')[1],']',''),'\"',''),'-','') as calculate_date_value_end,
-           replace(replace(replace(get_json_object(get_json_object(filter_config_json,'$.payout_object_type'),'$.value'),'\"',''),'[',''),']','') as payout_object_type
+           replace(replace(replace(get_json_object(get_json_object(filter_config_json,'$.payout_object_type'),'$.value'),'\"',''),'[',''),']','') as payout_object_type,
+           replace(replace(replace(get_json_object(get_json_object(filter_config_json,'$.grant_user'),'$.value'),'\"',''),'[',''),']','') as grant_user
     FROM dw_bounty_plan_schedule_d
     WHERE array_contains(split(backward_date, ','), '$v_date')
     AND ('$supply_mode' = 'not_supply' OR array_contains(split(supply_date, ','), '$supply_date'))
@@ -73,6 +74,7 @@ cur as (
                 when plan.bounty_payout_object_code= 'AREA_MANAGER' then area_manager_id
                 when plan.bounty_payout_object_code= 'BD_MANAGER' then bd_manager_id
                 when plan.bounty_payout_object_code= 'BD' then if(plan.payout_object_type = '冻结', ord.frozen_sale_user_id, ord.newest_sale_user_id)
+                when plan.bounty_payout_object_code= 'GRANT_USER' then plan.grant_user
            end as grant_object_user_id
     FROM plan
     CROSS JOIN (
@@ -134,6 +136,7 @@ cur as (
                   when plan.bounty_payout_object_code= 'AREA_MANAGER' then area_manager_id
                   when plan.bounty_payout_object_code= 'BD_MANAGER' then bd_manager_id
                   when plan.bounty_payout_object_code= 'BD' then if(plan.payout_object_type = '冻结', ord.frozen_sale_user_id, ord.newest_sale_user_id)
+                  when plan.bounty_payout_object_code= 'GRANT_USER' then plan.grant_user
              end
 )
 

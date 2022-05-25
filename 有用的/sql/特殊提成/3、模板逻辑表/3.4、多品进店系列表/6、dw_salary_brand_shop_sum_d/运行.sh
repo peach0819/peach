@@ -112,6 +112,7 @@ kn_plan_user as (
                              when plan.bounty_payout_object_code= 'AREA_MANAGER' then shop_service.shop_region_manager_id
                              when plan.bounty_payout_object_code= 'BD_MANAGER' then shop_service.shop_supervisor_id
                              when plan.bounty_payout_object_code= 'BD' then shop_service.shop_service_bd_id
+                             when plan.bounty_payout_object_code= 'GRANT_USER' then plan.grant_user
                         end as grant_object_user_id,
                         '库内' as is_kn_sale_user
         FROM shop
@@ -137,7 +138,7 @@ cur as (
            plan.month as plan_month,
            shop.shop_id,
            shop.shop_name,
-           if(plan.bounty_payout_object_code = 'GRANT_USER', plan.grant_user, plan_user.grant_object_user_id) as grant_object_user_id,
+           plan_user.grant_object_user_id,
            plan_user.is_kn_sale_user,
            if(user_admin.dismiss_status = 0, '否', '是') as is_leave,
            user_admin.leave_time,
@@ -154,14 +155,14 @@ cur as (
         UNION ALL
         SELECT planno, shop_id, grant_object_user_id, is_kn_sale_user FROM kn_plan_user
     ) plan_user ON shop.planno = plan_user.planno AND shop.shop_id = plan_user.shop_id
-    LEFT JOIN user_admin ON user_admin.user_id = if(plan.bounty_payout_object_code = 'GRANT_USER', plan.grant_user, plan_user.grant_object_user_id) AND user_admin.start_time <= concat(plan.plan_date, '235959') AND user_admin.end_time >= concat(plan.plan_date, '235959')
+    LEFT JOIN user_admin ON user_admin.user_id = plan_user.grant_object_user_id AND user_admin.start_time <= concat(plan.plan_date, '235959') AND user_admin.end_time >= concat(plan.plan_date, '235959')
     LEFT JOIN compare_data ON plan_user.planno = compare_data.planno and compare_data.shop_id = plan_user.shop_id
     LEFT JOIN current_data ON plan_user.planno = current_data.planno and current_data.shop_id = plan_user.shop_id AND current_data.grant_object_user_id = plan_user.grant_object_user_id
     GROUP BY plan.no,
              plan.month,
              shop.shop_id,
              shop.shop_name,
-             if(plan.bounty_payout_object_code = 'GRANT_USER', plan.grant_user, plan_user.grant_object_user_id),
+             plan_user.grant_object_user_id,
              plan_user.is_kn_sale_user,
              user_admin.dismiss_status,
              user_admin.leave_time,
