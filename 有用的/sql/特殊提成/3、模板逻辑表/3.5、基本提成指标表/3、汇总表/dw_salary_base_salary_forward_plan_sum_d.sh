@@ -25,7 +25,7 @@ with plan as (
     FROM dw_bounty_plan_schedule_d
     WHERE array_contains(split(forward_date, ','), '$v_date')
     AND ('$supply_mode' = 'not_supply' OR array_contains(split(supply_date, ','), '$supply_date'))
-    AND bounty_rule_type = 1
+    AND bounty_rule_type = 5
 ),
 
 detail as (
