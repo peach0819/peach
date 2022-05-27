@@ -43,7 +43,7 @@ SELECT plan.id,
        plan.remark,
        plan.biz_group_id,
        plan.biz_group_name,
-       1 as time_type,
+       plan.time_type,
        plan.month,
 
        plan.bounty_payout_object_id,
@@ -65,9 +65,9 @@ SELECT plan.id,
        plan.owner_type,
        plan.filter_config_json,
 
-       ytdw.plan_schedule_time(plan.month, plan.create_time, 1, 1) as forward_date,
-       if(plan.bounty_rule_type = 5, '', ytdw.plan_schedule_time(plan.month, plan.create_time, 1, 2)) as backward_date,
-       ytdw.plan_schedule_time(plan.month, plan.create_time, 1, 3) as supply_date
+       ytdw.plan_schedule_time(plan.month, plan.create_time, plan.time_type, 1) as forward_date,
+       if(plan.bounty_rule_type = 5, '', ytdw.plan_schedule_time(plan.month, plan.create_time, plan.time_type, 2)) as backward_date,
+       ytdw.plan_schedule_time(plan.month, plan.create_time, plan.time_type, 3) as supply_date
 FROM (
     SELECT *
     FROM dw_bounty_plan_d
