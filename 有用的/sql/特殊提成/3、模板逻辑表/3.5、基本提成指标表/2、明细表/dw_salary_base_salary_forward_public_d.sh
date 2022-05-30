@@ -46,17 +46,28 @@ with plan as (
     AND bounty_rule_type = 5
 ),
 
+area as (
+    SELECT area_id,
+           area_name,
+           area_type
+    FROM st_sales_area_snapshot_d
+    WHERE dayid = '$v_date'
+),
+
 user_admin as (
-    SELECT dayid,
-           user_id,
-           user_real_name,
-           dept_id,
-           dept_name,
-           job_id, --岗位
-           virtual_group_id_lv3, --战区
-           virtual_group_id_lv4, --大区
-           virtual_group_id_lv5  --主管区域
-    FROM dim_ytj_pub_user_admin_m
+    SELECT a.user_id,
+           a.user_real_name,
+           a.dept_id,
+           a.dept_name,
+           a.job_id, --岗位
+           war.area_id as war_area_id,         --战区
+           bd.area_id as bd_area_id,           --大区
+           manager.area_id as manager_area_id  --主管区域
+    FROM dim_ytj_pub_user_admin_m a
+    LEFT JOIN area war ON a.virtual_group_name_lv3 = war.area_name AND war.area_type = 2
+    LEFT JOIN area bd ON a.virtual_group_name_lv4 = bd.area_name AND bd.area_type = 1
+    LEFT JOIN area manager ON a.virtual_group_name_lv5 = manager.area_name AND manager.area_type = 3
+    WHERE dayid = '$v_cur_month'
 ),
 
 data as (
@@ -115,12 +126,12 @@ cur as (
                'target', nvl(max(target.target), 0)
            )) as extra
     FROM plan
-    CROSS JOIN user_admin ON plan.job_id = user_admin.job_id AND substr(plan.calculate_date, 0, 6) = user_admin.dayid
-    INNER JOIN data ON data.dayid = plan.calculate_date AND data.data_type = plan.data_type AND user_admin.user_id = data.user_id
+    CROSS JOIN user_admin ON plan.job_id = user_admin.job_id
+    INNER JOIN data ON data.dayid = least(plan.calculate_date, '$v_date') AND data.data_type = plan.data_type AND user_admin.user_id = data.user_id
     LEFT JOIN target ON plan.calculate_date <= target.end_time AND plan.calculate_date >= target.start_time AND user_admin.user_id = target.user_id AND plan.kpi_indicator_type = target.indicator
-    WHERE ytdw.simple_expr(user_admin.virtual_group_id_lv3, 'in', war_area_value) = (case when war_area_operator = '=' then 1 else 0 end)
-    AND ytdw.simple_expr(user_admin.virtual_group_id_lv4, 'in', bd_area_value) = (case when bd_area_operator = '=' then 1 else 0 end)
-    AND ytdw.simple_expr(user_admin.virtual_group_id_lv5, 'in', manage_area_value) = (case when manage_area_operator = '=' then 1 else 0 end)
+    WHERE ytdw.simple_expr(user_admin.war_area_id, 'in', war_area_value) = (case when war_area_operator = '=' then 1 else 0 end)
+    AND ytdw.simple_expr(user_admin.bd_area_id, 'in', bd_area_value) = (case when bd_area_operator = '=' then 1 else 0 end)
+    AND ytdw.simple_expr(user_admin.manager_area_id, 'in', manage_area_value) = (case when manage_area_operator = '=' then 1 else 0 end)
     AND ytdw.simple_expr(user_admin.user_id, 'in', filter_user_value) = (case when filter_user_operator = '=' then 1 else 0 end)
     GROUP BY plan.no,
              plan.month,
