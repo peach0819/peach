@@ -15,7 +15,8 @@ use ytdw;
 
 with plan as (
     SELECT no,
-           max(need_supply_date) as pre_date
+           max(need_supply_date) as pre_date,
+           min(need_supply_date) as first_date
     FROM dw_bounty_plan_schedule_d
     lateral view explode(split(backward_date,',')) temp as need_supply_date
     WHERE need_supply_date < '$v_date'
@@ -25,6 +26,11 @@ with plan as (
 ),
 
 pre as (
+    select *
+    from dw_salary_backward_plan_sum_mid_d
+),
+
+first as (
     select *
     from dw_salary_backward_plan_sum_mid_d
 ),
@@ -60,16 +66,21 @@ cur as (
            pre.commission_cap,
            pre.commission_plan_type,
            pre.commission_reward_type,
-           if(pre.commission_plan_type='排名返现' and cast(today.commission_reward as decimal) > cast(pre.commission_reward as decimal), pre.commission_reward, today.commission_reward) as cur_commission_reward,
-           pre.commission_reward as pre_commission_reward,
+           if(pre.commission_plan_type='排名返现', least(cast(first.commission_reward as decimal), cast(today.commission_reward as decimal), cast(pre.commission_reward as decimal)), today.commission_reward) as cur_commission_reward,
+           if(pre.commission_plan_type='排名返现', least(cast(first.commission_reward as decimal), cast(pre.commission_reward as decimal)), pre.commission_reward) as pre_commission_reward,
            case when pre.commission_reward_type='金额'
-                then round(if(pre.commission_plan_type='排名返现' and cast(today.commission_reward as decimal) > cast(pre.commission_reward as decimal), pre.commission_reward, today.commission_reward) - pre.commission_reward, 2)
+                then round(
+                         if(pre.commission_plan_type='排名返现', least(cast(first.commission_reward as decimal), cast(today.commission_reward as decimal), cast(pre.commission_reward as decimal)), today.commission_reward)
+                         - if(pre.commission_plan_type='排名返现', least(cast(first.commission_reward as decimal), cast(pre.commission_reward as decimal)), pre.commission_reward),
+                         2
+                     )
                 when pre.commission_reward_type='实物' and today.commission_reward != pre.commission_reward
                 then concat_ws('-', today.commission_reward, pre.commission_reward)
                 end as commission_reward_change,
            pre.plan_no as planno
     FROM plan
     INNER JOIN pre ON plan.pre_date = pre.dayid and pre.planno = plan.no
+    INNER JOIN first ON first.planno = plan.no and first.grant_object_user_id = pre.grant_object_user_id AND first.dayid = plan.first_date
     LEFT JOIN today ON today.planno = plan.no and pre.grant_object_user_id = today.grant_object_user_id
 )
 
