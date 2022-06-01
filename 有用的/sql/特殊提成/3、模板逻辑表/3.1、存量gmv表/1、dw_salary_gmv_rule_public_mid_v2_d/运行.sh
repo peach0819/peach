@@ -65,7 +65,8 @@ create table if not exists dw_salary_gmv_rule_public_mid_v2_d
     pickup_recharge_gmv_less_refund         decimal(18, 2) comment '提货卡充值gmv-退款',
     pickup_recharge_gmv                     decimal(18, 2) comment '提货卡充值gmv',
     pickup_recharge_pay_amount              decimal(18, 2) comment '提货卡充值支付金额',
-    pickup_recharge_pay_amount_less_refund  decimal(18, 2) comment '提货卡充值支付金额-退款'
+    pickup_recharge_pay_amount_less_refund  decimal(18, 2) comment '提货卡充值支付金额-退款',
+    is_pickup_recharge_order                int comment '是否为充值提货hi卡订单 1 是 0 否'
 ) comment 'gmv规则通用方案中间表'
 partitioned by (dayid string)
 stored as orc;
@@ -137,8 +138,9 @@ select business_unit,--业务域,
        if(is_pickup_recharge_order = 1, order.total_pay_amount - nvl(refund.refund_actual_amount, 0), 0) as pickup_recharge_gmv_less_refund, --提货卡充值gmv-退款
        if(is_pickup_recharge_order = 1, order.total_pay_amount, 0) as pickup_recharge_gmv, --提货卡充值gmv
        if(is_pickup_recharge_order = 1, order.pay_amount, 0) as pickup_recharge_pay_amount, --提货卡充值支付金额
-       if(is_pickup_recharge_order = 1, order.pay_amount - nvl(refund.refund_actual_amount, 0), 0) as pickup_recharge_pay_amount_less_refund --提货卡充值支付金额-退款
+       if(is_pickup_recharge_order = 1, order.pay_amount - nvl(refund.refund_actual_amount, 0), 0) as pickup_recharge_pay_amount_less_refund, --提货卡充值支付金额-退款
 
+       is_pickup_recharge_order
 --订单表
 from (
     select *

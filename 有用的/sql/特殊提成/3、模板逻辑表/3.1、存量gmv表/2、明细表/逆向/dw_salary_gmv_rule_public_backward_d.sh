@@ -105,20 +105,22 @@ ord as (
            shop_group,
            sale_team_freezed_id,
 
-           sum(gmv - nvl(refund.refund_actual_amount, 0)) as gmv_less_refund,
-           sum(gmv) as gmv,
-           sum(pay_amount) as pay_amount,
-           sum(pay_amount - nvl(refund.refund_actual_amount, 0)) as pay_amount_less_refund,
-           sum(nvl(refund.refund_actual_amount,0)) as refund_actual_amount,
-           sum(nvl(refund.refund_retreat_amount,0)) as refund_retreat_amount,
-           sum(pickup_pay_gmv) as pickup_pay_gmv,
-           sum(pickup_pay_pay_amount) as pickup_pay_pay_amount,
-           sum(pickup_recharge_gmv) as pickup_recharge_gmv,
-           sum(pickup_recharge_pay_amount) as pickup_recharge_pay_amount,
-           sum(pickup_pay_gmv - nvl(refund.refund_actual_amount_less_pickup, 0)) as pickup_pay_gmv_less_refund,
-           sum(pickup_pay_pay_amount - nvl(refund.refund_actual_amount_less_pickup, 0)) as pickup_pay_pay_amount_less_refund,
-           sum(pickup_recharge_gmv - nvl(refund.refund_actual_amount, 0)) as pickup_recharge_gmv_less_refund,
-           sum(pickup_recharge_pay_amount - nvl(refund.refund_actual_amount, 0)) as pickup_recharge_pay_amount_less_refund
+           if(business_unit not in ('卡券票','其他'), sum(gmv - nvl(refund.refund_actual_amount, 0)), 0) as gmv_less_refund,
+           if(business_unit not in ('卡券票','其他'), sum(gmv), 0) as gmv,
+           if(business_unit not in ('卡券票','其他'), sum(pay_amount), 0) as pay_amount,
+           if(business_unit not in ('卡券票','其他'), sum(pay_amount - nvl(refund.refund_actual_amount, 0)), 0) as pay_amount_less_refund,
+           if(business_unit not in ('卡券票','其他'), sum(nvl(refund.refund_actual_amount,0)), 0) as refund_actual_amount,
+           if(business_unit not in ('卡券票','其他'), sum(nvl(refund.refund_retreat_amount,0)), 0) as refund_retreat_amount,
+
+           if(is_pickup_recharge_order = 1 OR business_unit not in ('卡券票','其他'), sum(pickup_pay_gmv), 0) as pickup_pay_gmv,
+           if(is_pickup_recharge_order = 1 OR business_unit not in ('卡券票','其他'), sum(pickup_pay_pay_amount), 0) as pickup_pay_pay_amount,
+           if(is_pickup_recharge_order = 1 OR business_unit not in ('卡券票','其他'), sum(pickup_pay_gmv - nvl(refund.refund_actual_amount_less_pickup, 0)), 0) as pickup_pay_gmv_less_refund,
+           if(is_pickup_recharge_order = 1 OR business_unit not in ('卡券票','其他'), sum(pickup_pay_pay_amount - nvl(refund.refund_actual_amount_less_pickup, 0)), 0) as pickup_pay_pay_amount_less_refund,
+
+           if(is_pickup_recharge_order = 1, sum(pickup_recharge_gmv), 0) as pickup_recharge_gmv,
+           if(is_pickup_recharge_order = 1, sum(pickup_recharge_pay_amount), 0) as pickup_recharge_pay_amount,
+           if(is_pickup_recharge_order = 1, sum(pickup_recharge_gmv - nvl(refund.refund_actual_amount, 0)), 0) as pickup_recharge_gmv_less_refund,
+           if(is_pickup_recharge_order = 1, sum(pickup_recharge_pay_amount - nvl(refund.refund_actual_amount, 0)), 0) as pickup_recharge_pay_amount_less_refund
     FROM dw_salary_gmv_rule_public_mid_v2_d d
     LEFT JOIN refund ON d.order_id = refund.order_id
     where dayid in (replace(last_day(add_months('$v_op_time', 0)), '-', ''),
@@ -175,7 +177,9 @@ ord as (
              service_info_freezed,
              service_info,
              shop_group,
-             sale_team_freezed_id
+             sale_team_freezed_id,
+             business_unit,
+             is_pickup_recharge_order
 ),
 
 user_admin as (
