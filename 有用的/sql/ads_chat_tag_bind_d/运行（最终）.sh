@@ -72,6 +72,14 @@ crm_chat_bind as (
     order by id
 ),
 
+relation as (
+    SELECT *
+    FROM dwd_crm_chat_relation_d
+    WHERE dayid = '$v_date'
+    AND is_deleted = 0
+    AND qw_to_shop_status = 0
+),
+
 crm_chat as (
     SELECT *
     FROM dwd_crm_chat_d
@@ -148,10 +156,9 @@ SELECT total.tag_version as data_version,
        group8.tag as group_8_tag,
        customer.union_id
 FROM (
-    SELECT chat_id, biz_id
-    FROM crm_chat_bind
-    WHERE is_deleted = 0
-    AND type = 1
+    SELECT qw_chat_id as chat_id,
+           shop_chat_id as biz_id
+    FROM relation
 ) xiaoer_bind
 
 --小二面

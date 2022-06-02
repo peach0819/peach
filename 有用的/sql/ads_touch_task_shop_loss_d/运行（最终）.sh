@@ -59,6 +59,6 @@ LEFT JOIN (
 ) dept ON dept.id = admin.dept_id
 
 LEFT JOIN (SELECT * FROM dwd_crm_chat_d WHERE dayid = '$v_date') customer ON customer.id = detail.shop_chat_id
-LEFT JOIN (SELECT * FROM dwd_crm_chat_bind_d WHERE dayid = '$v_date') customer_bind ON customer.id = customer_bind.biz_id AND customer_bind.chat_id = xiaoer.id
+LEFT JOIN (SELECT * FROM dwd_crm_chat_relation_d WHERE dayid = '$v_date') customer_bind ON customer.id = customer_bind.shop_chat_id AND customer_bind.qw_chat_id = xiaoer.id
 ;
 "
