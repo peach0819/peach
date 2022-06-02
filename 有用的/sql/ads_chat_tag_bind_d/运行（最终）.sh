@@ -156,7 +156,7 @@ FROM (
 
 --小二面
 INNER JOIN crm_chat xiaoer ON xiaoer.type = 2 AND xiaoer.id = xiaoer_bind.chat_id and xiaoer.is_deleted = 0
-INNER JOIN crm_work_phone phone ON phone.bind_qw_user_id = xiaoer.qw_user_id and phone.is_deleted = 0
+LEFT JOIN crm_work_phone phone ON phone.bind_qw_user_id = xiaoer.qw_user_id and phone.is_deleted = 0
 LEFT JOIN user_admin user_admin ON user_admin.user_id = phone.bind_user_id
 LEFT JOIN department dept ON dept.id = user_admin.dept_id
 
