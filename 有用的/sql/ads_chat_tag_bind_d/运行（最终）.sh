@@ -99,16 +99,18 @@ shop_pool_server as (
 ),
 
 user_admin as (
-    SELECT *
+    SELECT user_id,
+           user_real_name,
+           dept_id
     FROM dim_hpc_pub_user_admin
 ),
 
 department as (
-    SELECT dept_id as id,
-           dept_name as name,
-           dept_parent_id as parent_id,
-           dept_parent_name as parent_name
-    FROM dim_hpc_pub_dept
+    SELECT id,
+           name,
+           parent_id
+    FROM dwd_department_d
+    WHERE dayid = '$v_date'
 ),
 
 linker as (
@@ -142,7 +144,7 @@ SELECT total.tag_version as data_version,
 
        xiaoer.qw_user_id as qw_user_id,
        xiaoer.name as qw_nick_name,
-       dept.parent_name as dept_parent_name,
+       parent_dept.name as dept_parent_name,
        dept.name as dept_name,
        user_admin.user_real_name as user_real_name,
 
@@ -166,6 +168,7 @@ INNER JOIN crm_chat xiaoer ON xiaoer.type = 2 AND xiaoer.id = xiaoer_bind.chat_i
 LEFT JOIN crm_work_phone phone ON phone.bind_qw_user_id = xiaoer.qw_user_id and phone.is_deleted = 0
 LEFT JOIN user_admin user_admin ON user_admin.user_id = phone.bind_user_id
 LEFT JOIN department dept ON dept.id = user_admin.dept_id
+LEFT JOIN department parent_dept ON dept.parent_id = parent_dept.id
 
 --客户面
 INNER JOIN crm_chat customer ON customer.id = xiaoer_bind.biz_id and customer.is_deleted = 0
