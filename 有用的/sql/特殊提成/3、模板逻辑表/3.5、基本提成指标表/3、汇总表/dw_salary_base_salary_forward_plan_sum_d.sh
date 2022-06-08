@@ -39,6 +39,7 @@ detail as (
     FROM dw_salary_base_salary_public_d
     WHERE dayid = '$v_date'
     AND pltype = 'cur'
+    AND sts_target is not null
 ),
 
 cur as (
