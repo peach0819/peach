@@ -85,7 +85,7 @@ data as (
            'MANAGER' as data_type,
            user_id,
            null as leave_time,
-           pure_b_gmv_not_bigbd as b_pfm, --B类业绩口径目标完成值
+           pure_b_gmv as b_pfm, --B类业绩口径目标完成值
            pure_b_gmv_shihuo as b_shihuo  --B类实货口径目标完成值
     FROM ads_salary_result_manager_d
 ),
