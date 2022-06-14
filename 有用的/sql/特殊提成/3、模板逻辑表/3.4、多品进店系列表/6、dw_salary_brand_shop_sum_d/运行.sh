@@ -127,7 +127,9 @@ user_admin as (
            dismiss_status,
            leave_time,
            start_time,
-           end_time
+           end_time,
+           job_id,
+           job_name
     FROM dim_ytj_pub_user_admin_ds
 ),
 
@@ -138,7 +140,7 @@ cur as (
            plan.month as plan_month,
            shop.shop_id,
            shop.shop_name,
-           plan_user.grant_object_user_id,
+           if(plan.bounty_payout_object_code = 'BD' AND user_admin.job_id != 8, null, plan_user.grant_object_user_id) as grant_object_user_id,
            plan_user.is_kn_sale_user,
            if(user_admin.dismiss_status = 0, '否', '是') as is_leave,
            user_admin.leave_time,
