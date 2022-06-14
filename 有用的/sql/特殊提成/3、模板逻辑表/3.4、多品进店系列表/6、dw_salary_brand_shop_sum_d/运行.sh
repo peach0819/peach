@@ -168,6 +168,7 @@ cur as (
              plan_user.is_kn_sale_user,
              user_admin.dismiss_status,
              user_admin.leave_time,
+             user_admin.job_id,
              plan.filter_user_value,
              plan.filter_user_operator
     HAVING ytdw.simple_expr(grant_object_user_id, 'in', filter_user_value) = (case when filter_user_operator = '=' then 1 else 0 end)
