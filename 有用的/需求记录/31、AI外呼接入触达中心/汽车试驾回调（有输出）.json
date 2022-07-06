@@ -1,0 +1,39 @@
+[
+  {
+    "callId": "129776377097^116557097097",
+    "data": {
+      "output": {
+        "slots": [
+          {
+            "nodeName": "开场白",
+            "action": "recognized",
+            "source": "开场白",
+            "value": "【预置】肯定"
+          },
+          {
+            "nodeName": "愿意试驾",
+            "action": "recognized",
+            "source": "愿意试驾",
+            "value": "ANY"
+          }
+        ],
+        "intentions": [],
+        "tags": "愿意试驾"
+      },
+      "info": {
+        "duration": 22,
+        "ringTime": 1657080542000,
+        "calledNo": "13296726171",
+        "code": 200000,
+        "answerTime": 1657080548000,
+        "callingNo": "057128013862",
+        "startTime": 1657080540000,
+        "endTime": 1657080569000,
+        "direction": "0"
+      }
+    },
+    "partnerId": 100000158714022,
+    "robotId": "1000031705014",
+    "type": "finish"
+  }
+]
