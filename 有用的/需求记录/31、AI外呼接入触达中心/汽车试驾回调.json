@@ -1,0 +1,26 @@
+[
+  {
+    "callId": "129772380219^116553100221",
+    "data": {
+      "output": {
+        "slots": [],
+        "intentions": [],
+        "tags": "愿意试驾"
+      },
+      "info": {
+        "duration": 23,
+        "ringTime": 1657075592000,
+        "calledNo": "13296726171",
+        "code": 200000,
+        "answerTime": 1657075598000,
+        "callingNo": "057128013862",
+        "startTime": 1657075590000,
+        "endTime": 1657075621000,
+        "direction": "0"
+      }
+    },
+    "partnerId": 100000158714022,
+    "robotId": "1000031705014",
+    "type": "finish"
+  }
+]
