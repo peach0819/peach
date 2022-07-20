@@ -8,9 +8,10 @@ CREATE TABLE `t_touch_task_detail_call` (
 
   `task_instance_id` bigint(32) NOT NULL COMMENT '触达实例id',
   `task_detail_id` bigint(32) NOT NULL COMMENT '明细id',
-  `call_phone` varchar(1000) NOT NULL COMMENT '主叫号码',
+  `call_phone` varchar(1000) COMMENT '主叫号码',
   `shop_phone` varchar(1000) NOT NULL COMMENT '门店号码（被叫号码）',
   `aiccs_call_id` varchar(100) COMMENT '智能联络中心呼叫id，标记唯一一次通话',
+  `aiccs_robot_id` bigint(32) COMMENT '智能联络中心机器人id',
   `aiccs_call_param` varchar(2000) COMMENT '智能联络中心外呼参数',
   `aiccs_call_code` bigint(32) COMMENT '智能联络中心呼叫返回码（早媒体识别）',
   `aiccs_call_data` mediumtext COMMENT '智能联络中心呼叫回执',
@@ -23,10 +24,11 @@ CREATE TABLE `t_touch_task_detail_call` (
   `start_time` datetime COMMENT '通话开始时间',
   `end_time` datetime COMMENT '通话结束时间',
   `direction` varchar(10) COMMENT '挂机方向 0机器人挂机 1客户挂机',
-  `slot_num` bigint(10) COMMENT '节点数'
+  `slot_num` bigint(10) COMMENT '节点数',
   PRIMARY KEY (`id`),
   KEY `idx_task_instance_id` (`task_instance_id`),
   KEY `idx_task_detail_id` (`task_detail_id`),
+  KEY `idx_aiccs_call_id` (`aiccs_call_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COMMENT='触达任务明细（外呼）';
 
 ALTER TABLE t_touch_task ADD COLUMN `channel_config` text COMMENT '渠道配置信息';
