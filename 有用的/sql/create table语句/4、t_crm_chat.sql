@@ -1,0 +1,21 @@
+CREATE TABLE `t_crm_chat` (
+  `id` bigint(32) unsigned NOT NULL AUTO_INCREMENT COMMENT '自增主键',
+  `type` tinyint(4) unsigned NOT NULL COMMENT '类型 1、微信；2、企微',
+  `qw_user_id` varchar(100) DEFAULT NULL COMMENT '企微userid',
+  `qw_external_user_id` varchar(100) DEFAULT NULL COMMENT '企微外部userid，企微上给微信的标识id，通过此参数进行接口调用',
+  `union_id` varchar(100) DEFAULT NULL COMMENT '微信unionid',
+  `wx_no` varchar(100) DEFAULT NULL COMMENT '微信号',
+  `name` varchar(50) DEFAULT NULL COMMENT '昵称',
+  `photo` varchar(255) DEFAULT NULL COMMENT '头像',
+  `mobile` varchar(30) DEFAULT NULL COMMENT '手机号',
+  `creator` varchar(32) NOT NULL COMMENT '创建人',
+  `editor` varchar(32) NOT NULL COMMENT '编辑人',
+  `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `edit_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '编辑时间',
+  `is_deleted` tinyint(1) NOT NULL DEFAULT '0' COMMENT '是否删除 (0.未删除 1.删除)',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `uk_union_id` (`union_id`),
+  UNIQUE KEY `uk_qw_external_user_id` (`qw_external_user_id`),
+  KEY `idx_qw_user_id` (`qw_user_id`),
+  KEY `idx_name` (`name`)
+) ENGINE=InnoDB AUTO_INCREMENT=122479 DEFAULT CHARSET=utf8mb4 COMMENT='企微/微信 实体'
