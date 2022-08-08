@@ -1,0 +1,23 @@
+CREATE TABLE `t_crm_chat_relation` (
+  `id` bigint(32) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',
+  `qw_chat_id` bigint(32) NOT NULL COMMENT '电销企业微信chat中主键id',
+  `shop_chat_id` bigint(32) NOT NULL COMMENT '门店微信chat中主键id',
+  `qw_to_shop_status` tinyint(1) NOT NULL DEFAULT '0' COMMENT '企业微信对门店微信的好友状态',
+  `shop_to_qw_status` tinyint(1) NOT NULL DEFAULT '0' COMMENT '门店微信对企业微信的好友状态',
+  `creator` varchar(45) NOT NULL DEFAULT 'sys' COMMENT '创建者',
+  `editor` varchar(45) NOT NULL DEFAULT 'sys' COMMENT '修改者',
+  `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `edit_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
+  `is_deleted` tinyint(1) NOT NULL DEFAULT '0' COMMENT '逻辑删除状态',
+  `relation_status` tinyint(1) NOT NULL DEFAULT '0' COMMENT '双边好友关系状态',
+  `is_black` tinyint(1) NOT NULL DEFAULT '0' COMMENT '门店个微是否把企业微信加入黑名单',
+  `remark` varchar(200) DEFAULT NULL COMMENT '好友备注',
+  `qw_tuse_id` varchar(100) DEFAULT NULL COMMENT '涂色企微帐号id',
+  `shop_tuse_id` varchar(100) DEFAULT NULL COMMENT '涂色门店好友id',
+  `sex` tinyint(4) DEFAULT NULL COMMENT '性别 0:女 1:男',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `uk_qw_chat_id_shop_chat_id` (`qw_chat_id`,`shop_chat_id`),
+  KEY `idx_shop_chat_id` (`shop_chat_id`),
+  KEY `idx_qw_tuse_id` (`qw_tuse_id`),
+  KEY `idx_shop_tuse_id` (`shop_tuse_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1273618 DEFAULT CHARSET=utf8mb4 COMMENT='企业微信和门店微信好友关系表'
