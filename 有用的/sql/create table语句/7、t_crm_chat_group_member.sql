@@ -1,0 +1,20 @@
+CREATE TABLE `t_crm_chat_group_member` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `creator` varchar(32) NOT NULL COMMENT '创建者',
+  `editor` varchar(32) NOT NULL COMMENT '修改者',
+  `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `edit_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
+  `is_deleted` tinyint(1) NOT NULL DEFAULT '0' COMMENT '是否删除 1是0否',
+  `chat_group_id` bigint(32) NOT NULL COMMENT '群聊id，t_crm_chat_group主键',
+  `member_type` tinyint(4) unsigned NOT NULL COMMENT '成员类型 1、企业成员2、外部联系人',
+  `user_id` varchar(50) NOT NULL DEFAULT '' COMMENT '企微用户id（内部=qwUserId，外部=externalUserId）',
+  `chat_id` bigint(32) DEFAULT NULL COMMENT 't_crm_chat的主键',
+  `user_name` varchar(100) DEFAULT '' COMMENT '用户姓名',
+  `join_scene` tinyint(4) unsigned NOT NULL COMMENT '入群方式 1、由群成员邀请入群（直接邀请入群）2、由群成员邀请入群（通过邀请链接入群）3、通过扫描群二维码入群',
+  `join_time` datetime NOT NULL COMMENT '入群时间',
+  `invitor_user_id` varchar(50) DEFAULT '' COMMENT '邀请者用户id，目前仅当是由本企业内部成员邀请入群时会返回该值',
+  `invitor_chat_id` bigint(32) DEFAULT NULL COMMENT 't_crm_chat的主键',
+  `group_user_name` varchar(100) COMMENT '用户群内昵称',
+  PRIMARY KEY (`id`),
+  KEY `idx_chat_group_id` (`chat_group_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=59331 DEFAULT CHARSET=utf8mb4 COMMENT='群聊成员';
