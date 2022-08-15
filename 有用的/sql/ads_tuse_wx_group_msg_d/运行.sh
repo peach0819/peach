@@ -87,11 +87,14 @@ cur as (
            parse.tuse_msg_type,
            parse.tuse_msg_time,
            parse.tuse_meta_content,
-           if(parse.tuse_msg_type IN (2001,2013,2017,2019,2020,2024,2025,2026), string(unbase64(parse.tuse_meta_content)), parse.tuse_meta_content) as tuse_content
+           if(parse.tuse_msg_type IN (2001,2013,2017,2019,2020,2024,2025,2026), string(unbase64(parse.tuse_meta_content)), parse.tuse_meta_content) as tuse_content,
+
+           row_number() over(partition by concat(parse.tuse_group_id, ',', parse.tuse_msg_id) order by parse.callback_id) as rn
     FROM parse
     LEFT JOIN chat_group ON parse.tuse_group_id = chat_group.group_id
     LEFT JOIN chat_group_member send_chat ON chat_group.id = send_chat.chat_group_id AND parse.tuse_send_wx_id = send_chat.user_id
     LEFT JOIN chat_group_member to_chat ON chat_group.id = to_chat.chat_group_id AND parse.tuse_to_wx_id = to_chat.user_id
+    HAVING rn = 1
 )
 
 insert overwrite table ads_tuse_wx_group_msg_d partition(dayid='$v_date')
