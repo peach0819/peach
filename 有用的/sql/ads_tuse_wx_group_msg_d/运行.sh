@@ -139,7 +139,7 @@ SELECT old.callback_id,
 FROM (
     SELECT *
     FROM ads_tuse_wx_group_msg_d
-    WHERE dayid = '$v_date'
+    WHERE dayid = '$v_1_days_ago'
 ) old
 LEFT JOIN cur ON old.biz_id = cur.biz_id
 WHERE cur.biz_id is null OR cur.biz_id = ''
