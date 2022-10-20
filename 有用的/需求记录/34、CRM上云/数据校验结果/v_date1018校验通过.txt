@@ -1,0 +1,7 @@
+ads_crm_competing_info_report_d
+ads_salary_base_pro_mark_line_d
+ads_touch_task_shop_loss_d
+ads_touch_task_disturb_d
+ads_crm_dx_daily_work_v2_rpt_qw_d
+ads_crm_dx_daily_work_v2_rpt_d
+report_crm_report_pv_d
