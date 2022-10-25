@@ -1,3 +1,6 @@
+ALTER TABLE t_p0_subject ADD COLUMN refresh_type tinyint(4) NOT NULL default '0' COMMENT '门店刷新模式 0不更新 1跟随DMP更新';
+ALTER TABLE t_p0_subject ADD COLUMN dmp_id bigint(11) COMMENT '门店圈选id';
+
 CREATE TABLE `sync_ads_crm_shop_user_d` (
   `id` bigint(11) unsigned NOT NULL AUTO_INCREMENT COMMENT '自增',
   `creator` varchar(32) NOT NULL COMMENT '创建人',

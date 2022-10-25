@@ -1,0 +1,3 @@
+department.properties 里面，新增了CBD配置， 新增了执行团队角色配置
+p0subject.properties，删除无用的，新增显示提成的团队配置
+
