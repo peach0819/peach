@@ -1,6 +1,6 @@
 use ytdw;
 
-CREATE TABLE if not exists ads_crm_shop_user_d (
+CREATE TABLE if not exists ads_crm_shop_user_base_d (
     shop_id          string comment '门店id',
     shop_name        string comment '门店名称',
     shop_type        int comment '单体连锁店标志1:单体；2:连锁',
@@ -95,7 +95,7 @@ dept as (
     ) t
 )
 
-INSERT OVERWRITE TABLE ads_crm_shop_user_d partition (dayid='$v_date')
+INSERT OVERWRITE TABLE ads_crm_shop_user_base_d partition (dayid='$v_date')
 SELECT shop_id,
        shop_name,
        shop_type,
