@@ -91,9 +91,9 @@ with shop as (
 ),
 
 dept as (
-    SELECT id as dept_id, root_key, parent_ids[`size`-2] as parent_dept_id,  parent_ids[`size`-3] as parent_2_dept_id
+    SELECT id as dept_id, root_key, parent_ids[depth-2] as parent_dept_id,  parent_ids[depth-3] as parent_2_dept_id
     FROM (
-        SELECT id, name, root_key, split(root_key, '_') as parent_ids, size(split(root_key, '_') ) as `size`
+        SELECT id, name, root_key, split(root_key, '_') as parent_ids, size(split(root_key, '_') ) as depth
         FROM dwd_department_d
         WHERE dayid='$v_date'
         AND size(split(root_key, '_') ) > 3
