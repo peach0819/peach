@@ -10,7 +10,7 @@ CREATE TABLE `sync_ads_crm_shop_user_d` (
   `is_deleted` tinyint(1) NOT NULL DEFAULT '0' COMMENT '是否删除',
   `dayid` varchar(8) NOT NULL COMMENT '数仓表区块标示',
 
-  `feature_type` tinyint(4) NOT NULL COMMENT '职能类型',
+  `feature_type` varchar(32) NOT NULL COMMENT '职能类型',
   `shop_id` varchar(32) NOT NULL COMMENT '门店id',
   `shop_name` varchar(100) NOT NULL COMMENT '门店名称',
   `province_id` bigint(20) NOT NULL DEFAULT '0' COMMENT '省',
