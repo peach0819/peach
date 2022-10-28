@@ -31,3 +31,18 @@ CREATE TABLE `sync_ads_crm_shop_user_d` (
   KEY `idx_address_id` (`address_id`),
   KEY `idx_dept_id` (`dept_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='项目门店服务人员对照表';
+
+CREATE TABLE `sync_ads_crm_subject_shop_d` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT COMMENT '自增主键',
+  `creator` varchar(32) NOT NULL COMMENT '创建人',
+  `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `editor` varchar(32) NOT NULL COMMENT '修改人',
+  `edit_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '编辑时间',
+  `is_deleted` tinyint(1) NOT NULL DEFAULT '0' COMMENT '是否删除',
+  `dayid` varchar(8) NOT NULL COMMENT '数仓表区块标示',
+
+  `subject_id` bigint(20) NOT NULL COMMENT '项目id',
+  `shop_id` varchar(32) NOT NULL COMMENT '门店id',
+  PRIMARY KEY (`id`),
+  KEY `idx_subject_id_shop_id` (`subject_id`,`shop_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='项目门店更新回流表';
