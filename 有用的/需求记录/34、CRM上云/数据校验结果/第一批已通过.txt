@@ -1,0 +1,9 @@
+ads_crm_conversation_verify_rpt_v1_d
+ads_crm_conversation_evaluation_rpt_v2_d
+ads_crm_dx_daily_work_rpt_d
+ads_crm_shop_b_tag_d
+ads_crm_shop_competing_info_report_d
+ads_crm_war_drive_fee_d
+report_crm_bd_visit_history_d
+dm_shop_d
+st_shop_salse_effect_assessment_d
