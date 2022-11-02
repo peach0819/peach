@@ -26,6 +26,12 @@ hive -e "
 use ytdw;
 insert overwrite directory '${hdfs_temp_dir}'
 select '' as id,
+	     'etl' as creator,
+	     current_timestamp as create_time,
+	     'etl' as editor,
+	     current_timestamp as edit_time,
+	     0 as is_deleted
+	     dayid,
        feature_type,
        shop_id,
        shop_name,
@@ -38,13 +44,7 @@ select '' as id,
  	     parent_dept_id,
  	     parent_2_dept_id,
        latitude,
-       longitude,
-       dayid,
-	     'etl' as creator,
-	     current_timestamp as create_time,
-	     'etl' as editor,
-	     current_timestamp as edit_time,
-	     0 as is_deleted
+       longitude
 from $source_table
 where dayid='$1';
 " &&
@@ -56,6 +56,8 @@ sqoop eval \
    --username $username \
    --password $password \
    -e "$delete_sql" &&
+
+echo "连接成功"
 #导出到MYSQL
 sqoop export \
   --connect "jdbc:mysql://$HOSTNAME:$PORT/$DBNAME?tinyInt1isBit=false&useUnicode=true&characterEncoding=UTF-8" \

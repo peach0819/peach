@@ -1,5 +1,5 @@
-ALTER TABLE t_p0_subject ADD COLUMN refresh_type tinyint(4) NOT NULL default '0' COMMENT '门店刷新模式 0不更新 1跟随DMP更新';
-ALTER TABLE t_p0_subject ADD COLUMN dmp_id bigint(11) COMMENT '门店圈选id';
+ALTER TABLE t_p0_subject ADD COLUMN refresh_type tinyint(4) NOT NULL default '0' COMMENT '门店刷新模式 0不更新 1跟随DMP更新',
+                         ADD COLUMN dmp_id bigint(11) COMMENT '门店圈选id';
 
 CREATE TABLE `sync_ads_crm_shop_user_d` (
   `id` bigint(11) unsigned NOT NULL AUTO_INCREMENT COMMENT '自增',
@@ -43,6 +43,22 @@ CREATE TABLE `sync_ads_crm_subject_shop_d` (
 
   `subject_id` bigint(20) NOT NULL COMMENT '项目id',
   `shop_id` varchar(32) NOT NULL COMMENT '门店id',
+  `shop_name` varchar(100) NOT NULL COMMENT '门店名称',
+  `province_id` bigint(20) NOT NULL DEFAULT '0' COMMENT '省',
+  `city_id` bigint(20) NOT NULL DEFAULT '0' COMMENT '市',
+  `area_id` bigint(20) NOT NULL DEFAULT '0' COMMENT '区',
+  `address_id` bigint(20) NOT NULL DEFAULT '0' COMMENT '街道',
+  `user_id` varchar(32) NOT NULL COMMENT '所属BD销售id',
+  `dept_id` bigint(20) NOT NULL COMMENT '销售所属叶子部门id（组）',
+  `parent_dept_id` bigint(20) NOT NULL COMMENT '销售所属叶子部门上级部门id',
+  `parent_2_dept_id` bigint(20) NOT NULL COMMENT '销售所属叶子部门上上级部门id',
+  `latitude` varchar(20) COMMENT '纬度',
+  `longitude` varchar(20) COMMENT '经度',
   PRIMARY KEY (`id`),
-  KEY `idx_subject_id_shop_id` (`subject_id`,`shop_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='项目门店更新回流表';
+  KEY `idx_subject_id_shop_id` (`subject_id`,`shop_id`),
+  KEY `idx_province_id` (`province_id`),
+  KEY `idx_city_id` (`city_id`),
+  KEY `idx_area_id` (`area_id`),
+  KEY `idx_address_id` (`address_id`),
+  KEY `idx_dept_id` (`dept_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='项目门店范围更新回流表';
