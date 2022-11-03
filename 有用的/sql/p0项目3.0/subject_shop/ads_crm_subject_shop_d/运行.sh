@@ -1,3 +1,8 @@
+v_date=$1
+
+source ../sql_variable.sh $v_date
+
+apache-spark-sql -e "
 use ytdw;
 
 CREATE TABLE if not exists ads_crm_subject_shop_d (
@@ -22,7 +27,8 @@ with subject as (
     SELECT subject.id,
            subject.subject_name,
            subject.object_shop_type,
-           if(subject.refresh_type = 0, log.create_date, '$v_date') as refresh_date
+           subject.shop_cluster_id,
+           if(subject.refresh_type = 0, log.create_date, '$v_date') as refresh_date,
            subject.feature_type
     FROM (
         SELECT id,
@@ -30,9 +36,9 @@ with subject as (
                object_shop_type,
                shop_cluster_id,
                refresh_type,
-               case when feature_type = 1 AND (group_type is null OR group_type = 3) then 'bd'
+               case when feature_type = 1 AND (nvl(group_type, 0) = 0 OR group_type = 3) then 'bd'
                     when feature_type = 1 AND group_type = 4 then 'cbd'
-                    when feature_type = 2 AND (group_type is null OR group_type = 1) then 'ts'
+                    when feature_type = 2 AND (nvl(group_type, 0) = 0 OR group_type = 1) then 'ts'
                     when feature_type = 2 AND group_type = 2 then 'vs'
                end as feature_type
         FROM dwd_p0_subject_d
@@ -72,6 +78,7 @@ shop_group as (
            shop_id,
            dayid
     FROM ads_dmp_group_data_d
+    WHERE dayid > '0'
 ),
 
 --门店统计范围为 指定圈选 的项目
@@ -115,10 +122,9 @@ without_dmp as (
     WHERE subject.object_shop_type = 1
 )
 
-
 INSERT OVERWRITE TABLE ads_crm_subject_shop_d partition (dayid='$v_date')
 SELECT * FROM with_dmp
 UNION ALL
 SELECT * FROM without_dmp
-
-
+;
+"
