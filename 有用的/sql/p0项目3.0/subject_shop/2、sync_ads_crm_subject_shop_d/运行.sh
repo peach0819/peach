@@ -16,8 +16,8 @@ source ../export_db_config.sh $envdb
 echo "HOSTNAME=$HOSTNAME PORT=$PORT DBNAME=$DBNAME"
 
 #回流表名
-target_table=sync_ads_crm_shop_user_d
-source_table=ads_crm_shop_user_d
+target_table=sync_ads_crm_subject_shop_d
+source_table=ads_crm_subject_shop_d
 
 #开始回流
 hdfs_temp_dir='/tmp/'$target_table'_temp'
@@ -32,7 +32,7 @@ select '' as id,
 	     current_timestamp as edit_time,
 	     0 as is_deleted,
 	     dayid,
-       feature_type,
+       subject_id,
        shop_id,
        shop_name,
        province_id,
