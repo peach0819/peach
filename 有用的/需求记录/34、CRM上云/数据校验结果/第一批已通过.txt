@@ -18,6 +18,9 @@ ads_crm_dx_daily_work_v2_rpt_qw_d
 11/3
 ads_crm_shop_b_tag_d
 
+11/4
+ads_crm_war_drive_fee_d
+
 
 
 
