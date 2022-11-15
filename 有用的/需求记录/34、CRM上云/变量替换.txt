@@ -1,0 +1,5 @@
+
+
+v_op_month = ${yyyy-mm}
+
+v_pre_last_month_day 替换为 REPLACE(DATEADD(date'${v_op_month}-01', -1, 'dd'), '-', '')
