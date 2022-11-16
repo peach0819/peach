@@ -103,20 +103,6 @@ shop_pool_server as (
     group by shop_id
 ),
 
---门店分组关系
-shop_group_mapping as (
-    SELECT shop_id,
-           concat_ws(',' , sort_array(collect_set(cast(group_id as string)))) as group_id
-    FROM (
-        SELECT shop_id, group_id FROM dwd_shop_group_mapping_d WHERE dayid = '$v_date' AND is_deleted = 0
-
-        union all
-
-        SELECT shop_id, group_id FROM ads_dmp_group_data_d WHERE dayid = '$v_date'
-    ) t
-    group by shop_id
-),
-
 --服务商订单快照信息
 sp_order_snapshot as (
     SELECT order_id,
@@ -164,11 +150,10 @@ SELECT order_base.order_id,
        sp_order_snapshot.operator_id as sp_operator_id,
        shop_pool_server.group_id     as shop_pool_server_group_id,
        shop_pool_server.user_id      as shop_pool_server_user_id,
-       shop_group_mapping.group_id   as shop_group_id
+       null as shop_group_id
 FROM order_base
 LEFT JOIN shop_base ON order_base.shop_id = shop_base.shop_id
 LEFT JOIN shop_pool_server ON shop_pool_server.shop_id = shop_base.shop_id
-LEFT JOIN shop_group_mapping ON shop_group_mapping.shop_id = shop_base.shop_id
 LEFT JOIN sp_order_snapshot ON order_base.order_id = sp_order_snapshot.order_id
 ;
 "
