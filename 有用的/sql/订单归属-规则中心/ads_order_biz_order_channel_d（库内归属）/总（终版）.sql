@@ -60,13 +60,26 @@ WITH shop_pool_server_temp as (
     AND shop_feature_service_is_enabled = 1
 ),
 
+shop_group as (
+    SELECT shop_id,
+           concat_ws(',' , sort_array(collect_set(cast(group_id as string)))) as group_id
+    FROM (
+        SELECT shop_id, group_id FROM dwd_shop_group_mapping_d WHERE dayid = '$v_date' AND is_deleted = 0
+
+        union all
+
+        SELECT shop_id, group_id FROM ads_dmp_group_data_d WHERE dayid = '$v_date'
+    ) t
+    group by shop_id
+),
+
 --规则执行
 rule_execute_result as (
     SELECT order_id,
            trade_id,
            trade_no,
            order_place_time,
-           shop_id,
+           order_base.shop_id,
            sale_dc_id,
            sale_dc_id_name,
            bu_id,
@@ -114,10 +127,11 @@ rule_execute_result as (
                      'user_features', shop_pool_server_group_id,
                      'store_type', case when sub_store_type is null then store_type else CONCAT(store_type,',',sub_store_type) end,
                      'sp_id', sp_id,
-                     'group_ids', shop_group_id
+                     'group_ids', shop_group.group_id
                 )
            ) as rule_execute_result
-    FROM ads_order_biz_order_channel_detail_d
+    FROM ads_order_biz_order_channel_detail_d order_base
+    LEFT JOIN shop_group ON shop_group.shop_id = order_base.shop_id
     WHERE dayid = '$v_date'
 )
 
