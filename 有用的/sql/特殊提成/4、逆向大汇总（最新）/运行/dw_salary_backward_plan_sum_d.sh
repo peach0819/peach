@@ -85,7 +85,7 @@ cur as (
            pre.plan_no as planno
     FROM plan
     INNER JOIN pre ON plan.pre_date = pre.dayid and pre.planno = plan.no
-    INNER JOIN ever_rank ON ever_rank.planno = plan.no and ever_rank.grant_object_user_id = pre.grant_object_user_id
+    LEFT JOIN ever_rank ON ever_rank.planno = plan.no and ever_rank.grant_object_user_id = pre.grant_object_user_id
     LEFT JOIN today ON today.planno = plan.no and pre.grant_object_user_id = today.grant_object_user_id
 )
 
