@@ -122,7 +122,7 @@ rule_execute_result as (
                      'category_ids',  CONCAT(COALESCE(category_1st_id, 0), ',', COALESCE(category_2nd_id, 0), ',', COALESCE(category_3rd_id, 0)),
                      'pickup_category_ids', CONCAT(COALESCE(performance_category_1st_id,0), ',', COALESCE(performance_category_2nd_id, 0), ',', COALESCE(performance_category_3rd_id, 0)),
                      'item_ab_type', item_style,
-                     'shop_id', shop_id,
+                     'shop_id', order_base.shop_id,
                      'user_ids', shop_pool_server_user_id,
                      'user_features', shop_pool_server_group_id,
                      'store_type', case when sub_store_type is null then store_type else CONCAT(store_type,',',sub_store_type) end,
