@@ -15,8 +15,7 @@ use ytdw;
 
 with plan as (
     SELECT no,
-           max(need_supply_date) as pre_date,
-           min(need_supply_date) as first_date
+           max(need_supply_date) as pre_date
     FROM dw_bounty_plan_schedule_d
     lateral view explode(split(backward_date,',')) temp as need_supply_date
     WHERE need_supply_date < '$v_date'
@@ -30,15 +29,21 @@ pre as (
     from dw_salary_backward_plan_sum_mid_d
 ),
 
-first as (
-    select *
-    from dw_salary_backward_plan_sum_mid_d
-),
-
 today as (
     select *
     from dw_salary_backward_plan_sum_mid_d
     where dayid ='$v_date'
+),
+
+ever_rank as (
+    SELECT ever.planno,
+           ever.grant_object_user_id,
+           min(cast(ever.commission_reward as decimal)) as min_comission_reward
+    from plan
+    INNER JOIN dw_salary_backward_plan_sum_mid_d ever ON ever.planno = plan.no
+    WHERE ever.commission_plan_type = '排名返现'
+    AND ever.dayid != '$v_date'
+    group by ever.planno, ever.grant_object_user_id
 ),
 
 cur as (
@@ -66,12 +71,12 @@ cur as (
            pre.commission_cap,
            pre.commission_plan_type,
            pre.commission_reward_type,
-           if(pre.commission_plan_type='排名返现', least(cast(first.commission_reward as decimal), cast(today.commission_reward as decimal), cast(pre.commission_reward as decimal)), today.commission_reward) as cur_commission_reward,
-           if(pre.commission_plan_type='排名返现', least(cast(first.commission_reward as decimal), cast(pre.commission_reward as decimal)), pre.commission_reward) as pre_commission_reward,
+           if(pre.commission_plan_type='排名返现', least(ever_rank.min_comission_reward, cast(today.commission_reward as decimal)), today.commission_reward) as cur_commission_reward,
+           if(pre.commission_plan_type='排名返现', ever_rank.min_comission_reward, pre.commission_reward) as pre_commission_reward,
            case when pre.commission_reward_type='金额'
                 then round(
-                         if(pre.commission_plan_type='排名返现', least(cast(first.commission_reward as decimal), cast(today.commission_reward as decimal), cast(pre.commission_reward as decimal)), today.commission_reward)
-                         - if(pre.commission_plan_type='排名返现', least(cast(first.commission_reward as decimal), cast(pre.commission_reward as decimal)), pre.commission_reward),
+                         if(pre.commission_plan_type='排名返现', least(ever_rank.min_comission_reward, cast(today.commission_reward as decimal)), today.commission_reward)
+                         - if(pre.commission_plan_type='排名返现', ever_rank.min_comission_reward, pre.commission_reward),
                          2
                      )
                 when pre.commission_reward_type='实物' and today.commission_reward != pre.commission_reward
@@ -80,7 +85,7 @@ cur as (
            pre.plan_no as planno
     FROM plan
     INNER JOIN pre ON plan.pre_date = pre.dayid and pre.planno = plan.no
-    INNER JOIN first ON first.planno = plan.no and first.grant_object_user_id = pre.grant_object_user_id AND first.dayid = plan.first_date
+    INNER JOIN ever_rank ON ever_rank.planno = plan.no and ever_rank.grant_object_user_id = pre.grant_object_user_id
     LEFT JOIN today ON today.planno = plan.no and pre.grant_object_user_id = today.grant_object_user_id
 )
 
