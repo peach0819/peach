@@ -1,25 +1,29 @@
 WITH all_item AS (
-    SELECT id AS item_id, item_style, category_id_first, item_type, brand AS brand_id
+    SELECT id AS item_id,
+           item_style,
+           category_id_first,
+           item_type,
+           brand AS brand_id
     FROM ytdw.dwd_item_d
     WHERE dayid = '${v_date}'
-      AND inuse = 1
-      AND bu_id = 0
+    AND inuse = 1
+    AND bu_id = 0
+    AND item_style = 0
 ),
+
+subject_main as (
+    SELECT id,
+           0 AS item_style
+    FROM ytdw.dwd_p0_subject_d
+    WHERE dayid = '${v_date}'
+    AND status = 1
+    AND feature_type = 2
+)
 
 -- 包含品牌
 subject_include_brand AS (
     SELECT subject_main.id AS subject_id, all_item.item_id
-    FROM (
-        SELECT id,
-               CASE feature_type
-                   WHEN 1 THEN 1
-                   ELSE 0
-                   END AS item_style
-        FROM ytdw.dwd_p0_subject_d
-        WHERE dayid = '${v_date}'
-        AND status = 1
-        AND feature_type = 2
-    ) subject_main
+    FROM subject_main
     JOIN (
         SELECT subject_id, item_style, brand_id
         FROM ytdw.dwd_p0_subject_item_d
@@ -35,17 +39,7 @@ subject_include_brand AS (
 -- 不包含品牌范围
 subject_exclude_brand AS (
     SELECT subject_main.id AS subject_id, all_item.item_id
-    FROM (
-        SELECT id,
-               CASE feature_type
-                   WHEN 1 THEN 1
-                   ELSE 0
-                   END AS item_style
-        FROM ytdw.dwd_p0_subject_d
-        WHERE dayid = '${v_date}'
-          AND status = 1
-          AND feature_type = 2
-    ) subject_main
+    FROM subject_main
     JOIN (
         SELECT subject_id
         FROM ytdw.dwd_p0_subject_item_d
@@ -73,18 +67,8 @@ subject_not_exist_brand AS (
     SELECT subject_item_style.subject_id, all_item.item_id
     FROM (
         SELECT subject_main.id AS subject_id, item_style
-        FROM (
-                 SELECT id,
-                        CASE feature_type
-                            WHEN 1 THEN 1
-                            ELSE 0
-                            END AS item_style
-                 FROM ytdw.dwd_p0_subject_d
-                 WHERE dayid = '${v_date}'
-                   AND status = 1
-                   AND feature_type = 2
-             ) subject_main
-                 LEFT JOIN (
+        FROM subject_main
+        LEFT JOIN (
             SELECT subject_id
             FROM ytdw.dwd_p0_subject_item_d
             WHERE dayid = '${v_date}'
