@@ -46,6 +46,15 @@ with plan as (
     AND bounty_rule_type = 4
 ),
 
+--门店分组表
+shop_group_mapping as (
+    SELECT shop_id as group_shop_id,
+           concat_ws(',' , sort_array(collect_set(cast(group_id as string)))) as shop_group,
+           dayid
+    FROM ads_dmp_group_data_d
+    group by dayid, shop_id
+),
+
 cur as (
     SELECT from_unixtime(unix_timestamp(),'yyyy-MM-dd HH:mm:ss') as update_time,
            from_unixtime(unix_timestamp(),'yyyy-MM') as update_month,
@@ -103,6 +112,7 @@ cur as (
         where dayid ='$v_date'
         group by order_id
     ) refund ON ord.order_id = refund.order_id
+    LEFT JOIN shop_group_mapping ON ord.shop_id = shop_group_mapping.group_shop_id AND ord.dayid = shop_group_mapping.dayid
     WHERE ord.pay_date between plan.calculate_date_value_start and plan.calculate_date_value_end
     AND ytdw.simple_expr(ord.item_style_name, 'in', plan.item_style_value) = if(plan.item_style_operator = '=', 1, 0)
     AND ytdw.simple_expr(ord.category_1st_id, 'in', plan.category_first_value) = if(plan.category_first_operator = '=', 1, 0)
@@ -112,7 +122,7 @@ cur as (
     AND ytdw.simple_expr(ord.area_manager_dep_id, 'in', plan.bd_area_value) = if(plan.bd_area_operator = '=', 1, 0)
     AND ytdw.simple_expr(ord.bd_manager_dep_id, 'in', plan.manage_area_value) = if(plan.manage_area_operator = '=', 1, 0)
     AND ytdw.simple_expr(if(plan.payout_object_type = '冻结', ord.sale_team_freezed_id, ord.sale_team_id), 'in', plan.sales_team_value) = if(plan.sales_team_operator = '=', 1, 0)
-    AND if(ord.shop_group = '' OR plan.shop_group_value = '', 0, ytdw.simple_expr(substr(plan.shop_group_value, 2, length(plan.shop_group_value) - 2), 'in', concat('[', ord.shop_group, ']'))) = if(plan.shop_group_operator = '=', 1, 0)
+    AND if(shop_group_mapping.shop_group = '' OR plan.shop_group_value = '', 0, ytdw.simple_expr(substr(plan.shop_group_value, 2, length(plan.shop_group_value) - 2), 'in', concat('[', shop_group_mapping.shop_group, ']'))) = if(plan.shop_group_operator = '=', 1, 0)
     GROUP BY plan.no,
              plan.month,
              ord.order_id,
