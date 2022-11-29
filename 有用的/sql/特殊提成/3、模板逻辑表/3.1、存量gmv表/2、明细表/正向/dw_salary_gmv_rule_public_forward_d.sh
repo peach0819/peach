@@ -48,6 +48,15 @@ with plan as (
     AND bounty_rule_type = 1
 ),
 
+--门店分组表
+shop_group_mapping as (
+    SELECT shop_id as group_shop_id,
+           concat_ws(',' , sort_array(collect_set(cast(group_id as string)))) as shop_group
+    FROM ads_dmp_group_data_d
+    WHERE dayid='$v_date'
+    group by shop_id
+),
+
 ord as (
     SELECT pay_day,
            business_unit,
@@ -89,7 +98,7 @@ ord as (
            service_department_names_freezed,
            service_info_freezed,
            service_info,
-           shop_group,
+           shop_group_mapping.shop_group,
            sale_team_freezed_id,
 
            sum(gmv_less_refund) as gmv_less_refund,
@@ -106,7 +115,8 @@ ord as (
            sum(pickup_pay_pay_amount_less_refund) as pickup_pay_pay_amount_less_refund,
            sum(pickup_recharge_gmv_less_refund) as pickup_recharge_gmv_less_refund,
            sum(pickup_recharge_pay_amount_less_refund) as pickup_recharge_pay_amount_less_refund
-    FROM dw_salary_gmv_rule_public_mid_v2_d
+    FROM dw_salary_gmv_rule_public_mid_v2_d ord
+    LEFT JOIN shop_group_mapping ON ord.shop_id = shop_group_mapping.group_shop_id
     where dayid ='$v_date'
     group by pay_day,
              business_unit,
@@ -148,7 +158,7 @@ ord as (
              service_department_names_freezed,
              service_info_freezed,
              service_info,
-             shop_group,
+             shop_group_mapping.shop_group,
              sale_team_freezed_id
 ),
 

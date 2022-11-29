@@ -63,6 +63,15 @@ with plan as (
     AND bounty_rule_type = 3
 ),
 
+--门店分组表
+shop_group_mapping as (
+    SELECT shop_id as group_shop_id,
+           concat_ws(',' , sort_array(collect_set(cast(group_id as string)))) as shop_group
+    FROM ads_dmp_group_data_d
+    WHERE dayid='$v_date'
+    group by shop_id
+),
+
 sign as (
     select plan.no as planno,
            brand_id,
@@ -103,6 +112,7 @@ sign as (
            case when sum(gmv_less_refund) >= new_sign_line then '是' else '否' end as is_over_sign_line--是否满足新签门槛
     from (select * from dw_salary_sign_rule_public_mid_v2_d where dayid = '$v_date') ord
     cross join plan ON 1 = 1
+    LEFT JOIN shop_group_mapping ON ord.shop_id = shop_group_mapping.group_shop_id
     where shop_brand_sign_day between calculate_date_value_start and calculate_date_value_end
     and pay_day <= calculate_date_value_end
     and ytdw.simple_expr( sale_team_id,'in',sales_team_value)=(case when sales_team_operator ='=' then 1 else 0 end)
@@ -113,7 +123,7 @@ sign as (
     and ytdw.simple_expr( war_zone_dep_id,'in',war_area_value)=(case when war_area_operator ='=' then 1 else 0 end)
     and ytdw.simple_expr( area_manager_dep_id,'in',bd_area_value)=(case when bd_area_operator ='=' then 1 else 0 end)
     and ytdw.simple_expr( bd_manager_dep_id,'in',manage_area_value)=(case when manage_area_operator ='=' then 1 else 0 end)
-    and if(ord.shop_group = '' OR plan.shop_group_value = '', 0, ytdw.simple_expr(substr(plan.shop_group_value, 2, length(plan.shop_group_value) - 2), 'in', concat('[', ord.shop_group, ']'))) = (case when shop_group_operator ='=' then 1 else 0 end)
+    and if(shop_group_mapping.shop_group = '' OR plan.shop_group_value = '', 0, ytdw.simple_expr(substr(plan.shop_group_value, 2, length(plan.shop_group_value) - 2), 'in', concat('[', shop_group_mapping.shop_group, ']'))) = (case when shop_group_operator ='=' then 1 else 0 end)
     group by plan.no,
              brand_id,
              brand_name,
