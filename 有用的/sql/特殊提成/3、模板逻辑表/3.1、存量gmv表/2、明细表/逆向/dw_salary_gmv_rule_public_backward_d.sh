@@ -48,6 +48,15 @@ with plan as (
     AND bounty_rule_type = 1
 ),
 
+--门店分组表
+shop_group_mapping as (
+    SELECT shop_id as group_shop_id,
+           concat_ws(',' , sort_array(collect_set(cast(group_id as string)))) as shop_group,
+           dayid
+    FROM ads_dmp_group_data_d
+    group by dayid, shop_id
+),
+
 refund as (
     select order_id,
            sum(refund_actual_amount) as refund_actual_amount,
@@ -61,7 +70,7 @@ refund as (
 ),
 
 ord as (
-    SELECT dayid,
+    SELECT d.dayid,
            pay_day,
            business_unit,
            category_id_first,
@@ -102,7 +111,7 @@ ord as (
            service_department_names_freezed,
            service_info_freezed,
            service_info,
-           shop_group,
+           shop_group_mapping.shop_group,
            sale_team_freezed_id,
 
            if(business_unit not in ('卡券票','其他'), sum(gmv - nvl(refund.refund_actual_amount, 0)), 0) as gmv_less_refund,
@@ -123,7 +132,8 @@ ord as (
            if(is_pickup_recharge_order = 1, sum(pickup_recharge_pay_amount - nvl(refund.refund_actual_amount, 0)), 0) as pickup_recharge_pay_amount_less_refund
     FROM dw_salary_gmv_rule_public_mid_v2_d d
     LEFT JOIN refund ON d.order_id = refund.order_id
-    where dayid in (replace(last_day(add_months('$v_op_time', 0)), '-', ''),
+    LEFT JOIN shop_group_mapping ON d.shop_id = shop_group_mapping.group_shop_id AND d.dayid = shop_group_mapping.dayid
+    where d.dayid in (replace(last_day(add_months('$v_op_time', 0)), '-', ''),
                     replace(last_day(add_months('$v_op_time', -1)), '-', ''),
                     replace(last_day(add_months('$v_op_time', -2)), '-', ''),
                     replace(last_day(add_months('$v_op_time', -3)), '-', ''),
@@ -135,7 +145,7 @@ ord as (
                     replace(last_day(add_months('$v_op_time', -9)), '-', ''),
                     replace(last_day(add_months('$v_op_time', -10)), '-', ''),
                     replace(last_day(add_months('$v_op_time', -11)), '-', ''))
-    group by dayid,
+    group by d.dayid,
              pay_day,
              business_unit,
              category_id_first,
@@ -176,7 +186,7 @@ ord as (
              service_department_names_freezed,
              service_info_freezed,
              service_info,
-             shop_group,
+             shop_group_mapping.shop_group,
              sale_team_freezed_id,
              business_unit,
              is_pickup_recharge_order
