@@ -125,7 +125,7 @@ select order.order_id,
        		 when sale_team_name='美妆销售团队' then 5 else null end as sale_team_id,
        case when sale_team_freezed_name='电销部' then 1 when sale_team_freezed_name='BD部' then 2 when sale_team_freezed_name='大客户部' then 3 when sale_team_freezed_name='服务商部' then 4
        		 when sale_team_freezed_name='美妆销售团队' then 5 else null end as sale_team_freezed_id,
-       shop_group_mapping.group_id as shop_group
+       null as shop_group
 --订单表
 from (
     select order_id,trade_no,
@@ -251,16 +251,6 @@ left join (
     where dayid ='$v_date'
 ) shop on order.shop_id=shop.shop_id
 
---门店分组表
-LEFT JOIN (
-    SELECT shop_id,
-           concat_ws(',' , sort_array(collect_set(cast(group_id as string)))) as group_id
-    FROM ads_dmp_group_data_d
-    WHERE dayid='$v_date'
-    group by shop_id
-) shop_group_mapping ON order.shop_id=shop_group_mapping.shop_id
-where
---is_bigbd_shop='否' --剔除大BD门店订单
-spec_order.trade_no is null --过滤特殊订单
+where spec_order.trade_no is null --过滤特殊订单
 ;
 "

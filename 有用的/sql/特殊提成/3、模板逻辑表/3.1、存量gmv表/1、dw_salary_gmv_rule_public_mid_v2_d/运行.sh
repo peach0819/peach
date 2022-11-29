@@ -126,7 +126,7 @@ select business_unit,--业务域,
        ord_seller.sale_team_freezed_name,
        ord_seller.sale_team_id,
        ord_seller.sale_team_freezed_id,
-       shop_group_mapping.group_id as shop_group,
+       null as shop_group,
 
        --提货卡口径指标
        if(order.is_pickup_recharge_order = 1 OR business_unit not in ('卡券票','其他'), order.total_pay_amount - nvl(order.pickup_card_amount, 0) - nvl(refund.refund_actual_amount_less_pickup, 0), 0) as pickup_pay_gmv_less_refund, --提货卡口径gmv-退款
@@ -189,15 +189,6 @@ left join (
     from dw_shop_base_d
     where dayid ='$v_date'
 ) shop on order.shop_id=shop.shop_id
-
---门店分组表
-LEFT JOIN (
-    SELECT shop_id,
-           concat_ws(',' , sort_array(collect_set(cast(group_id as string)))) as group_id
-    FROM ads_dmp_group_data_d
-    WHERE dayid='$v_date'
-    group by shop_id
-) shop_group_mapping ON order.shop_id=shop_group_mapping.shop_id
 
 --订单销售团队表
 LEFT JOIN (

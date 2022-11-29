@@ -46,7 +46,7 @@ create table if not exists dw_salary_brand_shop_rule_public_mid_v2_d
     sale_team_freezed_name           string comment '冻结销售团队标识 1:电销部 2:BD部 3:大客户部 4:服务商部 5:美妆销售团队',
     frozen_sale_user_id              string comment '冻结销售',
     newest_sale_user_id              string comment '库内销售'
-) comment 'gmv规则通用方案中间表'
+) comment '多品规则通用方案中间表'
 partitioned by (dayid string)
 stored as orc;
 
@@ -89,7 +89,7 @@ select ord.order_id,
        shop.bd_manager_name,
        shop.bd_manager_dep_id,
        shop.bd_manager_dep_name,
-       shop_group_mapping.group_id as shop_group,
+       null as shop_group,
 
        --订单信息
        ord.pay_date,
@@ -155,15 +155,6 @@ left join (
     from dw_shop_base_d
     where dayid ='$v_date'
 ) shop on ord.shop_id=shop.shop_id
-
---门店分组表
-LEFT JOIN (
-    SELECT shop_id,
-           concat_ws(',' , sort_array(collect_set(cast(group_id as string)))) as group_id
-    FROM ads_dmp_group_data_d
-    WHERE dayid='$v_date'
-    group by shop_id
-) shop_group_mapping ON ord.shop_id=shop_group_mapping.shop_id
 
 --订单销售团队表
 LEFT JOIN (
