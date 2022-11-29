@@ -1,9 +1,0 @@
-#!/bin/sh
-v_date=$1
-source ../sql_variable.sh $v_date
-
-#foreach($task in $taskList)
-    sh ${task.taskName}.sh ${task.dayid}
-#end
-
-exit 0
