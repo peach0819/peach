@@ -111,7 +111,7 @@ ord as (
            service_department_names_freezed,
            service_info_freezed,
            service_info,
-           shop_group_mapping.shop_group,
+           nvl(shop_group_mapping.shop_group, d.shop_group) as shop_group,
            sale_team_freezed_id,
 
            if(business_unit not in ('卡券票','其他'), sum(gmv - nvl(refund.refund_actual_amount, 0)), 0) as gmv_less_refund,
@@ -186,7 +186,7 @@ ord as (
              service_department_names_freezed,
              service_info_freezed,
              service_info,
-             shop_group_mapping.shop_group,
+             nvl(shop_group_mapping.shop_group, d.shop_group),
              sale_team_freezed_id,
              business_unit,
              is_pickup_recharge_order

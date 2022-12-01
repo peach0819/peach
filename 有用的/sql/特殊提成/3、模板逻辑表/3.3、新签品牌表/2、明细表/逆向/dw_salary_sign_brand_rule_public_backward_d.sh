@@ -135,7 +135,7 @@ sign as (
     and ytdw.simple_expr( war_zone_dep_id,'in',war_area_value)=(case when war_area_operator ='=' then 1 else 0 end)
     and ytdw.simple_expr( area_manager_dep_id,'in',bd_area_value)=(case when bd_area_operator ='=' then 1 else 0 end)
     and ytdw.simple_expr( bd_manager_dep_id,'in',manage_area_value)=(case when manage_area_operator ='=' then 1 else 0 end)
-    and if(shop_group_mapping.shop_group = '' OR shop_group_value = '', 0, ytdw.simple_expr(substr(shop_group_value, 2, length(shop_group_value) - 2), 'in', concat('[', shop_group_mapping.shop_group, ']'))) = (case when shop_group_operator ='=' then 1 else 0 end)
+    and if(nvl(shop_group_mapping.shop_group, ord.shop_group) = '' OR shop_group_value = '', 0, ytdw.simple_expr(substr(shop_group_value, 2, length(shop_group_value) - 2), 'in', concat('[', nvl(shop_group_mapping.shop_group, ord.shop_group), ']'))) = (case when shop_group_operator ='=' then 1 else 0 end)
     group by ord.dayid,
              plan.no,
              brand_id,
