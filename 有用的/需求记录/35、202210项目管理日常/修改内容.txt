@@ -5,3 +5,9 @@ p0subject.properties，删除无用的，新增显示提成的团队配置
 sync_crm_st_p0_subject_shop_bd_h   bd的项目净gmv来源这张表，yt_crm_subject_shop_index_v2 索引的
 回流表数据来源 nrt_p0_subject_shop_bd_h
 底层来源 ads_crm_subject_shop_data_h -> ads_crm_subject_shop_brand_data_h -> subject_shop_brand_date_pure_gmv 这个with子查询
+
+
+拜访数据来源：
+sync_crm_st_p0_subject_shop_bd_h
+->ads_crm_subject_visit_bd_h  bd拜访记录
+-> rtdw.ods_vf_pt_visit_record
