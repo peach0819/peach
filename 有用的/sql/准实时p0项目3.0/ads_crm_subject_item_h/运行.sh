@@ -25,7 +25,7 @@ WITH all_item AS (
 
 subject as (
     SELECT id,
-           feature_type
+           if(feature_type = 1, 1, 0) as item_style
     FROM rtdw.ods_vf_t_p0_subject
     WHERE status = 1
     AND is_deleted = 0
@@ -33,6 +33,7 @@ subject as (
 
 subject_item as (
     SELECT subject_id,
+           first_value(if(object_type = 0, biz_ids, null)) as item_style,
            collect_list(if(object_type = 1, to_json(named_struct('include_flag', include_flag, 'biz_ids', biz_ids)), null)) as filter_brand,
            collect_list(if(object_type = 2, to_json(named_struct('include_flag', include_flag, 'biz_ids', biz_ids)), null)) as filter_item,
            collect_list(if(object_type = 3, to_json(named_struct('include_flag', include_flag, 'biz_ids', biz_ids)), null)) as filter_category,
@@ -45,7 +46,7 @@ subject_item as (
 --用作主表，表示一个项目下的筛选条件
 subject_main as (
     SELECT subject.id,
-           if(subject.feature_type = 1, 1, 0) as item_style,
+           nvl(subject_item.item_style, subject.item_style) as item_style,
            get_json_object(subject_item.filter_brand[0], '$.biz_ids') as filter_brand_ids,
            get_json_object(subject_item.filter_brand[0], '$.include_flag') as filter_brand_include_flag,
            get_json_object(subject_item.filter_item[0], '$.biz_ids') as filter_item_ids,
