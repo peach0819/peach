@@ -167,7 +167,7 @@ user_admin as (
            user_real_name,
            dept_id,
            substr(leave_time,1,8) as leave_time
-    from dwd_user_admin_d
+    from dim_usr_user_d
     where dayid='$v_date'
 ),
 

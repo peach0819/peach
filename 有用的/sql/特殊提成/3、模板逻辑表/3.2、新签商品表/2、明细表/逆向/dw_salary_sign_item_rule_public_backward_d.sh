@@ -179,7 +179,7 @@ user_admin as (
            dept_id,
            substr(leave_time,1,8) as leave_time,
            dayid
-    from dwd_user_admin_d
+    from dim_usr_user_d
 ),
 
 cur as (
