@@ -50,10 +50,10 @@ detail as (
 ),
 
 underling as (
-    select user_id, max(underling_cnt) as underling_cnt
+    select user_id, max(underling_cnt) as underling_cnt, dayid
     from dws_usr_bd_manager_underling_d
-    where dayid ='$v_date'
-    group by user_id
+    where dayid > '0'
+    group by user_id, dayid
 ),
 
 user_admin as (
@@ -118,7 +118,7 @@ cur as (
     from plan
     INNER JOIN detail ON plan.no = detail.planno
     LEFT JOIN user_admin ON user_admin.user_id = detail.grant_object_user_id AND user_admin.start_time <= concat(plan.plan_date, '235959') AND user_admin.end_time >= concat(plan.plan_date, '235959')
-    LEFT JOIN underling ON detail.grant_object_user_id = underling.user_id
+    LEFT JOIN underling ON detail.grant_object_user_id = underling.user_id AND underling.dayid = plan.plan_date
 )
 
 insert overwrite table dw_salary_backward_plan_sum_mid_d partition (dayid='$v_date',bounty_rule_type=4)
