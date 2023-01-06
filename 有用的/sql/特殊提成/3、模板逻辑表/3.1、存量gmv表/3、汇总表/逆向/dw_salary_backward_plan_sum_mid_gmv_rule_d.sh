@@ -86,7 +86,7 @@ cur as (
            if(plan.bounty_indicator_name like '人均%', sts_target/nvl(underling_cnt,1), sts_target) as sts_target,
 
            --排名
-           row_number() over(partition by plan.no order by (
+           rank() over(partition by plan.no order by (
                 if(plan.bounty_indicator_name like '人均%', sts_target/nvl(underling_cnt,1), sts_target)
            ) desc, detail.gmv_less_refund desc) as grant_object_rk
     from plan
