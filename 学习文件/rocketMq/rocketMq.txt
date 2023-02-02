@@ -1,0 +1,286 @@
+*******************************************   技术选型对比
+rocketMq前生是metaq 借鉴了Kafka
+kafka是Scale语言开发的，rabbitMq是Erlang语言开发的
+
+ActiveMq、RabbitMq 吞吐量很低只有万级，kafka和rocketMq都是10万级
+kafka一般用于大数据处理，实时计算，日志采集，因为不是java
+
+kafka在topic多（几十到几百）的情况下，吞吐量会下降，rocketmq不会，几百到几千才会有小幅度下降
+
+rabbitMQ的延迟在微秒级，这个是最大特色，延迟低
+activeMq和rabbitMq都是主从架构， rocketMq和kafka都是分布式架构
+
+简单来说 activeMq和rabbitMq都是简单的，主从的，不保障准确性的
+rocketMq和kafka是高可用分布式的，且高吞吐的，并且消息可靠
+
+*****************************************    rocketMq架构
+Producer: 消息发送者
+Consumer: 消息消费者
+Topic: 消息标题  Tag: 消息标签
+Broker: 暂存和传输消息（邮局）
+NameServer: 管理Broker（zk的概念） ，用于记录broker信息，提供给producer和consumer broker的地址
+Message Queue: Topic的分区，用于并行发送和接受消息，一个Topic在同一个队列，保证顺序
+
+NameServer可以集群部署，是一个无状态节点，相当于一个注册中心
+
+Broker可以有多对主从，一个主可以对应多个从，但是一个从只能对应一个主
+相同的broker的name相同，通过brokerId来区别，brokerId为0表示主，非0表示从
+broker跟nameserver集群长连接，每个broker的信息都会定时注册到nameServer上，就像dubbo注册到zk一样
+虽然支持一主多从，但是只有brokerId=1的从才会参与读负载
+！！！！！TOPIC是跟着broker走的
+
+producer跟nameserver随机节点建立长连接，定期从nameserver获取topic的路由信息（在哪个broker）
+并跟提供Topic服务的master建立长连接，且定时发送心跳
+producer无状态
+
+consumer和nameserver随机节点长连接，定期获取topic信息，并跟broker的master和slave长连接定期发送心跳
+consumer可以从主也可以从读取消息，从master读取消息时，会根据偏移量以及最大偏移量距离，
+以及从服务器是否可读，判断下次从master还是slave读消息
+
+*******************  启动流程
+1、启动nameserver, 并监听端口，等待连入
+2、broker启动，并注册到nameserver，长连接，定时发送心跳包（broker的Ip 端口以及存储topic信息）
+3、收发消息前，需要先创建topic，并制定需要存储在哪些broker
+4、producer启动时，跟nameserver长连接，然后获取当前需要发送topic在哪些broker上，选一个broker的队列
+     长连接，后续发消息的时候，就会直接往这个broker的队列推
+5、consumer启动时，跟nameserver长连接，订阅当前topic在哪个broker，长连接，然后从broker队列消费轮询消费
+
+
+************************* 特性
+1、订阅与发布，producer发布topic，然后consumer订阅
+2、消息有序
+3、consumer可以根据tag消息过滤，目前在broker实现，减少consumerIO，但是增加了broker复杂度
+4、消息可靠，支持broker挂了消息不丢失，只有单点故障时（磁盘坏了，机器炸了），单点消息丢失
+	可以通过同步双写，金融场景可以这么用，会影响性能
+5、每个消息至少投递一次，只有消费过了才会往服务器返回ack消息
+6、支持回溯消费，消费1小时前的数据，broker会存储消息
+7、事务消息，本地事务和发送消息可以在同一个事务中
+8、定时消息，消息发送到broker后，等待定时时间再投递
+9、消息重试，consumer失败后，需要自行配置重新消费的机制
+10、消息重投，producer发消息时，同步消息失败会重试，异步会重试，但是会有重复消息
+	可以通过设置消息重试策略，来保障消息不丢失
+11、流量控制，生产者流控，因为broker处理能力瓶颈，通过broker配置进行控制
+	消费者流控，因为consumer瓶颈了，通过consumer本地配置控制
+12、死信队列， 一个消息消费重试最大次数后，进入死信队列，可以在后台控制台重试
+
+*************************** 消费模式
+push和pull ，本质在rocketMq实现，都是消费端主动拉取，consumer从broker轮询消息
+
+push：
+实时性高，但是消费端有压力，可能积压，
+实现是，客户端封装了轮询，并且注册了listener，broker收到消息后，就会触发监听器
+然后去拉消息，就像推送过来一样
+
+pull：
+消费端自己拉取，缺点是pull频率问题，如果太久会影响时效
+通过consumer订阅的topic，遍历broker的messageQueue，然后针对每个队列取消息并记录offset，下次从offset开始
+
+rocketMq使用长轮询机制，兼顾两者
+
+MessageQueue存在broker中 ，用于存放消息的真实物理地址，一个topic的消息地址可以在多个queue中
+
+消息队列都是持久化的、长度无限的数据结构，所以访问都是用offset
+
+
+*************************************  高级特性和原理
+发送消息的过程：
+1、provider发送到broker
+2、broker处理请求
+3、broker向provider返回应答
+
+部分可靠性要求不高的场景，可以只写入，不要求应答，减少耗时
+也可以增加producer并发量，多用几个producer增加写入速度
+
+broker有一个并发窗口，窗口内的消息可以并发的直接写入到DirectMem，然后异步刷盘
+顺序写CommitLog可以保持较高性能
+
+增加消费速度：
+1、提高消费并行度，增加consumer实例，或者启动多个consumer线程，但是consumer不能超过
+	broker的readQueue，超过数量的consumer接收不到消息，
+ 	或者提高单个Consumer实例中的线程数，可以在同一个consumer里面增加并发数
+2、设置批量方式消费，consumeMessageBatchMaxSize为N，每次收到的消息都是长度为N的链表
+3、检查延时，可以在consumer里面选择跳过处理不重要的消息，尽快降低消费水位
+
+
+*************************  消息存储
+！！！存储介质：
+ActiveMq基于jdbc做消息存储，所以单表数据量大的时候，IO会出现瓶颈，并且DB挂了MQ就挂了
+RocketMq、RabbitMq、Kafka都是依赖文件系统，消息刷盘做持久化
+
+！！！消息存储：
+目前高性能磁盘，顺序写可以600MB/s，比网卡快很多，但是随机写只有100kb/s
+RocketMQ用的是磁盘顺序写，保证消息存储速度
+
+！！！RocketMq存储结构：
+ConsumeQueue（索引） + CommitLog（真实存储文件），类似数据库的索引，指向真实数据
+每个Topic下的，在Broker上对应的MessageQueue对应都有一个ConsumeQueue文件
+多个Topic对应的多个MessageQueue，实体对应多个ConsumeQueue文件，每个文件内容对应CommitLog上的一个地址
+
+！！！CommitLog，每个文件默认1G，文件名长度20为，左边补0，记录偏移量
+00000000000000000000代表第一个文件，
+00000000001073741824代表第二个文件（1G），文件写满了后自动写入下一个文件
+
+！！！ConsumeQueue: 消费队列，目的是提高消息消费性能（基于commitLog的索引）
+为了避免遍历CommitLog, ConsumeQueue作为消费消息的索引，
+1、保存了指定Topic下队列消息在COmmitlog中的
+2、消息大小size
+3、消息tag的hashcode
+具体存储路径为：$HOME/store/consumequeue/{topic}/{queueId}/{fileName}。
+基于topic，queueId和文件名三层路径
+/test_topic/1/00000000000000000000 这样
+ConsumeQueue的结构采取定长设计：8字节的commitLog偏移量、4字节的消息长度、8字节hashcode
+
+！！！IndexFile提供了根据key或时间区间查询消息
+底层为HashMap
+
+
+producer发送消息后，会写入CommitLog, 记录topic，QueueId，message（可以同步或异步刷盘）
+然后根据topic和queueId，会存储到ConsumerQueue里面，并且记录了原CommitLog的offset（位置）消息长度 tag的hashCode
+然后consumer要读取的时候，直接从messageQueue读取，读到ConsumeQueue，读到当前偏移量
+然后对应找到CommitLog里面的内容
+
+
+*******************************   消息过滤
+基于tag的消息过滤，根据consumeQueue里面的tag hashcode进行过滤
+consumer可以订阅topic下的指定tag，会根据订阅信息，创建一个MessageFilter放在store里面
+收到消息时，会根据tag的hashcode去过滤，只有hashcode符合的才会过滤，然后再服务端二次精确匹配过滤
+
+SQL过滤：基于sql92，需要rocketMQ开启SQL92特性，这里不写了，用不到
+
+filterServer过滤：类似写一个UDF，然后通过java函数过滤消息，但是很耗内存，这里不写了，用不到
+
+缓存节省磁盘IO，但是需要反复从磁盘和缓存拷贝，费CPU
+
+********************************   消息主备同步
+同步复制：
+必须master和slave都写完，才会反馈给producer写成功
+优点：slave数据全，容易恢复
+缺点：数据延迟变成，降低吞吐
+
+异步复制：
+只要master写成功，就反馈producer成功，然后后台复制
+优点：故障可能丢数据
+缺点：高吞吐，低延迟
+
+所有的rocketMq消息写入，都是先写入pageCache，然后刷盘，这样能保证内存和盘都有数据
+访问时直接读内存
+
+同步刷盘：
+写入pageCache后，直接返回producer前就直接刷盘
+
+异步刷盘：
+写入pageCache后，放到缓存里，攒起来一起刷盘
+pageCache不会溢出，会LRU清除历史page
+
+正常是 主从同步复制、异步刷盘
+
+********************************************  高可用
+brokerId=0表示当前master
+>0表示slave
+brokerRole参数也表示是master还是slave
+master支持读写，slave仅读
+consumer可以连master读也可以连slave读，master/slave是自动切换，master不可用或繁忙，自动读slave
+
+创建topic时，把一个topic的多个messageQueue建在多个broker的master上，这样可以扩展
+slave没法自动变成master，需要停服后，改配置文件再启动
+
+早期，写入broker挂了之后，rocketMq处理方式：
+broker挂了后，接下来5分钟，挂了的broker不参与队列负载
+但是会有问题就是无法保证严格顺序
+
+2018年后，rocketMq引入了Dledger，变成了动态选举master
+所有消息需要起码发送到2个以上节点才会写入成功，这样就算挂了一个，起码也有一个slave，能保证顺序
+选举时，会把数据跟master一样的slave选为master
+缺点：
+选举过程不能提供服务
+最少需要3个节点，并且如果2个节点挂了还是集群挂的
+要复制到半数才写入成功，性能也不如主从复制
+
+*************************************  负载均衡
+负载均衡都在客户端完成，producer均衡发消息，consumer均衡消费
+
+producer:
+发消息时，一个topic可能有多个队列，通过轮询队列发送
+
+顺序消息分为全局有序和局部有序：
+这个时候要保证顺序发送，如果严格有序，需要只有一个producer串行发送
+保证业务有序，需要同一个业务key（比如orderId）的消息需要在topic的同一个messageQueue中
+顺序消费要保证一个队列只能被一个consumer消费（优先申请到的直接锁住broker的topic），有个topic参数配置顺序消息即可
+
+consumer：
+比如有5个messageQueue，2个consumer，那就一个消费前3个，一个消费后2个，固定顺序
+consumer从broker获取全局信息（一个consumerGroup中有多个consumer），然后自己做负载均衡
+每次新加入consumer的时候，group内的各个consumer都会重新doRebalance均衡
+
+consumer启动时，会给broker不停心跳自己信息，然后broker记录ConsumerManager本地缓存
+后续consumer负载均衡从broker这里拿数据
+
+
+***********************************   消息重试
+顺序消息，1秒重试一次，别的消息消费会被阻塞
+
+无序消息重试：可以通过设置状态去重试 （返回RECONSUME_LATER，null，抛异常）
+重试仅针对集群消费方式，广播方式不可重试
+最多重试16次，10秒，30秒，然后1-10分钟，20 30 60 120
+一直失败后，就不会在重试了
+重试配置，会以最后一次启动的机器为准，覆盖集群（如果改了代码后发布，就集群生效）
+
+死信队列：
+超出16次后，进入死信队列
+死信队列不会被正常消费，3天后会自动删除
+
+一个死信队列对应一个groupId，包含这个groupId订阅的所有topic
+
+*****************************   顺序消息
+默认情况不保证有序，一个topic默认8个读队列8个写队列，一条消息可能在任意队列，并且读取不保证优先哪个队列
+
+全局有序：
+需要把topic的读写队列设置成1，然后producer和consumer的并发数也要是1，消除所有并发，严格单线程
+
+消息部分有序（业务key）：
+发送端：同一个业务id消息发到同一个MessageQueue
+消费端：同一个MessageQueue的消息读取不做并发处理
+实现：获取每个ConsumeQueue的内容之前，先获取锁，保证单队列不被并发消费，但是多队列可以并发
+
+*********************************  事务消息
+跟随本地事务，事务开启时，像broker发一条待确认消息，然后执行本地事务，
+本地事务执行结束提交时，broker消息提交，可以被消费
+本地挂了回滚时，事务消息也回滚（删除）
+如果没有提交，broker会回查本地事务状态，补偿
+
+
+并发的消息，如果失败，可以返回RECONSUME_LATER来稍后消费
+如果是顺序消息，可以返回SUSPEND_CURRENT_QUEUE_A_MOMENT，来挂起消费一会，片刻后重试
+
+nameserver仅记录路由，broker的master和slave信息，由broker本身的properties文件配置，
+可以记录brokerClusterName、brokerName、brokerId（0主 12345……备）
+
+broker和所有的nameserver长连接，定时注册topic信息到所有nameserver
+
+consumer和一台nameserver长连接，获取broker的信息并本地缓存，用来拉消息；挂了换台
+
+producer和一台nameserver长连接，获取broker的topic队列情况并本地缓存，挂了换台；
+producer和所有的broker master长连接，并心跳，不能跳slave
+
+
+NameServer在RocketMQ中的作用：
+1. NameServer 用来保存活跃的 broker 列表，包括 Master 和 Slave 。
+2. NameServer 用来保存所有 topic 和该 topic 所有队列的列表。
+3. NameServer 用来保存所有 broker 的 Filter 列表。
+4. 命名服务器为客户端，包括生产者，消费者和命令行客户端提供最新的路由信息。
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
