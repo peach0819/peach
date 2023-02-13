@@ -12,20 +12,22 @@ insert overwrite table ads_touch_vs_dkh_d partition(dayid='$v_date')
 SELECT 'test',
        to_json(
            map(
-               'shop_total_return', '0',
-               't1_return', '0',
-               't2_target', '0',
-               't2_gmv', '0',
-               't2_beyond', '0',
-               't2_return', '0',
-               't3_target', '0',
-               't3_gmv', '0',
-               't3_beyond', '0',
-               't3_return', '0',
-               'max_return', '0'
+               'shop_total_return', shop_total_return,
+               't1_target', '0',
+               't1_gmv', '0',
+               't1_beyond', '0',
+               't1_return', t1_return,
+               't2_target', t2_target,
+               't2_gmv', t2_gmv,
+               't2_beyond', t2_beyond,
+               't2_return', t2_return,
+               't3_target', t3_target,
+               't3_gmv', t3_gmv,
+               't3_beyond', t3_beyond,
+               't3_return', t3_return,
+               'max_return', max_return
            )
        ) as biz_value
--- FROM dw_bi_table
--- WHERE dayid = '$v_date'
+FROM ads_hipac_ws_return_d
+WHERE dayid = '$v_date'
 ;
-
