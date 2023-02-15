@@ -21,7 +21,15 @@ with plan as (
                 when payout_rule_type = 4 then '累计阶梯单价返点'
                 when payout_rule_type = 5 then '排名返现'
                 end as commission_plan_type,
-           replace(replace(replace(replace(get_json_object(get_json_object(filter_config_json,'$.calculate_date'),'$.value'),']',''),'\"',''),'[',''),',','~') as plan_pay_time
+           replace(replace(replace(replace(get_json_object(get_json_object(filter_config_json,'$.calculate_date'),'$.value'),']',''),'\"',''),'[',''),',','~') as plan_pay_time,
+
+           --CRM工作室指标名
+           case when bounty_payout_object_id IN (4) AND bounty_indicator_code = 'SIGN_ITEM_GMV_RATE' then 'class_b_capacity_pure'
+                when bounty_payout_object_id IN (1,2,3) AND bounty_indicator_code = 'SIGN_ITEM_GMV_RATE' then 'class_b_area_pure'
+           end as kpi_indicator_type,
+
+           replace(replace(replace(split(get_json_object(get_json_object(filter_config_json,'$.calculate_date'),'$.value'),',')[0],'[',''),'\"',''),'-','') as calculate_date_value_start,
+           replace(replace(replace(split(get_json_object(get_json_object(filter_config_json,'$.calculate_date'),'$.value'),',')[1],']',''),'\"',''),'-','') as calculate_date_value_end
     FROM dw_bounty_plan_schedule_d
     WHERE array_contains(split(backward_date, ','), '$v_date')
     AND ('$supply_mode' = 'not_supply' OR array_contains(split(supply_date, ','), '$supply_date'))
@@ -57,6 +65,26 @@ underling as (
     group by user_id, dayid
 ),
 
+target as (
+    select t.user_id,
+           t.indicator,
+           t.target,
+           substr(a.start_time, 0, 8) as start_time,
+           substr(a.end_time, 0, 8) as end_time
+    from (SELECT * FROM dwd_kpi_indicator_target_d WHERE dayid = '$v_date' and is_deleted = 0) t
+    INNER JOIN (SELECT * FROM dwd_kpi_assessment_d WHERE dayid = '$v_date' AND is_deleted = 0 AND status IN (2,3)) a ON t.assessment_id = a.id
+),
+
+plan_user_target as (
+    SELECT plan.no as plan_no,
+           target.user_id as user_id,
+           max(target.target) as target
+    FROM plan
+    INNER JOIN target ON plan.calculate_date_value_start <= target.end_time AND plan.calculate_date_value_end >= target.start_time AND plan.kpi_indicator_type = target.indicator
+    group by plan.no,
+             target.user_id
+),
+
 cur as (
     select from_unixtime(unix_timestamp(),'yyyy-MM-dd HH:mm:ss') as update_time,
            from_unixtime(unix_timestamp(),'yyyy-MM') as update_month,
@@ -89,6 +117,7 @@ cur as (
                 when plan.bounty_indicator_code = 'NEW_SIGNING_ITEM_2_NEW_SING_ITEM_SHOPS' then detail.sign_shop_item_count  --新签商品门店数
                 when plan.bounty_indicator_code = 'NEW_SIGNING_ITEM_2_ACC_NEW_SING_GMV' then detail.gmv_less_refund  --新签GMV
                 when plan.bounty_indicator_code = 'NEW_SIGNING_ITEM_2_ACC_NEW_SING_PAY_AMT' then detail.pay_amount_less_refund --累计新签支付金额
+                when plan.bounty_indicator_code = 'SIGN_ITEM_GMV_RATE' then (detail.gmv_less_refund / plan_user_target.target) * 100 --新签gmv占比目标完成率
                 end as sts_target,
 
            --排名
@@ -97,11 +126,13 @@ cur as (
                 when plan.bounty_indicator_code = 'NEW_SIGNING_ITEM_2_NEW_SING_ITEM_SHOPS' then detail.sign_shop_item_count  --新签商品门店数
                 when plan.bounty_indicator_code = 'NEW_SIGNING_ITEM_2_ACC_NEW_SING_GMV' then detail.gmv_less_refund  --新签GMV
                 when plan.bounty_indicator_code = 'NEW_SIGNING_ITEM_2_ACC_NEW_SING_PAY_AMT' then detail.pay_amount_less_refund --累计新签支付金额
+                when plan.bounty_indicator_code = 'SIGN_ITEM_GMV_RATE' then (detail.gmv_less_refund / plan_user_target.target) * 100 --新签gmv占比目标完成率
                 end
            ) desc, detail.gmv_less_refund desc) as grant_object_rk
     from plan
     INNER JOIN detail ON plan.no = detail.planno
     LEFT JOIN underling ON detail.grant_object_user_id = underling.user_id AND underling.dayid = split(plan.backward_date, ',')[0]
+    LEFT JOIN plan_user_target ON plan.no = plan_user_target.plan_no AND detail.grant_object_user_id = plan_user_target.user_id
 )
 
 insert overwrite table dw_salary_backward_plan_sum_mid_d partition (dayid='$v_date', bounty_rule_type=2)
@@ -132,6 +163,7 @@ SELECT update_time,
        ) as commission_reward,
        planno
 FROM cur
+WHERE sts_target is not null
 
 UNION ALL
 
