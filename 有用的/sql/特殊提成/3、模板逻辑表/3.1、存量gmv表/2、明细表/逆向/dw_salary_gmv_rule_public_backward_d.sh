@@ -129,7 +129,10 @@ ord as (
            if(is_pickup_recharge_order = 1, sum(pickup_recharge_gmv), 0) as pickup_recharge_gmv,
            if(is_pickup_recharge_order = 1, sum(pickup_recharge_pay_amount), 0) as pickup_recharge_pay_amount,
            if(is_pickup_recharge_order = 1, sum(pickup_recharge_gmv - nvl(refund.refund_actual_amount, 0)), 0) as pickup_recharge_gmv_less_refund,
-           if(is_pickup_recharge_order = 1, sum(pickup_recharge_pay_amount - nvl(refund.refund_actual_amount, 0)), 0) as pickup_recharge_pay_amount_less_refund
+           if(is_pickup_recharge_order = 1, sum(pickup_recharge_pay_amount - nvl(refund.refund_actual_amount, 0)), 0) as pickup_recharge_pay_amount_less_refund,
+
+           if(item_style = 1 AND category_id_first_name = '卡券票' AND is_pickup_recharge_order = 0, sum(hi_recharge_gmv), 0) as hi_recharge_gmv,
+           if(item_style = 1 AND category_id_first_name = '卡券票' AND is_pickup_recharge_order = 0, sum(hi_recharge_gmv - nvl(refund.refund_actual_amount, 0)), 0) as hi_recharge_gmv_less_refund
     FROM dw_salary_gmv_rule_public_mid_v2_d d
     LEFT JOIN refund ON d.order_id = refund.order_id
     LEFT JOIN shop_group_mapping ON d.shop_id = shop_group_mapping.group_shop_id AND d.dayid = shop_group_mapping.dayid
@@ -308,6 +311,7 @@ cur as (
                 when plan.bounty_indicator_code in ('PICKUP_PAY_AMT_LESS_COUPON_REFUND', 'AVG_PICKUP_PAY_AMT_LESS_COUPON_REFUND') then ord.pickup_pay_pay_amount_less_refund  --提货卡口径支付金额(去优惠券去退款)
                 when plan.bounty_indicator_code in ('PICKUP_RECHARGE_GMV_LESS_REFUND', 'AVG_PICKUP_RECHARGE_GMV_LESS_REFUND') then ord.pickup_recharge_gmv_less_refund  --提货卡充值GMV(去退款)
                 when plan.bounty_indicator_code in ('PICKUP_RECHARGE_AMT_LESS_COUPON_REFUND', 'AVG_PICKUP_RECHARGE_AMT_LESS_COUPON_REFUND') then ord.pickup_recharge_pay_amount_less_refund  --提货卡充值支付金额(去优惠券去退款)
+                when plan.bounty_indicator_code in ('HI_RECHARGE_GMV_LESS_REFUND', 'AVG_HI_RECHARGE_GMV_LESS_REFUND') then ord.hi_recharge_gmv_less_refund  --hi卡充值gmv(去退款)
                 end as sts_target,
 
            ord.pay_day,
@@ -331,7 +335,9 @@ cur as (
                'pickup_pay_gmv_less_refund', ord.pickup_pay_gmv_less_refund,
                'pickup_pay_pay_amount_less_refund', ord.pickup_pay_pay_amount_less_refund,
                'pickup_recharge_gmv_less_refund', ord.pickup_recharge_gmv_less_refund,
-               'pickup_recharge_pay_amount_less_refund', ord.pickup_recharge_pay_amount_less_refund
+               'pickup_recharge_pay_amount_less_refund', ord.pickup_recharge_pay_amount_less_refund,
+               'hi_recharge_gmv', ord.hi_recharge_gmv,
+               'hi_recharge_gmv_less_refund', ord.hi_recharge_gmv_less_refund
            )) as extra
     FROM plan
     CROSS JOIN ord ON ord.dayid = split(plan.backward_date, ',')[0]
