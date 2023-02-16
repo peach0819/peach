@@ -41,7 +41,9 @@ with plan as (
            replace(replace(replace(replace(get_json_object(get_json_object(filter_config_json,'$.calculate_date'),'$.value'),']',''),'\"',''),'[',''),',','~') as plan_pay_time,
            get_json_object(get_json_object(filter_config_json,'$.filter_user'),'$.value') as filter_user_value,
            get_json_object(get_json_object(filter_config_json,'$.filter_user'),'$.operator') as filter_user_operator,
-           replace(replace(replace(get_json_object(get_json_object(filter_config_json,'$.grant_user'),'$.value'),'\"',''),'[',''),']','') as grant_user
+           replace(replace(replace(get_json_object(get_json_object(filter_config_json,'$.grant_user'),'$.value'),'\"',''),'[',''),']','') as grant_user,
+           get_json_object(get_json_object(filter_config_json,'$.unback_brand'),'$.value') as unback_brand_value,
+           get_json_object(get_json_object(filter_config_json,'$.unback_brand'),'$.operator') as unback_brand_operator,
     FROM dw_bounty_plan_schedule_d
     WHERE array_contains(split(backward_date, ','), '$v_date')
     AND ('$supply_mode' = 'not_supply' OR array_contains(split(supply_date, ','), '$supply_date'))
@@ -64,7 +66,6 @@ refund as (
            nvl(sum(refund_pickup_card_amount), 0) as refund_pickup_card_amount,
            sum(refund_actual_amount) - nvl(sum(refund_pickup_card_amount), 0) as refund_actual_amount_less_pickup
     from dw_afs_order_refund_new_d --（后期通过type识别清退金额）
-    where dayid ='$v_date'
     and refund_status=9
     group by order_id
 ),
@@ -114,27 +115,41 @@ ord as (
            nvl(shop_group_mapping.shop_group, d.shop_group) as shop_group,
            sale_team_freezed_id,
 
-           if(business_unit not in ('卡券票','其他'), sum(gmv - nvl(refund.refund_actual_amount, 0)), 0) as gmv_less_refund,
+           --gmv指标
            if(business_unit not in ('卡券票','其他'), sum(gmv), 0) as gmv,
            if(business_unit not in ('卡券票','其他'), sum(pay_amount), 0) as pay_amount,
+           if(business_unit not in ('卡券票','其他'), sum(gmv - nvl(refund.refund_actual_amount, 0)), 0) as gmv_less_refund,
            if(business_unit not in ('卡券票','其他'), sum(pay_amount - nvl(refund.refund_actual_amount, 0)), 0) as pay_amount_less_refund,
            if(business_unit not in ('卡券票','其他'), sum(nvl(refund.refund_actual_amount,0)), 0) as refund_actual_amount,
            if(business_unit not in ('卡券票','其他'), sum(nvl(refund.refund_retreat_amount,0)), 0) as refund_retreat_amount,
+           if(business_unit not in ('卡券票','其他'), sum(gmv - nvl(base_refund.refund_actual_amount, 0)), 0) as base_gmv_less_refund,
+           if(business_unit not in ('卡券票','其他'), sum(pay_amount - nvl(base_refund.refund_actual_amount, 0)), 0) as base_pay_amount_less_refund,
+           if(business_unit not in ('卡券票','其他'), sum(nvl(base_refund.refund_actual_amount,0)), 0) as base_refund_actual_amount,
+           if(business_unit not in ('卡券票','其他'), sum(nvl(base_refund.refund_retreat_amount,0)), 0) as base_refund_retreat_amount,
 
+           --提货卡口径指标
            if(is_pickup_recharge_order = 1 OR business_unit not in ('卡券票','其他'), sum(pickup_pay_gmv), 0) as pickup_pay_gmv,
            if(is_pickup_recharge_order = 1 OR business_unit not in ('卡券票','其他'), sum(pickup_pay_pay_amount), 0) as pickup_pay_pay_amount,
            if(is_pickup_recharge_order = 1 OR business_unit not in ('卡券票','其他'), sum(pickup_pay_gmv - nvl(refund.refund_actual_amount_less_pickup, 0)), 0) as pickup_pay_gmv_less_refund,
            if(is_pickup_recharge_order = 1 OR business_unit not in ('卡券票','其他'), sum(pickup_pay_pay_amount - nvl(refund.refund_actual_amount_less_pickup, 0)), 0) as pickup_pay_pay_amount_less_refund,
+           if(is_pickup_recharge_order = 1 OR business_unit not in ('卡券票','其他'), sum(pickup_pay_gmv - nvl(base_refund.refund_actual_amount_less_pickup, 0)), 0) as base_pickup_pay_gmv_less_refund,
+           if(is_pickup_recharge_order = 1 OR business_unit not in ('卡券票','其他'), sum(pickup_pay_pay_amount - nvl(base_refund.refund_actual_amount_less_pickup, 0)), 0) as base_pickup_pay_pay_amount_less_refund,
 
+           --提货卡充值指标
            if(is_pickup_recharge_order = 1, sum(pickup_recharge_gmv), 0) as pickup_recharge_gmv,
            if(is_pickup_recharge_order = 1, sum(pickup_recharge_pay_amount), 0) as pickup_recharge_pay_amount,
            if(is_pickup_recharge_order = 1, sum(pickup_recharge_gmv - nvl(refund.refund_actual_amount, 0)), 0) as pickup_recharge_gmv_less_refund,
            if(is_pickup_recharge_order = 1, sum(pickup_recharge_pay_amount - nvl(refund.refund_actual_amount, 0)), 0) as pickup_recharge_pay_amount_less_refund,
+           if(is_pickup_recharge_order = 1, sum(pickup_recharge_gmv - nvl(base_refund.refund_actual_amount, 0)), 0) as base_pickup_recharge_gmv_less_refund,
+           if(is_pickup_recharge_order = 1, sum(pickup_recharge_pay_amount - nvl(base_refund.refund_actual_amount, 0)), 0) as base_pickup_recharge_pay_amount_less_refund,
 
+           --hi卡充值指标
            if(item_style = 1 AND category_id_first_name = '卡券票' AND is_pickup_recharge_order = 0, sum(hi_recharge_gmv), 0) as hi_recharge_gmv,
-           if(item_style = 1 AND category_id_first_name = '卡券票' AND is_pickup_recharge_order = 0, sum(hi_recharge_gmv - nvl(refund.refund_actual_amount, 0)), 0) as hi_recharge_gmv_less_refund
+           if(item_style = 1 AND category_id_first_name = '卡券票' AND is_pickup_recharge_order = 0, sum(hi_recharge_gmv - nvl(refund.refund_actual_amount, 0)), 0) as hi_recharge_gmv_less_refund,
+           if(item_style = 1 AND category_id_first_name = '卡券票' AND is_pickup_recharge_order = 0, sum(hi_recharge_gmv - nvl(base_efund.refund_actual_amount, 0)), 0) as base_hi_recharge_gmv_less_refund
     FROM dw_salary_gmv_rule_public_mid_v2_d d
-    LEFT JOIN refund ON d.order_id = refund.order_id
+    LEFT JOIN refund ON d.order_id = refund.order_id AND refund.dayid = '$v_date'
+    LEFT JOIN refund base_refund ON d.order_id = base_refund.order_id AND base_refund.dayid = d.dayid
     LEFT JOIN shop_group_mapping ON d.shop_id = shop_group_mapping.group_shop_id AND d.dayid = shop_group_mapping.dayid
     where d.dayid in (replace(last_day(add_months('$v_op_time', 0)), '-', ''),
                     replace(last_day(add_months('$v_op_time', -1)), '-', ''),
@@ -268,13 +283,13 @@ cur as (
            plan.bounty_payout_object_name as grant_object_type,
 
            --发放对象ID
-           case  when plan.bounty_payout_object_code = 'WAR_ZONE_MANAGE' then war_zone_id
-                 when plan.bounty_payout_object_code = 'AREA_MANAGER' then area_manager_id
-                 when plan.bounty_payout_object_code = 'BD_MANAGER' then bd_manager_id
-                 when plan.bounty_payout_object_code = 'BD' then ytdw.get_service_info('service_job_name:BD',service_info_freezed,'service_user_id')
-                 when plan.bounty_payout_object_code = 'BIG_BD' then ytdw.get_service_info('service_job_name:大BD',service_info_freezed,'service_user_id')
-                 when plan.bounty_payout_object_code = 'GRANT_USER' then plan.grant_user
-                 end as grant_object_user_id,
+           case when plan.bounty_payout_object_code = 'WAR_ZONE_MANAGE' then war_zone_id
+                when plan.bounty_payout_object_code = 'AREA_MANAGER' then area_manager_id
+                when plan.bounty_payout_object_code = 'BD_MANAGER' then bd_manager_id
+                when plan.bounty_payout_object_code = 'BD' then ytdw.get_service_info('service_job_name:BD',service_info_freezed,'service_user_id')
+                when plan.bounty_payout_object_code = 'BIG_BD' then ytdw.get_service_info('service_job_name:大BD',service_info_freezed,'service_user_id')
+                when plan.bounty_payout_object_code = 'GRANT_USER' then plan.grant_user
+                end as grant_object_user_id,
 
            --发放对象名称
            case when plan.bounty_payout_object_code = 'WAR_ZONE_MANAGE' then war_zone_name
