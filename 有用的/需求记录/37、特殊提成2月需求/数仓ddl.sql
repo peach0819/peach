@@ -1,0 +1,2 @@
+ALTER TABLE ytdw.dw_salary_gmv_rule_public_mid_v2_d add columns (hi_recharge_gmv decimal(18, 2) comment '控区hi卡充值gmv') CASCADE;
+ALTER TABLE ytdw.dw_salary_gmv_rule_public_mid_v2_d add columns (hi_recharge_gmv_less_refund decimal(18, 2) comment '控区hi卡充值gmv-退款') CASCADE;
