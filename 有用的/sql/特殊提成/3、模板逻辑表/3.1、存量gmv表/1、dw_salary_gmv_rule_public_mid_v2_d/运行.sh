@@ -145,7 +145,7 @@ select business_unit,--业务域,
 
        --hi卡充值指标
        if(order.item_style = 1 AND order.category_id_first_name = '卡券票' AND order.is_pickup_recharge_order = 0, order.total_pay_amount, 0) as hi_recharge_gmv, --hi卡充值gmv
-       if(order.item_style = 1 AND order.category_id_first_name = '卡券票' AND order.is_pickup_recharge_order = 0, order.total_pay_amount - nvl(refund.refund_actual_amount, 0), 0) as hi_recharge_gmv, --hi卡充值gmv-退款
+       if(order.item_style = 1 AND order.category_id_first_name = '卡券票' AND order.is_pickup_recharge_order = 0, order.total_pay_amount - nvl(refund.refund_actual_amount, 0), 0) as hi_recharge_gmv --hi卡充值gmv-退款
 --订单表
 from (
     select *
