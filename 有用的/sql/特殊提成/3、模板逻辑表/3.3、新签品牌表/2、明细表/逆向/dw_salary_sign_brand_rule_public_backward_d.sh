@@ -56,7 +56,9 @@ with plan as (
            replace(replace(replace(replace(get_json_object(get_json_object(filter_config_json,'$.calculate_date'),'$.value'),']',''),'\"',''),'[',''),',','~') as plan_pay_time,
            get_json_object(get_json_object(filter_config_json,'$.filter_user'),'$.value') as filter_user_value,
            get_json_object(get_json_object(filter_config_json,'$.filter_user'),'$.operator') as filter_user_operator,
-           replace(replace(replace(get_json_object(get_json_object(filter_config_json,'$.grant_user'),'$.value'),'\"',''),'[',''),']','') as grant_user
+           replace(replace(replace(get_json_object(get_json_object(filter_config_json,'$.grant_user'),'$.value'),'\"',''),'[',''),']','') as grant_user,
+           get_json_object(get_json_object(filter_config_json,'$.unback_brand'),'$.value') as unback_brand_value,
+           get_json_object(get_json_object(filter_config_json,'$.unback_brand'),'$.operator') as unback_brand_operator
     FROM dw_bounty_plan_schedule_d
     WHERE array_contains(split(backward_date, ','), '$v_date')
     AND ('$supply_mode' = 'not_supply' OR array_contains(split(supply_date, ','), '$supply_date'))
@@ -73,13 +75,13 @@ shop_group_mapping as (
 ),
 
 refund as (
-    select order_id,
+    select dayid,
+           order_id,
            sum(refund_actual_amount) as refund_actual_amount,
            sum(case when multiple_refund = 10 then refund_actual_amount else 0 end) as refund_retreat_amount
     from dw_afs_order_refund_new_d --（后期通过type识别清退金额）
-    where dayid ='$v_date'
-    and refund_status=9
-    group by order_id
+    where refund_status=9
+    group by order_id, dayid
 ),
 
 sign as (
@@ -122,8 +124,8 @@ sign as (
            sum(nvl(refund.refund_retreat_amount,0)) as refund_retreat_amount,--实货清退金额
            case when sum(gmv - nvl(refund.refund_actual_amount,0)) >= new_sign_line then '是' else '否' end as is_over_sign_line--是否满足新签门槛
     from (select * from dw_salary_sign_rule_public_mid_v2_d) ord
-    LEFT JOIN refund ON ord.order_id = refund.order_id
     cross join plan ON ord.dayid = split(plan.backward_date, ',')[0]
+    LEFT JOIN refund ON ord.order_id = refund.order_id AND refund.dayid = if(ytdw.simple_expr(brand_id, 'in', unback_brand_value) = (case when unback_brand_operator = '!=' then 0 else 1 end), ord.dayid, '$v_date')
     LEFT JOIN shop_group_mapping ON ord.shop_id = shop_group_mapping.group_shop_id AND ord.dayid = shop_group_mapping.dayid
     where shop_brand_sign_day between calculate_date_value_start and calculate_date_value_end
     and pay_day <= calculate_date_value_end

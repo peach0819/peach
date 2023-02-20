@@ -8,7 +8,7 @@ then
 fi
 
 source ../sql_variable.sh $v_date
-source ../yarn_variable.sh dw_salary_forward_brand_shop_current_public_d '肥桃'
+source ../yarn_variable.sh dw_salary_backward_brand_shop_current_public_d '肥桃'
 
 spark-sql $spark_yarn_job_name_conf $spark_yarn_queue_name_conf --master yarn --executor-memory 4G --num-executors 4 -v -e "
 use ytdw;
@@ -39,7 +39,9 @@ with plan as (
            replace(replace(replace(split(get_json_object(get_json_object(filter_config_json,'$.calculate_date_quarter'),'$.value'),',')[0],'[',''),'\"',''),'-','') as calculate_date_value_start,
            replace(replace(replace(split(get_json_object(get_json_object(filter_config_json,'$.calculate_date_quarter'),'$.value'),',')[1],']',''),'\"',''),'-','') as calculate_date_value_end,
            replace(replace(replace(get_json_object(get_json_object(filter_config_json,'$.payout_object_type'),'$.value'),'\"',''),'[',''),']','') as payout_object_type,
-           replace(replace(replace(get_json_object(get_json_object(filter_config_json,'$.grant_user'),'$.value'),'\"',''),'[',''),']','') as grant_user
+           replace(replace(replace(get_json_object(get_json_object(filter_config_json,'$.grant_user'),'$.value'),'\"',''),'[',''),']','') as grant_user,
+           get_json_object(get_json_object(filter_config_json,'$.unback_brand'),'$.value') as unback_brand_value,
+           get_json_object(get_json_object(filter_config_json,'$.unback_brand'),'$.operator') as unback_brand_operator
     FROM dw_bounty_plan_schedule_d
     WHERE array_contains(split(backward_date, ','), '$v_date')
     AND ('$supply_mode' = 'not_supply' OR array_contains(split(supply_date, ','), '$supply_date'))
@@ -53,6 +55,15 @@ shop_group_mapping as (
            dayid
     FROM ads_dmp_group_data_d
     group by dayid, shop_id
+),
+
+refund as (
+    select dayid,
+           order_id,
+           sum(act_rfd_amt) as refund_actual_amount,
+           max(substr(rfd_time,1,8)) as rfd_date
+    from dw_hpc_trd_act_rfd_d
+    group by order_id, dayid
 ),
 
 cur as (
@@ -104,14 +115,7 @@ cur as (
             replace(last_day(add_months('$v_op_time', -11)), '-', '')
         )
     ) ord ON 1=1 and ord.dayid = split(plan.backward_date, ',')[0]
-    LEFT JOIN (
-        select order_id,
-               sum(act_rfd_amt) as refund_actual_amount,
-               max(substr(rfd_time,1,8)) as rfd_date
-        from dw_hpc_trd_act_rfd_d
-        where dayid ='$v_date'
-        group by order_id
-    ) refund ON ord.order_id = refund.order_id
+    LEFT JOIN refund ON ord.order_id = refund.order_id AND refund.dayid = if(ytdw.simple_expr(brand_id, 'in', unback_brand_value) = (case when unback_brand_operator = '!=' then 0 else 1 end), ord.dayid, '$v_date')
     LEFT JOIN shop_group_mapping ON ord.shop_id = shop_group_mapping.group_shop_id AND ord.dayid = shop_group_mapping.dayid
     WHERE ord.pay_date between plan.calculate_date_value_start and plan.calculate_date_value_end
     AND ytdw.simple_expr(ord.item_style_name, 'in', plan.item_style_value) = if(plan.item_style_operator = '=', 1, 0)

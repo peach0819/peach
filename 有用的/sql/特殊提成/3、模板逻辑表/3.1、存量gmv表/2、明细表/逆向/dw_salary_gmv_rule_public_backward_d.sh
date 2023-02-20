@@ -41,7 +41,9 @@ with plan as (
            replace(replace(replace(replace(get_json_object(get_json_object(filter_config_json,'$.calculate_date'),'$.value'),']',''),'\"',''),'[',''),',','~') as plan_pay_time,
            get_json_object(get_json_object(filter_config_json,'$.filter_user'),'$.value') as filter_user_value,
            get_json_object(get_json_object(filter_config_json,'$.filter_user'),'$.operator') as filter_user_operator,
-           replace(replace(replace(get_json_object(get_json_object(filter_config_json,'$.grant_user'),'$.value'),'\"',''),'[',''),']','') as grant_user
+           replace(replace(replace(get_json_object(get_json_object(filter_config_json,'$.grant_user'),'$.value'),'\"',''),'[',''),']','') as grant_user,
+           get_json_object(get_json_object(filter_config_json,'$.unback_brand'),'$.value') as unback_brand_value,
+           get_json_object(get_json_object(filter_config_json,'$.unback_brand'),'$.operator') as unback_brand_operator
     FROM dw_bounty_plan_schedule_d
     WHERE array_contains(split(backward_date, ','), '$v_date')
     AND ('$supply_mode' = 'not_supply' OR array_contains(split(supply_date, ','), '$supply_date'))
@@ -277,7 +279,7 @@ cur as (
            )) as extra
     FROM plan
     CROSS JOIN ord ON ord.dayid = split(plan.backward_date, ',')[0]
-    LEFT JOIN refund ON ord.order_id = refund.order_id AND refund.dayid = '$v_date'
+    LEFT JOIN refund ON ord.order_id = refund.order_id AND refund.dayid = if(ytdw.simple_expr(brand_id, 'in', unback_brand_value) = (case when unback_brand_operator = '!=' then 0 else 1 end), ord.dayid, '$v_date')
     where ord.pay_day between calculate_date_value_start and calculate_date_value_end
     and ytdw.simple_expr(ord.sale_team_freezed_id, 'in', freeze_sales_team_value) = (case when freeze_sales_team_operator = '=' then 1 else 0 end)
     and ytdw.simple_expr(item_style_name, 'in', item_style_value) = (case when item_style_operator = '=' then 1 else 0 end)
