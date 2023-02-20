@@ -58,7 +58,8 @@ with plan as (
            get_json_object(get_json_object(filter_config_json,'$.filter_user'),'$.operator') as filter_user_operator,
            replace(replace(replace(get_json_object(get_json_object(filter_config_json,'$.grant_user'),'$.value'),'\"',''),'[',''),']','') as grant_user,
            get_json_object(get_json_object(filter_config_json,'$.unback_brand'),'$.value') as unback_brand_value,
-           get_json_object(get_json_object(filter_config_json,'$.unback_brand'),'$.operator') as unback_brand_operator
+           get_json_object(get_json_object(filter_config_json,'$.unback_brand'),'$.operator') as unback_brand_operator,
+           replace(replace(replace(get_json_object(get_json_object(filter_config_json,'$.merge_brand'),'$.value'),'\"',''),'[',''),']','') as merge_brand
     FROM dw_bounty_plan_schedule_d
     WHERE array_contains(split(backward_date, ','), '$v_date')
     AND ('$supply_mode' = 'not_supply' OR array_contains(split(supply_date, ','), '$supply_date'))
@@ -87,8 +88,8 @@ refund as (
 sign as (
     select ord.dayid,
            plan.no as planno,
-           brand_id,
-           brand_name,
+           if(plan.merge_brand = '是', -1, brand_id) as brand_id,
+           if(plan.merge_brand = '是', '合并品牌', brand_name) as brand_name,
            item_style,
            item_style_name,
            shop_id,
@@ -140,8 +141,8 @@ sign as (
     and if(nvl(shop_group_mapping.shop_group, ord.shop_group) = '' OR shop_group_value = '', 0, ytdw.simple_expr(substr(shop_group_value, 2, length(shop_group_value) - 2), 'in', concat('[', nvl(shop_group_mapping.shop_group, ord.shop_group), ']'))) = (case when shop_group_operator ='=' then 1 else 0 end)
     group by ord.dayid,
              plan.no,
-             brand_id,
-             brand_name,
+             if(plan.merge_brand = '是', -1, brand_id),
+             if(plan.merge_brand = '是', '合并品牌', brand_name),
              item_style,
              item_style_name,
              shop_id,
