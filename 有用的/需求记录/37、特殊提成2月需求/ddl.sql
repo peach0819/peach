@@ -13,7 +13,6 @@ values (33, 1, '元', 1, 0),
        (34, 3, '', 3, 0),
        (34, 5, '元', 5, 1);
 
-
 ---新增指标  控区HI卡充值指标
 insert into `bounty_indicator` (`id`, `title`, `bounty_rule_type`, `code`, `sort`, `unit`)
 values (35, '提货卡充值GMV(去退款)', 1, 'HI_RECHARGE_GMV_LESS_REFUND', 14, '元'),
