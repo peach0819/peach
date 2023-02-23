@@ -46,3 +46,8 @@ VALUES (26, '多品牌是否合并', 'merge_brand', 'merge_brand', 1, 1, 1, 0, '
 
 insert into `bounty_rule_filter` (`bounty_rule_type`,`bounty_rule_type_id`,`bounty_filter_id`)
 values (0, 6, 26);
+
+
+--大BD支持基本提成模板
+INSERT INTO bounty_payout_object_rule(payout_object_id, bounty_rule_type)
+VALUES (5, 5);
