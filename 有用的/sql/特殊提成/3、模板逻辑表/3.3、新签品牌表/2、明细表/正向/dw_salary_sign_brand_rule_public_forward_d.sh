@@ -103,7 +103,7 @@ sign as (
            service_department_name_freezed,
            min(pay_time) as new_sign_time,
            min(pay_day) as new_sign_day,          --新签日期
-           shop_brand_sign_day,  --门店品牌新签时间
+           min(shop_brand_sign_day) as shop_brand_sign_day,  --门店品牌新签时间
            sum(gmv_less_refund) as gmv_less_refund,       --实货gmv-退款
            sum(gmv) as gmv,--实货gmv,
            sum(pay_amount) as pay_amount,--实货支付金额
@@ -152,7 +152,6 @@ sign as (
              service_feature_name_freezed,
              service_job_name_freezed,
              service_department_name_freezed,
-             shop_brand_sign_day,
              plan.new_sign_line
 ),
 
