@@ -18,6 +18,14 @@ insert into `bounty_indicator` (`id`, `title`, `bounty_rule_type`, `code`, `sort
 values (35, '提货卡充值GMV(去退款)', 1, 'HI_RECHARGE_GMV_LESS_REFUND', 14, '元'),
        (36, '人均提货卡充值GMV(去退款)', 1, 'AVG_HI_RECHARGE_GMV_LESS_REFUND', 15, '元/人');
 
+update bounty_indicator
+SET title = '控区HI卡充值GMV(去退款)'
+WHERE id = 35;
+
+update bounty_indicator
+SET title = '人均控区HI卡充值GMV(去退款)'
+WHERE id = 36;
+
 insert into `bounty_indicator_payout_rule_type` (`bounty_indicator_id`, `payout_rule_type_code`, `bounty_unit`, `sort`, `is_upper_limit`)
 values (35, 1, '元', 1, 0),
        (35, 2, '%', 2, 1),
