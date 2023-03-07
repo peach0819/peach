@@ -204,8 +204,9 @@ from (
         	     sale_team_name,
         	     sale_team_freezed_name
         from dw_order_d
-        where dayid ='$v_date'
+        where dayid ='20991231'
         and pay_time is not null
+        and substr(pay_time, 1, 8) <= '$v_date'
         and bu_id=0
         and sp_id is null --剔除服务商订单
         and business_unit not in ('卡券票','其他')
