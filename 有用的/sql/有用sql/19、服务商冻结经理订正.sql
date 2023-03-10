@@ -1,0 +1,10 @@
+update  t_sp_order_snapshot set operator_id = '5651f5e9632047a58c8db1d73d740f9e' WHERE trade_no = '31002303041266636979';
+update  t_sp_order_snapshot set operator_id = '5651f5e9632047a58c8db1d73d740f9e' WHERE trade_no = '31002303030803824630';
+update  t_sp_order_snapshot set operator_id = '5651f5e9632047a58c8db1d73d740f9e' WHERE trade_no = '31002303030806832007';
+update  t_sp_order_snapshot set operator_id = '5651f5e9632047a58c8db1d73d740f9e' WHERE trade_no = '31002303062741098709';
+update  t_sp_order_snapshot set operator_id = '5651f5e9632047a58c8db1d73d740f9e' WHERE trade_no = '31002303020262788034';
+update  t_sp_order_snapshot set operator_id = '5651f5e9632047a58c8db1d73d740f9e' WHERE trade_no = '31002303030803814827';
+update  t_sp_order_snapshot set operator_id = 'bc10fb32b9fe4841b1d158119ccdef86' WHERE trade_no = '31002303084154892723';
+update  t_sp_order_snapshot set operator_id = 'bc10fb32b9fe4841b1d158119ccdef86' WHERE trade_no = '31002303084180298259';
+update  t_sp_order_snapshot set operator_id = 'bc10fb32b9fe4841b1d158119ccdef86' WHERE trade_no = '31002303084154919954';
+update  t_sp_order_snapshot set operator_id = 'bc10fb32b9fe4841b1d158119ccdef86' WHERE trade_no = '31002303084154906750';
