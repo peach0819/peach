@@ -70,6 +70,7 @@ with new_ord as (
     SELECT *
     FROM dw_order_d
     WHERE dayid = '$v_date'
+    and substr(pay_time, 1, 8) <= '$v_date'
     and pay_time is not null
     and bu_id=0
     and sp_id is null --剔除服务商订单
