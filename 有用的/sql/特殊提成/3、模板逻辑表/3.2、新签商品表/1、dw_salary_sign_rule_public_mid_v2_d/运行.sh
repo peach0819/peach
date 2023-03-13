@@ -66,6 +66,41 @@ PARTITIONED BY (dayid string)
 stored as orc
 ;
 
+with new_ord as (
+    SELECT *
+    FROM dw_order_d
+    WHERE dayid = '$v_date'
+    and pay_time is not null
+    and bu_id=0
+    and sp_id is null --剔除服务商订单
+    and business_unit not in ('卡券票','其他')
+    and item_style=1
+),
+
+old_ord as (
+    SELECT *
+    from dw_order_d
+    where dayid ='20991231'
+    and pay_time is not null
+    and substr(pay_time, 1, 8) <= '$v_date'
+    and bu_id=0
+    and sp_id is null --剔除服务商订单
+    and business_unit not in ('卡券票','其他')
+    and item_style=1
+),
+
+ord_base as (
+    SELECT *
+    FROM new_ord
+
+    UNION ALL
+
+    SELECT old_ord.*
+    FROM old_ord
+    LEFT JOIN new_ord ON old_ord.order_id = new_ord.order_id
+    WHERE new_ord.order_id is null
+)
+
 insert overwrite table dw_salary_sign_rule_public_mid_v2_d partition (dayid='$v_date')
 select order.order_id,
        order.trade_no,
@@ -203,14 +238,7 @@ from (
                total_pay_amount as gmv,--实货gmv
         	     sale_team_name,
         	     sale_team_freezed_name
-        from dw_order_d
-        where dayid ='20991231'
-        and pay_time is not null
-        and substr(pay_time, 1, 8) <= '$v_date'
-        and bu_id=0
-        and sp_id is null --剔除服务商订单
-        and business_unit not in ('卡券票','其他')
-        and item_style=1
+        from ord_base
     ) order_mid
     where substr(shop_brand_sign_time,1,8)>='$v_120_days_ago' or substr(shop_item_sign_time,1,8)>='$v_120_days_ago'
 ) order
