@@ -117,7 +117,7 @@ cur as (
                 when plan.bounty_indicator_code = 'NEW_SIGNING_ITEM_2_ACC_NEW_SING_PAY_AMT' then detail.pay_amount_less_refund --累计新签支付金额
                 when plan.bounty_indicator_code = 'SIGN_ITEM_GMV_RATE' then (detail.gmv_less_refund / plan_user_target.target) * 100 --新签gmv占比目标完成率
                 when plan.bounty_indicator_code = 'NEW_SIGNING_ITEM_AVG_NEW_SING_SHOPS' then detail.sign_shop_item_count/nvl(underling_cnt,1)  --人均新签商品门店数'
-                when plan.bounty_indicator_code = 'NEW_SIGNING_ITEM_AVG_NEW_SING_GMV' then detail.gmv_less_refund/nvl(underling_cnt,1)  --'人均新签品GMV'
+                when plan.bounty_indicator_code = 'NEW_SIGNING_ITEM_AVG_NEW_SING_GMV' then detail.gmv_less_refund/nvl(underling_cnt,1)  --'人均新签GMV'
                 end as sts_target,
 
            --排名
@@ -127,7 +127,7 @@ cur as (
                 when plan.bounty_indicator_code = 'NEW_SIGNING_ITEM_2_ACC_NEW_SING_PAY_AMT' then detail.pay_amount_less_refund --累计新签支付金额
                 when plan.bounty_indicator_code = 'SIGN_ITEM_GMV_RATE' then (detail.gmv_less_refund / plan_user_target.target) * 100 --新签gmv占比目标完成率
                 when plan.bounty_indicator_code = 'NEW_SIGNING_ITEM_AVG_NEW_SING_SHOPS' then detail.sign_shop_item_count/nvl(underling_cnt,1)  --人均新签商品门店数'
-                when plan.bounty_indicator_code = 'NEW_SIGNING_ITEM_AVG_NEW_SING_GMV' then detail.gmv_less_refund/nvl(underling_cnt,1)  --'人均新签品GMV'
+                when plan.bounty_indicator_code = 'NEW_SIGNING_ITEM_AVG_NEW_SING_GMV' then detail.gmv_less_refund/nvl(underling_cnt,1)  --'人均新签GMV'
                 end
            ) desc, detail.gmv_less_refund desc) as grant_object_rk
     from plan
