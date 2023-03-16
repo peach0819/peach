@@ -31,14 +31,15 @@ with plan as (
                 when bounty_payout_object_id = 2 then 4   --大区经理
                 when bounty_payout_object_id = 3 then 9   --BD主管
                 when bounty_payout_object_id = 4 then 8   --BD
+                when bounty_payout_object_id = 5 then 93  --大BD
                 end as job_id,
 
            --数据类型 （取基本提成主管表还是销售表）
            if(bounty_payout_object_id IN (1,2,3), 'MANAGER', 'SALE') as data_type,
 
            --CRM工作室指标名
-           case when bounty_payout_object_id IN (4) AND bounty_indicator_code = 'B_PFM_RATE_NO_C' then 'class_b_capacity'
-                when bounty_payout_object_id IN (4) AND bounty_indicator_code = 'B_SHIHUO_RATE_NO_C' then 'class_b_capacity_pure'
+           case when bounty_payout_object_id IN (4,5) AND bounty_indicator_code = 'B_PFM_RATE_NO_C' then 'class_b_capacity'
+                when bounty_payout_object_id IN (4,5) AND bounty_indicator_code = 'B_SHIHUO_RATE_NO_C' then 'class_b_capacity_pure'
                 when bounty_payout_object_id IN (1,2,3) AND bounty_indicator_code = 'B_PFM_RATE_NO_C' then 'class_b_area_nonebig_nonesp'
                 when bounty_payout_object_id IN (1,2,3) AND bounty_indicator_code = 'B_SHIHUO_RATE_NO_C' then 'class_b_area_pure'
            end as kpi_indicator_type
