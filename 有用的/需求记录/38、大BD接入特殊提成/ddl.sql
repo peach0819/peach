@@ -21,7 +21,7 @@ VALUES (27, '部门', 'dept', 'dept', 0, 1, 1, 0, 'api_multi_select', '{\"type\"
 insert into `bounty_rule_filter` (`bounty_rule_type`,`bounty_rule_type_id`,`bounty_filter_id`)
 values (0, 4, 27),
        (0, 5, 27),
-       (0, 6, 27)
+       (0, 6, 27),
        (0, 8, 27);
 
 --新增大BD省区经理
