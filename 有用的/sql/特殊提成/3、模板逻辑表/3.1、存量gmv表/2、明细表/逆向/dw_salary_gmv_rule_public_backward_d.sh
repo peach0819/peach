@@ -43,7 +43,9 @@ with plan as (
            get_json_object(get_json_object(filter_config_json,'$.filter_user'),'$.operator') as filter_user_operator,
            replace(replace(replace(get_json_object(get_json_object(filter_config_json,'$.grant_user'),'$.value'),'\"',''),'[',''),']','') as grant_user,
            get_json_object(get_json_object(filter_config_json,'$.unback_brand'),'$.value') as unback_brand_value,
-           get_json_object(get_json_object(filter_config_json,'$.unback_brand'),'$.operator') as unback_brand_operator
+           get_json_object(get_json_object(filter_config_json,'$.unback_brand'),'$.operator') as unback_brand_operator,
+           get_json_object(get_json_object(filter_config_json,'$.dept'),'$.value') as dept_value,
+           get_json_object(get_json_object(filter_config_json,'$.dept'),'$.operator') as dept_operator
     FROM dw_bounty_plan_schedule_d
     WHERE array_contains(split(backward_date, ','), '$v_date')
     AND ('$supply_mode' = 'not_supply' OR array_contains(split(supply_date, ','), '$supply_date'))
@@ -165,6 +167,8 @@ cur as (
            plan.no as planno,
            plan.filter_user_value,
            plan.filter_user_operator,
+           plan.dept_value,
+           plan.dept_operator,
            plan.bounty_indicator_name as sts_target_name,        --指标名
            plan.bounty_payout_object_name as grant_object_type,  --发放对象
 
@@ -292,6 +296,7 @@ cur as (
     and ytdw.simple_expr(bd_manager_dep_id, 'in', manage_area_value) = (case when manage_area_operator = '=' then 1 else 0 end)
     and if(ord.shop_group = '' OR plan.shop_group_value = '', 0, ytdw.simple_expr(substr(plan.shop_group_value, 2, length(plan.shop_group_value) - 2), 'in', concat('[', ord.shop_group, ']'))) = (case when shop_group_operator ='=' then 1 else 0 end)
     HAVING ytdw.simple_expr(grant_object_user_id, 'in', filter_user_value) = (case when filter_user_operator = '=' then 1 else 0 end)
+       AND ytdw.simple_expr(grant_object_user_dep_id, 'in', dept_value) = (case when dept_operator = '=' then 1 else 0 end)
 )
 
 insert overwrite table dw_salary_gmv_rule_public_d partition (dayid='$v_date',pltype='pre')

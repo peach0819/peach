@@ -57,7 +57,9 @@ with plan as (
            get_json_object(get_json_object(filter_config_json,'$.filter_user'),'$.value') as filter_user_value,
            get_json_object(get_json_object(filter_config_json,'$.filter_user'),'$.operator') as filter_user_operator,
            replace(replace(replace(get_json_object(get_json_object(filter_config_json,'$.grant_user'),'$.value'),'\"',''),'[',''),']','') as grant_user,
-           replace(replace(replace(get_json_object(get_json_object(filter_config_json,'$.merge_brand'),'$.value'),'\"',''),'[',''),']','') as merge_brand
+           replace(replace(replace(get_json_object(get_json_object(filter_config_json,'$.merge_brand'),'$.value'),'\"',''),'[',''),']','') as merge_brand,
+           get_json_object(get_json_object(filter_config_json,'$.dept'),'$.value') as dept_value,
+           get_json_object(get_json_object(filter_config_json,'$.dept'),'$.operator') as dept_operator
     FROM dw_bounty_plan_schedule_d
     WHERE array_contains(split(forward_date, ','), '$v_date')
     AND ('$supply_mode' = 'not_supply' OR array_contains(split(supply_date, ','), '$supply_date'))
@@ -247,10 +249,13 @@ cur as (
                 end as grant_object_user_dep_name,
 
            plan.filter_user_value,
-           plan.filter_user_operator
+           plan.filter_user_operator,
+           plan.dept_value,
+           plan.dept_operator
     FROM sign
     INNER JOIN plan ON sign.planno = plan.no
     HAVING ytdw.simple_expr(grant_object_user_id, 'in', filter_user_value) = (case when filter_user_operator = '=' then 1 else 0 end)
+       AND ytdw.simple_expr(grant_object_user_dep_id, 'in', dept_value) = (case when dept_operator = '=' then 1 else 0 end)
 )
 
 insert overwrite table dw_salary_sign_brand_rule_public_d partition (dayid='$v_date',pltype='cur')

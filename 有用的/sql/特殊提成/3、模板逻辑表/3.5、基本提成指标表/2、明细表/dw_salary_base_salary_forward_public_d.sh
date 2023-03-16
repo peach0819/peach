@@ -23,6 +23,8 @@ with plan as (
            replace(replace(replace(split(get_json_object(get_json_object(filter_config_json,'$.calculate_date'),'$.value'),',')[0],'[',''),'\"',''),'-','') as calculate_date,
            get_json_object(get_json_object(filter_config_json,'$.filter_user'),'$.value') as filter_user_value,
            get_json_object(get_json_object(filter_config_json,'$.filter_user'),'$.operator') as filter_user_operator,
+           get_json_object(get_json_object(filter_config_json,'$.dept'),'$.value') as dept_value,
+           get_json_object(get_json_object(filter_config_json,'$.dept'),'$.operator') as dept_operator,
 
            --岗位
            case when bounty_payout_object_id = 1 then 146 --战区经理
@@ -133,6 +135,7 @@ cur as (
     AND ytdw.simple_expr(user_admin.bd_area_id, 'in', bd_area_value) = (case when bd_area_operator = '=' then 1 else 0 end)
     AND ytdw.simple_expr(user_admin.manager_area_id, 'in', manage_area_value) = (case when manage_area_operator = '=' then 1 else 0 end)
     AND ytdw.simple_expr(user_admin.user_id, 'in', filter_user_value) = (case when filter_user_operator = '=' then 1 else 0 end)
+    AND ytdw.simple_expr(user_admin.dept_id, 'in', dept_value) = (case when dept_operator = '=' then 1 else 0 end)
     GROUP BY plan.no,
              plan.month,
              plan.bounty_payout_object_name,
