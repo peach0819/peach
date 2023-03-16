@@ -125,6 +125,19 @@ ord as (
     where dayid ='$v_date'
 ),
 
+big_bd_manager as (
+    select dept_id,
+           user_id,
+           user_real_name,
+           row_number() over(partition by dept_id order by create_time desc) as rn
+    from dim_usr_user_d
+    where dayid='$v_date'
+    AND dept_id is not null
+    AND user_status = 1
+    AND job_id = 128
+    HAVING rn = 1
+),
+
 user_admin as (
     select user_id,
            user_real_name,
@@ -203,6 +216,7 @@ cur as (
                 when plan.bounty_payout_object_code = 'BD' then ytdw.get_service_info('service_job_name:BD',service_info_freezed,'service_user_id')
                 when plan.bounty_payout_object_code = 'BIG_BD' then ytdw.get_service_info('service_job_name:大BD',service_info_freezed,'service_user_id')
                 when plan.bounty_payout_object_code = 'GRANT_USER' then plan.grant_user
+                when plan.bounty_payout_object_code = 'BIG_BD_AREA_MANAGER' then big_bd_manager.user_id
                 end as grant_object_user_id,
 
            --发放对象名称
@@ -212,6 +226,7 @@ cur as (
                 when plan.bounty_payout_object_code = 'BD' then ytdw.get_service_info('service_job_name:BD',service_info_freezed,'service_user_name')
                 when plan.bounty_payout_object_code = 'BIG_BD' then ytdw.get_service_info('service_job_name:大BD',service_info_freezed,'service_user_name')
                 when plan.bounty_payout_object_code = 'GRANT_USER' then null
+                when plan.bounty_payout_object_code = 'BIG_BD_AREA_MANAGER' then big_bd_manager.user_real_name
                 end as grant_object_user_name,
 
            --发放对象部门ID
@@ -221,6 +236,7 @@ cur as (
                 when plan.bounty_payout_object_code = 'BD' then ytdw.get_service_info('service_job_name:BD',service_info_freezed,'service_department_id')
                 when plan.bounty_payout_object_code = 'BIG_BD' then ytdw.get_service_info('service_job_name:大BD',service_info_freezed,'service_department_id')
                 when plan.bounty_payout_object_code = 'GRANT_USER' then null
+                when plan.bounty_payout_object_code = 'BIG_BD_AREA_MANAGER' then ytdw.get_service_info('service_job_name:大BD',service_info_freezed,'service_department_id')
                 end as grant_object_user_dep_id,
 
            --发放对象部门
@@ -230,6 +246,7 @@ cur as (
                 when plan.bounty_payout_object_code = 'BD' then ytdw.get_service_info('service_job_name:BD',service_info_freezed,'service_department_name')
                 when plan.bounty_payout_object_code = 'BIG_BD' then ytdw.get_service_info('service_job_name:大BD',service_info_freezed,'service_department_name')
                 when plan.bounty_payout_object_code = 'GRANT_USER' then null
+                when plan.bounty_payout_object_code = 'BIG_BD_AREA_MANAGER' then ytdw.get_service_info('service_job_name:大BD',service_info_freezed,'service_department_name')
                 end as grant_object_user_dep_name,
 
            ---统计指标----
@@ -264,6 +281,7 @@ cur as (
            )) as extra
     FROM plan
     CROSS JOIN ord ON 1 = 1
+    LEFT JOIN big_bd_manager ON ytdw.get_service_info('service_job_name:大BD',ord.service_info_freezed,'service_department_id') = big_bd_manager.dept_id
     where ord.pay_day between calculate_date_value_start and calculate_date_value_end
     and ytdw.simple_expr(ord.sale_team_freezed_id, 'in', freeze_sales_team_value) = (case when freeze_sales_team_operator = '=' then 1 else 0 end)
     and ytdw.simple_expr(item_style_name, 'in', item_style_value) = (case when item_style_operator = '=' then 1 else 0 end)

@@ -172,6 +172,19 @@ sign as (
              plan.new_sign_line
 ),
 
+big_bd_manager as (
+    select dayid,
+           dept_id,
+           user_id,
+           user_real_name,
+           row_number() over(partition by dayid, dept_id order by create_time desc) as rn
+    from dim_usr_user_d
+    where dept_id is not null
+    AND user_status = 1
+    AND job_id = 128
+    HAVING rn = 1
+),
+
 user_admin as (
     select user_id,
            user_real_name,
@@ -243,24 +256,28 @@ cur as (
                 when plan.bounty_payout_object_code = 'BD_MANAGER' then bd_manager_id
                 when plan.bounty_payout_object_code  in('BD','BIG_BD')  then service_user_id_freezed
                 when plan.bounty_payout_object_code = 'GRANT_USER' then plan.grant_user
+                when plan.bounty_payout_object_code = 'BIG_BD_AREA_MANAGER' then big_bd_manager.user_id
                 end as grant_object_user_id,                                                                      --发放对象ID
            case when plan.bounty_payout_object_code = 'WAR_ZONE_MANAGE' then war_zone_name
                 when plan.bounty_payout_object_code = 'AREA_MANAGER' then area_manager_name
                 when plan.bounty_payout_object_code = 'BD_MANAGER' then bd_manager_name
                 when plan.bounty_payout_object_code  in('BD','BIG_BD')  then service_user_name_freezed
                 when plan.bounty_payout_object_code = 'GRANT_USER' then null
+                when plan.bounty_payout_object_code = 'BIG_BD_AREA_MANAGER' then big_bd_manager.user_real_name
                 end as grant_object_user_name,                                                                       --发放对象名称
            case when plan.bounty_payout_object_code = 'WAR_ZONE_MANAGE' then war_zone_dep_id
                 when plan.bounty_payout_object_code = 'AREA_MANAGER' then area_manager_dep_id
                 when plan.bounty_payout_object_code = 'BD_MANAGER' then bd_manager_dep_id
                 when plan.bounty_payout_object_code  in('BD','BIG_BD')  then service_department_id_freezed
                 when plan.bounty_payout_object_code = 'GRANT_USER' then null
+                when plan.bounty_payout_object_code = 'BIG_BD_AREA_MANAGER' then service_department_id_freezed
                 end as grant_object_user_dep_id,                                                                      --发放对象部门ID
            case when plan.bounty_payout_object_code = 'WAR_ZONE_MANAGE' then war_zone_dep_name
                 when plan.bounty_payout_object_code = 'AREA_MANAGER' then area_manager_dep_name
                 when plan.bounty_payout_object_code = 'BD_MANAGER' then bd_manager_dep_name
                 when plan.bounty_payout_object_code  in('BD','BIG_BD')  then service_department_name_freezed
                 when plan.bounty_payout_object_code = 'GRANT_USER' then null
+                when plan.bounty_payout_object_code = 'BIG_BD_AREA_MANAGER' then service_department_name_freezed
                 end as grant_object_user_dep_name,
            sign.dayid,
 
@@ -270,6 +287,7 @@ cur as (
            plan.dept_operator
     FROM sign
     INNER JOIN plan ON sign.planno = plan.no
+    LEFT JOIN big_bd_manager ON sign.service_department_id_freezed = big_bd_manager.dept_id AND sign.dayid = big_bd_manager.dayid
     HAVING ytdw.simple_expr(grant_object_user_id, 'in', filter_user_value) = (case when filter_user_operator = '=' then 1 else 0 end)
        AND ytdw.simple_expr(grant_object_user_dep_id, 'in', dept_value) = (case when dept_operator = '=' then 1 else 0 end)
 )
