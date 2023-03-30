@@ -20,6 +20,8 @@ hs_err_pid*
 .metadata/
 *.bin
 *.lock
+compiler.xml
+misc.xml
 
 ### Java template
 *.class
