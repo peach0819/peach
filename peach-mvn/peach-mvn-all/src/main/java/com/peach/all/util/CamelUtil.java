@@ -1,4 +1,4 @@
-package com.peach.common.util;
+package com.peach.all.util;
 
 import com.google.common.base.CaseFormat;
 

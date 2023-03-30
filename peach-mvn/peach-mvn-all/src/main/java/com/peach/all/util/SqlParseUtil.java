@@ -1,17 +1,22 @@
-package com.peach.common.util;
+package com.peach.all.util;
 
 import com.alibaba.druid.sql.SQLUtils;
 import com.alibaba.druid.sql.ast.SQLExpr;
 import com.alibaba.druid.sql.ast.SQLStatement;
-import com.alibaba.druid.sql.ast.expr.SQLBinaryExpr;
 import com.alibaba.druid.sql.ast.expr.SQLBinaryOpExpr;
 import com.alibaba.druid.sql.ast.expr.SQLIdentifierExpr;
 import com.alibaba.druid.sql.ast.expr.SQLQueryExpr;
-import com.alibaba.druid.sql.ast.statement.*;
+import com.alibaba.druid.sql.ast.statement.SQLExprTableSource;
+import com.alibaba.druid.sql.ast.statement.SQLJoinTableSource;
+import com.alibaba.druid.sql.ast.statement.SQLSelectQuery;
+import com.alibaba.druid.sql.ast.statement.SQLSelectStatement;
+import com.alibaba.druid.sql.ast.statement.SQLSubqueryTableSource;
+import com.alibaba.druid.sql.ast.statement.SQLTableSource;
+import com.alibaba.druid.sql.ast.statement.SQLUnionQuery;
+import com.alibaba.druid.sql.ast.statement.SQLUnionQueryTableSource;
 import com.alibaba.druid.sql.dialect.mysql.ast.statement.MySqlSelectQueryBlock;
-import com.alibaba.druid.sql.dialect.mysql.ast.statement.MySqlUnionQuery;
 import com.alibaba.druid.util.JdbcConstants;
-import com.peach.common.exception.PeachException;
+import com.peach.all.exception.PeachException;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.HashSet;
@@ -53,7 +58,7 @@ public class SqlParseUtil {
             parseSqlSubqueryTableSource((SQLSubqueryTableSource) source, tables);
         }
         if (source instanceof SQLUnionQueryTableSource) {
-            parseSqlUnionQuery((MySqlUnionQuery) ((SQLUnionQueryTableSource) source).getUnion(), tables);
+            parseSqlUnionQuery(((SQLUnionQueryTableSource) source).getUnion(), tables);
         }
     }
 
@@ -96,7 +101,7 @@ public class SqlParseUtil {
     /**
      * union语句
      */
-    private static void parseSqlUnionQuery(MySqlUnionQuery unionQuery, Set<String> tables) {
+    private static void parseSqlUnionQuery(SQLUnionQuery unionQuery, Set<String> tables) {
         if (unionQuery == null) {
             return;
         }
@@ -113,8 +118,8 @@ public class SqlParseUtil {
         }
         if (sqlSelectQuery instanceof MySqlSelectQueryBlock) {
             parseSqlTableSource(((MySqlSelectQueryBlock) sqlSelectQuery).getFrom(), tables);
-        } else if (sqlSelectQuery instanceof MySqlUnionQuery) {
-            parseSqlUnionQuery((MySqlUnionQuery) sqlSelectQuery, tables);
+        } else if (sqlSelectQuery instanceof SQLUnionQuery) {
+            parseSqlUnionQuery((SQLUnionQuery) sqlSelectQuery, tables);
         }
     }
 
