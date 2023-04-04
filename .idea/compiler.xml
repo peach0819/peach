@@ -14,7 +14,8 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="peach-mvn" />
+        <module name="peach-mvn-all" />
+        <module name="peach-algo" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
