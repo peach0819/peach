@@ -114,16 +114,21 @@ ord as (
 ),
 
 big_bd_manager as (
-    select dept_id,
+    SELECT dept_id,
            user_id,
-           user_real_name,
-           row_number() over(partition by dept_id order by create_time desc) as rn
-    from ytdw.dim_usr_user_d
-    where dayid='${v_date}'
-    AND dept_id is not null
-    AND user_status = 1
-    AND job_id = 128
-    HAVING rn = 1
+           user_real_name
+    FROM (
+        select dept_id,
+               user_id,
+               user_real_name,
+               row_number() over(partition by dept_id order by create_time desc) as rn
+        from ytdw.dim_usr_user_d
+        where dayid='${v_date}'
+        AND dept_id is not null
+        AND user_status = 1
+        AND job_id = 128
+    ) t
+    WHERE rn = 1
 ),
 
 user_admin as (
@@ -336,14 +341,12 @@ cur as (
            grant_object_user_name,
            grant_object_user_dep_id,
            grant_object_user_dep_name,
-           user_admin.leave_time as leave_time,
            sts_target_name,
            sts_target,
            pay_day,
            planno,
            extra
     FROM before_cur
-    INNER JOIN plan ON before_cur.planno = plan.no
     WHERE ytdw.simple_expr(grant_object_user_id, 'in', filter_user_value) = (case when filter_user_operator = '=' then 1 else 0 end)
     AND ytdw.simple_expr(grant_object_user_dep_id, 'in', dept_value) = (case when dept_operator = '=' then 1 else 0 end)
 )
