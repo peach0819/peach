@@ -1,6 +1,5 @@
 with plan as (
     SELECT *,
-           1 as tag,
            get_json_object(get_json_object(filter_config_json,'$.calculate_date'),'$.value') as calculate_date_value,
            get_json_object(get_json_object(filter_config_json,'$.calculate_date'),'$.operator') as calculate_date_operator,
            get_json_object(get_json_object(filter_config_json,'$.freeze_sales_team'),'$.value') as freeze_sales_team_value,
@@ -47,8 +46,7 @@ shop_group_mapping as (
 ),
 
 ord as (
-    SELECT 1 as tag,
-           order_id,
+    SELECT order_id,
            pay_day,
            business_unit,
            category_id_first,
@@ -141,7 +139,8 @@ user_admin as (
 ),
 
 before_cur as (
-    SELECT from_unixtime(unix_timestamp(),'yyyy-MM-dd HH:mm:ss') as update_time,
+    SELECT /*+ mapjoin(plan,big_bd_manager) */
+           from_unixtime(unix_timestamp(),'yyyy-MM-dd HH:mm:ss') as update_time,
            from_unixtime(unix_timestamp(),'yyyy-MM') as update_month,
            '当月方案' as plan_type,
 
@@ -273,7 +272,7 @@ before_cur as (
                'hi_recharge_gmv_less_refund', ord.hi_recharge_gmv_less_refund
            )) as extra
     FROM plan
-    CROSS JOIN ord ON plan.tag = ord.tag
+    CROSS JOIN ord ON 1 = 1
     LEFT JOIN big_bd_manager ON ytdw.get_service_info('service_job_name:大BD',ord.service_info_freezed,'service_department_id') = big_bd_manager.dept_id
     where ord.pay_day between calculate_date_value_start and calculate_date_value_end
     and ytdw.simple_expr(ord.sale_team_freezed_id, 'in', freeze_sales_team_value) = (case when freeze_sales_team_operator = '=' then 1 else 0 end)
