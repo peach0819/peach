@@ -8,9 +8,9 @@ with plan as (
                 when payout_rule_type = 5 then '排名返现'
                 end as commission_plan_type,
            replace(replace(replace(replace(get_json_object(get_json_object(filter_config_json,'$.calculate_date'),'$.value'),']',''),'\"',''),'[',''),',','~') as plan_pay_time
-    FROM dw_bounty_plan_schedule_d
-    WHERE array_contains(split(forward_date, ','), '$v_date')
-    AND ('$supply_mode' = 'not_supply' OR array_contains(split(supply_date, ','), '$supply_date'))
+    FROM yt_crm.dw_bounty_plan_schedule_d
+    WHERE array_contains(split(forward_date, ','), '${v_date}')
+    AND ('@@{supply_mode}' = 'not_supply' OR array_contains(split(supply_date, ','), '${supply_date}'))
     AND bounty_rule_type = 1
 ),
 
@@ -23,8 +23,8 @@ detail as (
            leave_time,
            sum(gmv_less_refund) as gmv_less_refund,
            sum(sts_target) as sts_target
-    FROM dw_salary_gmv_rule_public_d
-    WHERE dayid = '$v_date'
+    FROM yt_crm.dw_salary_gmv_rule_public_d
+    WHERE dayid = '${v_date}'
     AND pltype = 'cur'
     group by planno,
              grant_object_user_id,
@@ -36,8 +36,8 @@ detail as (
 
 underling as (
     select user_id, max(underling_cnt) as underling_cnt
-    from dws_usr_bd_manager_underling_d
-    where dayid ='$v_date'
+    from ytdw.dws_usr_bd_manager_underling_d
+    where dayid ='${v_date}'
     group by user_id
 ),
 
@@ -80,7 +80,7 @@ cur as (
     LEFT JOIN underling ON detail.grant_object_user_id = underling.user_id
 )
 
-insert overwrite table dw_salary_forward_plan_sum_d partition (dayid='$v_date', bounty_rule_type=1)
+insert overwrite table dw_salary_forward_plan_sum_d partition (dayid='${v_date}', bounty_rule_type=1)
 SELECT update_time,
        update_month,
        plan_month,
@@ -104,7 +104,7 @@ SELECT update_time,
        if(
           payout_rule_type=5 and (sts_target <= 0 OR (commission_cap is not null AND sts_target < commission_cap)),
           0,
-          ytdw.bounty_payout(payout_rule_type, if(payout_rule_type IN (1,2,3,4), sts_target, grant_object_rk), commission_cap, payout_config_json)
+          yt_crm.bounty_payout(payout_rule_type, if(payout_rule_type IN (1,2,3,4), sts_target, grant_object_rk), cast(commission_cap as DOUBLE), payout_config_json)
        ) as commission_reward,
        planno
 FROM cur
@@ -135,8 +135,8 @@ SELECT update_time,
        planno
 FROM (
     SELECT *
-    FROM dw_salary_forward_plan_sum_d
-    WHERE dayid = '$v_date'
+    FROM yt_crm.dw_salary_forward_plan_sum_d
+    WHERE dayid = '${v_date}'
     AND bounty_rule_type=1
 ) history
 LEFT JOIN (
