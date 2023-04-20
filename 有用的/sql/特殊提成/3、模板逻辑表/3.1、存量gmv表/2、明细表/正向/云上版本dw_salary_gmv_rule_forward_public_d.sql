@@ -139,7 +139,7 @@ user_admin as (
 ),
 
 before_cur as (
-    SELECT /*+ mapjoin(plan,big_bd_manager) */
+    SELECT /*+ mapjoin(plan) */
            from_unixtime(unix_timestamp(),'yyyy-MM-dd HH:mm:ss') as update_time,
            from_unixtime(unix_timestamp(),'yyyy-MM') as update_month,
            '当月方案' as plan_type,
