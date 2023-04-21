@@ -46,7 +46,7 @@ with plan as (
            replace(replace(replace(get_json_object(get_json_object(filter_config_json,'$.merge_brand'),'$.value'),'\"',''),'[',''),']','') as merge_brand,
            get_json_object(get_json_object(filter_config_json,'$.dept'),'$.value') as dept_value,
            get_json_object(get_json_object(filter_config_json,'$.dept'),'$.operator') as dept_operator
-    FROM dw_bounty_plan_schedule_d
+    FROM yt_crm.dw_bounty_plan_schedule_d
     WHERE array_contains(split(forward_date, ','), '${v_date}')
     AND ('@@{supply_mode}' = 'not_supply' OR array_contains(split(supply_date, ','), '${supply_date}'))
     AND bounty_rule_type = 3
@@ -56,13 +56,14 @@ with plan as (
 shop_group_mapping as (
     SELECT shop_id as group_shop_id,
            concat_ws(',' , sort_array(collect_set(cast(group_id as string)))) as shop_group
-    FROM ads_dmp_group_data_d
+    FROM ytdw.ads_dmp_group_data_d
     WHERE dayid='${v_date}'
     group by shop_id
 ),
 
 sign as (
-    select plan.no as planno,
+    select /*+ mapjoin(plan) */
+           plan.no as planno,
            if(plan.merge_brand = '是', -1, brand_id) as brand_id,
            if(plan.merge_brand = '是', '合并品牌', brand_name) as brand_name,
            item_style,
@@ -99,7 +100,7 @@ sign as (
            sum(refund_actual_amount) as refund_actual_amount,--实货退款
            sum(refund_retreat_amount) as refund_retreat_amount,--实货清退金额
            case when sum(gmv_less_refund) >= new_sign_line then '是' else '否' end as is_over_sign_line--是否满足新签门槛
-    from (select * from dw_salary_sign_rule_public_mid_v2_d where dayid = '${v_date}') ord
+    from (select * from yt_crm.dw_salary_sign_rule_public_mid_v2_d where dayid = '${v_date}') ord
     cross join plan ON 1 = 1
     LEFT JOIN shop_group_mapping ON ord.shop_id = shop_group_mapping.group_shop_id
     where shop_brand_sign_day between calculate_date_value_start and calculate_date_value_end
@@ -148,12 +149,11 @@ big_bd_manager as (
            user_id,
            user_real_name,
            row_number() over(partition by dept_id order by create_time desc) as rn
-    from dim_usr_user_d
+    from ytdw.dim_usr_user_d
     where dayid='${v_date}'
     AND dept_id is not null
     AND user_status = 1
     AND job_id = 128
-    HAVING rn = 1
 ),
 
 user_admin as (
@@ -161,11 +161,11 @@ user_admin as (
            user_real_name,
            dept_id,
            substr(leave_time,1,8) as leave_time
-    from dim_usr_user_d
+    from ytdw.dim_usr_user_d
     where dayid='${v_date}'
 ),
 
-cur as (
+before_cur as (
     select from_unixtime(unix_timestamp(),'yyyy-MM-dd HH:mm:ss') as update_time,
            from_unixtime(unix_timestamp(),'yyyy-MM') as update_month,
 
@@ -257,9 +257,15 @@ cur as (
            plan.dept_operator
     FROM sign
     INNER JOIN plan ON sign.planno = plan.no
-    LEFT JOIN big_bd_manager ON sign.service_department_id_freezed = big_bd_manager.dept_id
-    HAVING ytdw.simple_expr(grant_object_user_id, 'in', filter_user_value) = (case when filter_user_operator = '=' then 1 else 0 end)
-       AND ytdw.simple_expr(grant_object_user_dep_id, 'in', dept_value) = (case when dept_operator = '=' then 1 else 0 end)
+    LEFT JOIN big_bd_manager ON sign.service_department_id_freezed = big_bd_manager.dept_id AND big_bd_manager.rn = 1
+
+),
+
+cur as (
+    SELECT *
+    FROM before_cur
+    WHERE ytdw.simple_expr(grant_object_user_id, 'in', filter_user_value) = (case when filter_user_operator = '=' then 1 else 0 end)
+    AND ytdw.simple_expr(grant_object_user_dep_id, 'in', dept_value) = (case when dept_operator = '=' then 1 else 0 end)
 )
 
 insert overwrite table dw_salary_sign_brand_rule_public_d partition (dayid='${v_date}',pltype='cur')
@@ -385,7 +391,7 @@ SELECT update_time,
        planno
 FROM (
     SELECT *
-    FROM dw_salary_sign_brand_rule_public_d
+    FROM yt_crm.dw_salary_sign_brand_rule_public_d
     WHERE dayid = '${v_date}'
     AND pltype='cur'
 ) history
