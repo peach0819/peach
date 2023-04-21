@@ -16,7 +16,7 @@ with plan as (
 
            replace(replace(replace(split(get_json_object(get_json_object(filter_config_json,'$.calculate_date'),'$.value'),',')[0],'[',''),'\"',''),'-','') as calculate_date_value_start,
            replace(replace(replace(split(get_json_object(get_json_object(filter_config_json,'$.calculate_date'),'$.value'),',')[1],']',''),'\"',''),'-','') as calculate_date_value_end
-    FROM dw_bounty_plan_schedule_d
+    FROM yt_crm.dw_bounty_plan_schedule_d
     WHERE array_contains(split(forward_date, ','), '${v_date}')
     AND ('@@{supply_mode}' = 'not_supply' OR array_contains(split(supply_date, ','), '${supply_date}'))
     AND bounty_rule_type = 2
@@ -32,7 +32,7 @@ detail as (
            count(distinct if(is_leave='否' and is_succ_sign='是', concat(shop_id, '_', item_id), null)) as sign_shop_item_count,
            sum(if(is_leave='否' and is_succ_sign='是', gmv_less_refund, 0)) as gmv_less_refund,
            sum(if(is_leave='否' and is_succ_sign='是', pay_amount_less_refund, 0)) as pay_amount_less_refund
-    FROM dw_salary_sign_item_rule_public_d
+    FROM yt_crm.dw_salary_sign_item_rule_public_d
     WHERE dayid = '${v_date}'
     AND pltype = 'cur'
     group by planno,
@@ -45,7 +45,7 @@ detail as (
 
 underling as (
     select user_id, max(underling_cnt) as underling_cnt
-    from dws_usr_bd_manager_underling_d
+    from ytdw.dws_usr_bd_manager_underling_d
     where dayid ='${v_date}'
     group by user_id
 ),
@@ -56,8 +56,8 @@ target as (
            t.target,
            substr(a.start_time, 0, 8) as start_time,
            substr(a.end_time, 0, 8) as end_time
-    from (SELECT * FROM dwd_kpi_indicator_target_d WHERE dayid = '${v_date}' and is_deleted = 0) t
-    INNER JOIN (SELECT * FROM dwd_kpi_assessment_d WHERE dayid = '${v_date}' AND is_deleted = 0 AND status IN (2,3)) a ON t.assessment_id = a.id
+    from (SELECT * FROM ytdw.dwd_kpi_indicator_target_d WHERE dayid = '${v_date}' and is_deleted = 0) t
+    INNER JOIN (SELECT * FROM ytdw.dwd_kpi_assessment_d WHERE dayid = '${v_date}' AND is_deleted = 0 AND status IN (2,3)) a ON t.assessment_id = a.id
 ),
 
 plan_user_target as (
@@ -146,7 +146,7 @@ SELECT update_time,
        if(
           payout_rule_type=5 and (sts_target <= 0 OR (commission_cap is not null AND sts_target < commission_cap)),
           0,
-          ytdw.bounty_payout(payout_rule_type, if(payout_rule_type IN (1,2,3,4), sts_target, grant_object_rk), commission_cap, payout_config_json)
+          yt_crm.bounty_payout(payout_rule_type, if(payout_rule_type IN (1,2,3,4), sts_target, grant_object_rk), cast(commission_cap as DOUBLE), payout_config_json)
        ) as commission_reward,
        planno
 FROM cur
@@ -178,7 +178,7 @@ SELECT update_time,
        planno
 FROM (
     SELECT *
-    FROM dw_salary_forward_plan_sum_d
+    FROM yt_crm.dw_salary_forward_plan_sum_d
     WHERE dayid = '${v_date}'
     AND bounty_rule_type=2
 ) history
