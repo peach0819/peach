@@ -130,22 +130,15 @@ ord as (
 ),
 
 big_bd_manager as (
-    SELECT dayid,
+    select dayid,
            dept_id,
            user_id,
-           user_real_name
-    FROM (
-        select dayid,
-               dept_id,
-               user_id,
-               user_real_name,
-               row_number() over(partition by dayid, dept_id order by create_time desc) as rn
-        from ytdw.dim_usr_user_d
-        where dept_id is not null
-        AND user_status = 1
-        AND job_id = 128
-    ) t
-    WHERE rn = 1
+           user_real_name,
+           row_number() over(partition by dayid, dept_id order by create_time desc) as rn
+    from ytdw.dim_usr_user_d
+    where dept_id is not null
+    AND user_status = 1
+    AND job_id = 128
 ),
 
 user_admin as (
@@ -294,7 +287,7 @@ before_cur as (
     FROM plan
     CROSS JOIN ord ON ord.dayid = split(plan.backward_date, ',')[0]
     LEFT JOIN refund ON ord.order_id = refund.order_id AND refund.dayid = if(ytdw.simple_expr(brand_id, 'in', unback_brand_value) = (case when unback_brand_operator = '!=' then 0 else 1 end), ord.dayid, '${v_date}')
-    LEFT JOIN big_bd_manager ON ytdw.get_service_info('service_job_name:大BD',ord.service_info_freezed,'service_department_id') = big_bd_manager.dept_id AND ord.dayid = big_bd_manager.dayid
+    LEFT JOIN big_bd_manager ON ytdw.get_service_info('service_job_name:大BD',ord.service_info_freezed,'service_department_id') = big_bd_manager.dept_id AND ord.dayid = big_bd_manager.dayid AND big_bd_manager.rn = 1
     where ord.pay_day between calculate_date_value_start and calculate_date_value_end
     and ytdw.simple_expr(ord.sale_team_freezed_id, 'in', freeze_sales_team_value) = (case when freeze_sales_team_operator = '=' then 1 else 0 end)
     and ytdw.simple_expr(item_style_name, 'in', item_style_value) = (case when item_style_operator = '=' then 1 else 0 end)
@@ -309,63 +302,7 @@ before_cur as (
 ),
 
 cur as (
-    SELECT update_time,
-           update_month,
-           plan_type,
-           plan_month,
-           plan_pay_time,
-           plan_name,
-           plan_group_id,
-           plan_group_name,
-           business_unit,
-           category_id_first,
-           category_id_second,
-           category_id_first_name,
-           category_id_second_name,
-           brand_id,
-           brand_name,
-           item_id,
-           item_name,
-           item_style,
-           item_style_name,
-           is_sp_shop,
-           is_bigbd_shop,
-           is_spec_order,
-           shop_id,
-           shop_name,
-           store_type,
-           store_type_name,
-           war_zone_id,
-           war_zone_name,
-           war_zone_dep_id,
-           war_zone_dep_name,
-           area_manager_id,
-           area_manager_name,
-           area_manager_dep_id,
-           area_manager_dep_name,
-           bd_manager_id,
-           bd_manager_name,
-           bd_manager_dep_id,
-           bd_manager_dep_name,
-           sp_id,
-           sp_name,
-           sp_operator_name,
-           service_user_names_freezed,
-           service_feature_names_freezed,
-           service_job_names_freezed,
-           service_department_names_freezed,
-           service_info_freezed,
-           service_info,
-           grant_object_type,
-           grant_object_user_id,
-           grant_object_user_name,
-           grant_object_user_dep_id,
-           grant_object_user_dep_name,
-           sts_target_name,
-           sts_target,
-           pay_day,
-           planno,
-           extra
+    SELECT *
     FROM before_cur
     WHERE ytdw.simple_expr(grant_object_user_id, 'in', filter_user_value) = (case when filter_user_operator = '=' then 1 else 0 end)
     AND ytdw.simple_expr(grant_object_user_dep_id, 'in', dept_value) = (case when dept_operator = '=' then 1 else 0 end)
