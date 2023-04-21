@@ -49,8 +49,8 @@ with plan as (
            get_json_object(get_json_object(filter_config_json,'$.dept'),'$.value') as dept_value,
            get_json_object(get_json_object(filter_config_json,'$.dept'),'$.operator') as dept_operator
     FROM yt_crm.dw_bounty_plan_schedule_d
-    WHERE array_contains(split(backward_date, ','), '$v_date')
-    AND ('$supply_mode' = 'not_supply' OR array_contains(split(supply_date, ','), '$supply_date'))
+    WHERE array_contains(split(backward_date, ','), '${v_date}')
+    AND ('@@{supply_mode}' = 'not_supply' OR array_contains(split(supply_date, ','), '${supply_date}'))
     AND bounty_rule_type = 3
 ),
 
@@ -115,7 +115,7 @@ sign as (
            case when sum(gmv - nvl(refund.refund_actual_amount,0)) >= new_sign_line then '是' else '否' end as is_over_sign_line--是否满足新签门槛
     from (select * from yt_crm.dw_salary_sign_rule_public_mid_v2_d) ord
     cross join plan ON ord.dayid = split(plan.backward_date, ',')[0]
-    LEFT JOIN refund ON ord.order_id = refund.order_id AND refund.dayid = if(ytdw.simple_expr(brand_id, 'in', unback_brand_value) = (case when unback_brand_operator = '!=' then 0 else 1 end), ord.dayid, '$v_date')
+    LEFT JOIN refund ON ord.order_id = refund.order_id AND refund.dayid = if(ytdw.simple_expr(brand_id, 'in', unback_brand_value) = (case when unback_brand_operator = '!=' then 0 else 1 end), ord.dayid, '${v_date}')
     LEFT JOIN shop_group_mapping ON ord.shop_id = shop_group_mapping.group_shop_id AND ord.dayid = shop_group_mapping.dayid
     where shop_brand_sign_day between calculate_date_value_start and calculate_date_value_end
     and pay_day <= calculate_date_value_end
@@ -283,7 +283,7 @@ cur as (
     AND ytdw.simple_expr(grant_object_user_dep_id, 'in', dept_value) = (case when dept_operator = '=' then 1 else 0 end)
 )
 
-insert overwrite table dw_salary_sign_brand_rule_public_d partition (dayid='$v_date',pltype='pre')
+insert overwrite table dw_salary_sign_brand_rule_public_d partition (dayid='${v_date}',pltype='pre')
 SELECT update_time,
        update_month,
        plan_type,
@@ -407,7 +407,7 @@ SELECT update_time,
 FROM (
     SELECT *
     FROM yt_crm.dw_salary_sign_brand_rule_public_d
-    WHERE dayid = '$v_date'
+    WHERE dayid = '${v_date}'
     AND pltype='pre'
 ) history
 LEFT JOIN (
