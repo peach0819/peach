@@ -29,7 +29,7 @@ with plan as (
                 when bounty_payout_object_id IN (1,2,3) AND bounty_indicator_code = 'B_PFM_RATE_NO_C' then 'class_b_area_nonebig_nonesp'
                 when bounty_payout_object_id IN (1,2,3) AND bounty_indicator_code = 'B_SHIHUO_RATE_NO_C' then 'class_b_area_pure'
            end as kpi_indicator_type
-    FROM dw_bounty_plan_schedule_d
+    FROM yt_crm.dw_bounty_plan_schedule_d
     WHERE array_contains(split(forward_date, ','), '${v_date}')
     AND ('@@{supply_mode}' = 'not_supply' OR array_contains(split(supply_date, ','), '${supply_date}'))
     AND bounty_rule_type = 5
@@ -39,7 +39,7 @@ area as (
     SELECT area_id,
            area_name,
            area_type
-    FROM st_sales_area_snapshot_d
+    FROM yt_crm.st_sales_area_snapshot_d
     WHERE dayid = '${v_date}'
 ),
 
@@ -52,11 +52,11 @@ user_admin as (
            war.area_id as war_area_id,         --战区
            bd.area_id as bd_area_id,           --大区
            manager.area_id as manager_area_id  --主管区域
-    FROM dim_ytj_pub_user_admin_m a
+    FROM ytdw.dim_ytj_pub_user_admin_m a
     LEFT JOIN area war ON a.virtual_group_name_lv3 = war.area_name AND war.area_type = 2
     LEFT JOIN area bd ON a.virtual_group_name_lv4 = bd.area_name AND bd.area_type = 1
     LEFT JOIN area manager ON a.virtual_group_name_lv5 = manager.area_name AND manager.area_type = 3
-    WHERE dayid = '$v_cur_month'
+    WHERE dayid = '${v_cur_month}'
 ),
 
 data as (
@@ -66,7 +66,8 @@ data as (
            leave_time,
            b_coefficient_summary as b_pfm, --B类业绩口径目标完成值
            gmv_shihuo as b_shihuo          --B类实货口径目标完成值
-    FROM ads_salary_result_sale_d
+    FROM yt_crm.ads_salary_result_sale_d
+    WHERE dayid > '0'
 
     UNION ALL
 
@@ -76,7 +77,8 @@ data as (
            null as leave_time,
            pure_b_gmv as b_pfm, --B类业绩口径目标完成值
            pure_b_gmv_shihuo as b_shihuo  --B类实货口径目标完成值
-    FROM ads_salary_result_manager_d
+    FROM yt_crm.ads_salary_result_manager_d
+    WHERE dayid > '0'
 ),
 
 target as (
@@ -85,8 +87,8 @@ target as (
            t.target,
            substr(a.start_time, 0, 8) as start_time,
            substr(a.end_time, 0, 8) as end_time
-    from (SELECT * FROM dwd_kpi_indicator_target_d WHERE dayid = '${v_date}' and is_deleted = 0) t
-    INNER JOIN (SELECT * FROM dwd_kpi_assessment_d WHERE dayid = '${v_date}' AND is_deleted = 0 AND status IN (2,3)) a ON t.assessment_id = a.id
+    from (SELECT * FROM ytdw.dwd_kpi_indicator_target_d WHERE dayid = '${v_date}' and is_deleted = 0) t
+    INNER JOIN (SELECT * FROM ytdw.dwd_kpi_assessment_d WHERE dayid = '${v_date}' AND is_deleted = 0 AND status IN (2,3)) a ON t.assessment_id = a.id
 ),
 
 cur as (
@@ -170,7 +172,7 @@ SELECT planno,
        extra
 FROM (
     SELECT *
-    FROM dw_salary_base_salary_public_d
+    FROM yt_crm.dw_salary_base_salary_public_d
     WHERE dayid = '${v_date}'
     AND pltype='cur'
 ) history
