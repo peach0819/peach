@@ -124,8 +124,8 @@ cur as (
            plan_user.is_kn_sale_user,
            if(user_admin.dismiss_status = 0, '否', '是') as is_leave,
            user_admin.leave_time,
-           if(user_admin.dismiss_status = 0, ifnull(count(distinct compare_data.brand_id), 0), 0) as compare_brand_shop_num,
-           if(user_admin.dismiss_status = 0, ifnull(count(distinct current_data.brand_id), 0), 0) as current_brand_shop_num,
+           if(user_admin.dismiss_status = 0, coalesce(count(distinct compare_data.brand_id), 0), 0) as compare_brand_shop_num,
+           if(user_admin.dismiss_status = 0, coalesce(count(distinct current_data.brand_id), 0), 0) as current_brand_shop_num,
            sum(current_data.total_gmv_less_refund) as total_gmv_less_refund,
 
            plan.filter_user_value,
