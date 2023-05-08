@@ -110,7 +110,7 @@ cur as (
                 end as sts_target,
 
            --排名
-           row_number() over(partition by plan.no order by (
+           rank() over(partition by plan.no order by (
                 case when plan.bounty_indicator_code = 'NEW_SIGNING_BRAND_3_NEW_SING_SHOPS' then detail.sign_shop_count  --'统计指标名称为新签门店数'
                      when plan.bounty_indicator_code = 'NEW_SIGNING_BRAND_3_NEW_SING_BRAND_SHOPS' then detail.sign_shop_brand_count  --统计指标名称为新签品牌门店数'
                      when plan.bounty_indicator_code = 'NEW_SIGNING_BRAND_3_ACC_NEW_SING_GMV' then detail.gmv_less_refund  --'统计指标名称为新签GMV'
