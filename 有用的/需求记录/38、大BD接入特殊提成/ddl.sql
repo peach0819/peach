@@ -32,3 +32,6 @@ INSERT INTO `bounty_payout_object_rule` (`payout_object_id`, `bounty_rule_type`)
 VALUES (7, 1),
        (7, 2),
        (7, 3);
+
+INSERT INTO `bounty_payout_object_rule` (`payout_object_id`, `bounty_rule_type`)
+VALUES (7, 5);
