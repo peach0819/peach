@@ -15,11 +15,36 @@ with plan as (
                 when bounty_payout_object_id IN (7) AND bounty_indicator_code = 'GMV_SHIHUO_RATE' then 'class_b_dept'
            end as kpi_indicator_type,
            replace(replace(replace(split(get_json_object(get_json_object(filter_config_json,'$.calculate_date'),'$.value'),',')[0],'[',''),'\"',''),'-','') as calculate_date_value_start,
-           replace(replace(replace(split(get_json_object(get_json_object(filter_config_json,'$.calculate_date'),'$.value'),',')[1],']',''),'\"',''),'-','') as calculate_date_value_end
+           replace(replace(replace(split(get_json_object(get_json_object(filter_config_json,'$.calculate_date'),'$.value'),',')[1],']',''),'\"',''),'-','') as calculate_date_value_end,
+
+           --门店门槛
+           replace(replace(replace(get_json_object(get_json_object(filter_config_json,'$.valid_gmv_line'),'$.value'),'\"',''),'[',''),']','') as valid_gmv_line
     FROM yt_crm.dw_bounty_plan_schedule_d
     WHERE array_contains(split(forward_date, ','), '${v_date}')
     AND ('@@{supply_mode}' = 'not_supply' OR array_contains(split(supply_date, ','), '${supply_date}'))
     AND bounty_rule_type = 1
+),
+
+shop_detail as (
+    SELECT planno,
+           grant_object_user_id,
+           grant_object_user_name,
+           grant_object_user_dep_id,
+           grant_object_user_dep_name,
+           leave_time,
+           shop_id,
+           sum(gmv_less_refund) as gmv_less_refund,
+           sum(sts_target) as sts_target
+    FROM yt_crm.dw_salary_gmv_rule_public_d
+    WHERE dayid = '${v_date}'
+    AND pltype = 'cur'
+    group by planno,
+             grant_object_user_id,
+             grant_object_user_name,
+             grant_object_user_dep_id,
+             grant_object_user_dep_name,
+             leave_time,
+             shop_id
 ),
 
 detail as (
@@ -30,10 +55,10 @@ detail as (
            grant_object_user_dep_name,
            leave_time,
            sum(gmv_less_refund) as gmv_less_refund,
-           sum(sts_target) as sts_target
-    FROM yt_crm.dw_salary_gmv_rule_public_d
-    WHERE dayid = '${v_date}'
-    AND pltype = 'cur'
+           sum(sts_target) as sts_target,
+           sum(if(sts_target > nvl(plan.valid_gmv_line, 0), 1, 0)) as valid_shop_count
+    FROM shop_detail
+    INNER JOIN plan ON shop_detail.planno = plan.no
     group by planno,
              grant_object_user_id,
              grant_object_user_name,
@@ -98,12 +123,14 @@ cur as (
            --统计指标
            nvl(underling.underling_cnt,1) as grant_object_underling_cnt,
            CASE WHEN plan.bounty_indicator_code = 'GMV_SHIHUO_RATE' THEN (sts_target / plan_user_target.target) * 100 --实货完成率
+                WHEN plan.bounty_indicator_code IN ('GMV_SHIHUO_SHOP_COUNT', 'GMV_HI_SHOP_COUNT') THEN valid_shop_count --有效门店数
                 else if(plan.bounty_indicator_name like '人均%', sts_target/nvl(underling_cnt,1), sts_target)
                 END as sts_target,
 
            --排名
            rank() over(partition by plan.no order by (
                 CASE WHEN plan.bounty_indicator_code = 'GMV_SHIHUO_RATE' THEN (sts_target / plan_user_target.target) * 100 --实货完成率
+                     WHEN plan.bounty_indicator_code IN ('GMV_SHIHUO_SHOP_COUNT', 'GMV_HI_SHOP_COUNT') THEN valid_shop_count --有效门店数
                      else if(plan.bounty_indicator_name like '人均%', sts_target/nvl(underling_cnt,1), sts_target)
                      END
            ) desc, detail.gmv_less_refund desc) as grant_object_rk
