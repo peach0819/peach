@@ -7,7 +7,15 @@ with plan as (
                 when payout_rule_type = 4 then '累计阶梯单价返点'
                 when payout_rule_type = 5 then '排名返现'
                 end as commission_plan_type,
-           replace(replace(replace(replace(get_json_object(get_json_object(filter_config_json,'$.calculate_date'),'$.value'),']',''),'\"',''),'[',''),',','~') as plan_pay_time
+           replace(replace(replace(replace(get_json_object(get_json_object(filter_config_json,'$.calculate_date'),'$.value'),']',''),'\"',''),'[',''),',','~') as plan_pay_time,
+
+           --目标名
+           case when bounty_payout_object_id IN (4,5) AND bounty_indicator_code = 'GMV_SHIHUO_RATE' then 'class_b_capacity_pure'
+                when bounty_payout_object_id IN (1,2,3) AND bounty_indicator_code = 'GMV_SHIHUO_RATE' then 'class_b_area_pure'
+                when bounty_payout_object_id IN (7) AND bounty_indicator_code = 'GMV_SHIHUO_RATE' then 'class_b_dept'
+           end as kpi_indicator_type,
+           replace(replace(replace(split(get_json_object(get_json_object(filter_config_json,'$.calculate_date'),'$.value'),',')[0],'[',''),'\"',''),'-','') as calculate_date_value_start,
+           replace(replace(replace(split(get_json_object(get_json_object(filter_config_json,'$.calculate_date'),'$.value'),',')[1],']',''),'\"',''),'-','') as calculate_date_value_end
     FROM yt_crm.dw_bounty_plan_schedule_d
     WHERE array_contains(split(forward_date, ','), '${v_date}')
     AND ('@@{supply_mode}' = 'not_supply' OR array_contains(split(supply_date, ','), '${supply_date}'))
@@ -32,6 +40,26 @@ detail as (
              grant_object_user_dep_id,
              grant_object_user_dep_name,
              leave_time
+),
+
+target as (
+    select t.user_id,
+           t.indicator,
+           t.target,
+           substr(a.start_time, 0, 8) as start_time,
+           substr(a.end_time, 0, 8) as end_time
+    from (SELECT * FROM ytdw.dwd_kpi_indicator_target_d WHERE dayid = '${v_date}' and is_deleted = 0) t
+    INNER JOIN (SELECT * FROM ytdw.dwd_kpi_assessment_d WHERE dayid = '${v_date}' AND is_deleted = 0 AND status IN (2,3)) a ON t.assessment_id = a.id
+),
+
+plan_user_target as (
+    SELECT plan.no as plan_no,
+           target.user_id as user_id,
+           max(target.target) as target
+    FROM plan
+    INNER JOIN target ON plan.calculate_date_value_start <= target.end_time AND plan.calculate_date_value_end >= target.start_time AND target.indicator = plan.kpi_indicator_type
+    group by plan.no,
+             target.user_id
 ),
 
 underling as (
@@ -69,15 +97,20 @@ cur as (
 
            --统计指标
            nvl(underling.underling_cnt,1) as grant_object_underling_cnt,
-           if(plan.bounty_indicator_name like '人均%', sts_target/nvl(underling_cnt,1), sts_target) as sts_target,
+           CASE WHEN plan.bounty_indicator_code = 'GMV_SHIHUO_RATE' THEN (sts_target / plan_user_target.target) * 100 --实货完成率
+                else if(plan.bounty_indicator_name like '人均%', sts_target/nvl(underling_cnt,1), sts_target)
+                END as sts_target,
 
            --排名
            rank() over(partition by plan.no order by (
-                if(plan.bounty_indicator_name like '人均%', sts_target/nvl(underling_cnt,1), sts_target)
+                CASE WHEN plan.bounty_indicator_code = 'GMV_SHIHUO_RATE' THEN (sts_target / plan_user_target.target) * 100 --实货完成率
+                     else if(plan.bounty_indicator_name like '人均%', sts_target/nvl(underling_cnt,1), sts_target)
+                     END
            ) desc, detail.gmv_less_refund desc) as grant_object_rk
     from plan
     INNER JOIN detail ON plan.no = detail.planno
     LEFT JOIN underling ON detail.grant_object_user_id = underling.user_id
+    LEFT JOIN plan_user_target ON plan.no = plan_user_target.plan_no AND detail.grant_object_user_id = plan_user_target.user_id
 )
 
 insert overwrite table dw_salary_forward_plan_sum_d partition (dayid='${v_date}', bounty_rule_type=1)
@@ -108,6 +141,7 @@ SELECT update_time,
        ) as commission_reward,
        planno
 FROM cur
+WHERE sts_target is not null
 
 UNION ALL
 

@@ -244,7 +244,7 @@ before_cur as (
                 end as grant_object_user_dep_name,
 
            ---统计指标----
-           case when plan.bounty_indicator_code in ('STOCK_GMV_1_GOODS_GMV_MINUS_REFUND', 'STOCK_GMV_AVG_GOODS_GMV_MINUS_REFUND') then if(business_unit not in ('卡券票','其他'), ord.gmv - nvl(refund.refund_actual_amount, 0), 0) --实货GMV(去退款)
+           case when plan.bounty_indicator_code in ('STOCK_GMV_1_GOODS_GMV_MINUS_REFUND', 'STOCK_GMV_AVG_GOODS_GMV_MINUS_REFUND', 'GMV_SHIHUO_RATE') then if(business_unit not in ('卡券票','其他'), ord.gmv - nvl(refund.refund_actual_amount, 0), 0) --实货GMV(去退款)
                 when plan.bounty_indicator_code in ('STOCK_GMV_1_GOODS_PAY_AMT_MINUS_COUNPONS_MINUS_REF', 'STOCK_GMV_AVG_GOODS_PAY_AMT_MINUS_COUNPONS_REF') then if(business_unit not in ('卡券票','其他'), ord.pay_amount - nvl(refund.refund_actual_amount, 0), 0)  --实货支付金额(去优惠券去退款)
                 when plan.bounty_indicator_code in ('PICKUP_PAY_GMV_LESS_REFUND', 'AVG_PICKUP_PAY_GMV_LESS_REFUND') then if(is_pickup_recharge_order = 1 OR business_unit not in ('卡券票','其他'), ord.pickup_pay_gmv - nvl(refund.refund_actual_amount_less_pickup, 0), 0)  --提货卡口径GMV(去退款)
                 when plan.bounty_indicator_code in ('PICKUP_PAY_AMT_LESS_COUPON_REFUND', 'AVG_PICKUP_PAY_AMT_LESS_COUPON_REFUND') then if(is_pickup_recharge_order = 1 OR business_unit not in ('卡券票','其他'), ord.pickup_pay_pay_amount - nvl(refund.refund_actual_amount_less_pickup, 0), 0)  --提货卡口径支付金额(去优惠券去退款)

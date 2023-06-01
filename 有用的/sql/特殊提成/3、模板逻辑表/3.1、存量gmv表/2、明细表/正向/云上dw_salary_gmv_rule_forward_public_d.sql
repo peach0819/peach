@@ -236,7 +236,7 @@ before_cur as (
                 end as grant_object_user_dep_name,
 
            ---统计指标----
-           case when plan.bounty_indicator_code in ('STOCK_GMV_1_GOODS_GMV_MINUS_REFUND', 'STOCK_GMV_AVG_GOODS_GMV_MINUS_REFUND') then ord.gmv_less_refund --实货GMV(去退款)
+           case when plan.bounty_indicator_code in ('STOCK_GMV_1_GOODS_GMV_MINUS_REFUND', 'STOCK_GMV_AVG_GOODS_GMV_MINUS_REFUND', 'GMV_SHIHUO_RATE') then ord.gmv_less_refund --实货GMV(去退款)
                 when plan.bounty_indicator_code in ('STOCK_GMV_1_GOODS_PAY_AMT_MINUS_COUNPONS_MINUS_REF', 'STOCK_GMV_AVG_GOODS_PAY_AMT_MINUS_COUNPONS_REF') then ord.pay_amount_less_refund  --实货支付金额(去优惠券去退款)
                 when plan.bounty_indicator_code in ('PICKUP_PAY_GMV_LESS_REFUND', 'AVG_PICKUP_PAY_GMV_LESS_REFUND') then ord.pickup_pay_gmv_less_refund  --提货卡口径GMV(去退款)
                 when plan.bounty_indicator_code in ('PICKUP_PAY_AMT_LESS_COUPON_REFUND', 'AVG_PICKUP_PAY_AMT_LESS_COUPON_REFUND') then ord.pickup_pay_pay_amount_less_refund  --提货卡口径支付金额(去优惠券去退款)
