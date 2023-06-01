@@ -59,7 +59,7 @@ user_admin as (
     LEFT JOIN area war ON a.virtual_group_name_lv3 = war.area_name AND war.area_type = 2
     LEFT JOIN area bd ON a.virtual_group_name_lv4 = bd.area_name AND bd.area_type = 1
     LEFT JOIN area manager ON a.virtual_group_name_lv5 = manager.area_name AND manager.area_type = 3
-    WHERE dayid = '${v_cur_month}'
+    WHERE dayid = substr('${v_date}', 1, 6)
 ),
 
 data as (
