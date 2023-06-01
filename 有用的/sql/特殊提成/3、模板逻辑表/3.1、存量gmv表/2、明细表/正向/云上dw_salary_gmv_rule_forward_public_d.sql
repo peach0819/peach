@@ -221,7 +221,7 @@ before_cur as (
                 when plan.bounty_payout_object_code = 'BD_MANAGER' then bd_manager_dep_id
                 when plan.bounty_payout_object_code = 'BD' then yt_crm.get_service_info('service_job_name:BD;service_job_freezed_name:BD',service_info_freezed,'service_department_id')
                 when plan.bounty_payout_object_code = 'BIG_BD' then yt_crm.get_service_info('service_job_name:大BD',service_info_freezed,'service_department_id')
-                when plan.bounty_payout_object_code = 'GRANT_USER' then null
+                when plan.bounty_payout_object_code = 'GRANT_USER' then yt_crm.get_service_info('service_type:销售',service_info_freezed,'service_department_id')
                 when plan.bounty_payout_object_code = 'BIG_BD_AREA_MANAGER' then yt_crm.get_service_info('service_job_name:大BD',service_info_freezed,'service_department_id')
                 end as grant_object_user_dep_id,
 
