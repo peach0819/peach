@@ -70,7 +70,11 @@ select business_unit,--业务域,
 
        --hi卡充值指标
        if(order.item_style = 1 AND order.category_id_first_name = '卡券票' AND order.is_pickup_recharge_order = 0, order.total_pay_amount, 0) as hi_recharge_gmv, --hi卡充值gmv
-       if(order.item_style = 1 AND order.category_id_first_name = '卡券票' AND order.is_pickup_recharge_order = 0, order.total_pay_amount - nvl(refund.refund_actual_amount, 0), 0) as hi_recharge_gmv --hi卡充值gmv-退款
+       if(order.item_style = 1 AND order.category_id_first_name = '卡券票' AND order.is_pickup_recharge_order = 0, order.total_pay_amount - nvl(refund.refund_actual_amount, 0), 0) as hi_recharge_gmv, --hi卡充值gmv-退款
+
+       --三级类目
+       item.performance_category_3rd_id,
+       item.performance_category_3rd_name
 --订单表
 from (
     select *
@@ -139,7 +143,9 @@ LEFT JOIN (
            performance_category_1st_id,  --业绩一级类目
            performance_category_1st_name,
            performance_category_2nd_id,  -- 业绩二级类目
-           performance_category_2nd_name
+           performance_category_2nd_name,
+           performance_category_3rd_id,
+           performance_category_3rd_name
     FROM ytdw.dim_ytj_itm_item_d
     WHERE dayid = '${v_date}'
 ) item ON order.item_id = item.item_id

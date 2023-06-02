@@ -93,7 +93,9 @@ select order.order_id,
        		 when sale_team_name='美妆销售团队' then 5 else null end as sale_team_id,
        case when sale_team_freezed_name='电销部' then 1 when sale_team_freezed_name='BD部' then 2 when sale_team_freezed_name='大客户部' then 3 when sale_team_freezed_name='服务商部' then 4
        		 when sale_team_freezed_name='美妆销售团队' then 5 else null end as sale_team_freezed_id,
-       null as shop_group
+       null as shop_group,
+       category_id_third,
+       category_id_third_name
 --订单表
 from (
     select order_id,trade_no,
@@ -102,6 +104,8 @@ from (
            category_id_second, --商品二级类目,
            category_id_first_name,
            category_id_second_name,
+           category_id_third,
+           category_id_third_name,
            brand_id,
            brand_name,--商品品牌,
            item_id,
@@ -151,6 +155,8 @@ from (
                category_id_second, --商品二级类目,
                category_id_first_name,
                category_id_second_name,
+               category_id_third,
+               category_id_third_name,
                brand_id,
                brand_name,--商品品牌,
                item_id,

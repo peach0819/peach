@@ -54,7 +54,11 @@ select ord.order_id,
 
        --订单归属信息
        frozen_trade.trade_service_bd_id_frez as frozen_sale_user_id,
-       rule_center.newest_user_id as newest_sale_user_id
+       rule_center.newest_user_id as newest_sale_user_id,
+
+       --三级类目
+       ord.category_3rd_id,
+       ord.category_3rd_name
 --订单表
 from (
     SELECT order_id,
@@ -63,6 +67,8 @@ from (
            category_1st_name,
            category_2nd_id,
            category_2nd_name,
+           category_3rd_id,
+           category_3rd_name,
            if(brand_id IN (15472, 19284), 19284, brand_id) as brand_id,
            if(brand_id IN (15472, 19284), '棉之悦', brand_name) as brand_name,
            item_id,
