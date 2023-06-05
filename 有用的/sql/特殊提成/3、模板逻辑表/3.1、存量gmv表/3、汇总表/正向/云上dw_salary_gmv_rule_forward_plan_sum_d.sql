@@ -56,7 +56,7 @@ detail as (
            leave_time,
            sum(gmv_less_refund) as gmv_less_refund,
            sum(sts_target) as sts_target,
-           sum(if(sts_target > nvl(plan.valid_gmv_line, 0), 1, 0)) as valid_shop_count
+           sum(if(sts_target >= nvl(plan.valid_gmv_line, 0), 1, 0)) as valid_shop_count
     FROM shop_detail
     INNER JOIN plan ON shop_detail.planno = plan.no
     group by planno,
