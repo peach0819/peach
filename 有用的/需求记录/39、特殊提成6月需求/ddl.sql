@@ -1,14 +1,14 @@
 
 --新增过滤条件 gmv门槛线 三级类目
-INSERT INTO `bounty_filter` (`id`, `title`, `key`, `field_sql`, `required`, `plan_date_sign`, `component_type`, `component_value_config`)
-VALUES (28, '单门店门槛线', 'valid_gmv_line', 'valid_gmv_line', 0, 0, 'posi_int_input', '');
+INSERT INTO `bounty_filter` (`id`, `title`, `key`, `field_sql`, `required`, `global`, `global_type`, `plan_date_sign`, `component_type`, `component_value_config`)
+VALUES (28, '单门店门槛线', 'valid_gmv_line', 'valid_gmv_line', 0, 1, 1, 0, 'posi_int_input', '');
 
 insert into `bounty_rule_filter` (`bounty_rule_type`,`bounty_rule_type_id`,`bounty_filter_id`)
 values (0, 4, 28);
 
 
-INSERT INTO `bounty_filter` (`id`, `title`, `key`, `field_sql`, `required`, `plan_date_sign`, `component_type`, `component_value_config`)
-VALUES (29, '三级类目', 'category_third', 'category_third', 0, 0, 'api_multi_select', '{"type":"url", "url":"hipac.crm.bountyPlan.listFilterResult","code":"THREE_CATEGORY"}');
+INSERT INTO `bounty_filter` (`id`, `title`, `key`, `field_sql`, `required`, `global`, `global_type`, `plan_date_sign`, `component_type`, `component_value_config`)
+VALUES (29, '三级类目', 'category_third', 'category_third', 0, 1, 1, 0, 'api_multi_select', '{"type":"url", "url":"hipac.crm.bountyPlan.listFilterResult","code":"THREE_CATEGORY"}');
 
 insert into `bounty_rule_filter` (`bounty_rule_type`,`bounty_rule_type_id`,`bounty_filter_id`)
 values (0, 4, 29),
