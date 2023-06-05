@@ -7,6 +7,8 @@ with plan as (
            get_json_object(get_json_object(filter_config_json,'$.category_first'),'$.operator') as category_first_operator,
            get_json_object(get_json_object(filter_config_json,'$.category_second'),'$.value') as category_second_value,
            get_json_object(get_json_object(filter_config_json,'$.category_second'),'$.operator') as category_second_operator,
+           get_json_object(get_json_object(filter_config_json,'$.category_third'),'$.value') as category_third_value,
+           get_json_object(get_json_object(filter_config_json,'$.category_third'),'$.operator') as category_third_operator,
            get_json_object(get_json_object(filter_config_json,'$.brand'),'$.value') as brand_value,
            get_json_object(get_json_object(filter_config_json,'$.brand'),'$.operator') as brand_operator,
            get_json_object(get_json_object(filter_config_json,'$.war_area'),'$.value') as war_area_value,
@@ -69,6 +71,7 @@ cur as (
     AND ytdw.simple_expr(ord.item_style_name, 'in', plan.item_style_value) = if(plan.item_style_operator = '=', 1, 0)
     AND ytdw.simple_expr(ord.category_1st_id, 'in', plan.category_first_value) = if(plan.category_first_operator = '=', 1, 0)
     AND ytdw.simple_expr(ord.category_2nd_id, 'in', plan.category_second_value) = if(plan.category_second_operator = '=', 1, 0)
+    AND ytdw.simple_expr(ord.category_3rd_id, 'in', plan.category_third_value) = if(plan.category_third_operator = '=', 1, 0)
     AND ytdw.simple_expr(ord.brand_id, 'in', plan.brand_value) = if(plan.brand_operator = '=', 1, 0)
     AND ytdw.simple_expr(ord.war_zone_dep_id, 'in', plan.war_area_value) = if(plan.war_area_operator = '=', 1, 0)
     AND ytdw.simple_expr(ord.area_manager_dep_id, 'in', plan.bd_area_value) = if(plan.bd_area_operator = '=', 1, 0)

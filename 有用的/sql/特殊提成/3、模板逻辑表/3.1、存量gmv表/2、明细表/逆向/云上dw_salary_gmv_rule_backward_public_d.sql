@@ -10,6 +10,8 @@ with plan as (
            get_json_object(get_json_object(filter_config_json,'$.category_first'),'$.operator') as category_first_operator,
            get_json_object(get_json_object(filter_config_json,'$.category_second'),'$.value') as category_second_value,
            get_json_object(get_json_object(filter_config_json,'$.category_second'),'$.operator') as category_second_operator,
+           get_json_object(get_json_object(filter_config_json,'$.category_third'),'$.value') as category_third_value,
+           get_json_object(get_json_object(filter_config_json,'$.category_third'),'$.operator') as category_third_operator,
            get_json_object(get_json_object(filter_config_json,'$.brand'),'$.value') as brand_value,
            get_json_object(get_json_object(filter_config_json,'$.brand'),'$.operator') as brand_operator,
            get_json_object(get_json_object(filter_config_json,'$.item'),'$.value') as item_value,
@@ -66,8 +68,10 @@ ord as (
            business_unit,
            category_id_first,
            category_id_second,
+           category_id_third,
            category_id_first_name,
            category_id_second_name,
+           category_id_third_name,
            brand_id,
            brand_name,
            item_id,
@@ -256,6 +260,8 @@ before_cur as (
            --冗余字段
            to_json(named_struct(
                'order_id', ord.order_id,
+               'category_id_third', ord.category_id_third,
+               'category_id_third_name', ord.category_id_third_name,
                'gmv_less_refund', if(business_unit not in ('卡券票','其他'), ord.gmv - nvl(refund.refund_actual_amount, 0), 0),
                'gmv', if(business_unit not in ('卡券票','其他'), ord.gmv, 0),
                'pay_amount', if(business_unit not in ('卡券票','其他'), ord.pay_amount, 0),
@@ -282,6 +288,7 @@ before_cur as (
     and ytdw.simple_expr(item_style_name, 'in', item_style_value) = (case when item_style_operator = '=' then 1 else 0 end)
     and ytdw.simple_expr(category_id_first, 'in', category_first_value) = (case when category_first_operator = '=' then 1 else 0 end)
     and ytdw.simple_expr(category_id_second, 'in', category_second_value) = (case when category_second_operator = '=' then 1 else 0 end)
+    and ytdw.simple_expr(category_id_third, 'in', category_third_value) = (case when category_third_operator = '=' then 1 else 0 end)
     and ytdw.simple_expr(brand_id, 'in', brand_value) = (case when brand_operator = '=' then 1 else 0 end)
     and ytdw.simple_expr(item_id, 'in', item_value) = (case when item_operator = '=' then 1 else 0 end)
     and ytdw.simple_expr(war_zone_dep_id, 'in', war_area_value) = (case when war_area_operator = '=' then 1 else 0 end)

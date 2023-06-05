@@ -14,6 +14,8 @@ with plan as (
            get_json_object(get_json_object(filter_config_json,'$.category_first'),'$.operator') as category_first_operator,
            get_json_object(get_json_object(filter_config_json,'$.category_second'),'$.value') as category_second_value,
            get_json_object(get_json_object(filter_config_json,'$.category_second'),'$.operator') as category_second_operator,
+           get_json_object(get_json_object(filter_config_json,'$.category_third'),'$.value') as category_third_value,
+           get_json_object(get_json_object(filter_config_json,'$.category_third'),'$.operator') as category_third_operator,
            get_json_object(get_json_object(filter_config_json,'$.brand'),'$.value') as brand_value,
            get_json_object(get_json_object(filter_config_json,'$.brand'),'$.operator') as brand_operator,
            get_json_object(get_json_object(filter_config_json,'$.item'),'$.value') as item_value,
@@ -109,6 +111,7 @@ sign as (
     and ytdw.simple_expr( item_style_name,'in',item_style_value)=(case when item_style_operator ='=' then 1 else 0 end)
     and ytdw.simple_expr( category_id_first,'in',category_first_value)=(case when category_first_operator ='=' then 1 else 0 end)
     and ytdw.simple_expr( category_id_second,'in',category_second_value)=(case when category_second_operator ='=' then 1 else 0 end)
+    and ytdw.simple_expr( category_id_third, 'in', category_third_value) = (case when category_third_operator = '=' then 1 else 0 end)
     and ytdw.simple_expr( brand_id,'in',brand_value)=(case when brand_operator ='=' then 1 else 0 end)
     and ytdw.simple_expr( war_zone_dep_id,'in',war_area_value)=(case when war_area_operator ='=' then 1 else 0 end)
     and ytdw.simple_expr( area_manager_dep_id,'in',bd_area_value)=(case when bd_area_operator ='=' then 1 else 0 end)
