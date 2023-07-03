@@ -51,7 +51,7 @@ detail as (
     SELECT planno,
            grant_object_user_id,
            grant_object_user_name,
-           grant_object_user_dep_id,
+           if(plan.bounty_payout_object_code = 'GRANT_USER', null, grant_object_user_dep_id) as grant_object_user_dep_id,
            grant_object_user_dep_name,
            leave_time,
            sum(gmv_less_refund) as gmv_less_refund,
@@ -62,7 +62,7 @@ detail as (
     group by planno,
              grant_object_user_id,
              grant_object_user_name,
-             grant_object_user_dep_id,
+             if(plan.bounty_payout_object_code = 'GRANT_USER', null, grant_object_user_dep_id),
              grant_object_user_dep_name,
              leave_time
 ),
