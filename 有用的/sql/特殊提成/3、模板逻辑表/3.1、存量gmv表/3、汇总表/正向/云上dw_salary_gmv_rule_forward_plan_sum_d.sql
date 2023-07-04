@@ -10,7 +10,8 @@ with plan as (
            replace(replace(replace(replace(get_json_object(get_json_object(filter_config_json,'$.calculate_date'),'$.value'),']',''),'\"',''),'[',''),',','~') as plan_pay_time,
 
            --目标名
-           case when bounty_payout_object_id IN (4,5) AND bounty_indicator_code = 'GMV_SHIHUO_RATE' then 'class_b_capacity_pure'
+           case when bounty_payout_object_id IN (4) AND bounty_indicator_code = 'GMV_SHIHUO_RATE' then 'class_b_capacity_pure'
+                when bounty_payout_object_id IN (5) AND bounty_indicator_code = 'GMV_SHIHUO_RATE' then 'class_b_capacity'
                 when bounty_payout_object_id IN (1,2,3) AND bounty_indicator_code = 'GMV_SHIHUO_RATE' then 'class_b_area_pure'
                 when bounty_payout_object_id IN (7) AND bounty_indicator_code = 'GMV_SHIHUO_RATE' then 'class_b_dept'
            end as kpi_indicator_type,
