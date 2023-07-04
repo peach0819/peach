@@ -26,20 +26,21 @@ detail as (
     SELECT planno,
            grant_object_user_id,
            grant_object_user_name,
-           grant_object_user_dep_id,
+           if(plan.bounty_payout_object_code = 'GRANT_USER', null, grant_object_user_dep_id) as grant_object_user_dep_id,
            grant_object_user_dep_name,
            leave_time,
            count(distinct if(is_leave='否' and is_succ_sign='是', shop_id, null)) as sign_shop_count,
            count(distinct if(is_leave='否' and is_succ_sign='是', concat(shop_id, '_', brand_id), null)) as sign_shop_brand_count,
            sum(if(is_leave='否' and is_succ_sign='是', gmv_less_refund, 0)) as gmv_less_refund,
            sum(if(is_leave='否' and is_succ_sign='是', pay_amount_less_refund, 0)) as pay_amount_less_refund
-    FROM yt_crm.dw_salary_sign_brand_rule_public_d
+    FROM yt_crm.dw_salary_sign_brand_rule_public_d d
+    INNER JOIN plan ON d.planno = plan.no
     WHERE dayid = '${v_date}'
     AND pltype = 'cur'
     group by planno,
              grant_object_user_id,
              grant_object_user_name,
-             grant_object_user_dep_id,
+             if(plan.bounty_payout_object_code = 'GRANT_USER', null, grant_object_user_dep_id),
              grant_object_user_dep_name,
              leave_time
 ),
