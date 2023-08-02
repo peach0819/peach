@@ -1,0 +1,45 @@
+[
+  {
+    "code": "200",
+    "data": {
+      "itemListTOList": [],
+      "extendMap": {
+        "10857": "未从IC查询到商品价格",
+        "BatchPriceLostFromICP": "{\"area\":{\"cityId\":\"121\",\"countyId\":\"1227\",\"provinceId\":\"11\",\"wholeCountry\":false},\"buId\":0,\"itemChannel\":\"9\",\"itemId\":10857,\"itemIdList\":[10857],\"itemPriceTypeList\":[\"basePrice\",\"activityPrice\",\"samplePrice\",\"activityOriginalPrice\"],\"shopId\":\"44d0b4a26b61408ab9ababcc057316a6\"}"
+      },
+      "shopId": "44d0b4a26b61408ab9ababcc057316a6",
+      "class": "com.yt.mall.server.api.item.domain.ItemListGroupTO"
+    },
+    "success": true,
+    "message": "",
+    "class": "com.yt.asd.kit.domain.RpcResult"
+  },
+  {
+    "code": "200",
+    "data": {
+      "itemListTOList": [],
+      "extendMap": {
+        "217663": "商品无可售批次过滤,建议排查商品实际供货区域和运费模板"
+      },
+      "shopId": "44d0b4a26b61408ab9ababcc057316a6",
+      "class": "com.yt.mall.server.api.item.domain.ItemListGroupTO"
+    },
+    "success": true,
+    "message": "",
+    "class": "com.yt.asd.kit.domain.RpcResult"
+  },
+  {
+    "code": "200",
+    "data": {
+      "itemListTOList": [],
+      "extendMap": {
+        "217644": "商品已下架"
+      },
+      "shopId": "44d0b4a26b61408ab9ababcc057316a6",
+      "class": "com.yt.mall.server.api.item.domain.ItemListGroupTO"
+    },
+    "success": true,
+    "message": "",
+    "class": "com.yt.asd.kit.domain.RpcResult"
+  }
+]
