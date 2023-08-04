@@ -113,6 +113,7 @@ sign as (
     and ytdw.simple_expr( category_id_second,'in',category_second_value)=(case when category_second_operator ='=' then 1 else 0 end)
     and ytdw.simple_expr( category_id_third, 'in', category_third_value) = (case when category_third_operator = '=' then 1 else 0 end)
     and ytdw.simple_expr( brand_id,'in',brand_value)=(case when brand_operator ='=' then 1 else 0 end)
+    and ytdw.simple_expr( item_id, 'in', item_value) = (case when item_operator = '=' then 1 else 0 end)
     and ytdw.simple_expr( war_zone_dep_id,'in',war_area_value)=(case when war_area_operator ='=' then 1 else 0 end)
     and ytdw.simple_expr( area_manager_dep_id,'in',bd_area_value)=(case when bd_area_operator ='=' then 1 else 0 end)
     and ytdw.simple_expr( bd_manager_dep_id,'in',manage_area_value)=(case when manage_area_operator ='=' then 1 else 0 end)
