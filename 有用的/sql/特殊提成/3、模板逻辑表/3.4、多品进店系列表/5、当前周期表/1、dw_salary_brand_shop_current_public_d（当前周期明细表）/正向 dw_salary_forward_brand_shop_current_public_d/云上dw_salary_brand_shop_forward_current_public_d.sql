@@ -25,7 +25,9 @@ with plan as (
            replace(replace(replace(split(get_json_object(get_json_object(filter_config_json,'$.calculate_date_quarter'),'$.value'),',')[0],'[',''),'\"',''),'-','') as calculate_date_value_start,
            replace(replace(replace(split(get_json_object(get_json_object(filter_config_json,'$.calculate_date_quarter'),'$.value'),',')[1],']',''),'\"',''),'-','') as calculate_date_value_end,
            replace(replace(replace(get_json_object(get_json_object(filter_config_json,'$.payout_object_type'),'$.value'),'\"',''),'[',''),']','') as payout_object_type,
-           replace(replace(replace(get_json_object(get_json_object(filter_config_json,'$.grant_user'),'$.value'),'\"',''),'[',''),']','') as grant_user
+           replace(replace(replace(get_json_object(get_json_object(filter_config_json,'$.grant_user'),'$.value'),'\"',''),'[',''),']','') as grant_user,
+           get_json_object(get_json_object(filter_config_json,'$.brand_tag'),'$.value') as brand_tag_value,
+           get_json_object(get_json_object(filter_config_json,'$.brand_tag'),'$.operator') as brand_tag_operator
     FROM yt_crm.dw_bounty_plan_schedule_d
     WHERE array_contains(split(forward_date, ','), '${v_date}')
     AND ('@@{supply_mode}' = 'not_supply' OR array_contains(split(supply_date, ','), '${supply_date}'))
@@ -84,6 +86,7 @@ cur as (
     AND ytdw.simple_expr(ord.war_zone_dep_id, 'in', plan.war_area_value) = if(plan.war_area_operator = '=', 1, 0)
     AND ytdw.simple_expr(ord.area_manager_dep_id, 'in', plan.bd_area_value) = if(plan.bd_area_operator = '=', 1, 0)
     AND ytdw.simple_expr(ord.bd_manager_dep_id, 'in', plan.manage_area_value) = if(plan.manage_area_operator = '=', 1, 0)
+    and ytdw.simple_expr(ord.brand_tag_code, 'in', brand_tag_value) = (case when brand_tag_operator = '=' then 1 else 0 end)
     AND ytdw.simple_expr(if(plan.payout_object_type = '冻结', ord.sale_team_freezed_id, ord.sale_team_id), 'in', plan.sales_team_value) = if(plan.sales_team_operator = '=', 1, 0)
     AND if(shop_group_mapping.shop_group = '' OR plan.shop_group_value = '', 0, ytdw.simple_expr(substr(plan.shop_group_value, 2, length(plan.shop_group_value) - 2), 'in', concat('[', shop_group_mapping.shop_group, ']'))) = if(plan.shop_group_operator = '=', 1, 0)
     GROUP BY plan.no,

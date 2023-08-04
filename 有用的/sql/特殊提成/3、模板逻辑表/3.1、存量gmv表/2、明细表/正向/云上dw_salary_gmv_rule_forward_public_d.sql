@@ -31,7 +31,9 @@ with plan as (
            get_json_object(get_json_object(filter_config_json,'$.filter_user'),'$.operator') as filter_user_operator,
            replace(replace(replace(get_json_object(get_json_object(filter_config_json,'$.grant_user'),'$.value'),'\"',''),'[',''),']','') as grant_user,
            get_json_object(get_json_object(filter_config_json,'$.dept'),'$.value') as dept_value,
-           get_json_object(get_json_object(filter_config_json,'$.dept'),'$.operator') as dept_operator
+           get_json_object(get_json_object(filter_config_json,'$.dept'),'$.operator') as dept_operator,
+           get_json_object(get_json_object(filter_config_json,'$.brand_tag'),'$.value') as brand_tag_value,
+           get_json_object(get_json_object(filter_config_json,'$.brand_tag'),'$.operator') as brand_tag_operator
     FROM yt_crm.dw_bounty_plan_schedule_d
     WHERE array_contains(split(forward_date, ','), '${v_date}')
     AND ('@@{supply_mode}' = 'not_supply' OR array_contains(split(supply_date, ','), '${supply_date}'))
@@ -109,7 +111,8 @@ ord as (
            pickup_recharge_gmv_less_refund,
            pickup_recharge_pay_amount_less_refund,
            hi_recharge_gmv,
-           hi_recharge_gmv_less_refund
+           hi_recharge_gmv_less_refund,
+           brand_tag_code
     FROM yt_crm.dw_salary_gmv_rule_public_mid_v2_d ord
     LEFT JOIN shop_group_mapping ON ord.shop_id = shop_group_mapping.group_shop_id
     where dayid ='${v_date}'
@@ -285,6 +288,7 @@ before_cur as (
     and ytdw.simple_expr(war_zone_dep_id, 'in', war_area_value) = (case when war_area_operator = '=' then 1 else 0 end)
     and ytdw.simple_expr(area_manager_dep_id, 'in', bd_area_value) = (case when bd_area_operator = '=' then 1 else 0 end)
     and ytdw.simple_expr(bd_manager_dep_id, 'in', manage_area_value) = (case when manage_area_operator = '=' then 1 else 0 end)
+    and ytdw.simple_expr(ord.brand_tag_code, 'in', brand_tag_value) = (case when brand_tag_operator = '=' then 1 else 0 end)
     and if(ord.shop_group = '' OR plan.shop_group_value = '', 0, ytdw.simple_expr(substr(plan.shop_group_value, 2, length(plan.shop_group_value) - 2), 'in', concat('[', ord.shop_group, ']'))) = (case when shop_group_operator ='=' then 1 else 0 end)
 ),
 
