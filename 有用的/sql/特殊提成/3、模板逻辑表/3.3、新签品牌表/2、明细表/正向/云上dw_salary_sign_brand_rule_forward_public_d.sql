@@ -1,7 +1,5 @@
 with plan as (
     SELECT *,
-           get_json_object(get_json_object(filter_config_json,'$.calculate_date'),'$.value') as calculate_date_value,
-           get_json_object(get_json_object(filter_config_json,'$.calculate_date'),'$.operator') as calculate_date_operator,
            get_json_object(get_json_object(filter_config_json,'$.item_style'),'$.value') as item_style_value,
            get_json_object(get_json_object(filter_config_json,'$.item_style'),'$.operator') as item_style_operator,
            get_json_object(get_json_object(filter_config_json,'$.bigbd_shop_flag'),'$.value') as bigbd_shop_flag_value,
@@ -38,10 +36,9 @@ with plan as (
            get_json_object(get_json_object(filter_config_json,'$.sales_team'),'$.operator') as sales_team_operator,
            get_json_object(get_json_object(filter_config_json,'$.shop_group'),'$.value') as shop_group_value,
            get_json_object(get_json_object(filter_config_json,'$.shop_group'),'$.operator') as shop_group_operator,
-           replace(replace(replace(split(get_json_object(get_json_object(filter_config_json,'$.calculate_date'),'$.value'),',')[0],'[',''),'\"',''),'-','') as calculate_date_value_start,
-           replace(replace(replace(split(get_json_object(get_json_object(filter_config_json,'$.calculate_date'),'$.value'),',')[1],']',''),'\"',''),'-','') as calculate_date_value_end,
+           get_json_object(get_json_object(filter_config_json,'$.calculate_date'),'$.value') as calculate_date,
+           yt_crm.plan_calculate_date(get_json_object(get_json_object(filter_config_json,'$.calculate_date'),'$.value'), 'max') as calculate_date_value_end,
            replace(replace(replace(get_json_object(get_json_object(filter_config_json,'$.new_sign_line'),'$.value'),'\"',''),'[',''),']','') as new_sign_line,
-           replace(replace(replace(replace(get_json_object(get_json_object(filter_config_json,'$.calculate_date'),'$.value'),']',''),'\"',''),'[',''),',','~') as plan_pay_time,
            get_json_object(get_json_object(filter_config_json,'$.filter_user'),'$.value') as filter_user_value,
            get_json_object(get_json_object(filter_config_json,'$.filter_user'),'$.operator') as filter_user_operator,
            replace(replace(replace(get_json_object(get_json_object(filter_config_json,'$.grant_user'),'$.value'),'\"',''),'[',''),']','') as grant_user,
@@ -107,7 +104,7 @@ sign as (
     from (select * from yt_crm.dw_salary_sign_rule_public_mid_v2_d where dayid = '${v_date}') ord
     cross join plan ON 1 = 1
     LEFT JOIN shop_group_mapping ON ord.shop_id = shop_group_mapping.group_shop_id
-    where shop_brand_sign_day between calculate_date_value_start and calculate_date_value_end
+    where yt_crm.plan_calculate_date(plan.calculate_date, 'between', shop_brand_sign_day) = 'true'
     and pay_day <= calculate_date_value_end
     and ytdw.simple_expr( sale_team_id,'in',sales_team_value)=(case when sales_team_operator ='=' then 1 else 0 end)
     and ytdw.simple_expr( item_style_name,'in',item_style_value)=(case when item_style_operator ='=' then 1 else 0 end)
@@ -179,7 +176,7 @@ before_cur as (
            --方案信息
            '当月方案' as plan_type,
            plan.month as plan_month,
-           plan.plan_pay_time,
+           yt_crm.plan_calculate_date(plan.calculate_date, 'str') as plan_pay_time,
            plan.name as plan_name,
            plan.biz_group_id as plan_group_id,
            plan.biz_group_name as plan_group_name,

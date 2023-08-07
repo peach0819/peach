@@ -1,7 +1,5 @@
 with plan as (
     SELECT *,
-           get_json_object(get_json_object(filter_config_json,'$.calculate_date'),'$.value') as calculate_date_value,
-           get_json_object(get_json_object(filter_config_json,'$.calculate_date'),'$.operator') as calculate_date_operator,
            get_json_object(get_json_object(filter_config_json,'$.freeze_sales_team'),'$.value') as freeze_sales_team_value,
            get_json_object(get_json_object(filter_config_json,'$.freeze_sales_team'),'$.operator') as freeze_sales_team_operator,
            get_json_object(get_json_object(filter_config_json,'$.item_style'),'$.value') as item_style_value,
@@ -24,9 +22,7 @@ with plan as (
            get_json_object(get_json_object(filter_config_json,'$.manage_area'),'$.operator') as manage_area_operator,
            get_json_object(get_json_object(filter_config_json,'$.shop_group'),'$.value') as shop_group_value,
            get_json_object(get_json_object(filter_config_json,'$.shop_group'),'$.operator') as shop_group_operator,
-           replace(replace(replace(split(get_json_object(get_json_object(filter_config_json,'$.calculate_date'),'$.value'),',')[0],'[',''),'\"',''),'-','') as calculate_date_value_start,
-           replace(replace(replace(split(get_json_object(get_json_object(filter_config_json,'$.calculate_date'),'$.value'),',')[1],']',''),'\"',''),'-','') as calculate_date_value_end,
-           replace(replace(replace(replace(get_json_object(get_json_object(filter_config_json,'$.calculate_date'),'$.value'),']',''),'\"',''),'[',''),',','~') as plan_pay_time,
+           get_json_object(get_json_object(filter_config_json,'$.calculate_date'),'$.value') as calculate_date,
            get_json_object(get_json_object(filter_config_json,'$.filter_user'),'$.value') as filter_user_value,
            get_json_object(get_json_object(filter_config_json,'$.filter_user'),'$.operator') as filter_user_operator,
            replace(replace(replace(get_json_object(get_json_object(filter_config_json,'$.grant_user'),'$.value'),'\"',''),'[',''),']','') as grant_user,
@@ -147,7 +143,7 @@ before_cur as (
 
            --方案基础信息,
            plan.month as plan_month,
-           plan.plan_pay_time,
+           yt_crm.plan_calculate_date(plan.calculate_date, 'str') as plan_pay_time,
            plan.name as plan_name,
            plan.biz_group_id as plan_group_id,
            plan.biz_group_name as plan_group_name,
@@ -277,7 +273,7 @@ before_cur as (
     FROM plan
     CROSS JOIN ord ON 1 = 1
     LEFT JOIN big_bd_manager ON yt_crm.get_service_info('service_job_name:大BD',ord.service_info_freezed,'service_department_id') = big_bd_manager.dept_id AND big_bd_manager.rn = 1
-    where ord.pay_day between calculate_date_value_start and calculate_date_value_end
+    where yt_crm.plan_calculate_date(plan.calculate_date, 'between', ord.pay_day) = 'true'
     and ytdw.simple_expr(ord.sale_team_freezed_id, 'in', freeze_sales_team_value) = (case when freeze_sales_team_operator = '=' then 1 else 0 end)
     and ytdw.simple_expr(item_style_name, 'in', item_style_value) = (case when item_style_operator = '=' then 1 else 0 end)
     and ytdw.simple_expr(category_id_first, 'in', category_first_value) = (case when category_first_operator = '=' then 1 else 0 end)
