@@ -15,8 +15,8 @@ with plan as (
                 when bounty_payout_object_id IN (1,2,3) AND bounty_indicator_code = 'GMV_SHIHUO_RATE' then 'class_b_area_pure'
                 when bounty_payout_object_id IN (7) AND bounty_indicator_code = 'GMV_SHIHUO_RATE' then 'class_b_dept'
            end as kpi_indicator_type,
-           replace(replace(replace(split(get_json_object(get_json_object(filter_config_json,'$.calculate_date'),'$.value'),',')[0],'[',''),'\"',''),'-','') as calculate_date_value_start,
-           replace(replace(replace(split(get_json_object(get_json_object(filter_config_json,'$.calculate_date'),'$.value'),',')[1],']',''),'\"',''),'-','') as calculate_date_value_end,
+           yt_crm.plan_calculate_date(get_json_object(get_json_object(filter_config_json,'$.calculate_date'),'$.value'), 'min') as calculate_date_value_start,
+           yt_crm.plan_calculate_date(get_json_object(get_json_object(filter_config_json,'$.calculate_date'),'$.value'), 'max') as calculate_date_value_end,
 
            --门店门槛
            replace(replace(replace(get_json_object(get_json_object(filter_config_json,'$.valid_gmv_line'),'$.value'),'\"',''),'[',''),']','') as valid_gmv_line

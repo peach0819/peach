@@ -14,8 +14,8 @@ with plan as (
                 when bounty_payout_object_id IN (1,2,3) AND bounty_indicator_code = 'SIGN_BRAND_GMV_RATE' then 'class_b_area_pure'
            end as kpi_indicator_type,
 
-           replace(replace(replace(split(get_json_object(get_json_object(filter_config_json,'$.calculate_date'),'$.value'),',')[0],'[',''),'\"',''),'-','') as calculate_date_value_start,
-           replace(replace(replace(split(get_json_object(get_json_object(filter_config_json,'$.calculate_date'),'$.value'),',')[1],']',''),'\"',''),'-','') as calculate_date_value_end
+           yt_crm.plan_calculate_date(get_json_object(get_json_object(filter_config_json,'$.calculate_date'),'$.value'), 'min') as calculate_date_value_start,
+           yt_crm.plan_calculate_date(get_json_object(get_json_object(filter_config_json,'$.calculate_date'),'$.value'), 'max') as calculate_date_value_end
     FROM yt_crm.dw_bounty_plan_schedule_d
     WHERE array_contains(split(forward_date, ','), '${v_date}')
     AND ('@@{supply_mode}' = 'not_supply' OR array_contains(split(supply_date, ','), '${supply_date}'))
