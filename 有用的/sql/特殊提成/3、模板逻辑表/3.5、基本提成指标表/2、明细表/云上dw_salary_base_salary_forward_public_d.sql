@@ -25,13 +25,16 @@ with plan as (
            if(bounty_payout_object_id IN (1,2,3,7), 'MANAGER', 'SALE') as data_type,
 
            --CRM工作室指标名
-           case when bounty_payout_object_id IN (4,5) AND bounty_indicator_code = 'B_PFM_RATE_NO_C' then 'class_b_capacity'
-                when bounty_payout_object_id IN (4,5) AND bounty_indicator_code = 'B_SHIHUO_RATE_NO_C' then 'class_b_capacity_pure'
-                when bounty_payout_object_id IN (1,2,3) AND bounty_indicator_code = 'B_PFM_RATE_NO_C' then 'class_b_area_nonebig_nonesp'
-                when bounty_payout_object_id IN (1,2,3) AND bounty_indicator_code = 'B_SHIHUO_RATE_NO_C' then 'class_b_area_pure'
-                when bounty_payout_object_id IN (7) AND bounty_indicator_code = 'B_PFM_RATE_NO_C' then 'class_b_dept'
-                when bounty_payout_object_id IN (7) AND bounty_indicator_code = 'B_SHIHUO_RATE_NO_C' then 'class_b_dept'
-           end as kpi_indicator_type
+           CASE WHEN bounty_payout_object_id IN (4,5)
+                THEN CASE WHEN bounty_indicator_code IN ('B_PFM_RATE_NO_C', 'BIG_PACK_RATE') then 'class_b_capacity'
+                          WHEN bounty_indicator_code = 'B_SHIHUO_RATE_NO_C' then 'class_b_capacity_pure'
+                          END
+                WHEN bounty_payout_object_id IN (1,2,3)
+                THEN CASE WHEN bounty_indicator_code = 'B_PFM_RATE_NO_C' then 'class_b_area_nonebig_nonesp'
+                          WHEN bounty_indicator_code IN ('B_SHIHUO_RATE_NO_C', 'BIG_PACK_RATE') then 'class_b_area_pure'
+                          END
+                WHEN bounty_payout_object_id IN (7) THEN 'class_b_dept'
+                END as kpi_indicator_type
     FROM yt_crm.dw_bounty_plan_schedule_d
     WHERE array_contains(split(forward_date, ','), '${v_date}')
     AND ('@@{supply_mode}' = 'not_supply' OR array_contains(split(supply_date, ','), '${supply_date}'))
@@ -67,8 +70,9 @@ data as (
            'SALE' as data_type,
            service_user_id as user_id,
            leave_time,
-           b_coefficient_summary as b_pfm, --B类业绩口径目标完成值
-           gmv_shihuo as b_shihuo          --B类实货口径目标完成值
+           b_coefficient_summary as b_pfm,     --B类业绩口径目标完成值
+           gmv_shihuo as b_shihuo,             --B类实货口径目标完成值
+           b_coefficient_summary as big_pack   --大包完成值
     FROM yt_crm.ads_salary_result_sale_d
     WHERE dayid > '0'
 
@@ -78,8 +82,9 @@ data as (
            'MANAGER' as data_type,
            user_id,
            null as leave_time,
-           pure_b_gmv as b_pfm, --B类业绩口径目标完成值
-           pure_b_gmv_shihuo as b_shihuo  --B类实货口径目标完成值
+           pure_b_gmv as b_pfm,                     --B类业绩口径目标完成值
+           pure_b_gmv_shihuo as b_shihuo,           --B类实货口径目标完成值
+           big_package_pure_gmv_shihuo as big_pack  --大包完成值
     FROM yt_crm.ads_salary_result_manager_d
     WHERE dayid > '0'
 ),
@@ -110,6 +115,7 @@ cur as (
            plan.bounty_indicator_name as sts_target_name,
            ((case when plan.bounty_indicator_code = 'B_PFM_RATE_NO_C' then data.b_pfm
                   when plan.bounty_indicator_code = 'B_SHIHUO_RATE_NO_C' then data.b_shihuo
+                  when plan.bounty_indicator_code = 'BIG_PACK_RATE' then data.big_pack
                   end)
              / max(target.target)) * 100 as sts_target,
 
@@ -117,6 +123,7 @@ cur as (
            to_json(named_struct(
                'b_pfm', data.b_pfm,
                'b_shihuo', data.b_shihuo,
+               'big_pack', data.big_pack,
                'target', nvl(max(target.target), 0)
            )) as extra
     FROM plan
