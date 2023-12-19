@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>产品组 : 2. 优惠券之采购营销费用(原名:业务线营销费用)</title>
+        <link rel="stylesheet" href="styles/site.css" type="text/css" />
+        <META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    </head>
+
+    <body class="theme-default aui-theme-default">
+        <div id="page">
+            <div id="main" class="aui-page-panel">
+                <div id="main-header">
+                    <div id="breadcrumb-section">
+                        <ol id="breadcrumbs">
+                            <li class="first">
+                                <span><a href="index.html">产品组</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="70335729.html">01_数据逻辑及模型设计思路</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="59212886.html">三、费用</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="61057821.html">营销费用之优惠券</a></span>
+                            </li>
+                                                </ol>
+                    </div>
+                    <h1 id="title-heading" class="pagetitle">
+                                                <span id="title-text">
+                            产品组 : 2. 优惠券之采购营销费用(原名:业务线营销费用)
+                        </span>
+                    </h1>
+                </div>
+
+                <div id="content" class="view">
+                    <div class="page-metadata">
+                        
+        
+    
+        
+    
+        
+        
+            Created by <span class='author'> 未知用户 (lei.xue)</span>, last modified on 2022-01-19
+                        </div>
+                    <div id="main-content" class="wiki-content group">
+                    <h1 class="auto-cursor-target" id="id-2.优惠券之采购营销费用(原名:业务线营销费用)-修订记录"><strong>修订记录</strong></h1><div class="table-wrap"><table class="wrapped confluenceTable"><colgroup><col/><col/><col/><col/><col/></colgroup><thead><tr><th style="text-align: left;" class="confluenceTh"><p>版本号</p></th><th style="text-align: left;" class="confluenceTh"><p>内容</p></th><th style="text-align: left;" class="confluenceTh"><p>作者</p></th><th style="text-align: left;" class="confluenceTh"><p>时间</p></th><th colspan="1" style="text-align: left;" class="confluenceTh"><p>备注</p></th></tr></thead><tbody><tr><td colspan="1" style="text-align: left;" class="confluenceTd">V1</td><td colspan="1" style="text-align: left;" class="confluenceTd"><br/></td><td colspan="1" style="text-align: left;" class="confluenceTd">聆音</td><td colspan="1" style="text-align: left;" class="confluenceTd">19年</td><td colspan="1" style="text-align: left;" class="confluenceTd">此为阿雷修订时,复原原有逻辑</td></tr><tr><td colspan="1" class="confluenceTd">V2</td><td colspan="1" class="confluenceTd"><p>1.计算分摊占比的指标 从 GMV 改成 GMV-退款</p><p>2.新增降级兜底分摊的逻辑</p><p>3.新增监控告警</p></td><td colspan="1" class="confluenceTd">阿雷</td><td colspan="1" class="confluenceTd">2020.12.18</td><td colspan="1" class="confluenceTd"><a href="http://k.yangtuojia.com/pages/viewpage.action?pageId=54505170">20210107_渠道毛利报表数据逻辑1期</a></td></tr><tr><td colspan="1" class="confluenceTd">V2.1</td><td colspan="1" class="confluenceTd">新增 分摊时的订单池必须是 海拍客自营订单(sale_dc_id= 0或-1)</td><td colspan="1" class="confluenceTd">阿雷</td><td colspan="1" class="confluenceTd">2021/03/04</td><td colspan="1" class="confluenceTd"><br/></td></tr><tr><td colspan="1" class="confluenceTd">V3</td><td colspan="1" class="confluenceTd">采购和渠道营销费用同频. 全面更改 采购营销费用的计算规则</td><td colspan="1" class="confluenceTd">阿雷</td><td colspan="1" class="confluenceTd">2021/03/12</td><td colspan="1" class="confluenceTd"><br/></td></tr></tbody></table></div><p><style type='text/css'>/*<![CDATA[*/
+div.rbtoc1702954318810 {padding: 0px;}
+div.rbtoc1702954318810 ul {list-style: disc;margin-left: 0px;}
+div.rbtoc1702954318810 li {margin-left: 0px;padding-left: 0px;}
+
+/*]]>*/</style><div class='toc-macro rbtoc1702954318810'>
+<ul class='toc-indentation'>
+<li><a href='#id-2.优惠券之采购营销费用(原名:业务线营销费用)-修订记录'>修订记录</a>
+<ul class='toc-indentation'>
+<li><a href='#id-2.优惠券之采购营销费用(原名:业务线营销费用)-引用'>引用</a></li>
+</ul>
+</li>
+<li><a href='#id-2.优惠券之采购营销费用(原名:业务线营销费用)-业务背景'>业务背景</a>
+<ul class='toc-indentation'>
+<li><a href='#id-2.优惠券之采购营销费用(原名:业务线营销费用)-营销费用与优惠券的关系'>营销费用与优惠券的关系</a></li>
+<li><a href='#id-2.优惠券之采购营销费用(原名:业务线营销费用)-营销费用与业务团队归属的问题'>营销费用与业务团队归属的问题</a></li>
+<li><a href='#id-2.优惠券之采购营销费用(原名:业务线营销费用)-为什么要做分摊'>为什么要做分摊</a></li>
+</ul>
+</li>
+<li><a href='#id-2.优惠券之采购营销费用(原名:业务线营销费用)-监控预警(V2新增)'>监控预警(V2新增)</a></li>
+</ul>
+</div></p><h2 id="id-2.优惠券之采购营销费用(原名:业务线营销费用)-引用"><strong>引用</strong></h2><p><a class="external-link" href="http://demo.yangtuojia.com/%E4%B8%9A%E5%8A%A1%E6%9C%8D%E5%8A%A1/%E8%B4%A2%E5%8A%A1%E4%B8%AD%E5%BF%83/02_%E9%A1%B9%E7%9B%AE/201905_01_%E6%AF%9B%E5%88%A9%E6%8A%A5%E8%A1%A8/201905_%E9%A1%B9%E7%9B%AE_01%20%E6%AF%9B%E5%88%A9%E6%8A%A5%E8%A1%A8%E4%BA%A7%E5%93%81%E5%8C%96/#g=1&amp;p=%E4%B8%9A%E5%8A%A1%E6%AF%9B%E6%94%B6%E5%85%A5" rel="nofollow" style="text-decoration: none;">采购毛利报表一期</a></p><h1 id="id-2.优惠券之采购营销费用(原名:业务线营销费用)-业务背景">业务背景</h1><h2 id="id-2.优惠券之采购营销费用(原名:业务线营销费用)-营销费用与优惠券的关系">营销费用与优惠券的关系</h2><p>营销费用是指 项目销售推广、物料包装、以及与营销相关的各类服务、维护保养、 促销而发生的一切费用. </p><p>目前公司单指 订单支付时所产生的 跟相关业务团队相关的 优惠券金额. 后续可能会增加其他费用. </p><p><br/></p><h2 id="id-2.优惠券之采购营销费用(原名:业务线营销费用)-营销费用与业务团队归属的问题">营销费用与业务团队归属的问题</h2><p>只有严格意义上,是公司掏钱(承担)的营销费用,才会需要去对其营销费用进行归属.</p><p><br/></p><p>并且,因为严格意义上,  销售团队,采购(业务组) 等 都一起为 同一份订单(业绩) 做工. 即 五纵十横的概念.</p><p>与此相关产生了 同一笔营销费用.  但是不同的营销费用可能是由公司内部不同的业务部门承担. 并且同一笔营销费用,也存在不同的视角.  例如 采购视角 和 渠道视角.</p><p>例如, 1个订单支付花了 100块钱.   其中,使用了20元优惠券.   根据一定的规则, 该优惠券被记为   商品1组的营销费用 和 BD部的营销费用. </p><p><br/></p><p>以下仅针对 采购视角的营销费用. 即 采购营销费用(原名:业务线营销费用)</p><p><br/></p><h2 id="id-2.优惠券之采购营销费用(原名:业务线营销费用)-为什么要做分摊">为什么要做分摊</h2><p>理想的数据模型, 是通过同一个视角/维度,在同一张表,  通过不同的数值类字段,直接聚合出该业务团队对应的 毛利 及其 构成毛利的相关数值.  以兼容业务的变化及业务细粒度的分析. </p><p>但实际上该订单实际归属的&quot;考核GMV&quot;的团队  并不完全等于 该订单上的优惠券实际承担的团队 . 更别说 增值服务工单这种没有订单关系的收入. </p><p>因此我们会将 不等于 场景下的 相关费用进行分摊.  按照 毛利报表的主体,即 业务毛收入 进行分摊.  保证所有的收入和费用能保证有 统一的 拿来聚合的&quot;字段&quot; ,进行后续统一的直接使用. </p><p><br/></p><p><br/></p><p><br/></p><p><br/></p><p><br/></p><p><br/></p><h1 id="id-2.优惠券之采购营销费用(原名:业务线营销费用)-监控预警(V2新增)">监控预警<span style="color: rgb(255,0,0);">(V2新增)</span></h1><p><span style="color: rgb(255,0,0);">保证以下预警规则T+1运行,且预警推送到 渠道毛利报表需求群中. </span></p><p><span style="color: rgb(255,0,0);">且保留SQL,保证告警了可以快速定位到. 可参见 <a class="external-link" href="https://meta.yangtuojia.com/front-static/dqc/monitordetail?id=294" rel="nofollow">DQC配置</a></span></p><p><span style="color: rgb(255,0,0);">请直接详见  <a href="http://k.yangtuojia.com/pages/viewpage.action?pageId=57077933" rel="nofollow">http://k.yangtuojia.com/pages/viewpage.action?pageId=57077933</a></span></p><p><br/></p><p><br/></p><p><br/></p><p><br/></p><p><br/></p><p><br/></p><p><br/></p><p><br/></p>
+                    </div>
+
+                                        <div class="pageSection group">
+                        <div class="pageSectionHeader">
+                            <h2 id="attachments" class="pageSectionTitle">Attachments:</h2>
+                        </div>
+
+                        <div class="greybox" align="left">
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/54522107/54522132.png">image2020-12-22_23-4-25.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/54522107/57051155.png">image2021-1-9_22-48-3.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/54522107/57051156.png">image2021-1-9_22-50-14.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/54522107/57051161.png">image2021-1-9_22-57-44.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/54522107/57051162.png">image2021-1-9_22-58-28.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/54522107/57051163.png">image2021-1-9_22-58-39.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/54522107/57051169.png">image2021-1-9_23-7-47.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/54522107/57051170.png">image2021-1-9_23-8-58.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/54522107/57051179.png">image2021-1-9_23-17-23.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/54522107/57051189.png">image2021-1-9_23-33-39.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/54522107/57051193.png">image2021-1-9_23-39-37.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/54522107/57051197.png">image2021-1-9_23-43-57.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/54522107/57051205.png">image2021-1-9_23-48-44.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/54522107/57055085.png">image2021-1-12_21-33-3.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/54522107/57055115.png">image2021-1-12_22-26-23.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/54522107/57055528.png">image2021-1-13_10-40-4.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/54522107/57055586.png">image2021-1-13_10-56-27.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/54522107/57055619.png">image2021-1-13_11-4-17.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/54522107/57055635.png">image2021-1-13_11-7-24.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/54522107/57055636.png">image2021-1-13_11-7-34.png</a> (image/png)
+                                <br/>
+                                                    </div>
+                    </div>
+                    
+                                                      
+                </div>             </div> 
+            <div id="footer" role="contentinfo">
+                <section class="footer-body">
+                    <p>Document generated by Confluence on 2023-12-19 10:51</p>
+                    <div id="footer-logo"><a href="http://www.atlassian.com/">Atlassian</a></div>
+                </section>
+            </div>
+        </div>     </body>
+</html>

@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>产品组 : 2. 收款手续费</title>
+        <link rel="stylesheet" href="styles/site.css" type="text/css" />
+        <META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    </head>
+
+    <body class="theme-default aui-theme-default">
+        <div id="page">
+            <div id="main" class="aui-page-panel">
+                <div id="main-header">
+                    <div id="breadcrumb-section">
+                        <ol id="breadcrumbs">
+                            <li class="first">
+                                <span><a href="index.html">产品组</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="70335729.html">01_数据逻辑及模型设计思路</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="59212882.html">二、履约成本</a></span>
+                            </li>
+                                                </ol>
+                    </div>
+                    <h1 id="title-heading" class="pagetitle">
+                                                <span id="title-text">
+                            产品组 : 2. 收款手续费
+                        </span>
+                    </h1>
+                </div>
+
+                <div id="content" class="view">
+                    <div class="page-metadata">
+                        
+        
+    
+        
+    
+        
+        
+            Created by <span class='author'> 未知用户 (lei.xue)</span>, last modified on 2022-04-24
+                        </div>
+                    <div id="main-content" class="wiki-content group">
+                    <h1 class="auto-cursor-target" id="id-2.收款手续费-修订记录">修订记录</h1><div class="table-wrap"><table class="relative-table wrapped confluenceTable" style="width: 51.1796%;"><colgroup><col style="width: 15.6994%;"/><col style="width: 26.1917%;"/><col style="width: 22.3214%;"/><col style="width: 20.3869%;"/><col style="width: 15.4055%;"/></colgroup><thead><tr><th style="text-align: left;" class="confluenceTh"><p>版本号</p></th><th style="text-align: left;" class="confluenceTh"><p>内容</p></th><th style="text-align: left;" class="confluenceTh"><p>作者</p></th><th style="text-align: left;" class="confluenceTh"><p>时间</p></th><th colspan="1" style="text-align: left;" class="confluenceTh"><p>备注</p></th></tr></thead><tbody><tr><td colspan="1" style="text-align: left;" class="confluenceTd">V1</td><td colspan="1" style="text-align: left;" class="confluenceTd">老版本</td><td colspan="1" style="text-align: left;" class="confluenceTd">聆音</td><td colspan="1" style="text-align: left;" class="confluenceTd">19年</td><td colspan="1" style="text-align: left;" class="confluenceTd">此为阿雷修订时,复原原有逻辑</td></tr><tr><td colspan="1" class="confluenceTd">V2</td><td colspan="1" class="confluenceTd">阿雷新增 手续费的 逆向逻辑</td><td colspan="1" class="confluenceTd"><br/></td><td colspan="1" class="confluenceTd"><br/></td><td colspan="1" class="confluenceTd"><br/></td></tr></tbody></table></div><p><br/></p><p class="auto-cursor-target"><style type='text/css'>/*<![CDATA[*/
+div.rbtoc1702954311591 {padding: 0px;}
+div.rbtoc1702954311591 ul {list-style: disc;margin-left: 0px;}
+div.rbtoc1702954311591 li {margin-left: 0px;padding-left: 0px;}
+
+/*]]>*/</style><div class='toc-macro rbtoc1702954311591'>
+<ul class='toc-indentation'>
+<li><a href='#id-2.收款手续费-修订记录'>修订记录</a></li>
+<li><a href='#id-2.收款手续费-引用'>引用</a></li>
+<li><a href='#id-2.收款手续费-使用场景'>使用场景</a></li>
+<li><a href='#id-2.收款手续费-逻辑定义'>逻辑定义</a>
+<ul class='toc-indentation'>
+<li><a href='#id-2.收款手续费-V1版本已废弃-19年5月-20年12月'>V1版本 已废弃-19年5月-20年12月</a></li>
+<li><a href='#id-2.收款手续费-V2版本--最新版–21年11月至今'>V2版本 --最新版–21年11月至今</a></li>
+<li><a href='#id-2.收款手续费-名词定义'>名词定义</a></li>
+<li><a href='#id-2.收款手续费-数据期望'>数据期望</a></li>
+</ul>
+</li>
+<li><a href='#id-2.收款手续费-已知业务问题'>已知业务问题</a>
+<ul class='toc-indentation'>
+<li><a href='#id-2.收款手续费-1.业务规则-hi卡支付的实货订单手续费承担问题'>1.业务规则-hi卡支付的实货订单 手续费承担问题</a></li>
+<li><a href='#id-2.收款手续费-2.业务问题-有指定的2个渠道,不存在逆向返还手续费'>2.业务问题-有指定的2个渠道, 不存在逆向返还手续费</a></li>
+<li><a href='#id-2.收款手续费-3.B类清退不走原路返,走的是打款'>3. B类清退不走原路返,走的是打款</a></li>
+<li><a href='#id-2.收款手续费-4.超过9月份的支付单,不能发起系统的原路退,必须走打款中心'>4. 超过9月份的支付单,不能发起系统的原路退,必须走 打款中心</a></li>
+</ul>
+</li>
+</ul>
+</div></p><h1 class="auto-cursor-target" id="id-2.收款手续费-引用">引用</h1><p><a class="external-link" href="http://demo.yangtuojia.com/%E4%B8%9A%E5%8A%A1%E6%9C%8D%E5%8A%A1/%E8%B4%A2%E5%8A%A1%E4%B8%AD%E5%BF%83/02_%E9%A1%B9%E7%9B%AE/201905_01_%E6%AF%9B%E5%88%A9%E6%8A%A5%E8%A1%A8/201905_%E9%A1%B9%E7%9B%AE_01%20%E6%AF%9B%E5%88%A9%E6%8A%A5%E8%A1%A8%E4%BA%A7%E5%93%81%E5%8C%96/#g=1&amp;p=%E6%AF%9B%E5%88%A9%E6%8A%A5%E8%A1%A8%E6%B5%81%E7%A8%8B%E5%9B%BE" rel="nofollow">demo</a></p><h1 class="auto-cursor-target" id="id-2.收款手续费-使用场景">使用场景</h1><p>对应的费用基本上包括</p><div class="table-wrap"><table class="relative-table wrapped confluenceTable" style="width: 71.0045%;"><colgroup><col style="width: 15.8739%;"/><col style="width: 35.4155%;"/><col style="width: 48.7106%;"/></colgroup><tbody><tr><th class="confluenceTh">使用的指标</th><th class="confluenceTh">相关公式</th><th class="confluenceTh"><br/></th></tr><tr><td class="confluenceTd">履约成本</td><td class="confluenceTd">履约成本 = 仓储费 + 物流费用 + 收款手续费 </td><td class="confluenceTd"><a href="59212882.html">二、履约成本</a></td></tr></tbody></table></div><h1 class="auto-cursor-target" id="id-2.收款手续费-逻辑定义">逻辑定义</h1><h2 id="id-2.收款手续费-V1版本已废弃-19年5月-20年12月"><s>V1版本 已废弃-19年5月-20年12月</s></h2><p style="text-align: left;">老版本逻辑无从考究. 目前是根据记忆现写的. 请直接参见V2版本逻辑</p><p style="text-align: left;"><strong><span style="color: rgb(23,43,77);">1.当 orignal_type为0 时, </span></strong></p><p style="text-align: left;"><span style="color: rgb(23,43,77);">    如果该订单能取到 支付单上的手续费, 则 收款手续费 = 支付单上的手续费</span></p><p style="text-align: left;"><span style="color: rgb(23,43,77);">    如果不能, 则手续费为 通过路由 <a class="external-link" href="https://caiwu.yangtuojia.com/hi-money-admin-static/paycenter/channel/list.html" rel="nofollow">财务渠道管理</a> 里的 支付方式 渠道其 渠道费率. 此时 收款手续费 =  (订单支付金额-hi卡支付金额) * 渠道费率</span></p><h2 id="id-2.收款手续费-V2版本--最新版–21年11月至今">V2版本 --最新版–21年11月至今</h2><p style="text-align: left;"><strong><span style="color: rgb(23,43,77);">1.当 orignal_type为0 时, </span></strong></p><p style="text-align: left;"><span style="color: rgb(23,43,77);">    如果该订单能取到 支付单上的手续费, 则 收款手续费 = 支付单上的手续费</span></p><p style="text-align: left;"><span style="color: rgb(23,43,77);">    如果不能, 则手续费为 通过路由 <a class="external-link" href="https://caiwu.yangtuojia.com/hi-money-admin-static/paycenter/channel/list.html" rel="nofollow">财务渠道管理</a> 里的 支付方式 渠道其 渠道费率. 此时 收款手续费 =  (订单支付金额-hi卡支付金额) * 渠道费率</span></p><p style="text-align: left;"><strong><span style="color: rgb(23,43,77);">2.当 orignal_type为1 时, <span style="color: rgb(255,0,0);">V2新增逻辑</span></span></strong></p><p style="text-align: left;"><span style="color: rgb(23,43,77);">    如果该退款的订单能取到 支付单上的手续费, 则 收款手续费 = 当时订单上的支付单上的手续费 * 退款比例 * -1 </span></p><p style="text-align: left;"><span style="color: rgb(23,43,77);">    如果不能, 则手续费为 通过订单上的 支付方式 , 路由<span style="color: rgb(255,0,0);">当天分区</span> <a class="external-link" href="https://caiwu.yangtuojia.com/hi-money-admin-static/paycenter/channel/list.html" rel="nofollow">财务渠道管理</a> 里的 渠道费率. 此时 收款手续费 =  (订单支付金额-hi卡支付金额) * 渠道费率 * 退款比例 * -1 </span></p><p style="text-align: left;"><br/></p><h2 style="text-align: left;" id="id-2.收款手续费-名词定义">名词定义</h2><p style="text-align: left;">订单支付金额. 指的是 订单上门店支付的总金额. 包含了 hi卡支付 和 第三方渠道支付.</p><p style="text-align: left;">例如,某实货订单, 共计支付金额为 1万. 里面包含2000支付宝支付, 8000 hi卡支付.</p><p style="text-align: left;">则其 订单支付金额为 1万; hi卡支付金额为 8000.   以上统计手续费时,按 2000的 第三方支付金额 来换算. </p><p><br/></p><h2 id="id-2.收款手续费-数据期望">数据期望</h2><div class="table-wrap"><table class="relative-table wrapped confluenceTable" style="width: 25.0%;"><colgroup><col style="width: 48.5645%;"/><col style="width: 51.4355%;"/></colgroup><tbody><tr><th class="confluenceTh">规则名称</th><th class="confluenceTh"><br/></th></tr><tr><td class="confluenceTd">original_type为0时, 手续费永远 &gt;=0</td><td class="confluenceTd"><br/></td></tr><tr><td class="confluenceTd">original_type为1时, 手续费永远 &lt;=0</td><td class="confluenceTd"><br/></td></tr><tr><td class="confluenceTd">original_type不为 0 和1 时, 手续费永远 = 0 </td><td class="confluenceTd"><br/></td></tr></tbody></table></div><p><br/></p><p><br/></p><h1 id="id-2.收款手续费-已知业务问题">已知业务问题</h1><h2 id="id-2.收款手续费-1.业务规则-hi卡支付的实货订单手续费承担问题">1.业务规则-hi卡支付的实货订单 手续费承担问题</h2><p>例如, HI卡充值了10万. 然后买了10万B类尿不湿. </p><p>此时,  卡券票业务组承担了这10万的手续费.   没有 采购 或者 渠道承担. </p><p>理论误差 = 历史hi卡支付金额* 0.003 </p><p><br/></p><p><br/></p><h2 id="id-2.收款手续费-2.业务问题-有指定的2个渠道,不存在逆向返还手续费">2.业务问题-有指定的2个渠道, 不存在逆向返还手续费</h2><p>金额较小. 原因等瑶瑶补充. 暂不特殊处理</p><p>谈的时候就没有返还了. </p><p><br/></p><p><br/></p><h2 id="id-2.收款手续费-3.B类清退不走原路返,走的是打款">3. B类清退不走原路返,走的是打款</h2><p>实际上支付渠道不会返还.   </p><p>理论误差 = 历史 B类清退</p><p>待确认: 是否有其他的 不走原路退的业务模式</p><p><br/></p><p>PS: 楚其补充数据, 上周为例, 这块共计 20万 不走原路退的打款. 共计可能误差 逆向的手续费为 600元 .</p><p><br/></p><h2 id="id-2.收款手续费-4.超过9月份的支付单,不能发起系统的原路退,必须走打款中心">4. 超过9月份的支付单,不能发起系统的原路退,必须走 打款中心</h2><p>这部分就是导致的误差</p><p><br/></p><p><br/></p><p><br/></p><p><br/></p><p><br/></p>
+                    </div>
+
+                    
+                                                      
+                </div>             </div> 
+            <div id="footer" role="contentinfo">
+                <section class="footer-body">
+                    <p>Document generated by Confluence on 2023-12-19 10:51</p>
+                    <div id="footer-logo"><a href="http://www.atlassian.com/">Atlassian</a></div>
+                </section>
+            </div>
+        </div>     </body>
+</html>

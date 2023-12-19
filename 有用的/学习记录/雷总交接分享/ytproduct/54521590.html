@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>产品组 : 3. 退款GMV</title>
+        <link rel="stylesheet" href="styles/site.css" type="text/css" />
+        <META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    </head>
+
+    <body class="theme-default aui-theme-default">
+        <div id="page">
+            <div id="main" class="aui-page-panel">
+                <div id="main-header">
+                    <div id="breadcrumb-section">
+                        <ol id="breadcrumbs">
+                            <li class="first">
+                                <span><a href="index.html">产品组</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="70335729.html">01_数据逻辑及模型设计思路</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="59212875.html">一、收入</a></span>
+                            </li>
+                                                </ol>
+                    </div>
+                    <h1 id="title-heading" class="pagetitle">
+                                                <span id="title-text">
+                            产品组 : 3. 退款GMV
+                        </span>
+                    </h1>
+                </div>
+
+                <div id="content" class="view">
+                    <div class="page-metadata">
+                        
+        
+    
+        
+    
+        
+        
+            Created by <span class='author'> 未知用户 (lei.xue)</span>, last modified on 2022-12-08
+                        </div>
+                    <div id="main-content" class="wiki-content group">
+                    <h1 class="auto-cursor-target" id="id-3.退款GMV-修订记录">修订记录</h1><div class="table-wrap"><table class="wrapped confluenceTable"><colgroup><col/><col/><col/><col/><col/></colgroup><thead><tr><th style="text-align: left;" class="confluenceTh"><p>版本号</p></th><th style="text-align: left;" class="confluenceTh"><p>内容</p></th><th style="text-align: left;" class="confluenceTh"><p>作者</p></th><th style="text-align: left;" class="confluenceTh"><p>时间</p></th><th colspan="1" style="text-align: left;" class="confluenceTh"><p>备注</p></th></tr></thead><tbody><tr><td colspan="1" style="text-align: left;" class="confluenceTd">V1</td><td colspan="1" style="text-align: left;" class="confluenceTd">退款GMV = 门店实际退款金额</td><td colspan="1" style="text-align: left;" class="confluenceTd">聆音</td><td colspan="1" style="text-align: left;" class="confluenceTd">19年</td><td colspan="1" style="text-align: left;" class="confluenceTd">此为阿雷修订时,复原原有逻辑</td></tr><tr><td colspan="1" class="confluenceTd">V2</td><td colspan="1" class="confluenceTd">退款GMV = GMV * (退款比例)</td><td colspan="1" class="confluenceTd">阿雷</td><td colspan="1" class="confluenceTd">2020.12.18</td><td colspan="1" class="confluenceTd"><br/></td></tr></tbody></table></div><p><br/></p><p class="auto-cursor-target"><style type='text/css'>/*<![CDATA[*/
+div.rbtoc1702954307271 {padding: 0px;}
+div.rbtoc1702954307271 ul {list-style: disc;margin-left: 0px;}
+div.rbtoc1702954307271 li {margin-left: 0px;padding-left: 0px;}
+
+/*]]>*/</style><div class='toc-macro rbtoc1702954307271'>
+<ul class='toc-indentation'>
+<li><a href='#id-3.退款GMV-修订记录'>修订记录</a></li>
+<li><a href='#id-3.退款GMV-使用场景'>使用场景</a></li>
+<li><a href='#id-3.退款GMV-V1版本已废弃--19年5月-20年12月'>V1版本 已废弃--19年5月-20年12月</a></li>
+<li><a href='#id-3.退款GMV-V2版本--最新版--21年1月起生效'>V2版本 --最新版--21年1月起生效</a>
+<ul class='toc-indentation'>
+<li><a href='#id-3.退款GMV-业务背景'>业务背景</a>
+<ul class='toc-indentation'>
+<li><a href='#id-3.退款GMV-业务场景示例'>业务场景示例</a></li>
+<li><a href='#id-3.退款GMV-老版本逻辑(退款比例V1版本)'>老版本逻辑(退款比例V1版本)</a></li>
+<li><a href='#id-3.退款GMV-修正公式:退款比例按V2来进行计算'>修正公式:  退款比例按V2来进行计算</a></li>
+<li><a href='#id-3.退款GMV-最终理想的退款GMV公式为GMV*退款比例+海拍客承担退回运费.'>最终理想的退款GMV公式为  GMV * 退款比例 + 海拍客承担退回运费 . </a></li>
+<li><a href='#id-3.退款GMV-最终业务决定'>最终业务决定</a></li>
+</ul>
+</li>
+<li><a href='#id-3.退款GMV-公式'>公式</a></li>
+<li><a href='#id-3.退款GMV-举例说明'>举例说明</a></li>
+</ul>
+</li>
+<li><a href='#id-3.退款GMV-字段引用截图'>字段引用截图</a></li>
+<li><a href='#id-3.退款GMV-备注'>备注</a>
+<ul class='toc-indentation'>
+<li><a href='#id-3.退款GMV-查询有退款运费补贴的订单'>查询有退款运费补贴的订单</a></li>
+<li><a href='#id-3.退款GMV-改造前后(V1V2的影响)'>改造前后(V1 V2 的影响)</a></li>
+</ul>
+</li>
+<li><a href='#id-3.退款GMV-其他'>其他</a></li>
+</ul>
+</div></p><h1 class="auto-cursor-target" id="id-3.退款GMV-使用场景">使用场景</h1><p><strong>核心是计算出考核GMV和业务毛收入</strong></p><h1 id="id-3.退款GMV-V1版本已废弃--19年5月-20年12月"><s>V1版本 已废弃--19年5月-20年12月</s></h1><p><s><a class="external-link" href="http://demo.yangtuojia.com/%E4%B8%9A%E5%8A%A1%E6%9C%8D%E5%8A%A1/%E8%B4%A2%E5%8A%A1%E4%B8%AD%E5%BF%83/02_%E9%A1%B9%E7%9B%AE/201905_01_%E6%AF%9B%E5%88%A9%E6%8A%A5%E8%A1%A8/201905_%E9%A1%B9%E7%9B%AE_01%20%E6%AF%9B%E5%88%A9%E6%8A%A5%E8%A1%A8%E4%BA%A7%E5%93%81%E5%8C%96/#g=1&amp;p=%E9%80%80%E6%AC%BEgmv" rel="nofollow">原始PRD</a></s></p><p>早前PRD没有明确表示具体的公式.</p><p>基本的原则就是  退款GMV = 实际退款金额+ 优惠券扣回金额.</p><p>优惠券扣回金额 =  优惠券金额 * 退款比例</p><h1 id="id-3.退款GMV-V2版本--最新版--21年1月起生效">V2版本 --最新版--21年1月起生效</h1><h2 id="id-3.退款GMV-业务背景">业务背景</h2><h3 id="id-3.退款GMV-业务场景示例">业务场景示例</h3><p>核心是考虑到 寄回运费 承担的问题. </p><p>例如,</p><p>正向流程: </p><p>某订单未使用优惠券. 实际 GMV 为100元.  此时计算出 供应商结算总金额为 80元.  此时,公司的业务毛收入 为 20元. </p><p>逆向流程:</p><p>因为货品品质问题,导致门店退款,且承担了其 寄回运费. 导致此时的 实退金额为 105元. 5元为 寄回运费补贴.</p><h3 id="id-3.退款GMV-老版本逻辑(退款比例V1版本)">老版本逻辑(退款比例V1版本)</h3><p>按此前的公式,则  退款GMV = 105.  此时该订单的 业务毛收入为  <strong>正向: [(100-80)  +   逆向[ (-105)  -  (80 *  -105%)  ]=  -1</strong> .    (PS:此时<a href="http://k.yangtuojia.com/pages/viewpage.action?pageId=54516237" rel="nofollow">退款比例</a>为 老版V1口径. )</p><p>或者说, 正向业务毛收入为 100-80= 20 元. 逆向为 20元* (-105元/100) = -21元. 此时该订单对海拍客业务毛收入为 20-21 = -1元. 与实际不符. 此时的 5元寄回运费补贴是供应商承担. </p><h3 id="id-3.退款GMV-修正公式:退款比例按V2来进行计算"><strong>修正公式:  退款比例按V2来进行计算</strong></h3><p>业务毛收入为    <strong>正向: 【(100-80) 】 -   逆向【 (105)  -  (80 * 100%) 】</strong>=  -5 元. </p><p>此时,依旧有问题. 在实际业务场景中,  这5块钱大部分场景下,应该直接由 供应商承担.  那 此单对我司而言, 业务毛收入为0 . 产生误差5块钱. </p><p>在业务上, 如果 退款中的寄回运费是由供应商承担, 会在其账单中多一个 扣除项. 但是在计算该订单的逆向数据,不会取其最新的扣除项,而是直接把 供应商结算总金额 逆向算出来. </p><p>所以以上公式会有问题. </p><p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/54521590/54521719.png" data-image-src="attachments/54521590/54521719.png" data-unresolved-comment-count="0" data-linked-resource-id="54521719" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2020-12-22_16-18-2.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="54521590" data-linked-resource-container-version="10"></span></p><h3 id="id-3.退款GMV-最终理想的退款GMV公式为GMV*退款比例+海拍客承担退回运费."><strong><span style="color: rgb(255,0,0);">最终理想的退款GMV公式为  GMV * 退款比例 + 海拍客承担退回运费 . </span></strong></h3><p>则上述场景中, 业务毛收入为   <strong>正向: 【(100 ) 】 -   逆向【 (100* 100% )   +  0 】 = 0 .</strong></p><p><br/></p><p>如果5块钱是 海拍客承担,则为  <strong>正向: 【(100 ) 】 -   逆向【 (100* 100% )   +  5 】 = -5. 完美符合业务场景. </strong></p><p><br/></p><h3 id="id-3.退款GMV-最终业务决定"><strong>最终业务决定</strong></h3><p>见下图. 考虑到 最近90天的退款中, 海拍客承担退回运费 总共才  7000. </p><p>但是改造起来,理解成本太高. 因此对公式进行简化.  即 简化成 <strong>退款GMV = GMV * 退款比例. </strong></p><p><strong><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/54521590/54521747.png" data-image-src="attachments/54521590/54521747.png" data-unresolved-comment-count="0" data-linked-resource-id="54521747" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2020-12-22_16-54-24.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="54521590" data-linked-resource-container-version="10"></span></strong></p><p><br/></p><p><br/></p><h2 id="id-3.退款GMV-公式"><strong>公式</strong></h2><p><strong>退款GMV = GMV * <a href="54516237.html">退款比例</a></strong></p><p><br/></p><p>注意！ 该公式不用区分 微小店订单 或者 非微小店订单。 </p><p><br/></p><h2 id="id-3.退款GMV-举例说明"><strong>举例说明</strong></h2><p><span>某货款金额为100元. 运费为20元. 门店加价80元. 则最终</span></p><p><span>GMV= 120 .  消费者实际支付金额 = 200.  (系统中的 消费者支付金额不包含运费. 即为180)</span></p><p>当消费者全额退款后,则</p><p>实际退款订单金额 =  200</p><p>销售者实际支付金额 = 180+20 = 200. </p><p>退款比例= 200 / 200 = 1 .即为 全额退款 .</p><h1 id="id-3.退款GMV-字段引用截图"><span>字段引用截图</span></h1><p><span><a class="external-link" href="https://kf.yangtuojia.com/refundDetail.html?refundNum=MRBH202007040202486286" rel="nofollow">示例退款单</a></span></p><p><br/></p><p><span><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" height="400" src="attachments/54521590/54521608.png" data-image-src="attachments/54521590/54521608.png" data-unresolved-comment-count="0" data-linked-resource-id="54521608" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2020-12-18_18-49-12.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="54521590" data-linked-resource-container-version="10"></span></span></p><p><br/></p><h1 id="id-3.退款GMV-备注">备注</h1><h3 id="id-3.退款GMV-查询有退款运费补贴的订单"><a class="external-link" href="https://edp.yangtuojia.com/edp/sqlQuery?id=7623" rel="nofollow">查询有退款运费补贴的订单</a></h3><p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/54521590/54521609.png" data-image-src="attachments/54521590/54521609.png" data-unresolved-comment-count="0" data-linked-resource-id="54521609" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2020-12-18_18-47-50.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="54521590" data-linked-resource-container-version="10"></span></p><p><br/></p><h3 id="id-3.退款GMV-改造前后(V1V2的影响)"><a class="external-link" href="https://edp.yangtuojia.com/edp/sqlQuery?id=7621" rel="nofollow">改造前后(V1 V2 的影响)</a></h3><p>见下统计.  当口径从V1切换成V2后, 基本上解决了 溢出 的情况. 从业务规则上也保证了有效性.  </p><p>避免因为错误的公式导致退款比例过高. </p><p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/54521590/54521610.png" data-image-src="attachments/54521590/54521610.png" data-unresolved-comment-count="0" data-linked-resource-id="54521610" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2020-12-22_15-29-31.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="54521590" data-linked-resource-container-version="10"></span></p><h1 id="id-3.退款GMV-其他">其他</h1><p><br/></p><p><br/></p><p><br/></p>
+                    </div>
+
+                                        <div class="pageSection group">
+                        <div class="pageSectionHeader">
+                            <h2 id="attachments" class="pageSectionTitle">Attachments:</h2>
+                        </div>
+
+                        <div class="greybox" align="left">
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/54521590/54521608.png">image2020-12-18_18-49-12.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/54521590/54521609.png">image2020-12-18_18-47-50.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/54521590/54521610.png">image2020-12-22_15-29-31.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/54521590/54521719.png">image2020-12-22_16-18-2.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/54521590/54521747.png">image2020-12-22_16-54-24.png</a> (image/png)
+                                <br/>
+                                                    </div>
+                    </div>
+                    
+                                                      
+                </div>             </div> 
+            <div id="footer" role="contentinfo">
+                <section class="footer-body">
+                    <p>Document generated by Confluence on 2023-12-19 10:51</p>
+                    <div id="footer-logo"><a href="http://www.atlassian.com/">Atlassian</a></div>
+                </section>
+            </div>
+        </div>     </body>
+</html>

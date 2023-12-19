@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>产品组 : 0. 实际海拍客承担优惠券金额流水(金额1)</title>
+        <link rel="stylesheet" href="styles/site.css" type="text/css" />
+        <META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    </head>
+
+    <body class="theme-default aui-theme-default">
+        <div id="page">
+            <div id="main" class="aui-page-panel">
+                <div id="main-header">
+                    <div id="breadcrumb-section">
+                        <ol id="breadcrumbs">
+                            <li class="first">
+                                <span><a href="index.html">产品组</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="70335729.html">01_数据逻辑及模型设计思路</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="59212886.html">三、费用</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="61057821.html">营销费用之优惠券</a></span>
+                            </li>
+                                                </ol>
+                    </div>
+                    <h1 id="title-heading" class="pagetitle">
+                                                <span id="title-text">
+                            产品组 : 0. 实际海拍客承担优惠券金额流水(金额1)
+                        </span>
+                    </h1>
+                </div>
+
+                <div id="content" class="view">
+                    <div class="page-metadata">
+                        
+        
+    
+        
+    
+        
+        
+            Created by <span class='author'> 未知用户 (lei.xue)</span>, last modified on 2022-06-21
+                        </div>
+                    <div id="main-content" class="wiki-content group">
+                    <h1 class="auto-cursor-target" id="id-0.实际海拍客承担优惠券金额流水(金额1)-修订记录"><strong>修订记录</strong></h1><div class="table-wrap"><table class="wrapped confluenceTable"><colgroup><col/><col/><col/><col/><col/></colgroup><thead><tr><th style="text-align: left;" class="confluenceTh"><p>版本号</p></th><th style="text-align: left;" class="confluenceTh"><p>内容</p></th><th style="text-align: left;" class="confluenceTh"><p>作者</p></th><th style="text-align: left;" class="confluenceTh"><p>时间</p></th><th colspan="1" style="text-align: left;" class="confluenceTh"><p>备注</p></th></tr></thead><tbody><tr><td colspan="1" style="text-align: left;" class="confluenceTd">V1</td><td colspan="1" style="text-align: left;" class="confluenceTd">阿雷修订,补充历史逻辑</td><td colspan="1" style="text-align: left;" class="confluenceTd">阿雷</td><td colspan="1" style="text-align: left;" class="confluenceTd">22.06.16</td><td colspan="1" style="text-align: left;" class="confluenceTd"><br/></td></tr><tr><td colspan="1" class="confluenceTd">V2</td><td colspan="1" class="confluenceTd">新增 海拍客代扣模式的业务的补丁逻辑</td><td colspan="1" class="confluenceTd">阿雷</td><td colspan="1" class="confluenceTd">22.06.21</td><td colspan="1" class="confluenceTd"><br/></td></tr></tbody></table></div><h1 id="id-0.实际海拍客承担优惠券金额流水(金额1)-引用"><strong>引用</strong></h1><p><span style="color: rgb(255,0,0);"><strong><a class="external-link" href="https://hidata.yangtuojia.com/data-protal-static/map/tabledetail?tableId=a06053d4-ca29-4f2f-9018-03998628a783" rel="nofollow">ads_fin_gross_coupon_base_d.actual_hipac_bear_coupon_amt</a></strong></span></p><h2 id="id-0.实际海拍客承担优惠券金额流水(金额1)-架构图"><span style="color: rgb(255,0,0);"><strong>架构图</strong></span></h2><p><span style="color: rgb(255,0,0);"><strong><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" height="250" src="attachments/94764949/98207266.png" data-image-src="attachments/94764949/98207266.png" data-unresolved-comment-count="0" data-linked-resource-id="98207266" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2022-6-20_11-42-41.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="94764949" data-linked-resource-container-version="8"></span></strong></span></p><h1 id="id-0.实际海拍客承担优惠券金额流水(金额1)-V1版本逻辑---2021年1月-2022年6月"><strong>V1版本逻辑---2021年1月-2022年6月</strong></h1><h4 id="id-0.实际海拍客承担优惠券金额流水(金额1)-1.获取海拍客承担优惠券金额"><strong>1.获取 海拍客承担优惠券金额</strong></h4><p>即<span> </span><a class="external-link" href="https://caiwu.yangtuojia.com/settle-static/orderSettle.html" rel="nofollow" style="text-decoration: none;">订单结算</a><span> </span>中 的 海拍客承担优惠券金额（元）</p><h4 id="id-0.实际海拍客承担优惠券金额流水(金额1)-2.判断充值券支付金额">2.判断 充值券支付金额</h4><p style="text-align: left;"><span>需要优惠券标记充值券，如果优惠券为充值券，则该订单上的营销费用金额=优惠券金额-充值券支付金额。</span></p><p style="text-align: left;"><span>例如本次订单用了充值券50元，为海拍客承担，当时购买这个券用了10元，那么 <span style="color: rgb(0,0,255);">[实际海拍客承担优惠券金额流水(金额1)]</span> =50-10=40元。</span></p><h4 style="text-align: left;" id="id-0.实际海拍客承担优惠券金额流水(金额1)-3.正逆向计算.计算其流水"><span>3. 正逆向计算. 计算其流水</span></h4><p><span>当 订单为 正向订单时,则 <span style="color: rgb(0,0,255);">[实际海拍客承担优惠券金额流水(金额1)] </span></span><span>= 海拍客承担优惠券金额 - 充值券支付金额</span></p><p><span>当 订单为 逆向订单时,则 <span style="color: rgb(0,0,255);">[实际海拍客承担优惠券金额流水(金额1)]</span> = (海拍客承担优惠券金额 - 充值券支付金额) * -退款比例</span></p><p><span><span style="color: rgb(0,0,0);">注意,此时 实际海拍客承担优惠券金额流水 可能会负数. </span></span></p><p><br/></p><p><span><span style="color: rgb(0,0,0);">以下对所有正逆向的 优惠券金额的明细, 简称为 优惠券费用流水</span></span></p><p><br/></p><p><span><span style="color: rgb(0,0,0);"><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image confluence-thumbnail" height="150" src="attachments/94764949/94764955.png" data-image-src="attachments/94764949/94764955.png" data-unresolved-comment-count="0" data-linked-resource-id="94764955" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2021-1-12_21-33-3.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="94764949" data-linked-resource-container-version="8"></span></span></span></span></p><p><span><span style="color: rgb(0,0,0);">注意,此时 实际海拍客承担优惠券金额流水 可能会负数. </span></span></p><p><br/></p><h1 id="id-0.实际海拍客承担优惠券金额流水(金额1)-V2版本逻辑---2022年7月-至今"><strong>V2版本逻辑---2022年7月-至今</strong></h1><h2 id="id-0.实际海拍客承担优惠券金额流水(金额1)-业务背景"><strong>业务背景</strong></h2><p>在之前的逻辑里,  只统计 如果优惠券相关金额,是在系统的配置里, 就直接以 海拍客承担优惠券金额 的方式来进行结算的. </p><p>随着业务的发展以及种种原因,出现了相关的 &quot;代扣&quot; 的模式. 即 部分供应商实际上是 类似于羊驼贸易,即 海拍客自己的供应商.   </p><p>由这部分供应商承担的 供应商承担优惠券金额 理当 放入毛利报表,并作为 海拍客实际承担的优惠券金额进行相关的分析及考核.  即在架构图里的 V2新增部分.</p><p><br/></p><p><strong>并且, 因为业务规则比较gay,经过财务同学的相关抽象,则直接将逻辑做到 品牌粒度. 即 两个自营品牌产生的相关 平台优惠券金额, 都视作 海拍客实际承担的优惠券金额</strong></p><p><br/></p><p><br/></p><h2 id="id-0.实际海拍客承担优惠券金额流水(金额1)-数据逻辑"><strong>数据逻辑</strong></h2><h4 id="id-0.实际海拍客承担优惠券金额流水(金额1)-1.获取海拍客承担优惠券金额.1"><strong>1.获取 海拍客承担优惠券金额</strong></h4><p>即<span> </span><a class="external-link" href="https://caiwu.yangtuojia.com/settle-static/orderSettle.html" rel="nofollow" style="text-decoration: none;">订单结算</a><span> </span>中 的 海拍客承担优惠券金额（元）</p><h4 id="id-0.实际海拍客承担优惠券金额流水(金额1)-2.判断充值券支付金额.1">2.判断 充值券支付金额</h4><p style="text-align: left;"><span>需要优惠券标记充值券，如果优惠券为充值券，则该订单上的营销费用金额=优惠券金额-充值券支付金额。</span></p><p style="text-align: left;"><span>例如本次订单用了充值券50元，为海拍客承担，当时购买这个券用了10元，那么 <span style="color: rgb(0,0,255);">[实际海拍客承担优惠券金额流水(金额1)]</span> =50-10=40元。</span></p><h4 style="text-align: left;" id="id-0.实际海拍客承担优惠券金额流水(金额1)-3.正逆向计算.计算其流水(V2修改)"><span>3. 正逆向计算. 计算其流水(<span style="color: rgb(255,0,0);">V2修改</span>)</span></h4><p><s><span>当 订单为 正向订单时,则 <span style="color: rgb(0,0,255);">[实际海拍客承担优惠券金额流水(金额1)] </span></span><span>= 海拍客承担优惠券金额 - 充值券支付金额</span></s></p><p><s><span>当 订单为 逆向订单时,则 <span style="color: rgb(0,0,255);">[实际海拍客承担优惠券金额流水(金额1)]</span> = (海拍客承担优惠券金额 - 充值券支付金额) * -退款比例</span></s></p><p><strong><span style="color: rgb(0,0,0);">1) 当 该订单明细的品牌id <span style="color: rgb(255,0,0);">为</span> 7706,5374(贝因美童享/果乐多) 时 </span></strong></p><p><span>     当 订单为 正向订单时,则 <span style="color: rgb(0,0,255);">[实际海拍客承担优惠券金额流水(金额1)] </span></span><span>= <span style="color: rgb(255,0,0);">平台优惠券金额</span> - 充值券支付金额</span></p><p><span>     当 订单为 逆向订单时,则 <span style="color: rgb(0,0,255);">[实际海拍客承担优惠券金额流水(金额1)]</span> = (<span style="color: rgb(255,0,0);">平台优惠券金额</span> - 充值券支付金额) * -退款比例</span></p><p><span><strong><span style="color: rgb(0,0,0);">2) 当 该订单明细的品牌id <span style="color: rgb(255,0,0);">不为</span> 7706,5374(贝因美童享/果乐多) 时 </span></strong></span></p><p><span>     当 订单为 正向订单时,则 <span style="color: rgb(0,0,255);">[实际海拍客承担优惠券金额流水(金额1)] </span></span><span>= 海拍客承担优惠券金额 - 充值券支付金额</span></p><p><span>     当 订单为 逆向订单时,则 <span style="color: rgb(0,0,255);">[实际海拍客承担优惠券金额流水(金额1)]</span> = (海拍客承担优惠券金额 - 充值券支付金额) * -退款比例</span></p><p><br/></p><p><span><span style="color: rgb(0,0,0);">注意,此时 实际海拍客承担优惠券金额流水 可能会负数. </span></span></p><p><br/></p><p><span><span style="color: rgb(0,0,0);">以下对所有正逆向的 优惠券金额的明细, 简称为 优惠券费用流水</span></span></p><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" height="156" src="attachments/94764949/98208226.png" data-image-src="attachments/94764949/98208226.png" data-unresolved-comment-count="0" data-linked-resource-id="98208226" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2022-6-21_16-19-35.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="94764949" data-linked-resource-container-version="8"></span></p><p><br/></p><p><br/></p><h1 id="id-0.实际海拍客承担优惠券金额流水(金额1)-FAQ">FAQ</h1><h2 id="id-0.实际海拍客承担优惠券金额流水(金额1)-1历史数据怎么办">1 历史数据怎么办</h2><p>历史数据 不订正. </p><p>极端情况下,可能出现 正向数据在历史上,没有计算其 营销费用. 逆向部分在历史上 22年7月份. 则此时, 营销费用为 负数, 使其 毛利偏高. </p><p><br/></p><h2 id="id-0.实际海拍客承担优惠券金额流水(金额1)-2这两个品牌的平台优惠券金额是否永远视作海拍客实际要承担的,是否可能加减品牌,如何监控及杜绝误差">2 这两个品牌的 平台优惠券金额 是否永远视作 海拍客实际要承担的, 是否可能加减品牌, 如何监控及杜绝误差</h2><p>1) 加减品牌有可能出现.  等待业务主动告知. 业务如未告知,则默认取其 海拍客承担优惠券金额 , 误差部分 人为补充</p><p>2) 监控与杜绝误差:  因为海拍客代扣模式的逻辑比较复杂,所以 乔巴 进行了抽象. 原则上来说, 上线后1-2个月,需要 财务会计继续手动做账,并校对误差 (口径不一致,一定会存在误差)</p><p><strong><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" height="134" src="attachments/94764949/98208178.png" data-image-src="attachments/94764949/98208178.png" data-unresolved-comment-count="0" data-linked-resource-id="98208178" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2022-6-21_16-0-53.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="94764949" data-linked-resource-container-version="8"></span></strong></p><p><br/></p><p><br/></p><p><br/></p><p><br/></p><p><br/></p>
+                    </div>
+
+                                        <div class="pageSection group">
+                        <div class="pageSectionHeader">
+                            <h2 id="attachments" class="pageSectionTitle">Attachments:</h2>
+                        </div>
+
+                        <div class="greybox" align="left">
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/94764949/94764955.png">image2021-1-12_21-33-3.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/94764949/98207263.png">image2022-6-20_11-35-49.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/94764949/98207266.png">image2022-6-20_11-42-41.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/94764949/98208178.png">image2022-6-21_16-0-53.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/94764949/98208226.png">image2022-6-21_16-19-35.png</a> (image/png)
+                                <br/>
+                                                    </div>
+                    </div>
+                    
+                                                      
+                </div>             </div> 
+            <div id="footer" role="contentinfo">
+                <section class="footer-body">
+                    <p>Document generated by Confluence on 2023-12-19 10:51</p>
+                    <div id="footer-logo"><a href="http://www.atlassian.com/">Atlassian</a></div>
+                </section>
+            </div>
+        </div>     </body>
+</html>

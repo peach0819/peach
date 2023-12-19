@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>产品组 : 1. 优惠券承担方</title>
+        <link rel="stylesheet" href="styles/site.css" type="text/css" />
+        <META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    </head>
+
+    <body class="theme-default aui-theme-default">
+        <div id="page">
+            <div id="main" class="aui-page-panel">
+                <div id="main-header">
+                    <div id="breadcrumb-section">
+                        <ol id="breadcrumbs">
+                            <li class="first">
+                                <span><a href="index.html">产品组</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="70335729.html">01_数据逻辑及模型设计思路</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="59212886.html">三、费用</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="61057821.html">营销费用之优惠券</a></span>
+                            </li>
+                                                </ol>
+                    </div>
+                    <h1 id="title-heading" class="pagetitle">
+                                                <span id="title-text">
+                            产品组 : 1. 优惠券承担方
+                        </span>
+                    </h1>
+                </div>
+
+                <div id="content" class="view">
+                    <div class="page-metadata">
+                        
+        
+    
+        
+    
+        
+        
+            Created by <span class='author'> 未知用户 (lei.xue)</span>, last modified by <span class='editor'> 杨佳丽</span> on 2023-03-07
+                        </div>
+                    <div id="main-content" class="wiki-content group">
+                    <h1 class="auto-cursor-target" id="id-1.优惠券承担方-修订记录"><strong>修订记录</strong></h1><div class="table-wrap"><table class="relative-table wrapped confluenceTable" style="width: 84.4527%;"><colgroup><col style="width: 2.7532%;"/><col style="width: 17.6991%;"/><col style="width: 26.6142%;"/><col style="width: 24.8443%;"/></colgroup><thead><tr><th class="confluenceTh"><p>版本号</p></th><th class="confluenceTh"><p>内容</p></th><th class="confluenceTh"><p>作者</p></th><th class="confluenceTh"><p>时间</p></th></tr></thead><tbody><tr><td colspan="1" class="confluenceTd">V1</td><td colspan="1" class="confluenceTd"><p>开始初稿,</p><p>因为 采购和渠道 都引用了承担方的规则. 因此将其共性抽取出来在本文中进行定义. </p></td><td colspan="1" class="confluenceTd">阿雷</td><td colspan="1" class="confluenceTd">2020.12.24</td></tr><tr><td colspan="1" class="confluenceTd">V2</td><td colspan="1" class="confluenceTd">平台优惠券销售渠道归属 新增 VS/MC</td><td colspan="1" class="confluenceTd">小怪兽</td><td colspan="1" class="confluenceTd">2023.1.28</td></tr></tbody></table></div><p><style type='text/css'>/*<![CDATA[*/
+div.rbtoc1702954315742 {padding: 0px;}
+div.rbtoc1702954315742 ul {list-style: disc;margin-left: 0px;}
+div.rbtoc1702954315742 li {margin-left: 0px;padding-left: 0px;}
+
+/*]]>*/</style><div class='toc-macro rbtoc1702954315742'>
+<ul class='toc-indentation'>
+<li><a href='#id-1.优惠券承担方-修订记录'>修订记录</a></li>
+<li><a href='#id-1.优惠券承担方-架构关系'>架构关系</a>
+<ul class='toc-indentation'>
+<li><a href='#id-1.优惠券承担方-将业务对优惠券承担方的规则进行抽象'>将业务对优惠券承担方的规则进行抽象</a></li>
+<li><a href='#id-1.优惠券承担方-同一条订单明细上不同毛利构成模块的承担方不一致'>同一条订单明细上不同毛利构成模块的承担方不一致</a></li>
+</ul>
+</li>
+<li><a href='#id-1.优惠券承担方-更新及协同机制问题'>更新及协同机制问题</a></li>
+<li><a href='#id-1.优惠券承担方-名词定义'>名词定义</a></li>
+<li><a href='#id-1.优惠券承担方-平台优惠券销售渠道归属对应关系'>平台优惠券销售渠道归属 对应关系</a></li>
+<li><a href='#id-1.优惠券承担方-监控预警(V2新增)'>监控预警(V2新增)</a></li>
+</ul>
+</div></p><h1 id="id-1.优惠券承担方-架构关系"><strong>架构关系</strong></h1><h2 id="id-1.优惠券承担方-将业务对优惠券承担方的规则进行抽象"><strong>将业务对优惠券承担方的规则进行抽象</strong></h2><p>因为现有业务系统的费用归属规则并不是按照实际业务的承担规则进行设计.  且业务基于实际场景,经常性调整谁来承担优惠券.  </p><p>例如,在之前,  采购只需要承担 优惠券上归属为 采购 的优惠券. 则这个已经明确了这个优惠券的承担方. 但是渠道需要承担的可能是 优惠券上的归属是采购的券. </p><p>因此将业务的 优惠券承担的规则抽象为 优惠券承担方.  保证所有的业务变化在该字段内进行响应.</p><p>下游的计算逻辑不直接依赖业务规则. </p><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" height="250" src="attachments/61056913/61057020.png" data-image-src="attachments/61056913/61057020.png" data-unresolved-comment-count="0" data-linked-resource-id="61057020" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2021-3-11_19-11-47.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="61056913" data-linked-resource-container-version="8"></span></p><p><br/></p><h2 id="id-1.优惠券承担方-同一条订单明细上不同毛利构成模块的承担方不一致"><strong>同一条订单明细上不同毛利构成模块的承担方不一致</strong></h2><p><strong>考核GMV和营销费用等模块的 承担方 可能不一致 需要对其进行打平. 保证其当行明细有统一的 承担维度</strong></p><p><strong><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" height="400" src="attachments/61056913/61057006.png" data-image-src="attachments/61056913/61057006.png" data-unresolved-comment-count="0" data-linked-resource-id="61057006" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2021-3-11_18-55-46.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="61056913" data-linked-resource-container-version="8"></span></strong></p><p>本质上, 通过提炼出 考核GMV和营销费用等 毛利构成部分的 归属字段(维度) ,可以进行分别聚合,来计算不同视角下的 考核GMV, 营销费用 及其对应的毛利.</p><div class="table-wrap"><table class="wrapped confluenceTable"><colgroup><col/><col/><col/></colgroup><tbody><tr><th class="confluenceTh">模块</th><th class="confluenceTh">采购视角承担方</th><th class="confluenceTh">渠道视角承担方</th></tr><tr><td class="confluenceTd">考核GMV</td><td class="confluenceTd">业务组</td><td class="confluenceTd">财务业绩归属渠道</td></tr><tr><td class="confluenceTd">营销费用</td><td class="confluenceTd">采购优惠券承担方</td><td class="confluenceTd">渠道优惠券承担方</td></tr><tr><td colspan="1" class="confluenceTd">增值服务收入</td><td colspan="1" class="confluenceTd">增值服务收入-业务线</td><td colspan="1" class="confluenceTd">拆分的五大收入金额</td></tr></tbody></table></div><p>但是为了便于后续的通过共用承担方维度来直接聚合及其可以无限下钻到明细层, 因此将 考核GMV上的 业绩业务组 和 财务业绩归属渠道 作为主体, 将 营销费用和增值服务收入等 承担方可能与 业绩业务组和财务业绩归属渠道 不一致的时候,强行打平,并进行均摊. 均摊到最细维度.</p><p><br/></p><h1 id="id-1.优惠券承担方-更新及协同机制问题"><strong>更新及协同机制问题</strong></h1><p><strong>1) 业务变化业务同步机制—之南推进业务方</strong></p><p><strong>2) 业务变化数据逻辑同步机制–阿雷推进. 快速响应</strong></p><h1 id="id-1.优惠券承担方-名词定义"><strong>名词定义</strong></h1><div class="table-wrap"><table class="wrapped confluenceTable"><colgroup><col/><col/></colgroup><tbody><tr><th class="confluenceTh">字段</th><th class="confluenceTh">截图</th></tr><tr><td class="confluenceTd">平台优惠券销售渠道归属</td><td class="confluenceTd"><div class="content-wrapper"><p>指新建平台优惠券时,选择费用承担时,可以指定 对应的 销售渠道归属</p><p><span style="color: rgb(255,0,0);">PS:因为业务系统不严谨. 需要强行进行转换.  </span></p><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" height="250" src="attachments/61056913/61056918.png" data-image-src="attachments/61056913/61056918.png" data-unresolved-comment-count="0" data-linked-resource-id="61056918" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2021-1-7_10-43-7.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="61056913" data-linked-resource-container-version="8"></span></p></div></td></tr><tr><td colspan="1" class="confluenceTd">平台优惠券发放人所属部门-部门类型</td><td colspan="1" class="confluenceTd"><p>来自 <a href="54512230.html">3. 相对一级部门及部门类型</a></p><p>通过 平台优惠券发放人 + 发放月份 去匹配对应的 平台优惠券发放人在发放当月的冻结部门. </p></td></tr><tr><td colspan="1" class="confluenceTd"><br/></td><td colspan="1" class="confluenceTd"><br/></td></tr><tr><td colspan="1" class="confluenceTd"><br/></td><td colspan="1" class="confluenceTd"><br/></td></tr><tr><td colspan="1" class="confluenceTd"><br/></td><td colspan="1" class="confluenceTd"><br/></td></tr></tbody></table></div><h1 id="id-1.优惠券承担方-平台优惠券销售渠道归属对应关系"><strong>平台优惠券销售渠道归属 对应关系</strong></h1><p><strong><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image confluence-thumbnail" height="250" src="attachments/61056913/61056919.png" data-image-src="attachments/61056913/61056919.png" data-unresolved-comment-count="0" data-linked-resource-id="61056919" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2021-1-21_16-51-3.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="61056913" data-linked-resource-container-version="8"></span></strong></p><div class="table-wrap"><table class="wrapped confluenceTable"><colgroup><col/><col/></colgroup><tbody><tr><th class="confluenceTh">业务系统称呼</th><th class="confluenceTh">实际抽取到数仓的值</th></tr><tr><td class="confluenceTd">全平台</td><td class="confluenceTd">全平台</td></tr><tr><td class="confluenceTd">bd</td><td class="confluenceTd">BD部</td></tr><tr><td colspan="1" class="confluenceTd">电销</td><td colspan="1" class="confluenceTd">电销部</td></tr><tr><td colspan="1" class="confluenceTd">VS<span style="color: rgb(255,0,0);">(V2新增)</span></td><td colspan="1" class="confluenceTd">VS</td></tr><tr><td colspan="1" class="confluenceTd">MC<span style="color: rgb(255,0,0);">(V2新增)</span></td><td colspan="1" class="confluenceTd">MC</td></tr><tr><td class="confluenceTd">大客户</td><td class="confluenceTd">大客户部</td></tr><tr><td class="confluenceTd">服务商</td><td class="confluenceTd">服务商部</td></tr><tr><td colspan="1" class="confluenceTd">美妆</td><td colspan="1" class="confluenceTd">美妆BD</td></tr><tr><td colspan="1" class="confluenceTd">异业</td><td colspan="1" class="confluenceTd">异业</td></tr></tbody></table></div><h1 id="id-1.优惠券承担方-监控预警(V2新增)">监控预警<span style="color: rgb(255,0,0);">(V2新增)</span></h1><p><span style="color: rgb(255,0,0);">保证以下预警规则T+1运行,且预警推送到 渠道毛利报表需求群中.</span></p><p><span style="color: rgb(255,0,0);">且保留SQL,保证告警了可以快速定位到. 可参见 <a class="external-link" href="https://meta.yangtuojia.com/front-static/dqc/monitordetail?id=294" rel="nofollow" style="text-decoration: none;">DQC配置</a></span></p><p><span style="color: rgb(255,0,0);">请直接详见  <a href="http://k.yangtuojia.com/pages/viewpage.action?pageId=57077933" rel="nofollow" style="text-decoration: none;">http://k.yangtuojia.com/pages/viewpage.action?pageId=57077933</a></span></p>
+                    </div>
+
+                                        <div class="pageSection group">
+                        <div class="pageSectionHeader">
+                            <h2 id="attachments" class="pageSectionTitle">Attachments:</h2>
+                        </div>
+
+                        <div class="greybox" align="left">
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/61056913/61056918.png">image2021-1-7_10-43-7.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/61056913/61056919.png">image2021-1-21_16-51-3.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/61056913/61057006.png">image2021-3-11_18-55-46.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/61056913/61057020.png">image2021-3-11_19-11-47.png</a> (image/png)
+                                <br/>
+                                                    </div>
+                    </div>
+                    
+                                                      
+                </div>             </div> 
+            <div id="footer" role="contentinfo">
+                <section class="footer-body">
+                    <p>Document generated by Confluence on 2023-12-19 10:51</p>
+                    <div id="footer-logo"><a href="http://www.atlassian.com/">Atlassian</a></div>
+                </section>
+            </div>
+        </div>     </body>
+</html>

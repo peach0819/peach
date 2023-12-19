@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>产品组 : 企微触达中心看板和报表需求整理</title>
+        <link rel="stylesheet" href="styles/site.css" type="text/css" />
+        <META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    </head>
+
+    <body class="theme-default aui-theme-default">
+        <div id="page">
+            <div id="main" class="aui-page-panel">
+                <div id="main-header">
+                    <div id="breadcrumb-section">
+                        <ol id="breadcrumbs">
+                            <li class="first">
+                                <span><a href="index.html">产品组</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="86609172.html">08_企微触达相关业务</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="86624194.html">22年企微相关需求</a></span>
+                            </li>
+                                                </ol>
+                    </div>
+                    <h1 id="title-heading" class="pagetitle">
+                                                <span id="title-text">
+                            产品组 : 企微触达中心看板和报表需求整理
+                        </span>
+                    </h1>
+                </div>
+
+                <div id="content" class="view">
+                    <div class="page-metadata">
+                        
+        
+    
+        
+    
+        
+        
+            Created by <span class='author'> 弓力超</span>, last modified on 2022-01-07
+                        </div>
+                    <div id="main-content" class="wiki-content group">
+                    <p><strong>需求背景：</strong></p><p>本次需求主要集中在企微客户管理和触达数据这两个方面。对于发送次数动态管控、AB数据对比、承接业务数据等内容，建议在Q1跑通后再通过成型的分析体系建立看板报表。</p><p><strong>需求现状：</strong></p><ol><li>企微客户管理，安泽开发过报表。链接如下：<a class="external-link" href="https://data.hipac.cn/new/cloudatlas/reportcenter/reportBI?reportId=629&amp;url=https%3A%2F%2Fytbi.hipac.cn%2Fshare.html%23%2Fshare%2Fdashboard%3FshareInfo%3D960%26prodDeploy%3Dtrue%26hideTitle%3Dtrue" rel="nofollow">企微客户管理数据</a>。字段定义解释：<a href="http://k.yangtuojia.com/pages/viewpage.action?pageId=77056143" rel="nofollow">定义</a><ol><li>需求1：最好能看板化。这样直观明了，方便推广给电销团队作为日常跟进事项。</li><li>需求2：流失数据需要细化。Q1的核心目标是企微渠道的门店数足够，那么防止流失，加好友，是个重点事项。下方表单中重点说下。</li></ol></li><li>投放数据内容，安泽开发过报表，链接如下：<a class="external-link" href="https://data.hipac.cn/new/cloudatlas/reportcenter/reportBI?reportId=634&amp;url=https%3A%2F%2Fytbi.hipac.cn%2Fshare.html%23%2Fshare%2Fdashboard%3FshareInfo%3D965%26prodDeploy%3Dtrue%26hideTitle%3Dtrue%26task_id%3D4237" rel="nofollow">触达任务数据</a><ol><li>备注：这个是千人一面的发送数据。千人千面的发送数据不在此展示。因为两类型的查看数据方式不同。</li><li>口令应该会在3月改成小程序。到时候打开数据等都会修改。这个报表目前不大改，主要诉求是增加下钻查看。</li></ol></li></ol><p><strong>需求内容：</strong></p><ol><li><p class="auto-cursor-target">企微客户管理数据的基础上，增加流失数据，删除回复数据。（<span style="letter-spacing: 0.0px;">以个人维度数据为例展示当前所需字段）</span></p><div class="table-wrap"><table class="relative-table wrapped confluenceTable" style="width: 47.1116%;"><colgroup><col style="width: 22.5268%;"/><col style="width: 77.4732%;"/></colgroup><tbody><tr><th colspan="1" class="confluenceTh">字段</th><th colspan="1" class="confluenceTh">定义</th></tr><tr><td class="confluenceTd">日期</td><td colspan="1" class="confluenceTd"><br/></td></tr><tr><td class="confluenceTd">初/中级</td><td colspan="1" class="confluenceTd"><br/></td></tr><tr><td class="confluenceTd">大区</td><td colspan="1" class="confluenceTd"><br/></td></tr><tr><td class="confluenceTd">小组</td><td colspan="1" class="confluenceTd"><br/></td></tr><tr><td class="confluenceTd">电销姓名</td><td colspan="1" class="confluenceTd"><br/></td></tr><tr><td class="confluenceTd">库容门店数</td><td colspan="1" class="confluenceTd"><br/></td></tr><tr><td class="confluenceTd">有效绑定门店数</td><td colspan="1" class="confluenceTd">好友关系中剔除被门店拉黑和删除的情况后，定义为有效。并且和门店联系人执行过绑定。</td></tr><tr><td class="confluenceTd">有效绑定率</td><td colspan="1" class="confluenceTd">有效绑定门店数/库容门店数</td></tr><tr><td class="confluenceTd">当日流失门店数</td><td colspan="1" class="confluenceTd">当天该电销企微账号，被门店拉黑或者删除，定义为流失。但是如果加回来了，不算在此。</td></tr><tr><td class="confluenceTd">累计流失门店数</td><td colspan="1" class="confluenceTd">从2021年7月1号开始算，只看该电销账号和门店联系人微信之间的好友关系。如果加回来了，不算在此。</td></tr><tr><td class="confluenceTd">流失率</td><td colspan="1" class="confluenceTd">1-有效绑定率</td></tr><tr><td class="confluenceTd">当日沟通门店数</td><td colspan="1" class="confluenceTd">自然日，企微好友之间发生过对话，至少一条信息</td></tr><tr><td class="confluenceTd">当日有效沟通门店数</td><td colspan="1" class="confluenceTd">自然日，企微好友之间发生过对话，至少三个来回以上（包含三个）</td></tr><tr><td class="confluenceTd">当日私聊沟通门店数</td><td colspan="1" class="confluenceTd"><p>自然日，企微好友之间发生过对话。剔除触达中心发送的信息和企微官方渠道发送的信息即可。</p></td></tr></tbody></table></div></li><li>投放数据报表，增加内容：<ol><li>字段增加：商品一二三级类目，商品业务域，商品AB类，加购门店数（消息触达时间起算，24h内，该商品加入了购物车）；</li><li>下钻功能增加：打开门店数、下单门店数、加购门店数（目的是电销根据具体门店行为，可以跟进收割）；</li><li>YTMS类型页面，多个商品集合，多个二级页面，这样的链路中，引导下单数据都不支持。这个其实还挺需要的。可以和阿雷一起沟通下口径。我不能擅自决定。</li></ol></li><li>门店维度投放数据报表：<ol><li>这个之前没做过。现在需要观察。目的是粗粗的先看下，哪些门店经常被群发打扰，然后没有回复这样子，逐步总结是否减少打扰次数，和如何做动态次数控制。</li></ol></li></ol><div class="table-wrap"><table class="wrapped confluenceTable"><colgroup><col/><col/></colgroup><tbody><tr><th class="confluenceTh">字段</th><th class="confluenceTh">定义</th></tr><tr><td class="confluenceTd">日期</td><td class="confluenceTd"><br/></td></tr><tr><td class="confluenceTd">门店名称</td><td class="confluenceTd"><br/></td></tr><tr><td class="confluenceTd">所属电销名称</td><td class="confluenceTd"><br/></td></tr><tr><td class="confluenceTd">电销小组</td><td class="confluenceTd"><br/></td></tr><tr><td class="confluenceTd">电销大区</td><td class="confluenceTd"><br/></td></tr><tr><td colspan="1" class="confluenceTd">和负责电销的好友关系状态</td><td colspan="1" class="confluenceTd">好友/被删/拉黑</td></tr><tr><td class="confluenceTd">当日群发触达次数</td><td class="confluenceTd">触达中心对该门店发送成功+企微官方群发包含该门店</td></tr><tr><td colspan="1" class="confluenceTd">当日电销有效沟通小计数</td><td colspan="1" class="confluenceTd">存在有效沟通小计（文字和电话均包含）</td></tr><tr><td class="confluenceTd">当日门店主动发送消息条数</td><td class="confluenceTd">门店只要回复过一句话就算1</td></tr><tr><td class="confluenceTd">触达中心拍口令打开次数</td><td class="confluenceTd">触达中心发出去的口令，打开1次算作1</td></tr></tbody></table></div>
+                    </div>
+
+                    
+                                                      
+                </div>             </div> 
+            <div id="footer" role="contentinfo">
+                <section class="footer-body">
+                    <p>Document generated by Confluence on 2023-12-19 10:52</p>
+                    <div id="footer-logo"><a href="http://www.atlassian.com/">Atlassian</a></div>
+                </section>
+            </div>
+        </div>     </body>
+</html>

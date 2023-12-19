@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>产品组 : 3-人工任务核心功能</title>
+        <link rel="stylesheet" href="styles/site.css" type="text/css" />
+        <META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    </head>
+
+    <body class="theme-default aui-theme-default">
+        <div id="page">
+            <div id="main" class="aui-page-panel">
+                <div id="main-header">
+                    <div id="breadcrumb-section">
+                        <ol id="breadcrumbs">
+                            <li class="first">
+                                <span><a href="index.html">产品组</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="99169526.html">川枫-触达体系</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="99171039.html">01-触达中心</a></span>
+                            </li>
+                                                </ol>
+                    </div>
+                    <h1 id="title-heading" class="pagetitle">
+                                                <span id="title-text">
+                            产品组 : 3-人工任务核心功能
+                        </span>
+                    </h1>
+                </div>
+
+                <div id="content" class="view">
+                    <div class="page-metadata">
+                        
+        
+    
+        
+    
+        
+        
+            Created by <span class='author'> 弓力超</span>, last modified on 2023-01-30
+                        </div>
+                    <div id="main-content" class="wiki-content group">
+                    <h3 class="auto-cursor-target" id="id-3人工任务核心功能-1、任务基础信息填写："><span style="color: rgb(255,0,0);">1、任务基础信息填写：</span></h3><p class="auto-cursor-target"><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image confluence-content-image-border" height="250" width="640" src="attachments/99171692/99172390.png" data-image-src="attachments/99171692/99172390.png" data-unresolved-comment-count="0" data-linked-resource-id="99172390" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2022-7-22_17-27-7.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="99171692" data-linked-resource-container-version="9"></span></p><div class="table-wrap"><table class="wrapped confluenceTable"><colgroup><col/><col/></colgroup><tbody><tr><th class="confluenceTh">发送类型</th><th class="confluenceTh">重点逻辑</th></tr><tr><td class="confluenceTd">千店千面</td><td class="confluenceTd"><p>可支持：</p><ol><li>跟随店品策略，可支持发送内容包含不同变量，例如商品名称、商品价格、优惠券等信息</li><li>跟随店品策略，可支持发送不同多媒体内容，例如图片。</li><li>跟随店品策略，可支持小程序卡片个性化推送，包含标题、封面图片（也可支持不同商品元素合成）、落地页及落地页内容。</li></ol><p>必选项：</p><ol><li>店品策略，通常是根据业务场景定制，千店千面场景下必选且单选。</li><li>DMP圈选门店结果</li></ol></td></tr><tr><td class="confluenceTd">千店一面</td><td class="confluenceTd"><p>可支持：</p><ol><li>根据DMP圈选门店结果不同，支持发送文案中插入不同的DMP标签，目前仅支持性别、省市、门店名称三个。</li><li>小程序卡片图片和标题和落地页统一定制，但是不支持封面图片合成和个性化。</li></ol><p>必选项：</p><ol><li>DMP门店圈选结果</li></ol></td></tr></tbody></table></div><div class="table-wrap"><table class="wrapped confluenceTable"><colgroup><col/><col/></colgroup><tbody><tr><th class="confluenceTh">发送渠道</th><th class="confluenceTh">重点逻辑</th></tr><tr><td class="confluenceTd">涂色渠道</td><td class="confluenceTd"><ol><li>发送频率：区间，最小值5s，最大值无限。</li><li>发送排序：多个企微账号并行，最长耗时计算根据最多好友数量的单个企微账号。</li><li>发送次数：理论上无限次数。单日次数根据24h vs 任务队列数量</li><li>执行机制：不存在，直接通过企微账号下发。</li></ol></td></tr><tr><td colspan="1" class="confluenceTd">企微官方</td><td colspan="1" class="confluenceTd"><ol><li>发送频率：秒触达</li><li>发送排序：多个企微账号并行并且同时触达。</li><li>发送次数：单个自然日内，单个好友关系（企微vs个微）仅1次</li><li>执行机制：形成多个下发任务，每个企微账号需要点击确认后才可发送出去。企微账号具备修改该内容能力。</li></ol></td></tr></tbody></table></div><h3 class="auto-cursor-target" id="id-3人工任务核心功能-2、任务发送对象设定："><span style="color: rgb(255,0,0);">2、任务发送对象设定：</span></h3><p class="auto-cursor-target"><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image confluence-content-image-border" height="180" width="791" src="attachments/99171692/99172391.png" data-image-src="attachments/99171692/99172391.png" data-unresolved-comment-count="0" data-linked-resource-id="99172391" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2022-7-22_17-27-47.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="99171692" data-linked-resource-container-version="9"></span></p><div class="table-wrap"><table class="wrapped confluenceTable"><colgroup><col/><col/></colgroup><tbody><tr><th class="confluenceTh">核心功能点</th><th class="confluenceTh">值得注意的逻辑细节</th></tr><tr><td class="confluenceTd">门店范围</td><td class="confluenceTd"><ol><li>创建任务人员只能选择自己创建的DMP圈选结果</li><li>白名单人员可见全部圈选结果。</li></ol></td></tr></tbody></table></div><p><span style="color: rgb(255,0,0);font-size: 16.0px;font-weight: bold;letter-spacing: -0.006em;">3、任务发送人设定：</span></p><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image confluence-content-image-border" height="229" width="1105" src="attachments/99171692/111946412.png" data-image-src="attachments/99171692/111946412.png" data-unresolved-comment-count="0" data-linked-resource-id="111946412" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2023-1-5_17-8-54.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="99171692" data-linked-resource-container-version="9"></span></p><div class="table-wrap"><table class="wrapped confluenceTable"><colgroup><col/><col/></colgroup><tbody><tr><th class="confluenceTh">核心功能点</th><th class="confluenceTh">值得注意的逻辑细节</th></tr><tr><td class="confluenceTd">所属职能选择</td><td class="confluenceTd"><div class="content-wrapper"><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" height="218" src="attachments/99171692/111946434.png" data-image-src="attachments/99171692/111946434.png" data-unresolved-comment-count="0" data-linked-resource-id="111946434" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2023-1-5_18-2-13.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="99171692" data-linked-resource-container-version="9"></span></p></div></td></tr><tr><td colspan="1" class="confluenceTd">库容服务规则设定</td><td colspan="1" class="confluenceTd"><div class="content-wrapper"><p><span>基于库容关系：<br/>——电销企微号必须是门店联系人微信的好友，并且该门店属于该企微号背后电销的库容门店。</span></p><p><span>脱离库容关系：<br/>——电销企微号必须是门店联系人微信的好友，但是库容关系不会成为过滤条件。该规则目前仅限微商电销。</span></p><p><span><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" height="150" src="attachments/99171692/111946436.png" data-image-src="attachments/99171692/111946436.png" data-unresolved-comment-count="0" data-linked-resource-id="111946436" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2023-1-5_18-3-17.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="99171692" data-linked-resource-container-version="9"></span></span></p></div></td></tr></tbody></table></div><h3 class="auto-cursor-target" id="id-3人工任务核心功能-4、任务发送内容设定："><span style="color: rgb(255,0,0);">4、任务发送内容设定：</span></h3><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image confluence-content-image-border" height="400" src="attachments/99171692/99172398.png" data-image-src="attachments/99171692/99172398.png" data-unresolved-comment-count="0" data-linked-resource-id="99172398" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2022-7-22_17-33-27.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="99171692" data-linked-resource-container-version="9"></span></p><div class="table-wrap"><table class="wrapped confluenceTable"><colgroup><col/><col/></colgroup><tbody><tr><th class="confluenceTh">核心功能点</th><th class="confluenceTh">值得注意的逻辑细节</th></tr><tr><td colspan="1" class="confluenceTd">店品策略</td><td colspan="1" class="confluenceTd"><p>1、如果是任务属性选择千人千面的前提下，店品策略选项必选且单选。</p><p>2、店品策略的选择会直接影响以下：</p><p>——文本中，可插入变量的范围和选项和值</p><p>——小程序卡片中，商品的推荐相关因素。</p></td></tr><tr><td class="confluenceTd">小程序卡片组成</td><td class="confluenceTd"><p>landing页面：</p><ol><li>仅支持三中类型。YTMS页面需要是小程序类型。</li></ol><p>小程序标题：</p><ol><li>支持商品变量插入。变量种类跟随店品策略。</li></ol><p>封面图：</p><ol><li>主图默认抓取排名第一的商品结果。</li><li>图片合成模板id跟随店品策略。不同的策略下，合成元素内容和合成布局是有区分。</li></ol></td></tr><tr><td colspan="1" class="confluenceTd">信息条数和字数</td><td colspan="1" class="confluenceTd"><p>单个任务重目前最多可以放置3条信息内容。相互之间没有媒体形式要求。</p><p>文字类型字符数难以估算，</p></td></tr><tr><td colspan="1" class="confluenceTd">图片和视频限制</td><td colspan="1" class="confluenceTd">10M以内</td></tr></tbody></table></div><h3 class="auto-cursor-target" id="id-3人工任务核心功能-5、关于如何开启ABtest："><span style="color: rgb(255,0,0);">5、关于如何开启AB test：</span></h3><p><span style="color: rgb(0,51,102);"><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image confluence-content-image-border" height="400" src="attachments/99171692/102895488.png" data-image-src="attachments/99171692/102895488.png" data-unresolved-comment-count="0" data-linked-resource-id="102895488" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2022-8-22_12-9-23.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="99171692" data-linked-resource-container-version="9"></span></span></p><div class="table-wrap"><table class="wrapped confluenceTable"><colgroup><col/><col/></colgroup><tbody><tr><th class="confluenceTh">核心功能点</th><th class="confluenceTh">值得注意的逻辑细节</th></tr><tr><td colspan="1" class="confluenceTd">最多支持B的数量</td><td colspan="1" class="confluenceTd">最多3个</td></tr><tr><td class="confluenceTd">流量划分比例</td><td class="confluenceTd">按照25%的倍数选择</td></tr><tr><td colspan="1" class="confluenceTd">取数分析</td><td colspan="1" class="confluenceTd"><p>目前暂无成型的报表可供直接分析，需要走BI进行取数分析。</p><p>测试组的名称暂时没有做命名功能，根据排名123进行抓取。</p></td></tr></tbody></table></div>
+                    </div>
+
+                                        <div class="pageSection group">
+                        <div class="pageSectionHeader">
+                            <h2 id="attachments" class="pageSectionTitle">Attachments:</h2>
+                        </div>
+
+                        <div class="greybox" align="left">
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/99171692/99172390.png">image2022-7-22_17-27-7.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/99171692/99172391.png">image2022-7-22_17-27-47.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/99171692/99172398.png">image2022-7-22_17-33-27.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/99171692/102895488.png">image2022-8-22_12-9-23.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/99171692/111946412.png">image2023-1-5_17-8-54.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/99171692/111946434.png">image2023-1-5_18-2-13.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/99171692/111946435.png">image2023-1-5_18-2-57.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/99171692/111946436.png">image2023-1-5_18-3-17.png</a> (image/png)
+                                <br/>
+                                                    </div>
+                    </div>
+                    
+                                                      
+                </div>             </div> 
+            <div id="footer" role="contentinfo">
+                <section class="footer-body">
+                    <p>Document generated by Confluence on 2023-12-19 10:52</p>
+                    <div id="footer-logo"><a href="http://www.atlassian.com/">Atlassian</a></div>
+                </section>
+            </div>
+        </div>     </body>
+</html>

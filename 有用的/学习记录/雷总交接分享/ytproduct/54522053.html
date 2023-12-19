@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>产品组 : 99. 计算分摊占比的指标</title>
+        <link rel="stylesheet" href="styles/site.css" type="text/css" />
+        <META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    </head>
+
+    <body class="theme-default aui-theme-default">
+        <div id="page">
+            <div id="main" class="aui-page-panel">
+                <div id="main-header">
+                    <div id="breadcrumb-section">
+                        <ol id="breadcrumbs">
+                            <li class="first">
+                                <span><a href="index.html">产品组</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="70335729.html">01_数据逻辑及模型设计思路</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="59212755.html">零、字段汇总(维度和指标)</a></span>
+                            </li>
+                                                </ol>
+                    </div>
+                    <h1 id="title-heading" class="pagetitle">
+                                                <span id="title-text">
+                            产品组 : 99. 计算分摊占比的指标
+                        </span>
+                    </h1>
+                </div>
+
+                <div id="content" class="view">
+                    <div class="page-metadata">
+                        
+        
+    
+        
+    
+        
+        
+            Created by <span class='author'> 未知用户 (lei.xue)</span>, last modified on 2022-12-07
+                        </div>
+                    <div id="main-content" class="wiki-content group">
+                    <h1 class="auto-cursor-target" id="id-99.计算分摊占比的指标-修订记录"><strong>修订记录</strong></h1><div class="table-wrap"><table class="wrapped confluenceTable"><colgroup><col/><col/><col/><col/><col/></colgroup><thead><tr><th style="text-align: left;" class="confluenceTh"><p>版本号</p></th><th style="text-align: left;" class="confluenceTh"><p>内容</p></th><th style="text-align: left;" class="confluenceTh"><p>作者</p></th><th style="text-align: left;" class="confluenceTh"><p>时间</p></th><th colspan="1" style="text-align: left;" class="confluenceTh"><p>备注</p></th></tr></thead><tbody><tr><td colspan="1" style="text-align: left;" class="confluenceTd">V1</td><td colspan="1" style="text-align: left;" class="confluenceTd">退款比例 = 门店实退金额 /  支付金额</td><td colspan="1" style="text-align: left;" class="confluenceTd">聆音</td><td colspan="1" style="text-align: left;" class="confluenceTd">19年</td><td colspan="1" style="text-align: left;" class="confluenceTd">此为阿雷修订时,复原原有逻辑</td></tr><tr><td colspan="1" class="confluenceTd">V2</td><td colspan="1" class="confluenceTd">修改为 退款比例 = 门店实退订单金额 / 支付金额</td><td colspan="1" class="confluenceTd">阿雷</td><td colspan="1" class="confluenceTd">2020.12.18</td><td colspan="1" class="confluenceTd"><a href="http://k.yangtuojia.com/pages/viewpage.action?pageId=54505170">20210107_渠道毛利报表数据逻辑1期</a></td></tr></tbody></table></div><p><style type='text/css'>/*<![CDATA[*/
+div.rbtoc1702954304742 {padding: 0px;}
+div.rbtoc1702954304742 ul {list-style: disc;margin-left: 0px;}
+div.rbtoc1702954304742 li {margin-left: 0px;padding-left: 0px;}
+
+/*]]>*/</style><div class='toc-macro rbtoc1702954304742'>
+<ul class='toc-indentation'>
+<li><a href='#id-99.计算分摊占比的指标-修订记录'>修订记录</a>
+<ul class='toc-indentation'>
+<li><a href='#id-99.计算分摊占比的指标-引用'>引用</a></li>
+</ul>
+</li>
+<li><a href='#id-99.计算分摊占比的指标-逻辑定义'>逻辑定义</a>
+<ul class='toc-indentation'>
+<li><a href='#id-99.计算分摊占比的指标-V1版本已废弃-19年5月-20年12月'>V1版本 已废弃-19年5月-20年12月</a></li>
+<li><a href='#id-99.计算分摊占比的指标-V2版本--最新版–21年1月至今'>V2版本 --最新版–21年1月至今</a>
+<ul class='toc-indentation'>
+<li><a href='#id-99.计算分摊占比的指标-业务背景'>业务背景</a></li>
+<li><a href='#id-99.计算分摊占比的指标-公式'>公式</a></li>
+<li><a href='#id-99.计算分摊占比的指标-GMV的定义请参见'>GMV的定义请参见</a></li>
+<li><a href='#id-99.计算分摊占比的指标-1.GMV'>1. GMV</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div></p><h2 id="id-99.计算分摊占比的指标-引用"><strong>引用</strong></h2><p><a class="external-link" href="http://demo.yangtuojia.com/%E4%B8%9A%E5%8A%A1%E6%9C%8D%E5%8A%A1/%E8%B4%A2%E5%8A%A1%E4%B8%AD%E5%BF%83/02_%E9%A1%B9%E7%9B%AE/201905_01_%E6%AF%9B%E5%88%A9%E6%8A%A5%E8%A1%A8/201905_%E9%A1%B9%E7%9B%AE_01%20%E6%AF%9B%E5%88%A9%E6%8A%A5%E8%A1%A8%E4%BA%A7%E5%93%81%E5%8C%96/#g=1&amp;p=%E4%B8%9A%E5%8A%A1%E6%AF%9B%E6%94%B6%E5%85%A5" rel="nofollow" style="text-decoration: none;">采购毛利报表一期</a></p><h1 class="auto-cursor-target" id="id-99.计算分摊占比的指标-逻辑定义"><strong>逻辑定义</strong></h1><h2 id="id-99.计算分摊占比的指标-V1版本已废弃-19年5月-20年12月"><s>V1版本 已废弃-19年5月-20年12月</s></h2><p><a class="external-link" href="http://demo.yangtuojia.com/%E4%B8%9A%E5%8A%A1%E6%9C%8D%E5%8A%A1/%E8%B4%A2%E5%8A%A1%E4%B8%AD%E5%BF%83/02_%E9%A1%B9%E7%9B%AE/201905_01_%E6%AF%9B%E5%88%A9%E6%8A%A5%E8%A1%A8/201905_%E9%A1%B9%E7%9B%AE_01%20%E6%AF%9B%E5%88%A9%E6%8A%A5%E8%A1%A8%E4%BA%A7%E5%93%81%E5%8C%96/#g=1&amp;p=%E4%B8%9A%E5%8A%A1%E7%BA%BF%E8%90%A5%E9%94%80%E8%B4%B9%E7%94%A8" rel="nofollow">优惠券分摊逻辑描述</a> <a class="external-link" href="http://demo.yangtuojia.com/%E4%B8%9A%E5%8A%A1%E6%9C%8D%E5%8A%A1/%E8%B4%A2%E5%8A%A1%E4%B8%AD%E5%BF%83/02_%E9%A1%B9%E7%9B%AE/201905_01_%E6%AF%9B%E5%88%A9%E6%8A%A5%E8%A1%A8/201905_%E9%A1%B9%E7%9B%AE_01%20%E6%AF%9B%E5%88%A9%E6%8A%A5%E8%A1%A8%E4%BA%A7%E5%93%81%E5%8C%96/#g=1&amp;p=%E5%A2%9E%E5%80%BC%E6%9C%8D%E5%8A%A1%E6%94%B6%E5%85%A5" rel="nofollow">增值服务分摊逻辑描述</a></p><p>PRD和实际实现有差异. 不确定是否在PRD以外,产品和开发是否达成了共识.</p><p>PRD中,前者是按GMV,后者是按考核GMV来分摊.     <strong>但是最终的开发和实现,都是按照 GMV 来进行分摊</strong></p><h2 id="id-99.计算分摊占比的指标-V2版本--最新版–21年1月至今">V2版本 --最新版–21年1月至今</h2><h3 id="id-99.计算分摊占比的指标-业务背景">业务背景</h3><div class="table-wrap"><table class="relative-table wrapped confluenceTable" style="width: 36.6409%;"><colgroup><col style="width: 22.1111%;"/><col style="width: 77.8889%;"/></colgroup><tbody><tr><th class="confluenceTh">计算分摊占比的指标</th><th class="confluenceTh">指标定义</th></tr><tr><td class="confluenceTd">考核GMV</td><td class="confluenceTd"><p>即当前时间段支付的订单的GMV - 当前时间段退款完结的订单的退款.</p><p>即当前时间支付的订单的GMV - 当前时间段支付的订单的退款 - 非当前时间段支付的订单的退款</p></td></tr><tr><td class="confluenceTd">GMV-退款</td><td class="confluenceTd">即当前时间支付的订单的GMV - 当前时间段支付的订单的退款</td></tr><tr><td class="confluenceTd">GMV</td><td class="confluenceTd">即当前时间支付的订单的GMV</td></tr><tr><td colspan="1" class="confluenceTd">hi卡支付金额</td><td colspan="1" class="confluenceTd">即当前时间支付的订单的hi卡支付金额</td></tr><tr><td colspan="1" class="confluenceTd">hi卡支付金额-退款</td><td colspan="1" class="confluenceTd">即当前时间支付的订单的hi卡支付金额 - 当前时间段支付的订单的hi卡支付退款</td></tr></tbody></table></div><p>由上表可见,  三种计算分摊的指标核心差异点是在 退款上.   考核GMV 退的最多, GMV最少(没有退款)</p><p><br/></p><p>最终考虑到 之所以要计算分摊. 核心是 将一笔费用/收入, 根据这段时间内,哪些人(订单)的表现进行分摊. 即 表现得最好的人(订单) 越多.  差的则少.</p><p>在此情况下, 考核GMV 肯定不合理. 因此在此期间的 退款,包含了历史上的退款.  例如,   我们要分摊12月15日的增值服务工单.  如果用考核GMV,则会把 历史上支付的订单,恰巧在12月15日退款的退款,也算进来.  这种明显不合理. </p><p>再看GMV, 考虑到 增值服务工单多见于活动日, 且活动日会存在大量的 支付后马上退款 的情况. 按此口径分摊也不合理.</p><p>最终就剩下来了 GMV-退款.  核心的突出点是 只追究指定时间内的支付以及对应的退款.  不会有多余的退款, 也不会因为 支付后立即退款 而导致分摊不公平.  </p><p>所以最终选择用 GMV -退款.</p><p><br/></p><p><strong>注意! 注意!  </strong></p><p>因为 GMV-退款 的指标特性, 光是通过 支付时间 来过滤远不够. 会因为其统计时间的不同,计算入不同的退款. 为了保证数值稳定,且不可能无限追溯下去. 一般会指定 退款完结时间为 支付时间的当月最后一天. 正好截止到统计那天. </p><p>例如, 分摊 1月5日-2月5日期间发生的增值服务工单. 则分摊给 支付时间为1月5日-2月5日的订单,且退款完结时间截止到 2月28日(当月最后一天). </p><p>例如 , 支付时间在 12月15日的订单的优惠券,则分摊给 12月1日-12月31日支付的订单,且退款完结时间截止到12月31日(当月最后一天)</p><h3 id="id-99.计算分摊占比的指标-公式">公式</h3><p><span style="color: rgb(255,0,0);">注意! 这里的计算逻辑跟 考核GMV 的计算逻辑不一致.  仅公式看起来一致.   另外,不能引用 现有的 afs_refund表里的数据</span></p><p>实货场景下: GMV-退款 = GMV*(1-退款比例)</p><p><strong>提货卡场景下:   GMV-退款 = (GMV - 提货卡支付金额) * (1-退款比例) . 订单为 提货卡充值订单 或者为 实货订单</strong></p><p><br/></p><h3 id="id-99.计算分摊占比的指标-GMV的定义请参见">GMV的定义请参见</h3><h3 id="id-99.计算分摊占比的指标-1.GMV1.-GMV_82544238.html"><a href="1.-GMV_82544238.html">1. GMV</a></h3><p><br/></p><p><br/></p><p><br/></p>
+                    </div>
+
+                    
+                                                      
+                </div>             </div> 
+            <div id="footer" role="contentinfo">
+                <section class="footer-body">
+                    <p>Document generated by Confluence on 2023-12-19 10:51</p>
+                    <div id="footer-logo"><a href="http://www.atlassian.com/">Atlassian</a></div>
+                </section>
+            </div>
+        </div>     </body>
+</html>

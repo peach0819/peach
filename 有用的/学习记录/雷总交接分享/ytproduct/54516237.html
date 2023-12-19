@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>产品组 : 2. 退款比例</title>
+        <link rel="stylesheet" href="styles/site.css" type="text/css" />
+        <META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    </head>
+
+    <body class="theme-default aui-theme-default">
+        <div id="page">
+            <div id="main" class="aui-page-panel">
+                <div id="main-header">
+                    <div id="breadcrumb-section">
+                        <ol id="breadcrumbs">
+                            <li class="first">
+                                <span><a href="index.html">产品组</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="70335729.html">01_数据逻辑及模型设计思路</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="59212875.html">一、收入</a></span>
+                            </li>
+                                                </ol>
+                    </div>
+                    <h1 id="title-heading" class="pagetitle">
+                                                <span id="title-text">
+                            产品组 : 2. 退款比例
+                        </span>
+                    </h1>
+                </div>
+
+                <div id="content" class="view">
+                    <div class="page-metadata">
+                        
+        
+    
+        
+    
+        
+        
+            Created by <span class='author'> 未知用户 (lei.xue)</span>, last modified on 2021-11-10
+                        </div>
+                    <div id="main-content" class="wiki-content group">
+                    <h1 class="auto-cursor-target" id="id-2.退款比例-修订记录">修订记录</h1><div class="table-wrap"><table class="wrapped confluenceTable"><colgroup><col/><col/><col/><col/><col/></colgroup><thead><tr><th style="text-align: left;" class="confluenceTh"><p>版本号</p></th><th style="text-align: left;" class="confluenceTh"><p>内容</p></th><th style="text-align: left;" class="confluenceTh"><p>作者</p></th><th style="text-align: left;" class="confluenceTh"><p>时间</p></th><th colspan="1" style="text-align: left;" class="confluenceTh"><p>备注</p></th></tr></thead><tbody><tr><td colspan="1" style="text-align: left;" class="confluenceTd">V1</td><td colspan="1" style="text-align: left;" class="confluenceTd">退款比例 = 门店实退金额 /  支付金额</td><td colspan="1" style="text-align: left;" class="confluenceTd">聆音</td><td colspan="1" style="text-align: left;" class="confluenceTd">19年</td><td colspan="1" style="text-align: left;" class="confluenceTd">此为阿雷修订时,复原原有逻辑</td></tr><tr><td colspan="1" class="confluenceTd">V2</td><td colspan="1" class="confluenceTd">修改为 退款比例 = 门店实退订单金额 / 支付金额</td><td colspan="1" class="confluenceTd">阿雷</td><td colspan="1" class="confluenceTd">2020.12.18</td><td colspan="1" class="confluenceTd"><a href="http://k.yangtuojia.com/pages/viewpage.action?pageId=54505170">20210107_渠道毛利报表数据逻辑1期</a></td></tr><tr><td colspan="1" class="confluenceTd">V2.1</td><td colspan="1" class="confluenceTd">新增 OMO的 toC退款场景</td><td colspan="1" class="confluenceTd">阿雷</td><td colspan="1" class="confluenceTd">2021.09.10</td><td colspan="1" class="confluenceTd"><a href="http://k.yangtuojia.com/pages/viewpage.action?pageId=73559086">202109_03_日常_毛利报表_9月份调整(OMO和零辅食电销)</a></td></tr></tbody></table></div><p><br/></p><p class="auto-cursor-target"><style type='text/css'>/*<![CDATA[*/
+div.rbtoc1702954306305 {padding: 0px;}
+div.rbtoc1702954306305 ul {list-style: disc;margin-left: 0px;}
+div.rbtoc1702954306305 li {margin-left: 0px;padding-left: 0px;}
+
+/*]]>*/</style><div class='toc-macro rbtoc1702954306305'>
+<ul class='toc-indentation'>
+<li><a href='#id-2.退款比例-修订记录'>修订记录</a></li>
+<li><a href='#id-2.退款比例-引用'>引用</a></li>
+<li><a href='#id-2.退款比例-使用场景'>使用场景</a></li>
+<li><a href='#id-2.退款比例-逻辑定义'>逻辑定义</a>
+<ul class='toc-indentation'>
+<li><a href='#id-2.退款比例-V1版本已废弃-19年5月-20年12月'>V1版本 已废弃-19年5月-20年12月</a></li>
+<li><a href='#id-2.退款比例-V2版本--最新版–21年1月至今'>V2版本 --最新版–21年1月至今</a>
+<ul class='toc-indentation'>
+<li><a href='#id-2.退款比例-公式'>公式</a>
+<ul class='toc-indentation'>
+<li><a href='#id-2.退款比例-1)当订单来源不为微小店且不为&quot;OMOB2B订单&quot;时(V2.1修改)'>1) 当订单来源 不为 微小店 且 不为 &quot;OMO B2B订单&quot;时 (V2.1修改)</a></li>
+<li><a href='#id-2.退款比例-1)当订单来源不为微小店时'>1) 当订单来源 不为 微小店 时 </a></li>
+<li><a href='#id-2.退款比例-2)当订单来源为微小店时(V2.1修改)'>2) 当订单来源 为 微小店 时 (V2.1修改)</a></li>
+<li><a href='#id-2.退款比例-2)当订单来源为微小店时'>2) 当订单来源 为 微小店 时</a></li>
+<li><a href='#id-2.退款比例-3)当订单来源为&quot;OMOB2B订单&quot;时(V2.1新增)'>3) 当订单来源 为 &quot;OMO B2B订单&quot; 时 (V2.1新增)</a></li>
+</ul>
+</li>
+<li><a href='#id-2.退款比例-举例说明'>举例说明</a></li>
+</ul>
+</li>
+<li><a href='#id-2.退款比例-字段引用截图'>字段引用截图</a></li>
+<li><a href='#id-2.退款比例-备注'>备注</a>
+<ul class='toc-indentation'>
+<li><a href='#id-2.退款比例-查询有退款运费补贴的订单'>查询有退款运费补贴的订单</a></li>
+<li><a href='#id-2.退款比例-改造前后(V1V2的影响)'>改造前后(V1 V2 的影响)</a></li>
+<li><a href='#id-2.退款比例-B类清退也有回寄运费'>B类清退也有 回寄运费</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href='#id-2.退款比例-其他'>其他</a>
+<ul class='toc-indentation'>
+<li><a href='#id-2.退款比例-关于退款GMV的奇怪公式问题'>关于 退款GMV 的奇怪公式问题</a></li>
+</ul>
+</li>
+</ul>
+</div></p><h1 class="auto-cursor-target" id="id-2.退款比例-引用">引用</h1><p><a class="external-link" href="http://demo.yangtuojia.com/%E4%B8%9A%E5%8A%A1%E6%9C%8D%E5%8A%A1/%E8%B4%A2%E5%8A%A1%E4%B8%AD%E5%BF%83/02_%E9%A1%B9%E7%9B%AE/201905_01_%E6%AF%9B%E5%88%A9%E6%8A%A5%E8%A1%A8/201905_%E9%A1%B9%E7%9B%AE_01%20%E6%AF%9B%E5%88%A9%E6%8A%A5%E8%A1%A8%E4%BA%A7%E5%93%81%E5%8C%96/#g=1&amp;p=%E6%AF%9B%E5%88%A9%E6%8A%A5%E8%A1%A8%E6%B5%81%E7%A8%8B%E5%9B%BE" rel="nofollow">demo</a></p><h1 class="auto-cursor-target" id="id-2.退款比例-使用场景">使用场景</h1><p>对应的费用基本上包括</p><div class="table-wrap"><table class="relative-table wrapped confluenceTable" style="width: 71.7662%;"><colgroup><col style="width: 16.7293%;"/><col style="width: 35.0005%;"/><col style="width: 48.1064%;"/></colgroup><tbody><tr><th class="confluenceTh">使用的指标</th><th class="confluenceTh">相关公式</th><th class="confluenceTh"><br/></th></tr><tr><td class="confluenceTd">退款GMV</td><td class="confluenceTd">(GMV * 退款比例)</td><td class="confluenceTd">具体详见 <a href="54521590.html">3. 退款GMV</a></td></tr><tr><td class="confluenceTd">供应商结算总金额</td><td class="confluenceTd">= -(供应商结算总金额 * 退款比例)</td><td class="confluenceTd"><br/></td></tr><tr><td colspan="1" class="confluenceTd">渠道营销费用</td><td colspan="1" class="confluenceTd">= -(渠道营销费用 * 退款比例). 有点问题. 待同步</td><td colspan="1" class="confluenceTd"><br/></td></tr><tr><td colspan="1" class="confluenceTd">业务线营销费用</td><td colspan="1" class="confluenceTd">= -(业务线营销费用 * 退款比例). 有点问题. 待同步</td><td colspan="1" class="confluenceTd"><br/></td></tr><tr><td colspan="1" class="confluenceTd">增值服务收入分摊</td><td colspan="1" class="confluenceTd">GMV-退款 = GMV* (1-退款比例)</td><td colspan="1" class="confluenceTd">间接使用到了 退款比例 来计算出对应的 提货卡口径GMV-退款 的结果. </td></tr><tr><td colspan="1" class="confluenceTd"><br/></td><td colspan="1" class="confluenceTd"><br/></td><td colspan="1" class="confluenceTd"><br/></td></tr></tbody></table></div><h1 class="auto-cursor-target" id="id-2.退款比例-逻辑定义">逻辑定义</h1><h2 id="id-2.退款比例-V1版本已废弃-19年5月-20年12月"><s>V1版本 已废弃-19年5月-20年12月</s></h2><p><s><a class="external-link" href="http://demo.yangtuojia.com/%E4%B8%9A%E5%8A%A1%E6%9C%8D%E5%8A%A1/%E8%B4%A2%E5%8A%A1%E4%B8%AD%E5%BF%83/02_%E9%A1%B9%E7%9B%AE/201905_01_%E6%AF%9B%E5%88%A9%E6%8A%A5%E8%A1%A8/201905_%E9%A1%B9%E7%9B%AE_01%20%E6%AF%9B%E5%88%A9%E6%8A%A5%E8%A1%A8%E4%BA%A7%E5%93%81%E5%8C%96/#g=1&amp;p=%E6%AF%9B%E5%88%A9%E6%8A%A5%E8%A1%A8%E6%B5%81%E7%A8%8B%E5%9B%BE" rel="nofollow">原始PRD</a></s></p><p><s>退款比例 = <span>门店实际退款金额/门店支付金额</span></s></p><p><s><span>由于毛利报表退款时，需要按比例扣减当时的毛利，涉及到退款比例的问题。</span></s></p><p><br/></p><p><s><span>（1）微小店。微小店订单的实际退款金额为推给消费者的支付金额。所以微小店的退款比例会大于1。这样计算不准确。需要微小店的实际退款金额取门店实际退款金额。</span></s></p><p><s><span>（2）退款溢出的情况：b类清退等退款，由于退款金额远大于支付金额，可能退款比例特别高，能达到几百，让毛利数据计算不准确。</span></s></p><p><s><span>解决方案：b类清退工单做处理，退款金额不能大于原订单gmv. 目前@川枫b类清退新功能正在优化。 (V2阿雷备注:  该功能已经发布. 但是毛利报表没改出来)</span></s></p><p><br/></p><p><s>V1.1 退款比例有个上限为 1 . 时间为19年5月-20年3月</s></p><p><br/></p><p><s>V1.2 退款比例取消上限的规则. 时间为20年3月以来.</s></p><p><s><span><a class="external-link" href="http://demo.yangtuojia.com/%E4%B8%9A%E5%8A%A1%E6%9C%8D%E5%8A%A1/%E8%B4%A2%E5%8A%A1%E4%B8%AD%E5%BF%83/01_%E6%97%A5%E5%B8%B8/2020/Q1/202003_%E6%97%A5%E5%B8%B8_%E6%AF%9B%E5%88%A9%E6%8A%A5%E8%A1%A8%E7%89%A9%E6%B5%81%E5%8F%8A%E8%90%A5%E9%94%80%E8%B4%B9%E7%94%A8/#g=1&amp;p=3__%E9%80%80%E6%AC%BE%E6%AF%94%E4%BE%8B%E9%97%AE%E9%A2%98" rel="nofollow">关于退款比例问题</a></span></s></p><p style="text-align: left;"><s><span>以前退款比例&gt;=100%时，会让退款比例直接等于100%；</span></s></p><p style="text-align: left;"><s><span>售后已经做了退款比例预警，当退款比例&gt;=150时，会进行预警，</span></s></p><p style="text-align: left;"><s><span>所以可以直接用原始退款比例。</span></s></p><h2 id="id-2.退款比例-V2版本--最新版–21年1月至今">V2版本 --最新版–21年1月至今</h2><h3 id="id-2.退款比例-公式">公式</h3><p>以下统计针对于现有的毛利报表的基本过滤条件下. 例如隔离掉PP等. 仅保留海拍客业务(bu_id=0)</p><p>以下 红字部分 为改动内容.</p><p>PS: 清退也存在回寄运费的场景. 咨询单没有. 但是不影响计算公式. </p><h4 id="id-2.退款比例-1)当订单来源不为微小店且不为&quot;OMOB2B订单&quot;时(V2.1修改)"><strong>1) 当订单来源 不为 微小店 且 不为 &quot;OMO B2B订单&quot;时<span style="color: rgb(255,0,0);"> (V2.1修改)</span></strong></h4><h4 id="id-2.退款比例-1)当订单来源不为微小店时"><s><strong>1) 当订单来源 不为 微小店 时 </strong></s></h4><p>退款比例 = <span><span style="color: rgb(255,0,0);">实际退款订单金额</span>/门店支付金额</span></p><p><br/></p><h4 id="id-2.退款比例-2)当订单来源为微小店时(V2.1修改)"><strong>2) 当订单来源 为 微小店 时 </strong><strong><span style="color: rgb(255,0,0);">(V2.1修改)</span></strong></h4><h4 id="id-2.退款比例-2)当订单来源为微小店时"><s><strong>2) 当订单来源 为 微小店 时</strong></s></h4><p><span>退款比例 = <span style="color: rgb(255,0,0);">实际退款订单金额</span> / 消费者实际支付金额</span></p><p><span>消费者实际支付金额 = 消费者支付金额 + 运费</span></p><p><br/></p><h4 id="id-2.退款比例-3)当订单来源为&quot;OMOB2B订单&quot;时(V2.1新增)"><strong>3) 当订单来源 为 &quot;OMO B2B订单&quot; 时 </strong><strong><span style="color: rgb(255,0,0);">(V2.1新增)</span></strong></h4><p><span>退款比例 = <span style="color: rgb(255,0,0);">实际退款订单金额</span> / 消费者实际支付金额(customer_pay_amount)</span></p><p>这里我不确定 <span>消费者实际支付金额(customer_pay_amount) 里面是否已经包含了 运费.   这里最终实现需要按照 运费后的. </span></p><p><br/></p><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image confluence-external-resource" height="400" src="attachments/73537232/73538425.png" data-image-src="http://k.yangtuojia.com/download/attachments/73537232/image2021-8-20_15-48-24.png?version=1&amp;modificationDate=1629445705000&amp;api=v2"></span></p><p><br/></p><p><strong>4) 兜底逻辑</strong></p><p><strong>当 退款比例 &gt; 1 时,默认取为 1 . 并进行告警. </strong></p><h3 id="id-2.退款比例-举例说明"><strong>举例说明</strong></h3><p><strong>以微小店为例</strong></p><p><span>某货款金额为100元. 运费为20元. 门店加价80元. 则最终</span></p><p><span>GMV= 120 .  消费者实际支付金额 = 200.  (系统中的 消费者支付金额不包含运费. 即为180)</span></p><p>当消费者全额退款后,则</p><p>实际退款订单金额 =  200</p><p>销售者实际支付金额 = 180+20 = 200. </p><p>退款比例= 200 / 200 = 1 .即为 全额退款 .</p><p><br/></p><p><strong>以OMO B2B订单为例</strong></p><p>某OMO的海拍客供货订单,  门店实际支付金额为150元.  C端消费者实际支付200元.   佣金金额为 30元. </p><p>则此时计入,  original_type=0, GMV为 150元. 退款GMV为0元. 考核GMV为150元. 佣金金额为 30元.</p><p><br/></p><p>消费者实际退款100元.</p><p>则此时计入,   original_type=1, GMV为 0元, 退款比例=0.5 ,考核GMV为 0 - 0.5*150 = -75元. 佣金金额为 -0.5*30 = -15元.</p><p><br/></p><h2 id="id-2.退款比例-字段引用截图"><span>字段引用截图</span></h2><p><span><a class="external-link" href="https://kf.yangtuojia.com/refundDetail.html?refundNum=MRBH202007040202486286" rel="nofollow">示例退款单</a></span></p><p><br/></p><p><span><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" height="400" src="attachments/54516237/54516345.png" data-image-src="attachments/54516237/54516345.png" data-unresolved-comment-count="0" data-linked-resource-id="54516345" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2020-12-18_18-49-12.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="54516237" data-linked-resource-container-version="34"></span></span></p><p><br/></p><h2 id="id-2.退款比例-备注">备注</h2><h3 id="id-2.退款比例-查询有退款运费补贴的订单"><a class="external-link" href="https://edp.yangtuojia.com/edp/sqlQuery?id=7623" rel="nofollow">查询有退款运费补贴的订单</a></h3><p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/54516237/54516340.png" data-image-src="attachments/54516237/54516340.png" data-unresolved-comment-count="0" data-linked-resource-id="54516340" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2020-12-18_18-47-50.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="54516237" data-linked-resource-container-version="34"></span></p><p><br/></p><h3 id="id-2.退款比例-改造前后(V1V2的影响)"><a class="external-link" href="https://edp.yangtuojia.com/edp/sqlQuery?id=7621" rel="nofollow">改造前后(V1 V2 的影响)</a></h3><p>见下统计.  当口径从V1切换成V2后, 基本上解决了 溢出 的情况. 从业务规则上也保证了有效性.  </p><p>避免因为错误的公式导致退款比例过高. </p><p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/54516237/54521596.png" data-image-src="attachments/54516237/54521596.png" data-unresolved-comment-count="0" data-linked-resource-id="54521596" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2020-12-22_15-29-31.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="54516237" data-linked-resource-container-version="34"></span></p><p><br/></p><h3 id="id-2.退款比例-B类清退也有回寄运费"><a class="external-link" href="https://kf.yangtuojia.com/workOrder/bClearDetail.html?id=35597" rel="nofollow">B类清退也有 回寄运费</a></h3><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image confluence-thumbnail" height="250" src="attachments/54516237/56050867.png" data-image-src="attachments/54516237/56050867.png" data-unresolved-comment-count="0" data-linked-resource-id="56050867" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2021-1-7_17-53-36.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="54516237" data-linked-resource-container-version="34"></span></p><h1 id="id-2.退款比例-其他">其他</h1><h2 id="id-2.退款比例-关于退款GMV的奇怪公式问题">关于 退款GMV 的奇怪公式问题</h2><p>关于 退款GMV. 现在业务上给出的公式为 -(GMV*退款比例) .  实现上则是按  -(实际退款金额+ 优惠券金额*(退款比例)) </p><div class="table-wrap"><table class="wrapped confluenceTable"><colgroup><col/><col/><col/></colgroup><tbody><tr><th class="confluenceTh">公式编号</th><th class="confluenceTh">实际公式</th><th class="confluenceTh">备注</th></tr><tr><td class="confluenceTd">公式1</td><td class="confluenceTd">-(GMV*退款比例) </td><td class="confluenceTd"><br/></td></tr><tr><td class="confluenceTd">公式2</td><td class="confluenceTd">-(实际退款金额+ 优惠券金额*(退款比例))</td><td class="confluenceTd"><br/></td></tr><tr><td class="confluenceTd"><br/></td><td class="confluenceTd"><br/></td><td class="confluenceTd"><br/></td></tr></tbody></table></div><p><br/></p><p><br/></p><p><br/></p><p><br/></p>
+                    </div>
+
+                                        <div class="pageSection group">
+                        <div class="pageSectionHeader">
+                            <h2 id="attachments" class="pageSectionTitle">Attachments:</h2>
+                        </div>
+
+                        <div class="greybox" align="left">
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/54516237/54516340.png">image2020-12-18_18-47-50.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/54516237/54516341.png">image2020-12-18_18-48-27.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/54516237/54516345.png">image2020-12-18_18-49-12.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/54516237/54521596.png">image2020-12-22_15-29-31.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/54516237/56050867.png">image2021-1-7_17-53-36.png</a> (image/png)
+                                <br/>
+                                                    </div>
+                    </div>
+                    
+                                                      
+                </div>             </div> 
+            <div id="footer" role="contentinfo">
+                <section class="footer-body">
+                    <p>Document generated by Confluence on 2023-12-19 10:51</p>
+                    <div id="footer-logo"><a href="http://www.atlassian.com/">Atlassian</a></div>
+                </section>
+            </div>
+        </div>     </body>
+</html>

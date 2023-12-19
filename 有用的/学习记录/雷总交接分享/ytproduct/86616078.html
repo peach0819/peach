@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>产品组 : 4. 优惠券之平台营销费用</title>
+        <link rel="stylesheet" href="styles/site.css" type="text/css" />
+        <META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    </head>
+
+    <body class="theme-default aui-theme-default">
+        <div id="page">
+            <div id="main" class="aui-page-panel">
+                <div id="main-header">
+                    <div id="breadcrumb-section">
+                        <ol id="breadcrumbs">
+                            <li class="first">
+                                <span><a href="index.html">产品组</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="70335729.html">01_数据逻辑及模型设计思路</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="59212886.html">三、费用</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="61057821.html">营销费用之优惠券</a></span>
+                            </li>
+                                                </ol>
+                    </div>
+                    <h1 id="title-heading" class="pagetitle">
+                                                <span id="title-text">
+                            产品组 : 4. 优惠券之平台营销费用
+                        </span>
+                    </h1>
+                </div>
+
+                <div id="content" class="view">
+                    <div class="page-metadata">
+                        
+        
+    
+        
+    
+        
+        
+            Created by <span class='author'> 未知用户 (lei.xue)</span>, last modified on 2022-02-15
+                        </div>
+                    <div id="main-content" class="wiki-content group">
+                    <h1 class="auto-cursor-target" id="id-4.优惠券之平台营销费用-修订记录"><strong>修订记录</strong></h1><div class="table-wrap"><table class="wrapped confluenceTable"><colgroup><col/><col/><col/><col/><col/></colgroup><thead><tr><th style="text-align: left;" class="confluenceTh"><p>版本号</p></th><th style="text-align: left;" class="confluenceTh"><p>内容</p></th><th style="text-align: left;" class="confluenceTh"><p>作者</p></th><th style="text-align: left;" class="confluenceTh"><p>时间</p></th><th colspan="1" style="text-align: left;" class="confluenceTh"><p>备注</p></th></tr></thead><tbody><tr><td colspan="1" style="text-align: left;" class="confluenceTd">V1</td><td colspan="1" style="text-align: left;" class="confluenceTd"><br/></td><td colspan="1" style="text-align: left;" class="confluenceTd">阿雷</td><td colspan="1" style="text-align: left;" class="confluenceTd">2202.01.15</td><td colspan="1" style="text-align: left;" class="confluenceTd">基于 <a href="http://k.yangtuojia.com/pages/viewpage.action?pageId=86615087">202201_日常_05_毛利报表1月份改造小日常</a> 里对采购优惠券承担逻辑的变动提出的新需求</td></tr><tr><td colspan="1" class="confluenceTd">V2</td><td colspan="1" class="confluenceTd"><br/></td><td colspan="1" class="confluenceTd">阿雷</td><td colspan="1" class="confluenceTd">2202.02.15</td><td colspan="1" class="confluenceTd"><br/></td></tr></tbody></table></div><p><br/></p><p><style type='text/css'>/*<![CDATA[*/
+div.rbtoc1702954324654 {padding: 0px;}
+div.rbtoc1702954324654 ul {list-style: disc;margin-left: 0px;}
+div.rbtoc1702954324654 li {margin-left: 0px;padding-left: 0px;}
+
+/*]]>*/</style><div class='toc-macro rbtoc1702954324654'>
+<ul class='toc-indentation'>
+<li><a href='#id-4.优惠券之平台营销费用-修订记录'>修订记录</a>
+<ul class='toc-indentation'>
+<li><a href='#id-4.优惠券之平台营销费用-引用'>引用</a></li>
+</ul>
+</li>
+<li><a href='#id-4.优惠券之平台营销费用-业务背景'>业务背景</a>
+<ul class='toc-indentation'>
+<li><a href='#id-4.优惠券之平台营销费用-'></a></li>
+</ul>
+</li>
+<li><a href='#id-4.优惠券之平台营销费用-计算逻辑'>计算逻辑</a></li>
+<li><a href='#id-4.优惠券之平台营销费用-监控预警'>监控预警</a></li>
+</ul>
+</div></p><h2 id="id-4.优惠券之平台营销费用-引用"><strong>引用</strong></h2><p><a class="external-link" href="http://demo.yangtuojia.com/%E4%B8%9A%E5%8A%A1%E6%9C%8D%E5%8A%A1/%E8%B4%A2%E5%8A%A1%E4%B8%AD%E5%BF%83/02_%E9%A1%B9%E7%9B%AE/201905_01_%E6%AF%9B%E5%88%A9%E6%8A%A5%E8%A1%A8/201905_%E9%A1%B9%E7%9B%AE_01%20%E6%AF%9B%E5%88%A9%E6%8A%A5%E8%A1%A8%E4%BA%A7%E5%93%81%E5%8C%96/#g=1&amp;p=%E4%B8%9A%E5%8A%A1%E6%AF%9B%E6%94%B6%E5%85%A5" rel="nofollow" style="text-decoration: none;">采购毛利报表一期</a></p><p><a href="http://k.yangtuojia.com/pages/viewpage.action?pageId=86615087">202201_日常_05_毛利报表1月份改造小日常</a></p><h1 id="id-4.优惠券之平台营销费用-业务背景">业务背景</h1><p>目前, 业务广泛把 采购营销费用 作为平台营销费用,视作 计算 商品毛利率的 核心指标. 例如,BI,算法,数据团队都在用. </p><p>本次把 <a href="http://k.yangtuojia.com/pages/viewpage.action?pageId=86615087">202201_日常_05_毛利报表1月份改造小日常</a> 中,修改了采购承担优惠券逻辑. </p><p>即 A类非长尾组 不承担 渠道和运营发的券. 则在考核里, 采购营销费用会下降. 采购考核毛利额上升.  少了 渠道和运营发的券.</p><p>但是海拍客是实打实的支持了 渠道和运营发的营销费用. </p><p><br/></p><p>因此,复制 4.0版本的 采购承担方的逻辑 , 及 采购营销费用计算逻辑.即 视作  优惠券平台承担的相关逻辑. </p><p>这里的平台主要是指 B2B的链路里. </p><h2 id="id-4.优惠券之平台营销费用-"><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image confluence-external-resource" height="150" src="attachments/59212755/86616091.png" data-image-src="http://k.yangtuojia.com/download/attachments/59212755/image2022-1-19_10-49-52.png?version=1&amp;modificationDate=1642560593000&amp;api=v2"></span></h2><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image confluence-thumbnail confluence-external-resource" height="150" src="attachments/59212755/86616102.png" data-image-src="http://k.yangtuojia.com/download/attachments/59212755/image2022-1-19_10-53-12.png?version=1&amp;modificationDate=1642560792000&amp;api=v2"></span></p><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" height="250" src="attachments/86616078/86616154.png" data-image-src="attachments/86616078/86616154.png" data-unresolved-comment-count="0" data-linked-resource-id="86616154" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2022-1-19_11-41-12.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="86616078" data-linked-resource-container-version="6"></span></p><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" height="250" src="attachments/86616078/86616155.png" data-image-src="attachments/86616078/86616155.png" data-unresolved-comment-count="0" data-linked-resource-id="86616155" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2022-1-19_11-41-34.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="86616078" data-linked-resource-container-version="6"></span></p><p><br/></p><h1 id="id-4.优惠券之平台营销费用-计算逻辑">计算逻辑</h1><p>完全引用 <a href="54522107.html">2. 优惠券之采购营销费用(原名:业务线营销费用)</a> 的V3版本逻辑. 唯一的区别就是, 判断的字段从 优惠券采购承担方 改成了 优惠券平台承担方.  但是匹配订单还是通过业务组</p><p>V2补充逻辑:</p><p>当 dt_month&lt;= 202201 时,则 <span style="">platform_markting_amount 取 biz_marketing_amount 的值,避免历史冻结增量月分区,平台营销费用金额为空的问题. </span></p><p><span style="">否则,则引用上面的正常逻辑,正常分摊计算. </span></p><p><br/></p><p><br/></p><h1 id="id-4.优惠券之平台营销费用-监控预警">监控预警</h1><p><span style="color: rgb(255,0,0);">所有采购有的, 平台的版本各来一套</span></p><p><br/></p><p><br/></p><p><br/></p><p><br/></p><p><br/></p><p><br/></p><p><br/></p><p><br/></p>
+                    </div>
+
+                                        <div class="pageSection group">
+                        <div class="pageSectionHeader">
+                            <h2 id="attachments" class="pageSectionTitle">Attachments:</h2>
+                        </div>
+
+                        <div class="greybox" align="left">
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/86616078/86616154.png">image2022-1-19_11-41-12.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/86616078/86616155.png">image2022-1-19_11-41-34.png</a> (image/png)
+                                <br/>
+                                                    </div>
+                    </div>
+                    
+                                                      
+                </div>             </div> 
+            <div id="footer" role="contentinfo">
+                <section class="footer-body">
+                    <p>Document generated by Confluence on 2023-12-19 10:52</p>
+                    <div id="footer-logo"><a href="http://www.atlassian.com/">Atlassian</a></div>
+                </section>
+            </div>
+        </div>     </body>
+</html>

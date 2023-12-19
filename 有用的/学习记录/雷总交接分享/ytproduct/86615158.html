@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>产品组 : 5. 毛利报表订单冻结业务标识</title>
+        <link rel="stylesheet" href="styles/site.css" type="text/css" />
+        <META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    </head>
+
+    <body class="theme-default aui-theme-default">
+        <div id="page">
+            <div id="main" class="aui-page-panel">
+                <div id="main-header">
+                    <div id="breadcrumb-section">
+                        <ol id="breadcrumbs">
+                            <li class="first">
+                                <span><a href="index.html">产品组</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="70335729.html">01_数据逻辑及模型设计思路</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="59212755.html">零、字段汇总(维度和指标)</a></span>
+                            </li>
+                                                </ol>
+                    </div>
+                    <h1 id="title-heading" class="pagetitle">
+                                                <span id="title-text">
+                            产品组 : 5. 毛利报表订单冻结业务标识
+                        </span>
+                    </h1>
+                </div>
+
+                <div id="content" class="view">
+                    <div class="page-metadata">
+                        
+        
+    
+        
+    
+        
+        
+            Created by <span class='author'> 未知用户 (lei.xue)</span>, last modified on 2022-01-20
+                        </div>
+                    <div id="main-content" class="wiki-content group">
+                    <h1 class="auto-cursor-target" id="id-5.毛利报表订单冻结业务标识-修订记录"><strong>修订记录</strong></h1><div class="table-wrap"><table class="relative-table wrapped confluenceTable" style="width: 82.9908%;"><colgroup><col style="width: 3.59475%;"/><col style="width: 26.3402%;"/><col style="width: 11.9002%;"/><col style="width: 23.7384%;"/><col style="width: 34.4637%;"/></colgroup><thead><tr><th style="text-align: left;" class="confluenceTh"><p>版本号</p></th><th style="text-align: left;" class="confluenceTh"><p>内容</p></th><th style="text-align: left;" class="confluenceTh"><p>作者</p></th><th style="text-align: left;" class="confluenceTh"><p>时间</p></th><th colspan="1" style="text-align: left;" class="confluenceTh"><p>备注</p></th></tr></thead><tbody><tr><td colspan="1" class="confluenceTd">V1</td><td colspan="1" class="confluenceTd"><br/></td><td colspan="1" class="confluenceTd">阿雷</td><td colspan="1" class="confluenceTd">2020.12.18</td><td colspan="1" class="confluenceTd"><a href="86615158.html">5. 毛利报表订单冻结业务标识</a></td></tr></tbody></table></div><p><style type='text/css'>/*<![CDATA[*/
+div.rbtoc1702954303908 {padding: 0px;}
+div.rbtoc1702954303908 ul {list-style: disc;margin-left: 0px;}
+div.rbtoc1702954303908 li {margin-left: 0px;padding-left: 0px;}
+
+/*]]>*/</style><div class='toc-macro rbtoc1702954303908'>
+<ul class='toc-indentation'>
+<li><a href='#id-5.毛利报表订单冻结业务标识-修订记录'>修订记录</a>
+<ul class='toc-indentation'>
+<li><a href='#id-5.毛利报表订单冻结业务标识-引用'>引用</a></li>
+</ul>
+</li>
+<li><a href='#id-5.毛利报表订单冻结业务标识-业务背景'>业务背景</a></li>
+<li><a href='#id-5.毛利报表订单冻结业务标识-数据结构'>数据结构</a></li>
+<li><a href='#id-5.毛利报表订单冻结业务标识-业务标识列表'>业务标识列表</a></li>
+<li><a href='#id-5.毛利报表订单冻结业务标识-特殊逻辑列表'>特殊逻辑列表</a>
+<ul class='toc-indentation'>
+<li><a href='#id-5.毛利报表订单冻结业务标识-品牌直供'>品牌直供</a></li>
+<li><a href='#id-5.毛利报表订单冻结业务标识-B类尿不湿自营品牌/B类尿不湿自有品牌'>B类尿不湿自营品牌/B类尿不湿自有品牌</a></li>
+</ul>
+</li>
+</ul>
+</div></p><h2 id="id-5.毛利报表订单冻结业务标识-引用"><strong>引用</strong></h2><p><strong><a class="external-link" href="https://onequery.yangtuojia.com/?id=16518" rel="nofollow">SQL地址</a></strong></p><p><br/></p><h1 id="id-5.毛利报表订单冻结业务标识-业务背景"><strong>业务背景</strong></h1><p>见下图. 现有海拍客的业务愈发复杂. 例如, 有项目制. 例如121,提篮子.单独按毛利考核. 有指定的采购里的划分. 例如,有单独的 圈货,自采的业务. 又跟现有的采购划分体系有部分交集. </p><p>很难像 订单归属 业务组, 订单归属 销售团队 这样是严丝合缝的业务划分. 多个业务系统可能会有部分的交集.  且需求很可能是临时,很难基于系统化的响应.</p><p><br/></p><p>基于此,希望引入  订单冻结业务标识 . </p><p>理论上未来是需要通过规则中心来解决的... 目前先以最快的速度响应一下业务. </p><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image confluence-external-resource" height="150" src="attachments/64585634/86609407.png" data-image-src="http://k.yangtuojia.com/download/attachments/64585634/image2022-1-7_17-13-2.png?version=1&amp;modificationDate=1641546785000&amp;api=v2"></span></p><h1 id="id-5.毛利报表订单冻结业务标识-数据结构"><strong>数据结构</strong></h1><p>理论上,一个订单可能会有0-N个业务标识.  这会是业务含义的累加</p><p>所以最好是只通过1个字段,用list的模式来存,例如</p><p>一件代发业务的订单: ['一件代发','长尾圈货']</p><p><br/></p><p><br/></p><h1 id="id-5.毛利报表订单冻结业务标识-业务标识列表">业务标识列表</h1><div class="table-wrap"><table class="relative-table wrapped confluenceTable" style="width: 44.0642%;"><colgroup><col style="width: 29.538%;"/><col style="width: 70.5048%;"/></colgroup><tbody><tr><th class="confluenceTh">标识名称</th><th class="confluenceTh">业务含义</th></tr><tr><td class="confluenceTd">提篮子订单</td><td class="confluenceTd">trade_tags包含 74</td></tr><tr><td class="confluenceTd">OMO订单</td><td class="confluenceTd">订单来源为OMO订单 且 不为一件代发订单(trade_tags待胡强提供)</td></tr><tr><td class="confluenceTd">一件代发订单</td><td class="confluenceTd">trade_tags包含XX(trade_tags待胡强提供)</td></tr><tr><td colspan="1" class="confluenceTd">长尾圈货</td><td colspan="1" class="confluenceTd">当 订单业务域=长尾 且 供应商名称末尾为 &quot;-cwqh&quot;</td></tr><tr><td colspan="1" class="confluenceTd">自采</td><td colspan="1" class="confluenceTd">本期不做</td></tr><tr><td class="confluenceTd">品牌直供</td><td class="confluenceTd"><p>请参见下方特殊逻辑</p></td></tr><tr><td colspan="1" class="confluenceTd">B类尿不湿自营品牌</td><td colspan="1" class="confluenceTd">请参见下方特殊逻辑</td></tr><tr><td colspan="1" class="confluenceTd">B类尿不湿自有品牌</td><td colspan="1" class="confluenceTd">请参见下方特殊逻辑</td></tr><tr><td colspan="1" class="confluenceTd"><br/></td><td colspan="1" class="confluenceTd"><br/></td></tr></tbody></table></div><p><br/></p><p><br/></p><h1 id="id-5.毛利报表订单冻结业务标识-特殊逻辑列表">特殊逻辑列表</h1><h2 id="id-5.毛利报表订单冻结业务标识-品牌直供">品牌直供</h2><p>当 符合以下商品范围时,则为 打上该标签. 否则,则不打.</p><div class="table-wrap"><table class="wrapped confluenceTable"><colgroup><col/><col/><col/><col/><col/></colgroup><tbody><tr><td class="confluenceTd">品牌直供供应商代码<br/>（系统精确匹配）</td><td class="confluenceTd">最新品牌名<br/>（系统精确匹配）</td><td class="confluenceTd">2022年是否继续使用<br/>（是/否）</td><td class="confluenceTd">brand_id</td><td class="confluenceTd">supply_id</td></tr><tr><td class="confluenceTd">DM-江西-YTMY-MS</td><td class="confluenceTd">美素佳儿Frisolac</td><td class="confluenceTd">是</td><td class="confluenceTd">611</td><td class="confluenceTd">1c144205ac294c37b1de3824e9123f42</td></tr><tr><td class="confluenceTd">DM-重庆-KLP</td><td class="confluenceTd">爱他美Aptamil</td><td class="confluenceTd">是</td><td class="confluenceTd">583</td><td class="confluenceTd">ef92d92ac83a47ed85fd425d650d921f</td></tr><tr><td class="confluenceTd">DM-重庆-KLP</td><td class="confluenceTd">牛栏Nutrilon</td><td class="confluenceTd">是</td><td class="confluenceTd">736</td><td class="confluenceTd">ef92d92ac83a47ed85fd425d650d921f</td></tr><tr><td class="confluenceTd">HKCJSY</td><td class="confluenceTd">安满Anmum</td><td class="confluenceTd">是</td><td class="confluenceTd">817</td><td class="confluenceTd">0982ac4ac7664de597c161c0456d5cd4</td></tr><tr><td class="confluenceTd">KJ-成都-KRKG</td><td class="confluenceTd">喜宝HiPP</td><td class="confluenceTd">是</td><td class="confluenceTd">638</td><td class="confluenceTd">aa698e32a4b047b6b6fd2851cbe6049e</td></tr><tr><td class="confluenceTd">KJ-深圳-LUX</td><td class="confluenceTd">牛栏Cow&amp;Gate</td><td class="confluenceTd">是</td><td class="confluenceTd">726</td><td class="confluenceTd">a009290d907740159789a6a01b6396ef</td></tr><tr><td class="confluenceTd">KJ-香港-APOL</td><td class="confluenceTd">美素佳儿Frisolac</td><td class="confluenceTd">是</td><td class="confluenceTd">611</td><td class="confluenceTd">eb6d70d190fd42ea9891c62ec4c5afc7</td></tr><tr><td class="confluenceTd">KJ-香港-Blue</td><td class="confluenceTd">OLI6</td><td class="confluenceTd">是</td><td class="confluenceTd">6500</td><td class="confluenceTd">59dc961926544aa2bd6b7f31abc4d5ab</td></tr><tr><td class="confluenceTd">KJ-香港-CYM</td><td class="confluenceTd">阿拉 Arla</td><td class="confluenceTd">是</td><td class="confluenceTd">714</td><td class="confluenceTd">37a1dd097e1d4c8fa0ad0c2a24663de1</td></tr><tr><td class="confluenceTd">KJ-香港-DHKG</td><td class="confluenceTd">美赞臣Meadjohnson</td><td class="confluenceTd">是</td><td class="confluenceTd">1141</td><td class="confluenceTd">cdb243682fc342869981e4fdb4e949ea</td></tr><tr><td class="confluenceTd">KJ-香港-FGL</td><td class="confluenceTd">合生元BIOSTIME</td><td class="confluenceTd">是</td><td class="confluenceTd">994</td><td class="confluenceTd">38c0077da75a419c95afbdce04317464</td></tr><tr><td class="confluenceTd">KJ-香港-FKM</td><td class="confluenceTd">雀巢NESTLE</td><td class="confluenceTd">是</td><td class="confluenceTd">815</td><td class="confluenceTd">6a0381f975c349339b1c1e47b0615fd1</td></tr><tr><td class="confluenceTd">KJ-香港-HBJ</td><td class="confluenceTd">a2</td><td class="confluenceTd">是</td><td class="confluenceTd">517</td><td class="confluenceTd">1e51bb28dfd2471e8ee855d50a2c4b4f</td></tr><tr><td class="confluenceTd">KJ-香港-HKTC</td><td class="confluenceTd">惠氏Wyeth</td><td class="confluenceTd">是</td><td class="confluenceTd">547</td><td class="confluenceTd">86275ca0ec3c42319e13e3a3729f690e</td></tr><tr><td class="confluenceTd">KJ-香港-KRKG</td><td class="confluenceTd">喜宝HiPP</td><td class="confluenceTd">是</td><td class="confluenceTd">638</td><td class="confluenceTd">89370c85bc374479a9357f73c0fbd99e</td></tr><tr><td class="confluenceTd">KJ-香港-KYY</td><td class="confluenceTd">爱他美Aptamil</td><td class="confluenceTd">是</td><td class="confluenceTd">583</td><td class="confluenceTd">c906d81afd034c4bad54b94de59ec919</td></tr><tr><td class="confluenceTd">KJ-香港-LUX</td><td class="confluenceTd">雅培Abbott</td><td class="confluenceTd">是</td><td class="confluenceTd">1133</td><td class="confluenceTd">bac2088d293c4492a527595a79308148</td></tr><tr><td class="confluenceTd">KJ-香港-PGA</td><td class="confluenceTd">雀巢NESTLE</td><td class="confluenceTd">是</td><td class="confluenceTd">815</td><td class="confluenceTd">1e6fde16d4e741028f1ed3cd7685bf7d</td></tr><tr><td class="confluenceTd">KJ-香港-TRANS</td><td class="confluenceTd">美赞臣Meadjohnson</td><td class="confluenceTd">是</td><td class="confluenceTd">1141</td><td class="confluenceTd">59e179df128f4a7b862c47d30485366a</td></tr><tr><td class="confluenceTd">KJ-香港-U1</td><td class="confluenceTd">爱他美Aptamil</td><td class="confluenceTd">是</td><td class="confluenceTd">583</td><td class="confluenceTd">43a4793d207a4618a028bf87e0d180d9</td></tr><tr><td class="confluenceTd">KJ-香港-U1</td><td class="confluenceTd">牛栏Cow&amp;Gate</td><td class="confluenceTd">是</td><td class="confluenceTd">726</td><td class="confluenceTd">43a4793d207a4618a028bf87e0d180d9</td></tr><tr><td class="confluenceTd">KJ-香港-U1</td><td class="confluenceTd">牛栏Nutrilon</td><td class="confluenceTd">是</td><td class="confluenceTd">736</td><td class="confluenceTd">43a4793d207a4618a028bf87e0d180d9</td></tr><tr><td class="confluenceTd">KJ-香港-YM</td><td class="confluenceTd">美素佳儿Frisolac</td><td class="confluenceTd">是</td><td class="confluenceTd">611</td><td class="confluenceTd">eb82dedbed7245a884ac6381f9831d1d</td></tr><tr><td class="confluenceTd">KJ-香港-YUOUP</td><td class="confluenceTd">爱他美Aptamil</td><td class="confluenceTd">是</td><td class="confluenceTd">583</td><td class="confluenceTd">18b414a8e709454dbd76b4d791dc2285</td></tr><tr><td class="confluenceTd">KJ-香港-YUOUP</td><td class="confluenceTd">牛栏Cow&amp;Gate</td><td class="confluenceTd">是</td><td class="confluenceTd">726</td><td class="confluenceTd">18b414a8e709454dbd76b4d791dc2285</td></tr><tr><td class="confluenceTd">KJ-香港-YUOUP</td><td class="confluenceTd">牛栏Nutrilon</td><td class="confluenceTd">是</td><td class="confluenceTd">736</td><td class="confluenceTd">18b414a8e709454dbd76b4d791dc2285</td></tr><tr><td class="confluenceTd">KJ-香港-YX</td><td class="confluenceTd">荷兰美素 Hero Baby</td><td class="confluenceTd">是</td><td class="confluenceTd">606</td><td class="confluenceTd">1630ec5403014df3b5ce1594b326b726</td></tr><tr><td class="confluenceTd">KJ-香港-ZY2</td><td class="confluenceTd">美赞臣Meadjohnson</td><td class="confluenceTd">是</td><td class="confluenceTd">1141</td><td class="confluenceTd">c2f1be8838c54e4490f4705401f1ce54</td></tr><tr><td class="confluenceTd">KJ-香港-ZYMY</td><td class="confluenceTd">美赞臣Meadjohnson</td><td class="confluenceTd">是</td><td class="confluenceTd">1141</td><td class="confluenceTd">9aaa2e62bf0c4316b11425deaf029352</td></tr><tr><td class="confluenceTd">KJ-新西兰-HHT</td><td class="confluenceTd">贝拉米 Bellamy's</td><td class="confluenceTd">是</td><td class="confluenceTd">762</td><td class="confluenceTd">7f6c7032082e4c9bb99e7a0cb394b08d</td></tr><tr><td class="confluenceTd">KJ-新西兰-HHTL</td><td class="confluenceTd">贝拉米 Bellamy's</td><td class="confluenceTd">是</td><td class="confluenceTd">762</td><td class="confluenceTd">3efa04a5db304154a3d5066a6ca7bfe1</td></tr><tr><td class="confluenceTd">OLT</td><td class="confluenceTd">雀巢NESTLE</td><td class="confluenceTd">是</td><td class="confluenceTd">815</td><td class="confluenceTd">a41aa2552a1749be8b52b2da7790db9b</td></tr><tr><td class="confluenceTd">ZY-香港-OLT</td><td class="confluenceTd">雀巢NESTLE</td><td class="confluenceTd">是</td><td class="confluenceTd">815</td><td class="confluenceTd">e6c1456dce184a00a2ee9602233e79bc</td></tr><tr><td class="confluenceTd">KJ-香港-YUNC</td><td class="confluenceTd">BUBS</td><td class="confluenceTd">是</td><td class="confluenceTd">3354</td><td class="confluenceTd">1419e61d3ca44148aa02fe86bc7e89e3</td></tr><tr><td class="confluenceTd">KJ-香港-HKTC</td><td class="confluenceTd">雀巢NESTLE</td><td class="confluenceTd">是</td><td class="confluenceTd">815</td><td class="confluenceTd">86275ca0ec3c42319e13e3a3729f690e</td></tr><tr><td class="confluenceTd">DM-上海-PRYP</td><td class="confluenceTd">雅培Abbott</td><td class="confluenceTd">是</td><td class="confluenceTd">1133</td><td class="confluenceTd">ce37fe7e6d724d42b8f1f592ce73e568</td></tr><tr><td class="confluenceTd">DM-上海-PRGYL</td><td class="confluenceTd">雅培Abbott</td><td class="confluenceTd">是</td><td class="confluenceTd">1133</td><td class="confluenceTd">ade591f3724046b2b9265b8272f4e58f</td></tr><tr><td class="confluenceTd">DM-湖北-WHSS</td><td class="confluenceTd">惠氏Wyeth</td><td class="confluenceTd">是</td><td class="confluenceTd">547</td><td class="confluenceTd">93a08a118da54597b2f3ac029c11db69</td></tr></tbody></table></div><p><br/></p><h2 id="id-5.毛利报表订单冻结业务标识-B类尿不湿自营品牌/B类尿不湿自有品牌">B类尿不湿自营品牌/B类尿不湿自有品牌</h2><p>当符合以下规则时, 则命中对应的 标签. </p><div class="table-wrap"><table class="wrapped confluenceTable"><colgroup><col/><col/></colgroup><tbody><tr><th class="confluenceTh">品牌名</th><th class="confluenceTh">类型</th></tr><tr><td class="confluenceTd">米高熊</td><td class="confluenceTd">自营品牌</td></tr><tr><td class="confluenceTd">淘气博士</td><td class="confluenceTd">自营品牌</td></tr><tr><td class="confluenceTd">棉の悦</td><td class="confluenceTd">自营品牌</td></tr><tr><td class="confluenceTd">爸比船长</td><td class="confluenceTd">自有品牌</td></tr><tr><td class="confluenceTd">爸比船长铂臻</td><td class="confluenceTd">自有品牌</td></tr><tr><td class="confluenceTd">咘咘狗</td><td class="confluenceTd">自有品牌</td></tr><tr><td class="confluenceTd">樱桃爸爸</td><td class="confluenceTd">自有品牌</td></tr><tr><td class="confluenceTd">咘咘狗金缕梅</td><td class="confluenceTd">自有品牌</td></tr><tr><td class="confluenceTd">柔可可</td><td class="confluenceTd">自有品牌</td></tr><tr><td class="confluenceTd">乖乖时光</td><td class="confluenceTd">自有品牌</td></tr><tr><td class="confluenceTd">真爱熊</td><td class="confluenceTd">自有品牌</td></tr><tr><td class="confluenceTd">樱桃爸爸CHERRY PAPA</td><td class="confluenceTd">自有品牌</td></tr><tr><td class="confluenceTd">因爱天使</td><td class="confluenceTd">自有品牌</td></tr></tbody></table></div><p><br/></p><p><br/></p><p><br/></p><p><br/></p><p><br/></p>
+                    </div>
+
+                                        <div class="pageSection group">
+                        <div class="pageSectionHeader">
+                            <h2 id="attachments" class="pageSectionTitle">Attachments:</h2>
+                        </div>
+
+                        <div class="greybox" align="left">
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/86615158/86615315.png">image2022-1-17_23-18-57.png</a> (image/png)
+                                <br/>
+                                                    </div>
+                    </div>
+                    
+                                                      
+                </div>             </div> 
+            <div id="footer" role="contentinfo">
+                <section class="footer-body">
+                    <p>Document generated by Confluence on 2023-12-19 10:51</p>
+                    <div id="footer-logo"><a href="http://www.atlassian.com/">Atlassian</a></div>
+                </section>
+            </div>
+        </div>     </body>
+</html>

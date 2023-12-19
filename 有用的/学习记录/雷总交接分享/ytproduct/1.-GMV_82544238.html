@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>产品组 : 1. GMV</title>
+        <link rel="stylesheet" href="styles/site.css" type="text/css" />
+        <META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    </head>
+
+    <body class="theme-default aui-theme-default">
+        <div id="page">
+            <div id="main" class="aui-page-panel">
+                <div id="main-header">
+                    <div id="breadcrumb-section">
+                        <ol id="breadcrumbs">
+                            <li class="first">
+                                <span><a href="index.html">产品组</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="70335729.html">01_数据逻辑及模型设计思路</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="59212875.html">一、收入</a></span>
+                            </li>
+                                                </ol>
+                    </div>
+                    <h1 id="title-heading" class="pagetitle">
+                                                <span id="title-text">
+                            产品组 : 1. GMV
+                        </span>
+                    </h1>
+                </div>
+
+                <div id="content" class="view">
+                    <div class="page-metadata">
+                        
+        
+    
+        
+    
+        
+        
+            Created by <span class='author'> 未知用户 (lei.xue)</span>, last modified on 2022-10-20
+                        </div>
+                    <div id="main-content" class="wiki-content group">
+                    <h1 class="auto-cursor-target" id="id-1.GMV-修订记录">修订记录</h1><div class="table-wrap"><table class="wrapped confluenceTable"><colgroup><col/><col/><col/><col/><col/></colgroup><thead><tr><th style="text-align: left;" class="confluenceTh"><p>版本号</p></th><th style="text-align: left;" class="confluenceTh"><p>内容</p></th><th style="text-align: left;" class="confluenceTh"><p>作者</p></th><th style="text-align: left;" class="confluenceTh"><p>时间</p></th><th colspan="1" style="text-align: left;" class="confluenceTh"><p>备注</p></th></tr></thead><tbody><tr><td colspan="1" style="text-align: left;" class="confluenceTd">V1</td><td colspan="1" style="text-align: left;" class="confluenceTd">GMV = 订单表的 支付金额+优惠券金额</td><td colspan="1" style="text-align: left;" class="confluenceTd">聆音</td><td colspan="1" style="text-align: left;" class="confluenceTd">19年</td><td colspan="1" style="text-align: left;" class="confluenceTd">此为阿雷修订时,复原原有逻辑</td></tr><tr><td colspan="1" class="confluenceTd">v2</td><td colspan="1" class="confluenceTd">修改 SAAS 的逻辑</td><td colspan="1" class="confluenceTd">阿雷</td><td colspan="1" class="confluenceTd">2021.11.10</td><td colspan="1" class="confluenceTd"><a href="http://k.yangtuojia.com/pages/viewpage.action?pageId=82543537">202111_02_需求_毛利报表11月份改造</a></td></tr></tbody></table></div><p><br/></p><p class="auto-cursor-target"><style type='text/css'>/*<![CDATA[*/
+div.rbtoc1702954305217 {padding: 0px;}
+div.rbtoc1702954305217 ul {list-style: disc;margin-left: 0px;}
+div.rbtoc1702954305217 li {margin-left: 0px;padding-left: 0px;}
+
+/*]]>*/</style><div class='toc-macro rbtoc1702954305217'>
+<ul class='toc-indentation'>
+<li><a href='#id-1.GMV-修订记录'>修订记录</a></li>
+<li><a href='#id-1.GMV-引用'>引用</a></li>
+<li><a href='#id-1.GMV-使用场景'>使用场景</a></li>
+<li><a href='#id-1.GMV-逻辑定义'>逻辑定义</a>
+<ul class='toc-indentation'>
+<li><a href='#id-1.GMV-V1版本已废弃-19年5月-20年12月'>V1版本 已废弃-19年5月-20年12月</a></li>
+<li><a href='#id-1.GMV-V2版本--最新版–21年11月至今'>V2版本 --最新版–21年11月至今</a>
+<ul class='toc-indentation'>
+<li><a href='#id-1.GMV-公式'>公式</a>
+<ul class='toc-indentation'>
+<li><a href='#id-1.GMV-1)当订单来源不为微小店且不为&quot;OMOB2B订单&quot;时且不为&quot;SAAS订单&quot;时(V2修改)'>1) 当订单来源 不为 微小店 且 不为 &quot;OMO B2B订单&quot;时 且 不为 &quot;SAAS订单&quot; 时 (V2修改)</a></li>
+<li><a href='#id-1.GMV-2)当订单来源为微小店时'>2) 当订单来源 为 微小店 时</a></li>
+<li><a href='#id-1.GMV-3)当订单来源为&quot;OMOB2B订单&quot;时'>3) 当订单来源 为 &quot;OMO B2B订单&quot; 时</a></li>
+<li><a href='#id-1.GMV-4)当订单来源为&quot;SAAS订单&quot;时(V2新增)'>4) 当订单来源 为 &quot;SAAS订单&quot; 时 (V2新增)</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div></p><h1 class="auto-cursor-target" id="id-1.GMV-引用">引用</h1><p><a class="external-link" href="http://demo.yangtuojia.com/%E4%B8%9A%E5%8A%A1%E6%9C%8D%E5%8A%A1/%E8%B4%A2%E5%8A%A1%E4%B8%AD%E5%BF%83/02_%E9%A1%B9%E7%9B%AE/201905_01_%E6%AF%9B%E5%88%A9%E6%8A%A5%E8%A1%A8/201905_%E9%A1%B9%E7%9B%AE_01%20%E6%AF%9B%E5%88%A9%E6%8A%A5%E8%A1%A8%E4%BA%A7%E5%93%81%E5%8C%96/#g=1&amp;p=%E6%AF%9B%E5%88%A9%E6%8A%A5%E8%A1%A8%E6%B5%81%E7%A8%8B%E5%9B%BE" rel="nofollow">demo</a></p><h1 class="auto-cursor-target" id="id-1.GMV-使用场景">使用场景</h1><p>对应的费用基本上包括</p><div class="table-wrap"><table class="relative-table wrapped confluenceTable" style="width: 71.0045%;"><colgroup><col style="width: 15.8739%;"/><col style="width: 35.4155%;"/><col style="width: 48.7106%;"/></colgroup><tbody><tr><th class="confluenceTh">使用的指标</th><th class="confluenceTh">相关公式</th><th class="confluenceTh"><br/></th></tr><tr><td class="confluenceTd">退款GMV</td><td class="confluenceTd">(GMV * 退款比例)</td><td class="confluenceTd">具体详见 <a href="54521590.html">3. 退款GMV</a></td></tr><tr><td colspan="1" class="confluenceTd">考核GMV</td><td colspan="1" class="confluenceTd">= GMV - 退款GMV</td><td colspan="1" class="confluenceTd"><br/></td></tr><tr><td colspan="1" class="confluenceTd"><br/></td><td colspan="1" class="confluenceTd"><br/></td><td colspan="1" class="confluenceTd"><br/></td></tr></tbody></table></div><h1 class="auto-cursor-target" id="id-1.GMV-逻辑定义">逻辑定义</h1><h2 id="id-1.GMV-V1版本已废弃-19年5月-20年12月"><s>V1版本 已废弃-19年5月-20年12月</s></h2><p style="text-align: left;">老版本逻辑无从考究. 目前是根据记忆现写的. 请直接参见V2版本逻辑</p><h2 id="id-1.GMV-V2版本--最新版–21年11月至今">V2版本 --最新版–21年11月至今</h2><p>整体逻辑</p><p>以下逻辑仅统计 BU_ID = 0 或者 PP订单, <s>  且 SALE_DC_ID = -1 即海拍客订单. </s> 且 item_dc_id = 0 即 海拍客供货.  除此以外其他业务不统计. </p><p>PS: SALE_DC_ID = -1 是数仓的习惯. 具体实现以实际为准</p><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image confluence-external-resource" height="400" src="attachments/73537232/73538425.png" data-image-src="http://k.yangtuojia.com/download/attachments/73537232/image2021-8-20_15-48-24.png?version=1&amp;modificationDate=1629445705000&amp;api=v2"></span></p><h3 id="id-1.GMV-公式">公式</h3><h4 id="id-1.GMV-1)当订单来源不为微小店且不为&quot;OMOB2B订单&quot;时且不为&quot;SAAS订单&quot;时(V2修改)"><strong>1) 当<span style="color: rgb(0,0,0);">订单来源 不为 微小店 且 不为 &quot;OMO B2B订单&quot;时<span style="color: rgb(255,0,0);"> 且 不为 &quot;SAAS订单&quot; 时 (V2修改)</span></span></strong></h4><p>GMV = 门店实付金额(pay_amount) + 优惠券金额(coupon_amount)</p><h4 id="id-1.GMV-2)当订单来源为微小店时"><strong>2) 当订单来源 为 微小店 时</strong></h4><p>GMV = 门店实付金额(pay_amount) + 优惠券金额(coupon_amount)</p><p>微小店的 pay_amount依然是 门店支付金额. </p><h4 id="id-1.GMV-3)当订单来源为&quot;OMOB2B订单&quot;时"><strong>3) 当订单来源 为 &quot;OMO B2B订单&quot; 时</strong></h4><p>GMV = 门店实付金额(pay_amount) + 优惠券金额(coupon_amount)</p><p>注意! OMO订单这里只统计 B2B订单(bu_id=0) ,不统计 B2C订单(bu_id=51) ,避免双算. </p><p>OMO订单的 pay_amount依然是 门店支付金额. </p><h4 id="id-1.GMV-4)当订单来源为&quot;SAAS订单&quot;时(V2新增)"><strong>4) 当订单来源 为 &quot;SAAS订单&quot; 时 </strong><strong><span style="color: rgb(255,0,0);">(V2新增)</span></strong></h4><p>GMV = B端门店实付金额( ??? ) + 优惠券金额(coupon_amount)</p><p style="text-align: left;"><span>例如： </span><span>海拍客售价：</span><span>100  </span><span>贝莱加价：</span><span>20 </span><span>贝莱门店支付金额：</span><span>120  </span><span>则：  </span><span>GMV</span><span>：</span><span>100</span></p><p><br/></p><p>注意! 目前SAAS订单里面的 pay_amount, 实际上是包含了 SAAS分销的利润的SAAS加价.   这部分加价的利润完全是给 SAAS那边的分销商的,跟海拍客无关. 所以不统计. </p><p>在早期的需求 <a class="external-link" href="http://demo.yangtuojia.com/%E5%88%9B%E6%96%B0%E4%B8%9A%E5%8A%A1%E6%94%AF%E6%8C%81/%E6%B5%B7%E6%98%9FSAAS-%E5%88%86%E9%94%80%E7%B3%BB%E7%BB%9F/00%20%E9%9C%80%E6%B1%82%E8%AF%84%E5%AE%A1%E7%89%88%E6%9C%AC/%E6%B5%B7%E6%8B%8D%E5%AE%A2%E7%B3%BB%E7%BB%9F-%E7%BB%93%E7%AE%97-%E8%81%86%E9%9F%B3/202002%E9%A1%B9%E7%9B%AE_%E8%B4%9D%E8%8E%B1%E7%BB%93%E7%AE%97-%E6%B5%B7%E6%8B%8D%E5%AE%A2%E7%B3%BB%E7%BB%9F/#g=1&amp;p=%E5%AF%B9%E8%B4%A2%E5%8A%A1%E6%95%B0%E6%8D%AE%E7%9A%84%E5%BD%B1%E5%93%8D" rel="nofollow" style="text-decoration: none;">聆音的demo</a> 里面,已经描述了 要把SAAS的改成 S2B的金额.  但当时没有做. 本次需求保证该需求实现. </p><p><br/></p><p><br/></p>
+                    </div>
+
+                                        <div class="pageSection group">
+                        <div class="pageSectionHeader">
+                            <h2 id="attachments" class="pageSectionTitle">Attachments:</h2>
+                        </div>
+
+                        <div class="greybox" align="left">
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/82544238/82544239.png">image2020-12-18_18-49-12.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/82544238/82544240.png">image2020-12-18_18-47-50.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/82544238/82544241.png">image2020-12-22_15-29-31.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/82544238/82544242.png">image2021-1-7_17-53-36.png</a> (image/png)
+                                <br/>
+                                                    </div>
+                    </div>
+                    
+                                                      
+                </div>             </div> 
+            <div id="footer" role="contentinfo">
+                <section class="footer-body">
+                    <p>Document generated by Confluence on 2023-12-19 10:51</p>
+                    <div id="footer-logo"><a href="http://www.atlassian.com/">Atlassian</a></div>
+                </section>
+            </div>
+        </div>     </body>
+</html>

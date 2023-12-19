@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>产品组 : 01_数据逻辑及模型设计思路</title>
+        <link rel="stylesheet" href="styles/site.css" type="text/css" />
+        <META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    </head>
+
+    <body class="theme-default aui-theme-default">
+        <div id="page">
+            <div id="main" class="aui-page-panel">
+                <div id="main-header">
+                    <div id="breadcrumb-section">
+                        <ol id="breadcrumbs">
+                            <li class="first">
+                                <span><a href="index.html">产品组</a></span>
+                            </li>
+                                                </ol>
+                    </div>
+                    <h1 id="title-heading" class="pagetitle">
+                                                <span id="title-text">
+                            产品组 : 01_数据逻辑及模型设计思路
+                        </span>
+                    </h1>
+                </div>
+
+                <div id="content" class="view">
+                    <div class="page-metadata">
+                        
+        
+    
+        
+    
+        
+        
+            Created by <span class='author'> 未知用户 (lei.xue)</span>, last modified on 2022-12-05
+                        </div>
+                    <div id="main-content" class="wiki-content group">
+                    <h1 id="id-01_数据逻辑及模型设计思路-修订记录">修订记录</h1><div class="table-wrap"><table class="relative-table wrapped confluenceTable" style="width: 27.3859%;"><colgroup><col style="width: 8.68736%;"/><col style="width: 20.269%;"/><col style="width: 16.4092%;"/><col style="width: 31.3012%;"/><col style="width: 23.3103%;"/></colgroup><thead><tr><th class="confluenceTh"><p>版本号</p></th><th class="confluenceTh"><p>内容</p></th><th class="confluenceTh"><p>作者</p></th><th class="confluenceTh"><p>时间</p></th><th colspan="1" class="confluenceTh"><p>备注</p></th></tr></thead><tbody><tr><td colspan="1" class="confluenceTd">V1</td><td colspan="1" class="confluenceTd">开始初稿</td><td colspan="1" class="confluenceTd">阿雷</td><td colspan="1" class="confluenceTd">22.08.08</td><td colspan="1" class="confluenceTd">阿雷交接梳理</td></tr></tbody></table></div><p><br/><style type='text/css'>/*<![CDATA[*/
+div.rbtoc1702954299480 {padding: 0px;}
+div.rbtoc1702954299480 ul {list-style: disc;margin-left: 0px;}
+div.rbtoc1702954299480 li {margin-left: 0px;padding-left: 0px;}
+
+/*]]>*/</style><div class='toc-macro rbtoc1702954299480'>
+<ul class='toc-indentation'>
+<li><a href='#id-01_数据逻辑及模型设计思路-修订记录'>修订记录</a></li>
+<li><a href='#id-01_数据逻辑及模型设计思路-子页面'>子页面</a></li>
+<li><a href='#id-01_数据逻辑及模型设计思路-毛利构成基本架构'>毛利构成 基本架构</a></li>
+<li><a href='#id-01_数据逻辑及模型设计思路-毛利报表系统架构'>毛利报表 系统架构</a></li>
+<li><a href='#id-01_数据逻辑及模型设计思路-业绩归属维度属性设计思路'>业绩归属维度属性设计思路</a>
+<ul class='toc-indentation'>
+<li><a href='#id-01_数据逻辑及模型设计思路-业绩归属与虚拟组之间的关联'>业绩归属与虚拟组之间的关联</a></li>
+</ul>
+</li>
+<li><a href='#id-01_数据逻辑及模型设计思路-业务诉求及设计的数据模型思路'>业务诉求及设计的 数据模型 思路</a>
+<ul class='toc-indentation'>
+<li><a href='#id-01_数据逻辑及模型设计思路-业务诉求:'>业务诉求:</a></li>
+<li><a href='#id-01_数据逻辑及模型设计思路-数据模型设计思路:'>数据模型设计思路:</a>
+<ul class='toc-indentation'>
+<li><a href='#id-01_数据逻辑及模型设计思路-1)搭建统一聚合统计层:'>1) 搭建统一 聚合统计层 :</a></li>
+<li><a href='#id-01_数据逻辑及模型设计思路-2)多维度业务数据分摊:'>2) 多维度 业务数据分摊 : </a></li>
+<li><a href='#id-01_数据逻辑及模型设计思路-3)明细维度模型层:'>3) 明细维度模型层  : </a></li>
+</ul>
+</li>
+<li><a href='#id-01_数据逻辑及模型设计思路-维度设计思路'>维度设计思路</a></li>
+<li><a href='#id-01_数据逻辑及模型设计思路-整体概览'>整体概览</a></li>
+<li><a href='#id-01_数据逻辑及模型设计思路-维度与使用场景的区别'>维度与使用场景的区别</a>
+<ul class='toc-indentation'>
+<li><a href='#id-01_数据逻辑及模型设计思路-维度与维度属性之间的关系'>维度与维度属性之间的关系</a></li>
+</ul>
+</li>
+<li><a href='#id-01_数据逻辑及模型设计思路-目前财务实际使用的维度类字段'>目前财务实际使用的维度类字段</a></li>
+</ul>
+</li>
+</ul>
+</div></p><h1 id="id-01_数据逻辑及模型设计思路-子页面">子页面</h1><p><ul class='childpages-macro'><li><a href="59212755.html">零、字段汇总(维度和指标)</a></li><li><a href="59212875.html">一、收入</a></li><li><a href="59212882.html">二、履约成本</a></li><li><a href="59212886.html">三、费用</a></li><li><a href="59212908.html">四、毛利</a></li><li><a href="54522110.html">逻辑补充模板</a></li></ul></p><hr/><p><br/></p><h1 id="id-01_数据逻辑及模型设计思路-毛利构成基本架构">毛利构成 基本架构</h1><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" height="250" src="attachments/70335729/99183117.png" data-image-src="attachments/70335729/99183117.png" data-unresolved-comment-count="0" data-linked-resource-id="99183117" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2022-8-9_15-52-15.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="70335729" data-linked-resource-container-version="23"></span></p><h1 id="id-01_数据逻辑及模型设计思路-毛利报表系统架构">毛利报表 系统架构</h1><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" height="250" src="attachments/70335729/106538945.png" data-image-src="attachments/70335729/106538945.png" data-unresolved-comment-count="0" data-linked-resource-id="106538945" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2022-10-19_15-23-33.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="70335729" data-linked-resource-container-version="23"></span></p><p><br/></p><p><br/></p><h1 id="id-01_数据逻辑及模型设计思路-业绩归属维度属性设计思路">业绩归属维度属性设计思路</h1><div class="table-wrap"><table class="wrapped confluenceTable"><colgroup><col/><col/></colgroup><tbody><tr><th class="confluenceTh">视角</th><th class="confluenceTh">文档及逻辑</th></tr><tr><td class="confluenceTd">渠道视角</td><td class="confluenceTd"><a href="61056703.html">2. 财务业绩归属渠道</a> <a href="70337871.html">4.财务业绩归属销售人员名称</a></td></tr><tr><td class="confluenceTd">采购视角</td><td class="confluenceTd"><a href="http://k.yangtuojia.com/pages/viewpage.action?pageId=16104461">09_业务组/业务域 数据逻辑</a></td></tr></tbody></table></div><p class="auto-cursor-target"><a href="http://k.yangtuojia.com/pages/viewpage.action?pageId=64585634">业务背景-基于产业链各节点拆解的组织架构</a></p><p class="auto-cursor-target"><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image confluence-external-resource" src="attachments/64585634/66359256.png" data-image-src="http://k.yangtuojia.com/download/attachments/64585634/image2021-5-14_18-3-33.png?version=1&amp;modificationDate=1620986614000&amp;api=v2"></span></p><p class="auto-cursor-target">按照原先的设想, 订单要有分别的 归属采购 和 归属销售,并基于此往上聚合到对应的 主管/大区, 乃至对应的 部门. </p><p class="auto-cursor-target">但是因为人事调整等一系列原因, 后续就搁置了. </p><p class="auto-cursor-target">所以目前这里, 业务组是用公司通用的逻辑.</p><p class="auto-cursor-target">渠道视角的 财务业绩归属渠道, 是毛利报表单独定制开发的逻辑.  没有与公司的 <a href="http://k.yangtuojia.com/pages/viewpage.action?pageId=20374107">01_销售团队标识(sale_team_name)</a> 保持一致.里面其实就是一丁点差异.  </p><p class="auto-cursor-target">未来实际上渠道的  业绩归属(算工资),毛利归属 都可以用一套逻辑来处理. </p><p class="auto-cursor-target"><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image confluence-external-resource" height="250" src="attachments/64585634/86609407.png" data-image-src="http://k.yangtuojia.com/download/attachments/64585634/image2022-1-7_17-13-2.png?version=1&amp;modificationDate=1641546785000&amp;api=v2"></span></p><h2 class="auto-cursor-target" id="id-01_数据逻辑及模型设计思路-业绩归属与虚拟组之间的关联">业绩归属与虚拟组之间的关联</h2><p>因为业绩归属是 订单上的概念,    而 优惠券,增值服务收入里的费用, 是基于 虚拟组 来绑定费用池.</p><p>目前后者的设计是  虚拟组 和 费用池 一对一的关系. 这个设计明显不合理. 业务为了新建费用池,反而要新建出名字一样的虚拟组. 就很gay.</p><p><br/></p><p>但大体而言, 虚拟组的 一级部门 基本上还是可以,且必须可以跟 订单上的业绩归属做映射关系. </p><p>因为业务系统没有做功能性地关联. 因为 业绩归属 是我们各自定义的.  所以在 上面的理想方案里, 是由 规则中心 + 虚拟组2.0 来系统性解决这个问题. </p><p class="auto-cursor-target">目前是由楚其人工码死的. 虚拟组和业绩归属(渠道和采购)的映射逻辑. </p><h1 id="id-01_数据逻辑及模型设计思路-业务诉求及设计的数据模型思路">业务诉求及设计的 数据模型 思路</h1><h2 id="id-01_数据逻辑及模型设计思路-业务诉求:">业务诉求:</h2><p><span style="color: rgb(23,43,77);">快速进行汇总统计 不同的角色(上下层级),不同的视角,不同的粒度 的 毛利及其相关构成. </span></p><p><br/></p><h2 id="id-01_数据逻辑及模型设计思路-数据模型设计思路:"><span style="color: rgb(23,43,77);">数据模型设计思路:</span></h2><h3 id="id-01_数据逻辑及模型设计思路-1)搭建统一聚合统计层:"><span style="color: rgb(23,43,77);">1) 搭建统一 聚合统计层 :</span></h3><p><span style="color: rgb(23,43,77);">将 毛利计算过程中的相关指标, 强行冗余到 数据统计的最小粒度.  目前主要以 order 粒度. </span></p><p><span style="color: rgb(23,43,77);">后续业务使用,可以直接 基于共用的最小粒度的事实外键关联维表进行对 毛利及其相关构成指标 进行二次聚合统计. (实际报表已经冗余了业务方需要的一些维表纬度属性进行使用)</span></p><p>但这里请注意! 例如, 考核GMV,业务毛收入,增值服务收入这个, 是可以复用指标的. 但是营销费用里的 采购承担优惠券金额 和 渠道承担优惠券金额,因为其业务规则有差异. 是不能直接按1个指标来直接复用的. </p><p><strong>因此将 营销费用分成了 三个视角的指标字段. 据此, 毛利额也要分成3个视角. </strong></p><p><br/></p><p><br/></p><p><span style="color: rgb(23,43,77);">例如,  毛利的构成是 业务毛收入+ 增值服务 .... ... 等. </span></p><p>增值收入的粒度是到单个增值服务工单.  比如说一笔是100万收入.  其事实主键是 增值服务收入id. 与 业务毛收入的事实id order_id不一致. 实际上是无法分摊的. </p><p>但实际上这笔增值服务收入我们需要让相应的 采购/渠道 都要各自收益. 包括实际干活的 销售,他的主管,大区,战区,渠道销售部门都要收益.</p><p>因此我们就需要 <strong>2) 多维度 业务数据分摊</strong></p><h3 id="id-01_数据逻辑及模型设计思路-2)多维度业务数据分摊:"><span style="color: rgb(23,43,77);">2) 多维度 业务数据分摊 : </span></h3><p><span style="color: rgb(23,43,77);">为了实现 1 的效果, 对 业务数据进行分摊, 使之与其 打平到与 毛利报表-业务毛收入 到 大致相同的粒度.  </span></p><p><span style="color: rgb(23,43,77);">此时保证,分摊前的 汇总值, 是与分摊后的 明细的汇总结果保持一致. </span></p><p><br/></p><p>虽然毛利构成有 业务毛收入,物流费用, 增值服务收入等看似不同维度的数据,但本质上所有其他的费用都是寄托于 平台的订单的后续费用, </p><p>因此以订单作为主要的模型粒度提供依据, 让 其他维度的业务数据往上靠. </p><p><span style="color: rgb(23,43,77);"><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image confluence-external-resource" height="250" src="attachments/64585634/66358927.png" data-image-src="http://k.yangtuojia.com/download/attachments/64585634/image2021-5-14_15-56-10.png?version=1&amp;modificationDate=1620978971000&amp;api=v2"></span></span></p><h3 id="id-01_数据逻辑及模型设计思路-3)明细维度模型层:"><strong><span style="color: rgb(23,43,77);">3) 明细维度模型层  : </span></strong></h3><p><span style="color: rgb(23,43,77);">基于2, 那就是完全依据 订单 进行 维度模型设计. </span></p><p><span style="color: rgb(23,43,77);">实际上也就是业务方要啥维度属性,给补上去...</span></p><p><br/></p><p><span style="color: rgb(23,43,77);">这块的主要要求就是要到最小的粒度. </span></p><p><span style="color: rgb(23,43,77);">理论上要保持多层的层级结构,以保证便于业务方基于实际的需求进行自由聚合. </span></p><p><span style="color: rgb(23,43,77);">并且业务方不可能每次自己去关联维表,所以要把相关的维度属性给冗余到模型层上. </span></p><p><br/></p><p><span style="color: rgb(23,43,77);">内容太多了,往下翻. </span></p><p><br/></p><h2 id="id-01_数据逻辑及模型设计思路-维度设计思路"><span style="color: rgb(23,43,77);">维度设计思路</span></h2><h2 id="id-01_数据逻辑及模型设计思路-整体概览">整体概览</h2><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" height="250" src="attachments/70335729/99183142.png" data-image-src="attachments/70335729/99183142.png" data-unresolved-comment-count="0" data-linked-resource-id="99183142" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2022-1-19_10-49-52.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="70335729" data-linked-resource-container-version="23"></span></p><h2 id="id-01_数据逻辑及模型设计思路-维度与使用场景的区别">维度与使用场景的区别</h2><p><strong>这里的 冻结维度, 一般是按月全量刷新的增量冻结数据. 即在1个月内是最新的刷新.但是按月来写入分区,即成了按月冻结.  (存在一些业务的冻结值,比如说冻结服务人员,发券人名.商品id 这个是严格意义上的快照.) </strong></p><p><strong>比如说一个业务场景.</strong></p><p>商品1组在12月只有1个类目. 在1月起,负责3个类目. 在此是有 业务组 来进行判断. 因为业务调整过慢,可能在5号才完成业务组的调整.</p><p>因此,如果存在 业务组和类目快照,则 快照上, 1组在1号-4号是1个类目. 在5号起,是3个类目.</p><p>但是从实际业务场景来讲, 业务规则生效和业务规则配置不一定完全匹配.即 按照跟小样的规定,业务规则必须按 自然月调整. </p><p>因此上述场景, 在1号-5号,商品1组也是3个类目. 此时在5号更新后,需要对 1号-5号进行更新.  </p><p>那到了2月份, 冻结维度来讲, 1月1日-1月31日, 1组都是3个类目.    12月1日-12月31日,1组都是1个类目.</p><p><br/></p><p>但是按下图的 最新的维度数据来看, 1组在历史上都是3个类目. 便于在过程中对当前业务进行同环比分析,提出业务策略. </p><p><br/></p><h3 id="id-01_数据逻辑及模型设计思路-维度与维度属性之间的关系">维度与维度属性之间的关系</h3><p>维度是指一大堆维度属性的集合.  如果说,门店维度包含了 门店名称,省,市,区,街道,地址等.  商品维度包含 商品名称,品牌名称,类目名称 可以理解为一个视角. </p><p>例如, 在 门店进行下单(创建订单) 这个过程中, 有多个维度会参与整个交易链路.  例如, 门店维度, 商品维度,供应商维度,销售维度,优惠券维度等. </p><p>这里注意!  虽然品牌,类目在 业务系统 中,可能是属于一个独立的实体. 但是在 毛利报表 的统计分析场景中,实际上 品牌/类目 都只是在商品维度上的一个延伸. 品牌/类目并不参与 交易 这个链路. </p><h2 id="id-01_数据逻辑及模型设计思路-目前财务实际使用的维度类字段">目前财务实际使用的维度类字段</h2><p><strong>解释</strong></p><div class="table-wrap"><table class="wrapped confluenceTable"><colgroup><col/><col/></colgroup><tbody><tr><th class="confluenceTh">字段</th><th class="confluenceTh">解释</th></tr><tr><td class="confluenceTd">维度</td><td class="confluenceTd">指维度属性的集合.</td></tr><tr><td class="confluenceTd">线上字段注释</td><td class="confluenceTd">是指对应的comment. 线上注释可能会有错误</td></tr><tr><td class="confluenceTd">线上字段名</td><td class="confluenceTd"><p>命名可能不规范. 如果空,则为 未上线</p></td></tr><tr><td colspan="1" class="confluenceTd">冻结/最新</td><td colspan="1" class="confluenceTd"><p>只要业务上可能存在变更的维度属性,都要有 冻结/最新 两个维度. </p><p>例如, 1个订单上的商品id是不会变的. 但是这个商品id的 商品名称,类目,品牌 是有可能变化的.</p><p>这个变化可能是业务系统可以更改,也可能是通过一定场景下会被订正. </p></td></tr></tbody></table></div><p class="auto-cursor-target">具体的 DQC监控详见 <a href="http://k.yangtuojia.com/pages/viewpage.action?pageId=57077933">毛利报表监控规则</a></p><p class="auto-cursor-target">基本原则为:  商品维度, 门店维度所有字段不为空</p><p><br/></p>
+                    </div>
+
+                                        <div class="pageSection group">
+                        <div class="pageSectionHeader">
+                            <h2 id="attachments" class="pageSectionTitle">Attachments:</h2>
+                        </div>
+
+                        <div class="greybox" align="left">
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/70335729/98208478.png">image2022-6-22_10-14-48.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/70335729/99183110.png">image2022-8-9_15-49-58.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/70335729/99183116.png">image2022-8-9_15-52-11.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/70335729/99183117.png">image2022-8-9_15-52-15.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/70335729/99183142.png">image2022-1-19_10-49-52.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/70335729/106529950.png">image2022-10-8_11-37-39.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/70335729/106529952.png">image2022-10-8_11-38-22.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/70335729/106530038.png">image2022-10-8_14-44-57.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/70335729/106538945.png">image2022-10-19_15-23-33.png</a> (image/png)
+                                <br/>
+                                                    </div>
+                    </div>
+                    
+                                                      
+                </div>             </div> 
+            <div id="footer" role="contentinfo">
+                <section class="footer-body">
+                    <p>Document generated by Confluence on 2023-12-19 10:51</p>
+                    <div id="footer-logo"><a href="http://www.atlassian.com/">Atlassian</a></div>
+                </section>
+            </div>
+        </div>     </body>
+</html>
