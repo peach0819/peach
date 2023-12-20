@@ -1,0 +1,45 @@
+jdk5：
+1.自动装箱与拆箱：
+2.枚举
+3.静态导入，如：import static java.lang.System.out
+4.可变参数（Varargs）
+5.泛型
+6.For-Each循环
+7.注解
+
+jdk6：
+1.对脚本语言的支持如: ruby,groovy, javascript
+2.synchronized优化
+
+jdk7：
+1.对Java集合（Collections）的增强支持，可直接采用[]、{}的形式存入对象，
+采用[]的形式按照索引、键值来获取集合中的对象。
+如：
+List<String>list=[“item1”,”item2”];//存
+Stringitem=list[0];//直接取
+Set<String>set={“item1”,”item2”,”item3”};//存
+Map<String,Integer> map={“key1”:1,”key2”:2};//存
+Intvalue=map[“key1”];//取
+2.在Switch中可用String
+3.数值可加下划线用作分隔符（编译时自动被忽略）
+4.支持二进制数字，如：int binary= 0b1001_1001;
+5.简化了可变参数方法的调用
+6.调用泛型类的构造方法时，可以省去泛型参数，编译器会自动判断。
+7.Boolean类型反转，空指针安全,参与位运算
+8.char类型的equals方法: booleanCharacter.equalsIgnoreCase(char ch1, char ch2)
+9.fork/join
+
+jdk8：
+1.接口的default方法：即接口中可以声明一个非抽象的方法做为默认的实现，但只能声明一个，且在方法的返回类型前要加上“default”关键字。
+2. Lambda 表达式
+3. stream
+4. 函数式接口：是指仅仅只包含一个抽象方法的接口，要加@FunctionalInterface注解
+5. 使用 :: 关键字来传递方法或者构造函数引用
+6.Optional
+7.新的时间库 Joda-Time LocalDate和LocalTime
+8、Base64支持
+9、使用Metaspace元空间（JEP 122）代替永久代（PermGen space）
+
+
+
+

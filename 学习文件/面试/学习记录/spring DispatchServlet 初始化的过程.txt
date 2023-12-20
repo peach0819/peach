@@ -1,0 +1,19 @@
+这是Spring 的dispatchServlet的过程
+
+1、加载配置文件
+2、扫描出来所有的类，将类名存在List<String> className中
+3、通过className实例化所有的类，用Class.forName，通过反射获取类的class
+     保存到ioc容器中，需要类被声明为component，service，controller，或者方法被声明为bean
+     如果是controller，就把类名的小写和类的实例放进去
+     如果是service，如果注解有自定义value就用自定义value做为key， 否则就用实现的每个接口类，都放一个进去到IOC中
+     IOC容器相当于一个Map<String, Object>
+4、依赖注入，判断ioc容器中是否存在直接能调用的类，或者类的实现
+5、初始化HandlerMapping， 将IOC容器中，标记了controller的 restMapping中的url和方法中requestMapping中的url组合，
+     作为一个key，放入handlerMapping中，这是一个Map<String, Method> ,
+     Method通过反射获取到类中的方法作为value
+
+实际进行方法调用的时候，通过doPost或者doGet
+从handlerMapping中，获取到方法的Method，使用Method.invoke进行方法的使用
+
+
+     

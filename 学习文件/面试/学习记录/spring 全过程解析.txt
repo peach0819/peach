@@ -1,0 +1,123 @@
+spring  IOC分为三个阶段  配置阶段、初始化阶段、运行阶段
+
+这些内容都在DispatchSerlvet之中，并且，这些是需要自己实现才要做的
+
+*************配置阶段 
+1、web.xml文件   配置一个DispatchServlet  目的是为了让spring的请求能够有一个统一入口，能够拦截所有请求
+2、初始化一个initParam 初始化参数，名字叫做contextConfigLocation，是个常量，
+      配置的内容为Spring 主配置文件的位置，classpath：application.xml
+3、配置一个url-pattern  ，servlet-mapping  /*
+
+HttpServlet的init方法，被重写的过程
+*************初始化阶段 （就是之前看到的HandlerInit过程 setProperties scanClassNames initIocMap  initHandlerMapping）
+1、把配置的xml文件，（或者是property文件）里面的内容，读取出来，initProperty
+2、IOC容器初始化，这一步只是先初始化， IOC容器可以理解成一个Map<String, Object>, 对应的bean名：类的实例
+3、扫描相关的类  scanClassNames ，扫描的类的位置来源于配置 scanPackage = "com.xxx"
+4、实例化类，把扫描出来的类，通过反射，getInstance，获取实例，
+      然后把类名首字母小写作为key，实例作为value，放入ioc容器；类名也可以自己定义，通过修改注解的value
+     controller的话，就把类名的小写放进去，而service的话，先把类名自己的小写放一个进去，然后每个实现的接口也都要放一份进去
+     这样 DI的时候，不管是声明的impl还是service接口，都可以把实例获取到
+    
+     ------------------------到此 IOC阶段完成，下面是DI阶段
+
+5、进行DI操作，在IOC容器中的实例，有很多属性没有赋值，DI就是自动把需要赋值的属性赋值
+     比如标注了@Autowired注解的字段，默认是没有值的，但是通过依赖注入DI，就可以把IOC之中的对应key的值的实例
+     赋值给这个字段，就有值了
+
+     ------------------------到此 DI阶段完成，下面是MVC阶段
+
+6、HandlerMapping，把controller类的url对应方法Method进行关联映射
+      浏览器发送请求的时候，可以通过handlerMapping调用到Method
+
+
+*************运行阶段
+1、获取到浏览器请求的时候，根据Mapping的方法，调用doPost或者doGet，
+      可以获取HTTPServletRequest和HTTPServletResponse这两个对象，作为请求的浏览器参数和返回对象
+2、HTTPServletRequest  可以获取url   ，通过url，在HandlerMapping之中匹配Method
+3、 通过反射机制去进行method.invoke(),并且获取结果result
+4、将result交给HTTPServletResponse去输出 ， response.getWrite().print()输出
+
+      ------------------------到此 MVC阶段完成
+
+实现 
+Autowired
+Controller
+RequestMapping
+RequestParam
+Service
+DispatchServlet
+
+DispatchServlet需要继承HttpServlet
+
+在包底下，和java、resources平级的文件，有个webapp，里面有个子文件夹WEB-INF,这里放一个web.xml
+web.xml里面配置一个servlet内容和一个servletMapping的内容
+<servlet>
+        <servlet-name>  名字自己取，比如peachmvc  </servlet-name>
+        <servlet-class>  com.xxx.yyy.DispatchServlet </servlet-name>
+        <init-param>  
+	<param-name>  contextConfigLocation  </param-name>
+	     --可替换<servlet-name>  classpath:application.xml </servlet-name>
+	<servlet-name>  application.properties</servlet-name>
+	<load-on-startup>  1 </load-on-startup>  大于1就行，表示servlet启动的时候就初始化，执行init方法
+        </init-param>
+</servlet>
+<serlvet-mapping>
+        <serlvet-mapping> 自己取个名字，可以同peachmvc </serlvet-mapping>
+        <url-pattern> /* </url-pattern>
+</serlvet-mapping>
+
+classpath:application.xml  可以用application.properties 代替，
+里面配置一个scanPackage=com.xx.yy文件夹即可
+
+在继承HttpServlet的override的init方法里面
+需要实现 
+加载配置文件 doLoadConfig
+把上面配置的ServletConfig，servletConfig.getInitParameter("contextConfigLocation")  获取出来，
+这里获取的String就是一个流类型的数据，
+放入到一个Property之中
+
+扫描类  doScanner
+String scanPackage = property.getProperty("scanPackage")，这个就是application.properties文件里面的内容
+获取this.getClass().getClassLoader().getResource("/"+scanPackage.replaceAll("\\.", "/"))  把包名里面的.换成斜杠
+最后存进List<String> 的内容，是类的文件名的包含包名的名称，而不只是文件名
+
+初始化关联的实例，存放到IOC容器  doInstance
+
+依赖注入 doAutowired
+执行autowired的过程，面向的类，只有IOC容器里面的类，就是说，只有controller和service这种，依赖注入才有效
+
+初始化HandlerMapping  initHandlerMapping
+
+在doPost里面实现doDispatch
+
+IOC 控制反转，将new一个对象的动作，交给spring去控制，而不是个人控制，通过spring，使用java的反射机制new出来放到ioc容器
+所以控制反转了
+
+spring 的Bean，就是通过反射new出来的放到ioc容器中的instance 
+
+Spring框架就相当于万能胶，很方便，一套全部提供好了的，直接用就好了
+
+BeanFactory和ApplicationContext的区别，ApplicationContext就是继承了BeanFactory的，所有Context都是继承了BeanFactory的
+
+如果Bean是一个工厂，那就一定是FactoryBean，工厂本身也是由Spring new出来的
+
+spring Bean 除了单例之外，还有原型模式，原型模式是即用即走的，通过实现Cloneable的，需要的时候new一下，不用的时候就没了
+而单例模式，一直存在， 而request和session是springMvc层面的bean
+
+Spring之中的Bean的线程安全与否，和Bean本身毫无关系，这个只是由Spring new出来的一个instance，放到IOC容器之中
+而线程安全与否，只跟用户自己使用有关
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
