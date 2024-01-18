@@ -31,7 +31,9 @@ with plan as (
            get_json_object(get_json_object(filter_config_json,'$.dept'),'$.value') as dept_value,
            get_json_object(get_json_object(filter_config_json,'$.dept'),'$.operator') as dept_operator,
            get_json_object(get_json_object(filter_config_json,'$.brand_tag'),'$.value') as brand_tag_value,
-           get_json_object(get_json_object(filter_config_json,'$.brand_tag'),'$.operator') as brand_tag_operator
+           get_json_object(get_json_object(filter_config_json,'$.brand_tag'),'$.operator') as brand_tag_operator,
+           get_json_object(get_json_object(filter_config_json,'$.brand_type'),'$.value') as brand_type_value,
+           get_json_object(get_json_object(filter_config_json,'$.brand_type'),'$.operator') as brand_type_operator
     FROM yt_crm.dw_bounty_plan_schedule_d
     WHERE array_contains(split(backward_date, ','), '${v_date}')
     AND ('@@{supply_mode}' = 'not_supply' OR array_contains(split(supply_date, ','), '${supply_date}'))
@@ -115,7 +117,8 @@ ord as (
            pickup_recharge_gmv,
            pickup_recharge_pay_amount,
            hi_recharge_gmv,
-           brand_tag_code
+           brand_tag_code,
+           brand_type
     FROM yt_crm.dw_salary_gmv_rule_public_mid_v2_d d
     LEFT JOIN shop_group_mapping ON d.shop_id = shop_group_mapping.group_shop_id AND d.dayid = shop_group_mapping.dayid
     where d.dayid > '0'
@@ -247,7 +250,7 @@ before_cur as (
                 end as grant_object_user_dep_name,
 
            ---统计指标----
-           case when plan.bounty_indicator_code in ('STOCK_GMV_1_GOODS_GMV_MINUS_REFUND', 'STOCK_GMV_AVG_GOODS_GMV_MINUS_REFUND', 'GMV_SHIHUO_RATE', 'GMV_SHIHUO_SHOP_COUNT') then if(business_unit not in ('卡券票','其他'), ord.gmv - nvl(refund.refund_actual_amount, 0), 0) --实货GMV(去退款)
+           case when plan.bounty_indicator_code in ('STOCK_GMV_1_GOODS_GMV_MINUS_REFUND', 'STOCK_GMV_AVG_GOODS_GMV_MINUS_REFUND', 'GMV_SHIHUO_RATE', 'GMV_SHIHUO_SHOP_COUNT', 'AVG_GMV_SHIHUO_SHOP_COUNT') then if(business_unit not in ('卡券票','其他'), ord.gmv - nvl(refund.refund_actual_amount, 0), 0) --实货GMV(去退款)
                 when plan.bounty_indicator_code in ('STOCK_GMV_1_GOODS_PAY_AMT_MINUS_COUNPONS_MINUS_REF', 'STOCK_GMV_AVG_GOODS_PAY_AMT_MINUS_COUNPONS_REF') then if(business_unit not in ('卡券票','其他'), ord.pay_amount - nvl(refund.refund_actual_amount, 0), 0)  --实货支付金额(去优惠券去退款)
                 when plan.bounty_indicator_code in ('PICKUP_PAY_GMV_LESS_REFUND', 'AVG_PICKUP_PAY_GMV_LESS_REFUND') then if(is_pickup_recharge_order = 1 OR business_unit not in ('卡券票','其他'), ord.pickup_pay_gmv - nvl(refund.refund_actual_amount_less_pickup, 0), 0)  --提货卡口径GMV(去退款)
                 when plan.bounty_indicator_code in ('PICKUP_PAY_AMT_LESS_COUPON_REFUND', 'AVG_PICKUP_PAY_AMT_LESS_COUPON_REFUND') then if(is_pickup_recharge_order = 1 OR business_unit not in ('卡券票','其他'), ord.pickup_pay_pay_amount - nvl(refund.refund_actual_amount_less_pickup, 0), 0)  --提货卡口径支付金额(去优惠券去退款)
@@ -261,6 +264,7 @@ before_cur as (
                'order_id', ord.order_id,
                'category_id_third', ord.category_id_third,
                'category_id_third_name', ord.category_id_third_name,
+               'brand_type', ord.brand_type,
                'gmv_less_refund', if(business_unit not in ('卡券票','其他'), ord.gmv - nvl(refund.refund_actual_amount, 0), 0),
                'gmv', if(business_unit not in ('卡券票','其他'), ord.gmv, 0),
                'pay_amount', if(business_unit not in ('卡券票','其他'), ord.pay_amount, 0),
@@ -294,6 +298,7 @@ before_cur as (
     and ytdw.simple_expr(area_manager_dep_id, 'in', bd_area_value) = (case when bd_area_operator = '=' then 1 else 0 end)
     and ytdw.simple_expr(bd_manager_dep_id, 'in', manage_area_value) = (case when manage_area_operator = '=' then 1 else 0 end)
     and ytdw.simple_expr(ord.brand_tag_code, 'in', brand_tag_value) = (case when brand_tag_operator = '=' then 1 else 0 end)
+    and ytdw.simple_expr(ord.brand_type, 'in', brand_type_value) = (case when brand_type_operator = '=' then 1 else 0 end)
     and if(ord.shop_group = '' OR plan.shop_group_value = '', 0, ytdw.simple_expr(substr(plan.shop_group_value, 2, length(plan.shop_group_value) - 2), 'in', concat('[', ord.shop_group, ']'))) = (case when shop_group_operator ='=' then 1 else 0 end)
 ),
 

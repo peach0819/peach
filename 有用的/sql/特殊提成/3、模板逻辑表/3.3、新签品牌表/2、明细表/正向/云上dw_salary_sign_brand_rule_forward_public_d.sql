@@ -46,7 +46,9 @@ with plan as (
            get_json_object(get_json_object(filter_config_json,'$.dept'),'$.value') as dept_value,
            get_json_object(get_json_object(filter_config_json,'$.dept'),'$.operator') as dept_operator,
            get_json_object(get_json_object(filter_config_json,'$.brand_tag'),'$.value') as brand_tag_value,
-           get_json_object(get_json_object(filter_config_json,'$.brand_tag'),'$.operator') as brand_tag_operator
+           get_json_object(get_json_object(filter_config_json,'$.brand_tag'),'$.operator') as brand_tag_operator,
+           get_json_object(get_json_object(filter_config_json,'$.brand_type'),'$.value') as brand_type_value,
+           get_json_object(get_json_object(filter_config_json,'$.brand_type'),'$.operator') as brand_type_operator
     FROM yt_crm.dw_bounty_plan_schedule_d
     WHERE array_contains(split(forward_date, ','), '${v_date}')
     AND ('@@{supply_mode}' = 'not_supply' OR array_contains(split(supply_date, ','), '${supply_date}'))
@@ -117,6 +119,7 @@ sign as (
     and ytdw.simple_expr( area_manager_dep_id,'in',bd_area_value)=(case when bd_area_operator ='=' then 1 else 0 end)
     and ytdw.simple_expr( bd_manager_dep_id,'in',manage_area_value)=(case when manage_area_operator ='=' then 1 else 0 end)
     and ytdw.simple_expr(ord.brand_tag_code, 'in', brand_tag_value) = (case when brand_tag_operator = '=' then 1 else 0 end)
+    and ytdw.simple_expr(ord.brand_type, 'in', brand_type_value) = (case when brand_type_operator = '=' then 1 else 0 end)
     and if(shop_group_mapping.shop_group = '' OR plan.shop_group_value = '', 0, ytdw.simple_expr(substr(plan.shop_group_value, 2, length(plan.shop_group_value) - 2), 'in', concat('[', shop_group_mapping.shop_group, ']'))) = (case when shop_group_operator ='=' then 1 else 0 end)
     group by plan.no,
              if(plan.merge_brand = '是', -1, brand_id),
