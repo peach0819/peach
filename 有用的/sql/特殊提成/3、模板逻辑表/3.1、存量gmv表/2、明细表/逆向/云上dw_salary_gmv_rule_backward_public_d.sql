@@ -217,6 +217,7 @@ before_cur as (
                 when plan.bounty_payout_object_code = 'BIG_BD' then yt_crm.get_service_info('service_job_name:大BD',service_info_freezed,'service_user_id')
                 when plan.bounty_payout_object_code = 'GRANT_USER' then plan.grant_user
                 when plan.bounty_payout_object_code = 'BIG_BD_AREA_MANAGER' then big_bd_manager.user_id
+                when plan.bounty_payout_object_code = 'BD_BIG_BD' then COALESCE(yt_crm.get_service_info('service_job_name:大BD',service_info_freezed,'service_user_id'), yt_crm.get_service_info('service_job_name:BD;service_job_freezed_name:BD',service_info_freezed,'service_user_id'))
                 end as grant_object_user_id,
 
            --发放对象名称
@@ -227,6 +228,7 @@ before_cur as (
                 when plan.bounty_payout_object_code = 'BIG_BD' then yt_crm.get_service_info('service_job_name:大BD',service_info_freezed,'service_user_name')
                 when plan.bounty_payout_object_code = 'GRANT_USER' then null
                 when plan.bounty_payout_object_code = 'BIG_BD_AREA_MANAGER' then big_bd_manager.user_real_name
+                when plan.bounty_payout_object_code = 'BD_BIG_BD' then COALESCE(yt_crm.get_service_info('service_job_name:大BD',service_info_freezed,'service_user_name'), yt_crm.get_service_info('service_job_name:BD;service_job_freezed_name:BD',service_info_freezed,'service_user_name'))
                 end as grant_object_user_name,
 
            --发放对象部门ID
@@ -237,6 +239,7 @@ before_cur as (
                 when plan.bounty_payout_object_code = 'BIG_BD' then yt_crm.get_service_info('service_job_name:大BD',service_info_freezed,'service_department_id')
                 when plan.bounty_payout_object_code = 'GRANT_USER' then yt_crm.get_service_info('service_type:销售',service_info_freezed,'service_department_id')
                 when plan.bounty_payout_object_code = 'BIG_BD_AREA_MANAGER' then yt_crm.get_service_info('service_job_name:大BD',service_info_freezed,'service_department_id')
+                when plan.bounty_payout_object_code = 'BD_BIG_BD' then COALESCE(yt_crm.get_service_info('service_job_name:大BD',service_info_freezed,'service_department_id'), yt_crm.get_service_info('service_job_name:BD;service_job_freezed_name:BD',service_info_freezed,'service_department_id'))
                 end as grant_object_user_dep_id,
 
            --发放对象部门
@@ -247,6 +250,7 @@ before_cur as (
                 when plan.bounty_payout_object_code = 'BIG_BD' then yt_crm.get_service_info('service_job_name:大BD',service_info_freezed,'service_department_name')
                 when plan.bounty_payout_object_code = 'GRANT_USER' then null
                 when plan.bounty_payout_object_code = 'BIG_BD_AREA_MANAGER' then yt_crm.get_service_info('service_job_name:大BD',service_info_freezed,'service_department_name')
+                when plan.bounty_payout_object_code = 'BD_BIG_BD' then COALESCE(yt_crm.get_service_info('service_job_name:大BD',service_info_freezed,'service_department_name'), yt_crm.get_service_info('service_job_name:BD;service_job_freezed_name:BD',service_info_freezed,'service_department_name'))
                 end as grant_object_user_dep_name,
 
            ---统计指标----

@@ -13,19 +13,20 @@ with plan as (
            get_json_object(get_json_object(filter_config_json,'$.dept'),'$.operator') as dept_operator,
 
            --岗位
-           case when bounty_payout_object_id = 1 then 146 --战区经理
-                when bounty_payout_object_id = 2 then 4   --大区经理
-                when bounty_payout_object_id = 3 then 9   --BD主管
-                when bounty_payout_object_id = 4 then 8   --BD
-                when bounty_payout_object_id = 5 then 93  --大BD
-                when bounty_payout_object_id = 7 then 128 --大BD省区经理
+           case when bounty_payout_object_id = 1 then '146' --战区经理
+                when bounty_payout_object_id = 2 then '4'   --大区经理
+                when bounty_payout_object_id = 3 then '9'   --BD主管
+                when bounty_payout_object_id = 4 then '8'   --BD
+                when bounty_payout_object_id = 5 then '93'  --大BD
+                when bounty_payout_object_id = 7 then '128' --大BD省区经理
+                when bounty_payout_object_id = 8 then '8,93' --大BD省区经理
                 end as job_id,
 
            --数据类型 （取基本提成主管表还是销售表）
            if(bounty_payout_object_id IN (1,2,3,7), 'MANAGER', 'SALE') as data_type,
 
            --CRM工作室指标名
-           CASE WHEN bounty_payout_object_id IN (4,5)
+           CASE WHEN bounty_payout_object_id IN (4,5,8)
                 THEN CASE WHEN bounty_indicator_code IN ('B_PFM_RATE_NO_C', 'BIG_PACK_RATE') then 'class_b_capacity'
                           WHEN bounty_indicator_code = 'B_SHIHUO_RATE_NO_C' then 'class_b_capacity_pure'
                           END
@@ -127,7 +128,7 @@ cur as (
                'target', nvl(max(target.target), 0)
            )) as extra
     FROM plan
-    CROSS JOIN user_admin ON plan.job_id = user_admin.job_id
+    CROSS JOIN user_admin ON array_contains(split(plan.job_id, ','), CAST(user_admin.job_id as STRING))
     INNER JOIN data ON data.dayid = least(plan.calculate_date, '${v_date}') AND data.data_type = plan.data_type AND user_admin.user_id = data.user_id
     LEFT JOIN target ON plan.calculate_date <= target.end_time AND plan.calculate_date >= target.start_time AND user_admin.user_id = target.user_id AND plan.kpi_indicator_type = target.indicator
     WHERE ytdw.simple_expr(user_admin.war_area_id, 'in', war_area_value) = (case when war_area_operator = '=' then 1 else 0 end)
