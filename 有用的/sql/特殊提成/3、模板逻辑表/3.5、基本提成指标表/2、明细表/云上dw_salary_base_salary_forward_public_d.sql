@@ -59,9 +59,9 @@ user_admin as (
            bd.area_id as bd_area_id,           --大区
            manager.area_id as manager_area_id  --主管区域
     FROM ytdw.dim_ytj_pub_user_admin_m a
-    LEFT JOIN area war ON a.virtual_group_name_lv3 = war.area_name AND war.area_type = 2
-    LEFT JOIN area bd ON a.virtual_group_name_lv4 = bd.area_name AND bd.area_type = 1
-    LEFT JOIN area manager ON a.virtual_group_name_lv5 = manager.area_name AND manager.area_type = 3
+    LEFT JOIN area war ON a.virtual_group_name_lv2 = war.area_name AND war.area_type = 2
+    LEFT JOIN area bd ON a.virtual_group_name_lv3 = bd.area_name AND bd.area_type = 1
+    LEFT JOIN area manager ON a.virtual_group_name_lv4 = manager.area_name AND manager.area_type = 3
     WHERE dayid = substr('${v_date}', 1, 6)
 ),
 
@@ -146,7 +146,8 @@ cur as (
              data.leave_time,
              plan.bounty_indicator_name,
              data.b_pfm,
-             data.b_shihuo
+             data.b_shihuo,
+             data.big_pack
 )
 
 insert overwrite table dw_salary_base_salary_public_d partition (dayid='${v_date}',pltype='cur')
