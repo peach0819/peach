@@ -27,10 +27,22 @@ public class WanziDemo {
     private static void print(int x, int y) {
         System.out.println(String.format("x:[%s], y:[%s], nolock_rate:[%s], lock1_rate:[%s], lock2_rate:[%s]",
                 x, y,
-                round(1 / rate(x, y, 0)),
-                round(1 / rate(x, y, 1)),
-                round(1 / rate(x, y, 2))
+                doRate(x, y, 0),
+                doRate(x, y, 1),
+                doRate(x, y, 2)
         ));
+    }
+
+    private static String doRate(int x, int y, int base) {
+        double result = 1 / rate(x, y, base);
+        if (base > 0) {
+            for (int i = 0; i < base; i++) {
+                result *= 5;
+            }
+            result += 1 / rate(base, y, 0);
+        }
+
+        return round(result).toPlainString();
     }
 
     private static double rate(int x, int y, int base) {
@@ -47,7 +59,7 @@ public class WanziDemo {
         return rate;
     }
 
-    private static String round(double d) {
-        return new BigDecimal(d).divide(new BigDecimal("1"), 0, RoundingMode.UP).toPlainString();
+    private static BigDecimal round(double d) {
+        return new BigDecimal(d).divide(new BigDecimal("1"), 0, RoundingMode.UP);
     }
 }
