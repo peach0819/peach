@@ -7,16 +7,16 @@ import java.math.RoundingMode;
  * @author feitao.zt
  * @date 2024/1/31
  */
-public class WanziDemo1 {
+public class WanziDemo2 {
 
     public static void main(String[] args) {
-        System.out.println("包含1指定洗4的成本");
+        System.out.println("包含2指定洗4的成本");
         print(4, 12);
         print(4, 11);
         print(4, 10);
         print(4, 9);
         print(4, 8);
-        System.out.println("\n包含1指定洗3的成本");
+        System.out.println("\n包含2指定洗3的成本");
         print(3, 12);
         print(3, 11);
         print(3, 10);
@@ -36,13 +36,13 @@ public class WanziDemo1 {
     private static String doRate(int x, int y, int base) {
         Double result = 0D;
         if (base == 0) {
-            result = 1 / rate1(x, y);
+            result = 1 / rate2(x, y);
         }
         if (base == 1) {
-            result = 1 / rate1(1, y) + 1 / rate(x - 1, y - 1, 0) * 5;
+            result = 1 / (2 * rate1(1, y)) + (1 / rate1(x - 1, y - 1)) * 5;
         }
         if (base == 2) {
-            result = 1 / rate1(2, y) + 1 / rate(x - 2, y - 2, 0) * 25;
+            result = 1 / rate2(2, y) + (1 / rate(x - 2, y - 2, 0)) * 25;
         }
 
         return round(result).toPlainString();
@@ -71,6 +71,24 @@ public class WanziDemo1 {
             y--;
         }
         return rate * x;
+    }
+
+    private static double rate2(int x, int y) {
+        double total = 43d;
+        double rate = 1d;
+        for (int i = 0; i < x; i++) {
+            int cur = y;
+            if (i == 0) {
+                cur = 2;
+            } else if (i == 1) {
+                cur = 1;
+            }
+
+            rate = rate * cur / total;
+            total--;
+            y--;
+        }
+        return rate * x * (x - 1);
     }
 
     private static BigDecimal round(double d) {
