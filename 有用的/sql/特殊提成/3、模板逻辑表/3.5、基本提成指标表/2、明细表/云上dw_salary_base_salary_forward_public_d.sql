@@ -19,21 +19,15 @@ with plan as (
                 when bounty_payout_object_id = 4 then '8'   --BD
                 when bounty_payout_object_id = 5 then '93'  --大BD
                 when bounty_payout_object_id = 7 then '128' --大BD省区经理
-                when bounty_payout_object_id = 8 then '8,93' --大BD省区经理
+                when bounty_payout_object_id = 8 then '8,93' --BD&大BD
                 end as job_id,
 
            --数据类型 （取基本提成主管表还是销售表）
            if(bounty_payout_object_id IN (1,2,3,7), 'MANAGER', 'SALE') as data_type,
 
            --CRM工作室指标名
-           CASE WHEN bounty_payout_object_id IN (4,5,8)
-                THEN CASE WHEN bounty_indicator_code IN ('B_PFM_RATE_NO_C', 'BIG_PACK_RATE') then 'class_b_capacity'
-                          WHEN bounty_indicator_code = 'B_SHIHUO_RATE_NO_C' then 'class_b_capacity_pure'
-                          END
-                WHEN bounty_payout_object_id IN (1,2,3)
-                THEN CASE WHEN bounty_indicator_code = 'B_PFM_RATE_NO_C' then 'class_b_area_nonebig_nonesp'
-                          WHEN bounty_indicator_code IN ('B_SHIHUO_RATE_NO_C', 'BIG_PACK_RATE') then 'class_b_area_pure'
-                          END
+           CASE WHEN bounty_payout_object_id IN (4,5,8) THEN 'class_b_capacity'
+                WHEN bounty_payout_object_id IN (1,2,3) THEN 'class_b_area_pure'
                 WHEN bounty_payout_object_id IN (7) THEN 'class_b_dept'
                 END as kpi_indicator_type
     FROM yt_crm.dw_bounty_plan_schedule_d
