@@ -10,5 +10,6 @@ create table sync_touch_platform_price_brand_d (
   brand_name varchar(128) COMMENT '品牌名',
   brand_cn_name varchar(128) COMMENT '品牌中文名',
   brand_en_name varchar(128) COMMENT '品牌英文名',
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  KEY `idx_brand_id` (`brand_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='触达母婴自动回复品牌回流表';
