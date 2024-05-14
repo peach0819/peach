@@ -143,7 +143,7 @@ shop_brand_summary as (
                  from shop_order
                  left join order_coupon_info on shop_order.order_id=order_coupon_info.order_id
                  left join coupon_info on order_coupon_info.coupon_owner_id=coupon_info.coupon_owner_id
-                 join shop_brand_list on shop_order.shop_id=shop_brand_list.shop_id and shop_order.brand_id=shop_brand_list.brand_id
+                 INNER join shop_brand_list on shop_order.shop_id=shop_brand_list.shop_id and shop_order.brand_id=shop_brand_list.brand_id  --用来过滤指定门店
             )t1
             GROUP by shop_id,
                      shop_name,
