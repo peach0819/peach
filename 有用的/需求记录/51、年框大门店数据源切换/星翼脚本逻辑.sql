@@ -81,29 +81,29 @@ condition_mode AS (
 	GROUP BY condition.act_id
 )
 
-SELECT act.rebate_id,
-       act.shop_id,
-       act.amount,
-       act.quantity,
-       act.pay_amount,
-       act.accumulate_material_amount,
-       act.rebate_total_amount,
-       act.rebate_usable_amount,
-       act.rebate_withdrawal_amount,
-       act.deduct_total_amount,
-       act.deducted_amount,
-       act.not_deducted_amount,
-       act.act_name,
-       act.act_type,
-       act.act_type_tag,
-       act.act_desc,
-       act.start_time,
-       act.end_time,
-       act.status,
-       act.period_end_time,
-       sc.scope,
-       cm.mode
-FROM shop_rebate_activity act
-LEFT JOIN activity_scope sc ON act.rebate_id = sc.act_id
-LEFT JOIN condition_mode cm ON act.rebate_id = cm.act_id
-ORDER BY act.rebate_id DESC
+SELECT shop_rebate_activity.rebate_id,
+       shop_rebate_activity.shop_id,
+       shop_rebate_activity.amount,
+       shop_rebate_activity.quantity,
+       shop_rebate_activity.pay_amount,
+       shop_rebate_activity.accumulate_material_amount,
+       shop_rebate_activity.rebate_total_amount,
+       shop_rebate_activity.rebate_usable_amount,
+       shop_rebate_activity.rebate_withdrawal_amount,
+       shop_rebate_activity.deduct_total_amount,
+       shop_rebate_activity.deducted_amount,
+       shop_rebate_activity.not_deducted_amount,
+       shop_rebate_activity.act_name,
+       shop_rebate_activity.act_type,
+       shop_rebate_activity.act_type_tag,
+       shop_rebate_activity.act_desc,
+       shop_rebate_activity.start_time,
+       shop_rebate_activity.end_time,
+       shop_rebate_activity.status,
+       shop_rebate_activity.period_end_time,
+       activity_scope.scope,
+       condition_mode.mode
+FROM shop_rebate_activity
+LEFT JOIN activity_scope ON shop_rebate_activity.rebate_id = activity_scope.act_id
+LEFT JOIN condition_mode ON shop_rebate_activity.rebate_id = condition_mode.act_id
+ORDER BY shop_rebate_activity.rebate_id DESC
