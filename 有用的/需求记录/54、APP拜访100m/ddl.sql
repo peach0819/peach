@@ -1,0 +1,1 @@
+ALTER TABLE sync_ads_crm_shop_reward_brand_d ADD COLUMN dayid varchar(8) COMMENT '数仓表区块标示';
