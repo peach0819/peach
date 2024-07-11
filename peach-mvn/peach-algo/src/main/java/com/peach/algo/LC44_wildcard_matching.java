@@ -26,16 +26,12 @@ package com.peach.algo;
  */
 public class LC44_wildcard_matching {
 
-    public static void main(String[] args) {
-        new LC44_wildcard_matching().isMatch("aa", "*");
-    }
-
     char[] chars;
     char[] charp;
 
     Boolean[][] a;
 
-    public boolean isMatch(String s, String p) {
+    public boolean isMatch1(String s, String p) {
         if (s.isEmpty() && p.isEmpty()) {
             return true;
         }
@@ -79,5 +75,61 @@ public class LC44_wildcard_matching {
             return false;
         }
         return doHandle(s + 1, p + 1);
+    }
+
+    public static void main(String[] args) {
+        new LC44_wildcard_matching().isMatch("", "******");
+    }
+
+    public boolean isMatch(String s, String p) {
+        if (s.isEmpty()) {
+            return p.replaceAll("\\*", "").equals("");
+        }
+        if (p.isEmpty()) {
+            return false;
+        }
+
+        boolean[][] array = new boolean[s.length() + 1][p.length() + 1];
+        char[] ss = s.toCharArray();
+        char[] pp = p.toCharArray();
+
+        char s0 = ss[0];
+        char p0 = pp[0];
+        array[0][0] = s0 == p0 || p0 == '?' || p0 == '*';
+        for (int i = 1; i < s.length(); i++) {
+            array[i][0] = array[i - 1][0] && p0 == '*';
+        }
+
+        boolean match = p0 != '*';
+        for (int i = 1; i < p.length(); i++) {
+            if (!array[0][i - 1]) {
+                break;
+            }
+            if (pp[i] == '*') {
+                array[0][i] = true;
+            } else if (!match) {
+                if (pp[i] == s0 || pp[i] == '?') {
+                    array[0][i] = true;
+                    match = true;
+                } else {
+                    array[0][i] = false;
+                }
+            } else {
+                break;
+            }
+        }
+
+        for (int i = 1; i < s.length(); i++) {
+            for (int j = 1; j < p.length(); j++) {
+                char s1 = ss[i];
+                char p1 = pp[j];
+                if (p1 != '*') {
+                    array[i][j] = array[i - 1][j - 1] && (p1 == '?' || s1 == p1);
+                } else {
+                    array[i][j] = array[i - 1][j] || array[i][j - 1] || array[i - 1][j - 1];
+                }
+            }
+        }
+        return array[s.length() - 1][p.length() - 1];
     }
 }
