@@ -1,7 +1,7 @@
 package com.peach.algo;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author feitao.zt
@@ -51,9 +51,10 @@ public class LC61_rotate_list {
         }
         int num = 1;
         ListNode cur = head;
-        Map<Integer, ListNode> map = new HashMap<>();
+        List<ListNode> list = new ArrayList<>();
+        list.add(new ListNode());
         while (true) {
-            map.put(num, cur);
+            list.add(cur);
             if (cur.next != null) {
                 cur = cur.next;
                 num++;
@@ -67,10 +68,10 @@ public class LC61_rotate_list {
             return head;
         }
 
-        ListNode newLast = map.get(num - k);
-        ListNode oldLast = map.get(num);
+        ListNode newLast = list.get(num - k);
+        ListNode oldLast = list.get(num);
         newLast.next = null;
         oldLast.next = head;
-        return map.get(num - k + 1);
+        return list.get(num - k + 1);
     }
 }
