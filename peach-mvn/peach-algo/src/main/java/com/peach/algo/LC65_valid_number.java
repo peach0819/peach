@@ -47,9 +47,7 @@ public class LC65_valid_number {
         for (int i = 0; i < chars.length; i++) {
             char c = chars[i];
             if (c == '-' || c == '+') {
-                if (!canAddition) {
-                    return false;
-                } else if (i == chars.length - 1) {
+                if (!canAddition || i == chars.length - 1) {
                     return false;
                 } else {
                     canAddition = false;
@@ -64,9 +62,7 @@ public class LC65_valid_number {
                     canPoint = false;
                 }
             } else if (c == 'e' || c == 'E') {
-                if (!canE) {
-                    return false;
-                } else if (i == chars.length - 1) {
+                if (!canE || i == chars.length - 1) {
                     return false;
                 } else {
                     hasE = true;
