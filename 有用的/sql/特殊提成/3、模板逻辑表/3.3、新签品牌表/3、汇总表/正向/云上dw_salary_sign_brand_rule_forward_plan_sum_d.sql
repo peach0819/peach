@@ -15,34 +15,14 @@ with plan as (
            end as kpi_indicator_type,
 
            yt_crm.plan_calculate_date(get_json_object(get_json_object(filter_config_json,'$.calculate_date'),'$.value'), 'min') as calculate_date_value_start,
-           yt_crm.plan_calculate_date(get_json_object(get_json_object(filter_config_json,'$.calculate_date'),'$.value'), 'max') as calculate_date_value_end
+           yt_crm.plan_calculate_date(get_json_object(get_json_object(filter_config_json,'$.calculate_date'),'$.value'), 'max') as calculate_date_value_end,
+
+           --新签门店数上限
+           replace(replace(replace(get_json_object(get_json_object(filter_config_json,'$.sign_shop_limit'),'$.value'),'\"',''),'[',''),']','') as sign_shop_limit
     FROM yt_crm.dw_bounty_plan_schedule_d
     WHERE array_contains(split(forward_date, ','), '${v_date}')
     AND ('@@{supply_mode}' = 'not_supply' OR array_contains(split(supply_date, ','), '${supply_date}'))
     AND bounty_rule_type = 3
-),
-
-detail as (
-    SELECT planno,
-           grant_object_user_id,
-           grant_object_user_name,
-           if(plan.bounty_payout_object_code = 'GRANT_USER', null, grant_object_user_dep_id) as grant_object_user_dep_id,
-           grant_object_user_dep_name,
-           leave_time,
-           count(distinct if(is_leave='否' and is_succ_sign='是', shop_id, null)) as sign_shop_count,
-           count(distinct if(is_leave='否' and is_succ_sign='是', concat(shop_id, '_', brand_id), null)) as sign_shop_brand_count,
-           sum(if(is_leave='否' and is_succ_sign='是', gmv_less_refund, 0)) as gmv_less_refund,
-           sum(if(is_leave='否' and is_succ_sign='是', pay_amount_less_refund, 0)) as pay_amount_less_refund
-    FROM yt_crm.dw_salary_sign_brand_rule_public_d d
-    INNER JOIN plan ON d.planno = plan.no
-    WHERE dayid = '${v_date}'
-    AND pltype = 'cur'
-    group by planno,
-             grant_object_user_id,
-             grant_object_user_name,
-             if(plan.bounty_payout_object_code = 'GRANT_USER', null, grant_object_user_dep_id),
-             grant_object_user_dep_name,
-             leave_time
 ),
 
 underling as (
@@ -70,6 +50,44 @@ plan_user_target as (
     INNER JOIN target ON plan.calculate_date_value_start <= target.end_time AND plan.calculate_date_value_end >= target.start_time AND plan.kpi_indicator_type = target.indicator
     group by plan.no,
              target.user_id
+),
+
+mid as (
+    SELECT planno,
+           grant_object_user_id,
+           grant_object_user_name,
+           if(plan.bounty_payout_object_code = 'GRANT_USER', null, grant_object_user_dep_id) as grant_object_user_dep_id,
+           grant_object_user_dep_name,
+           leave_time,
+           shop_id,
+           brand_id,
+           gmv_less_refund,
+           pay_amount_less_refund,
+           is_leave='否' and is_succ_sign='是'
+                         and (plan.sign_shop_limit is null OR (row_number() over(partition by planno, is_leave, is_succ_sign ORDER BY new_sign_time) <= plan.sign_shop_limit)) as is_valid
+    FROM yt_crm.dw_salary_sign_brand_rule_public_d d
+    INNER JOIN plan ON d.planno = plan.no
+    WHERE dayid = '${v_date}'
+    AND pltype = 'cur'
+),
+
+detail as (
+    SELECT planno,
+           grant_object_user_id,
+           grant_object_user_name,
+           grant_object_user_dep_id,
+           grant_object_user_dep_name,
+           leave_time,
+           count(distinct if(is_valid, concat(shop_id, '_', brand_id), null)) as sign_shop_brand_count,
+           sum(if(is_valid, gmv_less_refund, 0)) as gmv_less_refund,
+           sum(if(is_valid, pay_amount_less_refund, 0)) as pay_amount_less_refund
+    FROM mid
+    group by planno,
+             grant_object_user_id,
+             grant_object_user_name,
+             grant_object_user_dep_id,
+             grant_object_user_dep_name,
+             leave_time
 ),
 
 cur as (
@@ -100,8 +118,7 @@ cur as (
 
            --统计指标
            nvl(underling.underling_cnt,1) as grant_object_underling_cnt,
-           case when plan.bounty_indicator_code = 'NEW_SIGNING_BRAND_3_NEW_SING_SHOPS' then detail.sign_shop_count  --'统计指标名称为新签门店数'
-                when plan.bounty_indicator_code = 'NEW_SIGNING_BRAND_3_NEW_SING_BRAND_SHOPS' then detail.sign_shop_brand_count  --统计指标名称为新签品牌门店数'
+           case when plan.bounty_indicator_code = 'NEW_SIGNING_BRAND_3_NEW_SING_BRAND_SHOPS' then detail.sign_shop_brand_count  --统计指标名称为新签品牌门店数'
                 when plan.bounty_indicator_code = 'NEW_SIGNING_BRAND_3_ACC_NEW_SING_GMV' then detail.gmv_less_refund  --'统计指标名称为新签GMV'
                 when plan.bounty_indicator_code = 'NEW_SIGNING_BRAND_3_ACC_NEW_SING_PAY_AMT' then detail.pay_amount_less_refund  --'统计指标名称为累计新签支付金额'
                 when plan.bounty_indicator_code = 'NEW_SIGNING_BRAND_AVG_NEW_SING_SHOPS' then detail.sign_shop_brand_count/nvl(underling_cnt,1)  --人均新签品牌门店数'
@@ -112,8 +129,7 @@ cur as (
 
            --排名
            rank() over(partition by plan.no order by (
-                case when plan.bounty_indicator_code = 'NEW_SIGNING_BRAND_3_NEW_SING_SHOPS' then detail.sign_shop_count  --'统计指标名称为新签门店数'
-                     when plan.bounty_indicator_code = 'NEW_SIGNING_BRAND_3_NEW_SING_BRAND_SHOPS' then detail.sign_shop_brand_count  --统计指标名称为新签品牌门店数'
+                case when plan.bounty_indicator_code = 'NEW_SIGNING_BRAND_3_NEW_SING_BRAND_SHOPS' then detail.sign_shop_brand_count  --统计指标名称为新签品牌门店数'
                      when plan.bounty_indicator_code = 'NEW_SIGNING_BRAND_3_ACC_NEW_SING_GMV' then detail.gmv_less_refund  --'统计指标名称为新签GMV'
                      when plan.bounty_indicator_code = 'NEW_SIGNING_BRAND_3_ACC_NEW_SING_PAY_AMT' then detail.pay_amount_less_refund  --'统计指标名称为累计新签支付金额'
                      when plan.bounty_indicator_code = 'NEW_SIGNING_BRAND_AVG_NEW_SING_SHOPS' then detail.sign_shop_brand_count/nvl(underling_cnt,1)  --人均新签品牌门店数'
