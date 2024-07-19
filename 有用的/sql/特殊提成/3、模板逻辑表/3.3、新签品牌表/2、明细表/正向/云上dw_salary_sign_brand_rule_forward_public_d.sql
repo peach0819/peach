@@ -64,6 +64,27 @@ shop_group_mapping as (
     group by shop_id
 ),
 
+big_bd_manager as (
+    select dept_id,
+           user_id,
+           user_real_name,
+           row_number() over(partition by dept_id order by create_time desc) as rn
+    from ytdw.dim_usr_user_d
+    where dayid='${v_date}'
+    AND dept_id is not null
+    AND user_status = 1
+    AND job_id = 128
+),
+
+user_admin as (
+    select user_id,
+           user_real_name,
+           dept_id,
+           substr(leave_time,1,8) as leave_time
+    from ytdw.dim_usr_user_d
+    where dayid='${v_date}'
+),
+
 sign as (
     select /*+ mapjoin(plan) */
            plan.no as planno,
@@ -108,16 +129,16 @@ sign as (
     LEFT JOIN shop_group_mapping ON ord.shop_id = shop_group_mapping.group_shop_id
     where yt_crm.plan_calculate_date(plan.calculate_date, 'between', shop_brand_sign_day) = 'true'
     and pay_day <= calculate_date_value_end
-    and ytdw.simple_expr( sale_team_id,'in',sales_team_value)=(case when sales_team_operator ='=' then 1 else 0 end)
-    and ytdw.simple_expr( item_style_name,'in',item_style_value)=(case when item_style_operator ='=' then 1 else 0 end)
-    and ytdw.simple_expr( category_id_first,'in',category_first_value)=(case when category_first_operator ='=' then 1 else 0 end)
-    and ytdw.simple_expr( category_id_second,'in',category_second_value)=(case when category_second_operator ='=' then 1 else 0 end)
-    and ytdw.simple_expr( category_id_third, 'in', category_third_value) = (case when category_third_operator = '=' then 1 else 0 end)
-    and ytdw.simple_expr( brand_id,'in',brand_value)=(case when brand_operator ='=' then 1 else 0 end)
-    and ytdw.simple_expr( item_id, 'in', item_value) = (case when item_operator = '=' then 1 else 0 end)
-    and ytdw.simple_expr( war_zone_dep_id,'in',war_area_value)=(case when war_area_operator ='=' then 1 else 0 end)
-    and ytdw.simple_expr( area_manager_dep_id,'in',bd_area_value)=(case when bd_area_operator ='=' then 1 else 0 end)
-    and ytdw.simple_expr( bd_manager_dep_id,'in',manage_area_value)=(case when manage_area_operator ='=' then 1 else 0 end)
+    and ytdw.simple_expr(sale_team_id, 'in', sales_team_value) = (case when sales_team_operator = '=' then 1 else 0 end)
+    and ytdw.simple_expr(item_style_name, 'in', item_style_value) = (case when item_style_operator = '=' then 1 else 0 end)
+    and ytdw.simple_expr(category_id_first, 'in', category_first_value) = (case when category_first_operator = '=' then 1 else 0 end)
+    and ytdw.simple_expr(category_id_second, 'in', category_second_value) = (case when category_second_operator = '=' then 1 else 0 end)
+    and ytdw.simple_expr(category_id_third, 'in', category_third_value) = (case when category_third_operator = '=' then 1 else 0 end)
+    and ytdw.simple_expr(brand_id, 'in', brand_value) = (case when brand_operator = '=' then 1 else 0 end)
+    and ytdw.simple_expr(item_id, 'in', item_value) = (case when item_operator = '=' then 1 else 0 end)
+    and ytdw.simple_expr(war_zone_dep_id, 'in', war_area_value) = (case when war_area_operator = '=' then 1 else 0 end)
+    and ytdw.simple_expr(area_manager_dep_id, 'in', bd_area_value) = (case when bd_area_operator = '=' then 1 else 0 end)
+    and ytdw.simple_expr(bd_manager_dep_id, 'in', manage_area_value) = (case when manage_area_operator = '=' then 1 else 0 end)
     and ytdw.simple_expr(ord.brand_tag_code, 'in', brand_tag_value) = (case when brand_tag_operator = '=' then 1 else 0 end)
     and ytdw.simple_expr(ord.brand_type, 'in', brand_type_value) = (case when brand_type_operator = '=' then 1 else 0 end)
     and if(shop_group_mapping.shop_group = '' OR plan.shop_group_value = '', 0, ytdw.simple_expr(substr(plan.shop_group_value, 2, length(plan.shop_group_value) - 2), 'in', concat('[', shop_group_mapping.shop_group, ']'))) = (case when shop_group_operator ='=' then 1 else 0 end)
@@ -149,27 +170,6 @@ sign as (
              service_job_name_freezed,
              service_department_name_freezed,
              plan.new_sign_line
-),
-
-big_bd_manager as (
-    select dept_id,
-           user_id,
-           user_real_name,
-           row_number() over(partition by dept_id order by create_time desc) as rn
-    from ytdw.dim_usr_user_d
-    where dayid='${v_date}'
-    AND dept_id is not null
-    AND user_status = 1
-    AND job_id = 128
-),
-
-user_admin as (
-    select user_id,
-           user_real_name,
-           dept_id,
-           substr(leave_time,1,8) as leave_time
-    from ytdw.dim_usr_user_d
-    where dayid='${v_date}'
 ),
 
 before_cur as (
@@ -214,7 +214,7 @@ before_cur as (
            service_department_name_freezed,
            new_sign_time,
            new_sign_day,
-           row_number() over (partition by planno,shop_id,brand_id,is_over_sign_line order by new_sign_time) as new_sign_rn, --新签时间排名达成
+           row_number() over (partition by planno, shop_id, brand_id, is_over_sign_line order by new_sign_time) as new_sign_rn, --新签时间排名达成
            shop_brand_sign_day,
            gmv_less_refund,
            gmv,
@@ -232,28 +232,28 @@ before_cur as (
            case when plan.bounty_payout_object_code = 'WAR_ZONE_MANAGE' then war_zone_id
                 when plan.bounty_payout_object_code = 'AREA_MANAGER' then area_manager_id
                 when plan.bounty_payout_object_code = 'BD_MANAGER' then bd_manager_id
-                when plan.bounty_payout_object_code  in('BD','BIG_BD', 'BD_BIG_BD')  then service_user_id_freezed
+                when plan.bounty_payout_object_code in ('BD','BIG_BD', 'BD_BIG_BD') then service_user_id_freezed
                 when plan.bounty_payout_object_code = 'GRANT_USER' then plan.grant_user
                 when plan.bounty_payout_object_code = 'BIG_BD_AREA_MANAGER' then big_bd_manager.user_id
                 end as grant_object_user_id,                                                                      --发放对象ID
            case when plan.bounty_payout_object_code = 'WAR_ZONE_MANAGE' then war_zone_name
                 when plan.bounty_payout_object_code = 'AREA_MANAGER' then area_manager_name
                 when plan.bounty_payout_object_code = 'BD_MANAGER' then bd_manager_name
-                when plan.bounty_payout_object_code  in('BD','BIG_BD', 'BD_BIG_BD')  then service_user_name_freezed
+                when plan.bounty_payout_object_code in ('BD','BIG_BD', 'BD_BIG_BD') then service_user_name_freezed
                 when plan.bounty_payout_object_code = 'GRANT_USER' then null
                 when plan.bounty_payout_object_code = 'BIG_BD_AREA_MANAGER' then big_bd_manager.user_real_name
                 end as grant_object_user_name,                                                                       --发放对象名称
            case when plan.bounty_payout_object_code = 'WAR_ZONE_MANAGE' then war_zone_dep_id
                 when plan.bounty_payout_object_code = 'AREA_MANAGER' then area_manager_dep_id
                 when plan.bounty_payout_object_code = 'BD_MANAGER' then bd_manager_dep_id
-                when plan.bounty_payout_object_code  in('BD','BIG_BD', 'BD_BIG_BD')  then service_department_id_freezed
+                when plan.bounty_payout_object_code in ('BD','BIG_BD', 'BD_BIG_BD') then service_department_id_freezed
                 when plan.bounty_payout_object_code = 'GRANT_USER' then service_department_id_freezed
                 when plan.bounty_payout_object_code = 'BIG_BD_AREA_MANAGER' then service_department_id_freezed
                 end as grant_object_user_dep_id,                                                                      --发放对象部门ID
            case when plan.bounty_payout_object_code = 'WAR_ZONE_MANAGE' then war_zone_dep_name
                 when plan.bounty_payout_object_code = 'AREA_MANAGER' then area_manager_dep_name
                 when plan.bounty_payout_object_code = 'BD_MANAGER' then bd_manager_dep_name
-                when plan.bounty_payout_object_code  in('BD','BIG_BD', 'BD_BIG_BD')  then service_department_name_freezed
+                when plan.bounty_payout_object_code in ('BD','BIG_BD', 'BD_BIG_BD') then service_department_name_freezed
                 when plan.bounty_payout_object_code = 'GRANT_USER' then null
                 when plan.bounty_payout_object_code = 'BIG_BD_AREA_MANAGER' then service_department_name_freezed
                 end as grant_object_user_dep_name,
