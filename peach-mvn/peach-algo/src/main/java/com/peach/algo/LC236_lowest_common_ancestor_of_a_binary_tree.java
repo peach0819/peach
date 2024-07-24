@@ -1,5 +1,7 @@
 package com.peach.algo;
 
+import com.peach.algo.base.TreeNode;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -21,15 +23,6 @@ import java.util.Map;
  * 输出：1
  */
 public class LC236_lowest_common_ancestor_of_a_binary_tree {
-
-    public class TreeNode {
-
-        int val;
-        TreeNode left;
-        TreeNode right;
-
-        TreeNode(int x) { val = x; }
-    }
 
     public class NewTreeNode {
 

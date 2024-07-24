@@ -1,5 +1,7 @@
 package com.peach.algo;
 
+import com.peach.algo.base.TreeNode;
+
 /**
  * @author feitao.zt
  * @date 2024/7/24
@@ -16,23 +18,6 @@ package com.peach.algo;
  * 进阶：你可以运用递归和迭代两种方法解决这个问题吗？
  */
 public class LC101_symmetric_tree {
-
-    public class TreeNode {
-
-        int val;
-        TreeNode left;
-        TreeNode right;
-
-        TreeNode() {}
-
-        TreeNode(int val) { this.val = val; }
-
-        TreeNode(int val, TreeNode left, TreeNode right) {
-            this.val = val;
-            this.left = left;
-            this.right = right;
-        }
-    }
 
     public boolean isSymmetric(TreeNode root) {
         return handle(root.left, root.right);

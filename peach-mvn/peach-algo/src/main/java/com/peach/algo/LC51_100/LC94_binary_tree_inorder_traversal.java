@@ -1,5 +1,7 @@
 package com.peach.algo.LC51_100;
 
+import com.peach.algo.base.TreeNode;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,23 +11,6 @@ import java.util.List;
  * 二叉树中序遍历
  */
 public class LC94_binary_tree_inorder_traversal {
-
-    public class TreeNode {
-
-        int val;
-        TreeNode left;
-        TreeNode right;
-
-        TreeNode() {}
-
-        TreeNode(int val) { this.val = val; }
-
-        TreeNode(int val, TreeNode left, TreeNode right) {
-            this.val = val;
-            this.left = left;
-            this.right = right;
-        }
-    }
 
     public List<Integer> inorderTraversal(TreeNode root) {
         List<Integer> result = new ArrayList<>();

@@ -1,5 +1,7 @@
 package com.peach.algo.LC51_100;
 
+import com.peach.algo.base.TreeNode;
+
 /**
  * @author feitao.zt
  * @date 2024/7/23
@@ -22,23 +24,6 @@ package com.peach.algo.LC51_100;
  * -231 <= Node.val <= 231 - 1
  */
 public class LC98_validate_binary_search_tree {
-
-    public class TreeNode {
-
-        int val;
-        TreeNode left;
-        TreeNode right;
-
-        TreeNode() {}
-
-        TreeNode(int val) { this.val = val; }
-
-        TreeNode(int val, TreeNode left, TreeNode right) {
-            this.val = val;
-            this.left = left;
-            this.right = right;
-        }
-    }
 
     boolean result = true;
 

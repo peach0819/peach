@@ -1,5 +1,7 @@
 package com.peach.algo.LC51_100;
 
+import com.peach.algo.base.TreeNode;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,23 +19,6 @@ import java.util.List;
  * 1 <= n <= 8
  */
 public class LC95_unique_binary_search_trees_ii {
-
-    public class TreeNode {
-
-        int val;
-        TreeNode left;
-        TreeNode right;
-
-        TreeNode() {}
-
-        TreeNode(int val) { this.val = val; }
-
-        TreeNode(int val, TreeNode left, TreeNode right) {
-            this.val = val;
-            this.left = left;
-            this.right = right;
-        }
-    }
 
     public List<TreeNode> generateTrees(int n) {
         List<Integer> list = new ArrayList<>();

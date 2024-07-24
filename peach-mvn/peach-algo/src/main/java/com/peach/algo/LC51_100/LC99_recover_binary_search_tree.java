@@ -1,5 +1,7 @@
 package com.peach.algo.LC51_100;
 
+import com.peach.algo.base.TreeNode;
+
 /**
  * @author feitao.zt
  * @date 2024/7/23
@@ -18,23 +20,6 @@ package com.peach.algo.LC51_100;
  * 进阶：使用 O(n) 空间复杂度的解法很容易实现。你能想出一个只使用 O(1) 空间的解决方案吗？
  */
 public class LC99_recover_binary_search_tree {
-
-    public class TreeNode {
-
-        int val;
-        TreeNode left;
-        TreeNode right;
-
-        TreeNode() {}
-
-        TreeNode(int val) { this.val = val; }
-
-        TreeNode(int val, TreeNode left, TreeNode right) {
-            this.val = val;
-            this.left = left;
-            this.right = right;
-        }
-    }
 
     /**
      * 我是傻逼，官方解法，莫里斯遍历

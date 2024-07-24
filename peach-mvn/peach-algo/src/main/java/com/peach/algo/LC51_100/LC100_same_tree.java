@@ -1,5 +1,7 @@
 package com.peach.algo.LC51_100;
 
+import com.peach.algo.base.TreeNode;
+
 /**
  * @author feitao.zt
  * @date 2024/7/8
@@ -19,23 +21,6 @@ package com.peach.algo.LC51_100;
  * -104 <= Node.val <= 104
  */
 public class LC100_same_tree {
-
-    public class TreeNode {
-
-        int val;
-        TreeNode left;
-        TreeNode right;
-
-        TreeNode() {}
-
-        TreeNode(int val) { this.val = val; }
-
-        TreeNode(int val, TreeNode left, TreeNode right) {
-            this.val = val;
-            this.left = left;
-            this.right = right;
-        }
-    }
 
     public boolean isSameTree(TreeNode p, TreeNode q) {
         return handle(p, q);
