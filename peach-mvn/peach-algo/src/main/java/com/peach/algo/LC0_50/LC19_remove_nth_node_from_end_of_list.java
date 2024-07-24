@@ -1,5 +1,7 @@
 package com.peach.algo.LC0_50;
 
+import com.peach.algo.base.ListNode;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -24,18 +26,6 @@ import java.util.Map;
  * 进阶：你能尝试使用一趟扫描实现吗？
  */
 public class LC19_remove_nth_node_from_end_of_list {
-
-    public class ListNode {
-
-        int val;
-        ListNode next;
-
-        ListNode() {}
-
-        ListNode(int val) { this.val = val; }
-
-        ListNode(int val, ListNode next) { this.val = val; this.next = next; }
-    }
 
     /**
      * 官方题解用的是快慢指针

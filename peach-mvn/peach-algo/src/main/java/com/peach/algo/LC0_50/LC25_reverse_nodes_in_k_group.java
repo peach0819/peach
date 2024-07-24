@@ -1,5 +1,7 @@
 package com.peach.algo.LC0_50;
 
+import com.peach.algo.base.ListNode;
+
 /**
  * @author feitao.zt
  * @date 2024/7/3
@@ -19,18 +21,6 @@ package com.peach.algo.LC0_50;
  * 进阶：你可以设计一个只用 O(1) 额外内存空间的算法解决此问题吗？
  */
 public class LC25_reverse_nodes_in_k_group {
-
-    public class ListNode {
-
-        int val;
-        ListNode next;
-
-        ListNode() {}
-
-        ListNode(int val) { this.val = val; }
-
-        ListNode(int val, ListNode next) { this.val = val; this.next = next; }
-    }
 
     public ListNode reverseKGroup(ListNode head, int k) {
         if (k == 1) {

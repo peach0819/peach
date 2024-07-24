@@ -1,5 +1,7 @@
 package com.peach.algo.LC0_50;
 
+import com.peach.algo.base.ListNode;
+
 /**
  * @author feitao.zt
  * @date 2024/7/3
@@ -18,21 +20,6 @@ package com.peach.algo.LC0_50;
  * 0 <= Node.val <= 100
  */
 public class LC24_swap_nodes_in_pairs {
-
-    public class ListNode {
-
-        int val;
-        ListNode next;
-
-        ListNode() {}
-
-        ListNode(int val) { this.val = val; }
-
-        ListNode(int val, ListNode next) {
-            this.val = val;
-            this.next = next;
-        }
-    }
 
     public ListNode swapPairs(ListNode head) {
         if (head == null || head.next == null) {

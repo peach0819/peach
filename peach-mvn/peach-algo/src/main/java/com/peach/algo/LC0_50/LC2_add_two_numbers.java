@@ -1,5 +1,7 @@
 package com.peach.algo.LC0_50;
 
+import com.peach.algo.base.ListNode;
+
 /**
  * @author feitao.zt
  * @date 2024/6/11
@@ -22,18 +24,6 @@ package com.peach.algo.LC0_50;
  * 题目数据保证列表表示的数字不含前导零
  */
 public class LC2_add_two_numbers {
-
-    public class ListNode {
-
-        int val;
-        ListNode next;
-
-        ListNode() {}
-
-        ListNode(int val) { this.val = val; }
-
-        ListNode(int val, ListNode next) { this.val = val; this.next = next; }
-    }
 
     public ListNode addTwoNumbers(ListNode l1, ListNode l2) {
         boolean needAdd = false;

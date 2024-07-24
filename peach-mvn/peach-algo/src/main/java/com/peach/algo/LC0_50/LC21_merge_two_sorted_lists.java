@@ -1,5 +1,7 @@
 package com.peach.algo.LC0_50;
 
+import com.peach.algo.base.ListNode;
+
 /**
  * @author feitao.zt
  * @date 2023/3/31
@@ -24,23 +26,6 @@ package com.peach.algo.LC0_50;
  * 著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
  */
 public class LC21_merge_two_sorted_lists {
-
-    public class ListNode {
-
-        int val;
-        ListNode next;
-
-        ListNode() {}
-
-        ListNode(int val) {
-            this.val = val;
-        }
-
-        ListNode(int val, ListNode next) {
-            this.val = val;
-            this.next = next;
-        }
-    }
 
     public ListNode mergeTwoLists(ListNode list1, ListNode list2) {
         if (list1 == null && list2 == null) {

@@ -1,5 +1,7 @@
 package com.peach.algo.LC0_50;
 
+import com.peach.algo.base.ListNode;
+
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
@@ -37,18 +39,6 @@ import java.util.stream.Collectors;
  * lists[i].length 的总和不超过 10^4
  */
 public class LC23_merge_k_sorted_lists {
-
-    public class ListNode {
-
-        int val;
-        ListNode next;
-
-        ListNode() {}
-
-        ListNode(int val) { this.val = val; }
-
-        ListNode(int val, ListNode next) { this.val = val; this.next = next; }
-    }
 
     public ListNode mergeKLists(ListNode[] lists) {
         if (lists.length == 0) {

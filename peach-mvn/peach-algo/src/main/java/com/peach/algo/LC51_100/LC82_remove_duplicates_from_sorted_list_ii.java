@@ -1,5 +1,7 @@
 package com.peach.algo.LC51_100;
 
+import com.peach.algo.base.ListNode;
+
 /**
  * @author feitao.zt
  * @date 2024/7/18
@@ -16,18 +18,6 @@ package com.peach.algo.LC51_100;
  * 题目数据保证链表已经按升序 排列
  */
 public class LC82_remove_duplicates_from_sorted_list_ii {
-
-    public class ListNode {
-
-        int val;
-        ListNode next;
-
-        ListNode() {}
-
-        ListNode(int val) { this.val = val; }
-
-        ListNode(int val, ListNode next) { this.val = val; this.next = next; }
-    }
 
     public ListNode deleteDuplicates(ListNode head) {
         if (head == null) {

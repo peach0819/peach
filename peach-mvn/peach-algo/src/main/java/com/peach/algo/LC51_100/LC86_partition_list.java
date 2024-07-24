@@ -1,5 +1,7 @@
 package com.peach.algo.LC51_100;
 
+import com.peach.algo.base.ListNode;
+
 /**
  * @author feitao.zt
  * @date 2024/7/22
@@ -17,18 +19,6 @@ package com.peach.algo.LC51_100;
  * -200 <= x <= 200
  */
 public class LC86_partition_list {
-
-    public class ListNode {
-
-        int val;
-        ListNode next;
-
-        ListNode() {}
-
-        ListNode(int val) { this.val = val; }
-
-        ListNode(int val, ListNode next) { this.val = val; this.next = next; }
-    }
 
     public ListNode partition(ListNode head, int x) {
         if (head == null || head.next == null) {
