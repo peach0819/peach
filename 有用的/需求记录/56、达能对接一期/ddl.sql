@@ -31,7 +31,7 @@ CREATE TABLE t_crm_shop_danone_log (
   `editor` varchar(255) DEFAULT NULL COMMENT '修改人',
   `edit_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
   `is_deleted` tinyint(4) DEFAULT '0' COMMENT '已删除',
-  `biz_type` tinyint(4) NOT NULL COMMENT '业务场景 1、达能门店新增 2、达能门店属性变更',
+  `shop_sync_type` tinyint(4) NOT NULL COMMENT '业务场景 1、达能门店新增 2、达能门店属性变更',
   `biz_id` varchar(200) NOT NULL COMMENT '达能门店变更记录id',
   `biz_value` text COMMENT '达能门店变更记录内容',
   PRIMARY KEY (`id`),
