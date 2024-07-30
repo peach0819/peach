@@ -41,3 +41,7 @@ CREATE TABLE t_crm_shop_danone_log (
 --yt_hop库 测试环境
 insert into t_open_api (`creator`, `editor`, `hop_api_id`, `category_id`, `name`, `return_example`)
 values('system', 'system', 52510610, 7, '达能门店数据回传接口', '{"code":200,"message":"成功","data":{"syncSuccess":true,"message":""},"success":true}');
+
+--yt_hop库 正式环境
+insert into t_open_api (`creator`, `editor`, `hop_api_id`, `category_id`, `name`, `return_example`)
+values('system', 'system', 22980, 7, '达能门店数据回传接口', '{"code":200,"message":"成功","data":{"syncSuccess":true,"message":""},"success":true}');
