@@ -25,11 +25,11 @@ import java.util.Map;
  */
 public class OpenApiDemo {
 
-    private static final String APP_KEY = "HIPAC91";
-    private static final String SECRET = "11c80b2461aed9c663ea89d144784634";
+    private static final String APP_KEY = "HIPAC2018050210020252";
+    private static final String SECRET = "1d63a1267912731d8224a54c402e464c";
     private static final String API = "hipac.crm.shopdanone.elnShopSyncPush"; //api
-    private static final String ENV = "master"; //测试环境master , 正式环境prod
-    private static final String HOST = "https://master-openapi.hipac.cn"; //测试环境master-openapi , 正式环境openapi
+    private static final String ENV = "prod"; //测试环境master , 正式环境prod
+    private static final String HOST = "https://openapi.hipac.cn"; //测试环境master-openapi , 正式环境openapi
 
     public static void main(String[] args) {
         try {
