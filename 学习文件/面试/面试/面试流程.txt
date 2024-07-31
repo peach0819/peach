@@ -1,0 +1,81 @@
+
+你好，我是软通动力这边的Java技术面试官
+请问现在方便进行面试吗
+
+那现在开始面试
+
+
+现在我会问一些java基础的问题
+
+面向对象语言的特征： 
+抽象  继承  封装  多态
+
+抽象属于继承
+
+java的多态是什么：谈谈你对多态的理解
+通过继承使用的向上转型，通过接口使用的向上转型，通过工厂方法动态绑定
+         重载算类的多态性 编译时多态
+
+String, StringBuilder 的区别
+1、String 的长度是不可变的；
+2、StringBuffer 的长度是可变的，如果你对字符串中的内容经常进行操作，特别是内容要修改时，那么使用StringBuffer，
+如果最后需要String，那么使用StringBuffer 的toString()方法，线程安全；
+3、StringBuilder 是从JDK 5 开始，为StringBuffer 该类补充了一个单个线程使用的等价类；
+通常应该优先使用StringBuilder 类，因为它支持所有相同的操作，但由于它不执行同步，所以速度更快
+
+final, finally, finalize 的区别?
+
+ a.hashCode() 有什么用？与 a.equals(b) 有什么关系？
+答案:hashCode() 方法是相应对象整型的 hash 值。
+它常用于基于 hash 的集合类，如 Hashtable、HashMap、LinkedHashMap等等。
+它与 equals() 方法关系特别紧密。
+根据 Java 规范，两个使用 equal() 方法来判断相等的对象，必须具有相同的 hash code。
+--hashmap的底层实现原理有了解吗
+
+java之中collection有用过吗
+参考答案:
+a）使用正确的集合类，例如，如果不需要同步列表，使用 ArrayList 而不是 Vector。
+b）优先使用并发集合，而不是对集合进行同步。并发集合提供更好的可扩展性。
+c）使用接口代表和访问集合，如使用List存储 ArrayList，使用 Map 存储 HashMap 等等。
+d）使用迭代器来循环集合。
+e）使用集合的时候使用泛型。
+
+- ArrayList 与 LinkedList 的区别？
+答案:最明显的区别是 ArrayList 底层的数据结构是数组，支持随机访问，
+而 LinkedList 的底层数据结构书链表，不支持随机访问。
+使用下标访问一个元素，ArrayList 的时间复杂度是 O(1)，而 LinkedList 是 O(n)
+
+ThreadLocal的使用
+
+泛型有用过吗，泛型和通配符的区别
+
+数据库索引
+主键，唯一，普通，组合
+聚簇索引和非聚簇索引区别
+有过数据库性能调优这方面的经历吗
+
+数据库连接池了解吗
+数据库连接池的好处
+
+Spring IOC和DI
+dispatchServlet  AOP
+
+git：说说git的一些基本使用操作吧， 
+使用git的时候，本地分支想要把另外一个分支上面的提交合并过来，这个时候你会怎么做
+
+设计模式有了解吗，
+说说平时用过的设计模式
+讲讲 单例模式
+
+
+
+
+
+
+
+
+
+
+
+
+

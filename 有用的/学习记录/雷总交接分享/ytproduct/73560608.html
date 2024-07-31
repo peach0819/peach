@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>产品组 : OMO佣金(omo_commission_amount)</title>
+        <link rel="stylesheet" href="styles/site.css" type="text/css" />
+        <META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    </head>
+
+    <body class="theme-default aui-theme-default">
+        <div id="page">
+            <div id="main" class="aui-page-panel">
+                <div id="main-header">
+                    <div id="breadcrumb-section">
+                        <ol id="breadcrumbs">
+                            <li class="first">
+                                <span><a href="index.html">产品组</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="70335729.html">01_数据逻辑及模型设计思路</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="59212886.html">三、费用</a></span>
+                            </li>
+                                                </ol>
+                    </div>
+                    <h1 id="title-heading" class="pagetitle">
+                                                <span id="title-text">
+                            产品组 : OMO佣金(omo_commission_amount)
+                        </span>
+                    </h1>
+                </div>
+
+                <div id="content" class="view">
+                    <div class="page-metadata">
+                        
+        
+    
+        
+    
+        
+        
+            Created by <span class='author'> 未知用户 (lei.xue)</span>, last modified on 2021-09-13
+                        </div>
+                    <div id="main-content" class="wiki-content group">
+                    <h1 id="OMO佣金(omo_commission_amount)-请注意!!目前OMO佣金是个定制化的字段.目前不属于营销费用!!且不参与毛利报表任何一个计算!!是完全独立的逻辑.不能有任何的金额计算依赖该字段."><span style="color: rgb(255,0,0);">请注意!!  目前 OMO佣金 是个定制化的字段.  目前 不属于 营销费用!! 且不参与 毛利报表 任何一个计算!! 是完全独立的逻辑. 不能有任何的金额计算依赖该字段.</span></h1><p><span style="color: rgb(255,0,0);">本期将其 放到 三、费用 里面. 是因为,  我猜测未来这个会变成费用. 只是目前没有 业务团队 承担 而已.  所以先把概念上打成费用. 实际上是不参与现有的 渠道/采购 营销费用的计算. </span></p><p><br/></p><h1 class="auto-cursor-target" id="OMO佣金(omo_commission_amount)-修订记录"><strong>修订记录</strong></h1><div class="table-wrap"><table class="wrapped confluenceTable"><colgroup><col/><col/><col/><col/><col/></colgroup><thead><tr><th style="text-align: left;" class="confluenceTh"><p>版本号</p></th><th style="text-align: left;" class="confluenceTh"><p>内容</p></th><th style="text-align: left;" class="confluenceTh"><p>作者</p></th><th style="text-align: left;" class="confluenceTh"><p>时间</p></th><th colspan="1" style="text-align: left;" class="confluenceTh"><p>备注</p></th></tr></thead><tbody><tr><td colspan="1" style="text-align: left;" class="confluenceTd">V1</td><td colspan="1" style="text-align: left;" class="confluenceTd">新增</td><td colspan="1" style="text-align: left;" class="confluenceTd">阿雷</td><td colspan="1" style="text-align: left;" class="confluenceTd">2021.09.10</td><td colspan="1" style="text-align: left;" class="confluenceTd"><br/></td></tr></tbody></table></div><p><style type='text/css'>/*<![CDATA[*/
+div.rbtoc1702954313226 {padding: 0px;}
+div.rbtoc1702954313226 ul {list-style: disc;margin-left: 0px;}
+div.rbtoc1702954313226 li {margin-left: 0px;padding-left: 0px;}
+
+/*]]>*/</style><div class='toc-macro rbtoc1702954313226'>
+<ul class='toc-indentation'>
+<li><a href='#OMO佣金(omo_commission_amount)-请注意!!目前OMO佣金是个定制化的字段.目前不属于营销费用!!且不参与毛利报表任何一个计算!!是完全独立的逻辑.不能有任何的金额计算依赖该字段.'>请注意!!  目前 OMO佣金 是个定制化的字段.  目前 不属于 营销费用!! 且不参与 毛利报表 任何一个计算!! 是完全独立的逻辑. 不能有任何的金额计算依赖该字段.</a></li>
+<li><a href='#OMO佣金(omo_commission_amount)-修订记录'>修订记录</a>
+<ul class='toc-indentation'>
+<li><a href='#OMO佣金(omo_commission_amount)-引用'>引用</a></li>
+</ul>
+</li>
+<li><a href='#OMO佣金(omo_commission_amount)-业务背景'>业务背景</a></li>
+<li><a href='#OMO佣金(omo_commission_amount)-逻辑定义'>逻辑定义</a>
+<ul class='toc-indentation'>
+<li><a href='#OMO佣金(omo_commission_amount)-V1版本--最新版-21年9月至今'>V1版本--最新版-21年9月至今</a>
+<ul class='toc-indentation'>
+<li><a href='#OMO佣金(omo_commission_amount)-表结构需求'>表结构需求</a></li>
+<li><a href='#OMO佣金(omo_commission_amount)-数据依赖'>数据依赖</a></li>
+<li><a href='#OMO佣金(omo_commission_amount)-数据逻辑'>数据逻辑</a></li>
+<li><a href='#OMO佣金(omo_commission_amount)-举例说明'>举例说明</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href='#OMO佣金(omo_commission_amount)-数据校验逻辑'>数据校验逻辑</a></li>
+</ul>
+</div></p><h2 id="OMO佣金(omo_commission_amount)-引用"><strong>引用</strong></h2><p><a href="59212755.html">零、字段汇总(维度和指标)</a></p><p><a class="external-link" href="http://demo.yangtuojia.com/%E5%88%9B%E6%96%B0%E4%B8%9A%E5%8A%A1%E6%94%AF%E6%8C%81/%E8%BA%B2%E7%8C%AB%E7%8C%AB%EF%BC%88OMO%EF%BC%89%E9%9C%80%E6%B1%82/demo/%E6%94%AF%E4%BB%98%E8%B4%A2%E5%8A%A1/#id=78i36x&amp;p=%E6%94%B6%E7%9B%8A%E8%BF%9B%E8%B4%A6%E9%80%BB%E8%BE%91&amp;g=1" rel="nofollow">OMO收益进账PRD</a></p><p><a class="external-link" href="http://demo.yangtuojia.com/%E5%88%9B%E6%96%B0%E4%B8%9A%E5%8A%A1%E6%94%AF%E6%8C%81/%E8%BA%B2%E7%8C%AB%E7%8C%AB%EF%BC%88OMO%EF%BC%89%E9%9C%80%E6%B1%82/demo/%E3%80%90%E8%BA%B2%E7%8C%AB%E7%8C%ABDemo%E6%B1%87%E6%80%BB%E3%80%91%E3%80%90%E4%B9%90%E5%87%A1%E3%80%9120210819/#id=null&amp;p=%E5%95%86%E5%93%81%E7%AE%A1%E7%90%86%EF%BC%881_2%E6%9C%9F%E6%9C%89%E6%94%B9%E5%8A%A8%EF%BC%89&amp;g=1" rel="nofollow">商品佣金设置PRD</a></p><p><br/></p><h1 id="OMO佣金(omo_commission_amount)-业务背景">业务背景</h1><p>本次新起的 OMO项目. 有 向 门店的 店长/导购员 结算的流程. 俗称, 给佣金. </p><p>那 佣金 也算是 海拍客为了达成交易, 付出的 成本/费用 之一.  理论上也会影响对门店最终的毛利.</p><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" height="250" src="attachments/73560608/73560629.png" data-image-src="attachments/73560608/73560629.png" data-unresolved-comment-count="0" data-linked-resource-id="73560629" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2021-9-10_14-54-47.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="73560608" data-linked-resource-container-version="8"></span><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image confluence-external-resource" src="attachments/73535306/73537327.png" data-image-src="http://k.yangtuojia.com/download/attachments/73535306/image2021-8-19_19-12-27.png?version=1&amp;modificationDate=1629371549000&amp;api=v2"></span></p><p>然而,经过业务确认. 本次 佣金 产生的费用, 由OMO项目组完全承担. 跟我们现在的 渠道毛利 和 采购毛利 没有半毛钱关系.</p><p><br/></p><p>因此, 对功能来讲是 服务于 渠道/采购 的毛利报表. 但是业务会拿里面的通用字段来计算 非渠道/采购 的毛利. 即 通用型毛利报表. </p><p>本次需求,就是为了给 通用型毛利报表 加上 &quot;佣金&quot; ,便于线下由 业务方瑶瑶 手动处理 OMO团队的毛利,费用. 但是不能影响现有的 渠道/采购 的毛利费用. </p><p><br/></p><p>业务上虽然不将其归属于 采购/渠道 的费用. 但是 佣金从费用归属逻辑,本质上也是 &quot;费用&quot; 的一种. 所以本期需求将其放到了  &quot;费用&quot; 模块. 只不过 不参与 采购/渠道 费用计算. 属于独立的字段. </p><p>按照此前计划,应该是独立成不同的 original_type. 但是考虑到其特殊性,只是拿来临时用.  所以先直接加到现有的 original_type为 0 和 1 的正逆向订单收入上</p><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" height="250" src="attachments/73560608/73560633.png" data-image-src="attachments/73560608/73560633.png" data-unresolved-comment-count="0" data-linked-resource-id="73560633" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2021-9-10_15-0-19.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="73560608" data-linked-resource-container-version="8"></span></p><p><br/></p><h1 id="OMO佣金(omo_commission_amount)-逻辑定义">逻辑定义</h1><h2 id="OMO佣金(omo_commission_amount)-V1版本--最新版-21年9月至今">V1版本--最新版-21年9月至今</h2><h3 id="OMO佣金(omo_commission_amount)-表结构需求">表结构需求</h3><ol><li>在 汇总表里, 添加字段  OMO佣金(dw_gross_profit_all_d).  其字段名必须为 &quot;omo_commission_amount&quot; . 不可引用业务系统的字段名. </li><li>只需要加到 dw_gross_profit_all_d 即可.  其余上游表是否要加,由开发同学自己来判断即可.</li></ol><h3 id="OMO佣金(omo_commission_amount)-数据依赖">数据依赖</h3><p>该金额字段逻辑上 依赖 original_type为0和1 的明细数据. </p><p>该金额字段不能被任何字段循环依赖. </p><h3 id="OMO佣金(omo_commission_amount)-数据逻辑">数据逻辑</h3><ol><li>当 orignal_type为0 时 且 订单为 OMO B2B 订单,则数值为  OMO佣金的金额. </li><li>当 orignal_type为1 时 且 订单为 OMO B2B 订单,则数值为  OMO佣金的金额 * 退款比例* -1 .   这里请注意! <a href="54516237.html">2. 退款比例</a> 里面专门基于 OMO订单进行了调整</li></ol><p>注意! 这里的 OMO佣金的金额 只需要 理论值即可. 不需要走清结算那一套. 清结算那边需要考虑 3天时效, 不符合要求. 这里的OMO佣金的金额,要求 . 订单支付以后,要马上出来. 避免出现隔天的问题</p><h3 id="OMO佣金(omo_commission_amount)-举例说明">举例说明</h3><p>某OMO的海拍客供货订单,  门店实际支付金额为150元.  C端消费者实际支付200元.   佣金金额为 30元. </p><p>则此时计入,  original_type=0, GMV为 150元. 退款GMV为0元. 考核GMV为150元. 佣金金额为 30元.</p><p><br/></p><p>消费者实际退款100元.</p><p>则此时计入,   original_type=1, GMV为 0元, 退款比例=0.5 ,考核GMV为 0 - 0.5*150 = -75元. 佣金金额为 -0.5*30 = -15元.</p><p><br/></p><p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image confluence-external-resource" src="attachments/73537232/73538425.png" data-image-src="http://k.yangtuojia.com/download/attachments/73537232/image2021-8-20_15-48-24.png?version=1&amp;modificationDate=1629445705000&amp;api=v2"></span></p><p><br/></p><h1 id="OMO佣金(omo_commission_amount)-数据校验逻辑">数据校验逻辑</h1><ol><li>当 订单不为 &quot;OMO B2B&quot;订单(trade_source != 11 )时, OMO佣金 =0</li><li>当 original_type = 0 时 且 订单为 &quot;OMO B2B&quot;订单, OMO佣金 &gt;=0</li><li>当 original_type = 1 时 且 订单为 &quot;OMO B2B&quot;订单, OMO佣金 &lt;=0</li><li>当 orginal_type not In (0,1) 时,则 佣金=0</li></ol><p><br/></p>
+                    </div>
+
+                                        <div class="pageSection group">
+                        <div class="pageSectionHeader">
+                            <h2 id="attachments" class="pageSectionTitle">Attachments:</h2>
+                        </div>
+
+                        <div class="greybox" align="left">
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/73560608/73560628.png">image2021-9-10_14-54-41.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/73560608/73560629.png">image2021-9-10_14-54-47.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/73560608/73560633.png">image2021-9-10_15-0-19.png</a> (image/png)
+                                <br/>
+                                                    </div>
+                    </div>
+                    
+                                                      
+                </div>             </div> 
+            <div id="footer" role="contentinfo">
+                <section class="footer-body">
+                    <p>Document generated by Confluence on 2023-12-19 10:51</p>
+                    <div id="footer-logo"><a href="http://www.atlassian.com/">Atlassian</a></div>
+                </section>
+            </div>
+        </div>     </body>
+</html>

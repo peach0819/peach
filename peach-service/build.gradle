@@ -1,4 +1,0 @@
-dependencies {
-    compile project(":peach-service-api")
-    compile project(":peach-common")
-}

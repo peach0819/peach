@@ -1,0 +1,107 @@
+servlet：服务器端java程序
+jdbc：mysql，数据库
+hibernate：mybatis  ，xml文件配置数据库方法
+javabean：java类，基本配置类，domain（bean）
+
+gradle 报错的时候，升级gradle版本，或者删除c:user/username/ 下的.gradle文件
+重新下载jdk报错的时候，环境变量里面的path里，JAVAHOME/bin放到第一个就好了
+
+Map<Integer , List<T>> 里面，通过get方法获取List并进行修改，会修改原本Map 的值
+
+PO类：与数据库相对应的不便改动的类，封装原始数据，每个属性对应数据库的字段，一般实现序列化接口，就是数据库里使用的VO类
+VO类：编程中的类，在程序代码之中调用（比如说从网页请求返回数据，就是把PO类掉入VO类使用），
+           视图对象，把某个页面（网页，就是说这些数据都在这个网页上，有关联）的数据封装起来
+
+PO转成VO的目的就是，PO对应mybatis里的resultmap，就是domain类，要合并或者删减成显示在web一个页面上的数据集合VO
+
+POJO类：简单的JAVABEAN，就是domain，基本类
+
+接口加时间戳为了避免浏览器缓存，浏览器有时候会对相同url进行浏览器缓存，避免重复读取，而ajax应用是需要实际调用url的
+所以加时间戳避免缓存
+
+transient：标志非永久性的数据，表示一个字段不参与序列化和反序列化
+
+volatile：标记字段可能会被多个线程同时访问，直接从主存中读取写入，不采用高速缓存（其他线程修改后放在高速缓存中的值，不会被读出）
+● 对变量的写操作不依赖于当前值。  （x++就不是）
+● 该变量没有包含在具有其他变量的不变式中。
+
+flatMap::Stream  作用是吧n*n变成 n^2 *1,也就是说把n个List<List<>>变成n方个List<>，平铺开来
+
+跟缓存Session相关的内容是存到服务器/tmp 目录下的文件中的，所以缓存相关的对象都需要   implement  Serializable  序列化
+
+subList 用法：List的index为i，subList(a,b), 即 List之中a<=i<b 的子列表部分
+
+<? extends T> 表示入参 包括T和T的所有派生类， 往下，上届通配符， 
+<? supper T> 表示返回结果， 包括T和T的所有基类，往上，下届通配符
+static <T> T function(T t)  第一个<T> 表示T为泛型，因为T没有定义过，如果不加的话后面的T会报错，第二个T表示返回类型 ，参数的T表示入参
+
+final 修饰符作用是保证类不能被继承或子方法不能被使用者重写
+ 
+like CONCAT('%', #{text}, '%') mybatis里的模糊查询， CONCAT用于字符串拼接
+
+导出excel时，合并单元格只是合并，然后每个单元格还可以单独进行createCell处理
+
+new Comparator {
+        @Override
+        public  void  compare(){
+
+        }
+}
+这种属于匿名内部类，重写Comparator类的方法，相当于临时的一次继承，并重写父类方法
+匿名内部类重写接口的时候，需要@Override重载方法，而重写类的时候，不用
+
+.* 通配符 用于删除
+\r\n 换成 空字符串 ，等价于去除换行符
+
+内部类用public static class 定义可以直接外部类.内部类 作为标准类使用
+
+public static EventBus getDefault() {
+    if (defaultInstance == null) {
+        synchronized (EventBus.class) {
+            if (defaultInstance == null) {
+                defaultInstance = new EventBus();
+            }
+        }
+    }
+    return defaultInstance;
+}
+双检锁单例
+同步锁外判断，为避免在实例已经创建的情况下每次获取实例都加锁取，影响性能；
+锁内判断，考虑多线程情况下，两个以上线程都已经运行至同步锁处，也就是都已经判断变量为空，如锁内不再次判断，会导致实例重复创建
+
+sublist 实际上只是对原列表的一个视图，实际的操作还是在原列表的，sublist操作后如果修改原列表，sublist读取会fail-fast异常
+fail-fast  类似执行循环的时候，对循环体列表进行了修改，抛出ConcurrentModificationException
+
+String：适用于少量的字符串操作的情况  
+StringBuilder：适用于单线程下在字符缓冲区进行大量操作的情况  }  这两个都是对字符串变量操作，String是字符串常量，每次操作都是新对象
+StringBuffer：适用多线程下在字符缓冲区进行大量操作的情况      }
+
+Map.merge  类似下面那段代码，可以用map.set(ket, map.getOrDefault(key, defaultValue)); 取代
+Map<String, Integer> resultMap = new HashMap<>();
+        
+for (Student student : students) {            
+    Integer age = resultMap.get(student.getSex());           
+    if(age != null){             
+        resultMap.put(student.getSex(),student.getAge()+age);          
+    }else {               
+        resultMap.put(student.getSex(),student.getAge());            
+    }   
+}
+
+threadLocal，为每个线程保存一个本地变量
+
+@Bean 表示这个方法的返回值被注册成了一个组件，可以被@Autowired引入到定义的类的一个变量，并且直接使用@Bean定义的工具
+就像实现了一个ServiceImpl一样，通过注入Service，就可以动态匹配serviceImpl一样
+前提是导入的也需要是一个@Component的子类
+
+一个接口，如果只定义了一个方法，并且这个方法只有一个参数
+那么实现的时候就可以用lamda表达式代替匿名内部类
+ public static void main(String[] args) {
+        TestOne testOne = domain -> System.out.println("Hello");  //参数->方法体
+        //生成的是一个接口的实现类
+    }
+
+    public interface TestOne {
+        void oneMethod(Object domain);
+        //void twoMethod(Object domain); //不能有第二个，只能有一个，两个就编译错误
+    }

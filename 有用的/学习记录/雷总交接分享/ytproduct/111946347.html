@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>产品组 : 6-系统任务核心功能</title>
+        <link rel="stylesheet" href="styles/site.css" type="text/css" />
+        <META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    </head>
+
+    <body class="theme-default aui-theme-default">
+        <div id="page">
+            <div id="main" class="aui-page-panel">
+                <div id="main-header">
+                    <div id="breadcrumb-section">
+                        <ol id="breadcrumbs">
+                            <li class="first">
+                                <span><a href="index.html">产品组</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="99169526.html">川枫-触达体系</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="99171039.html">01-触达中心</a></span>
+                            </li>
+                                                </ol>
+                    </div>
+                    <h1 id="title-heading" class="pagetitle">
+                                                <span id="title-text">
+                            产品组 : 6-系统任务核心功能
+                        </span>
+                    </h1>
+                </div>
+
+                <div id="content" class="view">
+                    <div class="page-metadata">
+                        
+        
+    
+        
+    
+        
+        
+            Created by <span class='author'> 弓力超</span>, last modified on 2023-02-01
+                        </div>
+                    <div id="main-content" class="wiki-content group">
+                    <p><strong><span style="color: rgb(255,0,0);">写在前面：</span></strong></p><p><u>和人工任务相同逻辑的功能此处不再赘述，重点说明一下有区别的功能项。</u></p><hr/><p><br/></p><p><span style="color: rgb(255,0,0);"><strong>1、业务触达逻辑：</strong></span></p><p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image confluence-content-image-border" src="attachments/111946347/115116952.png" data-image-src="attachments/111946347/115116952.png" data-unresolved-comment-count="0" data-linked-resource-id="115116952" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2023-1-30_17-57-33.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="111946347" data-linked-resource-container-version="5"></span><span style="color: rgb(0,0,0);"><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image confluence-content-image-border" src="attachments/111946347/115116950.png" data-image-src="attachments/111946347/115116950.png" data-unresolved-comment-count="0" data-linked-resource-id="115116950" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2023-1-30_17-56-45.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="111946347" data-linked-resource-container-version="5"></span></span></p><p><br/></p><div class="table-wrap"><table class="wrapped confluenceTable"><colgroup><col/><col/><col/><col/></colgroup><tbody><tr><th class="confluenceTh">逻辑选项</th><th class="confluenceTh">使用解释</th><th colspan="1" class="confluenceTh">需要配置的功能</th><th colspan="1" class="confluenceTh">是否需要定时器设定</th></tr><tr><td class="confluenceTd">已经录入好的指定业务逻辑</td><td class="confluenceTd"><p>以“3天内到期的现金券类型优惠券自动提醒”为例。</p><p>这样的逻辑是一对一单独编写逻辑后录入的，非通用类型。具体特征是，触发条件人工难以指定；且发送对象，难以靠DMP完成。</p></td><td colspan="1" class="confluenceTd"><p>该选项类型下，仅支持部分客户过滤（部分客户不需要这样的消息类型）</p><p>那么需要勾选指定客户过滤，通过DMP进行圈选。</p></td><td colspan="1" class="confluenceTd"><p>根据业务逻辑决定：<br/>一种是可以根据定时器人工设定的；</p><p>一种是靠触发的，例如用户下单后3s内</p></td></tr><tr><td class="confluenceTd">通用DMP重复任务</td><td class="confluenceTd"><p>等同于把一个人工任务定时重复。</p><p>这样的逻辑下，消息触发条件不存在，人工指定即可；并且发送对象群体靠DMP圈选是完全可支撑的。</p></td><td colspan="1" class="confluenceTd">等同于人工任务，只需要选择DMP圈选结果即可。不需要过滤人群指定。</td><td colspan="1" class="confluenceTd">只能且必须通过定时器设定</td></tr></tbody></table></div><p class="auto-cursor-target"><span style="color: rgb(255,0,0);"><strong>2、定时器设定：</strong></span></p><p class="auto-cursor-target"><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image confluence-content-image-border" height="250" width="561" src="attachments/111946347/115116953.png" data-image-src="attachments/111946347/115116953.png" data-unresolved-comment-count="0" data-linked-resource-id="115116953" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2023-1-30_18-6-42.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="111946347" data-linked-resource-container-version="5"></span></p><div class="table-wrap"><table class="wrapped confluenceTable"><colgroup><col/><col/><col/></colgroup><tbody><tr><th class="confluenceTh">功能点</th><th class="confluenceTh">使用解释</th><th colspan="1" class="confluenceTh">参考链接</th></tr><tr><td class="confluenceTd">定时器设定</td><td class="confluenceTd"><ol><li>支持指定具体时间点，或者，指定周期内的指定时间点的发送动作</li><li>不支持一次性的时间设定，仅支持循环类。</li><li>不支持依靠用户行为动作触发。</li></ol></td><td colspan="1" class="confluenceTd"><p>原理就是利用CRON表达式</p><p><a class="external-link" href="https://cron.qqe2.com/" rel="nofollow">在线Cron表达式生成器 (qqe2.com)</a></p></td></tr></tbody></table></div><p class="auto-cursor-target"><span style="color: rgb(255,0,0);"><strong>3、系统任务列表（待完善的功能）：</strong></span></p><p class="auto-cursor-target"><span style="color: rgb(255,0,0);"><strong><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image confluence-content-image-border" height="150" width="282" src="attachments/111946347/115118623.png" data-image-src="attachments/111946347/115118623.png" data-unresolved-comment-count="0" data-linked-resource-id="115118623" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2023-2-1_11-29-1.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="111946347" data-linked-resource-container-version="5"></span></strong></span></p><p class="auto-cursor-target"><span style="color: rgb(0,51,102);">由于系统任务开放了“通用DMP重复任务”，所以大量创建，目前页面系统任务无法筛选和搜索。解决方案预计是两方案二选一：</span></p><p class="auto-cursor-target"><span style="color: rgb(0,51,102);">1、不修改任务重复方式，任务列表增加筛选和搜索，并按照任务类型分类展示。</span></p><p class="auto-cursor-target"><span style="color: rgb(0,51,102);">2、修改任务重复方式，支持人工任务增加corn设定。（缺点，人工任务和系统任务变得高度相似，没有区别性）</span></p>
+                    </div>
+
+                                        <div class="pageSection group">
+                        <div class="pageSectionHeader">
+                            <h2 id="attachments" class="pageSectionTitle">Attachments:</h2>
+                        </div>
+
+                        <div class="greybox" align="left">
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/111946347/115116949.png">image2023-1-30_17-56-28.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/111946347/115116950.png">image2023-1-30_17-56-45.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/111946347/115116952.png">image2023-1-30_17-57-33.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/111946347/115116953.png">image2023-1-30_18-6-42.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/111946347/115118623.png">image2023-2-1_11-29-1.png</a> (image/png)
+                                <br/>
+                                                    </div>
+                    </div>
+                    
+                                                      
+                </div>             </div> 
+            <div id="footer" role="contentinfo">
+                <section class="footer-body">
+                    <p>Document generated by Confluence on 2023-12-19 10:52</p>
+                    <div id="footer-logo"><a href="http://www.atlassian.com/">Atlassian</a></div>
+                </section>
+            </div>
+        </div>     </body>
+</html>

@@ -1,0 +1,2 @@
+mklink /d D:\zt1 D:\zt  ½¨Á¢
+rmdir D:\zt1  É¾³ı

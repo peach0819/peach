@@ -1,0 +1,401 @@
+#############################  java IO 演进###############
+java早期的IO问题：
+1、没有数据缓冲区，存在性能问题
+2、没有C或者C++的Channel，只有输出流和输入流
+3、只有同步阻塞式IO（BIO），会导致线程被长时间阻塞
+4、支持的字符集有限
+
+linux网络IO：
+linux的内核将所有外部设备都看做一个文件，对文件的读写操作会调用内核的指令吗，返回一个fd（文件描述符）；
+对socket读写会返回socketfd，指向内核中的一个结构体（文件路径）
+
+linux是基于unix系统设计的一个变种，所以很多类似unix，但是不是同一个东西
+UNIX网络编程，提供了5种IO模型
+1、阻塞IO （所有文件操作都是阻塞的）
+2、非阻塞IO（反复轮询缓冲区，直到缓冲区有数据后，拷贝到用户空间）
+3、IO复用模型，select/poll，linux提供的epoll基于事件机制扫描，代替顺序扫描
+4、信号驱动IO
+5、异步IO（启动操作后，直接等待，由内核通知何时完成）
+
+IO多路复用技术
+在单线程情况下处理多个请求，linux一开始是select，最后变成了epoll
+epoll的优势：
+1、一个进程打开的socket描述符（fd）不受限制，就是说一个进程只支持一定数量的外部连接（连接视为文件）
+2、IO效率不会随着fd（连接）增加而下降，传统的select每次都要全量轮询，epoll只根据事件
+3、使用mmap加速内核与用户空间的消息传递
+4、epoll的api更简单
+
+jdk1.4提供了NIO
+1、包含了NIO缓冲区ByteBuffer、
+2、NIO操作管道Pipe
+3、进行NIO操作的Channel，包括ServerSocketChannel和SocketChannel
+4、多种字符集支持
+5、多路复用器selector
+6、基于perl实现的正则表达式类库
+7、文件通道FileChannel
+
+ServerSocket用来监听端口，表示当前服务器的端口
+Socket用来传输信息，接受ServerSocket接收到的信息，每个Socket对应一次外部请求，以及后续返回
+
+jdk1.7升级了NIO包
+提供了
+1、批量获取文件信息的API
+2、提供AIO，支持基于文件和socket的异步操作（在此之前针对文件读写都是同步阻塞）
+3、支持通道，包括对配置和多播数据报支持
+
+
+################################## NIO入门 ##########################
+传统BIO
+Client/Server模型，两个进程之间通过网络协议通信，服务端提供ip和端口
+客户端通过连接操作发起服务端请求，三次握手，然后双方通过网络套接字socket通信
+ServerSocket负责绑定IP，启动监听端口，Socket负责发起连接
+连接成功后，双方通过输入和输出流进行同步阻塞通信
+
+BIO通过一个Acceptor负责监听客户端的连接，每收到一个请求就开一个新线程处理
+处理完成后，通过输出流返回给客户端，返回之前客户端都是同步阻塞的
+问题：缺乏弹性伸缩能力，请求多了之后，服务端线程膨胀会创建失败，导致挂掉
+
+BIO会通过ServerSocket监听端口，
+然后accept进行获取，阻塞直到消息进来，赋值给Socket
+然后通过TimeServerHandler进行Runnable的run，并返回OutputStream
+然后客户端读取outputStream的信息
+
+伪异步IO：从BIO的每个连接都创建一个新的线程，变成使用一个线程池进行处理
+能避免无限创建线程，但是本质上还是同步阻塞IO
+一旦应答时间过长，就会导致所有线程都被阻塞，造成排队，并且导致连接一直被占用
+然后客户端发生大量超时
+
+************** NIO（Non-block IO ）
+1、数据缓冲区Buffer
+NIO 和BIO最大的区别就是，多了缓冲区Buffer
+NIO的所有数据都是用缓冲区处理的，读取数据时，都是直接读到缓冲区中，写入数据时，都是写入缓冲区
+缓冲区是一个数组，通常都是字节数组ByteBuffer，提供了对数据的结构化访问和读写位置信息
+有ByterBuffer，CharBuffer，ShortBuffer，IntBuffer，LongBuffer，FloatBuffer，DoubleBuffer
+
+2、全双工通道Channel
+Channel是一个用来读写数据的通道，像自来水管一样，通道是双向的（Stream只是单向的）
+可以用来读、写或同时读写（全双工）
+分为两大类：网络读取的SelectableChannel和文件操作的FileChannel
+ServerSocketChannel和SocketChannel都是SelectableChannel的子类
+
+3、多路复用器Selector
+不断轮询注册的Channel，一旦Channel有新的TCP连接、读写事件就会被轮询出来，然后后续IO操作
+JDK使用了epoll（）代替了传统的select实现，传统是顺序轮询，epoll是基于事件，没有最大连接限制
+只需要一个线程负责Selector轮询，就可以接入成千上万客户端
+
+********NIO服务端时序
+1、打开ServerSocketChannel
+2、channel绑定监听地址InetSocketAddress（端口）
+3、创建Selector，启动线程（类似触达后台的轮询Queue）
+4、将ServerSocketChannel注册到Selector，监听（类似本机企微号注册），这个监听的是Accept事件
+5、Selector轮询key
+6、（有新的连接进来）handleAccept处理新的客户端接入，获取到的SocketChannel
+7、新建客户端连接，设置Socket参数
+8、在Selector注册监听读操作SelectionKey:OP_READ
+9、handleRead异步读请求消息到ByteBuffer缓存区
+10、异步写ByteBuffer到SocketChannel
+
+区别就是，BIO是handler直接操作，NIO是异步先写到BUffer区，然后再异步从Buffer读到对应的Socket
+SocketChannel可以理解就是双工的IOStream
+
+//开启Selector，开启ServerSocketChannel，监听端口，接受事件
+Selector selector = Selector.open();
+SocketServerChannel channel = ServerSocketChannel.open();
+channel.socket().bind(new InetSocketAddress(8080));
+channel.register(selector, SelectionKey.OP_ACCEPT);
+
+//Selector不停轮询接受到的时间，然后foreach处理
+Set<SelectionKey> keys = selector.selectedKeys()
+keys.foreach(key-> handleInput(key))
+
+//接收新事件,SelectionKey就是接收的时间，表示上面的accept事件
+private void handleInput(SelectionKey key){
+
+//OP_ACCEPT事件，表示新进来了一个连接，需要注册到Selector里面
+if(key.isAcceptable()){
+//key里面获取到
+ServerSocketChannel serverChannel = key.channel();
+SocketChannel channel = serverChannel.accept(); //端口获取的客户端连接
+channel.register(selector, SelectionKey.OP_READ);  //相当于完成了TCP连接的三次握手
+}
+
+//OP_READ事件，表示已经连接上的SocketChannel，写入了新的数据，需要读取
+if(key.isReadable()){
+SocketChannel channel = key.channel();
+ByteBuffer buffer = ByteBuffer.allocate(1024);
+int readBytes = channel.read(buffer);  //把通道的数据读取到缓冲区, 异步的过程
+if(readByte > 0){
+    byte[] bytes = new byte[];
+    buffer.get(bytes);
+    String body = new  String(bytes, "UTF-8");   //至此就把消息内容解码完成
+    
+    //do something，进行内部处理，获得返回结果
+    Result result = dosomthing();
+   
+    //返回给通道
+    byte[] bytes = result.getBytes[];
+    ByteBuffer writeBuffer = ByteBuffer.allocate(bytes.length);  //所有写入和读取都是通过ByteBuffer
+    writeBuffer .put(bytes);  //把结果同步写到缓冲区
+    channel.write(writeBuffer); //把缓冲区的数据异步传递给通道
+}else if(readByte < 0){
+    key.cancel();
+    channel.close();  //如果小于0，表示连接中断，就把key从selector去除，并关闭客户端连接通道
+}
+}
+}
+
+服务端NIO的核心，就是ServerSocketCHannel和链接SocketChannel设置
+channel.configureBlocking(false);
+
+********NIO客户端时序
+1、打开SocketChannel（open）
+2、设置为非阻塞模式，设置TCP参数
+3、异步连接服务端
+4、连接没有成功，则创建Selector并启动
+5、向Selector注册SocketChannel的OP_CONNECT事件
+6、Selector轮询就绪的key，进行handleConnect处理
+7、连接成功后，像Seletor注册OP_READ事件
+8、handleRead()读取数据到缓冲区buffer
+9、异步写缓冲区数据到SocketChannel
+
+异步连接服务器
+channel.connect(new InetSocketAddress('ip', port));
+
+注册事件
+channel.registor(selector, SelectionKey.OP_READ, ioHandler);  //如果没连接成功，就是OP_CONNECT
+
+OP_CONNECT监听服务器的ack应答
+
+selector轮询
+selector.selectKeys();
+foreach -> handle
+
+处理事件
+if(key.isConnectable()){
+//处理连接事件
+}
+
+//连接成功后，监听OP_READ事件到Selector
+if(channel.finishConnect()){
+registerRead()
+}
+
+异步读客户端消息到缓冲区
+channel.read(buffer);
+List<Object> msgList;
+whilt(buffer.hasRemain()){
+    Object msg = decode(buffer);
+    msgList.add(msg)
+}
+msgList.foreach(handle);  //这里就是跑业务逻辑了
+
+客户端接受到消息后，执行处理逻辑，跟服务端好像没差别
+
+******************NIO的优点 （NIO其实就是基于事件-IO多路复用）
+1、客户端发起连接的操作是异步的，可以在Selector 注册OP_CONNECT等待后续，不需要像BIO一样同步阻塞
+2、SocketChannel的读写操作都是通过Buffer异步进行的，如果没有可读写的数据就会直接返回等下次轮询
+     避免阻塞
+3、线程模型的优化，由于JDK的Selector是通过epoll实现的，没有句柄连接数的问题，高性能，高并发
+
+AIO：不多记录了，核心是多了AsyncServerSocketChannel和AsyncSocketChannel
+读写都是完全异步，调用回调的，NIO的回写还是在多路复用器里面同步写的
+
+******************使用netty而非JavaNIO的原因
+1、javaNIO的类库和API很复杂，而且难用，需要熟练掌握Selector、channel和buffer
+2、需要熟练其他技能，比如多线程，因为NIO涉及Reactor
+3、高可用补齐，难度和工作量很大
+4、JDKNIObug多，比如epollbug，导致selector空轮训，CPU拉满
+
+netty作为NIO服务端优势：
+1、api简单，开发门槛低
+2、自带多种编码功能，支持多种主流协议
+3、定制能力强，可以通过ChannelHandler自行扩展
+4、性能好，业界NIO框架中，性能最好
+5、稳定无bug，社区活跃，大规模商用
+
+
+Netty需要两个后台线程（NioEventLoopGroup）
+，一个用来服务端接受客户端的连接，另一个用来进行SocketChannel的读写
+Netty的封装核心是ServerBootStrap，通过group，channel和handler配置，把NIO需要的都封装进去了
+异步操作，都是通过strap.xxxx().sync实现的，异步进行，返回future
+然后future.closefuture().sync()，等待链路关闭
+
+Netty服务端是ServerBootStrap, Server需要自己实现一个ServerHandler，加在childHander
+客户端是BootStrap, Client需要实现一个ClientHandler，加在hander
+
+----------------------------------------TCP 粘包/拆包
+TCP实际是一串流式数据， 会根据缓冲区情况进行分包
+拆包：一个完整的包被TCP拆分成多个包发送
+粘包：多个小的包被封装成一个大包发送
+
+发生原因：
+1、应用程序写入的字节大小，大于socket发送缓冲区大小
+2、进行MSS大小的TCP分段
+3、以太网帧的payload大于MTU进行IP分片
+
+粘包的解决方案：（应用层协议，业界主流）
+1、消息定长，每个报文大小固定200字节，不够补空格
+2、包尾增加回车换行符分割，比如FTP协议
+3、消息分为消息头和消息体，消息头包含消息总长度信息，通常消息头的第一个字段用int表示消息总长度
+4、更复杂的应用层协议
+
+netty提供半包解码器, ChannelInitializer里面初始化，用来给每个连接进行初始化，在Client客户端进行
+init channel(SocketChannel channel){
+  channel.pipeline().addLast(new LineBasedFrameDecoder(1024));
+  channel.pipeline().addLast(new StringDecoder(1024));
+  channel.pipeline().addLast(new TimeServerHandler(1024));
+}
+LineBasedFrameDecoder 和 StringDecoder
+
+只要服务端和客户端的ServerBootStrap和BootStrap初始化ChannelHandler的时候
+都吧这两个Decoder加上
+
+LineBasedFrameDecoder 往字节里面加\n或者\r\n 换行符作为结束标志
+StringDecoder 是把字节转换成字符串
+
+-------------------------------分隔符和定长解码器
+DelimiterBasedFrameDecoder 自动以分隔符作为结束标志
+FixedLengthFrameDecoder 定长消息解码
+
+分隔符：
+ByteBuf delimiter = Unpooled.copiedBuffer("$_".getBytes());
+pipeline.addLast(newDelimiterBasedFrameDecoder(1024, delimiter));
+
+定长:
+pipeLine.addList(new FixedLengthFrameDecoder(20))
+
+*****************************************  编解码技术
+Java序列化的缺点：
+1、无法跨语言
+2、序列化后的流太大
+
+codeC(){
+ByteBuffer buffer = ByteBuffer.allocate(1024);
+byte[] value = xxxx.getByte();
+buffer.put(value);
+buffer.flip();
+byte[] result = new byte[buffer.remaining()];
+buffer.get(result);
+return result;
+}
+
+ByteBuffer.flip() 用于将缓冲区的位置设置为0,同时将缓冲区的上限值设置为当前位置。
+这个方法通常在读取数据时使用，因为它可以将缓冲区的位置重置为0,以便从头开始读取数据。
+作用为：ByteBuffer从write模式变成 read模式，读取position变为开头的0，limit变为有数据的结尾
+（之前在写的模式，写到哪里，position就在哪里，limit在设定的capacity）
+
+ByteBuffer.remaining() 作用是用于返回缓冲区中剩余的字节数
+通常在读取数据时使用，它可以告诉你缓冲区中还有多少字节的数据没有被读取
+
+-------------------------------------Netty-java实战
+ObjectEncoder作用是，消息发送的时候，自动将Serializable的对象进行编码，无需手工序列化
+服务端的业务逻辑都在ServerHandler里面，读取到请求内容，然后处理，然后write出去
+
+pipeLine前面的都是解析用的Encoder和Decoder，然后最后才是业务的Handler
+服务端和客户端都要Encoder和Decoder是因为，
+1、客户端Encode，请求到服务端
+2、服务端decode，然后处理业务逻辑
+3、服务端encode，返回给客户端
+4、客户端decode，获取请求结果
+
+*****************************************  文件传输
+JAVA原生的文件处理：
+1、基于字节流的 InputStream和OutputStream
+2、基于字符流的Reader和Writer
+
+基于NIO的FileChannel提供了以管道方式对文件进行IO操作
+
+文件：
+作为一种持久数据的方式，访问文件需要知道文件路径和全名
+绝对路径：文件的完整路径， D:\test\testaaa.java，使用该路径可以找到唯一的文件
+	不同操作系统文件绝对路径不同，比如windows文件在mac上读就会失败
+相对路径：以当前程序运行目录作为根目录
+
+FileChannel需要通过一个InputStream、OutputStream货RandomAccessFile来获取实例
+RandomAccessFile file = new RandomAccessFile("home/test/testaaa.java", 'rw');
+FileChannel channel = file.getChannel();
+从channel读取，需要用一个ByteBuffer.read()，返回值表示读取字节数，如果-1表示末尾
+通过channel往文件里写数据，同样也要用ByteBuffer
+
+String a = "xxxx";
+ByteBuffer buffer = ByteBuffer.allocate(128);
+buffer.put(a.getBytes());
+buffer.flip();
+channel.write(buffer);
+
+使用完成后，需要channnel.close();
+
+************************************************ByteBuffer分析
+ByteBuffer：
+1、长度固定，需要提前分配，不能动态扩缩容，一旦超过熔炼，就会发生越界异常
+2、只有一个指针position，读写的时候需要手工flip()和rewind()
+3、API功能有限
+
+Netty自带的ByteBuf
+通过readerIndex和writerIndex来区分读写，写入就增加writerIndex，读取就增加readerIndex
+readerIndex和writerIndex之间是可读数据
+这样避免了读写之间指针切换
+
+------------Netty开发
+!!!!!!!!Netty服务端
+EventLoopGroup bossGroup = new NioEventLoopGroup();
+EventLoopGroup workerGroup = new NioEventLoopGroup();
+ServerBootStrap b = new ServerBootStrap();
+b.group(bossGroup, workerGroup)
+  .channel(NioServerSocketChannel.class)
+  .option(ChannelOption.SO_BACKLOG, 100)
+  .handler(new LoggingHandler(LogLevel.INFO))
+  .childHandler(new ChannelInitialiser<SocketChannel>{
+ 	xxxxx 
+  })
+
+bossGroup用来接受客户端的TCP连接，
+1、初始化channel参数
+2、将连接事件（OP_CONNECT）传递给ChannelPipeline
+
+workerGroup用来进行操作
+1、读取客户端传输数据，将读事件(OP_READ)发到ChannelPipeline
+2、异步发消息到通信对端，用pipeline的消息发送接口
+3、执行系统调用task
+4、指定定时任务task，比如链路状态监测任务
+
+NioEventLoop是一个线程 NioEventLoopGroup是一个线程池
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

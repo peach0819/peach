@@ -1,0 +1,74 @@
+
+
+jdk7：
+1.对Java集合（Collections）的增强支持，可直接采用[]、{}的形式存入对象，
+采用[]的形式按照索引、键值来获取集合中的对象。
+如：
+List<String>list=[“item1”,”item2”];//存
+Stringitem=list[0];//直接取
+Set<String>set={“item1”,”item2”,”item3”};//存
+Map<String,Integer> map={“key1”:1,”key2”:2};//存
+Intvalue=map[“key1”];//取
+2.在Switch中可用String
+3.数值可加下划线用作分隔符（编译时自动被忽略）
+4.支持二进制数字，如：int binary= 0b1001_1001;
+5.简化了可变参数方法的调用
+6.调用泛型类的构造方法时，可以省去泛型参数，编译器会自动判断。
+7.Boolean类型反转，空指针安全,参与位运算
+8.char类型的equals方法: booleanCharacter.equalsIgnoreCase(char ch1, char ch2)
+9.fork/join
+
+jdk8
+1.接口的default方法：即接口中可以声明一个非抽象的方法做为默认的实现，但只能声明一个，且在方法的返回类型前要加上“default”关键字。
+2. Lambda 表达式
+3. stream
+4. 函数式接口：是指仅仅只包含一个抽象方法的接口，要加@FunctionalInterface注解
+5. 使用 :: 关键字来传递方法或者构造函数引用
+6.Optional
+7.新的时间库 Joda-Time LocalDate和LocalTime
+8、Base64支持
+9、使用Metaspace元空间（JEP 122）代替永久代（PermGen space）
+
+流的使用，函数式接口的使用，Optional的使用，元空间->jvm
+
+JVM： java虚拟机中包含哪些内存区域
+方法区：
+虚拟机栈：
+本地方法栈：
+堆：
+程序计数器：
+执行引擎：
+本底库接口：
+本地方法库：
+
+在代码里面new一个对象，jvm会经过哪几步
+1、类加载 2、为对象分配内存 3、内存空间都初始化为零（不包括对象头）
+4、设置对象 5、执行初始化过程（构造函数） 6、放进栈
+
+听说过垃圾回收吗  
+你知道哪些垃圾回收算法
+新生代回收的时候，用的是什么算法，怎么实现的
+
+CMS原理 ，G1原理
+
+并发：
+一个线程会有哪几种状态：
+新建（new）：执行了初始化过程，时间很短
+就绪（runnable）：只要调度器把时间片分配给线程，就可以运行
+运行
+阻塞（Blocked）：线程能够运行，但是被阻塞，需要等到重新进入就绪状态，才可以执行
+等待（waiting）
+死亡（dead）：线程结束，通常是run方法返回
+
+Thread.join()
+
+哪几种锁（synchronized，reenterLock,  readWriteLock）
+reenterLock和synchronized区别，公平
+---性能比较：
+reenterlock 的底层实现AQS，AQS的其他实现了解吗
+volatile 
+
+线程池的创建，Executors里面的几种内容，工厂的参数，Policy的拒绝策略
+
+http是无状态协议，那么怎么在接口里保证幂等性，幂等性的东西
+1、唯一索引 2、token机制 3、悲观锁 4、乐观锁 5、分布式锁 6、并发不高的话，可以用select+insert

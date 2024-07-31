@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>产品组 : 50.分单利润</title>
+        <link rel="stylesheet" href="styles/site.css" type="text/css" />
+        <META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    </head>
+
+    <body class="theme-default aui-theme-default">
+        <div id="page">
+            <div id="main" class="aui-page-panel">
+                <div id="main-header">
+                    <div id="breadcrumb-section">
+                        <ol id="breadcrumbs">
+                            <li class="first">
+                                <span><a href="index.html">产品组</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="70335729.html">01_数据逻辑及模型设计思路</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="59212755.html">零、字段汇总(维度和指标)</a></span>
+                            </li>
+                                                </ol>
+                    </div>
+                    <h1 id="title-heading" class="pagetitle">
+                                                <span id="title-text">
+                            产品组 : 50.分单利润
+                        </span>
+                    </h1>
+                </div>
+
+                <div id="content" class="view">
+                    <div class="page-metadata">
+                        
+        
+    
+        
+    
+        
+        
+            Created by <span class='author'> 未知用户 (lei.xue)</span>, last modified on 2021-11-11
+                        </div>
+                    <div id="main-content" class="wiki-content group">
+                    <h1 class="auto-cursor-target" id="id-50.分单利润-修订记录">修订记录</h1><div class="table-wrap"><table class="wrapped confluenceTable"><colgroup><col/><col/><col/><col/><col/></colgroup><thead><tr><th style="text-align: left;" class="confluenceTh"><p>版本号</p></th><th style="text-align: left;" class="confluenceTh"><p>内容</p></th><th style="text-align: left;" class="confluenceTh"><p>作者</p></th><th style="text-align: left;" class="confluenceTh"><p>时间</p></th><th colspan="1" style="text-align: left;" class="confluenceTh"><p>备注</p></th></tr></thead><tbody><tr><td colspan="1" style="text-align: left;" class="confluenceTd">V1</td><td colspan="1" style="text-align: left;" class="confluenceTd">新增分单利润的逻辑</td><td colspan="1" style="text-align: left;" class="confluenceTd">阿雷</td><td colspan="1" style="text-align: left;" class="confluenceTd">2021.11.10</td><td colspan="1" style="text-align: left;" class="confluenceTd"><a href="http://k.yangtuojia.com/pages/viewpage.action?pageId=82543537">202111_02_需求_毛利报表11月份改造</a></td></tr></tbody></table></div><p><br/></p><p class="auto-cursor-target"><style type='text/css'>/*<![CDATA[*/
+div.rbtoc1702954304428 {padding: 0px;}
+div.rbtoc1702954304428 ul {list-style: disc;margin-left: 0px;}
+div.rbtoc1702954304428 li {margin-left: 0px;padding-left: 0px;}
+
+/*]]>*/</style><div class='toc-macro rbtoc1702954304428'>
+<ul class='toc-indentation'>
+<li><a href='#id-50.分单利润-修订记录'>修订记录</a></li>
+<li><a href='#id-50.分单利润-业务背景'>业务背景</a></li>
+<li><a href='#id-50.分单利润-使用场景'>使用场景</a></li>
+<li><a href='#id-50.分单利润-逻辑定义'>逻辑定义</a>
+<ul class='toc-indentation'>
+<li><a href='#id-50.分单利润-注意事项'>注意事项</a></li>
+<li><a href='#id-50.分单利润-V1版本21年12月起'>V1版本 21年12月起</a>
+<ul class='toc-indentation'>
+<li><a href='#id-50.分单利润-公式'>公式</a>
+<ul class='toc-indentation'>
+<li><a href='#id-50.分单利润-1)orginal_type=0时,则为该order_id粒度上的&quot;分单利润&quot;'>1) orginal_type = 0 时,则为 该order_id 粒度上的 &quot;分单利润&quot;</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href='#id-50.分单利润-数据期望'>数据期望</a></li>
+</ul>
+</li>
+</ul>
+</div></p><p><br/></p><h1 id="id-50.分单利润-业务背景">业务背景</h1><p><strong><a class="external-link" href="http://demo.yangtuojia.com/S2B/_____%E5%95%86%E5%93%81/02%E9%A1%B9%E7%9B%AE/2021/Q4/2021%2011%20%E9%A1%B9%E7%9B%AE%20%E4%BE%9B%E5%BA%94%E5%95%86%E9%99%90%E4%BE%9B%26%E8%87%AA%E5%8A%A8%E5%88%86%E5%8D%95/#id=2hrn3q&amp;p=%E6%95%B0%E6%8D%AE%E9%9C%80%E6%B1%82&amp;g=1" rel="nofollow" style="text-decoration: none;">详见业务需求文档</a></strong></p><p>新业务提篮子 更改了批次路由的逻辑. 即 某商品有两个供应商供货. 批次1供价100. 批次2供价140.   最终, 我们按 140供价的批次跟门店结算. 按100供价的批次来跟供应商结算.   净赚 140-100 = 40 元. </p><p>此时, 毛利计算不受影响. 因为我们是正常拿 GMV 和 供应商结算总金额. 都是处理过这个逻辑的.即 已经按实际的结算来了. 是符合期望的. </p><p>但是业务方希望单独体现一下这个批次路由赚差价的毛利.  因此业务将其命名为 &quot;分单利润&quot;. 并期望在毛利报表中体现出该字段. </p><h1 class="auto-cursor-target" id="id-50.分单利润-使用场景">使用场景</h1><p>业务单独取数用. 对 毛利报表没有直接用途. </p><h1 class="auto-cursor-target" id="id-50.分单利润-逻辑定义">逻辑定义</h1><h2 id="id-50.分单利润-注意事项">注意事项</h2><p>仅限于 业务自己取数用! </p><p>请注意! 虽然该指标叫做 分单利润. 但是不参与 任何的 毛利, 考核GMV 相关的计算. </p><p>该 分单利润 其实已经算在 现在的毛利 里面了. 只不过业务以一定的逻辑单独再伶出来.  </p><h2 id="id-50.分单利润-V1版本21年12月起">V1版本 21年12月起</h2><h3 id="id-50.分单利润-公式">公式</h3><h4 id="id-50.分单利润-1)orginal_type=0时,则为该order_id粒度上的&quot;分单利润&quot;">1) orginal_type = 0 时,则为 该order_id 粒度上的 &quot;分单利润&quot;</h4><p>2) orginal_type = 1 时,则为 该退款单的order_id 粒度上的 &quot;分单利润&quot; * 退款比例 * -1 </p><p>3) orginal_type 不为 0和1 时,默认为 0 </p><p><br/></p><h2 id="id-50.分单利润-数据期望">数据期望</h2><ol><li>暂无. 保证上面公式即可. </li></ol><p><br/></p><p><br/></p><p style="text-align: left;"><br/></p>
+                    </div>
+
+                    
+                                                      
+                </div>             </div> 
+            <div id="footer" role="contentinfo">
+                <section class="footer-body">
+                    <p>Document generated by Confluence on 2023-12-19 10:51</p>
+                    <div id="footer-logo"><a href="http://www.atlassian.com/">Atlassian</a></div>
+                </section>
+            </div>
+        </div>     </body>
+</html>

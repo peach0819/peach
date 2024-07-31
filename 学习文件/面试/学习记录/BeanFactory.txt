@@ -1,0 +1,4 @@
+ApplicationContext就是一个BeanFactory，IOC容器，用于管理所有的bean
+而ApplicationListener里面的OnFresh方法，就会用到ApplicationContext作为IOC容器，用于取出bean
+
+BeanFactory就是一个管理Bean的地方，Bean就是被Spring通过反射创建出来的实例

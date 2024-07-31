@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>产品组 : V1版本-已废弃</title>
+        <link rel="stylesheet" href="styles/site.css" type="text/css" />
+        <META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    </head>
+
+    <body class="theme-default aui-theme-default">
+        <div id="page">
+            <div id="main" class="aui-page-panel">
+                <div id="main-header">
+                    <div id="breadcrumb-section">
+                        <ol id="breadcrumbs">
+                            <li class="first">
+                                <span><a href="index.html">产品组</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="70335729.html">01_数据逻辑及模型设计思路</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="59212886.html">三、费用</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="61057821.html">营销费用之优惠券</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="54522107.html">2. 优惠券之采购营销费用(原名:业务线营销费用)</a></span>
+                            </li>
+                                                </ol>
+                    </div>
+                    <h1 id="title-heading" class="pagetitle">
+                                                <span id="title-text">
+                            产品组 : V1版本-已废弃
+                        </span>
+                    </h1>
+                </div>
+
+                <div id="content" class="view">
+                    <div class="page-metadata">
+                        
+        
+    
+        
+    
+        
+        
+            Created by <span class='author'> 未知用户 (lei.xue)</span>, last modified on 2021-03-12
+                        </div>
+                    <div id="main-content" class="wiki-content group">
+                    <h1 class="auto-cursor-target" id="V1版本已废弃-修订记录"><strong>修订记录</strong></h1><div class="table-wrap"><table class="wrapped confluenceTable"><colgroup><col/><col/><col/><col/><col/></colgroup><thead><tr><th style="text-align: left;" class="confluenceTh"><p>版本号</p></th><th style="text-align: left;" class="confluenceTh"><p>内容</p></th><th style="text-align: left;" class="confluenceTh"><p>作者</p></th><th style="text-align: left;" class="confluenceTh"><p>时间</p></th><th colspan="1" style="text-align: left;" class="confluenceTh"><p>备注</p></th></tr></thead><tbody><tr><td colspan="1" style="text-align: left;" class="confluenceTd">V1</td><td colspan="1" style="text-align: left;" class="confluenceTd"><br/></td><td colspan="1" style="text-align: left;" class="confluenceTd">聆音</td><td colspan="1" style="text-align: left;" class="confluenceTd">19年</td><td colspan="1" style="text-align: left;" class="confluenceTd">此为阿雷修订时,复原原有逻辑</td></tr></tbody></table></div><p><style type='text/css'>/*<![CDATA[*/
+div.rbtoc1702954321546 {padding: 0px;}
+div.rbtoc1702954321546 ul {list-style: disc;margin-left: 0px;}
+div.rbtoc1702954321546 li {margin-left: 0px;padding-left: 0px;}
+
+/*]]>*/</style><div class='toc-macro rbtoc1702954321546'>
+<ul class='toc-indentation'>
+<li><a href='#V1版本已废弃-修订记录'>修订记录</a>
+<ul class='toc-indentation'>
+<li><a href='#V1版本已废弃-引用'>引用</a></li>
+</ul>
+</li>
+<li><a href='#V1版本已废弃-V1版本业务定义-已废弃-19年5月-20年12月'>V1版本 业务定义-已废弃-19年5月-20年12月</a></li>
+<li><a href='#V1版本已废弃-V1版本实际技术定义--仅供参考'>V1 版本 实际技术定义--仅供参考</a>
+<ul class='toc-indentation'>
+<li><a href='#V1版本已废弃-字段及名词定义'>字段及名词定义</a></li>
+<li><a href='#V1版本已废弃-计算步骤'>计算步骤</a>
+<ul class='toc-indentation'>
+<li><a href='#V1版本已废弃-一、dw_prm_gross_coupon_base_d–判断优惠券金额是否需要分摊'>一、dw_prm_gross_coupon_base_d – 判断优惠券金额是否需要分摊</a>
+<ul class='toc-indentation'>
+<li><a href='#V1版本已废弃-1.获取基本底表字段'>1.获取基本底表字段</a></li>
+<li><a href='#V1版本已废弃-1.业务逻辑判断'>1.业务逻辑判断</a></li>
+</ul>
+</li>
+<li><a href='#V1版本已废弃-二、dw_gross_profit_wait_share_coupon_d-计算指标的分母'>二、dw_gross_profit_wait_share_coupon_d- 计算指标的分母</a>
+<ul class='toc-indentation'>
+<li><a href='#V1版本已废弃-1.老版本指定了计算分摊指标为GMV的分母'>1. 老版本指定了 计算分摊指标为 GMV的分母</a></li>
+</ul>
+</li>
+<li><a href='#V1版本已废弃-三、dw_gross_profit_all_part-分别计算需要均摊的带品牌和不带品牌的营销费用(包含分摊的过程及计算分摊指标的分子)'>三、dw_gross_profit_all_part-分别计算 需要均摊的带品牌和不带品牌的营销费用 (包含分摊的过程及计算分摊指标的分子)</a>
+<ul class='toc-indentation'>
+<li><a href='#V1版本已废弃-优惠券归属品牌非必填'>优惠券归属品牌非必填</a></li>
+<li><a href='#V1版本已废弃-老版本指定了计算分摊指标为GMV的分子'>老版本指定了 计算分摊指标为 GMV的分子</a></li>
+<li><a href='#V1版本已废弃-没有分摊不到位兜底逻辑'>没有分摊不到位兜底逻辑</a></li>
+<li><a href='#V1版本已废弃-1.带品牌的--计算业务线部分优惠券金额_需要均摊_带品牌(coupon_mean1)'>1.带品牌的-- 计算 业务线部分优惠券金额_需要均摊_带品牌(coupon_mean1)</a></li>
+<li><a href='#V1版本已废弃-2.不带品牌的--计算业务线部分优惠券金额_需要均摊_不带品牌(coupon_mean1)'>2.不带品牌的-- 计算 业务线部分优惠券金额_需要均摊_不带品牌(coupon_mean1)</a></li>
+</ul>
+</li>
+<li><a href='#V1版本已废弃-四、dw_gross_profitL_all-计算最终的采购营销费用(biz_marketing_amount)'>四、dw_gross_profitL_all- 计算最终的 采购营销费用(biz_marketing_amount)</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div></p><h2 id="V1版本已废弃-引用"><strong>引用</strong></h2><p><a class="external-link" href="http://demo.yangtuojia.com/%E4%B8%9A%E5%8A%A1%E6%9C%8D%E5%8A%A1/%E8%B4%A2%E5%8A%A1%E4%B8%AD%E5%BF%83/02_%E9%A1%B9%E7%9B%AE/201905_01_%E6%AF%9B%E5%88%A9%E6%8A%A5%E8%A1%A8/201905_%E9%A1%B9%E7%9B%AE_01%20%E6%AF%9B%E5%88%A9%E6%8A%A5%E8%A1%A8%E4%BA%A7%E5%93%81%E5%8C%96/#g=1&amp;p=%E4%B8%9A%E5%8A%A1%E6%AF%9B%E6%94%B6%E5%85%A5" rel="nofollow" style="text-decoration: none;">采购毛利报表一期</a></p><p><br/></p><p><br/></p><h1 id="V1版本已废弃-V1版本业务定义-已废弃-19年5月-20年12月">V1版本 业务定义-已废弃-19年5月-20年12月</h1><p><a class="external-link" href="http://demo.yangtuojia.com/%E4%B8%9A%E5%8A%A1%E6%9C%8D%E5%8A%A1/%E8%B4%A2%E5%8A%A1%E4%B8%AD%E5%BF%83/02_%E9%A1%B9%E7%9B%AE/201905_01_%E6%AF%9B%E5%88%A9%E6%8A%A5%E8%A1%A8/201905_%E9%A1%B9%E7%9B%AE_01%20%E6%AF%9B%E5%88%A9%E6%8A%A5%E8%A1%A8%E4%BA%A7%E5%93%81%E5%8C%96/#g=1&amp;p=%E4%BC%98%E6%83%A0%E5%88%B8%E8%AE%A1%E7%AE%97%E6%95%B4%E4%BD%93%E9%80%BB%E8%BE%91" rel="nofollow">原始PRD</a></p><p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/61057748/61057757.png" data-image-src="attachments/61057748/61057757.png" data-unresolved-comment-count="0" data-linked-resource-id="61057757" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2021-1-9_22-50-14.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="61057748" data-linked-resource-container-version="3"></span></p><p><br/></p><p><br/></p><h1 id="V1版本已废弃-V1版本实际技术定义--仅供参考">V1 版本 实际技术定义--仅供参考</h1><p>以下是阿雷为了方便理解PRD中未补全的内容. 通过翻看现有的毛利报表中的逻辑进行理解.</p><p>可能会跟实际业务不一致.</p><h2 id="V1版本已废弃-字段及名词定义"><strong>字段及名词定义</strong></h2><p>为了便于理解. 所有的字段的中文名,都不按照 comment里面的内容.  而是根据其 字段名+实际的业务定义,进行注明</p><div class="table-wrap"><table class="relative-table wrapped confluenceTable" style="width: 82.0919%;"><colgroup><col style="width: 2.88567%;"/><col style="width: 30.9179%;"/><col style="width: 31.3301%;"/><col style="width: 34.628%;"/></colgroup><tbody><tr><th class="confluenceTh"><br/></th><th class="confluenceTh">字段</th><th class="confluenceTh">备注</th><th colspan="1" class="confluenceTh">逻辑所在脚本</th></tr><tr><td class="confluenceTd">1</td><td class="confluenceTd"><span style="color: rgb(255,0,0);">最终的采购营销费用(biz_marketing_amount)</span></td><td class="confluenceTd"><p>为实际计算 采购考核毛利额 的组成字段之一.</p><p>即下面的绿色字段之和</p></td><td colspan="1" class="confluenceTd">dw_gross_profitL_all</td></tr><tr><td class="confluenceTd">2</td><td class="confluenceTd"><span style="color: rgb(51,153,102);">业务线部分优惠券金额_无需均摊(biz_marketing_amount_part)</span></td><td class="confluenceTd"><br/></td><td colspan="1" class="confluenceTd"><br/></td></tr><tr><td class="confluenceTd">3</td><td class="confluenceTd"><span style="color: rgb(51,153,102);">业务线部分优惠券金额_需要均摊_带品牌(coupon_mean1)</span></td><td class="confluenceTd"><br/></td><td colspan="1" class="confluenceTd"><p>在dw_gross_profit_all_part 汇总</p><p>明细来自 dw_gross_profit_wait_share_coupon_d</p></td></tr><tr><td class="confluenceTd">4</td><td class="confluenceTd"><span style="color: rgb(51,153,102);">业务线部分优惠券金额_需要均摊_不带品牌(coupon_mean1)</span></td><td class="confluenceTd"><br/></td><td colspan="1" class="confluenceTd"><p>在dw_gross_profit_all_part 汇总</p><p>明细来自 dw_gross_profit_wait_share_coupon_d</p></td></tr><tr><td class="confluenceTd">5</td><td class="confluenceTd"><span style="color: rgb(0,0,255);">待分摊的优惠券金额(dw_gross_profit_wait_share_coupon_d.amount)</span></td><td class="confluenceTd">即 加了 是否发放与使用一致的逻辑后的 <span style="color: rgb(204,153,255);">刚开始的采购优惠券金额(biz_marketing_amount)</span></td><td colspan="1" class="confluenceTd"><span style="color: rgb(0,0,255);">dw_gross_profit_wait_share_coupon_d</span></td></tr><tr><td class="confluenceTd">6</td><td class="confluenceTd"><span style="color: rgb(0,0,255);">待分摊的优惠券的归属订单的总金额(dw_gross_profit_wait_share_coupon_d.total_gmv)</span></td><td class="confluenceTd"><br/></td><td colspan="1" class="confluenceTd"><span style="color: rgb(0,0,255);">dw_gross_profit_wait_share_coupon_d</span></td></tr><tr><td colspan="1" class="confluenceTd">7</td><td colspan="1" class="confluenceTd"><span style="color: rgb(204,153,255);">刚开始的采购优惠券金额(biz_marketing_amount)</span></td><td colspan="1" class="confluenceTd">尚未参与分摊. 仅加了判断是否为三大业务线. 如果是,则就是 海拍客承担优惠券金额.  否则就为0 </td><td colspan="1" class="confluenceTd"><br/></td></tr></tbody></table></div><p><br/></p><h2 id="V1版本已废弃-计算步骤">计算步骤</h2><h3 id="V1版本已废弃-一、dw_prm_gross_coupon_base_d–判断优惠券金额是否需要分摊">一、dw_prm_gross_coupon_base_d – 判断优惠券金额是否需要分摊</h3><h4 id="V1版本已废弃-1.获取基本底表字段">1.获取基本底表字段</h4><p>1)获取 hipac_bear_coupon_id </p><p><strong>这个表核心走的是财务那边给的底表.</strong> 所有的计算分摊都需要用到这个字段来指定优惠券id</p><p>2)获取 hipac_bear_coupon_amount (海拍客承担优惠券金额)</p><p>3) 获取计算分摊的 coupon_amount. </p><p><span style="color: rgb(255,0,0);">这里看不懂是什么鬼! </span></p><p><span style="color: rgb(255,0,0);"><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" height="250" src="attachments/61057748/61057758.png" data-image-src="attachments/61057748/61057758.png" data-unresolved-comment-count="0" data-linked-resource-id="61057758" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2021-1-9_23-33-39.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="61057748" data-linked-resource-container-version="3"></span></span></p><p><br/></p><h4 id="V1版本已废弃-1.业务逻辑判断">1.业务逻辑判断</h4><p>1) 是否三大业务线订单</p><p>is_order_group</p><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" height="400" src="attachments/61057748/61057759.png" data-image-src="attachments/61057748/61057759.png" data-unresolved-comment-count="0" data-linked-resource-id="61057759" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2021-1-9_23-39-37.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="61057748" data-linked-resource-container-version="3"></span></p><p>2) 采购优惠券判断- 使用与承担是否一致</p><p>产出字段 is_order_group_sub </p><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" height="250" src="attachments/61057748/61057760.png" data-image-src="attachments/61057748/61057760.png" data-unresolved-comment-count="0" data-linked-resource-id="61057760" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2021-1-9_23-43-57.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="61057748" data-linked-resource-container-version="3"></span></p><p>case when is_order_group = 1 and a.business_group_code = a.access_code and concat(',',a.category_list_assume_str_final,',') like concat('%,',a.category_id,',%') and a.brand_list_assume_str_final is null then 1<br/>when is_order_group = 1 and a.business_group_code = a.access_code and concat(',',a.category_list_assume_str_final,',') like concat('%,',a.category_id,',%') and concat('%,',a.brand_list_assume_str_final,',%') like concat('%,',a.brand_id,',%') then 1<br/>else 0<br/>end as is_order_group_sub,</p><p><br/></p><p>3) 计算最终的 采购营销费用</p><p>可见,这里已经考虑到 营销费用的逆向场景. </p><p>最终产出 <span style="color: rgb(204,153,255);">刚开始的采购金额(biz_marketing_amount)</span></p><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" height="78" src="attachments/61057748/61057761.png" data-image-src="attachments/61057748/61057761.png" data-unresolved-comment-count="0" data-linked-resource-id="61057761" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2021-1-9_23-48-44.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="61057748" data-linked-resource-container-version="3"></span></p><p><br/></p><p><br/></p><p><br/></p><p><br/></p><h3 id="V1版本已废弃-二、dw_gross_profit_wait_share_coupon_d-计算指标的分母">二、dw_gross_profit_wait_share_coupon_d- 计算指标的分母</h3><p>先指定后续逻辑都是 待分摊的优惠券(即 是三大业务线的优惠券且 使用与承担不一致 is_order_group &amp; is_order_group_sub)</p><p>---计算每一个 待均摊的优惠券 对应的 费用归属一级类目+类目 判断出的可均摊的订单的总额</p><p>这个流程是为了核心产出  <span style="color: rgb(0,0,255);">待分摊的优惠券金额(dw_gross_profit_wait_share_coupon_d.amount)</span> 和 <span style="color: rgb(0,0,255);">待分摊的优惠券的归属订单的总金额(dw_gross_profit_wait_share_coupon_d.total_gmv)</span></p><h4 id="V1版本已废弃-1.老版本指定了计算分摊指标为GMV的分母">1. 老版本指定了 计算分摊指标为 GMV的分母</h4><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" height="400" src="attachments/61057748/61057762.png" data-image-src="attachments/61057748/61057762.png" data-unresolved-comment-count="0" data-linked-resource-id="61057762" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2021-1-9_23-17-23.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="61057748" data-linked-resource-container-version="3"></span></p><h3 id="V1版本已废弃-三、dw_gross_profit_all_part-分别计算需要均摊的带品牌和不带品牌的营销费用(包含分摊的过程及计算分摊指标的分子)">三、dw_gross_profit_all_part-分别计算 需要均摊的带品牌和不带品牌的营销费用 (包含分摊的过程及计算分摊指标的分子)</h3><p>这里关键是需要注意到的逻辑是. </p><h4 id="V1版本已废弃-优惠券归属品牌非必填">优惠券归属品牌非必填</h4><p>因为优惠券归属品牌可以是指定品牌或者不指定品牌(即全部).  指定时,则要分摊到指定的这个品牌.不指定时,则不指定品牌分摊. 因此需要分成两个版本分别计算. </p><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" height="250" src="attachments/61057748/61057763.png" data-image-src="attachments/61057748/61057763.png" data-unresolved-comment-count="0" data-linked-resource-id="61057763" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2021-1-9_23-8-58.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="61057748" data-linked-resource-container-version="3"></span></p><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" height="197" src="attachments/61057748/61057764.png" data-image-src="attachments/61057748/61057764.png" data-unresolved-comment-count="0" data-linked-resource-id="61057764" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2021-1-9_23-7-47.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="61057748" data-linked-resource-container-version="3"></span></p><h4 id="V1版本已废弃-老版本指定了计算分摊指标为GMV的分子">老版本指定了 计算分摊指标为 GMV的分子</h4><p>首页,被参与进入分摊的 gross_profit_md 表里, 过滤条件为 original_type = 0 .</p><p>即 该表(a)的 GMV 是作为计算毛利报表营销费用分摊时的 待分摊的指标的分子.  即 其计算分摊占比的指标是 GMV. 在V2版本中,会将其改成 GMV-退款.</p><h4 id="V1版本已废弃-没有分摊不到位兜底逻辑">没有分摊不到位兜底逻辑</h4><p>同时,也就是下面的 left join时大量的 on .  会导致可能会存在一部分的营销费用是无法被分摊到的. </p><p><br/></p><h4 id="V1版本已废弃-1.带品牌的--计算业务线部分优惠券金额_需要均摊_带品牌(coupon_mean1)">1.带品牌的-- 计算 <span style="color: rgb(51,153,102);">业务线部分优惠券金额_需要均摊_带品牌(coupon_mean1)</span></h4><p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/61057748/61057765.png" data-image-src="attachments/61057748/61057765.png" data-unresolved-comment-count="0" data-linked-resource-id="61057765" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2021-1-9_22-58-28.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="61057748" data-linked-resource-container-version="3"></span></p><p><br/></p><h4 id="V1版本已废弃-2.不带品牌的--计算业务线部分优惠券金额_需要均摊_不带品牌(coupon_mean1)">2.不带品牌的-- 计算 <span style="color: rgb(51,153,102);">业务线部分优惠券金额_需要均摊_不带品牌(coupon_mean1)</span></h4><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" height="400" src="attachments/61057748/61057766.png" data-image-src="attachments/61057748/61057766.png" data-unresolved-comment-count="0" data-linked-resource-id="61057766" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2021-1-9_22-58-39.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="61057748" data-linked-resource-container-version="3"></span></p><p><br/></p><h3 id="V1版本已废弃-四、dw_gross_profitL_all-计算最终的采购营销费用(biz_marketing_amount)">四、dw_gross_profitL_all- 计算最终的 <span style="color: rgb(255,0,0);">采购营销费用(biz_marketing_amount)</span></h3><p>可见,在dw_gross_profitL_all这张表内, 最终计算出来的</p><p><span style="color: rgb(255,0,0);">采购营销费用(biz_marketing_amount)   =   <span style="color: rgb(51,153,102);">业务线部分优惠券金额_无需均摊(biz_marketing_amount_part)  +   业务线部分优惠券金额_需要均摊_带品牌(coupon_mean1) + 业务线部分优惠券金额_需要均摊_不带品牌(coupon_mean1)</span></span></p><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" height="142" src="attachments/61057748/61057767.png" data-image-src="attachments/61057748/61057767.png" data-unresolved-comment-count="0" data-linked-resource-id="61057767" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2021-1-9_22-48-3.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="61057748" data-linked-resource-container-version="3"></span></p><p><br/></p><p><br/></p>
+                    </div>
+
+                                        <div class="pageSection group">
+                        <div class="pageSectionHeader">
+                            <h2 id="attachments" class="pageSectionTitle">Attachments:</h2>
+                        </div>
+
+                        <div class="greybox" align="left">
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/61057748/61057757.png">image2021-1-9_22-50-14.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/61057748/61057758.png">image2021-1-9_23-33-39.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/61057748/61057759.png">image2021-1-9_23-39-37.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/61057748/61057760.png">image2021-1-9_23-43-57.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/61057748/61057761.png">image2021-1-9_23-48-44.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/61057748/61057762.png">image2021-1-9_23-17-23.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/61057748/61057763.png">image2021-1-9_23-8-58.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/61057748/61057764.png">image2021-1-9_23-7-47.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/61057748/61057765.png">image2021-1-9_22-58-28.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/61057748/61057766.png">image2021-1-9_22-58-39.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/61057748/61057767.png">image2021-1-9_22-48-3.png</a> (image/png)
+                                <br/>
+                                                    </div>
+                    </div>
+                    
+                                                      
+                </div>             </div> 
+            <div id="footer" role="contentinfo">
+                <section class="footer-body">
+                    <p>Document generated by Confluence on 2023-12-19 10:52</p>
+                    <div id="footer-logo"><a href="http://www.atlassian.com/">Atlassian</a></div>
+                </section>
+            </div>
+        </div>     </body>
+</html>

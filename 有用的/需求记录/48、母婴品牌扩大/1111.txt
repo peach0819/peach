@@ -1,0 +1,12 @@
+https://work.weixin.qq.com/ca/cawcde39eb58a31105?customer_channel=CHANNEL_TEST
+
+https://work.weixin.qq.com/ca/cawcde80834f3162f5?customer_channel=CHANNEL_TEST
+
+
+/pages/web/index.html?commonExt=%7B%22userAccount%22%3A%2200280227%22%2C%22tempCode%22%3A%22eb3edfab65e94fa0903b8febfb81ad02%22%2C%22strategyId%22%3A828%2C%22source%22%3A%22qwTouch%22%2C%22topItemIdList%22%3A%5B750708%2C617700%2C287909%2C777720%2C559311%5D%2C%22taskId%22%3A67920%7D&link=https%3A%2F%2Fmarket.hipac.cn%2Fs%2Fpage%2Fa4269_hpjx.html
+
+
+{"userAccount":"00280227","tempCode":"eb3edfab65e94fa0903b8febfb81ad02","strategyId":828,"source":"qwTouch","topItemIdList":[750708,617700,287909,777720,559311],"taskId":67920}
+
+
+&link=https://market.hipac.cn/s/page/a4269_hpjx.html-

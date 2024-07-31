@@ -10,6 +10,13 @@
         </processorPath>
         <module name="peach.peach-service-api.main" />
       </profile>
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="peach-mvn-all" />
+        <module name="peach-algo" />
+      </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="peach.main" target="1.8" />

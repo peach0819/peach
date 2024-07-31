@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>产品组 : 涂色个微-群成员添加自动化需求</title>
+        <link rel="stylesheet" href="styles/site.css" type="text/css" />
+        <META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    </head>
+
+    <body class="theme-default aui-theme-default">
+        <div id="page">
+            <div id="main" class="aui-page-panel">
+                <div id="main-header">
+                    <div id="breadcrumb-section">
+                        <ol id="breadcrumbs">
+                            <li class="first">
+                                <span><a href="index.html">产品组</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="86609172.html">08_企微触达相关业务</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="86624194.html">22年企微相关需求</a></span>
+                            </li>
+                                                </ol>
+                    </div>
+                    <h1 id="title-heading" class="pagetitle">
+                                                <span id="title-text">
+                            产品组 : 涂色个微-群成员添加自动化需求
+                        </span>
+                    </h1>
+                </div>
+
+                <div id="content" class="view">
+                    <div class="page-metadata">
+                        
+        
+    
+        
+    
+        
+        
+            Created by <span class='author'> 弓力超</span>, last modified on 2022-10-10
+                        </div>
+                    <div id="main-content" class="wiki-content group">
+                    <h3 id="id-涂色个微群成员添加自动化需求-1、需求背景：">1、需求背景：</h3><ol><li>微商销售团队需要从多个群里通过好友添加动作，进行客户沟通，从而拓宽销售渠道。</li><li>微商销售团队目前实习生做客户添加的效率不高，并且经过盘点，该添加动作和任务，暂无方法论，所以人员投产比不高，遂考虑通过系统解决。</li><li>经过沟通，涂色比邻在人工操作群内拓客的基础上，不愿意开发新的自动化拓客功能给我们，且其他第三方没有合适服务提供，故考虑要求涂色开放添加接口，进行一定成本的功能自研，满足该需求。</li></ol><h3 id="id-涂色个微群成员添加自动化需求-2、可能的三种形式">2、可能的三种形式</h3><p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/106531053/106531081.png" data-image-src="attachments/106531053/106531081.png" data-unresolved-comment-count="0" data-linked-resource-id="106531081" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="个微加人-涂色流程.drawio.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="106531053" data-linked-resource-container-version="2"></span></p><p>三种模式的对比如下图：</p><div class="table-wrap"><table class="wrapped confluenceTable"><colgroup><col/><col/><col/><col/><col/></colgroup><tbody><tr><th class="confluenceTh">方案</th><th class="confluenceTh">人工承担内容</th><th class="confluenceTh">机器承担内容</th><th colspan="1" class="confluenceTh">核心指标区别</th><th colspan="1" class="confluenceTh">核心节点/难点区别</th></tr><tr><td class="confluenceTd">纯人工添加</td><td class="confluenceTd"><ol><li>开通群</li><li>选择添加对象</li><li>执行添加动作</li><li>查看添加记录</li></ol></td><td class="confluenceTd">无</td><td colspan="1" class="confluenceTd"><p>发起量：人为决定，需监督</p><p>单日添加上限：约30</p><p>添加通过率：20%</p><p>号被封概率：</p></td><td colspan="1" class="confluenceTd"><ol><li>不同人不同账号，开通群（数量和顺序）需要调整成本</li><li>添加对象和群的过程记录，难以准确（添加过谁，谁没添加）</li><li>是否有执行添加，难以数据记录，需要人工监督和自行记录</li><li>以上三点，如果单人操作多个企微号，效率和正确性可能更低。</li></ol></td></tr><tr><td class="confluenceTd">半自动化添加</td><td class="confluenceTd"><ol><li>开通群</li><li>选择添加对象</li><li>查看添加记录</li></ol></td><td class="confluenceTd"><ol><li>执行添加动作</li></ol></td><td colspan="1" class="confluenceTd"><p><span style="color: rgb(255,0,0);">发起量：可设定，无需监督</span></p><p>单日添加上限：约30</p><p>添加通过率：无区别</p><p>号被封概率：无区别</p></td><td colspan="1" class="confluenceTd"><ol><li>人工产出添加对象、承接关系、添加数量</li><li>作为一个任务，系统按照名单去添加。</li><li>每次任务的添加结果，人工去合并和盘点。</li></ol></td></tr><tr><td class="confluenceTd">全自动化添加</td><td class="confluenceTd"><ol><li>开通群</li><li>查看添加记录</li></ol></td><td class="confluenceTd"><ol><li>选择添加对象</li><li>执行添加动作</li></ol></td><td colspan="1" class="confluenceTd"><p>发起量：<span style="color: rgb(255,0,0);">可设定，无需监督</span></p><p>单日添加上限：约30</p><p>添加通过率：无区别</p><p>号被封概率：无区别</p></td><td colspan="1" class="confluenceTd"><ol><li>人工只负责把群开通好即可。</li><li>系统对已经开通的群，按照一定的规则，去添加。</li><li>相比于半自动方案，系统需要增加一下规则：<ol><li>跳过已经是客户的成员</li><li>多人在同一群的时候，哪个号进行添加</li><li>已经被限制的账号，系统告知人工进行解除。</li><li>添加优先级（如果有的话）</li></ol></li></ol></td></tr></tbody></table></div>
+                    </div>
+
+                                        <div class="pageSection group">
+                        <div class="pageSectionHeader">
+                            <h2 id="attachments" class="pageSectionTitle">Attachments:</h2>
+                        </div>
+
+                        <div class="greybox" align="left">
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/106531053/106531081.png">个微加人-涂色流程.drawio.png</a> (image/png)
+                                <br/>
+                                                    </div>
+                    </div>
+                    
+                                                      
+                </div>             </div> 
+            <div id="footer" role="contentinfo">
+                <section class="footer-body">
+                    <p>Document generated by Confluence on 2023-12-19 10:52</p>
+                    <div id="footer-logo"><a href="http://www.atlassian.com/">Atlassian</a></div>
+                </section>
+            </div>
+        </div>     </body>
+</html>

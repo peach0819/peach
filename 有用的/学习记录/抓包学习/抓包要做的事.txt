@@ -1,0 +1,9 @@
+
+1. 电脑上下载charles-proxy
+2. 电脑跟手机连同一个wifi
+3. chls.pro/ssl 手机浏览器输入这个，安装证书（设置-通用-VPN和设备管理-安装描述文件）
+4. 手机里面信任证书，（设置-通用-关于本机-证书信任设置，打开）
+5. 电脑charles, Proxys - proxy settings  端口port设置8888， help - local Ip address看本机ip
+6. 手机wifi里面，配置http代理，手动模式，输入电脑ip和代理端口，保存
+7. 电脑的charles上会弹出是否接受，选择allow就可以了
+8. 如果抓包乱码，自行百度

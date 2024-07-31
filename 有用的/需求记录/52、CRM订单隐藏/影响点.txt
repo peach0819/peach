@@ -1,0 +1,6 @@
+
+PC订单列表：com.yangtuo.crm.api.crmtrade.CrmTradeApi#queryTradeList
+
+PC门店详情订单：
+
+app订单列表：com.yt.crm.app.ao.crmtrade.AppCrmTradeApiImpl#queryTradeFilterListV2

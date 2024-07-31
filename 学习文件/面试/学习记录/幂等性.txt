@@ -1,0 +1,28 @@
+1、唯一索引
+添加报错了之后，重新查询，此时获取到结果，可以直接返回
+
+2、token机制
+每次操作申请一个token，token有效性仅为一次，token被存入系统中
+如果是单jvm环境，可以使用内存或redis
+如果是分布式，必须存入redis，jvm没法保证全局唯一性
+
+进行操作的时候，执行删除redis 的token操作（内存的话查询并删除也行），
+如果删除成功了，就表示校验通过（redis的select+delete存在并发问题，最好直接删除）
+
+3、悲观锁
+SELECT * FROM xxx WHERE id = 'xxx' FOR UPDATE  这个是mysql数据库，进行行锁的方式
+必须是id或者唯一索引，不然会锁表
+
+然后update即可
+
+4、乐观锁
+通过给表加一个version字段，通过cas的方式，update WHERE id = 'xxx' and version = 'yyy'
+mysql的update可以返回一个int数据，表示匹配的行数，并返回，update的返回值，如果不为0就表示成功了
+如果为0就表示失败了，等待并重试
+
+5、分布式锁
+如果是分布式系统， 分布式锁必须使用中间件redis或者zookeeper获取分布式锁，等到释放之后，全局才能重新获取
+
+6、并发不高的话，可以用select+insert
+
+7、如果是对外的话，来源和来源id进行唯一索引
