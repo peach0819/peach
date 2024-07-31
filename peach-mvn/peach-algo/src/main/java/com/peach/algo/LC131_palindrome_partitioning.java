@@ -1,7 +1,6 @@
 package com.peach.algo;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -23,23 +22,23 @@ import java.util.List;
 public class LC131_palindrome_partitioning {
 
     List<List<String>> result = new ArrayList<>();
-    char[] chars;
+    String s;
 
     public List<List<String>> partition(String s) {
-        this.chars = s.toCharArray();
+        this.s = s;
         handle(0, 0, new ArrayList<>());
         return result;
     }
 
     private void handle(int curIndex, int beginIndex, List<String> list) {
-        if (curIndex == chars.length) {
-            if (beginIndex == chars.length) {
+        if (curIndex == s.length()) {
+            if (beginIndex == s.length()) {
                 result.add(new ArrayList<>(list));
             }
             return;
         }
         if (isReturnWord(curIndex, beginIndex)) {
-            list.add(new String(Arrays.copyOfRange(chars, beginIndex, curIndex + 1)));
+            list.add(s.substring(beginIndex, curIndex + 1));
             handle(curIndex + 1, curIndex + 1, list);
             list.remove(list.size() - 1);
         }
@@ -48,7 +47,7 @@ public class LC131_palindrome_partitioning {
 
     private boolean isReturnWord(int curIndex, int beginIndex) {
         while (beginIndex < curIndex) {
-            if (chars[beginIndex] != chars[curIndex]) {
+            if (s.charAt(beginIndex) != s.charAt(curIndex)) {
                 return false;
             }
             beginIndex++;
