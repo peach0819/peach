@@ -1,5 +1,7 @@
 package com.peach.algo.LC51_100;
 
+import com.peach.algo.base.ListNode;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,31 +21,6 @@ import java.util.List;
  * 0 <= k <= 2 * 109
  */
 public class LC61_rotate_list {
-
-    public static class ListNode {
-
-        int val;
-        ListNode next;
-
-        ListNode() {}
-
-        ListNode(int val) { this.val = val; }
-
-        ListNode(int val, ListNode next) { this.val = val; this.next = next; }
-    }
-
-    public static void main(String[] args) {
-        ListNode head = new ListNode(1);
-        ListNode l2 = new ListNode(2);
-        ListNode l3 = new ListNode(3);
-        ListNode l4 = new ListNode(4);
-        ListNode l5 = new ListNode(5);
-        head.next = l2;
-        l2.next = l3;
-        l3.next = l4;
-        l4.next = l5;
-        new LC61_rotate_list().rotateRight(head, 2);
-    }
 
     public ListNode rotateRight(ListNode head, int k) {
         if (head == null || k == 0) {

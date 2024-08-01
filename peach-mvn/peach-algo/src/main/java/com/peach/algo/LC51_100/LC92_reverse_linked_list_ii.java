@@ -1,5 +1,7 @@
 package com.peach.algo.LC51_100;
 
+import com.peach.algo.base.ListNode;
+
 /**
  * @author feitao.zt
  * @date 2024/7/23
@@ -18,31 +20,6 @@ package com.peach.algo.LC51_100;
  * 进阶： 你可以使用一趟扫描完成反转吗？
  */
 public class LC92_reverse_linked_list_ii {
-
-    public static class ListNode {
-
-        int val;
-        ListNode next;
-
-        ListNode() {}
-
-        ListNode(int val) { this.val = val; }
-
-        ListNode(int val, ListNode next) { this.val = val; this.next = next; }
-    }
-
-    public static void main(String[] args) {
-        ListNode head = new ListNode(1);
-        ListNode cur = head;
-        cur.next = new ListNode(2);
-        cur = cur.next;
-        cur.next = new ListNode(3);
-        cur = cur.next;
-        cur.next = new ListNode(4);
-        cur = cur.next;
-        cur.next = new ListNode(5);
-        new LC92_reverse_linked_list_ii().reverseBetween(head, 2, 4);
-    }
 
     public ListNode reverseBetween(ListNode head, int left, int right) {
         if (left == right) {
