@@ -25,7 +25,7 @@ public class LC148_sort_list {
     /**
      * 官方用归并排序
      */
-    public ListNode sortList(ListNode head) {
+    public ListNode sortList1(ListNode head) {
         if (head == null || head.next == null) {
             return head;
         }
@@ -53,6 +53,50 @@ public class LC148_sort_list {
         }
         h.next = left != null ? left : right;
         return res.next;
+    }
+
+    // 主函数，调用快速排序函数
+    public ListNode sortList(ListNode head) {
+        return quickSort(head, null);
+    }
+
+    // 快速排序函数，递归实现
+    private ListNode quickSort(ListNode head, ListNode tail) {
+        // 基本情况：如果链表为空，只有一个节点，或者已经到达尾节点，则返回头节点
+        if (head == null || head.next == null || head == tail) {
+            return head;
+        }
+
+        boolean sorted = true; // 标记链表是否已经排序
+        ListNode pivot = head; // 选择头节点作为枢轴
+        ListNode curr = head.next, prev = head; // 初始化当前节点和前一个节点
+
+        // 遍历链表，进行分区操作
+        while (curr != null && curr != tail) {
+            ListNode next = curr.next; // 保存当前节点的下一个节点
+
+            if (curr.val < pivot.val) { // 如果当前节点的值小于枢轴值
+                sorted = false; // 标记链表未排序
+                prev.next = next; // 将当前节点从链表中摘除
+                curr.next = head; // 将当前节点插入到头部
+                head = curr; // 更新头节点
+            } else {
+                if (curr.val < prev.val) { // 如果当前节点的值小于前一个节点的值
+                    sorted = false; // 标记链表未排序
+                }
+                prev = curr; // 更新前一个节点
+            }
+            curr = next; // 继续处理下一个节点
+        }
+
+        if (sorted) { // 如果链表已经排序，直接返回头节点
+            return head;
+        }
+
+        // 递归排序枢轴右侧的链表
+        pivot.next = quickSort(pivot.next, tail);
+        // 递归排序枢轴左侧的链表
+        return quickSort(head, pivot);
     }
 
 }
