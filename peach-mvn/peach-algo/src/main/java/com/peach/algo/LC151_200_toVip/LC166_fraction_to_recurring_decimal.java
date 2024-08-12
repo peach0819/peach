@@ -1,4 +1,4 @@
-package com.peach.algo;
+package com.peach.algo.LC151_200_toVip;
 
 import java.util.HashMap;
 import java.util.Map;

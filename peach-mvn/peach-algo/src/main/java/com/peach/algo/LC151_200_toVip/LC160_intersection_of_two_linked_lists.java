@@ -1,4 +1,4 @@
-package com.peach.algo;
+package com.peach.algo.LC151_200_toVip;
 
 import com.peach.algo.base.ListNode;
 
