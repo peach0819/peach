@@ -1,5 +1,6 @@
 package com.peach.all.demo;
 
+import com.alibaba.fastjson.JSON;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -25,15 +26,20 @@ import java.util.Map;
  */
 public class OpenApiDemo {
 
-    private static final String APP_KEY = "HIPAC2018050210020252";
-    private static final String SECRET = "1d63a1267912731d8224a54c402e464c";
-    private static final String API = "hipac.crm.shopdanone.elnShopSyncPush"; //api
-    private static final String ENV = "prod"; //测试环境master , 正式环境prod
-    private static final String HOST = "https://openapi.hipac.cn"; //测试环境master-openapi , 正式环境openapi
+    private static final String APP_KEY = "HIPAC91";
+    private static final String SECRET = "11c80b2461aed9c663ea89d144784634";
+    private static final String API = "hipac.crm.shopdanone.elnBrandAuditSyncPush"; //api
+    private static final String ENV = "master"; //测试环境master , 正式环境prod
+    private static final String HOST = "https://master-openapi.hipac.cn"; //测试环境master-openapi , 正式环境openapi
 
     public static void main(String[] args) {
         try {
-            String result = syncPush("{}");
+            ElnBrandAuditForm form = new ElnBrandAuditForm();
+            form.setBizType(4);
+            form.setElnStoreCode("100057784");
+            form.setSignBrand("Lingyi");
+            form.setAuditSuccess(true);
+            String result = syncPush(JSON.toJSONString(form));
             System.out.println("结果：" + result);
         } catch (Exception e) {
             e.printStackTrace();
