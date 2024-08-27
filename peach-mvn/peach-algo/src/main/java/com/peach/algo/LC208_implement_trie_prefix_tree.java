@@ -40,6 +40,9 @@ public class LC208_implement_trie_prefix_tree {
      * boolean param_2 = obj.search(word);
      * boolean param_3 = obj.startsWith(prefix);
      */
+    /**
+     * 可以直接用数组，因为小写字母只有26个，可以直接用Ascii码作为数组下标
+     */
     class Trie {
 
         Node head = new Node(' ');
