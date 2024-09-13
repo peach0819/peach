@@ -1,4 +1,4 @@
-package com.peach.algo;
+package com.peach.algo.LC251_300_toVip;
 
 import com.peach.algo.base.TreeNode;
 
