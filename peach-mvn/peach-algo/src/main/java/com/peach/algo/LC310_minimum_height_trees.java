@@ -1,9 +1,12 @@
 package com.peach.algo;
 
+import java.util.ArrayDeque;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Queue;
 
 /**
  * @author feitao.zt
@@ -36,7 +39,7 @@ public class LC310_minimum_height_trees {
         int i = 1;
     }
 
-    public List<Integer> findMinHeightTrees(int n, int[][] edges) {
+    public List<Integer> findMinHeightTrees1(int n, int[][] edges) {
         if (n == 1) {
             List<Integer> init = new ArrayList<>();
             init.add(0);
@@ -73,5 +76,63 @@ public class LC310_minimum_height_trees {
                 return leafList;
             }
         }
+    }
+
+    public List<Integer> findMinHeightTrees(int n, int[][] edges) {
+        if (n == 1) {
+            return Collections.singletonList(0);
+        }
+        /*
+        无向图拓扑排序处理子节点的方式：
+        1. 定义数组g[]，g[i]表示i节点的所有相邻节点之和。
+        2. 当i的度为1时，g[i]的值就是那个唯一的相邻节点。
+        3. 每次拓扑循环时，一定会先把i的其他相邻节点入队。而每次处理度为1的节点x时，都会把相邻节点的值减去x。
+        4. 所以当处理到i时，g[i]就变成了唯一的相邻节点。
+         */
+        int[] g = new int[n];
+        int[] degree = new int[n];
+        for (int[] edge : edges) {
+            int a = edge[0];
+            int b = edge[1];
+            // 维护节点的度
+            degree[a]++;
+            degree[b]++;
+            // g[]表示相邻节点之和
+            g[a] += b;
+            g[b] += a;
+        }
+        Queue<Integer> q = new ArrayDeque<>();
+        // 初始化，入度等于1的节点入队
+        for (int i = 0; i < n; i++) {
+            if (degree[i] == 1) {
+                q.offer(i);
+            }
+        }
+        // 还剩多少节点没有处理
+        int remain = n;
+        // 剩余超过2个节点，说明还没到中间点
+        while (remain > 2) {
+            int size = q.size();
+            // 每轮处理一圈外部叶子节点
+            remain -= size;
+            for (int k = 0; k < size; k++) {
+                // cur是当前处理节点，度=1
+                int cur = q.poll();
+                // 由于度=1，所以g[cur]的值就是cur唯一的一个相邻节点
+                int nx = g[cur];
+                // 相邻节点的g值减去当前节点
+                g[nx] -= cur;
+                // 相邻节点度减1，如果度等于1，入队
+                if (--degree[nx] == 1) {
+                    q.offer(nx);
+                }
+            }
+        }
+        // 最后剩1个或2个节点，这两个节点一定是度为1的节点且放入了队列
+        List<Integer> ans = new ArrayList<>();
+        while (!q.isEmpty()) {
+            ans.add(q.poll());
+        }
+        return ans;
     }
 }
