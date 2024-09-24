@@ -23,11 +23,14 @@ import java.util.Arrays;
 public class LC324_wiggle_sort_ii {
 
     public static void main(String[] args) {
-        int[] nums = { 1, 3, 2, 2, 3, 1 };
+        int[] nums = { 4, 5, 5, 6 };
         new LC324_wiggle_sort_ii().wiggleSort(nums);
         int i = 1;
     }
 
+    /**
+     * 前半反转，后半也反转
+     */
     public void wiggleSort(int[] nums) {
         int[] arr = nums.clone();
         Arrays.sort(arr);
