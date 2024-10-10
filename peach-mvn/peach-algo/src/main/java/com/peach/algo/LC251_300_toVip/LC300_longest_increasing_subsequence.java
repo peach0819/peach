@@ -27,6 +27,7 @@ public class LC300_longest_increasing_subsequence {
 
     /**
      * 我是傻逼
+     * dp[i]表示以nums[i]为结尾的最长队列的长度， 所以从dp[0 ~ i-1]比过去，计算dp[i]
      * 官方进阶解法：贪心+二分，维护每个长度的最小末尾队列
      */
     public int lengthOfLIS(int[] nums) {
