@@ -50,6 +50,7 @@ public class LC380_insert_delete_getrandom_o1 {
 
         Map<Integer, Integer> map = new HashMap<>();
         List<Integer> list = new ArrayList<>();
+        Random random = new Random();
 
         public RandomizedSet() {
 
@@ -84,7 +85,7 @@ public class LC380_insert_delete_getrandom_o1 {
         }
 
         public int getRandom() {
-            int i = new Random().nextInt(list.size());
+            int i = random.nextInt(list.size());
             return list.get(i);
         }
     }
