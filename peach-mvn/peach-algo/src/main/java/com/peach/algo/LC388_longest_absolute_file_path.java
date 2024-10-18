@@ -49,23 +49,8 @@ public class LC388_longest_absolute_file_path {
         new LC388_longest_absolute_file_path().lengthLongestPath("a");
     }
 
-    class Node {
-
-        int length;
-        Node parent;
-        String val;
-        boolean isTxt;
-
-        Node(Node parent, String val, boolean isTxt) {
-            this.parent = parent;
-            this.val = val;
-            this.isTxt = isTxt;
-            this.length = (parent != null ? parent.length + 1 : 0) + val.length();
-        }
-    }
-
     public int lengthLongestPath(String input) {
-        Map<Integer, Node> depthMap = new HashMap<>();
+        Map<Integer, Integer> depthMap = new HashMap<>();
         String[] dirs = input.split("\n");
         int max = 0;
         for (String s : dirs) {
@@ -81,13 +66,15 @@ public class LC388_longest_absolute_file_path {
                 }
             }
             dir = dir.replace("\t", "");
-            Node parent = depthMap.get(depth - 1);
-            Node cur = new Node(parent, dir, isTxt);
+            int length = dir.length();
+            if (depthMap.containsKey(depth - 1)) {
+                length += depthMap.get(depth - 1) + 1;
+            }
             if (!isTxt) {
-                depthMap.put(depth, cur);
+                depthMap.put(depth, length);
             }
             if (isTxt) {
-                max = Math.max(cur.length, max);
+                max = Math.max(length, max);
             }
         }
         return max;
