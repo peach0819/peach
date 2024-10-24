@@ -41,26 +41,9 @@ public class LC406_queue_reconstruction_by_height {
         }
         Arrays.sort(people, (a, b) -> a[0] == b[0] ? a[1] - b[1] : b[0] - a[0]);
         List<int[]> list = new ArrayList<>();
-        list.add(people[0]);
-        for (int i = 1; i < people.length; i++) {
-            int[] person = people[i];
-            int val = person[0];
-            int num = person[1];
-
-            int cnt = 0;
-            int index = 0;
-            while (cnt < num) {
-                if (list.get(0)[0] >= val) {
-                    cnt++;
-                }
-                index++;
-            }
-            list.add(index, person);
+        for (int[] person : people) {
+            list.add(person[1], person);
         }
-        int[][] result = new int[people.length][2];
-        for (int i = 0; i < list.size(); i++) {
-            result[i] = list.get(i);
-        }
-        return result;
+        return list.toArray(new int[people.length][2]);
     }
 }
