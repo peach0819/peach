@@ -30,15 +30,14 @@ public class LC410_split_array_largest_sum {
     //f(i, k) = max(f(j, k-1), sum(j+1, i))
     //[1,2,3,4,5]
     public int splitArray(int[] nums, int m) {
-        int len = nums.length;
-        int[][] dp = new int[len + 1][m + 1];
-        int[] sum = new int[len + 1];
+        int[][] dp = new int[nums.length + 1][m + 1];
+        int[] sum = new int[nums.length + 1];
 
-        for (int i = 1; i <= len; i++) {
+        for (int i = 1; i <= nums.length; i++) {
             Arrays.fill(dp[i], Integer.MAX_VALUE);
         }
 
-        for (int i = 1; i <= len; i++) {
+        for (int i = 1; i <= nums.length; i++) {
             sum[i] = sum[i - 1] + nums[i - 1];
             int min = Math.min(i, m);
             for (int j = 1; j <= min; j++) {
@@ -51,6 +50,6 @@ public class LC410_split_array_largest_sum {
                 }
             }
         }
-        return dp[len][m];
+        return dp[nums.length][m];
     }
 }
