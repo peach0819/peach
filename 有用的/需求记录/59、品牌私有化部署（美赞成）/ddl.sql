@@ -1,4 +1,5 @@
 ------------------------------------------------------    拜访目标    ---------------------------------------------------
+--拜访目标表
 CREATE TABLE `t_crm_visit_target` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '自增主键',
   `creator` varchar(32) NOT NULL COMMENT '创建人',
@@ -18,6 +19,7 @@ CREATE TABLE `t_crm_visit_target` (
   KEY `idx_month_target_code_indicator_id` (`data_month`, `target_code`, `indicator_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='拜访目标表';
 
+--拜访目标指标表
 CREATE TABLE `t_crm_visit_target_content` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '自增主键',
   `creator` varchar(32) NOT NULL COMMENT '创建人',
@@ -31,6 +33,7 @@ CREATE TABLE `t_crm_visit_target_content` (
   KEY `idx_target_id` (`target_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='拜访目标指标表';
 
+--请假表
 CREATE TABLE `t_crm_vacation` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '自增主键',
   `creator` varchar(32) NOT NULL COMMENT '创建人',
@@ -48,6 +51,7 @@ CREATE TABLE `t_crm_vacation` (
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='请假表';
 
 ------------------------------------------------------    拜访模版    ---------------------------------------------------
+--拜访模版表
 CREATE TABLE `t_crm_visit_template` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '自增主键',
   `creator` varchar(32) NOT NULL COMMENT '创建人',
@@ -61,6 +65,7 @@ CREATE TABLE `t_crm_visit_template` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='拜访模版表';
 
+--拜访模版对象表
 CREATE TABLE `t_crm_visit_template_object` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '自增主键',
   `creator` varchar(32) NOT NULL COMMENT '创建人',
@@ -81,6 +86,7 @@ CREATE TABLE `t_crm_visit_template_object` (
   KEY `idx_target_code` (`target_code`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='拜访模版对象表';
 
+--拜访模版内容表
 CREATE TABLE `t_crm_visit_template_content` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '自增主键',
   `creator` varchar(32) NOT NULL COMMENT '创建人',
@@ -94,6 +100,7 @@ CREATE TABLE `t_crm_visit_template_content` (
   KEY `idx_template_id` (`template_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='拜访模版内容表';
 
+--拜访模版变更日志表
 CREATE TABLE `t_crm_visit_template_log` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '自增主键',
   `creator` varchar(32) NOT NULL COMMENT '创建人',
