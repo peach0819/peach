@@ -30,32 +30,16 @@ public class LC417_pacific_atlantic_water_flow {
                         { 5, 1, 1, 2, 4 } });
     }
 
-    boolean[][][] visit;
     boolean[][][] can;
     int[][] heights;
+    int[][] temp = new int[][]{ { 0, 1 }, { 0, -1 }, { 1, 0 }, { -1, 0 } };
 
     public List<List<Integer>> pacificAtlantic(int[][] heights) {
         //0表示太平洋  1表示大西洋
         this.heights = heights;
-        this.visit = new boolean[heights.length][heights[0].length][2];
         this.can = new boolean[heights.length][heights[0].length][2];
 
         //初始化
-        for (int i = 0; i < heights.length; i++) {
-            can[i][0][0] = true;
-            visit[i][0][0] = true;
-
-            can[i][heights[0].length - 1][1] = true;
-            visit[i][heights[0].length - 1][1] = true;
-        }
-        for (int i = 0; i < heights[0].length; i++) {
-            can[0][i][0] = true;
-            visit[0][i][0] = true;
-
-            can[heights.length - 1][i][1] = true;
-            visit[heights.length - 1][i][1] = true;
-        }
-
         for (int i = 0; i < heights.length; i++) {
             handle(i, 0, 0);
             handle(i, heights[0].length - 1, 1);
@@ -79,11 +63,11 @@ public class LC417_pacific_atlantic_water_flow {
         return result;
     }
 
-    int[][] temp = new int[][]{ { 0, 1 }, { 0, -1 }, { 1, 0 }, { -1, 0 } };
-
     //传染
     private void handle(int i, int j, int type) {
-        visit[i][j][type] = true;
+        if (can[i][j][type]) {
+            return;
+        }
         can[i][j][type] = true;
         int height = heights[i][j];
 
@@ -93,7 +77,7 @@ public class LC417_pacific_atlantic_water_flow {
             if (i1 < 0 || i1 > heights.length - 1 || j1 < 0 || j1 > heights[0].length - 1) {
                 continue;
             }
-            if (!visit[i1][j1][type] && height <= heights[i1][j1]) {
+            if (height <= heights[i1][j1]) {
                 handle(i1, j1, type);
             }
         }
