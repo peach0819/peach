@@ -50,4 +50,34 @@ public class LC416_partition_equal_subset_sum {
         return dp[nums.length - 1][target];
     }
 
+    /**
+     * 动态规划的更高境界，就是把二维数组转成一维数组，历史i不用记录，只记录最近一次i
+     */
+    // 恰好装满的背包问题
+    // 利用一维dp数组判段0...target能否取到
+    public boolean canPartition1(int[] nums) {
+        int total = 0;
+        for (int num : nums) {
+            total += num;
+        }
+        if (total % 2 == 1) {
+            return false;
+        }
+        int target = total / 2;
+        boolean[] dp = new boolean[target + 1];
+        dp[0] = true;
+        for (int num : nums) {
+            //这里因为肯定不会到最后一个才相同，如果最后一个才等于target，说明前面肯定有另外一组target
+            if (dp[target]) {
+                return true;
+            }
+            for (int i = target; i >= num; i--) {
+                if (dp[i - num] && !dp[i]) {
+                    dp[i] = true;
+                }
+            }
+        }
+        return false;
+    }
+
 }
