@@ -16,6 +16,9 @@ CREATE TABLE `t_crm_visit_target` (
   `data_month` varchar(100) NOT NULL DEFAULT '0' COMMENT '目标月份',
   `indicator_id` bigint(20) NOT NULL COMMENT '指标id',
   PRIMARY KEY (`id`),
+  KEY `idx_service_obj_type` (`service_obj_type`),
+  KEY `idx_role_id` (`role_id`),
+  KEY `idx_channel_id` (`channel_id`),
   KEY `idx_month_target_code_indicator_id` (`data_month`, `target_code`, `indicator_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='拜访目标表';
 
