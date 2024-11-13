@@ -53,6 +53,40 @@ CREATE TABLE `t_crm_vacation` (
   KEY `idx_user_id_status` (`user_id`, `vacation_status`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='请假表';
 
+------------------------------------------------------    目标看板    ---------------------------------------------------
+--拜访指标表
+CREATE TABLE `t_crm_visit_indicator` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '自增主键',
+  `creator` varchar(32) NOT NULL COMMENT '创建人',
+  `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `editor` varchar(32) NOT NULL COMMENT '修改人',
+  `edit_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '编辑时间',
+  `is_deleted` tinyint(1) NOT NULL DEFAULT '0' COMMENT '是否删除',
+  `indicator_code` varchar(200) COMMENT '指标code',
+  `indicator_name` varchar(200) COMMENT '指标名',
+  `indicator_unit` varchar (50) COMMENT '指标单位',
+  `indicator_type` tinyint(20) COMMENT '指标类型, 0原子指标 1派生指标',
+  `indicator_display_type` varchar(50) COMMENT '指标展示类型, num数字类型 text文本类型 ratio百分比类型',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `uk_indicator_code` (`indicator_code`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='拜访指标表';
+
+--拜访指标可见性设定
+CREATE TABLE `t_crm_visit_indicator_visible` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '自增主键',
+  `creator` varchar(32) NOT NULL COMMENT '创建人',
+  `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `editor` varchar(32) NOT NULL COMMENT '修改人',
+  `edit_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '编辑时间',
+  `is_deleted` tinyint(1) NOT NULL DEFAULT '0' COMMENT '是否删除',
+  `visible_type` tinyint(20) COMMENT '可见性类型 0核心指标 1次要指标',
+  `job_id` bigint(20) COMMENT '岗位id（美赞臣角色分类id）',
+  `indicator_id` bigint(20) COMMENT '指标id',
+  `visiable_sort` bigint(20) NOT NULL DEFAULT '99' COMMENT '可见性排序',
+  PRIMARY KEY (`id`),
+  KEY `idx_job_id` (`job_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='拜访指标表';
+
 ------------------------------------------------------    拜访模版    ---------------------------------------------------
 --拜访模版表
 CREATE TABLE `t_crm_visit_template` (
