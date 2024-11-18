@@ -18,6 +18,6 @@ VALUES (100, 'system', 'system', 'month_visit_my_reach', '当月我的拜访达�
        (107, 'system', 'system', 'month_visit_nc_cover_rate', '当月NC门店拜访覆盖率', '%', 1, 'ratio'),
        (108, 'system', 'system', 'month_visit_ncm_cover_rate', '当月NCM门店拜访覆盖率', '%', 1, 'ratio'),
        (109, 'system', 'system', 'month_visit_ncm_big_freq_reach_rate', '当月NCM重点门店拜访频次达成率', '%', 1, 'ratio'),
-       (110, 'system', 'system', 'month_visit_hsp_cnt_actual', '当月服务商拜访个数', '%', 1, 'num'),
+       (110, 'system', 'system', 'month_visit_hsp_cnt_actual', '当月服务商拜访个数', '', 1, 'num'),
        (111, 'system', 'system', 'month_visit_hsp_cover_rate', '当季服务商拜访覆盖率', '%', 1, 'ratio');
 
