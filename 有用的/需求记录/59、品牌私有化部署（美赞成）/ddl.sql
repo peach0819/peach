@@ -81,10 +81,11 @@ CREATE TABLE `t_crm_visit_indicator_visible` (
   `is_deleted` tinyint(1) NOT NULL DEFAULT '0' COMMENT '是否删除',
   `visible_type` tinyint(20) COMMENT '可见性类型 0核心指标 1次要指标',
   `job_id` bigint(20) COMMENT '岗位id（美赞臣角色分类id）',
+  `channel_id` bigint(20) COMMENT '人员渠道id',
   `indicator_id` bigint(20) COMMENT '指标id',
   `visiable_sort` bigint(20) NOT NULL DEFAULT '99' COMMENT '可见性排序',
   PRIMARY KEY (`id`),
-  KEY `idx_job_id` (`job_id`)
+  KEY `idx_job_id_channel_id` (`job_id`, `channel_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='拜访指标表';
 
 --目标看板回流表
