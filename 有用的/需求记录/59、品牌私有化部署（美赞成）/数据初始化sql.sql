@@ -21,3 +21,202 @@ VALUES (100, 'system', 'system', 'month_visit_my_reach', '当月我的拜访达�
        (110, 'system', 'system', 'month_visit_hsp_cnt_actual', '当月服务商拜访个数', '', 1, 'num'),
        (111, 'system', 'system', 'month_visit_hsp_cover_rate', '当季服务商拜访覆盖率', '%', 1, 'ratio');
 
+------------------------------------------------指标可见性矩阵初始化
+--当月拜访人员达标率
+INSERT INTO t_crm_visit_indicator_visible(`creator`, `editor`, `visible_type`, `job_id`, `channel_id`, `indicator_id`, `visiable_sort`)
+VALUES ('system', 'system', 0, 5, 5, 101, 0),
+       ('system', 'system', 0, 15, 5, 101, 0),
+       ('system', 'system', 0, 13, 5, 101, 0),
+       ('system', 'system', 0, 5, 1, 101, 0),
+       ('system', 'system', 0, 15, 1, 101, 0),
+       ('system', 'system', 0, 13, 1, 101, 0),
+       ('system', 'system', 0, 5, 8, 101, 0),
+       ('system', 'system', 0, 15, 8, 101, 0),
+       ('system', 'system', 0, 13, 8, 101, 0),
+       ('system', 'system', 0, 12, null, 101, 0),
+       ('system', 'system', 0, 8, null, 101, 0),
+       ('system', 'system', 0, 11, null, 101, 0),
+       ('system', 'system', 0, 24, null, 101, 0),
+       ('system', 'system', 0, 26, 8, 101, 0),
+       ('system', 'system', 0, 2, null, 101, 0),
+       ('system', 'system', 0, 25, null, 101, 0),
+       ('system', 'system', 0, 7, null, 101, 0),
+       ('system', 'system', 0, 10, null, 101, 0),
+       ('system', 'system', 0, 19, null, 101, 0),
+       ('system', 'system', 0, 18, null, 101, 0),
+       ('system', 'system', 0, 4, null, 101, 0),
+       ('system', 'system', 0, 3, null, 101, 0),
+       ('system', 'system', 0, 17, null, 101, 0),
+       ('system', 'system', 0, 16, null, 101, 0),
+       ('system', 'system', 0, 6, null, 101, 0),
+       ('system', 'system', 0, 14, null, 101, 0),
+       ('system', 'system', 0, 9, null, 101, 0),
+       ('system', 'system', 0, 20, null, 101, 0),
+       ('system', 'system', 0, 22, null, 101, 0),
+       ('system', 'system', 0, 21, null, 101, 0),
+       ('system', 'system', 0, 23, null, 101, 0),
+       ('system', 'system', 0, 1, null, 101, 0);
+
+--当月有效拜访门店数
+INSERT INTO t_crm_visit_indicator_visible(`creator`, `editor`, `visible_type`, `job_id`, `channel_id`, `indicator_id`)
+VALUES ('system', 'system', 1, 5, 5, 102),
+       ('system', 'system', 1, 15, 5, 102),
+       ('system', 'system', 1, 13, 5, 102),
+       ('system', 'system', 1, 5, 1, 102),
+       ('system', 'system', 1, 15, 1, 102),
+       ('system', 'system', 1, 13, 1, 102),
+       ('system', 'system', 0, 5, 8, 102),
+       ('system', 'system', 0, 15, 8, 102),
+       ('system', 'system', 0, 13, 8, 102),
+       ('system', 'system', 1, 12, null, 102),
+       ('system', 'system', 1, 11, null, 102),
+       ('system', 'system', 0, 26, 8, 102),
+       ('system', 'system', 1, 2, null, 102),
+       ('system', 'system', 1, 25, null, 102);
+
+--季度有效拜访门店数
+INSERT INTO t_crm_visit_indicator_visible(`creator`, `editor`, `visible_type`, `job_id`, `channel_id`, `indicator_id`)
+VALUES ('system', 'system', 1, 5, 5, 103),
+       ('system', 'system', 1, 15, 5, 103),
+       ('system', 'system', 1, 13, 5, 103),
+       ('system', 'system', 1, 5, 1, 103),
+       ('system', 'system', 1, 15, 1, 103),
+       ('system', 'system', 1, 13, 1, 103),
+       ('system', 'system', 1, 5, 8, 103),
+       ('system', 'system', 1, 15, 8, 103),
+       ('system', 'system', 1, 13, 8, 103),
+       ('system', 'system', 1, 12, null, 103),
+       ('system', 'system', 1, 8, null, 103),
+       ('system', 'system', 1, 11, null, 103),
+       ('system', 'system', 1, 26, 8, 103),
+       ('system', 'system', 1, 2, null, 103),
+       ('system', 'system', 1, 25, null, 103);
+
+--当月有效拜访率
+INSERT INTO t_crm_visit_indicator_visible(`creator`, `editor`, `visible_type`, `job_id`, `channel_id`, `indicator_id`)
+VALUES ('system', 'system', 1, 5, 5, 104),
+       ('system', 'system', 1, 15, 5, 104),
+       ('system', 'system', 1, 13, 5, 104),
+       ('system', 'system', 1, 5, 1, 104),
+       ('system', 'system', 1, 15, 1, 104),
+       ('system', 'system', 1, 13, 1, 104),
+       ('system', 'system', 1, 5, 8, 104),
+       ('system', 'system', 1, 15, 8, 104),
+       ('system', 'system', 1, 13, 8, 104),
+       ('system', 'system', 0, 12, null, 104),
+       ('system', 'system', 0, 8, null, 104),
+       ('system', 'system', 0, 11, null, 104),
+       ('system', 'system', 1, 24, null, 104),
+       ('system', 'system', 0, 26, 8, 104),
+       ('system', 'system', 0, 2, null, 104),
+       ('system', 'system', 0, 25, null, 104),
+       ('system', 'system', 0, 7, null, 104),
+       ('system', 'system', 0, 10, null, 104),
+       ('system', 'system', 0, 19, null, 104),
+       ('system', 'system', 0, 18, null, 104),
+       ('system', 'system', 0, 4, null, 104),
+       ('system', 'system', 0, 3, null, 104),
+       ('system', 'system', 0, 17, null, 104),
+       ('system', 'system', 0, 16, null, 104),
+       ('system', 'system', 0, 6, null, 104),
+       ('system', 'system', 0, 14, null, 104),
+       ('system', 'system', 0, 9, null, 104),
+       ('system', 'system', 0, 20, null, 104),
+       ('system', 'system', 0, 22, null, 104),
+       ('system', 'system', 0, 21, null, 104),
+       ('system', 'system', 0, 23, null, 104),
+       ('system', 'system', 0, 1, null, 104);
+
+--当月计划拜访门店完成率
+INSERT INTO t_crm_visit_indicator_visible(`creator`, `editor`, `visible_type`, `job_id`, `channel_id`, `indicator_id`)
+VALUES ('system', 'system', 1, 5, 5, 105),
+       ('system', 'system', 1, 15, 5, 105),
+       ('system', 'system', 1, 13, 5, 105),
+       ('system', 'system', 1, 5, 1, 105),
+       ('system', 'system', 1, 15, 1, 105),
+       ('system', 'system', 1, 13, 1, 105),
+       ('system', 'system', 1, 5, 8, 105),
+       ('system', 'system', 1, 15, 8, 105),
+       ('system', 'system', 1, 13, 8, 105),
+       ('system', 'system', 1, 12, null, 105),
+       ('system', 'system', 1, 8, null, 105),
+       ('system', 'system', 1, 11, null, 105),
+       ('system', 'system', 1, 24, null, 105),
+       ('system', 'system', 1, 2, null, 105),
+       ('system', 'system', 1, 25, null, 105);
+
+--当月门店拜访频次达标率
+INSERT INTO t_crm_visit_indicator_visible(`creator`, `editor`, `visible_type`, `job_id`, `channel_id`, `indicator_id`)
+VALUES ('system', 'system', 0, 5, 5, 106),
+       ('system', 'system', 0, 15, 5, 106),
+       ('system', 'system', 0, 13, 5, 106),
+       ('system', 'system', 0, 5, 1, 106),
+       ('system', 'system', 0, 15, 1, 106),
+       ('system', 'system', 0, 13, 1, 106),
+       ('system', 'system', 1, 5, 8, 106),
+       ('system', 'system', 1, 15, 8, 106),
+       ('system', 'system', 1, 13, 8, 106),
+       ('system', 'system', 0, 12, null, 106),
+       ('system', 'system', 0, 8, null, 106),
+       ('system', 'system', 0, 11, null, 106),
+       ('system', 'system', 0, 2, null, 106),
+       ('system', 'system', 0, 25, null, 106),
+       ('system', 'system', 0, 7, null, 106),
+       ('system', 'system', 0, 10, null, 106),
+       ('system', 'system', 0, 19, null, 106),
+       ('system', 'system', 0, 18, null, 106),
+       ('system', 'system', 0, 4, null, 106),
+       ('system', 'system', 0, 3, null, 106),
+       ('system', 'system', 0, 17, null, 106),
+       ('system', 'system', 0, 16, null, 106),
+       ('system', 'system', 0, 6, null, 106),
+       ('system', 'system', 0, 14, null, 106),
+       ('system', 'system', 0, 9, null, 106),
+       ('system', 'system', 0, 20, null, 106),
+       ('system', 'system', 0, 22, null, 106),
+       ('system', 'system', 0, 21, null, 106),
+       ('system', 'system', 0, 23, null, 106),
+       ('system', 'system', 0, 1, null, 106);
+
+--当月NC门店拜访覆盖率
+INSERT INTO t_crm_visit_indicator_visible(`creator`, `editor`, `visible_type`, `job_id`, `channel_id`, `indicator_id`)
+VALUES ('system', 'system', 0, 5, 5, 107),
+       ('system', 'system', 0, 15, 5, 107),
+       ('system', 'system', 0, 13, 5, 107),
+       ('system', 'system', 0, 5, 1, 107),
+       ('system', 'system', 0, 15, 1, 107),
+       ('system', 'system', 0, 13, 1, 107),
+       ('system', 'system', 1, 12, null, 107),
+       ('system', 'system', 1, 8, null, 107),
+       ('system', 'system', 1, 11, null, 107),
+       ('system', 'system', 1, 2, null, 107),
+       ('system', 'system', 1, 25, null, 107);
+
+--当月NCM门店拜访覆盖率
+INSERT INTO t_crm_visit_indicator_visible(`creator`, `editor`, `visible_type`, `job_id`, `channel_id`, `indicator_id`)
+VALUES ('system', 'system', 0, 24, null, 108);
+
+--当月NCM重点门店拜访频次达成率
+INSERT INTO t_crm_visit_indicator_visible(`creator`, `editor`, `visible_type`, `job_id`, `channel_id`, `indicator_id`)
+VALUES ('system', 'system', 0, 24, null, 109);
+
+--当月服务商拜访个数
+INSERT INTO t_crm_visit_indicator_visible(`creator`, `editor`, `visible_type`, `job_id`, `channel_id`, `indicator_id`)
+VALUES ('system', 'system', 0, 5, 8, 110),
+       ('system', 'system', 0, 15, 8, 110),
+       ('system', 'system', 0, 13, 8, 110),
+       ('system', 'system', 1, 12, null, 110),
+       ('system', 'system', 1, 11, null, 110),
+       ('system', 'system', 1, 25, null, 110);
+
+--当季服务商拜访覆盖率
+INSERT INTO t_crm_visit_indicator_visible(`creator`, `editor`, `visible_type`, `job_id`, `channel_id`, `indicator_id`)
+VALUES ('system', 'system', 1, 5, 8, 111),
+       ('system', 'system', 1, 15, 8, 111),
+       ('system', 'system', 1, 13, 8, 111),
+       ('system', 'system', 1, 12, null, 111),
+       ('system', 'system', 1, 8, null, 111),
+       ('system', 'system', 1, 11, null, 111),
+       ('system', 'system', 1, 25, null, 111);
+
+
