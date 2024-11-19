@@ -2,9 +2,9 @@
 --原子指标
 INSERT INTO t_crm_visit_indicator(`id`, `creator`, `editor`, `indicator_code`, `indicator_name`, `indicator_unit`, `indicator_type`, `indicator_display_type`)
 VALUES (1, 'system', 'system', 'month_visit_valid_shop_cnt', '当月有效拜访门店数', '', 0, 'num'),
-       (2, 'system', 'system', 'month_visit_shop_cnt', '当月目标拜访店次', '%', 0, 'num'),
-       (3, 'system', 'system', 'month_visit_hsp_cnt', '当月服务商拜访数', '%', 0, 'num'),
-       (4, 'system', 'system', 'month_visit_big_shop_cnt', '当月重点门店目标拜访店次', '%', 0, 'num');
+       (2, 'system', 'system', 'month_visit_shop_cnt', '当月目标拜访店次', '', 0, 'num'),
+       (3, 'system', 'system', 'month_visit_hsp_cnt', '当月服务商拜访数', '', 0, 'num'),
+       (4, 'system', 'system', 'month_visit_big_shop_cnt', '当月重点门店目标拜访店次', '', 0, 'num');
 
 --派生指标
 INSERT INTO t_crm_visit_indicator(`id`, `creator`, `editor`, `indicator_code`, `indicator_name`, `indicator_unit`, `indicator_type`, `indicator_display_type`)
