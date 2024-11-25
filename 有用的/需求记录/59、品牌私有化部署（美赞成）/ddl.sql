@@ -128,6 +128,7 @@ CREATE TABLE `t_crm_visit_template_object` (
   `editor` varchar(32) NOT NULL COMMENT '修改人',
   `edit_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '编辑时间',
   `is_deleted` tinyint(1) NOT NULL DEFAULT '0' COMMENT '是否删除',
+  `inuse` tinyint(1) NOT NULL DEFAULT '0' COMMENT '0使用中 1已废弃',
   `template_id` bigint(1) NOT NULL COMMENT '拜访模版id',
   `service_obj_type` bigint(20) COMMENT '门店分类id, 美赞臣定制',
   `role_id` bigint(20) COMMENT '角色id, 美赞臣定制',
