@@ -89,7 +89,7 @@ CREATE TABLE `t_crm_visit_indicator_visible` (
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='拜访指标表';
 
 --目标看板回流表
-CREATE TABLE sync_crm_visit_user_indicator_d (
+CREATE TABLE `sync_crm_visit_user_indicator_d` (
   id bigint(16) NOT NULL AUTO_INCREMENT,
   creator varchar(32) NOT NULL COMMENT '创建人',
   editor varchar(32) NOT NULL COMMENT '编辑人',
