@@ -61,6 +61,19 @@ refund as (
     group by dayid, order_id
 ),
 
+pre_card_refund as (
+    SELECT order_id,
+           sum(CASE WHEN card_serial_cause in (4) and template_card_id in ('1641','1642','1643','1644','1645','1646','1647','1648','1649') THEN card_fund_serial_amt ELSE 0 END) AS pickup_card_refund_amount--预售提货卡退款金额
+    from ytdw.dw_ytj_trd_card_fund_serial_details_d
+    WHERE dayid = '${v_date}'
+    AND hi_card_type = 1 -- 提货卡
+    AND card_serial_direction = 0 -- 支出
+    AND card_serial_cause in(2,4) -- 支付支出
+    -- 理论上是可以加上时间为当月做过滤
+    AND order_id IS NOT NULL
+    GROUP BY order_id
+),
+
 ord as (
     SELECT order_id,
            d.dayid,
@@ -118,7 +131,8 @@ ord as (
            pickup_recharge_pay_amount,
            hi_recharge_gmv,
            brand_tag_code,
-           brand_type
+           brand_type,
+           is_pre_card_order
     FROM yt_crm.dw_salary_gmv_rule_public_mid_v2_d d
     LEFT JOIN shop_group_mapping ON d.shop_id = shop_group_mapping.group_shop_id AND d.dayid = shop_group_mapping.dayid
     where d.dayid > '0'
@@ -254,8 +268,8 @@ before_cur as (
                 end as grant_object_user_dep_name,
 
            ---统计指标----
-           case when plan.bounty_indicator_code in ('STOCK_GMV_1_GOODS_GMV_MINUS_REFUND', 'STOCK_GMV_AVG_GOODS_GMV_MINUS_REFUND', 'GMV_SHIHUO_RATE', 'GMV_SHIHUO_SHOP_COUNT', 'AVG_GMV_SHIHUO_SHOP_COUNT') then if(business_unit not in ('卡券票','其他'), ord.gmv - nvl(refund.refund_actual_amount, 0), 0) --实货GMV(去退款)
-                when plan.bounty_indicator_code in ('STOCK_GMV_1_GOODS_PAY_AMT_MINUS_COUNPONS_MINUS_REF', 'STOCK_GMV_AVG_GOODS_PAY_AMT_MINUS_COUNPONS_REF') then if(business_unit not in ('卡券票','其他'), ord.pay_amount - nvl(refund.refund_actual_amount, 0), 0)  --实货支付金额(去优惠券去退款)
+           case when plan.bounty_indicator_code in ('STOCK_GMV_1_GOODS_GMV_MINUS_REFUND', 'STOCK_GMV_AVG_GOODS_GMV_MINUS_REFUND', 'GMV_SHIHUO_RATE', 'GMV_SHIHUO_SHOP_COUNT', 'AVG_GMV_SHIHUO_SHOP_COUNT') then if(business_unit not in ('卡券票','其他') OR ord.is_pre_card_order = 1, ord.gmv - nvl(refund.refund_actual_amount, 0) + nvl(pre_card_refund.pickup_card_refund_amount, 0), 0) --实货GMV(去退款)
+                when plan.bounty_indicator_code in ('STOCK_GMV_1_GOODS_PAY_AMT_MINUS_COUNPONS_MINUS_REF', 'STOCK_GMV_AVG_GOODS_PAY_AMT_MINUS_COUNPONS_REF') then if(business_unit not in ('卡券票','其他') OR ord.is_pre_card_order = 1, ord.pay_amount - nvl(refund.refund_actual_amount, 0) + nvl(pre_card_refund.pickup_card_refund_amount, 0), 0)  --实货支付金额(去优惠券去退款)
                 when plan.bounty_indicator_code in ('PICKUP_PAY_GMV_LESS_REFUND', 'AVG_PICKUP_PAY_GMV_LESS_REFUND') then if(is_pickup_recharge_order = 1 OR business_unit not in ('卡券票','其他'), ord.pickup_pay_gmv - nvl(refund.refund_actual_amount_less_pickup, 0), 0)  --提货卡口径GMV(去退款)
                 when plan.bounty_indicator_code in ('PICKUP_PAY_AMT_LESS_COUPON_REFUND', 'AVG_PICKUP_PAY_AMT_LESS_COUPON_REFUND') then if(is_pickup_recharge_order = 1 OR business_unit not in ('卡券票','其他'), ord.pickup_pay_pay_amount - nvl(refund.refund_actual_amount_less_pickup, 0), 0)  --提货卡口径支付金额(去优惠券去退款)
                 when plan.bounty_indicator_code in ('PICKUP_RECHARGE_GMV_LESS_REFUND', 'AVG_PICKUP_RECHARGE_GMV_LESS_REFUND') then if(is_pickup_recharge_order = 1, ord.pickup_recharge_gmv - nvl(refund.refund_actual_amount, 0), 0)  --提货卡充值GMV(去退款)
@@ -269,12 +283,12 @@ before_cur as (
                'category_id_third', ord.category_id_third,
                'category_id_third_name', ord.category_id_third_name,
                'brand_type', ord.brand_type,
-               'gmv_less_refund', if(business_unit not in ('卡券票','其他'), ord.gmv - nvl(refund.refund_actual_amount, 0), 0),
-               'gmv', if(business_unit not in ('卡券票','其他'), ord.gmv, 0),
-               'pay_amount', if(business_unit not in ('卡券票','其他'), ord.pay_amount, 0),
-               'pay_amount_less_refund', if(business_unit not in ('卡券票','其他'), ord.pay_amount - nvl(refund.refund_actual_amount, 0), 0),
-               'refund_actual_amount', if(business_unit not in ('卡券票','其他'), nvl(refund.refund_actual_amount, 0), 0),
-               'refund_retreat_amount', if(business_unit not in ('卡券票','其他'), nvl(refund.refund_retreat_amount, 0), 0),
+               'gmv_less_refund', if(business_unit not in ('卡券票','其他') OR ord.is_pre_card_order = 1, ord.gmv - nvl(refund.refund_actual_amount, 0) + nvl(pre_card_refund.pickup_card_refund_amount, 0), 0),
+               'gmv', if(business_unit not in ('卡券票','其他') OR ord.is_pre_card_order = 1, ord.gmv, 0),
+               'pay_amount', if(business_unit not in ('卡券票','其他') OR ord.is_pre_card_order = 1, ord.pay_amount, 0),
+               'pay_amount_less_refund', if(business_unit not in ('卡券票','其他') OR ord.is_pre_card_order = 1, ord.pay_amount - nvl(refund.refund_actual_amount, 0) + nvl(pre_card_refund.pickup_card_refund_amount, 0), 0),
+               'refund_actual_amount', if(business_unit not in ('卡券票','其他') OR ord.is_pre_card_order = 1, nvl(refund.refund_actual_amount, 0) - nvl(pre_card_refund.pickup_card_refund_amount, 0), 0),
+               'refund_retreat_amount', if(business_unit not in ('卡券票','其他') OR ord.is_pre_card_order = 1, nvl(refund.refund_retreat_amount, 0), 0),
                'pickup_pay_gmv', if(is_pickup_recharge_order = 1 OR business_unit not in ('卡券票','其他'), ord.pickup_pay_gmv, 0),
                'pickup_pay_pay_amount', if(is_pickup_recharge_order = 1 OR business_unit not in ('卡券票','其他'), ord.pickup_pay_pay_amount, 0),
                'pickup_recharge_gmv', if(is_pickup_recharge_order = 1, ord.pickup_recharge_gmv, 0),
@@ -284,12 +298,14 @@ before_cur as (
                'pickup_recharge_gmv_less_refund', if(is_pickup_recharge_order = 1, ord.pickup_recharge_gmv - nvl(refund.refund_actual_amount, 0), 0),
                'pickup_recharge_pay_amount_less_refund', if(is_pickup_recharge_order = 1, ord.pickup_recharge_pay_amount - nvl(refund.refund_actual_amount, 0), 0),
                'hi_recharge_gmv', if(item_style = 1 AND category_id_first_name = '卡券票' AND is_pickup_recharge_order = 0, ord.hi_recharge_gmv, 0),
-               'hi_recharge_gmv_less_refund', if(item_style = 1 AND category_id_first_name = '卡券票' AND is_pickup_recharge_order = 0, ord.hi_recharge_gmv - nvl(refund.refund_actual_amount, 0), 0)
+               'hi_recharge_gmv_less_refund', if(item_style = 1 AND category_id_first_name = '卡券票' AND is_pickup_recharge_order = 0, ord.hi_recharge_gmv - nvl(refund.refund_actual_amount, 0), 0),
+               'is_pre_card_order', ord.is_pre_card_order
            )) as extra
     FROM plan
     CROSS JOIN ord ON ord.dayid = split(plan.backward_date, ',')[0]
     LEFT JOIN refund ON ord.order_id = refund.order_id AND refund.dayid = if(ytdw.simple_expr(brand_id, 'in', unback_brand_value) = (case when unback_brand_operator = '!=' then 0 else 1 end), ord.dayid, '${v_date}')
     LEFT JOIN big_bd_manager ON yt_crm.get_service_info('service_job_name:大BD',ord.service_info_freezed,'service_department_id') = big_bd_manager.dept_id AND ord.dayid = big_bd_manager.dayid AND big_bd_manager.rn = 1
+    LEFT JOIN pre_card_refund ON ord.order_id = pre_card_refund.order_id
     where yt_crm.plan_calculate_date(plan.calculate_date, 'between', ord.pay_day) = 'true'
     and ytdw.simple_expr(ord.sale_team_freezed_id, 'in', freeze_sales_team_value) = (case when freeze_sales_team_operator = '=' then 1 else 0 end)
     and ytdw.simple_expr(item_style_name, 'in', item_style_value) = (case when item_style_operator = '=' then 1 else 0 end)
