@@ -19,12 +19,14 @@ PARTITIONED BY (dayid STRING);
 
 CREATE TABLE IF NOT EXISTS ads_crm_visit_user_notice_d(
     user_id STRING COMMENT '用户id',
-    virtual_group_id INT COMMENT '虚拟组id',
+    user_real_name STRING COMMENT '用户名',
+    virtual_group_id BIGINT COMMENT '虚拟组id',
     virtual_group_name STRING COMMENT '虚拟组名',
-    parent_virtual_group_id INT COMMENT '父级虚拟组id',
+    parent_virtual_group_id BIGINT COMMENT '父级虚拟组id',
     parent_virtual_group_name STRING COMMENT '父级虚拟组名',
-    total_cnt INT COMMENT '总人数',
-    visit_qualified_cnt INT COMMENT '拜访达标人数'
+    total_cnt BIGINT COMMENT '总人数',
+    visit_qualified_cnt BIGINT COMMENT '拜访达标人数'
 )
-PARTITIONED BY (dayid STRING);
+PARTITIONED BY (dayid STRING)
+LIFECYCLE 365;
 
