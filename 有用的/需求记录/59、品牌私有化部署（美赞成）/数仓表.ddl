@@ -20,6 +20,7 @@ PARTITIONED BY (dayid STRING);
 CREATE TABLE IF NOT EXISTS ads_crm_visit_user_notice_d(
     user_id STRING COMMENT '用户id',
     user_real_name STRING COMMENT '用户名',
+    user_phone STRING COMMENT '用户手机号',
     virtual_group_id BIGINT COMMENT '虚拟组id',
     virtual_group_name STRING COMMENT '虚拟组名',
     parent_virtual_group_id BIGINT COMMENT '父级虚拟组id',

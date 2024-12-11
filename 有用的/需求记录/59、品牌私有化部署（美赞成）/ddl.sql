@@ -169,3 +169,25 @@ CREATE TABLE `t_crm_visit_template_log` (
   PRIMARY KEY (`id`),
   KEY `idx_template_id` (`template_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='拜访模版变更日志表';
+
+--企微指标播报数据表
+CREATE TABLE `sync_crm_visit_user_notice_d` (
+  id bigint(16) NOT NULL AUTO_INCREMENT,
+  creator varchar(32) NOT NULL COMMENT '创建人',
+  editor varchar(32) NOT NULL COMMENT '编辑人',
+  create_time datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  edit_time datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
+  is_deleted tinyint(4) DEFAULT '0' COMMENT '是否删除:0-否 1-是',
+  dayid varchar(8) NOT NULL COMMENT '数仓表区块标示',
+  user_id varchar(200) COMMENT '用户id',
+  user_real_name varchar(200) COMMENT '用户名',
+  user_phone varchar(200) COMMENT '用户手机号',
+  virtual_group_id bigint(16) COMMENT '虚拟组id',
+  virtual_group_name varchar(200) COMMENT '虚拟组名',
+  parent_virtual_group_id bigint(16) COMMENT '父级虚拟组id',
+  parent_virtual_group_name varchar(200) COMMENT '父级虚拟组名',
+  total_cnt bigint(16) COMMENT '总人数',
+  visit_qualified_cnt bigint(16) COMMENT '拜访达标人数',
+  PRIMARY KEY (`id`),
+  KEY `idx_user_id` (`user_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='目标看板回流表';
