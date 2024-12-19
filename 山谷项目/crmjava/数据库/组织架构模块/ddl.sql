@@ -1,11 +1,11 @@
 --组织表
 CREATE TABLE crm_org (
   `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '自增主键',
-  `creator` bigint(20) NOT NULL COMMENT '创建人',
   `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `editor` bigint(20) NOT NULL COMMENT '修改人',
   `edit_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '编辑时间',
   `is_deleted` tinyint(1) NOT NULL DEFAULT '0' COMMENT '是否删除',
+  `creator` bigint(20) NOT NULL COMMENT '创建人',
+  `editor` bigint(20) NOT NULL COMMENT '修改人',
   `org_name` varchar(200) COMMENT '组织名称',
   `parent_id` bigint(20) COMMENT '组织的上级组织id',
   `root_key` varchar(500) COMMENT '组织的全链路',
@@ -17,9 +17,7 @@ CREATE TABLE crm_org (
 --岗位表
 CREATE TABLE crm_job (
   `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '自增主键',
-  `creator` bigint(20) NOT NULL COMMENT '创建人',
   `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `editor` bigint(20) NOT NULL COMMENT '修改人',
   `edit_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '编辑时间',
   `is_deleted` tinyint(1) NOT NULL DEFAULT '0' COMMENT '是否删除',
   `job_name` varchar(200) COMMENT '岗位名称',
@@ -30,11 +28,11 @@ CREATE TABLE crm_job (
 --销售表
 CREATE TABLE crm_sales (
   `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '自增主键',
-  `creator` bigint(20) NOT NULL COMMENT '创建人',
   `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `editor` bigint(20) NOT NULL COMMENT '修改人',
   `edit_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '编辑时间',
   `is_deleted` tinyint(1) NOT NULL DEFAULT '0' COMMENT '是否删除',
+  `creator` bigint(20) NOT NULL COMMENT '创建人',
+  `editor` bigint(20) NOT NULL COMMENT '修改人',
   `sales_name` varchar(200) NOT NULL COMMENT '销售姓名',
   `sales_phone` varchar(200) COMMENT '销售联系电话',
   `job_id` bigint(20) COMMENT '销售岗位id',
@@ -46,9 +44,7 @@ CREATE TABLE crm_sales (
 --区域表
 CREATE TABLE crm_area (
   `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '自增主键',
-  `creator` bigint(20) NOT NULL COMMENT '创建人',
   `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `editor` bigint(20) NOT NULL COMMENT '修改人',
   `edit_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '编辑时间',
   `is_deleted` tinyint(1) NOT NULL DEFAULT '0' COMMENT '是否删除',
   `area_name` varchar(200) NOT NULL COMMENT '区域名称',
@@ -61,11 +57,11 @@ CREATE TABLE crm_area (
 --组织辖区表
 CREATE TABLE crm_org_area (
   `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '自增主键',
-  `creator` bigint(20) NOT NULL COMMENT '创建人',
   `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `editor` bigint(20) NOT NULL COMMENT '修改人',
   `edit_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '编辑时间',
   `is_deleted` tinyint(1) NOT NULL DEFAULT '0' COMMENT '是否删除',
+  `creator` bigint(20) NOT NULL COMMENT '创建人',
+  `editor` bigint(20) NOT NULL COMMENT '修改人',
   `org_id` bigint(20) NOT NULL COMMENT '组织id',
   `area_id` bigint(20) NOT NULL COMMENT '区域id',
   PRIMARY KEY (`id`),
@@ -75,11 +71,11 @@ CREATE TABLE crm_org_area (
 --销售辖区表
 CREATE TABLE crm_sales_area (
   `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '自增主键',
-  `creator` bigint(20) NOT NULL COMMENT '创建人',
   `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `editor` bigint(20) NOT NULL COMMENT '修改人',
   `edit_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '编辑时间',
   `is_deleted` tinyint(1) NOT NULL DEFAULT '0' COMMENT '是否删除',
+  `creator` bigint(20) NOT NULL COMMENT '创建人',
+  `editor` bigint(20) NOT NULL COMMENT '修改人',
   `sales_id` bigint(20) NOT NULL COMMENT '销售id',
   `area_id` bigint(20) NOT NULL COMMENT '区域id',
   PRIMARY KEY (`id`),
@@ -89,9 +85,7 @@ CREATE TABLE crm_sales_area (
 --用户表
 CREATE TABLE crm_user (
   `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '自增主键',
-  `creator` bigint(20) NOT NULL COMMENT '创建人',
   `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `editor` bigint(20) NOT NULL COMMENT '修改人',
   `edit_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '编辑时间',
   `is_deleted` tinyint(1) NOT NULL DEFAULT '0' COMMENT '是否删除',
   `user_type` tinyint(1) NOT NULL DEFAULT '0' COMMENT '0系统用户 1销售',
@@ -106,9 +100,7 @@ CREATE TABLE crm_user (
 --角色表
 CREATE TABLE crm_role (
   `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '自增主键',
-  `creator` bigint(20) NOT NULL COMMENT '创建人',
   `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `editor` bigint(20) NOT NULL COMMENT '修改人',
   `edit_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '编辑时间',
   `is_deleted` tinyint(1) NOT NULL DEFAULT '0' COMMENT '是否删除',
   `role_name` varchar(200) NOT NULL COMMENT '角色名称',
@@ -118,9 +110,7 @@ CREATE TABLE crm_role (
 --用户角色表
 CREATE TABLE crm_user_role (
   `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '自增主键',
-  `creator` bigint(20) NOT NULL COMMENT '创建人',
   `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `editor` bigint(20) NOT NULL COMMENT '修改人',
   `edit_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '编辑时间',
   `is_deleted` tinyint(1) NOT NULL DEFAULT '0' COMMENT '是否删除',
   `user_id` bigint(20) NOT NULL COMMENT '用户id',
@@ -132,9 +122,7 @@ CREATE TABLE crm_user_role (
 --权限表
 CREATE TABLE crm_permission (
   `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '自增主键',
-  `creator` bigint(20) NOT NULL COMMENT '创建人',
   `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `editor` bigint(20) NOT NULL COMMENT '修改人',
   `edit_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '编辑时间',
   `is_deleted` tinyint(1) NOT NULL DEFAULT '0' COMMENT '是否删除',
   `permission_name` varchar(200) NOT NULL COMMENT '权限名',
@@ -146,9 +134,7 @@ CREATE TABLE crm_permission (
 --用户权限表
 CREATE TABLE crm_user_permission (
   `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '自增主键',
-  `creator` bigint(20) NOT NULL COMMENT '创建人',
   `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `editor` bigint(20) NOT NULL COMMENT '修改人',
   `edit_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '编辑时间',
   `is_deleted` tinyint(1) NOT NULL DEFAULT '0' COMMENT '是否删除',
   `user_id` bigint(20) NOT NULL COMMENT '用户id',
@@ -160,9 +146,7 @@ CREATE TABLE crm_user_permission (
 --角色权限表
 CREATE TABLE crm_role_permission (
   `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '自增主键',
-  `creator` bigint(20) NOT NULL COMMENT '创建人',
   `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `editor` bigint(20) NOT NULL COMMENT '修改人',
   `edit_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '编辑时间',
   `is_deleted` tinyint(1) NOT NULL DEFAULT '0' COMMENT '是否删除',
   `role_id` bigint(20) NOT NULL COMMENT '角色id',
@@ -174,9 +158,7 @@ CREATE TABLE crm_role_permission (
 --菜单表
 CREATE TABLE crm_menu (
   `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '自增主键',
-  `creator` bigint(20) NOT NULL COMMENT '创建人',
   `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `editor` bigint(20) NOT NULL COMMENT '修改人',
   `edit_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '编辑时间',
   `is_deleted` tinyint(1) NOT NULL DEFAULT '0' COMMENT '是否删除',
   `menu_name` varchar(200) NOT NULL COMMENT '菜单名',
@@ -187,6 +169,3 @@ CREATE TABLE crm_menu (
   `parent_id` bigint(20) COMMENT '父级菜单id',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='菜单表';
-
-
-
