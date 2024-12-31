@@ -60,8 +60,8 @@ CREATE TABLE crm_base_account (
   `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `update_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '编辑时间',
   `is_deleted` tinyint(1) NOT NULL DEFAULT '0' COMMENT '是否删除',
-  `name` varchar(200) COMMENT '用户名',
+  `username` varchar(200) COMMENT '用户名',
   `password` varchar(200) COMMENT '用户密码',
   PRIMARY KEY (`id`),
-  KEY `idx_name` (`name`)
+  KEY `idx_username` (`username`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='账号表';
