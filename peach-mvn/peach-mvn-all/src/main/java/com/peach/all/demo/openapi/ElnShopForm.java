@@ -1,4 +1,4 @@
-package com.peach.all.demo;
+package com.peach.all.demo.openapi;
 
 import java.io.Serializable;
 

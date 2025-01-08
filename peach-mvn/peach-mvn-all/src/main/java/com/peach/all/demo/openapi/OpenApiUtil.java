@@ -1,4 +1,4 @@
-package com.peach.all.demo;
+package com.peach.all.demo.openapi;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.http.HttpEntity;
