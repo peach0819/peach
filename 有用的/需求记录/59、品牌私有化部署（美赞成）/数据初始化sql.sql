@@ -1,12 +1,12 @@
 
---原子指标
+#原子指标
 INSERT INTO t_crm_visit_indicator(`id`, `creator`, `editor`, `indicator_code`, `indicator_name`, `indicator_unit`, `indicator_type`, `indicator_display_type`)
 VALUES (1, 'system', 'system', 'month_visit_valid_shop_cnt', '当月有效拜访门店数', '', 0, 'num'),
        (2, 'system', 'system', 'month_visit_shop_cnt', '当月目标拜访店次', '', 0, 'num'),
        (3, 'system', 'system', 'month_visit_hsp_cnt', '当月服务商拜访数', '', 0, 'num'),
        (4, 'system', 'system', 'month_visit_big_shop_cnt', '当月重点门店目标拜访店次', '', 0, 'num');
 
---派生指标
+#派生指标
 INSERT INTO t_crm_visit_indicator(`id`, `creator`, `editor`, `indicator_code`, `indicator_name`, `indicator_unit`, `indicator_type`, `indicator_display_type`)
 VALUES (100, 'system', 'system', 'month_visit_my_reach', '当月我的拜访达标', '', 1, 'text'),
        (101, 'system', 'system', 'month_visit_reach_rate', '当月拜访人员达标率', '%', 1, 'ratio'),
@@ -22,7 +22,7 @@ VALUES (100, 'system', 'system', 'month_visit_my_reach', '当月我的拜访达�
        (111, 'system', 'system', 'quarter_visit_hsp_cover_rate', '季度服务商拜访覆盖率', '%', 1, 'ratio');
 
 ------------------------------------------------指标可见性矩阵初始化
---当月拜访人员达标率
+#当月拜访人员达标率
 INSERT INTO t_crm_visit_indicator_visible(`creator`, `editor`, `visible_type`, `job_id`, `channel_id`, `indicator_id`, `visiable_sort`)
 VALUES ('system', 'system', 0, 5, 2, 101, 0),
        ('system', 'system', 0, 15, 2, 101, 0),
@@ -57,7 +57,7 @@ VALUES ('system', 'system', 0, 5, 2, 101, 0),
        ('system', 'system', 0, 23, null, 101, 0),
        ('system', 'system', 0, 1, null, 101, 0);
 
---当月有效拜访门店数
+#当月有效拜访门店数
 INSERT INTO t_crm_visit_indicator_visible(`creator`, `editor`, `visible_type`, `job_id`, `channel_id`, `indicator_id`)
 VALUES ('system', 'system', 1, 5, 2, 102),
        ('system', 'system', 1, 15, 2, 102),
@@ -74,7 +74,7 @@ VALUES ('system', 'system', 1, 5, 2, 102),
        ('system', 'system', 1, 2, null, 102),
        ('system', 'system', 1, 25, null, 102);
 
---季度有效拜访门店数
+#季度有效拜访门店数
 INSERT INTO t_crm_visit_indicator_visible(`creator`, `editor`, `visible_type`, `job_id`, `channel_id`, `indicator_id`)
 VALUES ('system', 'system', 1, 5, 2, 103),
        ('system', 'system', 1, 15, 2, 103),
@@ -92,7 +92,7 @@ VALUES ('system', 'system', 1, 5, 2, 103),
        ('system', 'system', 1, 2, null, 103),
        ('system', 'system', 1, 25, null, 103);
 
---当月有效拜访率
+#当月有效拜访率
 INSERT INTO t_crm_visit_indicator_visible(`creator`, `editor`, `visible_type`, `job_id`, `channel_id`, `indicator_id`)
 VALUES ('system', 'system', 1, 5, 2, 104),
        ('system', 'system', 1, 15, 2, 104),
@@ -127,7 +127,7 @@ VALUES ('system', 'system', 1, 5, 2, 104),
        ('system', 'system', 0, 23, null, 104),
        ('system', 'system', 0, 1, null, 104);
 
---当月计划拜访门店完成率
+#当月计划拜访门店完成率
 INSERT INTO t_crm_visit_indicator_visible(`creator`, `editor`, `visible_type`, `job_id`, `channel_id`, `indicator_id`)
 VALUES ('system', 'system', 1, 5, 2, 105),
        ('system', 'system', 1, 15, 2, 105),
@@ -145,7 +145,7 @@ VALUES ('system', 'system', 1, 5, 2, 105),
        ('system', 'system', 1, 2, null, 105),
        ('system', 'system', 1, 25, null, 105);
 
---当月门店拜访频次达标率
+#当月门店拜访频次达标率
 INSERT INTO t_crm_visit_indicator_visible(`creator`, `editor`, `visible_type`, `job_id`, `channel_id`, `indicator_id`)
 VALUES ('system', 'system', 0, 5, 2, 106),
        ('system', 'system', 0, 15, 2, 106),
@@ -178,7 +178,7 @@ VALUES ('system', 'system', 0, 5, 2, 106),
        ('system', 'system', 0, 23, null, 106),
        ('system', 'system', 0, 1, null, 106);
 
---当月NC门店拜访覆盖率
+#当月NC门店拜访覆盖率
 INSERT INTO t_crm_visit_indicator_visible(`creator`, `editor`, `visible_type`, `job_id`, `channel_id`, `indicator_id`)
 VALUES ('system', 'system', 0, 5, 2, 107),
        ('system', 'system', 0, 15, 2, 107),
@@ -192,15 +192,15 @@ VALUES ('system', 'system', 0, 5, 2, 107),
        ('system', 'system', 1, 2, null, 107),
        ('system', 'system', 1, 25, null, 107);
 
---当月NCM门店拜访覆盖率
+#当月NCM门店拜访覆盖率
 INSERT INTO t_crm_visit_indicator_visible(`creator`, `editor`, `visible_type`, `job_id`, `channel_id`, `indicator_id`)
 VALUES ('system', 'system', 0, 24, null, 108);
 
---当月NCM重点门店拜访频次达成率
+#当月NCM重点门店拜访频次达成率
 INSERT INTO t_crm_visit_indicator_visible(`creator`, `editor`, `visible_type`, `job_id`, `channel_id`, `indicator_id`)
 VALUES ('system', 'system', 0, 24, null, 109);
 
---当月服务商拜访个数
+#当月服务商拜访个数
 INSERT INTO t_crm_visit_indicator_visible(`creator`, `editor`, `visible_type`, `job_id`, `channel_id`, `indicator_id`)
 VALUES ('system', 'system', 0, 5, 4, 110),
        ('system', 'system', 0, 15, 4, 110),
@@ -209,7 +209,7 @@ VALUES ('system', 'system', 0, 5, 4, 110),
        ('system', 'system', 1, 11, null, 110),
        ('system', 'system', 1, 25, null, 110);
 
---当季服务商拜访覆盖率
+#当季服务商拜访覆盖率
 INSERT INTO t_crm_visit_indicator_visible(`creator`, `editor`, `visible_type`, `job_id`, `channel_id`, `indicator_id`)
 VALUES ('system', 'system', 1, 5, 4, 111),
        ('system', 'system', 1, 15, 4, 111),
@@ -219,4 +219,57 @@ VALUES ('system', 'system', 1, 5, 4, 111),
        ('system', 'system', 1, 11, null, 111),
        ('system', 'system', 1, 25, null, 111);
 
+#美赞验收新增， 指标新增指标描述
+ALTER TABLE t_crm_visit_indicator ADD COLUMN indicator_desc text COMMENT '指标描述，富文本展示';
+
+#当月有效拜访门店数
+UPDATE t_crm_visit_indicator
+SET indicator_desc = '<text>系统判断为有效的终端门店<text style="color: #4A96F1;">数</text>拜访次数。</text>'
+WHERE id = 102;
+
+#季度有效拜访门店数
+UPDATE t_crm_visit_indicator
+SET indicator_desc = '<text>系统判断为有效的终端门店<text style="color: #4A96F1;">数</text>拜访次数。</text>'
+WHERE id = 103;
+
+#当月有效拜访率
+UPDATE t_crm_visit_indicator
+SET indicator_desc = '<text>有效拜访率 = 有效拜访店次 / 总拜访店次</text>'
+WHERE id = 104;
+
+#当月计划拜访门店完成率
+UPDATE t_crm_visit_indicator
+SET indicator_desc = '<text>计划拜访达成率 = 计划内有效拜访<text style="color: #FA3246;">店次</text> / <text style="color: #4A96F1">总</text>计划拜访<text style="color: #FA3246;">门店次</text></text>'
+WHERE id = 105;
+
+#当月门店拜访频次达标率
+UPDATE t_crm_visit_indicator
+SET indicator_desc = '<text>拜访频次达标率 = 有效拜访店次 / 目标拜访<text style="color: #4A96F1;">店次</text></text>'
+WHERE id = 106;
+
+#当月NC门店拜访覆盖率
+UPDATE t_crm_visit_indicator
+SET indicator_desc = '<text>拜访覆盖率 = 有效拜访专职NC门店数 / 名下<text style="color: #4A96F1;">挂靠</text>专职NC门店数</text>'
+WHERE id = 107;
+
+#当月NCM门店拜访覆盖率
+UPDATE t_crm_visit_indicator
+SET indicator_desc = '<text>NCM门店拜访覆盖率= NCM有效拜访的<text style="color: #FA3246;">专职NC门店</text>数/ NCM名下<text style="color: #4A96F1;">挂靠</text><text style="color: #FA3246;">专职NC门店</text>数</text>'
+WHERE id = 108;
+
+#当月NCM重点门店拜访频次达成率
+UPDATE t_crm_visit_indicator
+SET indicator_desc = '<text>重点门店拜访频次达成率 = 有效拜访重点门店次数 / 重点门店目标拜访次数
+重点门店=NKA的专职NC门店。</text>'
+WHERE id = 109;
+
+#当月服务商拜访个数
+UPDATE t_crm_visit_indicator
+SET indicator_desc = '<text>服务商拜访个数 = 当月累计拜访次数大于<text style="color: #FA3246;">1</text>的服务商个数之和 </text>'
+WHERE id = 110;
+
+#季度服务商拜访覆盖率
+UPDATE t_crm_visit_indicator
+SET indicator_desc = '<text>服务商拜访覆盖率 = 服务商拜访个数/ 名下<text style="color: #4A96F1;">挂靠</text>服务商个数</text>'
+WHERE id = 111;
 
