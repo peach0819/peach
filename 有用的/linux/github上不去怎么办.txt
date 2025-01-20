@@ -1,0 +1,7 @@
+
+
+本地hosts文件配置：
+# GitHub相关域名的映射
+20.27.177.113 octocaptcha.com
+199.232.240.116 yelp.com
+199.232.176.133 githubusercontent.com
