@@ -273,3 +273,8 @@ UPDATE t_crm_visit_indicator
 SET indicator_desc = '<text>服务商拜访覆盖率 = 服务商拜访个数/ 名下<text style="color: #4A96F1;">挂靠</text>服务商个数</text>'
 WHERE id = 111;
 
+#橘子测试系统岗位
+INSERT INTO t_crm_visit_indicator_visible (creator, editor, visible_type, job_id, channel_id, indicator_id, visiable_sort)
+SELECT 'system', 'system', visible_type, 59400, null, indicator_id, visiable_sort
+FROM t_crm_visit_indicator_visible
+WHERE job_id = 25
