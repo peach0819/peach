@@ -50,7 +50,9 @@ with plan as (
            get_json_object(get_json_object(filter_config_json,'$.brand_tag'),'$.value') as brand_tag_value,
            get_json_object(get_json_object(filter_config_json,'$.brand_tag'),'$.operator') as brand_tag_operator,
            get_json_object(get_json_object(filter_config_json,'$.brand_type'),'$.value') as brand_type_value,
-           get_json_object(get_json_object(filter_config_json,'$.brand_type'),'$.operator') as brand_type_operator
+           get_json_object(get_json_object(filter_config_json,'$.brand_type'),'$.operator') as brand_type_operator,
+           get_json_object(get_json_object(filter_config_json,'$.brand_key'),'$.value') as brand_key_value,
+           get_json_object(get_json_object(filter_config_json,'$.brand_key'),'$.operator') as brand_key_operator
     FROM yt_crm.dw_bounty_plan_schedule_d
     WHERE array_contains(split(backward_date, ','), '${v_date}')
     AND ('@@{supply_mode}' = 'not_supply' OR array_contains(split(supply_date, ','), '${supply_date}'))
@@ -64,6 +66,12 @@ shop_group_mapping as (
            dayid
     FROM ytdw.ads_dmp_group_data_d
     group by dayid, shop_id
+),
+
+ord as (
+    select *,
+           if(brand_series_id is null, brand_id, concat(brand_id, '_', brand_series_id)) as brand_key
+    from yt_crm.dw_salary_sign_rule_public_mid_v2_d
 ),
 
 refund as (
@@ -81,6 +89,7 @@ sign as (
            ord.dayid,
            plan.no as planno,
            if(plan.merge_brand = '是', -1, brand_id) as brand_id,
+           if(plan.merge_brand = '是', '-1', yt_crm.brand_series_match(brand_id, brand_series_id, plan.brand_key_value)) as brand_key,
            if(plan.merge_brand = '是', '合并品牌', brand_name) as brand_name,
            item_style,
            item_style_name,
@@ -108,7 +117,7 @@ sign as (
            service_department_name_freezed,
            min(pay_time) as new_sign_time,
            min(pay_day) as new_sign_day,          --新签日期
-           min(shop_brand_sign_day) as shop_brand_sign_day,  --门店商品新签时间
+           min(if(if(plan.merge_brand = '是', '-1', yt_crm.brand_series_match(brand_id, brand_series_id, plan.brand_key_value)) = ord.brand_key, nvl(shop_brand_series_sign_day, shop_brand_sign_day), shop_brand_sign_day)) as shop_brand_sign_day,  --门店品牌新签时间
            sum(gmv - nvl(refund.refund_actual_amount,0)) as gmv_less_refund,       --实货gmv-退款
            sum(gmv) as gmv,--实货gmv,
            sum(pay_amount) as pay_amount,--实货支付金额
@@ -116,11 +125,11 @@ sign as (
            sum(nvl(refund.refund_actual_amount,0)) as refund_actual_amount,--实货退款
            sum(nvl(refund.refund_retreat_amount,0)) as refund_retreat_amount,--实货清退金额
            case when sum(gmv - nvl(refund.refund_actual_amount,0)) >= new_sign_line then '是' else '否' end as is_over_sign_line--是否满足新签门槛
-    from (select * from yt_crm.dw_salary_sign_rule_public_mid_v2_d) ord
+    from ord
     cross join plan ON ord.dayid = split(plan.backward_date, ',')[0]
     LEFT JOIN refund ON ord.order_id = refund.order_id AND refund.dayid = if(ytdw.simple_expr(brand_id, 'in', unback_brand_value) = (case when unback_brand_operator = '!=' then 0 else 1 end), ord.dayid, '${v_date}')
     LEFT JOIN shop_group_mapping ON ord.shop_id = shop_group_mapping.group_shop_id AND ord.dayid = shop_group_mapping.dayid
-    where yt_crm.plan_calculate_date(plan.calculate_date, 'between', shop_brand_sign_day) = 'true'
+    where yt_crm.plan_calculate_date(plan.calculate_date, 'between', if(if(plan.merge_brand = '是', '-1', yt_crm.brand_series_match(brand_id, brand_series_id, plan.brand_key_value)) = ord.brand_key, nvl(shop_brand_series_sign_day, shop_brand_sign_day), shop_brand_sign_day)) = 'true'
     and pay_day <= calculate_date_value_end
     and ytdw.simple_expr( sale_team_id,'in',sales_team_value)=(case when sales_team_operator ='=' then 1 else 0 end)
     and ytdw.simple_expr( item_style_name,'in',item_style_value)=(case when item_style_operator ='=' then 1 else 0 end)
@@ -135,9 +144,15 @@ sign as (
     and ytdw.simple_expr(ord.brand_tag_code, 'in', brand_tag_value) = (case when brand_tag_operator = '=' then 1 else 0 end)
     and ytdw.simple_expr(ord.brand_type, 'in', brand_type_value) = (case when brand_type_operator = '=' then 1 else 0 end)
     and if(nvl(shop_group_mapping.shop_group, ord.shop_group) = '' OR shop_group_value = '', 0, ytdw.simple_expr(substr(shop_group_value, 2, length(shop_group_value) - 2), 'in', concat('[', nvl(shop_group_mapping.shop_group, ord.shop_group), ']'))) = (case when shop_group_operator ='=' then 1 else 0 end)
+    and (ytdw.simple_expr(ord.brand_id, 'in', brand_key_value) = (case when brand_key_operator = '=' then 1 else 0 end) OR ytdw.simple_expr(ord.brand_key, 'in', brand_key_value) = (case when brand_key_operator = '=' then 1 else 0 end))
     group by ord.dayid,
              plan.no,
+             plan.merge_brand,
+             brand_id,
+             brand_series_id,
+             plan.brand_key_value,
              if(plan.merge_brand = '是', -1, brand_id),
+             if(plan.merge_brand = '是', -1, yt_crm.brand_series_match(brand_id, brand_series_id, plan.brand_key_value)),
              if(plan.merge_brand = '是', '合并品牌', brand_name),
              item_style,
              item_style_name,
@@ -202,6 +217,7 @@ before_cur as (
 
            --数据信息
            brand_id,
+           brand_key,
            brand_name,
            item_style,
            item_style_name,
@@ -229,7 +245,7 @@ before_cur as (
            service_department_name_freezed,
            new_sign_time,
            new_sign_day,
-           row_number() over (partition by planno,shop_id,brand_id,is_over_sign_line order by new_sign_time) as new_sign_rn, --新签时间排名达成
+           row_number() over (partition by planno, shop_id, brand_key, is_over_sign_line order by new_sign_time) as new_sign_rn, --新签时间排名达成
            shop_brand_sign_day,
            gmv_less_refund,
            gmv,
@@ -347,7 +363,8 @@ SELECT update_time,
        user_admin.leave_time as leave_time,
        if(user_admin.leave_time is not null and new_sign_day > user_admin.leave_time, '是', '否') as is_leave,
        sts_target_name,
-       planno
+       planno,
+       brand_key
 FROM cur
 LEFT JOIN user_admin on cur.grant_object_user_id = user_admin.user_id AND cur.dayid = user_admin.dayid
 WHERE cur.grant_object_user_id is not null
@@ -410,7 +427,8 @@ SELECT update_time,
        leave_time,
        is_leave,
        sts_target_name,
-       planno
+       planno,
+       brand_key
 FROM (
     SELECT *
     FROM yt_crm.dw_salary_sign_brand_rule_public_d
