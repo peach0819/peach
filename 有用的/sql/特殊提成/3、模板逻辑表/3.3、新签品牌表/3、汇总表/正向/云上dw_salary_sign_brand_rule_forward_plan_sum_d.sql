@@ -60,7 +60,7 @@ mid as (
            grant_object_user_dep_name,
            leave_time,
            shop_id,
-           brand_id,
+           nvl(brand_key, brand_id) as brand_key,
            gmv_less_refund,
            pay_amount_less_refund,
            is_leave='否' and is_succ_sign='是'
@@ -78,7 +78,7 @@ detail as (
            grant_object_user_dep_id,
            grant_object_user_dep_name,
            leave_time,
-           count(distinct if(is_valid, concat(shop_id, '_', brand_id), null)) as sign_shop_brand_count,
+           count(distinct if(is_valid, concat(shop_id, '_', brand_key), null)) as sign_shop_brand_count,
            sum(if(is_valid, gmv_less_refund, 0)) as gmv_less_refund,
            sum(if(is_valid, pay_amount_less_refund, 0)) as pay_amount_less_refund
     FROM mid
