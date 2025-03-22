@@ -7,6 +7,7 @@ CREATE TABLE crm_org_team (
   `name` varchar(200) COMMENT '组织名称',
   `parent_id` bigint(20) COMMENT '组织的上级组织id',
   `leader_id` bigint(20) COMMENT '组织的负责人的销售id',
+  `child_num` bigint(20) COMMENT '子组织数量',
   PRIMARY KEY (`id`),
   KEY `idx_parent_id` (`parent_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='组织表';
