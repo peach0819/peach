@@ -1,53 +1,163 @@
-{
-  "businessId":"",
-  "clusterType":null,
-  "consumer":"",
-  "data":{
-    "nFileSize":0,
-    "vcContent":"QOWwj+aYseKAheS4gOS4qjMuMuaKmOeahO+8jOS4gOS4qjIuOeaKmA==",
-    "nMsgNum":-1,
-    "nSortId":1656660035990,
-    "vcShareUrl":"",
-    "vcShareDesc":"",
-    "vcMsgId":"1555368630431006260",
-    "nPlatformMsgType":10,
-    "vcToWxUserSerialNo":"E688A090891FB83F53F4230EC408B560",
-    "nVoiceTime":0,
-    "nIsHit":1,
-    "nMsgType":2001,
-    "vcEmojiMd5":"",
-    "vcChatRoomSerialNo":"5C6E1C26F5659DF8F5ADABAC3D97F1F1",
-    "vcChatRoomId":"23880828383@chatroom",
-    "vcFromWxUserWxId":"wxid_xw5udekzsfsk12",
-    "vcObjectData":{
-      "vcObjectNonceId":"",
-      "nObjectId":""
-    },
-    "vcFromWxUserSerialNo":"7EBEC5AF74AF80B3A68F4B5A9F045042",
-    "AtInGroup":null,
-    "IsEnterpriseChatroom":false,
-    "vcDownFileSerialNo":"",
-    "dtMsgTime":"2022-07-01 15:20:34.000",
-    "vcRelaSerialNo":"",
-    "nEmojiLen":0,
-    "vcToWxUserWxId":"xiaoyu772137",
-    "vcMsgSerialNo":"20220701152036090610123024575",
-    "vcQuoteMsgId":"",
-    "vcShareTitle":""
+[
+  {
+    "componentValue": "{\"id\":\"group_1733126303370\",\"type\":\"group\",\"selected\":false,\"formData\":{\"title\":\"门店信息\"},\"serviceId\":\"3_group_5f2c0816-9157-41ee-a471-0b0f284d379b\"}",
+    "custom": true,
+    "id": "3_group_5f2c0816-9157-41ee-a471-0b0f284d379b",
+    "title": "门店信息",
+    "type": "group"
   },
-  "loginType":null,
-  "merchantId":"1406811688129855488",
-  "nTimeStamp":1656660036124,
-  "optSerNo":"20220701152036090610123024575",
-  "optUserId":"",
-  "originalParams":"",
-  "pushService":"",
-  "pushTime":null,
-  "resultCode":1,
-  "resultMsg":"SUCCESS",
-  "serverName":"neighbour-message",
-  "type":5003,
-  "vcMerchantNo":"202107210035515",
-  "version":"",
-  "wxId":"2FC401441FD830A3E2A9BB6C626A19E6"
-}
+  {
+    "componentValue": "{\"id\":\"picture_1736146032609\",\"type\":\"picture\",\"selected\":false,\"formData\":{\"title\":\"请拍摄门头照\",\"required\":true,\"help\":\"最多上传20张\",\"pictureType\":1},\"serviceId\":\"3_picture_e768622b-d64d-417c-afad-0a288db4963a\"}",
+    "custom": true,
+    "id": "3_picture_e768622b-d64d-417c-afad-0a288db4963a",
+    "title": "请拍摄门头照",
+    "type": "picture"
+  },
+  {
+    "componentValue": "{\"id\":\"text_1736908786379\",\"type\":\"text\",\"selected\":false,\"formData\":{\"title\":\"请检查门店信息是否需要更新\",\"text\":\"如需更新，请到相应业务系统补充门店定位：百宝箱（NKA）、美赞通（RKA/LKA）、美赞优购（GT）\"},\"serviceId\":\"3_text_a4e1b2db-919b-46b4-9c45-9e8de829cc0a\"}",
+    "custom": true,
+    "id": "3_text_a4e1b2db-919b-46b4-9c45-9e8de829cc0a",
+    "title": "请检查门店信息是否需要更新",
+    "type": "text"
+  },
+  {
+    "componentValue": "{\"id\":\"group_1733126785899\",\"type\":\"group\",\"selected\":false,\"formData\":{\"title\":\"货架盘点和拍摄\",\"help\":\"请拍摄所有婴配奶粉品类主货架、美赞臣婴配奶粉主货架、美赞臣特配奶粉货架、美赞臣二次陈列\"},\"serviceId\":\"3_group_e80303bf-952c-4aa0-8541-efe9cb2e777f\"}",
+    "custom": true,
+    "id": "3_group_e80303bf-952c-4aa0-8541-efe9cb2e777f",
+    "title": "货架盘点和拍摄",
+    "type": "group"
+  },
+  {
+    "componentValue": "{\"id\":\"aiBabyShelf_1733126898047\",\"type\":\"aiBabyShelf\",\"selected\":true,\"formData\":{\"title\":\"货架拍摄和识别-主货架\",\"required\":false,\"help\":\"请拍摄所有婴配奶粉品类（含美赞臣）的主货架\"},\"serviceId\":\"3_aiBabyShelf_48499bfd-181c-4fa7-b7a7-09da16d80f0f\"}",
+    "custom": true,
+    "id": "3_aiBabyShelf_48499bfd-181c-4fa7-b7a7-09da16d80f0f",
+    "title": "货架拍摄和识别-主货架",
+    "type": "aiBabyShelf"
+  },
+  {
+    "componentValue": "{\"id\":\"aiSpecialShelf_1733129689117\",\"type\":\"aiSpecialShelf\",\"selected\":false,\"formData\":{\"title\":\"货架拍摄和识别-特配货架\",\"required\":false,\"help\":\"请拍摄所有特配奶粉品类（含美赞臣）的特配货架\"},\"serviceId\":\"3_aiSpecialShelf_59f719f4-7f3c-4cbd-91e4-4e93fedd2310\"}",
+    "custom": true,
+    "id": "3_aiSpecialShelf_59f719f4-7f3c-4cbd-91e4-4e93fedd2310",
+    "title": "货架拍摄和识别-特配货架",
+    "type": "aiSpecialShelf"
+  },
+  {
+    "componentValue": "{\"id\":\"aiPosmShelf_1733129693766\",\"type\":\"aiPosmShelf\",\"selected\":false,\"formData\":{\"title\":\"POSM拍摄和识别\",\"required\":false},\"serviceId\":\"3_aiPosmShelf_c809572f-4a16-4cf0-b1fb-acf77f06c232\"}",
+    "custom": true,
+    "id": "3_aiPosmShelf_c809572f-4a16-4cf0-b1fb-acf77f06c232",
+    "title": "POSM拍摄和识别",
+    "type": "aiPosmShelf"
+  },
+  {
+    "componentValue": "{\"id\":\"aiSecondaryDisplay_1733129691200\",\"type\":\"aiSecondaryDisplay\",\"selected\":false,\"formData\":{\"title\":\"二次陈列拍摄和识别\",\"required\":false},\"serviceId\":\"3_aiSecondaryDisplay_f483336e-23d4-46b3-873b-176b91d0aaac\"}",
+    "custom": true,
+    "id": "3_aiSecondaryDisplay_f483336e-23d4-46b3-873b-176b91d0aaac",
+    "title": "二次陈列拍摄和识别",
+    "type": "aiSecondaryDisplay"
+  },
+  {
+    "componentValue": "{\"id\":\"group_1733128090472\",\"type\":\"group\",\"selected\":false,\"formData\":{\"title\":\"NC辅导\",\"help\":\"若为NNC门店，则此处不填写即可。\"},\"serviceId\":\"3_group_779df770-764d-40be-bb9a-a67a9c8ba7ed\"}",
+    "custom": true,
+    "id": "3_group_779df770-764d-40be-bb9a-a67a9c8ba7ed",
+    "title": "NC辅导",
+    "type": "group"
+  },
+  {
+    "componentValue": "{\"id\":\"singleSelect_1733128205922\",\"type\":\"singleSelect\",\"selected\":false,\"formData\":{\"title\":\"NC是否在岗\",\"placeholder\":\"\",\"required\":true,\"optionsType\":1,\"options\":[{\"label\":\"是\"},{\"label\":\"否\"}]},\"serviceId\":\"3_singleSelect_8adda285-13ca-4ea4-b127-365064b2c083\"}",
+    "custom": true,
+    "id": "3_singleSelect_8adda285-13ca-4ea4-b127-365064b2c083",
+    "title": "NC是否在岗",
+    "type": "singleSelect"
+  },
+  {
+    "componentValue": "{\"id\":\"ncTutorMark_1736235344104\",\"type\":\"ncTutorMark\",\"selected\":false,\"formData\":{\"title\":\"NC辅导打分\",\"required\":false,\"question\":[{\"title\":\"专业态度-态度和形象\",\"matrixRowTitle\":[{\"title\":\"热情自信积极，站势端正，微笑亲切\\t\"},{\"title\":\"仪表大方整洁，头发清爽，鞋子干净\"},{\"title\":\"按规定穿着工衣及佩戴工牌\"}]},{\"title\":\"专业知识-产品销售话术\",\"matrixRowTitle\":[{\"title\":\"新国标蓝臻销售话术运用情况\",\"help\":\"新国标蓝臻：美赞臣蓝臻，是真实有效少中招、恢复快的好奶粉！不仅是全球首款乳铁蛋白配方，还一罐集齐了源乳里关键的免疫力成分！里面特含57倍乳铁蛋白PLUS营养群+90%乳黄金天然精萃，临床实证宝宝喝了少中招恢复快！0添加蔗糖香兰素固体玉米糖浆，放心喝！\"},{\"title\":\"新国标铂睿销售话术运用情况\",\"help\":\"新国标铂睿：美赞臣铂睿，是真实有效助力宝宝聪明超前看得见的好奶粉！作为全球脑部营养领导品牌，革新添加美赞臣旗下最高含量双效乳脂球膜+68倍脑磷脂群Pro+DHA plus 活性脑营养群，9年实证，脑力领先！100%荷兰原罐进口，受中欧双重监管。0添加蔗糖/香精，天然纯净，淡淡奶香！\"},{\"title\":\"亲舒销售话术运用情况\",\"help\":\"美赞臣亲舒，作为蛋白质水解配方领导者，帮助24小时缓解肚肚不适；小10倍水解微蛋白+约`50%舒适乳糖含量易消化，肠道轻负担；黄金双蛋白搭配，更近源乳，添加HMO+长短链益生元组合让肠道更健康。约40种丰富营养及长效实证DHA，长期喂养宝宝发育良好；\"},{\"title\":\"新国标安儿宝：销售话术运用情况\",\"help\":\"新国标安儿宝：新国标安儿宝：新国标配方全新升级！实证DHA+模拟母乳低聚糖HMO,  宝宝聪明看得见，天然营养好吸收，0添加蔗糖0添加香精，全球黄金奶源带的五星天然奶源，妈妈的不二之选。\"},{\"title\":\"铂睿卓跃销售话术运用情况\",\"help\":\"铂睿卓跃：中国专利配方！17项科学实证DHA + 模拟实证母乳低聚糖HMO，宝宝聪明看得见，实证提升保护力。目前市场上唯一200元+含乳铁蛋白的国际品牌，0添加蔗糖和香精，性价比之王！\"}]},{\"title\":\"销售技巧-FABE产品解说技能\",\"matrixRowTitle\":[{\"title\":\"特性（F）：能准确说出产品的特性\"},{\"title\":\"优势（A）：能准确说出产品的优势，并与特性关联\"},{\"title\":\"利益（B）：能准确说出产品对消费者带来的利益及能满足消费者需\"},{\"title\":\"证据（E）：能充分展示证据，增加说服力\"},{\"title\":\"整体运用：FABE相互有关联，环环相扣，能满足消费者的需求\"}]},{\"title\":\"销售技巧-消费者接待四步骤\",\"matrixRowTitle\":[{\"title\":\"问候：问候令人印象深刻，能打造亲切专业的人设和寻找到适合的破\"},{\"title\":\"互动：能通过有效的提问（黄金三问及跟进问题）了解消费者显性及\"},{\"title\":\"成交：使用问题解决问题，态度积极，运用同理心表达；能有效地运\"},{\"title\":\"关爱：针对新、老客户进行关爱行动（冲调/会员积分兑换）/与消\"}]},{\"title\":\"门店管理-门店管理\",\"matrixRowTitle\":[{\"title\":\"货架（或第二陈列）干净整洁，按品牌或要求（公司/门店）进行货\"},{\"title\":\"货品价签与产品一一对应，促销价格更新及时准确\"},{\"title\":\"使用当季的POSM展示，能充分及正确展示品牌/产品信息\"},{\"title\":\"促销活动信息掌握及时，理解及执行准确 \"},{\"title\":\"清楚知道门店EF/GF的库存及使用、管理规则\"},{\"title\":\"清楚货品的库存情况及需要补充订单的时间\"}]},{\"title\":\"门店管理-信息反馈\",\"matrixRowTitle\":[{\"title\":\"能清楚反馈门店其它竞品的活动信息\"},{\"title\":\"能清晰反馈目前门店销售及NUA招募达成进度、遇到的挑战或困难\"}]},{\"title\":\"业绩追踪\",\"matrixRowTitle\":[{\"title\":\"清晰目前门店销售达成进度并有相应完成进度的规划\"},{\"title\":\"能清晰反馈目前NUA招募达成进度及改善计划\"},{\"title\":\"能清晰反馈目前在门店的份额\"}]}],\"matrixColumnTitle\":[{\"title\":\"没有展现\",\"score\":1},{\"title\":\"偶尔展示\",\"score\":2},{\"title\":\"一些展现\",\"score\":3},{\"title\":\"经常展示\",\"score\":4},{\"title\":\"频繁展现\",\"score\":5}]},\"serviceId\":\"3_ncTutorMark_a6101f92-5878-4277-9640-a080d8077ef4\"}",
+    "custom": true,
+    "id": "3_ncTutorMark_a6101f92-5878-4277-9640-a080d8077ef4",
+    "title": "NC辅导打分",
+    "type": "ncTutorMark"
+  },
+  {
+    "componentValue": "{\"id\":\"group_1733128976218\",\"type\":\"group\",\"selected\":false,\"formData\":{\"title\":\"活动沟通谈判\"},\"serviceId\":\"3_group_949625e8-ebac-4763-abee-436aa587ecb1\"}",
+    "custom": true,
+    "id": "3_group_949625e8-ebac-4763-abee-436aa587ecb1",
+    "title": "活动沟通谈判",
+    "type": "group"
+  },
+  {
+    "componentValue": "{\"id\":\"singleSelect_1733129046118\",\"type\":\"singleSelect\",\"selected\":false,\"formData\":{\"title\":\"本次拜访是否涉及活动沟通和谈判\",\"placeholder\":\"点击选择\",\"required\":true,\"optionsType\":1,\"options\":[{\"label\":\"是\"},{\"label\":\"否\"}]},\"serviceId\":\"3_singleSelect_76b159b3-7969-469e-81f6-013156861deb\"}",
+    "custom": true,
+    "id": "3_singleSelect_76b159b3-7969-469e-81f6-013156861deb",
+    "title": "本次拜访是否涉及活动沟通和谈判",
+    "type": "singleSelect"
+  },
+  {
+    "componentValue": "{\"id\":\"singleSelect_1733129069417\",\"type\":\"singleSelect\",\"selected\":false,\"formData\":{\"title\":\"是否已完成本次活动沟通谈判\",\"placeholder\":\"点击选择\",\"required\":false,\"optionsType\":1,\"options\":[{\"label\":\"是\"},{\"label\":\"否\"}]},\"serviceId\":\"3_singleSelect_dfb845dd-bbbb-40be-855f-59d9663a637a\"}",
+    "custom": true,
+    "id": "3_singleSelect_dfb845dd-bbbb-40be-855f-59d9663a637a",
+    "title": "是否已完成本次活动沟通谈判",
+    "type": "singleSelect"
+  },
+  {
+    "componentValue": "{\"id\":\"textArea_1733129092850\",\"type\":\"textArea\",\"selected\":false,\"formData\":{\"title\":\"请总结并记录本次活动沟通和谈判的内容\",\"placeholder\":\"请输入\",\"required\":false},\"serviceId\":\"3_textArea_7a592bda-e79a-497d-bdc6-f66ba3e0b270\"}",
+    "custom": true,
+    "id": "3_textArea_7a592bda-e79a-497d-bdc6-f66ba3e0b270",
+    "title": "请总结并记录本次活动沟通和谈判的内容",
+    "type": "textArea"
+  },
+  {
+    "componentValue": "{\"id\":\"multiSelect_1733129111684\",\"type\":\"multiSelect\",\"selected\":false,\"formData\":{\"title\":\"未完成本次活动沟通谈判的原因\",\"placeholder\":\"点击选择\",\"required\":false,\"optionsType\":1,\"options\":[{\"label\":\"本次拜访不涉及活动沟通及谈判\",\"filling\":false},{\"label\":\"门店相关负责人不在店/联系不上\"},{\"label\":\"门店相关负责人无最终决策权\"},{\"label\":\"资源相关\"},{\"label\":\"库存相关\"},{\"label\":\"其他\",\"filling\":true}],\"maxCount\":6},\"serviceId\":\"3_multiSelect_c896c0a9-6810-4830-b8df-0423069d3996\"}",
+    "custom": true,
+    "id": "3_multiSelect_c896c0a9-6810-4830-b8df-0423069d3996",
+    "title": "未完成本次活动沟通谈判的原因",
+    "type": "multiSelect"
+  },
+  {
+    "componentValue": "{\"id\":\"group_1733129186416\",\"type\":\"group\",\"selected\":false,\"formData\":{\"title\":\"拜访总结\"},\"serviceId\":\"3_group_d3cc38ec-56e9-4c46-82ad-602cba2b3701\"}",
+    "custom": true,
+    "id": "3_group_d3cc38ec-56e9-4c46-82ad-602cba2b3701",
+    "title": "拜访总结",
+    "type": "group"
+  },
+  {
+    "componentValue": "{\"id\":\"singleSelect_1733129203665\",\"type\":\"singleSelect\",\"selected\":false,\"formData\":{\"title\":\"是否完成本次拜访目的\",\"placeholder\":\"\",\"required\":true,\"optionsType\":1,\"options\":[{\"label\":\"是\"},{\"label\":\"否\",\"filling\":true}]},\"serviceId\":\"3_singleSelect_f71584a9-de7c-4306-801d-345c974d2ee1\"}",
+    "custom": true,
+    "id": "3_singleSelect_f71584a9-de7c-4306-801d-345c974d2ee1",
+    "title": "是否完成本次拜访目的",
+    "type": "singleSelect"
+  },
+  {
+    "componentValue": "{\"id\":\"textArea_1733393760456\",\"type\":\"textArea\",\"selected\":false,\"formData\":{\"title\":\"未完成原因\",\"placeholder\":\"请输入\",\"required\":false},\"serviceId\":\"3_textArea_446c183b-de54-491a-bc3c-de2626725f30\"}",
+    "custom": true,
+    "id": "3_textArea_446c183b-de54-491a-bc3c-de2626725f30",
+    "title": "未完成原因",
+    "type": "textArea"
+  },
+  {
+    "componentValue": "{\"id\":\"textArea_1733129242364\",\"type\":\"textArea\",\"selected\":false,\"formData\":{\"title\":\"对标竞品品牌在门店的表现，美赞臣品牌可借鉴的地方及机会点\",\"placeholder\":\"\",\"required\":true},\"serviceId\":\"3_textArea_a8678980-224b-4187-a22a-79afed8c41d0\"}",
+    "custom": true,
+    "id": "3_textArea_a8678980-224b-4187-a22a-79afed8c41d0",
+    "title": "对标竞品品牌在门店的表现，美赞臣品牌可借鉴的地方及机会点",
+    "type": "textArea"
+  },
+  {
+    "componentValue": "{\"id\":\"picture_1733129278432\",\"type\":\"picture\",\"selected\":false,\"formData\":{\"title\":\"竞品品牌的相关照片\",\"required\":false,\"pictureType\":1},\"serviceId\":\"3_picture_050a91c1-787e-4ffe-8528-9094f0790d53\"}",
+    "custom": true,
+    "id": "3_picture_050a91c1-787e-4ffe-8528-9094f0790d53",
+    "title": "竞品品牌的相关照片",
+    "type": "picture"
+  },
+  {
+    "componentValue": "{\"id\":\"bookVisit_1733129302865\",\"type\":\"bookVisit\",\"selected\":false,\"formData\":{\"title\":\"预约下次拜访\",\"required\":false},\"serviceId\":\"3_bookVisit_fc6ee226-e276-4002-a9ff-b1f20c3b328a\"}",
+    "custom": true,
+    "id": "3_bookVisit_fc6ee226-e276-4002-a9ff-b1f20c3b328a",
+    "title": "预约下次拜访",
+    "type": "bookVisit"
+  },
+  {
+    "componentValue": "{\"id\":\"textArea_1733129312398\",\"type\":\"textArea\",\"selected\":false,\"formData\":{\"title\":\"请汇总本次拜访门店需跟进的待办事宜及下一步行动计划\",\"placeholder\":\"\",\"required\":true,\"help\":\"业务痛点、门店策略、活动方案等方面进行切入\"},\"serviceId\":\"3_textArea_f6c54fda-dbe9-4c89-86f8-937c62b76ffc\"}",
+    "custom": true,
+    "id": "3_textArea_f6c54fda-dbe9-4c89-86f8-937c62b76ffc",
+    "title": "请汇总本次拜访门店需跟进的待办事宜及下一步行动计划",
+    "type": "textArea"
+  }
+]

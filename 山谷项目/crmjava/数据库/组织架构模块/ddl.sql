@@ -2,7 +2,7 @@
 CREATE TABLE crm_org_team (
   `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '自增主键',
   `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `edit_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '编辑时间',
+  `update_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '编辑时间',
   `is_deleted` tinyint(1) NOT NULL DEFAULT '0' COMMENT '是否删除',
   `name` varchar(200) COMMENT '组织名称',
   `parent_id` bigint(20) COMMENT '组织的上级组织id',
@@ -16,7 +16,7 @@ CREATE TABLE crm_org_team (
 CREATE TABLE crm_base_area (
   `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '自增主键',
   `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `edit_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '编辑时间',
+  `update_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '编辑时间',
   `is_deleted` tinyint(1) NOT NULL DEFAULT '0' COMMENT '是否删除',
   `name` varchar(200) COMMENT '区域名称',
   `area_level` tinyint(4) NOT NULL COMMENT '区域等级 1省 2市',
@@ -30,7 +30,7 @@ CREATE TABLE crm_base_area (
 CREATE TABLE crm_org_team_bd (
   `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '自增主键',
   `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `edit_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '编辑时间',
+  `update_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '编辑时间',
   `is_deleted` tinyint(1) NOT NULL DEFAULT '0' COMMENT '是否删除',
   `name` varchar(200) NOT NULL COMMENT '销售姓名',
   `account_id` bigint(20) COMMENT '帐号id',
@@ -47,7 +47,7 @@ CREATE TABLE crm_org_team_bd (
 CREATE TABLE crm_org_team_area (
   `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '自增主键',
   `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `edit_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '编辑时间',
+  `update_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '编辑时间',
   `is_deleted` tinyint(1) NOT NULL DEFAULT '0' COMMENT '是否删除',
   `team_id` bigint(20) NOT NULL COMMENT '组织id',
   `area_id` bigint(20) NOT NULL COMMENT '区域id',
@@ -59,10 +59,10 @@ CREATE TABLE crm_org_team_area (
 CREATE TABLE crm_base_account (
   `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '自增主键',
   `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `edit_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '编辑时间',
+  `update_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '编辑时间',
   `is_deleted` tinyint(1) NOT NULL DEFAULT '0' COMMENT '是否删除',
-  `name` varchar(200) COMMENT '用户名',
+  `username` varchar(200) COMMENT '用户名',
   `password` varchar(200) COMMENT '用户密码',
   PRIMARY KEY (`id`),
-  KEY `idx_name` (`name`)
+  KEY `idx_username` (`username`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='账号表';
