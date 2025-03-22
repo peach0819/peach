@@ -7,6 +7,8 @@ CREATE TABLE IF NOT EXISTS ads_crm_a2_subject_shop_d
     city_name       STRING COMMENT '市名',
     area_id         INT COMMENT '区id',
     area_name       STRING COMMENT '区名',
+    street_id       INT COMMENT '街道id',
+    street_name     STRING COMMENT '街道名',
     sale_id         STRING COMMENT '关联销售id',
     sale_name       STRING COMMENT '关联销售名',
     sale_user_id    INT COMMENT '关联销售的user_id',
