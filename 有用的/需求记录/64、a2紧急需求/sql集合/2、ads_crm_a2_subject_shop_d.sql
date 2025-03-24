@@ -1,0 +1,58 @@
+with base as (
+    SELECT subject_id,
+           subject_type,
+           shop_id,
+           shop_code,
+           shop_name,
+           province_id,
+           province_name,
+           city_id,
+           city_name,
+           area_id,
+           area_name,
+           street_id,
+           street_name,
+           sale_id,
+           sale_name,
+           sale_user_id,
+           has_visit,
+           has_valid_visit,
+           has_order
+    FROM yt_crm.ads_crm_a2_subject_shop_base_d
+    WHERE dayid = '${v_date}'
+)
+
+INSERT OVERWRITE TABLE ads_crm_a2_subject_shop_d PARTITION (dayid = '${v_date}')
+SELECT shop_id,
+       shop_code,
+       shop_name,
+       province_id,
+       province_name,
+       city_id,
+       city_name,
+       area_id,
+       area_name,
+       street_id,
+       street_name,
+       sale_id,
+       sale_name,
+       sale_user_id,
+       if(count(case when has_visit = 1 then 1 else null end) > 0, 1, 0) as has_visit,
+       if(count(case when has_valid_visit = 1 then 1 else null end) > 0, 1, 0) as has_valid_visit,
+       if(count(case when has_order = 1 then 1 else null end) > 0, 1, 0) as has_order,
+       count(subject_id) as shop_count,
+       if(count(case when subject_type = '新签' then 1 else null end) > 0, 1, 0) as is_new_sign,
+       if(count(case when subject_type = '复购' then 1 else null end) > 0, 1, 0) as is_repurchase
+FROM base
+group by shop_id,
+         province_id,
+         province_name,
+         city_id,
+         city_name,
+         area_id,
+         area_name,
+         street_id,
+         street_name,
+         sale_id,
+         sale_name,
+         sale_user_id
