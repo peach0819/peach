@@ -42,6 +42,7 @@ CREATE TABLE IF NOT EXISTS ads_crm_a2_subject_d
     subject_desc    STRING COMMENT '项目描述',
     subject_status  INT COMMENT '项目状态，0待发布 1进行中 2已结束 3已终止',
     subject_type    STRING COMMENT '项目类型 新签/复购',
+    subject_type_id INT COMMENT '项目类型id，1新签 2复购',
     subject_month   STRING COMMENT '项目月份',
     subject_start_time STRING COMMENT '项目开始时间',
     subject_end_time STRING COMMENT '项目结束时间',
@@ -56,6 +57,8 @@ CREATE TABLE IF NOT EXISTS ads_crm_a2_subject_shop_base_d
 (
     subject_id      INT COMMENT '项目id',
     subject_type    STRING COMMENT '项目类型 新签/复购',
+    subject_type_id INT COMMENT '项目类型id，1新签 2复购',
+    subject_month   STRING COMMENT '项目月份',
     shop_id         STRING COMMENT '门店id',
     shop_code       STRING COMMENT '门店编码',
     shop_name       STRING COMMENT '门店名',
