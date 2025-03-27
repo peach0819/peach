@@ -51,7 +51,8 @@ CREATE TABLE IF NOT EXISTS ads_crm_a2_subject_d
     visit_shop_count INT COMMENT '覆盖门店数',
     valid_visit_shop_count INT COMMENT '有效覆盖门店数',
     order_shop_count INT COMMENT '转化门店数',
-    hpc_quality_shop_count INT COMMENT 'HPC优质门店数'
+    hpc_quality_shop_count INT COMMENT 'HPC优质门店数',
+    visit_shop_rate decimal(18, 2) COMMENT '拜访覆盖率'
 ) PARTITIONED BY (dayid STRING);
 
 CREATE TABLE IF NOT EXISTS ads_crm_a2_subject_shop_base_d
