@@ -1,12 +1,26 @@
 with subject as (
-    SELECT *,
+    SELECT id,
+           subject_name,
+           memo,
+           status,
+           subject_month,
+           do_start,
+           do_end,
+           shop_cluster_id,
            case when feature_type = 1 then '新签'
                 when feature_type = 2 then '复购'
-                else null end as a2_subject_type
+                else null end as subject_type
     FROM ytdw.dwd_p0_subject_d
     WHERE dayid = DATE_FORMAT(DATE_SUB(CURRENT_DATE, 1), 'yyyyMMdd')  --这里永远取最新的分区数据
-    AND id IN (11290, 11291, 11287, 11295, 11296, 11292, 11297, 11299, 11301, 11303, 11305, 11307, 11309, 11311, 11313, 11315, 11317, 11319, 11321, 11323, 11325, 11327, 11329, 11331, 11333, 11335, 11337, 11339, 11341, 11343, 11345, 11347, 11349, 11351, 11353, 11354, 11355, 11356, 11357, 11358, 11359, 11360, 11361, 11362, 11363, 11364, 11365, 11366, 11367, 11368, 11369, 11370, 11371, 11372, 11373, 11374, 11375, 11376, 11377, 11378, 11379, 11380, 11381, 11382, 11383, 11384, 11385, 11386, 11387, 11388, 11389, 11390, 11391, 11392, 11393, 11394, 11395, 11396, 11397, 11398, 11399, 11400, 11401, 11402, 11403, 11404, 11405, 11406, 11407, 11408)
     AND dmp_id is not null
+),
+
+scope as (
+    SELECT subject_id,
+           need_stats,
+           shop_type
+    FROM yt_crm.ads_crm_a2_subject_scope_d
+    WHERE dayid = DATE_FORMAT(DATE_SUB(CURRENT_DATE, 1), 'yyyyMMdd')  --这里永远取最新的分区数据
 )
 
 INSERT OVERWRITE TABLE ads_crm_a2_subject_base_d PARTITION(dayid = '${v_date}')
@@ -14,12 +28,13 @@ SELECT id,
        subject_name,
        memo,
        status,
-       a2_subject_type,
+       subject_type,
        subject_month,
        do_start,
        do_end,
        shop_cluster_id,
-       case when id IN (11295, 11296, 11292, 11299, 11303, 11307, 11311, 11315, 11319, 11323, 11327, 11331, 11335, 11339, 11343, 11347, 11351, 11355, 11356, 11359, 11360, 11363, 11364, 11367, 11368, 11371, 11372, 11375, 11376, 11379, 11380, 11383, 11384, 11387, 11388, 11391, 11392, 11395, 11396, 11399, 11400, 11403, 11404, 11407, 11408)
-            then 1 else 0 end as need_stats --1表示需要统计的，目前是3省的需要统计
+       scope.need_stats,
+       scope.shop_type
 FROM subject
+INNER JOIN scope ON subject.id = scope.subject_id
 WHERE subject_month = substr('${v_date}', 1, 6)
