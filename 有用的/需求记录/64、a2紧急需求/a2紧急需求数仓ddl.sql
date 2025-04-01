@@ -20,31 +20,14 @@ CREATE TABLE IF NOT EXISTS ads_crm_a2_subject_base_d
     shop_type          INT COMMENT '项目门店类型 1机会门店 2优质门店'
 ) PARTITIONED BY (dayid STRING);
 
-CREATE TABLE IF NOT EXISTS ads_crm_a2_subject_d
-(
-    subject_id      INT COMMENT '项目id',
-    subject_name    STRING COMMENT '项目名',
-    subject_desc    STRING COMMENT '项目描述',
-    subject_status  INT COMMENT '项目状态，0待发布 1进行中 2已结束 3已终止',
-    subject_type    STRING COMMENT '项目类型 新签/复购',
-    subject_type_id INT COMMENT '项目类型id，1新签 2复购',
-    subject_month   STRING COMMENT '项目月份',
-    subject_start_time STRING COMMENT '项目开始时间',
-    subject_end_time STRING COMMENT '项目结束时间',
-    shop_count      INT COMMENT '机会门店数',
-    visit_shop_count INT COMMENT '覆盖门店数',
-    valid_visit_shop_count INT COMMENT '有效覆盖门店数',
-    order_shop_count INT COMMENT '转化门店数',
-    hpc_quality_shop_count INT COMMENT 'HPC优质门店数',
-    visit_shop_rate decimal(18, 2) COMMENT '拜访覆盖率'
-) PARTITIONED BY (dayid STRING);
-
 CREATE TABLE IF NOT EXISTS ads_crm_a2_subject_shop_base_d
 (
     subject_id      INT COMMENT '项目id',
     subject_type    STRING COMMENT '项目类型 新签/复购',
     subject_type_id INT COMMENT '项目类型id，1新签 2复购',
     subject_month   STRING COMMENT '项目月份',
+    need_stats      INT COMMENT '是否需要在机会门店列表统计，0否 1是',
+    shop_type       INT COMMENT '项目门店类型 1机会门店 2优质门店',
     shop_id         STRING COMMENT '门店id',
     shop_code       STRING COMMENT '门店编码',
     shop_name       STRING COMMENT '门店名',
@@ -64,7 +47,6 @@ CREATE TABLE IF NOT EXISTS ads_crm_a2_subject_shop_base_d
     has_order       INT COMMENT '是否下单（转化）0否 1是',
     offtake         INT COMMENT '下单罐数，下单罐数统计为 imf_offtake 口径'
 ) PARTITIONED BY (dayid STRING);
-
 
 CREATE TABLE IF NOT EXISTS ads_crm_a2_subject_shop_base_sync_d
 (
@@ -90,6 +72,25 @@ CREATE TABLE IF NOT EXISTS ads_crm_a2_subject_shop_base_sync_d
     has_valid_visit INT COMMENT '是否存在有效拜访（有效覆盖）0否 1是',
     has_order       INT COMMENT '是否下单（转化）0否 1是',
     offtake         INT COMMENT '下单罐数，下单罐数统计为 imf_offtake 口径'
+) PARTITIONED BY (dayid STRING);
+
+CREATE TABLE IF NOT EXISTS ads_crm_a2_subject_d
+(
+    subject_id      INT COMMENT '项目id',
+    subject_name    STRING COMMENT '项目名',
+    subject_desc    STRING COMMENT '项目描述',
+    subject_status  INT COMMENT '项目状态，0待发布 1进行中 2已结束 3已终止',
+    subject_type    STRING COMMENT '项目类型 新签/复购',
+    subject_type_id INT COMMENT '项目类型id，1新签 2复购',
+    subject_month   STRING COMMENT '项目月份',
+    subject_start_time STRING COMMENT '项目开始时间',
+    subject_end_time STRING COMMENT '项目结束时间',
+    shop_count      INT COMMENT '机会门店数',
+    visit_shop_count INT COMMENT '覆盖门店数',
+    valid_visit_shop_count INT COMMENT '有效覆盖门店数',
+    order_shop_count INT COMMENT '转化门店数',
+    hpc_quality_shop_count INT COMMENT 'HPC优质门店数',
+    visit_shop_rate decimal(18, 2) COMMENT '拜访覆盖率'
 ) PARTITIONED BY (dayid STRING);
 
 CREATE TABLE IF NOT EXISTS ads_crm_a2_subject_shop_d
