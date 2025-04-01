@@ -45,6 +45,8 @@ SELECT shop_id,
        if(count(case when subject_type = '复购' then 1 else null end) > 0, 1, 0) as is_repurchase
 FROM base
 group by shop_id,
+         shop_code,
+         shop_name,
          province_id,
          province_name,
          city_id,
