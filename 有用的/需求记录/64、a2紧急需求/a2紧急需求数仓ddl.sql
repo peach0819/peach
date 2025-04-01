@@ -113,7 +113,7 @@ CREATE TABLE IF NOT EXISTS ads_crm_a2_subject_shop_d
     has_valid_visit INT COMMENT '是否存在有效拜访（有效覆盖）0否 1是',
     has_order       INT COMMENT '是否下单（转化）0否 1是',
     shop_count      INT COMMENT '机会门店数',
+    quantity_shop_count INT COMMENT '优质门店数',
     is_new_sign     INT COMMENT '是否新签门店 0否 1是',
-    is_repurchase   INT COMMENT '是否复购门店 0否 1是',
-    quantity_shop_count INT COMMENT '优质门店数'
+    is_repurchase   INT COMMENT '是否复购门店 0否 1是'
 ) PARTITIONED BY (dayid STRING);

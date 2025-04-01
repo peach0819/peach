@@ -1,6 +1,7 @@
 with base as (
     SELECT subject_id,
            subject_type,
+           shop_type,
            shop_id,
            shop_code,
            shop_name,
@@ -40,7 +41,8 @@ SELECT shop_id,
        if(count(case when has_visit = 1 then 1 else null end) > 0, 1, 0) as has_visit,
        if(count(case when has_valid_visit = 1 then 1 else null end) > 0, 1, 0) as has_valid_visit,
        if(count(case when has_order = 1 then 1 else null end) > 0, 1, 0) as has_order,
-       count(subject_id) as shop_count,
+       count(case when shop_type = 1 then subject_id else null end) as shop_count,
+       count(case when shop_type = 2 then subject_id else null end) as quantity_shop_count,
        if(count(case when subject_type = '新签' then 1 else null end) > 0, 1, 0) as is_new_sign,
        if(count(case when subject_type = '复购' then 1 else null end) > 0, 1, 0) as is_repurchase
 FROM base
