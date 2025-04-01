@@ -16,7 +16,8 @@ CREATE TABLE IF NOT EXISTS ads_crm_a2_subject_base_d
     subject_start_time STRING COMMENT '项目开始时间',
     subject_end_time   STRING COMMENT '项目结束时间',
     dmp_id             INT COMMENT '项目关联的DMP',
-    need_stats         INT COMMENT '是否需要在机会门店列表统计，0否 1是'
+    need_stats         INT COMMENT '是否需要在机会门店列表统计，0否 1是',
+    shop_type          INT COMMENT '项目门店类型 1机会门店 2优质门店'
 ) PARTITIONED BY (dayid STRING);
 
 CREATE TABLE IF NOT EXISTS ads_crm_a2_subject_d
