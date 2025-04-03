@@ -1,0 +1,28 @@
+{
+  "dateList": [
+    "2025-03-31"
+    // "2025-02-28",
+    // "2025-01-31",
+    // "2024-12-31",
+    // "2024-11-30",
+    // "2024-10-31",
+    // "2024-09-30",
+    // "2024-08-31",
+    // "2024-07-31",
+    // "2024-06-30",
+    // "2024-05-31",
+    // "2024-04-30",
+    // "2024-03-31",
+    // "2024-02-29",
+    // "2024-01-31"
+  ],
+  "nodeList": [
+    "ads_crm_a2_subject_base_d",
+    "ads_crm_a2_subject_shop_base_d",
+    // "ads_crm_a2_subject_shop_d",
+    "ads_crm_a2_subject_d",
+    "ads_crm_a2_subject_shop_base_sync_d",
+    "sync_ads_crm_a2_subject_shop_base_d",
+    "sync_ads_crm_a2_subject_d"
+  ]
+}
