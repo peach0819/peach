@@ -17,7 +17,8 @@ CREATE TABLE IF NOT EXISTS ads_crm_a2_subject_base_d
     subject_end_time   STRING COMMENT '项目结束时间',
     dmp_id             INT COMMENT '项目关联的DMP',
     need_stats         INT COMMENT '是否需要在机会门店列表统计，0否 1是',
-    shop_type          INT COMMENT '项目门店类型 1机会门店 2优质门店'
+    shop_type          INT COMMENT '项目门店类型 1机会门店 2优质门店',
+    feature_type       INT COMMENT '项目职能类型，1BD 2电销'
 ) PARTITIONED BY (dayid STRING);
 
 CREATE TABLE IF NOT EXISTS ads_crm_a2_subject_shop_base_d
@@ -45,7 +46,8 @@ CREATE TABLE IF NOT EXISTS ads_crm_a2_subject_shop_base_d
     has_visit       INT COMMENT '是否存在拜访（覆盖）0否 1是',
     has_valid_visit INT COMMENT '是否存在有效拜访（有效覆盖）0否 1是',
     has_order       INT COMMENT '是否下单（转化）0否 1是',
-    offtake         INT COMMENT '下单罐数，下单罐数统计为 imf_offtake 口径'
+    offtake         INT COMMENT '下单罐数，下单罐数统计为 imf_offtake 口径',
+    last_visit_time STRING COMMENT '最近一次拜访时间'
 ) PARTITIONED BY (dayid STRING);
 
 CREATE TABLE IF NOT EXISTS ads_crm_a2_subject_shop_base_sync_d
@@ -71,7 +73,8 @@ CREATE TABLE IF NOT EXISTS ads_crm_a2_subject_shop_base_sync_d
     has_visit       INT COMMENT '是否存在拜访（覆盖）0否 1是',
     has_valid_visit INT COMMENT '是否存在有效拜访（有效覆盖）0否 1是',
     has_order       INT COMMENT '是否下单（转化）0否 1是',
-    offtake         INT COMMENT '下单罐数，下单罐数统计为 imf_offtake 口径'
+    offtake         INT COMMENT '下单罐数，下单罐数统计为 imf_offtake 口径',
+    last_visit_time DATETIME COMMENT '最近一次拜访时间'
 ) PARTITIONED BY (dayid STRING);
 
 CREATE TABLE IF NOT EXISTS ads_crm_a2_subject_d

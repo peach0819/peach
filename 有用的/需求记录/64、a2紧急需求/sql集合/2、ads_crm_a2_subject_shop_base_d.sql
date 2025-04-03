@@ -9,7 +9,8 @@ with subject as (
            subject_end_time,
            dmp_id,
            need_stats,
-           shop_type
+           shop_type,
+           feature_type
     FROM yt_crm.ads_crm_a2_subject_base_d
     WHERE dayid = '${v_date}'
 ),
@@ -67,11 +68,12 @@ visit as (
            count(case when record_type = 3 then 1 else null end) as bd_visit_count,
            count(case when record_type = 3 AND visit_mode = 1 then 1 else null end) as bd_valid_visit_count,
            count(case when record_type = 4 then 1 else null end) as sale_visit_count,
-           count(case when record_type = 4 AND visit_mode = 1 then 1 else null end) as sale_valid_visit_count
-    FROM ytdw.dwd_visit_record_d
-    WHERE dayid = DATE_FORMAT(DATE_SUB(CURRENT_DATE, 1), 'yyyyMMdd')
-    AND record_type IN (3, 4)  --3BD拜访 4电销拜访
-    AND substr(visit_time, 1, 6) = substr('${v_date}', 1, 6)
+           count(case when record_type = 4 AND visit_mode = 1 then 1 else null end) as sale_valid_visit_count,
+           max(case when record_type = 3 then visit_time else null end) as last_bd_visit_time,
+           max(case when record_type = 4 then visit_time else null end) as last_sale_visit_time
+    FROM ytdw.ods_vf_pt_visit_record
+    WHERE record_type IN (3, 4)  --3BD拜访 4电销拜访
+    AND substr(date_format(visit_time, 'yyyyMMddHHmmss'), 1, 6) = substr('${v_date}', 1, 6)
     group by object_id
 ),
 
@@ -94,7 +96,9 @@ shop as (
            nvl(visit.bd_valid_visit_count, 0) as bd_valid_visit_count,
            nvl(visit.sale_visit_count, 0) as sale_visit_count,
            nvl(visit.sale_valid_visit_count, 0) as sale_valid_visit_count,
-           nvl(ord.imf_order_spec_count, 0) as offtake
+           nvl(ord.imf_order_spec_count, 0) as offtake,
+           last_bd_visit_time,
+           last_sale_visit_time
     FROM shop_base
     LEFT JOIN pool_server ON shop_base.shop_id = pool_server.shop_id
     LEFT JOIN user ON pool_server.user_id = user.user_id
@@ -125,18 +129,21 @@ cur as (
            shop.sale_id,
            shop.sale_name,
            shop.sale_user_id,
-           if(case when subject.subject_type = '新签' then shop.bd_visit_count
-                   when subject.subject_type = '复购' then shop.sale_visit_count
+           if(case when subject.feature_type = 1 then shop.bd_visit_count
+                   when subject.feature_type = 2 then shop.sale_visit_count
                    end > 0, 1, 0) as has_visit,
-           if(case when subject.subject_type = '新签' then shop.bd_valid_visit_count
-                   when subject.subject_type = '复购' then shop.sale_valid_visit_count
+           if(case when subject.feature_type = 1 then shop.bd_valid_visit_count
+                   when subject.feature_type = 2 then shop.sale_valid_visit_count
                    end > 0, 1, 0) as has_valid_visit,
-           if(case when subject.subject_type = '新签' then shop.bd_valid_visit_count
-                   when subject.subject_type = '复购' then shop.sale_valid_visit_count
+           if(case when subject.feature_type = 1 then shop.bd_valid_visit_count
+                   when subject.feature_type = 2 then shop.sale_valid_visit_count
                    end > 0, if(shop.offtake > 0, 1, 0), 0) as has_order,
-           if(case when subject.subject_type = '新签' then shop.bd_valid_visit_count
-                   when subject.subject_type = '复购' then shop.sale_valid_visit_count
-                   end > 0, shop.offtake, 0) as offtake
+           if(case when subject.feature_type = 1 then shop.bd_valid_visit_count
+                   when subject.feature_type = 2 then shop.sale_valid_visit_count
+                   end > 0, shop.offtake, 0) as offtake,
+           case when subject.feature_type = 1 then shop.last_bd_visit_time
+                when subject.feature_type = 2 then shop.last_sale_visit_time
+                end as last_visit_time
     FROM subject
     INNER JOIN dmp_data ON dmp_data.group_id = subject.dmp_id
     INNER JOIN shop ON dmp_data.shop_id = shop.shop_id
@@ -166,5 +173,6 @@ SELECT subject_id,
        if(need_stats = 0, 0, has_visit) as has_visit,
        if(need_stats = 0, 0, has_valid_visit) as has_valid_visit,
        if(need_stats = 0, 0, has_order) as has_order,
-       if(need_stats = 0, 0, offtake) as offtake
+       if(need_stats = 0, 0, offtake) as offtake,
+       if(need_stats = 0, null, last_visit_time) as last_visit_time
 FROM cur
