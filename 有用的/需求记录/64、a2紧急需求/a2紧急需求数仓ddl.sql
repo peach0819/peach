@@ -2,7 +2,8 @@ CREATE TABLE IF NOT EXISTS ads_crm_a2_subject_scope_d
 (
     subject_id         INT COMMENT '项目id',
     need_stats         INT COMMENT '是否需要在机会门店列表统计，0否 1是',
-    shop_type          INT COMMENT '项目门店类型 1机会门店 2优质门店'
+    shop_type          INT COMMENT '项目门店类型 1机会门店 2优质门店',
+    subject_type       STRING COMMENT '项目类型 新签/复购'
 ) PARTITIONED BY (dayid STRING);
 
 CREATE TABLE IF NOT EXISTS ads_crm_a2_subject_base_d

@@ -1,4 +1,3 @@
-INSERT OVERWRITE TABLE ads_crm_a2_subject_scope_d PARTITION (dayid = '${v_date}')
 SELECT 11353 as subject_id,	0 as need_stats, 1 as shop_type, '复购' as subject_type
 UNION ALL
 SELECT 11354 as subject_id,	0 as need_stats, 1 as shop_type, '复购' as subject_type
