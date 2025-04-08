@@ -7,9 +7,6 @@ with subject as (
            do_start,
            do_end,
            shop_cluster_id,
-           case when feature_type = 1 then '新签'
-                when feature_type = 2 then '复购'
-                else null end as subject_type,
            feature_type
     FROM ytdw.dwd_p0_subject_d
     WHERE dayid = DATE_FORMAT(DATE_SUB(CURRENT_DATE, 1), 'yyyyMMdd')  --这里永远取最新的分区数据
@@ -19,7 +16,8 @@ with subject as (
 scope as (
     SELECT subject_id,
            need_stats,
-           shop_type
+           shop_type,
+           subject_type
     FROM yt_crm.ads_crm_a2_subject_scope_d
     WHERE dayid = DATE_FORMAT(DATE_SUB(CURRENT_DATE, 1), 'yyyyMMdd')  --这里永远取最新的分区数据
 )
@@ -29,7 +27,7 @@ SELECT id,
        subject_name,
        memo,
        status,
-       subject_type,
+       scope.subject_type,
        subject_month,
        do_start,
        do_end,
