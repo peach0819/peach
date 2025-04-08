@@ -97,27 +97,29 @@ CREATE TABLE IF NOT EXISTS ads_crm_a2_subject_d
     visit_shop_rate decimal(18, 2) COMMENT '拜访覆盖率'
 ) PARTITIONED BY (dayid STRING);
 
-CREATE TABLE IF NOT EXISTS ads_crm_a2_subject_shop_d
-(
-    shop_id         STRING COMMENT '门店id',
-    shop_code       STRING COMMENT '门店编码',
-    shop_name       STRING COMMENT '门店名',
-    province_id     BIGINT COMMENT '省id',
-    province_name   STRING COMMENT '省名',
-    city_id         BIGINT COMMENT '市id',
-    city_name       STRING COMMENT '市名',
-    area_id         BIGINT COMMENT '区id',
-    area_name       STRING COMMENT '区名',
-    street_id       BIGINT COMMENT '街道id',
-    street_name     STRING COMMENT '街道名',
-    sale_id         STRING COMMENT '关联销售id',
-    sale_name       STRING COMMENT '关联销售名',
-    sale_user_id    BIGINT COMMENT '关联销售的user_id',
-    has_visit       INT COMMENT '是否存在拜访（覆盖）0否 1是',
-    has_valid_visit INT COMMENT '是否存在有效拜访（有效覆盖）0否 1是',
-    has_order       INT COMMENT '是否下单（转化）0否 1是',
-    shop_count      INT COMMENT '机会门店数',
-    quantity_shop_count INT COMMENT '优质门店数',
-    is_new_sign     INT COMMENT '是否新签门店 0否 1是',
-    is_repurchase   INT COMMENT '是否复购门店 0否 1是'
-) PARTITIONED BY (dayid STRING);
+CREATE TABLE IF NOT EXISTS ads_crm_a2_subject_shop_d(
+	shop_id STRING COMMENT '门店id',
+	shop_code STRING COMMENT '门店编码',
+	shop_name STRING COMMENT '门店名',
+	province_id BIGINT COMMENT '省id',
+	province_name STRING COMMENT '省名',
+	city_id BIGINT COMMENT '市id',
+	city_name STRING COMMENT '市名',
+	area_id BIGINT COMMENT '区id',
+	area_name STRING COMMENT '区名',
+	street_id BIGINT COMMENT '街道id',
+	street_name STRING COMMENT '街道名',
+	sale_id STRING COMMENT '关联销售id',
+	sale_name STRING COMMENT '关联销售名',
+	sale_user_id BIGINT COMMENT '关联销售的user_id',
+	has_visit INT COMMENT '是否存在拜访（覆盖）0否 1是',
+	has_valid_visit INT COMMENT '是否存在有效拜访（有效覆盖）0否 1是',
+	has_order INT COMMENT '是否下单（转化）0否 1是',
+	shop_count INT COMMENT '机会门店数',
+	quantity_shop_count INT COMMENT '优质门店数',
+	shop_stats_count INT COMMENT '需要统计的机会门店数',
+	quantity_shop_stats_count INT COMMENT '需要统计的优质门店数',
+	is_new_sign INT COMMENT '是否新签门店 0否 1是',
+	is_repurchase INT COMMENT '是否复购门店 0否 1是'
+)
+PARTITIONED BY (dayid STRING);

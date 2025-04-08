@@ -18,7 +18,8 @@ with base as (
            sale_user_id,
            has_visit,
            has_valid_visit,
-           has_order
+           has_order,
+           need_stats
     FROM yt_crm.ads_crm_a2_subject_shop_base_d
     WHERE dayid = '${v_date}'
 )
@@ -43,6 +44,8 @@ SELECT shop_id,
        if(count(case when has_order = 1 then 1 else null end) > 0, 1, 0) as has_order,
        count(case when shop_type = 1 then subject_id else null end) as shop_count,
        count(case when shop_type = 2 then subject_id else null end) as quantity_shop_count,
+       count(case when shop_type = 1 AND need_stats = 1 then subject_id else null end) as shop_count,
+       count(case when shop_type = 2 AND need_stats = 1 then subject_id else null end) as quantity_shop_count,
        if(count(case when subject_type = '新签' then 1 else null end) > 0, 1, 0) as is_new_sign,
        if(count(case when subject_type = '复购' then 1 else null end) > 0, 1, 0) as is_repurchase
 FROM base
