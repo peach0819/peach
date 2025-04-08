@@ -47,7 +47,7 @@ CREATE TABLE IF NOT EXISTS ads_crm_a2_subject_shop_base_d
     has_visit       INT COMMENT '是否存在拜访（覆盖）0否 1是',
     has_valid_visit INT COMMENT '是否存在有效拜访（有效覆盖）0否 1是',
     has_order       INT COMMENT '是否下单（转化）0否 1是',
-    offtake         INT COMMENT '下单罐数，下单罐数统计为 imf_offtake 口径',
+    offtake         DECIMAL(18,4) COMMENT '下单罐数，下单罐数统计为 imf_offtake 口径',
     last_visit_time STRING COMMENT '最近一次拜访时间'
 ) PARTITIONED BY (dayid STRING);
 
@@ -74,7 +74,7 @@ CREATE TABLE IF NOT EXISTS ads_crm_a2_subject_shop_base_sync_d
     has_visit       INT COMMENT '是否存在拜访（覆盖）0否 1是',
     has_valid_visit INT COMMENT '是否存在有效拜访（有效覆盖）0否 1是',
     has_order       INT COMMENT '是否下单（转化）0否 1是',
-    offtake         INT COMMENT '下单罐数，下单罐数统计为 imf_offtake 口径',
+    offtake         DECIMAL(18,4) COMMENT '下单罐数，下单罐数统计为 imf_offtake 口径',
     last_visit_time DATETIME COMMENT '最近一次拜访时间'
 ) PARTITIONED BY (dayid STRING);
 
