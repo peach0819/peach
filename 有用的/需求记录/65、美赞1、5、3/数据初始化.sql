@@ -20,7 +20,7 @@ update t_crm_visit_indicator_visible SET is_deleted = 1 WHERE indicator_id IN (1
 
 --新增指标
 INSERT INTO t_crm_visit_indicator(`id`, `creator`, `editor`, `indicator_code`, `indicator_name`, `indicator_unit`, `indicator_type`, `indicator_display_type`)
-VALUES (120, 'system', 'system', 'month_visit_valid_rate', '门店拜访频次达成率', '%', 1, 'ratio'),
+VALUES (120, 'system', 'system', 'month_visit_freq_valid_rate', '门店拜访频次达成率', '%', 1, 'ratio'),
        (121, 'system', 'system', 'month_nka_nc_visit_valid_rate', 'NKA专职NC门店拜访达成率', '%', 1, 'ratio'),
        (122, 'system', 'system', 'month_rka_nc_visit_valid_rate', 'RKA专职NC门店拜访达成率', '%', 1, 'ratio'),
        (123, 'system', 'system', 'month_hospital_visit_valid_rate', '院线店拜访达成率', '%', 1, 'ratio'),
