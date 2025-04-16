@@ -1,0 +1,38 @@
+{
+  "teamColumnList": [
+    {
+      "code": "numerator",
+      "name": "已拜访频次"
+    },
+    {
+      "code": "denominator",
+      "name": "目标拜访频次"
+    },
+    {
+      "code": "indicator",
+      "name": "达成率"
+    },
+    {
+      "code": "reach",
+      "name": "是否达标"
+    }
+  ],
+  "detailColumnList": [
+    {
+      "code": "service_obj_id",
+      "name": "拜访对象编码"
+    },
+    {
+      "code": "service_obj_name",
+      "name": "拜访对象名称"
+    },
+    {
+      "code": "indicator",
+      "name": "覆盖次数"
+    },
+    {
+      "code": "reach",
+      "name": "是否达标"
+    }
+  ]
+}
