@@ -1,22 +1,22 @@
 
 --废弃老的指标
-UPDATE t_crm_visit_indicator
-SET is_deleted = 1
-WHERE id IN (
-102,
-103,
-104,
-105,
-106,
-107,
-108,
-109,
-110,
-111
-);
+-- UPDATE t_crm_visit_indicator
+-- SET is_deleted = 1
+-- WHERE id IN (
+-- 102,
+-- 103,
+-- 104,
+-- 105,
+-- 106,
+-- 107,
+-- 108,
+-- 109,
+-- 110,
+-- 111
+-- );
 
 --废弃所有老的指标可见性
-update t_crm_visit_indicator_visible SET is_deleted = 1 WHERE indicator_id IN (100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111);
+-- update t_crm_visit_indicator_visible SET is_deleted = 1 WHERE indicator_id IN (100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111);
 
 --新增指标
 INSERT INTO t_crm_visit_indicator(`id`, `creator`, `editor`, `indicator_code`, `indicator_name`, `indicator_unit`, `indicator_type`, `indicator_display_type`)
