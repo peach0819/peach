@@ -8,7 +8,7 @@ visible as (
     SELECT job_id,
            channel_id,
            indicator_id
-    FROM p_mdson.dwd_crm_visit_indicator_visible_d
+    FROM p_mdson.dwd_crm_visit_indicator_visible_v2_d
     WHERE dayid = '${v_date}'
     AND is_deleted = 0
 ),
