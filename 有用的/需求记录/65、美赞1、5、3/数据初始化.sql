@@ -11,7 +11,7 @@ VALUES (120, 'system', 'system', 'month_visit_freq_valid_rate', '门店拜访频
        (128, 'system', 'system', 'quar_gt_shop_visit_valid_rate', '季度GT渠道门店拜访覆盖率', '%', 1, 'ratio');
 
 --当月拜访人员达标率
-INSERT INTO t_crm_visit_indicator_visible(`creator`, `editor`, `visible_type`, `job_id`, `channel_id`, `indicator_id`, `visiable_sort`)
+INSERT INTO t_crm_visit_indicator_visible_v2(`creator`, `editor`, `visible_type`, `job_id`, `channel_id`, `indicator_id`, `visiable_sort`)
 VALUES ('system', 'system', 0, 5, 2, 101, 0),
        ('system', 'system', 0, 15, 2, 101, 0),
        ('system', 'system', 0, 13, 2, 101, 0),
@@ -39,7 +39,7 @@ VALUES ('system', 'system', 0, 5, 2, 101, 0),
        ('system', 'system', 0, 27, 1, 101, 0);
 
 --门店拜访频次达成率
-INSERT INTO t_crm_visit_indicator_visible(`creator`, `editor`, `visible_type`, `job_id`, `channel_id`, `indicator_id`)
+INSERT INTO t_crm_visit_indicator_visible_v2(`creator`, `editor`, `visible_type`, `job_id`, `channel_id`, `indicator_id`)
 VALUES ('system', 'system', 0, 5, 2, 120),
        ('system', 'system', 0, 15, 2, 120),
        ('system', 'system', 0, 13, 2, 120),
@@ -62,7 +62,7 @@ VALUES ('system', 'system', 0, 5, 2, 120),
        ('system', 'system', 0, 27, 1, 120);
 
 --NKA专职NC门店拜访达成率
-INSERT INTO t_crm_visit_indicator_visible(`creator`, `editor`, `visible_type`, `job_id`, `channel_id`, `indicator_id`)
+INSERT INTO t_crm_visit_indicator_visible_v2(`creator`, `editor`, `visible_type`, `job_id`, `channel_id`, `indicator_id`)
 VALUES ('system', 'system', 0, 5, 2, 121),
        ('system', 'system', 0, 15, 2, 121),
        ('system', 'system', 0, 13, 2, 121),
@@ -72,7 +72,7 @@ VALUES ('system', 'system', 0, 5, 2, 121),
        ('system', 'system', 0, 11, null, 121);
 
 --RKA专职NC门店拜访达成率
-INSERT INTO t_crm_visit_indicator_visible(`creator`, `editor`, `visible_type`, `job_id`, `channel_id`, `indicator_id`)
+INSERT INTO t_crm_visit_indicator_visible_v2(`creator`, `editor`, `visible_type`, `job_id`, `channel_id`, `indicator_id`)
 VALUES ('system', 'system', 0, 5, 2, 122),
        ('system', 'system', 0, 15, 2, 122),
        ('system', 'system', 0, 13, 2, 122),
@@ -81,12 +81,12 @@ VALUES ('system', 'system', 0, 5, 2, 122),
        ('system', 'system', 0, 13, 1, 122);
 
 --院线店拜访达成率
-INSERT INTO t_crm_visit_indicator_visible(`creator`, `editor`, `visible_type`, `job_id`, `channel_id`, `indicator_id`)
+INSERT INTO t_crm_visit_indicator_visible_v2(`creator`, `editor`, `visible_type`, `job_id`, `channel_id`, `indicator_id`)
 VALUES ('system', 'system', 0, 5, 2, 123),
        ('system', 'system', 0, 5, 1, 123);
 
 --门店拜访覆盖率
-INSERT INTO t_crm_visit_indicator_visible(`creator`, `editor`, `visible_type`, `job_id`, `channel_id`, `indicator_id`)
+INSERT INTO t_crm_visit_indicator_visible_v2(`creator`, `editor`, `visible_type`, `job_id`, `channel_id`, `indicator_id`)
 VALUES ('system', 'system', 0, 5, 2, 124),
        ('system', 'system', 0, 15, 2, 124),
        ('system', 'system', 0, 13, 2, 124),
@@ -100,26 +100,26 @@ VALUES ('system', 'system', 0, 5, 2, 124),
        ('system', 'system', 0, 24, null, 124);
 
 --月度服务商拜访达成率
-INSERT INTO t_crm_visit_indicator_visible(`creator`, `editor`, `visible_type`, `job_id`, `channel_id`, `indicator_id`)
+INSERT INTO t_crm_visit_indicator_visible_v2(`creator`, `editor`, `visible_type`, `job_id`, `channel_id`, `indicator_id`)
 VALUES ('system', 'system', 0, 5, 4, 125),
        ('system', 'system', 0, 15, 4, 125),
        ('system', 'system', 0, 13, 4, 125);
 
 --季度服务商拜访达成率
-INSERT INTO t_crm_visit_indicator_visible(`creator`, `editor`, `visible_type`, `job_id`, `channel_id`, `indicator_id`)
+INSERT INTO t_crm_visit_indicator_visible_v2(`creator`, `editor`, `visible_type`, `job_id`, `channel_id`, `indicator_id`)
 VALUES ('system', 'system', 0, 5, 4, 126),
        ('system', 'system', 0, 15, 4, 126),
        ('system', 'system', 0, 13, 4, 126);
 
 --月度GT渠道门店拜访覆盖率
-INSERT INTO t_crm_visit_indicator_visible(`creator`, `editor`, `visible_type`, `job_id`, `channel_id`, `indicator_id`)
+INSERT INTO t_crm_visit_indicator_visible_v2(`creator`, `editor`, `visible_type`, `job_id`, `channel_id`, `indicator_id`)
 VALUES ('system', 'system', 0, 5, 4, 127),
        ('system', 'system', 0, 15, 4, 127),
        ('system', 'system', 0, 13, 4, 127),
        ('system', 'system', 0, 27, 4, 127);
 
 --季度GT渠道门店拜访覆盖率
-INSERT INTO t_crm_visit_indicator_visible(`creator`, `editor`, `visible_type`, `job_id`, `channel_id`, `indicator_id`)
+INSERT INTO t_crm_visit_indicator_visible_v2(`creator`, `editor`, `visible_type`, `job_id`, `channel_id`, `indicator_id`)
 VALUES ('system', 'system', 0, 5, 4, 128),
        ('system', 'system', 0, 15, 4, 128),
        ('system', 'system', 0, 13, 4, 128),
