@@ -311,7 +311,7 @@ SELECT /*+ mapjoin(user) */
        'admin' as user_id,
        4 as tab_type,
        to_json(named_struct(
-                      'user_cnt', count(sub.user_id),
+           'user_cnt', count(sub.user_id),
 
            --当月拜访人员达标率
            'month_visit_reach_rate', round(100 * count(case when if_visit_qualified = '达标' then 1 else null end)/count(sub.user_id), 2),
@@ -382,7 +382,7 @@ SELECT /*+ mapjoin(user,virtual_group) */
        user.user_id as user_id,
        4 as tab_type,
        to_json(named_struct(
-                      'user_cnt', count(sub.user_id),
+           'user_cnt', count(sub.user_id),
 
            --当月拜访人员达标率
            'month_visit_reach_rate', round(100 * count(case when if_visit_qualified = '达标' then 1 else null end)/count(sub.user_id), 2),
@@ -437,7 +437,7 @@ SELECT /*+ mapjoin(user,virtual_group) */
 FROM user
 INNER JOIN user sub ON user.user_root_key = sub.user_root_key OR locate(user.user_root_key, sub.user_parent_root_key) > 0 --表示contains
 INNER JOIN indicator ON indicator.user_id = sub.user_id
-INNER JOIN virtual_group ON locate(sub.user_root_key, virtual_group.leader_id) > 0 --表示contains
+INNER JOIN virtual_group ON sub.user_root_key like concat('%', virtual_group.leader_id, '%') --表示contains
 LEFT JOIN visible ON visible.user_id = sub.user_id
 INNER JOIN base_user ON sub.user_id = base_user.user_id
 WHERE base_user.brand_dept_virtual_group_id NOT IN (655849, 655850, 655851, 655852) --部门为 早阶用户发展(EMD) 655849 655850 655851 655852
