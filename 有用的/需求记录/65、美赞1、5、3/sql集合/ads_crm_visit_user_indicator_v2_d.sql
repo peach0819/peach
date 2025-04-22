@@ -71,9 +71,11 @@ user as (
 
 base_user as (
     SELECT user_id,
-           job_id,
-           channel_id,
-           brand_dept_virtual_group_id
+
+           --部门为 早阶用户发展(EMD)
+           --部门为 华x区区域市场推广部门
+           --角色为区域中台、区域中台N-1 7 10
+           if(job_id IN (7, 10) OR size(array_intersect(split(brand_dept_root_name, '_'), ARRAY('华东区区域市场推广','华南区区域市场推广','华北区区域市场推广','华西区区域市场推广','早阶用户发展(EMD)'))) > 0, 1, 0) as need_filter
     FROM p_mdson.dwd_hpc_user_admin_d
     WHERE pt = '${v_date}'
 ),
@@ -174,9 +176,9 @@ SELECT /*+ mapjoin(user) */
            'user_cnt', count(sub.user_id),
 
            --当月拜访人员达标率
-           'month_visit_reach_rate', round(100 * count(case when if_visit_qualified = '达标' then 1 else null end)/count(sub.user_id), 2),
-           'month_visit_reach_rate_numerator', count(case when if_visit_qualified = '达标' then 1 else null end),
-           'month_visit_reach_rate_denominator', count(sub.user_id),
+           'month_visit_reach_rate', if(count(if(array_contains(visible.indicator_config, 'month_visit_reach_rate'), sub.user_id, null)) = 0, null, round(100 * count(if(array_contains(visible.indicator_config, 'month_visit_reach_rate') AND if_visit_qualified = '达标', 1, null))/count(if(array_contains(visible.indicator_config, 'month_visit_reach_rate'), sub.user_id, null)), 2)),
+           'month_visit_reach_rate_numerator', count(if(array_contains(visible.indicator_config, 'month_visit_reach_rate') AND if_visit_qualified = '达标', 1, null)),
+           'month_visit_reach_rate_denominator', count(if(array_contains(visible.indicator_config, 'month_visit_reach_rate'), sub.user_id, null)),
 
            --门店拜访频次达成率
            'month_visit_freq_valid_rate', if(sum(if(array_contains(visible.indicator_config, 'month_visit_freq_valid_rate'), visit_m_target, 0)) = 0, null, round(100 * sum(if(array_contains(visible.indicator_config, 'month_visit_freq_valid_rate'), month_visit_valid_cnt, 0))/sum(if(array_contains(visible.indicator_config, 'month_visit_freq_valid_rate'), visit_m_target, 0)), 2)),
@@ -199,9 +201,9 @@ SELECT /*+ mapjoin(user) */
            'month_hospital_visit_valid_rate_denominator', sum(if(array_contains(visible.indicator_config, 'month_hospital_visit_valid_rate'), month_hospital_sever_obj_m, 0)),
 
            --门店拜访覆盖率
-           'month_shop_visit_valid_rate', if(sum(if(array_contains(visible.indicator_config, 'month_shop_visit_valid_rate'), month_gt_sever_obj_m, 0)) = 0, null, round(100 * sum(if(array_contains(visible.indicator_config, 'month_shop_visit_valid_rate'), month_gt_shop_visit_valid_cnt, 0))/sum(if(array_contains(visible.indicator_config, 'month_shop_visit_valid_rate'), month_gt_sever_obj_m, 0)), 2)),
-           'month_shop_visit_valid_rate_numerator', sum(if(array_contains(visible.indicator_config, 'month_shop_visit_valid_rate'), month_gt_shop_visit_valid_cnt, 0)),
-           'month_shop_visit_valid_rate_denominator', sum(if(array_contains(visible.indicator_config, 'month_shop_visit_valid_rate'), month_gt_sever_obj_m, 0)),
+           'month_shop_visit_valid_rate', if(sum(if(array_contains(visible.indicator_config, 'month_shop_visit_valid_rate'), month_sever_obj_m, 0)) = 0, null, round(100 * sum(if(array_contains(visible.indicator_config, 'month_shop_visit_valid_rate'), month_shop_visit_valid_cnt, 0))/sum(if(array_contains(visible.indicator_config, 'month_shop_visit_valid_rate'), month_sever_obj_m, 0)), 2)),
+           'month_shop_visit_valid_rate_numerator', sum(if(array_contains(visible.indicator_config, 'month_shop_visit_valid_rate'), month_shop_visit_valid_cnt, 0)),
+           'month_shop_visit_valid_rate_denominator', sum(if(array_contains(visible.indicator_config, 'month_shop_visit_valid_rate'), month_sever_obj_m, 0)),
 
            --月度服务商拜访达成率
            'month_fws_visit_valid_rate', if(sum(if(array_contains(visible.indicator_config, 'month_fws_visit_valid_rate'), month_fws_sever_obj_m, 0)) = 0, null, round(100 * sum(if(array_contains(visible.indicator_config, 'month_fws_visit_valid_rate'), month_fws_visit_valid_cnt, 0))/sum(if(array_contains(visible.indicator_config, 'month_fws_visit_valid_rate'), month_fws_sever_obj_m, 0)), 2)),
@@ -228,9 +230,7 @@ INNER JOIN user sub ON user.user_root_key = sub.user_root_key OR locate(user.use
 INNER JOIN indicator ON indicator.user_id = sub.user_id
 LEFT JOIN visible ON visible.user_id = sub.user_id
 INNER JOIN base_user ON sub.user_id = base_user.user_id
-WHERE base_user.brand_dept_virtual_group_id NOT IN (655849, 655850, 655851, 655852) --部门为 早阶用户发展(EMD) 655849 655850 655851 655852
-AND base_user.brand_dept_virtual_group_id NOT IN (655429, 655430, 655453, 655454) --部门为 华x区区域市场推广部门 655429, 655430, 655453, 655454
-AND base_user.job_id NOT IN (7, 10) --角色为区域中台、区域中台N-1 7 10
+WHERE base_user.need_filter = 0
 group by indicator.data_month, user.user_id
 
 UNION ALL
@@ -244,9 +244,9 @@ SELECT /*+ mapjoin(user) */
            'user_cnt', count(sub.user_id),
 
            --当月拜访人员达标率
-           'month_visit_reach_rate', round(100 * count(case when if_visit_qualified = '达标' then 1 else null end)/count(sub.user_id), 2),
-           'month_visit_reach_rate_numerator', count(case when if_visit_qualified = '达标' then 1 else null end),
-           'month_visit_reach_rate_denominator', count(sub.user_id),
+           'month_visit_reach_rate', if(count(if(array_contains(visible.indicator_config, 'month_visit_reach_rate'), sub.user_id, null)) = 0, null, round(100 * count(if(array_contains(visible.indicator_config, 'month_visit_reach_rate') AND if_visit_qualified = '达标', 1, null))/count(if(array_contains(visible.indicator_config, 'month_visit_reach_rate'), sub.user_id, null)), 2)),
+           'month_visit_reach_rate_numerator', count(if(array_contains(visible.indicator_config, 'month_visit_reach_rate') AND if_visit_qualified = '达标', 1, null)),
+           'month_visit_reach_rate_denominator', count(if(array_contains(visible.indicator_config, 'month_visit_reach_rate'), sub.user_id, null)),
 
            --门店拜访频次达成率
            'month_visit_freq_valid_rate', if(sum(if(array_contains(visible.indicator_config, 'month_visit_freq_valid_rate'), visit_m_target, 0)) = 0, null, round(100 * sum(if(array_contains(visible.indicator_config, 'month_visit_freq_valid_rate'), month_visit_valid_cnt, 0))/sum(if(array_contains(visible.indicator_config, 'month_visit_freq_valid_rate'), visit_m_target, 0)), 2)),
@@ -269,9 +269,9 @@ SELECT /*+ mapjoin(user) */
            'month_hospital_visit_valid_rate_denominator', sum(if(array_contains(visible.indicator_config, 'month_hospital_visit_valid_rate'), month_hospital_sever_obj_m, 0)),
 
            --门店拜访覆盖率
-           'month_shop_visit_valid_rate', if(sum(if(array_contains(visible.indicator_config, 'month_shop_visit_valid_rate'), month_gt_sever_obj_m, 0)) = 0, null, round(100 * sum(if(array_contains(visible.indicator_config, 'month_shop_visit_valid_rate'), month_gt_shop_visit_valid_cnt, 0))/sum(if(array_contains(visible.indicator_config, 'month_shop_visit_valid_rate'), month_gt_sever_obj_m, 0)), 2)),
-           'month_shop_visit_valid_rate_numerator', sum(if(array_contains(visible.indicator_config, 'month_shop_visit_valid_rate'), month_gt_shop_visit_valid_cnt, 0)),
-           'month_shop_visit_valid_rate_denominator', sum(if(array_contains(visible.indicator_config, 'month_shop_visit_valid_rate'), month_gt_sever_obj_m, 0)),
+           'month_shop_visit_valid_rate', if(sum(if(array_contains(visible.indicator_config, 'month_shop_visit_valid_rate'), month_sever_obj_m, 0)) = 0, null, round(100 * sum(if(array_contains(visible.indicator_config, 'month_shop_visit_valid_rate'), month_shop_visit_valid_cnt, 0))/sum(if(array_contains(visible.indicator_config, 'month_shop_visit_valid_rate'), month_sever_obj_m, 0)), 2)),
+           'month_shop_visit_valid_rate_numerator', sum(if(array_contains(visible.indicator_config, 'month_shop_visit_valid_rate'), month_shop_visit_valid_cnt, 0)),
+           'month_shop_visit_valid_rate_denominator', sum(if(array_contains(visible.indicator_config, 'month_shop_visit_valid_rate'), month_sever_obj_m, 0)),
 
            --月度服务商拜访达成率
            'month_fws_visit_valid_rate', if(sum(if(array_contains(visible.indicator_config, 'month_fws_visit_valid_rate'), month_fws_sever_obj_m, 0)) = 0, null, round(100 * sum(if(array_contains(visible.indicator_config, 'month_fws_visit_valid_rate'), month_fws_visit_valid_cnt, 0))/sum(if(array_contains(visible.indicator_config, 'month_fws_visit_valid_rate'), month_fws_sever_obj_m, 0)), 2)),
@@ -298,9 +298,7 @@ INNER JOIN user sub ON locate(user.user_root_key, sub.user_parent_root_key) > 0 
 INNER JOIN indicator ON indicator.user_id = sub.user_id
 LEFT JOIN visible ON visible.user_id = sub.user_id
 INNER JOIN base_user ON sub.user_id = base_user.user_id
-WHERE base_user.brand_dept_virtual_group_id NOT IN (655849, 655850, 655851, 655852) --部门为 早阶用户发展(EMD) 655849 655850 655851 655852
-AND base_user.brand_dept_virtual_group_id NOT IN (655429, 655430, 655453, 655454) --部门为 华x区区域市场推广部门 655429, 655430, 655453, 655454
-AND base_user.job_id NOT IN (7, 10) --角色为区域中台、区域中台N-1 7 10
+WHERE base_user.need_filter = 0
 group by indicator.data_month, user.user_id
 
 UNION ALL
@@ -314,9 +312,9 @@ SELECT /*+ mapjoin(user) */
            'user_cnt', count(sub.user_id),
 
            --当月拜访人员达标率
-           'month_visit_reach_rate', round(100 * count(case when if_visit_qualified = '达标' then 1 else null end)/count(sub.user_id), 2),
-           'month_visit_reach_rate_numerator', count(case when if_visit_qualified = '达标' then 1 else null end),
-           'month_visit_reach_rate_denominator', count(sub.user_id),
+           'month_visit_reach_rate', if(count(if(array_contains(visible.indicator_config, 'month_visit_reach_rate'), sub.user_id, null)) = 0, null, round(100 * count(if(array_contains(visible.indicator_config, 'month_visit_reach_rate') AND if_visit_qualified = '达标', 1, null))/count(if(array_contains(visible.indicator_config, 'month_visit_reach_rate'), sub.user_id, null)), 2)),
+           'month_visit_reach_rate_numerator', count(if(array_contains(visible.indicator_config, 'month_visit_reach_rate') AND if_visit_qualified = '达标', 1, null)),
+           'month_visit_reach_rate_denominator', count(if(array_contains(visible.indicator_config, 'month_visit_reach_rate'), sub.user_id, null)),
 
            --门店拜访频次达成率
            'month_visit_freq_valid_rate', if(sum(if(array_contains(visible.indicator_config, 'month_visit_freq_valid_rate'), visit_m_target, 0)) = 0, null, round(100 * sum(if(array_contains(visible.indicator_config, 'month_visit_freq_valid_rate'), month_visit_valid_cnt, 0))/sum(if(array_contains(visible.indicator_config, 'month_visit_freq_valid_rate'), visit_m_target, 0)), 2)),
@@ -339,9 +337,9 @@ SELECT /*+ mapjoin(user) */
            'month_hospital_visit_valid_rate_denominator', sum(if(array_contains(visible.indicator_config, 'month_hospital_visit_valid_rate'), month_hospital_sever_obj_m, 0)),
 
            --门店拜访覆盖率
-           'month_shop_visit_valid_rate', if(sum(if(array_contains(visible.indicator_config, 'month_shop_visit_valid_rate'), month_gt_sever_obj_m, 0)) = 0, null, round(100 * sum(if(array_contains(visible.indicator_config, 'month_shop_visit_valid_rate'), month_gt_shop_visit_valid_cnt, 0))/sum(if(array_contains(visible.indicator_config, 'month_shop_visit_valid_rate'), month_gt_sever_obj_m, 0)), 2)),
-           'month_shop_visit_valid_rate_numerator', sum(if(array_contains(visible.indicator_config, 'month_shop_visit_valid_rate'), month_gt_shop_visit_valid_cnt, 0)),
-           'month_shop_visit_valid_rate_denominator', sum(if(array_contains(visible.indicator_config, 'month_shop_visit_valid_rate'), month_gt_sever_obj_m, 0)),
+           'month_shop_visit_valid_rate', if(sum(if(array_contains(visible.indicator_config, 'month_shop_visit_valid_rate'), month_sever_obj_m, 0)) = 0, null, round(100 * sum(if(array_contains(visible.indicator_config, 'month_shop_visit_valid_rate'), month_shop_visit_valid_cnt, 0))/sum(if(array_contains(visible.indicator_config, 'month_shop_visit_valid_rate'), month_sever_obj_m, 0)), 2)),
+           'month_shop_visit_valid_rate_numerator', sum(if(array_contains(visible.indicator_config, 'month_shop_visit_valid_rate'), month_shop_visit_valid_cnt, 0)),
+           'month_shop_visit_valid_rate_denominator', sum(if(array_contains(visible.indicator_config, 'month_shop_visit_valid_rate'), month_sever_obj_m, 0)),
 
            --月度服务商拜访达成率
            'month_fws_visit_valid_rate', if(sum(if(array_contains(visible.indicator_config, 'month_fws_visit_valid_rate'), month_fws_sever_obj_m, 0)) = 0, null, round(100 * sum(if(array_contains(visible.indicator_config, 'month_fws_visit_valid_rate'), month_fws_visit_valid_cnt, 0))/sum(if(array_contains(visible.indicator_config, 'month_fws_visit_valid_rate'), month_fws_sever_obj_m, 0)), 2)),
@@ -369,9 +367,7 @@ INNER JOIN indicator ON indicator.user_id = sub.user_id
 INNER JOIN virtual_group ON virtual_group.leader_id = user.user_id
 LEFT JOIN visible ON visible.user_id = sub.user_id
 INNER JOIN base_user ON sub.user_id = base_user.user_id
-WHERE base_user.brand_dept_virtual_group_id NOT IN (655849, 655850, 655851, 655852) --部门为 早阶用户发展(EMD) 655849 655850 655851 655852
-AND base_user.brand_dept_virtual_group_id NOT IN (655429, 655430, 655453, 655454) --部门为 华x区区域市场推广部门 655429, 655430, 655453, 655454
-AND base_user.job_id NOT IN (7, 10) --角色为区域中台、区域中台N-1 7 10
+WHERE base_user.need_filter = 0
 group by indicator.data_month
 
 UNION ALL
@@ -385,9 +381,9 @@ SELECT /*+ mapjoin(user,virtual_group) */
            'user_cnt', count(sub.user_id),
 
            --当月拜访人员达标率
-           'month_visit_reach_rate', round(100 * count(case when if_visit_qualified = '达标' then 1 else null end)/count(sub.user_id), 2),
-           'month_visit_reach_rate_numerator', count(case when if_visit_qualified = '达标' then 1 else null end),
-           'month_visit_reach_rate_denominator', count(sub.user_id),
+           'month_visit_reach_rate', if(count(if(array_contains(visible.indicator_config, 'month_visit_reach_rate'), sub.user_id, null)) = 0, null, round(100 * count(if(array_contains(visible.indicator_config, 'month_visit_reach_rate') AND if_visit_qualified = '达标', 1, null))/count(if(array_contains(visible.indicator_config, 'month_visit_reach_rate'), sub.user_id, null)), 2)),
+           'month_visit_reach_rate_numerator', count(if(array_contains(visible.indicator_config, 'month_visit_reach_rate') AND if_visit_qualified = '达标', 1, null)),
+           'month_visit_reach_rate_denominator', count(if(array_contains(visible.indicator_config, 'month_visit_reach_rate'), sub.user_id, null)),
 
            --门店拜访频次达成率
            'month_visit_freq_valid_rate', if(sum(if(array_contains(visible.indicator_config, 'month_visit_freq_valid_rate'), visit_m_target, 0)) = 0, null, round(100 * sum(if(array_contains(visible.indicator_config, 'month_visit_freq_valid_rate'), month_visit_valid_cnt, 0))/sum(if(array_contains(visible.indicator_config, 'month_visit_freq_valid_rate'), visit_m_target, 0)), 2)),
@@ -410,9 +406,9 @@ SELECT /*+ mapjoin(user,virtual_group) */
            'month_hospital_visit_valid_rate_denominator', sum(if(array_contains(visible.indicator_config, 'month_hospital_visit_valid_rate'), month_hospital_sever_obj_m, 0)),
 
            --门店拜访覆盖率
-           'month_shop_visit_valid_rate', if(sum(if(array_contains(visible.indicator_config, 'month_shop_visit_valid_rate'), month_gt_sever_obj_m, 0)) = 0, null, round(100 * sum(if(array_contains(visible.indicator_config, 'month_shop_visit_valid_rate'), month_gt_shop_visit_valid_cnt, 0))/sum(if(array_contains(visible.indicator_config, 'month_shop_visit_valid_rate'), month_gt_sever_obj_m, 0)), 2)),
-           'month_shop_visit_valid_rate_numerator', sum(if(array_contains(visible.indicator_config, 'month_shop_visit_valid_rate'), month_gt_shop_visit_valid_cnt, 0)),
-           'month_shop_visit_valid_rate_denominator', sum(if(array_contains(visible.indicator_config, 'month_shop_visit_valid_rate'), month_gt_sever_obj_m, 0)),
+           'month_shop_visit_valid_rate', if(sum(if(array_contains(visible.indicator_config, 'month_shop_visit_valid_rate'), month_sever_obj_m, 0)) = 0, null, round(100 * sum(if(array_contains(visible.indicator_config, 'month_shop_visit_valid_rate'), month_shop_visit_valid_cnt, 0))/sum(if(array_contains(visible.indicator_config, 'month_shop_visit_valid_rate'), month_sever_obj_m, 0)), 2)),
+           'month_shop_visit_valid_rate_numerator', sum(if(array_contains(visible.indicator_config, 'month_shop_visit_valid_rate'), month_shop_visit_valid_cnt, 0)),
+           'month_shop_visit_valid_rate_denominator', sum(if(array_contains(visible.indicator_config, 'month_shop_visit_valid_rate'), month_sever_obj_m, 0)),
 
            --月度服务商拜访达成率
            'month_fws_visit_valid_rate', if(sum(if(array_contains(visible.indicator_config, 'month_fws_visit_valid_rate'), month_fws_sever_obj_m, 0)) = 0, null, round(100 * sum(if(array_contains(visible.indicator_config, 'month_fws_visit_valid_rate'), month_fws_visit_valid_cnt, 0))/sum(if(array_contains(visible.indicator_config, 'month_fws_visit_valid_rate'), month_fws_sever_obj_m, 0)), 2)),
@@ -440,7 +436,5 @@ INNER JOIN indicator ON indicator.user_id = sub.user_id
 INNER JOIN virtual_group ON sub.user_root_key like concat('%', virtual_group.leader_id, '%') --表示contains
 LEFT JOIN visible ON visible.user_id = sub.user_id
 INNER JOIN base_user ON sub.user_id = base_user.user_id
-WHERE base_user.brand_dept_virtual_group_id NOT IN (655849, 655850, 655851, 655852) --部门为 早阶用户发展(EMD) 655849 655850 655851 655852
-AND base_user.brand_dept_virtual_group_id NOT IN (655429, 655430, 655453, 655454) --部门为 华x区区域市场推广部门 655429, 655430, 655453, 655454
-AND base_user.job_id NOT IN (7, 10) --角色为区域中台、区域中台N-1 7 10
+WHERE base_user.need_filter = 0
 group by indicator.data_month, user.user_id
