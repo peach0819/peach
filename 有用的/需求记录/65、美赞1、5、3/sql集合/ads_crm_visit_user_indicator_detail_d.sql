@@ -11,7 +11,7 @@ with base as (
                              when 'quar_fws_visit_valid_cnt' then 'quar_fws_visit_valid_rate'
                              when 'quar_gt_shop_visit_valid_cnt' then 'quar_gt_shop_visit_valid_rate'
                              end as indicator_code,
-           service_obj_id,
+           out_service_obj_id as service_obj_id,
            service_obj_name,
            valid_visit_m,
            if_visit_qualified
