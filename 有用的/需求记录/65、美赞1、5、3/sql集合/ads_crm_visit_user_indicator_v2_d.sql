@@ -229,8 +229,6 @@ FROM user
 INNER JOIN user sub ON user.user_root_key = sub.user_root_key OR locate(user.user_root_key, sub.user_parent_root_key) > 0 --表示contains
 INNER JOIN indicator ON indicator.user_id = sub.user_id
 LEFT JOIN visible ON visible.user_id = sub.user_id
-INNER JOIN base_user ON sub.user_id = base_user.user_id
-WHERE base_user.need_filter = 0
 group by indicator.data_month, user.user_id
 
 UNION ALL
@@ -297,8 +295,6 @@ FROM user
 INNER JOIN user sub ON locate(user.user_root_key, sub.user_parent_root_key) > 0 --表示contains
 INNER JOIN indicator ON indicator.user_id = sub.user_id
 LEFT JOIN visible ON visible.user_id = sub.user_id
-INNER JOIN base_user ON sub.user_id = base_user.user_id
-WHERE base_user.need_filter = 0
 group by indicator.data_month, user.user_id
 
 UNION ALL
