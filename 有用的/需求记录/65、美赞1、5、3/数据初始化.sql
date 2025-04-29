@@ -68,8 +68,7 @@ VALUES ('system', 'system', 0, 5, 2, 121),
        ('system', 'system', 0, 13, 2, 121),
        ('system', 'system', 0, 5, 1, 121),
        ('system', 'system', 0, 15, 1, 121),
-       ('system', 'system', 0, 13, 1, 121),
-       ('system', 'system', 0, 11, null, 121);
+       ('system', 'system', 0, 13, 1, 121);
 
 --RKA专职NC门店拜访达成率
 INSERT INTO t_crm_visit_indicator_visible_v2(`creator`, `editor`, `visible_type`, `job_id`, `channel_id`, `indicator_id`)
@@ -124,3 +123,8 @@ VALUES ('system', 'system', 0, 5, 4, 128),
        ('system', 'system', 0, 15, 4, 128),
        ('system', 'system', 0, 13, 4, 128),
        ('system', 'system', 0, 27, 4, 128);
+
+--新增大区通路发展经理两个指标可见
+INSERT INTO t_crm_visit_indicator_visible_v2(`creator`, `editor`, `visible_type`, `job_id`, `channel_id`, `indicator_id`)
+VALUES ('system', 'system', 0, 8, null, 125),
+       ('system', 'system', 0, 8, null, 126);
