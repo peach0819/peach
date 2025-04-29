@@ -181,49 +181,49 @@ SELECT /*+ mapjoin(user) */
            'month_visit_reach_rate_denominator', count(if(array_contains(visible.indicator_config, 'month_visit_reach_rate'), sub.user_id, null)),
 
            --门店拜访频次达成率
-           'month_visit_freq_valid_rate', if(sum(if(array_contains(visible.indicator_config, 'month_visit_freq_valid_rate'), visit_m_target, 0)) = 0, null, round(100 * sum(if(array_contains(visible.indicator_config, 'month_visit_freq_valid_rate'), month_visit_valid_cnt, 0))/sum(if(array_contains(visible.indicator_config, 'month_visit_freq_valid_rate'), visit_m_target, 0)), 2)),
-           'month_visit_freq_valid_rate_numerator', sum(if(array_contains(visible.indicator_config, 'month_visit_freq_valid_rate'), month_visit_valid_cnt, 0)),
-           'month_visit_freq_valid_rate_denominator', sum(if(array_contains(visible.indicator_config, 'month_visit_freq_valid_rate'), visit_m_target, 0)),
+           'month_visit_freq_valid_rate', if(count(if(array_contains(visible.indicator_config, 'month_visit_freq_valid_rate'), sub.user_id, null)) = 0, null, round(100 * count(if(array_contains(visible.indicator_config, 'month_visit_freq_valid_rate') AND month_visit_valid_rate_qualified = '达标', 1, null))/count(if(array_contains(visible.indicator_config, 'month_visit_freq_valid_rate'), sub.user_id, null)), 2)),
+           'month_visit_freq_valid_rate_numerator', count(if(array_contains(visible.indicator_config, 'month_visit_freq_valid_rate') AND month_visit_valid_rate_qualified = '达标', 1, null)),
+           'month_visit_freq_valid_rate_denominator', count(if(array_contains(visible.indicator_config, 'month_visit_freq_valid_rate'), sub.user_id, null)),
 
            --NKA专职NC门店拜访达成率
-           'month_nka_nc_visit_valid_rate', if(sum(if(array_contains(visible.indicator_config, 'month_nka_nc_visit_valid_rate'), month_nka_sever_obj_m, 0)) = 0, null, round(100 * sum(if(array_contains(visible.indicator_config, 'month_nka_nc_visit_valid_rate'), month_nka_nc_visit_valid_cnt, 0))/sum(if(array_contains(visible.indicator_config, 'month_nka_nc_visit_valid_rate'), month_nka_sever_obj_m, 0)), 2)),
-           'month_nka_nc_visit_valid_rate_numerator', sum(if(array_contains(visible.indicator_config, 'month_nka_nc_visit_valid_rate'), month_nka_nc_visit_valid_cnt, 0)),
-           'month_nka_nc_visit_valid_rate_denominator', sum(if(array_contains(visible.indicator_config, 'month_nka_nc_visit_valid_rate'), month_nka_sever_obj_m, 0)),
+           'month_nka_nc_visit_valid_rate', if(count(if(array_contains(visible.indicator_config, 'month_nka_nc_visit_valid_rate'), sub.user_id, null)) = 0, null, round(100 * count(if(array_contains(visible.indicator_config, 'month_nka_nc_visit_valid_rate') AND month_nka_nc_visit_valid_rate_qualified = '达标', 1, null))/count(if(array_contains(visible.indicator_config, 'month_nka_nc_visit_valid_rate'), sub.user_id, null)), 2)),
+           'month_nka_nc_visit_valid_rate_numerator', count(if(array_contains(visible.indicator_config, 'month_nka_nc_visit_valid_rate') AND month_nka_nc_visit_valid_rate_qualified = '达标', 1, null)),
+           'month_nka_nc_visit_valid_rate_denominator', count(if(array_contains(visible.indicator_config, 'month_nka_nc_visit_valid_rate'), sub.user_id, null)),
 
           --RKA专职NC门店拜访达成率
-           'month_rka_nc_visit_valid_rate', if(sum(if(array_contains(visible.indicator_config, 'month_rka_nc_visit_valid_rate'), month_rka_sever_obj_m, 0)) = 0, null, round(100 * sum(if(array_contains(visible.indicator_config, 'month_rka_nc_visit_valid_rate'), month_rka_nc_visit_valid_cnt, 0))/sum(if(array_contains(visible.indicator_config, 'month_rka_nc_visit_valid_rate'), month_rka_sever_obj_m, 0)), 2)),
-           'month_rka_nc_visit_valid_rate_numerator', sum(if(array_contains(visible.indicator_config, 'month_rka_nc_visit_valid_rate'), month_rka_nc_visit_valid_cnt, 0)),
-           'month_rka_nc_visit_valid_rate_denominator', sum(if(array_contains(visible.indicator_config, 'month_rka_nc_visit_valid_rate'), month_rka_sever_obj_m, 0)),
+           'month_rka_nc_visit_valid_rate', if(count(if(array_contains(visible.indicator_config, 'month_rka_nc_visit_valid_rate'), sub.user_id, null)) = 0, null, round(100 * count(if(array_contains(visible.indicator_config, 'month_rka_nc_visit_valid_rate') AND month_rka_nc_visit_valid_rate_qualified = '达标', 1, null))/count(if(array_contains(visible.indicator_config, 'month_rka_nc_visit_valid_rate'), sub.user_id, null)), 2)),
+           'month_rka_nc_visit_valid_rate_numerator', count(if(array_contains(visible.indicator_config, 'month_rka_nc_visit_valid_rate') AND month_rka_nc_visit_valid_rate_qualified = '达标', 1, null)),
+           'month_rka_nc_visit_valid_rate_denominator', count(if(array_contains(visible.indicator_config, 'month_rka_nc_visit_valid_rate'), sub.user_id, null)),
 
            --院线店拜访达成率
-           'month_hospital_visit_valid_rate', if(sum(if(array_contains(visible.indicator_config, 'month_hospital_visit_valid_rate'), month_hospital_sever_obj_m, 0)) = 0, null, round(100 * sum(if(array_contains(visible.indicator_config, 'month_hospital_visit_valid_rate'), month_hospital_visit_valid_cnt, 0))/sum(if(array_contains(visible.indicator_config, 'month_hospital_visit_valid_rate'), month_hospital_sever_obj_m, 0)), 2)),
-           'month_hospital_visit_valid_rate_numerator', sum(if(array_contains(visible.indicator_config, 'month_hospital_visit_valid_rate'), month_hospital_visit_valid_cnt, 0)),
-           'month_hospital_visit_valid_rate_denominator', sum(if(array_contains(visible.indicator_config, 'month_hospital_visit_valid_rate'), month_hospital_sever_obj_m, 0)),
+           'month_hospital_visit_valid_rate', if(count(if(array_contains(visible.indicator_config, 'month_hospital_visit_valid_rate'), sub.user_id, null)) = 0, null, round(100 * count(if(array_contains(visible.indicator_config, 'month_hospital_visit_valid_rate') AND month_hospital_visit_valid_rate_qualified = '达标', 1, null))/count(if(array_contains(visible.indicator_config, 'month_hospital_visit_valid_rate'), sub.user_id, null)), 2)),
+           'month_hospital_visit_valid_rate_numerator', count(if(array_contains(visible.indicator_config, 'month_hospital_visit_valid_rate') AND month_hospital_visit_valid_rate_qualified = '达标', 1, null)),
+           'month_hospital_visit_valid_rate_denominator', count(if(array_contains(visible.indicator_config, 'month_hospital_visit_valid_rate'), sub.user_id, null)),
 
            --门店拜访覆盖率
-           'month_shop_visit_valid_rate', if(sum(if(array_contains(visible.indicator_config, 'month_shop_visit_valid_rate'), month_sever_obj_m, 0)) = 0, null, round(100 * sum(if(array_contains(visible.indicator_config, 'month_shop_visit_valid_rate'), month_shop_visit_valid_cnt, 0))/sum(if(array_contains(visible.indicator_config, 'month_shop_visit_valid_rate'), month_sever_obj_m, 0)), 2)),
-           'month_shop_visit_valid_rate_numerator', sum(if(array_contains(visible.indicator_config, 'month_shop_visit_valid_rate'), month_shop_visit_valid_cnt, 0)),
-           'month_shop_visit_valid_rate_denominator', sum(if(array_contains(visible.indicator_config, 'month_shop_visit_valid_rate'), month_sever_obj_m, 0)),
+           'month_shop_visit_valid_rate', if(count(if(array_contains(visible.indicator_config, 'month_shop_visit_valid_rate'), sub.user_id, null)) = 0, null, round(100 * count(if(array_contains(visible.indicator_config, 'month_shop_visit_valid_rate') AND month_shop_visit_valid_rate_qualified = '达标', 1, null))/count(if(array_contains(visible.indicator_config, 'month_shop_visit_valid_rate'), sub.user_id, null)), 2)),
+           'month_shop_visit_valid_rate_numerator', count(if(array_contains(visible.indicator_config, 'month_shop_visit_valid_rate') AND month_shop_visit_valid_rate_qualified = '达标', 1, null)),
+           'month_shop_visit_valid_rate_denominator', count(if(array_contains(visible.indicator_config, 'month_shop_visit_valid_rate'), sub.user_id, null)),
 
            --月度服务商拜访达成率
-           'month_fws_visit_valid_rate', if(sum(if(array_contains(visible.indicator_config, 'month_fws_visit_valid_rate'), month_fws_sever_obj_m, 0)) = 0, null, round(100 * sum(if(array_contains(visible.indicator_config, 'month_fws_visit_valid_rate'), month_fws_visit_valid_cnt, 0))/sum(if(array_contains(visible.indicator_config, 'month_fws_visit_valid_rate'), month_fws_sever_obj_m, 0)), 2)),
-           'month_fws_visit_valid_rate_numerator', sum(if(array_contains(visible.indicator_config, 'month_fws_visit_valid_rate'), month_fws_visit_valid_cnt, 0)),
-           'month_fws_visit_valid_rate_denominator', sum(if(array_contains(visible.indicator_config, 'month_fws_visit_valid_rate'), month_fws_sever_obj_m, 0)),
+           'month_fws_visit_valid_rate', if(count(if(array_contains(visible.indicator_config, 'month_fws_visit_valid_rate'), sub.user_id, null)) = 0, null, round(100 * count(if(array_contains(visible.indicator_config, 'month_fws_visit_valid_rate') AND month_fws_visit_valid_rate_qualified = '达标', 1, null))/count(if(array_contains(visible.indicator_config, 'month_fws_visit_valid_rate'), sub.user_id, null)), 2)),
+           'month_fws_visit_valid_rate_numerator', count(if(array_contains(visible.indicator_config, 'month_fws_visit_valid_rate') AND month_fws_visit_valid_rate_qualified = '达标', 1, null)),
+           'month_fws_visit_valid_rate_denominator', count(if(array_contains(visible.indicator_config, 'month_fws_visit_valid_rate'), sub.user_id, null)),
 
            --季度服务商拜访达成率
-           'quar_fws_visit_valid_rate', if(sum(if(array_contains(visible.indicator_config, 'quar_fws_visit_valid_rate'), quar_fws_sever_obj_m, 0)) = 0, null, round(100 * sum(if(array_contains(visible.indicator_config, 'quar_fws_visit_valid_rate'), quar_fws_visit_valid_cnt, 0))/sum(if(array_contains(visible.indicator_config, 'quar_fws_visit_valid_rate'), quar_fws_sever_obj_m, 0)), 2)),
-           'quar_fws_visit_valid_rate_numerator', sum(if(array_contains(visible.indicator_config, 'quar_fws_visit_valid_rate'), quar_fws_visit_valid_cnt, 0)),
-           'quar_fws_visit_valid_rate_denominator', sum(if(array_contains(visible.indicator_config, 'quar_fws_visit_valid_rate'), quar_fws_sever_obj_m, 0)),
+           'quar_fws_visit_valid_rate', if(count(if(array_contains(visible.indicator_config, 'quar_fws_visit_valid_rate'), sub.user_id, null)) = 0, null, round(100 * count(if(array_contains(visible.indicator_config, 'quar_fws_visit_valid_rate') AND quar_fws_visit_valid_rate_qualified = '达标', 1, null))/count(if(array_contains(visible.indicator_config, 'quar_fws_visit_valid_rate'), sub.user_id, null)), 2)),
+           'quar_fws_visit_valid_rate_numerator', count(if(array_contains(visible.indicator_config, 'quar_fws_visit_valid_rate') AND quar_fws_visit_valid_rate_qualified = '达标', 1, null)),
+           'quar_fws_visit_valid_rate_denominator', count(if(array_contains(visible.indicator_config, 'quar_fws_visit_valid_rate'), sub.user_id, null)),
 
            --月度GT渠道门店拜访覆盖率
-           'month_gt_shop_visit_valid_rate', if(sum(if(array_contains(visible.indicator_config, 'month_gt_shop_visit_valid_rate'), month_gt_sever_obj_m, 0)) = 0, null, round(100 * sum(if(array_contains(visible.indicator_config, 'month_gt_shop_visit_valid_rate'), month_gt_shop_visit_valid_cnt, 0))/sum(if(array_contains(visible.indicator_config, 'month_gt_shop_visit_valid_rate'), month_gt_sever_obj_m, 0)), 2)),
-           'month_gt_shop_visit_valid_rate_numerator', sum(if(array_contains(visible.indicator_config, 'month_gt_shop_visit_valid_rate'), month_gt_shop_visit_valid_cnt, 0)),
-           'month_gt_shop_visit_valid_rate_denominator', sum(if(array_contains(visible.indicator_config, 'month_gt_shop_visit_valid_rate'), month_gt_sever_obj_m, 0)),
+           'month_gt_shop_visit_valid_rate', if(count(if(array_contains(visible.indicator_config, 'month_gt_shop_visit_valid_rate'), sub.user_id, null)) = 0, null, round(100 * count(if(array_contains(visible.indicator_config, 'month_gt_shop_visit_valid_rate') AND month_gt_shop_visit_valid_rate_qualified = '达标', 1, null))/count(if(array_contains(visible.indicator_config, 'month_gt_shop_visit_valid_rate'), sub.user_id, null)), 2)),
+           'month_gt_shop_visit_valid_rate_numerator', count(if(array_contains(visible.indicator_config, 'month_gt_shop_visit_valid_rate') AND month_gt_shop_visit_valid_rate_qualified = '达标', 1, null)),
+           'month_gt_shop_visit_valid_rate_denominator', count(if(array_contains(visible.indicator_config, 'month_gt_shop_visit_valid_rate'), sub.user_id, null)),
 
            --季度GT渠道门店拜访覆盖率
-           'quar_gt_shop_visit_valid_rate', if(sum(if(array_contains(visible.indicator_config, 'quar_gt_shop_visit_valid_rate'), quar_gt_sever_obj_m, 0)) = 0, null, round(100 * sum(if(array_contains(visible.indicator_config, 'quar_gt_shop_visit_valid_rate'), quar_gt_shop_visit_valid_cnt, 0))/sum(if(array_contains(visible.indicator_config, 'quar_gt_shop_visit_valid_rate'), quar_gt_sever_obj_m, 0)), 2)),
-           'quar_gt_shop_visit_valid_rate_numerator', sum(if(array_contains(visible.indicator_config, 'quar_gt_shop_visit_valid_rate'), quar_gt_shop_visit_valid_cnt, 0)),
-           'quar_gt_shop_visit_valid_rate_denominator', sum(if(array_contains(visible.indicator_config, 'quar_gt_shop_visit_valid_rate'), quar_gt_sever_obj_m, 0))
+           'quar_gt_shop_visit_valid_rate', if(count(if(array_contains(visible.indicator_config, 'quar_gt_shop_visit_valid_rate'), sub.user_id, null)) = 0, null, round(100 * count(if(array_contains(visible.indicator_config, 'quar_gt_shop_visit_valid_rate') AND quar_gt_shop_visit_valid_rate_qualified = '达标', 1, null))/count(if(array_contains(visible.indicator_config, 'quar_gt_shop_visit_valid_rate'), sub.user_id, null)), 2)),
+           'quar_gt_shop_visit_valid_rate_numerator', count(if(array_contains(visible.indicator_config, 'quar_gt_shop_visit_valid_rate') AND quar_gt_shop_visit_valid_rate_qualified = '达标', 1, null)),
+           'quar_gt_shop_visit_valid_rate_denominator', count(if(array_contains(visible.indicator_config, 'quar_gt_shop_visit_valid_rate'), sub.user_id, null))
        )) as biz_value
 FROM user
 INNER JOIN user sub ON user.user_root_key = sub.user_root_key OR locate(user.user_root_key, sub.user_parent_root_key) > 0 --表示contains
@@ -247,49 +247,49 @@ SELECT /*+ mapjoin(user) */
            'month_visit_reach_rate_denominator', count(if(array_contains(visible.indicator_config, 'month_visit_reach_rate'), sub.user_id, null)),
 
            --门店拜访频次达成率
-           'month_visit_freq_valid_rate', if(sum(if(array_contains(visible.indicator_config, 'month_visit_freq_valid_rate'), visit_m_target, 0)) = 0, null, round(100 * sum(if(array_contains(visible.indicator_config, 'month_visit_freq_valid_rate'), month_visit_valid_cnt, 0))/sum(if(array_contains(visible.indicator_config, 'month_visit_freq_valid_rate'), visit_m_target, 0)), 2)),
-           'month_visit_freq_valid_rate_numerator', sum(if(array_contains(visible.indicator_config, 'month_visit_freq_valid_rate'), month_visit_valid_cnt, 0)),
-           'month_visit_freq_valid_rate_denominator', sum(if(array_contains(visible.indicator_config, 'month_visit_freq_valid_rate'), visit_m_target, 0)),
+           'month_visit_freq_valid_rate', if(count(if(array_contains(visible.indicator_config, 'month_visit_freq_valid_rate'), sub.user_id, null)) = 0, null, round(100 * count(if(array_contains(visible.indicator_config, 'month_visit_freq_valid_rate') AND month_visit_valid_rate_qualified = '达标', 1, null))/count(if(array_contains(visible.indicator_config, 'month_visit_freq_valid_rate'), sub.user_id, null)), 2)),
+           'month_visit_freq_valid_rate_numerator', count(if(array_contains(visible.indicator_config, 'month_visit_freq_valid_rate') AND month_visit_valid_rate_qualified = '达标', 1, null)),
+           'month_visit_freq_valid_rate_denominator', count(if(array_contains(visible.indicator_config, 'month_visit_freq_valid_rate'), sub.user_id, null)),
 
            --NKA专职NC门店拜访达成率
-           'month_nka_nc_visit_valid_rate', if(sum(if(array_contains(visible.indicator_config, 'month_nka_nc_visit_valid_rate'), month_nka_sever_obj_m, 0)) = 0, null, round(100 * sum(if(array_contains(visible.indicator_config, 'month_nka_nc_visit_valid_rate'), month_nka_nc_visit_valid_cnt, 0))/sum(if(array_contains(visible.indicator_config, 'month_nka_nc_visit_valid_rate'), month_nka_sever_obj_m, 0)), 2)),
-           'month_nka_nc_visit_valid_rate_numerator', sum(if(array_contains(visible.indicator_config, 'month_nka_nc_visit_valid_rate'), month_nka_nc_visit_valid_cnt, 0)),
-           'month_nka_nc_visit_valid_rate_denominator', sum(if(array_contains(visible.indicator_config, 'month_nka_nc_visit_valid_rate'), month_nka_sever_obj_m, 0)),
+           'month_nka_nc_visit_valid_rate', if(count(if(array_contains(visible.indicator_config, 'month_nka_nc_visit_valid_rate'), sub.user_id, null)) = 0, null, round(100 * count(if(array_contains(visible.indicator_config, 'month_nka_nc_visit_valid_rate') AND month_nka_nc_visit_valid_rate_qualified = '达标', 1, null))/count(if(array_contains(visible.indicator_config, 'month_nka_nc_visit_valid_rate'), sub.user_id, null)), 2)),
+           'month_nka_nc_visit_valid_rate_numerator', count(if(array_contains(visible.indicator_config, 'month_nka_nc_visit_valid_rate') AND month_nka_nc_visit_valid_rate_qualified = '达标', 1, null)),
+           'month_nka_nc_visit_valid_rate_denominator', count(if(array_contains(visible.indicator_config, 'month_nka_nc_visit_valid_rate'), sub.user_id, null)),
 
           --RKA专职NC门店拜访达成率
-           'month_rka_nc_visit_valid_rate', if(sum(if(array_contains(visible.indicator_config, 'month_rka_nc_visit_valid_rate'), month_rka_sever_obj_m, 0)) = 0, null, round(100 * sum(if(array_contains(visible.indicator_config, 'month_rka_nc_visit_valid_rate'), month_rka_nc_visit_valid_cnt, 0))/sum(if(array_contains(visible.indicator_config, 'month_rka_nc_visit_valid_rate'), month_rka_sever_obj_m, 0)), 2)),
-           'month_rka_nc_visit_valid_rate_numerator', sum(if(array_contains(visible.indicator_config, 'month_rka_nc_visit_valid_rate'), month_rka_nc_visit_valid_cnt, 0)),
-           'month_rka_nc_visit_valid_rate_denominator', sum(if(array_contains(visible.indicator_config, 'month_rka_nc_visit_valid_rate'), month_rka_sever_obj_m, 0)),
+           'month_rka_nc_visit_valid_rate', if(count(if(array_contains(visible.indicator_config, 'month_rka_nc_visit_valid_rate'), sub.user_id, null)) = 0, null, round(100 * count(if(array_contains(visible.indicator_config, 'month_rka_nc_visit_valid_rate') AND month_rka_nc_visit_valid_rate_qualified = '达标', 1, null))/count(if(array_contains(visible.indicator_config, 'month_rka_nc_visit_valid_rate'), sub.user_id, null)), 2)),
+           'month_rka_nc_visit_valid_rate_numerator', count(if(array_contains(visible.indicator_config, 'month_rka_nc_visit_valid_rate') AND month_rka_nc_visit_valid_rate_qualified = '达标', 1, null)),
+           'month_rka_nc_visit_valid_rate_denominator', count(if(array_contains(visible.indicator_config, 'month_rka_nc_visit_valid_rate'), sub.user_id, null)),
 
            --院线店拜访达成率
-           'month_hospital_visit_valid_rate', if(sum(if(array_contains(visible.indicator_config, 'month_hospital_visit_valid_rate'), month_hospital_sever_obj_m, 0)) = 0, null, round(100 * sum(if(array_contains(visible.indicator_config, 'month_hospital_visit_valid_rate'), month_hospital_visit_valid_cnt, 0))/sum(if(array_contains(visible.indicator_config, 'month_hospital_visit_valid_rate'), month_hospital_sever_obj_m, 0)), 2)),
-           'month_hospital_visit_valid_rate_numerator', sum(if(array_contains(visible.indicator_config, 'month_hospital_visit_valid_rate'), month_hospital_visit_valid_cnt, 0)),
-           'month_hospital_visit_valid_rate_denominator', sum(if(array_contains(visible.indicator_config, 'month_hospital_visit_valid_rate'), month_hospital_sever_obj_m, 0)),
+           'month_hospital_visit_valid_rate', if(count(if(array_contains(visible.indicator_config, 'month_hospital_visit_valid_rate'), sub.user_id, null)) = 0, null, round(100 * count(if(array_contains(visible.indicator_config, 'month_hospital_visit_valid_rate') AND month_hospital_visit_valid_rate_qualified = '达标', 1, null))/count(if(array_contains(visible.indicator_config, 'month_hospital_visit_valid_rate'), sub.user_id, null)), 2)),
+           'month_hospital_visit_valid_rate_numerator', count(if(array_contains(visible.indicator_config, 'month_hospital_visit_valid_rate') AND month_hospital_visit_valid_rate_qualified = '达标', 1, null)),
+           'month_hospital_visit_valid_rate_denominator', count(if(array_contains(visible.indicator_config, 'month_hospital_visit_valid_rate'), sub.user_id, null)),
 
            --门店拜访覆盖率
-           'month_shop_visit_valid_rate', if(sum(if(array_contains(visible.indicator_config, 'month_shop_visit_valid_rate'), month_sever_obj_m, 0)) = 0, null, round(100 * sum(if(array_contains(visible.indicator_config, 'month_shop_visit_valid_rate'), month_shop_visit_valid_cnt, 0))/sum(if(array_contains(visible.indicator_config, 'month_shop_visit_valid_rate'), month_sever_obj_m, 0)), 2)),
-           'month_shop_visit_valid_rate_numerator', sum(if(array_contains(visible.indicator_config, 'month_shop_visit_valid_rate'), month_shop_visit_valid_cnt, 0)),
-           'month_shop_visit_valid_rate_denominator', sum(if(array_contains(visible.indicator_config, 'month_shop_visit_valid_rate'), month_sever_obj_m, 0)),
+           'month_shop_visit_valid_rate', if(count(if(array_contains(visible.indicator_config, 'month_shop_visit_valid_rate'), sub.user_id, null)) = 0, null, round(100 * count(if(array_contains(visible.indicator_config, 'month_shop_visit_valid_rate') AND month_shop_visit_valid_rate_qualified = '达标', 1, null))/count(if(array_contains(visible.indicator_config, 'month_shop_visit_valid_rate'), sub.user_id, null)), 2)),
+           'month_shop_visit_valid_rate_numerator', count(if(array_contains(visible.indicator_config, 'month_shop_visit_valid_rate') AND month_shop_visit_valid_rate_qualified = '达标', 1, null)),
+           'month_shop_visit_valid_rate_denominator', count(if(array_contains(visible.indicator_config, 'month_shop_visit_valid_rate'), sub.user_id, null)),
 
            --月度服务商拜访达成率
-           'month_fws_visit_valid_rate', if(sum(if(array_contains(visible.indicator_config, 'month_fws_visit_valid_rate'), month_fws_sever_obj_m, 0)) = 0, null, round(100 * sum(if(array_contains(visible.indicator_config, 'month_fws_visit_valid_rate'), month_fws_visit_valid_cnt, 0))/sum(if(array_contains(visible.indicator_config, 'month_fws_visit_valid_rate'), month_fws_sever_obj_m, 0)), 2)),
-           'month_fws_visit_valid_rate_numerator', sum(if(array_contains(visible.indicator_config, 'month_fws_visit_valid_rate'), month_fws_visit_valid_cnt, 0)),
-           'month_fws_visit_valid_rate_denominator', sum(if(array_contains(visible.indicator_config, 'month_fws_visit_valid_rate'), month_fws_sever_obj_m, 0)),
+           'month_fws_visit_valid_rate', if(count(if(array_contains(visible.indicator_config, 'month_fws_visit_valid_rate'), sub.user_id, null)) = 0, null, round(100 * count(if(array_contains(visible.indicator_config, 'month_fws_visit_valid_rate') AND month_fws_visit_valid_rate_qualified = '达标', 1, null))/count(if(array_contains(visible.indicator_config, 'month_fws_visit_valid_rate'), sub.user_id, null)), 2)),
+           'month_fws_visit_valid_rate_numerator', count(if(array_contains(visible.indicator_config, 'month_fws_visit_valid_rate') AND month_fws_visit_valid_rate_qualified = '达标', 1, null)),
+           'month_fws_visit_valid_rate_denominator', count(if(array_contains(visible.indicator_config, 'month_fws_visit_valid_rate'), sub.user_id, null)),
 
            --季度服务商拜访达成率
-           'quar_fws_visit_valid_rate', if(sum(if(array_contains(visible.indicator_config, 'quar_fws_visit_valid_rate'), quar_fws_sever_obj_m, 0)) = 0, null, round(100 * sum(if(array_contains(visible.indicator_config, 'quar_fws_visit_valid_rate'), quar_fws_visit_valid_cnt, 0))/sum(if(array_contains(visible.indicator_config, 'quar_fws_visit_valid_rate'), quar_fws_sever_obj_m, 0)), 2)),
-           'quar_fws_visit_valid_rate_numerator', sum(if(array_contains(visible.indicator_config, 'quar_fws_visit_valid_rate'), quar_fws_visit_valid_cnt, 0)),
-           'quar_fws_visit_valid_rate_denominator', sum(if(array_contains(visible.indicator_config, 'quar_fws_visit_valid_rate'), quar_fws_sever_obj_m, 0)),
+           'quar_fws_visit_valid_rate', if(count(if(array_contains(visible.indicator_config, 'quar_fws_visit_valid_rate'), sub.user_id, null)) = 0, null, round(100 * count(if(array_contains(visible.indicator_config, 'quar_fws_visit_valid_rate') AND quar_fws_visit_valid_rate_qualified = '达标', 1, null))/count(if(array_contains(visible.indicator_config, 'quar_fws_visit_valid_rate'), sub.user_id, null)), 2)),
+           'quar_fws_visit_valid_rate_numerator', count(if(array_contains(visible.indicator_config, 'quar_fws_visit_valid_rate') AND quar_fws_visit_valid_rate_qualified = '达标', 1, null)),
+           'quar_fws_visit_valid_rate_denominator', count(if(array_contains(visible.indicator_config, 'quar_fws_visit_valid_rate'), sub.user_id, null)),
 
            --月度GT渠道门店拜访覆盖率
-           'month_gt_shop_visit_valid_rate', if(sum(if(array_contains(visible.indicator_config, 'month_gt_shop_visit_valid_rate'), month_gt_sever_obj_m, 0)) = 0, null, round(100 * sum(if(array_contains(visible.indicator_config, 'month_gt_shop_visit_valid_rate'), month_gt_shop_visit_valid_cnt, 0))/sum(if(array_contains(visible.indicator_config, 'month_gt_shop_visit_valid_rate'), month_gt_sever_obj_m, 0)), 2)),
-           'month_gt_shop_visit_valid_rate_numerator', sum(if(array_contains(visible.indicator_config, 'month_gt_shop_visit_valid_rate'), month_gt_shop_visit_valid_cnt, 0)),
-           'month_gt_shop_visit_valid_rate_denominator', sum(if(array_contains(visible.indicator_config, 'month_gt_shop_visit_valid_rate'), month_gt_sever_obj_m, 0)),
+           'month_gt_shop_visit_valid_rate', if(count(if(array_contains(visible.indicator_config, 'month_gt_shop_visit_valid_rate'), sub.user_id, null)) = 0, null, round(100 * count(if(array_contains(visible.indicator_config, 'month_gt_shop_visit_valid_rate') AND month_gt_shop_visit_valid_rate_qualified = '达标', 1, null))/count(if(array_contains(visible.indicator_config, 'month_gt_shop_visit_valid_rate'), sub.user_id, null)), 2)),
+           'month_gt_shop_visit_valid_rate_numerator', count(if(array_contains(visible.indicator_config, 'month_gt_shop_visit_valid_rate') AND month_gt_shop_visit_valid_rate_qualified = '达标', 1, null)),
+           'month_gt_shop_visit_valid_rate_denominator', count(if(array_contains(visible.indicator_config, 'month_gt_shop_visit_valid_rate'), sub.user_id, null)),
 
            --季度GT渠道门店拜访覆盖率
-           'quar_gt_shop_visit_valid_rate', if(sum(if(array_contains(visible.indicator_config, 'quar_gt_shop_visit_valid_rate'), quar_gt_sever_obj_m, 0)) = 0, null, round(100 * sum(if(array_contains(visible.indicator_config, 'quar_gt_shop_visit_valid_rate'), quar_gt_shop_visit_valid_cnt, 0))/sum(if(array_contains(visible.indicator_config, 'quar_gt_shop_visit_valid_rate'), quar_gt_sever_obj_m, 0)), 2)),
-           'quar_gt_shop_visit_valid_rate_numerator', sum(if(array_contains(visible.indicator_config, 'quar_gt_shop_visit_valid_rate'), quar_gt_shop_visit_valid_cnt, 0)),
-           'quar_gt_shop_visit_valid_rate_denominator', sum(if(array_contains(visible.indicator_config, 'quar_gt_shop_visit_valid_rate'), quar_gt_sever_obj_m, 0))
+           'quar_gt_shop_visit_valid_rate', if(count(if(array_contains(visible.indicator_config, 'quar_gt_shop_visit_valid_rate'), sub.user_id, null)) = 0, null, round(100 * count(if(array_contains(visible.indicator_config, 'quar_gt_shop_visit_valid_rate') AND quar_gt_shop_visit_valid_rate_qualified = '达标', 1, null))/count(if(array_contains(visible.indicator_config, 'quar_gt_shop_visit_valid_rate'), sub.user_id, null)), 2)),
+           'quar_gt_shop_visit_valid_rate_numerator', count(if(array_contains(visible.indicator_config, 'quar_gt_shop_visit_valid_rate') AND quar_gt_shop_visit_valid_rate_qualified = '达标', 1, null)),
+           'quar_gt_shop_visit_valid_rate_denominator', count(if(array_contains(visible.indicator_config, 'quar_gt_shop_visit_valid_rate'), sub.user_id, null))
        )) as biz_value
 FROM user
 INNER JOIN user sub ON locate(user.user_root_key, sub.user_parent_root_key) > 0 --表示contains
@@ -313,49 +313,49 @@ SELECT /*+ mapjoin(user) */
            'month_visit_reach_rate_denominator', count(if(array_contains(visible.indicator_config, 'month_visit_reach_rate'), sub.user_id, null)),
 
            --门店拜访频次达成率
-           'month_visit_freq_valid_rate', if(sum(if(array_contains(visible.indicator_config, 'month_visit_freq_valid_rate'), visit_m_target, 0)) = 0, null, round(100 * sum(if(array_contains(visible.indicator_config, 'month_visit_freq_valid_rate'), month_visit_valid_cnt, 0))/sum(if(array_contains(visible.indicator_config, 'month_visit_freq_valid_rate'), visit_m_target, 0)), 2)),
-           'month_visit_freq_valid_rate_numerator', sum(if(array_contains(visible.indicator_config, 'month_visit_freq_valid_rate'), month_visit_valid_cnt, 0)),
-           'month_visit_freq_valid_rate_denominator', sum(if(array_contains(visible.indicator_config, 'month_visit_freq_valid_rate'), visit_m_target, 0)),
+           'month_visit_freq_valid_rate', if(count(if(array_contains(visible.indicator_config, 'month_visit_freq_valid_rate'), sub.user_id, null)) = 0, null, round(100 * count(if(array_contains(visible.indicator_config, 'month_visit_freq_valid_rate') AND month_visit_valid_rate_qualified = '达标', 1, null))/count(if(array_contains(visible.indicator_config, 'month_visit_freq_valid_rate'), sub.user_id, null)), 2)),
+           'month_visit_freq_valid_rate_numerator', count(if(array_contains(visible.indicator_config, 'month_visit_freq_valid_rate') AND month_visit_valid_rate_qualified = '达标', 1, null)),
+           'month_visit_freq_valid_rate_denominator', count(if(array_contains(visible.indicator_config, 'month_visit_freq_valid_rate'), sub.user_id, null)),
 
            --NKA专职NC门店拜访达成率
-           'month_nka_nc_visit_valid_rate', if(sum(if(array_contains(visible.indicator_config, 'month_nka_nc_visit_valid_rate'), month_nka_sever_obj_m, 0)) = 0, null, round(100 * sum(if(array_contains(visible.indicator_config, 'month_nka_nc_visit_valid_rate'), month_nka_nc_visit_valid_cnt, 0))/sum(if(array_contains(visible.indicator_config, 'month_nka_nc_visit_valid_rate'), month_nka_sever_obj_m, 0)), 2)),
-           'month_nka_nc_visit_valid_rate_numerator', sum(if(array_contains(visible.indicator_config, 'month_nka_nc_visit_valid_rate'), month_nka_nc_visit_valid_cnt, 0)),
-           'month_nka_nc_visit_valid_rate_denominator', sum(if(array_contains(visible.indicator_config, 'month_nka_nc_visit_valid_rate'), month_nka_sever_obj_m, 0)),
+           'month_nka_nc_visit_valid_rate', if(count(if(array_contains(visible.indicator_config, 'month_nka_nc_visit_valid_rate'), sub.user_id, null)) = 0, null, round(100 * count(if(array_contains(visible.indicator_config, 'month_nka_nc_visit_valid_rate') AND month_nka_nc_visit_valid_rate_qualified = '达标', 1, null))/count(if(array_contains(visible.indicator_config, 'month_nka_nc_visit_valid_rate'), sub.user_id, null)), 2)),
+           'month_nka_nc_visit_valid_rate_numerator', count(if(array_contains(visible.indicator_config, 'month_nka_nc_visit_valid_rate') AND month_nka_nc_visit_valid_rate_qualified = '达标', 1, null)),
+           'month_nka_nc_visit_valid_rate_denominator', count(if(array_contains(visible.indicator_config, 'month_nka_nc_visit_valid_rate'), sub.user_id, null)),
 
           --RKA专职NC门店拜访达成率
-           'month_rka_nc_visit_valid_rate', if(sum(if(array_contains(visible.indicator_config, 'month_rka_nc_visit_valid_rate'), month_rka_sever_obj_m, 0)) = 0, null, round(100 * sum(if(array_contains(visible.indicator_config, 'month_rka_nc_visit_valid_rate'), month_rka_nc_visit_valid_cnt, 0))/sum(if(array_contains(visible.indicator_config, 'month_rka_nc_visit_valid_rate'), month_rka_sever_obj_m, 0)), 2)),
-           'month_rka_nc_visit_valid_rate_numerator', sum(if(array_contains(visible.indicator_config, 'month_rka_nc_visit_valid_rate'), month_rka_nc_visit_valid_cnt, 0)),
-           'month_rka_nc_visit_valid_rate_denominator', sum(if(array_contains(visible.indicator_config, 'month_rka_nc_visit_valid_rate'), month_rka_sever_obj_m, 0)),
+           'month_rka_nc_visit_valid_rate', if(count(if(array_contains(visible.indicator_config, 'month_rka_nc_visit_valid_rate'), sub.user_id, null)) = 0, null, round(100 * count(if(array_contains(visible.indicator_config, 'month_rka_nc_visit_valid_rate') AND month_rka_nc_visit_valid_rate_qualified = '达标', 1, null))/count(if(array_contains(visible.indicator_config, 'month_rka_nc_visit_valid_rate'), sub.user_id, null)), 2)),
+           'month_rka_nc_visit_valid_rate_numerator', count(if(array_contains(visible.indicator_config, 'month_rka_nc_visit_valid_rate') AND month_rka_nc_visit_valid_rate_qualified = '达标', 1, null)),
+           'month_rka_nc_visit_valid_rate_denominator', count(if(array_contains(visible.indicator_config, 'month_rka_nc_visit_valid_rate'), sub.user_id, null)),
 
            --院线店拜访达成率
-           'month_hospital_visit_valid_rate', if(sum(if(array_contains(visible.indicator_config, 'month_hospital_visit_valid_rate'), month_hospital_sever_obj_m, 0)) = 0, null, round(100 * sum(if(array_contains(visible.indicator_config, 'month_hospital_visit_valid_rate'), month_hospital_visit_valid_cnt, 0))/sum(if(array_contains(visible.indicator_config, 'month_hospital_visit_valid_rate'), month_hospital_sever_obj_m, 0)), 2)),
-           'month_hospital_visit_valid_rate_numerator', sum(if(array_contains(visible.indicator_config, 'month_hospital_visit_valid_rate'), month_hospital_visit_valid_cnt, 0)),
-           'month_hospital_visit_valid_rate_denominator', sum(if(array_contains(visible.indicator_config, 'month_hospital_visit_valid_rate'), month_hospital_sever_obj_m, 0)),
+           'month_hospital_visit_valid_rate', if(count(if(array_contains(visible.indicator_config, 'month_hospital_visit_valid_rate'), sub.user_id, null)) = 0, null, round(100 * count(if(array_contains(visible.indicator_config, 'month_hospital_visit_valid_rate') AND month_hospital_visit_valid_rate_qualified = '达标', 1, null))/count(if(array_contains(visible.indicator_config, 'month_hospital_visit_valid_rate'), sub.user_id, null)), 2)),
+           'month_hospital_visit_valid_rate_numerator', count(if(array_contains(visible.indicator_config, 'month_hospital_visit_valid_rate') AND month_hospital_visit_valid_rate_qualified = '达标', 1, null)),
+           'month_hospital_visit_valid_rate_denominator', count(if(array_contains(visible.indicator_config, 'month_hospital_visit_valid_rate'), sub.user_id, null)),
 
            --门店拜访覆盖率
-           'month_shop_visit_valid_rate', if(sum(if(array_contains(visible.indicator_config, 'month_shop_visit_valid_rate'), month_sever_obj_m, 0)) = 0, null, round(100 * sum(if(array_contains(visible.indicator_config, 'month_shop_visit_valid_rate'), month_shop_visit_valid_cnt, 0))/sum(if(array_contains(visible.indicator_config, 'month_shop_visit_valid_rate'), month_sever_obj_m, 0)), 2)),
-           'month_shop_visit_valid_rate_numerator', sum(if(array_contains(visible.indicator_config, 'month_shop_visit_valid_rate'), month_shop_visit_valid_cnt, 0)),
-           'month_shop_visit_valid_rate_denominator', sum(if(array_contains(visible.indicator_config, 'month_shop_visit_valid_rate'), month_sever_obj_m, 0)),
+           'month_shop_visit_valid_rate', if(count(if(array_contains(visible.indicator_config, 'month_shop_visit_valid_rate'), sub.user_id, null)) = 0, null, round(100 * count(if(array_contains(visible.indicator_config, 'month_shop_visit_valid_rate') AND month_shop_visit_valid_rate_qualified = '达标', 1, null))/count(if(array_contains(visible.indicator_config, 'month_shop_visit_valid_rate'), sub.user_id, null)), 2)),
+           'month_shop_visit_valid_rate_numerator', count(if(array_contains(visible.indicator_config, 'month_shop_visit_valid_rate') AND month_shop_visit_valid_rate_qualified = '达标', 1, null)),
+           'month_shop_visit_valid_rate_denominator', count(if(array_contains(visible.indicator_config, 'month_shop_visit_valid_rate'), sub.user_id, null)),
 
            --月度服务商拜访达成率
-           'month_fws_visit_valid_rate', if(sum(if(array_contains(visible.indicator_config, 'month_fws_visit_valid_rate'), month_fws_sever_obj_m, 0)) = 0, null, round(100 * sum(if(array_contains(visible.indicator_config, 'month_fws_visit_valid_rate'), month_fws_visit_valid_cnt, 0))/sum(if(array_contains(visible.indicator_config, 'month_fws_visit_valid_rate'), month_fws_sever_obj_m, 0)), 2)),
-           'month_fws_visit_valid_rate_numerator', sum(if(array_contains(visible.indicator_config, 'month_fws_visit_valid_rate'), month_fws_visit_valid_cnt, 0)),
-           'month_fws_visit_valid_rate_denominator', sum(if(array_contains(visible.indicator_config, 'month_fws_visit_valid_rate'), month_fws_sever_obj_m, 0)),
+           'month_fws_visit_valid_rate', if(count(if(array_contains(visible.indicator_config, 'month_fws_visit_valid_rate'), sub.user_id, null)) = 0, null, round(100 * count(if(array_contains(visible.indicator_config, 'month_fws_visit_valid_rate') AND month_fws_visit_valid_rate_qualified = '达标', 1, null))/count(if(array_contains(visible.indicator_config, 'month_fws_visit_valid_rate'), sub.user_id, null)), 2)),
+           'month_fws_visit_valid_rate_numerator', count(if(array_contains(visible.indicator_config, 'month_fws_visit_valid_rate') AND month_fws_visit_valid_rate_qualified = '达标', 1, null)),
+           'month_fws_visit_valid_rate_denominator', count(if(array_contains(visible.indicator_config, 'month_fws_visit_valid_rate'), sub.user_id, null)),
 
            --季度服务商拜访达成率
-           'quar_fws_visit_valid_rate', if(sum(if(array_contains(visible.indicator_config, 'quar_fws_visit_valid_rate'), quar_fws_sever_obj_m, 0)) = 0, null, round(100 * sum(if(array_contains(visible.indicator_config, 'quar_fws_visit_valid_rate'), quar_fws_visit_valid_cnt, 0))/sum(if(array_contains(visible.indicator_config, 'quar_fws_visit_valid_rate'), quar_fws_sever_obj_m, 0)), 2)),
-           'quar_fws_visit_valid_rate_numerator', sum(if(array_contains(visible.indicator_config, 'quar_fws_visit_valid_rate'), quar_fws_visit_valid_cnt, 0)),
-           'quar_fws_visit_valid_rate_denominator', sum(if(array_contains(visible.indicator_config, 'quar_fws_visit_valid_rate'), quar_fws_sever_obj_m, 0)),
+           'quar_fws_visit_valid_rate', if(count(if(array_contains(visible.indicator_config, 'quar_fws_visit_valid_rate'), sub.user_id, null)) = 0, null, round(100 * count(if(array_contains(visible.indicator_config, 'quar_fws_visit_valid_rate') AND quar_fws_visit_valid_rate_qualified = '达标', 1, null))/count(if(array_contains(visible.indicator_config, 'quar_fws_visit_valid_rate'), sub.user_id, null)), 2)),
+           'quar_fws_visit_valid_rate_numerator', count(if(array_contains(visible.indicator_config, 'quar_fws_visit_valid_rate') AND quar_fws_visit_valid_rate_qualified = '达标', 1, null)),
+           'quar_fws_visit_valid_rate_denominator', count(if(array_contains(visible.indicator_config, 'quar_fws_visit_valid_rate'), sub.user_id, null)),
 
            --月度GT渠道门店拜访覆盖率
-           'month_gt_shop_visit_valid_rate', if(sum(if(array_contains(visible.indicator_config, 'month_gt_shop_visit_valid_rate'), month_gt_sever_obj_m, 0)) = 0, null, round(100 * sum(if(array_contains(visible.indicator_config, 'month_gt_shop_visit_valid_rate'), month_gt_shop_visit_valid_cnt, 0))/sum(if(array_contains(visible.indicator_config, 'month_gt_shop_visit_valid_rate'), month_gt_sever_obj_m, 0)), 2)),
-           'month_gt_shop_visit_valid_rate_numerator', sum(if(array_contains(visible.indicator_config, 'month_gt_shop_visit_valid_rate'), month_gt_shop_visit_valid_cnt, 0)),
-           'month_gt_shop_visit_valid_rate_denominator', sum(if(array_contains(visible.indicator_config, 'month_gt_shop_visit_valid_rate'), month_gt_sever_obj_m, 0)),
+           'month_gt_shop_visit_valid_rate', if(count(if(array_contains(visible.indicator_config, 'month_gt_shop_visit_valid_rate'), sub.user_id, null)) = 0, null, round(100 * count(if(array_contains(visible.indicator_config, 'month_gt_shop_visit_valid_rate') AND month_gt_shop_visit_valid_rate_qualified = '达标', 1, null))/count(if(array_contains(visible.indicator_config, 'month_gt_shop_visit_valid_rate'), sub.user_id, null)), 2)),
+           'month_gt_shop_visit_valid_rate_numerator', count(if(array_contains(visible.indicator_config, 'month_gt_shop_visit_valid_rate') AND month_gt_shop_visit_valid_rate_qualified = '达标', 1, null)),
+           'month_gt_shop_visit_valid_rate_denominator', count(if(array_contains(visible.indicator_config, 'month_gt_shop_visit_valid_rate'), sub.user_id, null)),
 
            --季度GT渠道门店拜访覆盖率
-           'quar_gt_shop_visit_valid_rate', if(sum(if(array_contains(visible.indicator_config, 'quar_gt_shop_visit_valid_rate'), quar_gt_sever_obj_m, 0)) = 0, null, round(100 * sum(if(array_contains(visible.indicator_config, 'quar_gt_shop_visit_valid_rate'), quar_gt_shop_visit_valid_cnt, 0))/sum(if(array_contains(visible.indicator_config, 'quar_gt_shop_visit_valid_rate'), quar_gt_sever_obj_m, 0)), 2)),
-           'quar_gt_shop_visit_valid_rate_numerator', sum(if(array_contains(visible.indicator_config, 'quar_gt_shop_visit_valid_rate'), quar_gt_shop_visit_valid_cnt, 0)),
-           'quar_gt_shop_visit_valid_rate_denominator', sum(if(array_contains(visible.indicator_config, 'quar_gt_shop_visit_valid_rate'), quar_gt_sever_obj_m, 0))
+           'quar_gt_shop_visit_valid_rate', if(count(if(array_contains(visible.indicator_config, 'quar_gt_shop_visit_valid_rate'), sub.user_id, null)) = 0, null, round(100 * count(if(array_contains(visible.indicator_config, 'quar_gt_shop_visit_valid_rate') AND quar_gt_shop_visit_valid_rate_qualified = '达标', 1, null))/count(if(array_contains(visible.indicator_config, 'quar_gt_shop_visit_valid_rate'), sub.user_id, null)), 2)),
+           'quar_gt_shop_visit_valid_rate_numerator', count(if(array_contains(visible.indicator_config, 'quar_gt_shop_visit_valid_rate') AND quar_gt_shop_visit_valid_rate_qualified = '达标', 1, null)),
+           'quar_gt_shop_visit_valid_rate_denominator', count(if(array_contains(visible.indicator_config, 'quar_gt_shop_visit_valid_rate'), sub.user_id, null))
        )) as biz_value
 FROM user
 INNER JOIN user sub ON user.user_root_key = sub.user_root_key OR locate(user.user_root_key, sub.user_parent_root_key) > 0 --表示contains
@@ -382,49 +382,49 @@ SELECT /*+ mapjoin(user,virtual_group) */
            'month_visit_reach_rate_denominator', count(if(array_contains(visible.indicator_config, 'month_visit_reach_rate'), sub.user_id, null)),
 
            --门店拜访频次达成率
-           'month_visit_freq_valid_rate', if(sum(if(array_contains(visible.indicator_config, 'month_visit_freq_valid_rate'), visit_m_target, 0)) = 0, null, round(100 * sum(if(array_contains(visible.indicator_config, 'month_visit_freq_valid_rate'), month_visit_valid_cnt, 0))/sum(if(array_contains(visible.indicator_config, 'month_visit_freq_valid_rate'), visit_m_target, 0)), 2)),
-           'month_visit_freq_valid_rate_numerator', sum(if(array_contains(visible.indicator_config, 'month_visit_freq_valid_rate'), month_visit_valid_cnt, 0)),
-           'month_visit_freq_valid_rate_denominator', sum(if(array_contains(visible.indicator_config, 'month_visit_freq_valid_rate'), visit_m_target, 0)),
+           'month_visit_freq_valid_rate', if(count(if(array_contains(visible.indicator_config, 'month_visit_freq_valid_rate'), sub.user_id, null)) = 0, null, round(100 * count(if(array_contains(visible.indicator_config, 'month_visit_freq_valid_rate') AND month_visit_valid_rate_qualified = '达标', 1, null))/count(if(array_contains(visible.indicator_config, 'month_visit_freq_valid_rate'), sub.user_id, null)), 2)),
+           'month_visit_freq_valid_rate_numerator', count(if(array_contains(visible.indicator_config, 'month_visit_freq_valid_rate') AND month_visit_valid_rate_qualified = '达标', 1, null)),
+           'month_visit_freq_valid_rate_denominator', count(if(array_contains(visible.indicator_config, 'month_visit_freq_valid_rate'), sub.user_id, null)),
 
            --NKA专职NC门店拜访达成率
-           'month_nka_nc_visit_valid_rate', if(sum(if(array_contains(visible.indicator_config, 'month_nka_nc_visit_valid_rate'), month_nka_sever_obj_m, 0)) = 0, null, round(100 * sum(if(array_contains(visible.indicator_config, 'month_nka_nc_visit_valid_rate'), month_nka_nc_visit_valid_cnt, 0))/sum(if(array_contains(visible.indicator_config, 'month_nka_nc_visit_valid_rate'), month_nka_sever_obj_m, 0)), 2)),
-           'month_nka_nc_visit_valid_rate_numerator', sum(if(array_contains(visible.indicator_config, 'month_nka_nc_visit_valid_rate'), month_nka_nc_visit_valid_cnt, 0)),
-           'month_nka_nc_visit_valid_rate_denominator', sum(if(array_contains(visible.indicator_config, 'month_nka_nc_visit_valid_rate'), month_nka_sever_obj_m, 0)),
+           'month_nka_nc_visit_valid_rate', if(count(if(array_contains(visible.indicator_config, 'month_nka_nc_visit_valid_rate'), sub.user_id, null)) = 0, null, round(100 * count(if(array_contains(visible.indicator_config, 'month_nka_nc_visit_valid_rate') AND month_nka_nc_visit_valid_rate_qualified = '达标', 1, null))/count(if(array_contains(visible.indicator_config, 'month_nka_nc_visit_valid_rate'), sub.user_id, null)), 2)),
+           'month_nka_nc_visit_valid_rate_numerator', count(if(array_contains(visible.indicator_config, 'month_nka_nc_visit_valid_rate') AND month_nka_nc_visit_valid_rate_qualified = '达标', 1, null)),
+           'month_nka_nc_visit_valid_rate_denominator', count(if(array_contains(visible.indicator_config, 'month_nka_nc_visit_valid_rate'), sub.user_id, null)),
 
           --RKA专职NC门店拜访达成率
-           'month_rka_nc_visit_valid_rate', if(sum(if(array_contains(visible.indicator_config, 'month_rka_nc_visit_valid_rate'), month_rka_sever_obj_m, 0)) = 0, null, round(100 * sum(if(array_contains(visible.indicator_config, 'month_rka_nc_visit_valid_rate'), month_rka_nc_visit_valid_cnt, 0))/sum(if(array_contains(visible.indicator_config, 'month_rka_nc_visit_valid_rate'), month_rka_sever_obj_m, 0)), 2)),
-           'month_rka_nc_visit_valid_rate_numerator', sum(if(array_contains(visible.indicator_config, 'month_rka_nc_visit_valid_rate'), month_rka_nc_visit_valid_cnt, 0)),
-           'month_rka_nc_visit_valid_rate_denominator', sum(if(array_contains(visible.indicator_config, 'month_rka_nc_visit_valid_rate'), month_rka_sever_obj_m, 0)),
+           'month_rka_nc_visit_valid_rate', if(count(if(array_contains(visible.indicator_config, 'month_rka_nc_visit_valid_rate'), sub.user_id, null)) = 0, null, round(100 * count(if(array_contains(visible.indicator_config, 'month_rka_nc_visit_valid_rate') AND month_rka_nc_visit_valid_rate_qualified = '达标', 1, null))/count(if(array_contains(visible.indicator_config, 'month_rka_nc_visit_valid_rate'), sub.user_id, null)), 2)),
+           'month_rka_nc_visit_valid_rate_numerator', count(if(array_contains(visible.indicator_config, 'month_rka_nc_visit_valid_rate') AND month_rka_nc_visit_valid_rate_qualified = '达标', 1, null)),
+           'month_rka_nc_visit_valid_rate_denominator', count(if(array_contains(visible.indicator_config, 'month_rka_nc_visit_valid_rate'), sub.user_id, null)),
 
            --院线店拜访达成率
-           'month_hospital_visit_valid_rate', if(sum(if(array_contains(visible.indicator_config, 'month_hospital_visit_valid_rate'), month_hospital_sever_obj_m, 0)) = 0, null, round(100 * sum(if(array_contains(visible.indicator_config, 'month_hospital_visit_valid_rate'), month_hospital_visit_valid_cnt, 0))/sum(if(array_contains(visible.indicator_config, 'month_hospital_visit_valid_rate'), month_hospital_sever_obj_m, 0)), 2)),
-           'month_hospital_visit_valid_rate_numerator', sum(if(array_contains(visible.indicator_config, 'month_hospital_visit_valid_rate'), month_hospital_visit_valid_cnt, 0)),
-           'month_hospital_visit_valid_rate_denominator', sum(if(array_contains(visible.indicator_config, 'month_hospital_visit_valid_rate'), month_hospital_sever_obj_m, 0)),
+           'month_hospital_visit_valid_rate', if(count(if(array_contains(visible.indicator_config, 'month_hospital_visit_valid_rate'), sub.user_id, null)) = 0, null, round(100 * count(if(array_contains(visible.indicator_config, 'month_hospital_visit_valid_rate') AND month_hospital_visit_valid_rate_qualified = '达标', 1, null))/count(if(array_contains(visible.indicator_config, 'month_hospital_visit_valid_rate'), sub.user_id, null)), 2)),
+           'month_hospital_visit_valid_rate_numerator', count(if(array_contains(visible.indicator_config, 'month_hospital_visit_valid_rate') AND month_hospital_visit_valid_rate_qualified = '达标', 1, null)),
+           'month_hospital_visit_valid_rate_denominator', count(if(array_contains(visible.indicator_config, 'month_hospital_visit_valid_rate'), sub.user_id, null)),
 
            --门店拜访覆盖率
-           'month_shop_visit_valid_rate', if(sum(if(array_contains(visible.indicator_config, 'month_shop_visit_valid_rate'), month_sever_obj_m, 0)) = 0, null, round(100 * sum(if(array_contains(visible.indicator_config, 'month_shop_visit_valid_rate'), month_shop_visit_valid_cnt, 0))/sum(if(array_contains(visible.indicator_config, 'month_shop_visit_valid_rate'), month_sever_obj_m, 0)), 2)),
-           'month_shop_visit_valid_rate_numerator', sum(if(array_contains(visible.indicator_config, 'month_shop_visit_valid_rate'), month_shop_visit_valid_cnt, 0)),
-           'month_shop_visit_valid_rate_denominator', sum(if(array_contains(visible.indicator_config, 'month_shop_visit_valid_rate'), month_sever_obj_m, 0)),
+           'month_shop_visit_valid_rate', if(count(if(array_contains(visible.indicator_config, 'month_shop_visit_valid_rate'), sub.user_id, null)) = 0, null, round(100 * count(if(array_contains(visible.indicator_config, 'month_shop_visit_valid_rate') AND month_shop_visit_valid_rate_qualified = '达标', 1, null))/count(if(array_contains(visible.indicator_config, 'month_shop_visit_valid_rate'), sub.user_id, null)), 2)),
+           'month_shop_visit_valid_rate_numerator', count(if(array_contains(visible.indicator_config, 'month_shop_visit_valid_rate') AND month_shop_visit_valid_rate_qualified = '达标', 1, null)),
+           'month_shop_visit_valid_rate_denominator', count(if(array_contains(visible.indicator_config, 'month_shop_visit_valid_rate'), sub.user_id, null)),
 
            --月度服务商拜访达成率
-           'month_fws_visit_valid_rate', if(sum(if(array_contains(visible.indicator_config, 'month_fws_visit_valid_rate'), month_fws_sever_obj_m, 0)) = 0, null, round(100 * sum(if(array_contains(visible.indicator_config, 'month_fws_visit_valid_rate'), month_fws_visit_valid_cnt, 0))/sum(if(array_contains(visible.indicator_config, 'month_fws_visit_valid_rate'), month_fws_sever_obj_m, 0)), 2)),
-           'month_fws_visit_valid_rate_numerator', sum(if(array_contains(visible.indicator_config, 'month_fws_visit_valid_rate'), month_fws_visit_valid_cnt, 0)),
-           'month_fws_visit_valid_rate_denominator', sum(if(array_contains(visible.indicator_config, 'month_fws_visit_valid_rate'), month_fws_sever_obj_m, 0)),
+           'month_fws_visit_valid_rate', if(count(if(array_contains(visible.indicator_config, 'month_fws_visit_valid_rate'), sub.user_id, null)) = 0, null, round(100 * count(if(array_contains(visible.indicator_config, 'month_fws_visit_valid_rate') AND month_fws_visit_valid_rate_qualified = '达标', 1, null))/count(if(array_contains(visible.indicator_config, 'month_fws_visit_valid_rate'), sub.user_id, null)), 2)),
+           'month_fws_visit_valid_rate_numerator', count(if(array_contains(visible.indicator_config, 'month_fws_visit_valid_rate') AND month_fws_visit_valid_rate_qualified = '达标', 1, null)),
+           'month_fws_visit_valid_rate_denominator', count(if(array_contains(visible.indicator_config, 'month_fws_visit_valid_rate'), sub.user_id, null)),
 
            --季度服务商拜访达成率
-           'quar_fws_visit_valid_rate', if(sum(if(array_contains(visible.indicator_config, 'quar_fws_visit_valid_rate'), quar_fws_sever_obj_m, 0)) = 0, null, round(100 * sum(if(array_contains(visible.indicator_config, 'quar_fws_visit_valid_rate'), quar_fws_visit_valid_cnt, 0))/sum(if(array_contains(visible.indicator_config, 'quar_fws_visit_valid_rate'), quar_fws_sever_obj_m, 0)), 2)),
-           'quar_fws_visit_valid_rate_numerator', sum(if(array_contains(visible.indicator_config, 'quar_fws_visit_valid_rate'), quar_fws_visit_valid_cnt, 0)),
-           'quar_fws_visit_valid_rate_denominator', sum(if(array_contains(visible.indicator_config, 'quar_fws_visit_valid_rate'), quar_fws_sever_obj_m, 0)),
+           'quar_fws_visit_valid_rate', if(count(if(array_contains(visible.indicator_config, 'quar_fws_visit_valid_rate'), sub.user_id, null)) = 0, null, round(100 * count(if(array_contains(visible.indicator_config, 'quar_fws_visit_valid_rate') AND quar_fws_visit_valid_rate_qualified = '达标', 1, null))/count(if(array_contains(visible.indicator_config, 'quar_fws_visit_valid_rate'), sub.user_id, null)), 2)),
+           'quar_fws_visit_valid_rate_numerator', count(if(array_contains(visible.indicator_config, 'quar_fws_visit_valid_rate') AND quar_fws_visit_valid_rate_qualified = '达标', 1, null)),
+           'quar_fws_visit_valid_rate_denominator', count(if(array_contains(visible.indicator_config, 'quar_fws_visit_valid_rate'), sub.user_id, null)),
 
            --月度GT渠道门店拜访覆盖率
-           'month_gt_shop_visit_valid_rate', if(sum(if(array_contains(visible.indicator_config, 'month_gt_shop_visit_valid_rate'), month_gt_sever_obj_m, 0)) = 0, null, round(100 * sum(if(array_contains(visible.indicator_config, 'month_gt_shop_visit_valid_rate'), month_gt_shop_visit_valid_cnt, 0))/sum(if(array_contains(visible.indicator_config, 'month_gt_shop_visit_valid_rate'), month_gt_sever_obj_m, 0)), 2)),
-           'month_gt_shop_visit_valid_rate_numerator', sum(if(array_contains(visible.indicator_config, 'month_gt_shop_visit_valid_rate'), month_gt_shop_visit_valid_cnt, 0)),
-           'month_gt_shop_visit_valid_rate_denominator', sum(if(array_contains(visible.indicator_config, 'month_gt_shop_visit_valid_rate'), month_gt_sever_obj_m, 0)),
+           'month_gt_shop_visit_valid_rate', if(count(if(array_contains(visible.indicator_config, 'month_gt_shop_visit_valid_rate'), sub.user_id, null)) = 0, null, round(100 * count(if(array_contains(visible.indicator_config, 'month_gt_shop_visit_valid_rate') AND month_gt_shop_visit_valid_rate_qualified = '达标', 1, null))/count(if(array_contains(visible.indicator_config, 'month_gt_shop_visit_valid_rate'), sub.user_id, null)), 2)),
+           'month_gt_shop_visit_valid_rate_numerator', count(if(array_contains(visible.indicator_config, 'month_gt_shop_visit_valid_rate') AND month_gt_shop_visit_valid_rate_qualified = '达标', 1, null)),
+           'month_gt_shop_visit_valid_rate_denominator', count(if(array_contains(visible.indicator_config, 'month_gt_shop_visit_valid_rate'), sub.user_id, null)),
 
            --季度GT渠道门店拜访覆盖率
-           'quar_gt_shop_visit_valid_rate', if(sum(if(array_contains(visible.indicator_config, 'quar_gt_shop_visit_valid_rate'), quar_gt_sever_obj_m, 0)) = 0, null, round(100 * sum(if(array_contains(visible.indicator_config, 'quar_gt_shop_visit_valid_rate'), quar_gt_shop_visit_valid_cnt, 0))/sum(if(array_contains(visible.indicator_config, 'quar_gt_shop_visit_valid_rate'), quar_gt_sever_obj_m, 0)), 2)),
-           'quar_gt_shop_visit_valid_rate_numerator', sum(if(array_contains(visible.indicator_config, 'quar_gt_shop_visit_valid_rate'), quar_gt_shop_visit_valid_cnt, 0)),
-           'quar_gt_shop_visit_valid_rate_denominator', sum(if(array_contains(visible.indicator_config, 'quar_gt_shop_visit_valid_rate'), quar_gt_sever_obj_m, 0))
+           'quar_gt_shop_visit_valid_rate', if(count(if(array_contains(visible.indicator_config, 'quar_gt_shop_visit_valid_rate'), sub.user_id, null)) = 0, null, round(100 * count(if(array_contains(visible.indicator_config, 'quar_gt_shop_visit_valid_rate') AND quar_gt_shop_visit_valid_rate_qualified = '达标', 1, null))/count(if(array_contains(visible.indicator_config, 'quar_gt_shop_visit_valid_rate'), sub.user_id, null)), 2)),
+           'quar_gt_shop_visit_valid_rate_numerator', count(if(array_contains(visible.indicator_config, 'quar_gt_shop_visit_valid_rate') AND quar_gt_shop_visit_valid_rate_qualified = '达标', 1, null)),
+           'quar_gt_shop_visit_valid_rate_denominator', count(if(array_contains(visible.indicator_config, 'quar_gt_shop_visit_valid_rate'), sub.user_id, null))
        )) as biz_value
 FROM user
 INNER JOIN user sub ON user.user_root_key = sub.user_root_key OR locate(user.user_root_key, sub.user_parent_root_key) > 0 --表示contains
