@@ -2,7 +2,7 @@ CREATE TABLE IF NOT EXISTS ads_crm_a2_subject_scope_d
 (
     subject_id         INT COMMENT '项目id',
     need_stats         INT COMMENT '是否需要在机会门店列表统计，0否 1是',
-    shop_type          INT COMMENT '项目门店类型 1机会门店 2优质门店',
+    shop_type          INT COMMENT '项目门店类型 1机会门店(跨境总门店) 2优质门店',
     subject_type       STRING COMMENT '项目类型 新签/复购'
 ) PARTITIONED BY (dayid STRING);
 
@@ -18,7 +18,7 @@ CREATE TABLE IF NOT EXISTS ads_crm_a2_subject_base_d
     subject_end_time   STRING COMMENT '项目结束时间',
     dmp_id             INT COMMENT '项目关联的DMP',
     need_stats         INT COMMENT '是否需要在机会门店列表统计，0否 1是',
-    shop_type          INT COMMENT '项目门店类型 1机会门店 2优质门店',
+    shop_type          INT COMMENT '项目门店类型 1机会门店(跨境总门店) 2优质门店',
     feature_type       INT COMMENT '项目职能类型，1BD 2电销'
 ) PARTITIONED BY (dayid STRING);
 
@@ -29,7 +29,7 @@ CREATE TABLE IF NOT EXISTS ads_crm_a2_subject_shop_base_d
     subject_type_id INT COMMENT '项目类型id，1新签 2复购',
     subject_month   STRING COMMENT '项目月份',
     need_stats      INT COMMENT '是否需要在机会门店列表统计，0否 1是',
-    shop_type       INT COMMENT '项目门店类型 1机会门店 2优质门店',
+    shop_type       INT COMMENT '项目门店类型 1机会门店(跨境总门店) 2优质门店',
     shop_id         STRING COMMENT '门店id',
     shop_code       STRING COMMENT '门店编码',
     shop_name       STRING COMMENT '门店名',
