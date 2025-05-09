@@ -1,7 +1,7 @@
 with user as (
     SELECT user_id, user_real_name
     FROM p_mdson.ads_crm_visit_user_d
-    WHERE dayid = '20250426'
+    WHERE dayid = '20250430'
 ),
 
 data as (
@@ -43,7 +43,7 @@ data as (
            get_json_object(biz_value, '$.quar_gt_shop_visit_valid_rate_numerator') as quar_gt_shop_visit_valid_rate_numerator,
            get_json_object(biz_value, '$.quar_gt_shop_visit_valid_rate_denominator') as quar_gt_shop_visit_valid_rate_denominator
     FROM p_mdson.ads_crm_visit_user_indicator_v2_d
-    WHERE dayid = '20250426'
+    WHERE dayid = '20250430'
     AND data_month = '2025-04'
     AND user_id NOT IN ('admin')
 )
