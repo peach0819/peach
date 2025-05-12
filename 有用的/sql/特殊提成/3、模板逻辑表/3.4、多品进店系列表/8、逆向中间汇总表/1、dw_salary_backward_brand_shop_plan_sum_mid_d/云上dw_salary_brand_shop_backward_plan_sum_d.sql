@@ -37,7 +37,7 @@ detail as (
 
 underling as (
     select user_id, max(underling_cnt) as underling_cnt, dayid
-    from ytdw.dws_usr_bd_manager_underling_d
+    from ytdw.dws_usr_bd_manager_underling_v2_d
     where dayid > '0'
     group by user_id, dayid
 ),
