@@ -10,7 +10,7 @@ with plan as (
            replace(replace(replace(replace(get_json_object(get_json_object(filter_config_json,'$.calculate_date'),'$.value'),']',''),'\"',''),'[',''),',','~') as plan_pay_time,
 
            --目标名
-           case when bounty_payout_object_id IN (4) AND bounty_indicator_code = 'GMV_SHIHUO_RATE' then 'class_b_capacity_pure'
+           case when bounty_payout_object_id IN (4) AND bounty_indicator_code = 'GMV_SHIHUO_RATE' then 'class_b_capacity'
                 when bounty_payout_object_id IN (5) AND bounty_indicator_code = 'GMV_SHIHUO_RATE' then 'class_b_capacity'
                 when bounty_payout_object_id IN (1,2,3) AND bounty_indicator_code = 'GMV_SHIHUO_RATE' then 'class_b_area_pure'
                 when bounty_payout_object_id IN (7) AND bounty_indicator_code = 'GMV_SHIHUO_RATE' then 'class_b_dept'
@@ -56,8 +56,11 @@ detail as (
            grant_object_user_dep_name,
            leave_time,
            sum(gmv_less_refund) as gmv_less_refund,
-           sum(sts_target) as sts_target,
-           sum(if(sts_target >= nvl(plan.valid_gmv_line, 0), 1, 0)) as valid_shop_count
+           if(
+               plan.bounty_indicator_code IN ('GMV_SHIHUO_SHOP_COUNT', 'GMV_HI_SHOP_COUNT', 'AVG_GMV_SHIHUO_SHOP_COUNT'),
+               sum(if(sts_target >= nvl(plan.valid_gmv_line, 0), 1, 0)),  --有效门店数
+               sum(sts_target)  --常规指标
+           ) as sts_target
     FROM shop_detail
     INNER JOIN plan ON shop_detail.planno = plan.no
     group by planno,
@@ -65,7 +68,8 @@ detail as (
              grant_object_user_name,
              if(plan.bounty_payout_object_code = 'GRANT_USER', null, grant_object_user_dep_id),
              grant_object_user_dep_name,
-             leave_time
+             leave_time,
+             plan.bounty_indicator_code
 ),
 
 target as (
@@ -124,14 +128,12 @@ cur as (
            --统计指标
            nvl(underling.underling_cnt,1) as grant_object_underling_cnt,
            CASE WHEN plan.bounty_indicator_code = 'GMV_SHIHUO_RATE' THEN (sts_target / plan_user_target.target) * 100 --实货完成率
-                WHEN plan.bounty_indicator_code IN ('GMV_SHIHUO_SHOP_COUNT', 'GMV_HI_SHOP_COUNT') THEN valid_shop_count --有效门店数
                 else if(plan.bounty_indicator_name like '人均%', sts_target/nvl(underling_cnt,1), sts_target)
                 END as sts_target,
 
            --排名
            rank() over(partition by plan.no order by (
                 CASE WHEN plan.bounty_indicator_code = 'GMV_SHIHUO_RATE' THEN (sts_target / plan_user_target.target) * 100 --实货完成率
-                     WHEN plan.bounty_indicator_code IN ('GMV_SHIHUO_SHOP_COUNT', 'GMV_HI_SHOP_COUNT') THEN valid_shop_count --有效门店数
                      else if(plan.bounty_indicator_name like '人均%', sts_target/nvl(underling_cnt,1), sts_target)
                      END
            ) desc, detail.gmv_less_refund desc) as grant_object_rk
