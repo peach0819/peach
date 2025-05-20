@@ -22,12 +22,6 @@ with indicator as (
            month_rka_nc_visit_valid_rate,
            month_rka_nc_visit_valid_rate_qualified,
 
-           --院线店拜访达成率
-           month_hospital_visit_valid_cnt,
-           month_hospital_sever_obj_m,
-           month_hospital_visit_valid_rate,
-           month_hospital_visit_valid_rate_qualified,
-
            --门店拜访覆盖率
            month_shop_visit_valid_cnt,
            month_sever_obj_m,
@@ -56,7 +50,25 @@ with indicator as (
            quar_gt_shop_visit_valid_cnt,
            quar_gt_sever_obj_m,
            quar_gt_shop_visit_valid_rate,
-           quar_gt_shop_visit_valid_rate_qualified
+           quar_gt_shop_visit_valid_rate_qualified,
+
+           --月度GT渠道院线店拜访覆盖率
+           month_gt_hospital_sever_obj_m,
+           month_gt_hospital_shop_visit_valid_cnt,
+           month_gt_hospital_shop_visit_valid_rate,
+           month_gt_hospital_shop_visit_valid_rate_qualified,
+
+           --季度GT渠道院线店拜访覆盖率
+           quar_gt_hospital_sever_obj_m,
+           quar_gt_hospital_shop_visit_valid_cnt,
+           quar_gt_hospital_shop_visit_valid_rate,
+           quar_gt_hospital_shop_visit_valid_rate_qualified,
+
+           --院线店拜访覆盖率
+           month_hospital_visit_valid_cnt_new as month_hospital_visit_valid_cnt,
+           month_hospital_sever_obj_m_new as month_hospital_sever_obj_m,
+           month_hospital_visit_valid_rate_new as month_hospital_visit_valid_rate,
+           month_hospital_visit_valid_rate_new_qualified as month_hospital_visit_valid_rate_qualified
     FROM p_mdson.ads_mdson_user_new_visit_summary_data_d
     WHERE dayid = '${v_date}'
 ),
@@ -126,12 +138,6 @@ SELECT indicator.data_month as data_month,
            'month_rka_nc_visit_valid_rate_denominator', month_rka_sever_obj_m,
            'month_rka_nc_visit_valid_rate_reach', month_rka_nc_visit_valid_rate_qualified,
 
-           --院线店拜访达成率
-           'month_hospital_visit_valid_rate', month_hospital_visit_valid_rate * 100,
-           'month_hospital_visit_valid_rate_numerator', month_hospital_visit_valid_cnt,
-           'month_hospital_visit_valid_rate_denominator', month_hospital_sever_obj_m,
-           'month_hospital_visit_valid_rate_reach', month_hospital_visit_valid_rate_qualified,
-
            --门店拜访覆盖率
            'month_shop_visit_valid_rate', month_shop_visit_valid_rate * 100,
            'month_shop_visit_valid_rate_numerator', month_shop_visit_valid_cnt,
@@ -160,7 +166,25 @@ SELECT indicator.data_month as data_month,
            'quar_gt_shop_visit_valid_rate', quar_gt_shop_visit_valid_rate * 100,
            'quar_gt_shop_visit_valid_rate_numerator', quar_gt_shop_visit_valid_cnt,
            'quar_gt_shop_visit_valid_rate_denominator', quar_gt_sever_obj_m,
-           'quar_gt_shop_visit_valid_rate_reach', quar_gt_shop_visit_valid_rate_qualified
+           'quar_gt_shop_visit_valid_rate_reach', quar_gt_shop_visit_valid_rate_qualified,
+
+           --月度GT渠道院线店拜访覆盖率
+           'month_gt_hospital_shop_visit_valid_rate', month_gt_hospital_shop_visit_valid_rate * 100,
+           'month_gt_hospital_shop_visit_valid_rate_numerator', month_gt_hospital_shop_visit_valid_cnt,
+           'month_gt_hospital_shop_visit_valid_rate_denominator', month_gt_hospital_sever_obj_m,
+           'month_gt_hospital_shop_visit_valid_rate_reach', month_gt_hospital_shop_visit_valid_rate_qualified,
+
+           --季度GT渠道院线店拜访覆盖率
+           'quar_gt_hospital_shop_visit_valid_rate', quar_gt_hospital_shop_visit_valid_rate * 100,
+           'quar_gt_hospital_shop_visit_valid_rate_numerator', quar_gt_hospital_shop_visit_valid_cnt,
+           'quar_gt_hospital_shop_visit_valid_rate_denominator', quar_gt_hospital_sever_obj_m,
+           'quar_gt_hospital_shop_visit_valid_rate_reach', quar_gt_hospital_shop_visit_valid_rate_qualified,
+
+           --院线店拜访覆盖率
+           'month_hospital_visit_valid_rate', month_hospital_visit_valid_rate * 100,
+           'month_hospital_visit_valid_rate_numerator', month_hospital_visit_valid_cnt,
+           'month_hospital_visit_valid_rate_denominator', month_hospital_sever_obj_m,
+           'month_hospital_visit_valid_rate_reach', month_hospital_visit_valid_rate_qualified
        )) as biz_value
 FROM user
 INNER JOIN indicator ON indicator.user_id = user.user_id
@@ -195,11 +219,6 @@ SELECT /*+ mapjoin(user) */
            'month_rka_nc_visit_valid_rate_numerator', count(if(array_contains(visible.indicator_config, 'month_rka_nc_visit_valid_rate') AND month_rka_nc_visit_valid_rate_qualified = '达标', 1, null)),
            'month_rka_nc_visit_valid_rate_denominator', count(if(array_contains(visible.indicator_config, 'month_rka_nc_visit_valid_rate'), sub.user_id, null)),
 
-           --院线店拜访达成率
-           'month_hospital_visit_valid_rate', if(count(if(array_contains(visible.indicator_config, 'month_hospital_visit_valid_rate'), sub.user_id, null)) = 0, null, round(100 * count(if(array_contains(visible.indicator_config, 'month_hospital_visit_valid_rate') AND month_hospital_visit_valid_rate_qualified = '达标', 1, null))/count(if(array_contains(visible.indicator_config, 'month_hospital_visit_valid_rate'), sub.user_id, null)), 2)),
-           'month_hospital_visit_valid_rate_numerator', count(if(array_contains(visible.indicator_config, 'month_hospital_visit_valid_rate') AND month_hospital_visit_valid_rate_qualified = '达标', 1, null)),
-           'month_hospital_visit_valid_rate_denominator', count(if(array_contains(visible.indicator_config, 'month_hospital_visit_valid_rate'), sub.user_id, null)),
-
            --门店拜访覆盖率
            'month_shop_visit_valid_rate', if(count(if(array_contains(visible.indicator_config, 'month_shop_visit_valid_rate'), sub.user_id, null)) = 0, null, round(100 * count(if(array_contains(visible.indicator_config, 'month_shop_visit_valid_rate') AND month_shop_visit_valid_rate_qualified = '达标', 1, null))/count(if(array_contains(visible.indicator_config, 'month_shop_visit_valid_rate'), sub.user_id, null)), 2)),
            'month_shop_visit_valid_rate_numerator', count(if(array_contains(visible.indicator_config, 'month_shop_visit_valid_rate') AND month_shop_visit_valid_rate_qualified = '达标', 1, null)),
@@ -223,7 +242,22 @@ SELECT /*+ mapjoin(user) */
            --季度GT渠道门店拜访覆盖率
            'quar_gt_shop_visit_valid_rate', if(count(if(array_contains(visible.indicator_config, 'quar_gt_shop_visit_valid_rate'), sub.user_id, null)) = 0, null, round(100 * count(if(array_contains(visible.indicator_config, 'quar_gt_shop_visit_valid_rate') AND quar_gt_shop_visit_valid_rate_qualified = '达标', 1, null))/count(if(array_contains(visible.indicator_config, 'quar_gt_shop_visit_valid_rate'), sub.user_id, null)), 2)),
            'quar_gt_shop_visit_valid_rate_numerator', count(if(array_contains(visible.indicator_config, 'quar_gt_shop_visit_valid_rate') AND quar_gt_shop_visit_valid_rate_qualified = '达标', 1, null)),
-           'quar_gt_shop_visit_valid_rate_denominator', count(if(array_contains(visible.indicator_config, 'quar_gt_shop_visit_valid_rate'), sub.user_id, null))
+           'quar_gt_shop_visit_valid_rate_denominator', count(if(array_contains(visible.indicator_config, 'quar_gt_shop_visit_valid_rate'), sub.user_id, null)),
+
+           --月度GT渠道院线店拜访覆盖率
+           'month_gt_hospital_shop_visit_valid_rate', if(count(if(array_contains(visible.indicator_config, 'month_gt_hospital_shop_visit_valid_rate'), sub.user_id, null)) = 0, null, round(100 * count(if(array_contains(visible.indicator_config, 'month_gt_hospital_shop_visit_valid_rate') AND month_gt_hospital_shop_visit_valid_rate_qualified = '达标', 1, null))/count(if(array_contains(visible.indicator_config, 'month_gt_hospital_shop_visit_valid_rate'), sub.user_id, null)), 2)),
+           'month_gt_hospital_shop_visit_valid_rate_numerator', count(if(array_contains(visible.indicator_config, 'month_gt_hospital_shop_visit_valid_rate') AND month_gt_hospital_shop_visit_valid_rate_qualified = '达标', 1, null)),
+           'month_gt_hospital_shop_visit_valid_rate_denominator', count(if(array_contains(visible.indicator_config, 'month_gt_hospital_shop_visit_valid_rate'), sub.user_id, null)),
+
+           --季度GT渠道院线店拜访覆盖率
+           'quar_gt_hospital_shop_visit_valid_rate', if(count(if(array_contains(visible.indicator_config, 'quar_gt_hospital_shop_visit_valid_rate'), sub.user_id, null)) = 0, null, round(100 * count(if(array_contains(visible.indicator_config, 'quar_gt_hospital_shop_visit_valid_rate') AND quar_gt_hospital_shop_visit_valid_rate_qualified = '达标', 1, null))/count(if(array_contains(visible.indicator_config, 'quar_gt_hospital_shop_visit_valid_rate'), sub.user_id, null)), 2)),
+           'quar_gt_hospital_shop_visit_valid_rate_numerator', count(if(array_contains(visible.indicator_config, 'quar_gt_hospital_shop_visit_valid_rate') AND quar_gt_hospital_shop_visit_valid_rate_qualified = '达标', 1, null)),
+           'quar_gt_hospital_shop_visit_valid_rate_denominator', count(if(array_contains(visible.indicator_config, 'quar_gt_hospital_shop_visit_valid_rate'), sub.user_id, null)),
+
+           --院线店拜访覆盖率
+           'month_hospital_visit_valid_rate', if(count(if(array_contains(visible.indicator_config, 'month_hospital_visit_valid_rate'), sub.user_id, null)) = 0, null, round(100 * count(if(array_contains(visible.indicator_config, 'month_hospital_visit_valid_rate') AND month_hospital_visit_valid_rate_qualified = '达标', 1, null))/count(if(array_contains(visible.indicator_config, 'month_hospital_visit_valid_rate'), sub.user_id, null)), 2)),
+           'month_hospital_visit_valid_rate_numerator', count(if(array_contains(visible.indicator_config, 'month_hospital_visit_valid_rate') AND month_hospital_visit_valid_rate_qualified = '达标', 1, null)),
+           'month_hospital_visit_valid_rate_denominator', count(if(array_contains(visible.indicator_config, 'month_hospital_visit_valid_rate'), sub.user_id, null))
        )) as biz_value
 FROM user
 INNER JOIN user sub ON user.user_root_key = sub.user_root_key OR locate(user.user_root_key, sub.user_parent_root_key) > 0 --表示contains
@@ -261,11 +295,6 @@ SELECT /*+ mapjoin(user) */
            'month_rka_nc_visit_valid_rate_numerator', count(if(array_contains(visible.indicator_config, 'month_rka_nc_visit_valid_rate') AND month_rka_nc_visit_valid_rate_qualified = '达标', 1, null)),
            'month_rka_nc_visit_valid_rate_denominator', count(if(array_contains(visible.indicator_config, 'month_rka_nc_visit_valid_rate'), sub.user_id, null)),
 
-           --院线店拜访达成率
-           'month_hospital_visit_valid_rate', if(count(if(array_contains(visible.indicator_config, 'month_hospital_visit_valid_rate'), sub.user_id, null)) = 0, null, round(100 * count(if(array_contains(visible.indicator_config, 'month_hospital_visit_valid_rate') AND month_hospital_visit_valid_rate_qualified = '达标', 1, null))/count(if(array_contains(visible.indicator_config, 'month_hospital_visit_valid_rate'), sub.user_id, null)), 2)),
-           'month_hospital_visit_valid_rate_numerator', count(if(array_contains(visible.indicator_config, 'month_hospital_visit_valid_rate') AND month_hospital_visit_valid_rate_qualified = '达标', 1, null)),
-           'month_hospital_visit_valid_rate_denominator', count(if(array_contains(visible.indicator_config, 'month_hospital_visit_valid_rate'), sub.user_id, null)),
-
            --门店拜访覆盖率
            'month_shop_visit_valid_rate', if(count(if(array_contains(visible.indicator_config, 'month_shop_visit_valid_rate'), sub.user_id, null)) = 0, null, round(100 * count(if(array_contains(visible.indicator_config, 'month_shop_visit_valid_rate') AND month_shop_visit_valid_rate_qualified = '达标', 1, null))/count(if(array_contains(visible.indicator_config, 'month_shop_visit_valid_rate'), sub.user_id, null)), 2)),
            'month_shop_visit_valid_rate_numerator', count(if(array_contains(visible.indicator_config, 'month_shop_visit_valid_rate') AND month_shop_visit_valid_rate_qualified = '达标', 1, null)),
@@ -289,7 +318,22 @@ SELECT /*+ mapjoin(user) */
            --季度GT渠道门店拜访覆盖率
            'quar_gt_shop_visit_valid_rate', if(count(if(array_contains(visible.indicator_config, 'quar_gt_shop_visit_valid_rate'), sub.user_id, null)) = 0, null, round(100 * count(if(array_contains(visible.indicator_config, 'quar_gt_shop_visit_valid_rate') AND quar_gt_shop_visit_valid_rate_qualified = '达标', 1, null))/count(if(array_contains(visible.indicator_config, 'quar_gt_shop_visit_valid_rate'), sub.user_id, null)), 2)),
            'quar_gt_shop_visit_valid_rate_numerator', count(if(array_contains(visible.indicator_config, 'quar_gt_shop_visit_valid_rate') AND quar_gt_shop_visit_valid_rate_qualified = '达标', 1, null)),
-           'quar_gt_shop_visit_valid_rate_denominator', count(if(array_contains(visible.indicator_config, 'quar_gt_shop_visit_valid_rate'), sub.user_id, null))
+           'quar_gt_shop_visit_valid_rate_denominator', count(if(array_contains(visible.indicator_config, 'quar_gt_shop_visit_valid_rate'), sub.user_id, null)),
+
+           --月度GT渠道院线店拜访覆盖率
+           'month_gt_hospital_shop_visit_valid_rate', if(count(if(array_contains(visible.indicator_config, 'month_gt_hospital_shop_visit_valid_rate'), sub.user_id, null)) = 0, null, round(100 * count(if(array_contains(visible.indicator_config, 'month_gt_hospital_shop_visit_valid_rate') AND month_gt_hospital_shop_visit_valid_rate_qualified = '达标', 1, null))/count(if(array_contains(visible.indicator_config, 'month_gt_hospital_shop_visit_valid_rate'), sub.user_id, null)), 2)),
+           'month_gt_hospital_shop_visit_valid_rate_numerator', count(if(array_contains(visible.indicator_config, 'month_gt_hospital_shop_visit_valid_rate') AND month_gt_hospital_shop_visit_valid_rate_qualified = '达标', 1, null)),
+           'month_gt_hospital_shop_visit_valid_rate_denominator', count(if(array_contains(visible.indicator_config, 'month_gt_hospital_shop_visit_valid_rate'), sub.user_id, null)),
+
+           --季度GT渠道院线店拜访覆盖率
+           'quar_gt_hospital_shop_visit_valid_rate', if(count(if(array_contains(visible.indicator_config, 'quar_gt_hospital_shop_visit_valid_rate'), sub.user_id, null)) = 0, null, round(100 * count(if(array_contains(visible.indicator_config, 'quar_gt_hospital_shop_visit_valid_rate') AND quar_gt_hospital_shop_visit_valid_rate_qualified = '达标', 1, null))/count(if(array_contains(visible.indicator_config, 'quar_gt_hospital_shop_visit_valid_rate'), sub.user_id, null)), 2)),
+           'quar_gt_hospital_shop_visit_valid_rate_numerator', count(if(array_contains(visible.indicator_config, 'quar_gt_hospital_shop_visit_valid_rate') AND quar_gt_hospital_shop_visit_valid_rate_qualified = '达标', 1, null)),
+           'quar_gt_hospital_shop_visit_valid_rate_denominator', count(if(array_contains(visible.indicator_config, 'quar_gt_hospital_shop_visit_valid_rate'), sub.user_id, null)),
+
+           --院线店拜访覆盖率
+           'month_hospital_visit_valid_rate', if(count(if(array_contains(visible.indicator_config, 'month_hospital_visit_valid_rate'), sub.user_id, null)) = 0, null, round(100 * count(if(array_contains(visible.indicator_config, 'month_hospital_visit_valid_rate') AND month_hospital_visit_valid_rate_qualified = '达标', 1, null))/count(if(array_contains(visible.indicator_config, 'month_hospital_visit_valid_rate'), sub.user_id, null)), 2)),
+           'month_hospital_visit_valid_rate_numerator', count(if(array_contains(visible.indicator_config, 'month_hospital_visit_valid_rate') AND month_hospital_visit_valid_rate_qualified = '达标', 1, null)),
+           'month_hospital_visit_valid_rate_denominator', count(if(array_contains(visible.indicator_config, 'month_hospital_visit_valid_rate'), sub.user_id, null))
        )) as biz_value
 FROM user
 INNER JOIN user sub ON locate(user.user_root_key, sub.user_parent_root_key) > 0 --表示contains
@@ -327,11 +371,6 @@ SELECT /*+ mapjoin(user) */
            'month_rka_nc_visit_valid_rate_numerator', count(if(array_contains(visible.indicator_config, 'month_rka_nc_visit_valid_rate') AND month_rka_nc_visit_valid_rate_qualified = '达标', 1, null)),
            'month_rka_nc_visit_valid_rate_denominator', count(if(array_contains(visible.indicator_config, 'month_rka_nc_visit_valid_rate'), sub.user_id, null)),
 
-           --院线店拜访达成率
-           'month_hospital_visit_valid_rate', if(count(if(array_contains(visible.indicator_config, 'month_hospital_visit_valid_rate'), sub.user_id, null)) = 0, null, round(100 * count(if(array_contains(visible.indicator_config, 'month_hospital_visit_valid_rate') AND month_hospital_visit_valid_rate_qualified = '达标', 1, null))/count(if(array_contains(visible.indicator_config, 'month_hospital_visit_valid_rate'), sub.user_id, null)), 2)),
-           'month_hospital_visit_valid_rate_numerator', count(if(array_contains(visible.indicator_config, 'month_hospital_visit_valid_rate') AND month_hospital_visit_valid_rate_qualified = '达标', 1, null)),
-           'month_hospital_visit_valid_rate_denominator', count(if(array_contains(visible.indicator_config, 'month_hospital_visit_valid_rate'), sub.user_id, null)),
-
            --门店拜访覆盖率
            'month_shop_visit_valid_rate', if(count(if(array_contains(visible.indicator_config, 'month_shop_visit_valid_rate'), sub.user_id, null)) = 0, null, round(100 * count(if(array_contains(visible.indicator_config, 'month_shop_visit_valid_rate') AND month_shop_visit_valid_rate_qualified = '达标', 1, null))/count(if(array_contains(visible.indicator_config, 'month_shop_visit_valid_rate'), sub.user_id, null)), 2)),
            'month_shop_visit_valid_rate_numerator', count(if(array_contains(visible.indicator_config, 'month_shop_visit_valid_rate') AND month_shop_visit_valid_rate_qualified = '达标', 1, null)),
@@ -355,7 +394,22 @@ SELECT /*+ mapjoin(user) */
            --季度GT渠道门店拜访覆盖率
            'quar_gt_shop_visit_valid_rate', if(count(if(array_contains(visible.indicator_config, 'quar_gt_shop_visit_valid_rate'), sub.user_id, null)) = 0, null, round(100 * count(if(array_contains(visible.indicator_config, 'quar_gt_shop_visit_valid_rate') AND quar_gt_shop_visit_valid_rate_qualified = '达标', 1, null))/count(if(array_contains(visible.indicator_config, 'quar_gt_shop_visit_valid_rate'), sub.user_id, null)), 2)),
            'quar_gt_shop_visit_valid_rate_numerator', count(if(array_contains(visible.indicator_config, 'quar_gt_shop_visit_valid_rate') AND quar_gt_shop_visit_valid_rate_qualified = '达标', 1, null)),
-           'quar_gt_shop_visit_valid_rate_denominator', count(if(array_contains(visible.indicator_config, 'quar_gt_shop_visit_valid_rate'), sub.user_id, null))
+           'quar_gt_shop_visit_valid_rate_denominator', count(if(array_contains(visible.indicator_config, 'quar_gt_shop_visit_valid_rate'), sub.user_id, null)),
+
+           --月度GT渠道院线店拜访覆盖率
+           'month_gt_hospital_shop_visit_valid_rate', if(count(if(array_contains(visible.indicator_config, 'month_gt_hospital_shop_visit_valid_rate'), sub.user_id, null)) = 0, null, round(100 * count(if(array_contains(visible.indicator_config, 'month_gt_hospital_shop_visit_valid_rate') AND month_gt_hospital_shop_visit_valid_rate_qualified = '达标', 1, null))/count(if(array_contains(visible.indicator_config, 'month_gt_hospital_shop_visit_valid_rate'), sub.user_id, null)), 2)),
+           'month_gt_hospital_shop_visit_valid_rate_numerator', count(if(array_contains(visible.indicator_config, 'month_gt_hospital_shop_visit_valid_rate') AND month_gt_hospital_shop_visit_valid_rate_qualified = '达标', 1, null)),
+           'month_gt_hospital_shop_visit_valid_rate_denominator', count(if(array_contains(visible.indicator_config, 'month_gt_hospital_shop_visit_valid_rate'), sub.user_id, null)),
+
+           --季度GT渠道院线店拜访覆盖率
+           'quar_gt_hospital_shop_visit_valid_rate', if(count(if(array_contains(visible.indicator_config, 'quar_gt_hospital_shop_visit_valid_rate'), sub.user_id, null)) = 0, null, round(100 * count(if(array_contains(visible.indicator_config, 'quar_gt_hospital_shop_visit_valid_rate') AND quar_gt_hospital_shop_visit_valid_rate_qualified = '达标', 1, null))/count(if(array_contains(visible.indicator_config, 'quar_gt_hospital_shop_visit_valid_rate'), sub.user_id, null)), 2)),
+           'quar_gt_hospital_shop_visit_valid_rate_numerator', count(if(array_contains(visible.indicator_config, 'quar_gt_hospital_shop_visit_valid_rate') AND quar_gt_hospital_shop_visit_valid_rate_qualified = '达标', 1, null)),
+           'quar_gt_hospital_shop_visit_valid_rate_denominator', count(if(array_contains(visible.indicator_config, 'quar_gt_hospital_shop_visit_valid_rate'), sub.user_id, null)),
+
+           --院线店拜访覆盖率
+           'month_hospital_visit_valid_rate', if(count(if(array_contains(visible.indicator_config, 'month_hospital_visit_valid_rate'), sub.user_id, null)) = 0, null, round(100 * count(if(array_contains(visible.indicator_config, 'month_hospital_visit_valid_rate') AND month_hospital_visit_valid_rate_qualified = '达标', 1, null))/count(if(array_contains(visible.indicator_config, 'month_hospital_visit_valid_rate'), sub.user_id, null)), 2)),
+           'month_hospital_visit_valid_rate_numerator', count(if(array_contains(visible.indicator_config, 'month_hospital_visit_valid_rate') AND month_hospital_visit_valid_rate_qualified = '达标', 1, null)),
+           'month_hospital_visit_valid_rate_denominator', count(if(array_contains(visible.indicator_config, 'month_hospital_visit_valid_rate'), sub.user_id, null))
        )) as biz_value
 FROM user
 INNER JOIN user sub ON user.user_root_key = sub.user_root_key OR locate(user.user_root_key, sub.user_parent_root_key) > 0 --表示contains
@@ -396,11 +450,6 @@ SELECT /*+ mapjoin(user,virtual_group) */
            'month_rka_nc_visit_valid_rate_numerator', count(if(array_contains(visible.indicator_config, 'month_rka_nc_visit_valid_rate') AND month_rka_nc_visit_valid_rate_qualified = '达标', 1, null)),
            'month_rka_nc_visit_valid_rate_denominator', count(if(array_contains(visible.indicator_config, 'month_rka_nc_visit_valid_rate'), sub.user_id, null)),
 
-           --院线店拜访达成率
-           'month_hospital_visit_valid_rate', if(count(if(array_contains(visible.indicator_config, 'month_hospital_visit_valid_rate'), sub.user_id, null)) = 0, null, round(100 * count(if(array_contains(visible.indicator_config, 'month_hospital_visit_valid_rate') AND month_hospital_visit_valid_rate_qualified = '达标', 1, null))/count(if(array_contains(visible.indicator_config, 'month_hospital_visit_valid_rate'), sub.user_id, null)), 2)),
-           'month_hospital_visit_valid_rate_numerator', count(if(array_contains(visible.indicator_config, 'month_hospital_visit_valid_rate') AND month_hospital_visit_valid_rate_qualified = '达标', 1, null)),
-           'month_hospital_visit_valid_rate_denominator', count(if(array_contains(visible.indicator_config, 'month_hospital_visit_valid_rate'), sub.user_id, null)),
-
            --门店拜访覆盖率
            'month_shop_visit_valid_rate', if(count(if(array_contains(visible.indicator_config, 'month_shop_visit_valid_rate'), sub.user_id, null)) = 0, null, round(100 * count(if(array_contains(visible.indicator_config, 'month_shop_visit_valid_rate') AND month_shop_visit_valid_rate_qualified = '达标', 1, null))/count(if(array_contains(visible.indicator_config, 'month_shop_visit_valid_rate'), sub.user_id, null)), 2)),
            'month_shop_visit_valid_rate_numerator', count(if(array_contains(visible.indicator_config, 'month_shop_visit_valid_rate') AND month_shop_visit_valid_rate_qualified = '达标', 1, null)),
@@ -424,7 +473,22 @@ SELECT /*+ mapjoin(user,virtual_group) */
            --季度GT渠道门店拜访覆盖率
            'quar_gt_shop_visit_valid_rate', if(count(if(array_contains(visible.indicator_config, 'quar_gt_shop_visit_valid_rate'), sub.user_id, null)) = 0, null, round(100 * count(if(array_contains(visible.indicator_config, 'quar_gt_shop_visit_valid_rate') AND quar_gt_shop_visit_valid_rate_qualified = '达标', 1, null))/count(if(array_contains(visible.indicator_config, 'quar_gt_shop_visit_valid_rate'), sub.user_id, null)), 2)),
            'quar_gt_shop_visit_valid_rate_numerator', count(if(array_contains(visible.indicator_config, 'quar_gt_shop_visit_valid_rate') AND quar_gt_shop_visit_valid_rate_qualified = '达标', 1, null)),
-           'quar_gt_shop_visit_valid_rate_denominator', count(if(array_contains(visible.indicator_config, 'quar_gt_shop_visit_valid_rate'), sub.user_id, null))
+           'quar_gt_shop_visit_valid_rate_denominator', count(if(array_contains(visible.indicator_config, 'quar_gt_shop_visit_valid_rate'), sub.user_id, null)),
+
+           --月度GT渠道院线店拜访覆盖率
+           'month_gt_hospital_shop_visit_valid_rate', if(count(if(array_contains(visible.indicator_config, 'month_gt_hospital_shop_visit_valid_rate'), sub.user_id, null)) = 0, null, round(100 * count(if(array_contains(visible.indicator_config, 'month_gt_hospital_shop_visit_valid_rate') AND month_gt_hospital_shop_visit_valid_rate_qualified = '达标', 1, null))/count(if(array_contains(visible.indicator_config, 'month_gt_hospital_shop_visit_valid_rate'), sub.user_id, null)), 2)),
+           'month_gt_hospital_shop_visit_valid_rate_numerator', count(if(array_contains(visible.indicator_config, 'month_gt_hospital_shop_visit_valid_rate') AND month_gt_hospital_shop_visit_valid_rate_qualified = '达标', 1, null)),
+           'month_gt_hospital_shop_visit_valid_rate_denominator', count(if(array_contains(visible.indicator_config, 'month_gt_hospital_shop_visit_valid_rate'), sub.user_id, null)),
+
+           --季度GT渠道院线店拜访覆盖率
+           'quar_gt_hospital_shop_visit_valid_rate', if(count(if(array_contains(visible.indicator_config, 'quar_gt_hospital_shop_visit_valid_rate'), sub.user_id, null)) = 0, null, round(100 * count(if(array_contains(visible.indicator_config, 'quar_gt_hospital_shop_visit_valid_rate') AND quar_gt_hospital_shop_visit_valid_rate_qualified = '达标', 1, null))/count(if(array_contains(visible.indicator_config, 'quar_gt_hospital_shop_visit_valid_rate'), sub.user_id, null)), 2)),
+           'quar_gt_hospital_shop_visit_valid_rate_numerator', count(if(array_contains(visible.indicator_config, 'quar_gt_hospital_shop_visit_valid_rate') AND quar_gt_hospital_shop_visit_valid_rate_qualified = '达标', 1, null)),
+           'quar_gt_hospital_shop_visit_valid_rate_denominator', count(if(array_contains(visible.indicator_config, 'quar_gt_hospital_shop_visit_valid_rate'), sub.user_id, null)),
+
+            --院线店拜访覆盖率
+           'month_hospital_visit_valid_rate', if(count(if(array_contains(visible.indicator_config, 'month_hospital_visit_valid_rate'), sub.user_id, null)) = 0, null, round(100 * count(if(array_contains(visible.indicator_config, 'month_hospital_visit_valid_rate') AND month_hospital_visit_valid_rate_qualified = '达标', 1, null))/count(if(array_contains(visible.indicator_config, 'month_hospital_visit_valid_rate'), sub.user_id, null)), 2)),
+           'month_hospital_visit_valid_rate_numerator', count(if(array_contains(visible.indicator_config, 'month_hospital_visit_valid_rate') AND month_hospital_visit_valid_rate_qualified = '达标', 1, null)),
+           'month_hospital_visit_valid_rate_denominator', count(if(array_contains(visible.indicator_config, 'month_hospital_visit_valid_rate'), sub.user_id, null))
        )) as biz_value
 FROM user
 INNER JOIN user sub ON user.user_root_key = sub.user_root_key OR locate(user.user_root_key, sub.user_parent_root_key) > 0 --表示contains
