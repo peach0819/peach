@@ -3,13 +3,15 @@ with base as (
            user_id,
            case indicator_id when 'month_fws_visit_valid_cnt' then 'month_fws_visit_valid_rate'
                              when 'month_gt_shop_visit_valid_cnt' then 'month_gt_shop_visit_valid_rate'
-                             when 'month_hospital_visit_valid_cnt' then 'month_hospital_visit_valid_rate'
                              when 'month_nka_nc_visit_valid_cnt' then 'month_nka_nc_visit_valid_rate'
                              when 'month_rka_nc_visit_valid_cnt' then 'month_rka_nc_visit_valid_rate'
                              when 'month_shop_visit_valid_cnt' then 'month_shop_visit_valid_rate'
                              when 'month_visit_valid_cnt' then 'month_visit_freq_valid_rate'
                              when 'quar_fws_visit_valid_cnt' then 'quar_fws_visit_valid_rate'
                              when 'quar_gt_shop_visit_valid_cnt' then 'quar_gt_shop_visit_valid_rate'
+                             when 'month_gt_hospital_shop_visit_valid_cnt' then 'month_gt_hospital_shop_visit_valid_rate'
+                             when 'quar_gt_hospital_shop_visit_valid_cnt' then 'quar_gt_hospital_shop_visit_valid_rate'
+                             when 'month_hospital_visit_valid_cnt_1' then 'month_hospital_visit_valid_rate'
                              end as indicator_code,
            out_service_obj_id as service_obj_id,
            service_obj_name,
