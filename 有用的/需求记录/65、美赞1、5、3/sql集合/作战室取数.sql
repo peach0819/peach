@@ -1,7 +1,7 @@
 with user as (
     SELECT user_id, user_real_name
     FROM p_mdson.ads_crm_visit_user_d
-    WHERE dayid = '20250430'
+    WHERE dayid = '20250520'
 ),
 
 data as (
@@ -24,9 +24,6 @@ data as (
            get_json_object(biz_value, '$.month_rka_nc_visit_valid_rate') as month_rka_nc_visit_valid_rate,
            get_json_object(biz_value, '$.month_rka_nc_visit_valid_rate_numerator') as month_rka_nc_visit_valid_rate_numerator,
            get_json_object(biz_value, '$.month_rka_nc_visit_valid_rate_denominator') as month_rka_nc_visit_valid_rate_denominator,
-           get_json_object(biz_value, '$.month_hospital_visit_valid_rate') as month_hospital_visit_valid_rate,
-           get_json_object(biz_value, '$.month_hospital_visit_valid_rate_numerator') as month_hospital_visit_valid_rate_numerator,
-           get_json_object(biz_value, '$.month_hospital_visit_valid_rate_denominator') as month_hospital_visit_valid_rate_denominator,
            get_json_object(biz_value, '$.month_shop_visit_valid_rate') as month_shop_visit_valid_rate,
            get_json_object(biz_value, '$.month_shop_visit_valid_rate_numerator') as month_shop_visit_valid_rate_numerator,
            get_json_object(biz_value, '$.month_shop_visit_valid_rate_denominator') as month_shop_visit_valid_rate_denominator,
@@ -42,9 +39,18 @@ data as (
            get_json_object(biz_value, '$.quar_gt_shop_visit_valid_rate') as quar_gt_shop_visit_valid_rate,
            get_json_object(biz_value, '$.quar_gt_shop_visit_valid_rate_numerator') as quar_gt_shop_visit_valid_rate_numerator,
            get_json_object(biz_value, '$.quar_gt_shop_visit_valid_rate_denominator') as quar_gt_shop_visit_valid_rate_denominator
+           get_json_object(biz_value, '$.month_gt_hospital_shop_visit_valid_rate') as month_gt_hospital_shop_visit_valid_rate,
+           get_json_object(biz_value, '$.month_gt_hospital_shop_visit_valid_rate_numerator') as month_gt_hospital_shop_visit_valid_rate_numerator,
+           get_json_object(biz_value, '$.month_gt_hospital_shop_visit_valid_rate_denominator') as month_gt_hospital_shop_visit_valid_rate_denominator,
+           get_json_object(biz_value, '$.quar_gt_hospital_shop_visit_valid_rate') as quar_gt_hospital_shop_visit_valid_rate,
+           get_json_object(biz_value, '$.quar_gt_hospital_shop_visit_valid_rate_numerator') as quar_gt_hospital_shop_visit_valid_rate_numerator,
+           get_json_object(biz_value, '$.quar_gt_hospital_shop_visit_valid_rate_denominator') as quar_gt_hospital_shop_visit_valid_rate_denominator,
+           get_json_object(biz_value, '$.month_hospital_visit_valid_rate') as month_hospital_visit_valid_rate,
+           get_json_object(biz_value, '$.month_hospital_visit_valid_rate_numerator') as month_hospital_visit_valid_rate_numerator,
+           get_json_object(biz_value, '$.month_hospital_visit_valid_rate_denominator') as month_hospital_visit_valid_rate_denominator
     FROM p_mdson.ads_crm_visit_user_indicator_v2_d
-    WHERE dayid = '20250430'
-    AND data_month = '2025-04'
+    WHERE dayid = '20250520'
+    AND data_month = '2025-05'
     AND user_id NOT IN ('admin')
 )
 
@@ -81,6 +87,15 @@ SELECT data.user_id as `用户id`,
        nvl(data.month_gt_shop_visit_valid_rate_denominator, '') as `月度GT渠道门店拜访覆盖率分母`,
        nvl(data.quar_gt_shop_visit_valid_rate, '') as `季度GT渠道门店拜访覆盖率`,
        nvl(data.quar_gt_shop_visit_valid_rate_numerator, '') as `季度GT渠道门店拜访覆盖率分子`,
-       nvl(data.quar_gt_shop_visit_valid_rate_denominator, '') as `季度GT渠道门店拜访覆盖率分母`
+       nvl(data.quar_gt_shop_visit_valid_rate_denominator, '') as `季度GT渠道门店拜访覆盖率分母`,
+       nvl(data.month_gt_hospital_shop_visit_valid_rate, '') as `月度GT渠道院线店拜访覆盖率`,
+       nvl(data.month_gt_hospital_shop_visit_valid_rate_numerator, '') as `月度GT渠道院线店拜访覆盖率分子`,
+       nvl(data.month_gt_hospital_shop_visit_valid_rate_denominator, '') as `月度GT渠道院线店拜访覆盖率分母`,
+       nvl(data.quar_gt_hospital_shop_visit_valid_rate, '') as `季度GT渠道院线店拜访覆盖率`,
+       nvl(data.quar_gt_hospital_shop_visit_valid_rate_numerator, '') as `季度GT渠道院线店拜访覆盖率分子`,
+       nvl(data.quar_gt_hospital_shop_visit_valid_rate_denominator, '') as `季度GT渠道院线店拜访覆盖率分母`,
+       nvl(data.month_hospital_visit_valid_rate, '') as `院线店拜访覆盖率`,
+       nvl(data.month_hospital_visit_valid_rate_numerator, '') as `院线店拜访覆盖率分子`,
+       nvl(data.month_hospital_visit_valid_rate_denominator, '') as `院线店拜访覆盖率分母`
 FROM data
 INNER JOIN user ON data.user_id = user.user_id
