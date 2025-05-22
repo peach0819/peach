@@ -38,7 +38,7 @@ data as (
            get_json_object(biz_value, '$.month_gt_shop_visit_valid_rate_denominator') as month_gt_shop_visit_valid_rate_denominator,
            get_json_object(biz_value, '$.quar_gt_shop_visit_valid_rate') as quar_gt_shop_visit_valid_rate,
            get_json_object(biz_value, '$.quar_gt_shop_visit_valid_rate_numerator') as quar_gt_shop_visit_valid_rate_numerator,
-           get_json_object(biz_value, '$.quar_gt_shop_visit_valid_rate_denominator') as quar_gt_shop_visit_valid_rate_denominator
+           get_json_object(biz_value, '$.quar_gt_shop_visit_valid_rate_denominator') as quar_gt_shop_visit_valid_rate_denominator,
            get_json_object(biz_value, '$.month_gt_hospital_shop_visit_valid_rate') as month_gt_hospital_shop_visit_valid_rate,
            get_json_object(biz_value, '$.month_gt_hospital_shop_visit_valid_rate_numerator') as month_gt_hospital_shop_visit_valid_rate_numerator,
            get_json_object(biz_value, '$.month_gt_hospital_shop_visit_valid_rate_denominator') as month_gt_hospital_shop_visit_valid_rate_denominator,
