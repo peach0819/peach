@@ -67,3 +67,19 @@ SET indicator_desc =
   ]
 }'
 WHERE id IN (129, 130, 131);
+
+--指标名称调整
+update t_crm_visit_indicator set indicator_name = '当月门店拜访频次达成率' WHERE id = 120;
+update t_crm_visit_indicator set indicator_name = '当月NKA专职NC门店拜访达成率' WHERE id = 121;
+update t_crm_visit_indicator set indicator_name = '当月RKA专职NC门店拜访达成率' WHERE id = 122;
+update t_crm_visit_indicator set indicator_name = '当月门店拜访覆盖率' WHERE id = 124;
+update t_crm_visit_indicator set indicator_name = '当月院线店拜访覆盖率' WHERE id = 131;
+
+
+update t_crm_visit_indicator set indicator_name = '当月服务商拜访达成率' WHERE id = 125;
+update t_crm_visit_indicator set indicator_name = '当月GT渠道门店拜访覆盖率' WHERE id = 127;
+update t_crm_visit_indicator set indicator_name = '当月GT渠道院线店拜访覆盖率' WHERE id = 129;
+
+update t_crm_visit_indicator set indicator_name = '当季服务商拜访达成率' WHERE id = 126;
+update t_crm_visit_indicator set indicator_name = '当季GT渠道门店拜访覆盖率' WHERE id = 128;
+update t_crm_visit_indicator set indicator_name = '当季GT渠道院线店拜访覆盖率' WHERE id = 130;
