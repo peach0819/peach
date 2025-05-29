@@ -85,3 +85,49 @@ update t_crm_visit_indicator set indicator_name = '当季GT渠道院线店拜访
 
 --第二轮调整
 update t_crm_visit_indicator set indicator_name = '当月院线店拜访达成率' WHERE id = 131;
+
+--调整当月门店拜访覆盖率排序
+update t_crm_visit_indicator_visible_v2 set visiable_sort = 91 WHERE indicator_id = 124;
+
+--当月门店拜访覆盖率团队明细
+UPDATE t_crm_visit_indicator
+SET indicator_desc =
+'{
+  "teamColumnList": [
+    {
+      "code": "numerator",
+      "name": "覆盖门店数"
+    },
+    {
+      "code": "denominator",
+      "name": "名下门店数"
+    },
+    {
+      "code": "indicator",
+      "name": "达成率"
+    },
+    {
+      "code": "reach",
+      "name": "是否达标"
+    }
+  ],
+  "detailColumnList": [
+    {
+      "code": "service_obj_id",
+      "name": "拜访对象编码"
+    },
+    {
+      "code": "service_obj_name",
+      "name": "拜访对象名称"
+    },
+    {
+      "code": "indicator",
+      "name": "覆盖次数"
+    },
+    {
+      "code": "reach",
+      "name": "是否达标"
+    }
+  ]
+}'
+WHERE id IN (124);
