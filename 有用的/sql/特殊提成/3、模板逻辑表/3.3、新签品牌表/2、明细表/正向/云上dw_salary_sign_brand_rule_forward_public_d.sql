@@ -204,7 +204,7 @@ sign as (
     and ytdw.simple_expr(brand_type, 'in', brand_type_value) = (case when brand_type_operator = '=' then 1 else 0 end)
     and if(shop_group = '' OR shop_group_value = '', 0, ytdw.simple_expr(substr(shop_group_value, 2, length(shop_group_value) - 2), 'in', concat('[', shop_group, ']'))) = (case when shop_group_operator ='=' then 1 else 0 end)
     and (ytdw.simple_expr(brand_id, 'in', brand_key_value) = (case when brand_key_operator = '=' then 1 else 0 end) OR ytdw.simple_expr(brand_key, 'in', brand_key_value) = (case when brand_key_operator = '=' then 1 else 0 end))
-    group by planno,
+    group by no,
              brand_id,
              brand_key,
              brand_name,
