@@ -117,7 +117,7 @@ before_sign as (
            ord.gmv - nvl(refund.refund_actual_amount, 0) as gmv_less_refund,
            ord.gmv,
            ord.pay_amount,
-           ord.pay_amount - nvl(refund.refund_actual_amount, 0) as pay_amount_less_refund
+           ord.pay_amount - nvl(refund.refund_actual_amount, 0) as pay_amount_less_refund,
            nvl(refund.refund_actual_amount, 0) as refund_actual_amount,
            nvl(refund.refund_actual_amount, 0) as refund_retreat_amount,
            ord.sale_team_id,
@@ -127,7 +127,7 @@ before_sign as (
            ord.item_id,
            ord.brand_tag_code,
            ord.brand_type,
-           shop_group_mapping.shop_group as shop_group,
+           nvl(shop_group_mapping.shop_group, ord.shop_group) as shop_group,
 
            --加工字段
            if(plan.merge_brand = '是', -1, brand_id) as brand_id,
@@ -141,8 +141,7 @@ before_sign as (
 ),
 
 sign as (
-    select /*+ mapjoin(plan) */
-           dayid,
+    select dayid,
            no as planno,
            brand_id,
            brand_key,
@@ -179,24 +178,24 @@ sign as (
            sum(pay_amount) as pay_amount,--实货支付金额
            sum(pay_amount_less_refund) as pay_amount_less_refund,--实货支付金额-退款
            sum(refund_actual_amount) as refund_actual_amount,--实货退款
-           sum(refund_actual_amount) as refund_retreat_amount,--实货清退金额
+           sum(refund_retreat_amount) as refund_retreat_amount,--实货清退金额
            case when sum(gmv_less_refund) >= new_sign_line then '是' else '否' end as is_over_sign_line--是否满足新签门槛
     from before_sign
     where yt_crm.plan_calculate_date(calculate_date, 'between', shop_brand_sign_day) = 'true'
     and pay_day <= calculate_date_value_end
-    and ytdw.simple_expr(sale_team_id,'in',sales_team_value) = (case when sales_team_operator ='=' then 1 else 0 end)
-    and ytdw.simple_expr(item_style_name,'in',item_style_value) = (case when item_style_operator ='=' then 1 else 0 end)
-    and ytdw.simple_expr(category_id_first,'in',category_first_value) = (case when category_first_operator ='=' then 1 else 0 end)
-    and ytdw.simple_expr(category_id_second,'in',category_second_value) = (case when category_second_operator ='=' then 1 else 0 end)
+    and ytdw.simple_expr(sale_team_id, 'in', sales_team_value) = (case when sales_team_operator = '=' then 1 else 0 end)
+    and ytdw.simple_expr(item_style_name, 'in', item_style_value) = (case when item_style_operator = '=' then 1 else 0 end)
+    and ytdw.simple_expr(category_id_first, 'in', category_first_value) = (case when category_first_operator = '=' then 1 else 0 end)
+    and ytdw.simple_expr(category_id_second, 'in', category_second_value) = (case when category_second_operator = '=' then 1 else 0 end)
     and ytdw.simple_expr(category_id_third, 'in', category_third_value) = (case when category_third_operator = '=' then 1 else 0 end)
-    and ytdw.simple_expr(brand_id,'in',brand_value) = (case when brand_operator ='=' then 1 else 0 end)
+    and ytdw.simple_expr(brand_id, 'in', brand_value) = (case when brand_operator = '=' then 1 else 0 end)
     and ytdw.simple_expr(item_id, 'in', item_value) = (case when item_operator = '=' then 1 else 0 end)
-    and ytdw.simple_expr(war_zone_dep_id,'in',war_area_value) = (case when war_area_operator ='=' then 1 else 0 end)
-    and ytdw.simple_expr(area_manager_dep_id,'in',bd_area_value) = (case when bd_area_operator ='=' then 1 else 0 end)
-    and ytdw.simple_expr(bd_manager_dep_id,'in',manage_area_value) = (case when manage_area_operator ='=' then 1 else 0 end)
+    and ytdw.simple_expr(war_zone_dep_id, 'in', war_area_value) = (case when war_area_operator = '=' then 1 else 0 end)
+    and ytdw.simple_expr(area_manager_dep_id, 'in', bd_area_value) = (case when bd_area_operator = '=' then 1 else 0 end)
+    and ytdw.simple_expr(bd_manager_dep_id, 'in', manage_area_value) = (case when manage_area_operator = '=' then 1 else 0 end)
     and ytdw.simple_expr(brand_tag_code, 'in', brand_tag_value) = (case when brand_tag_operator = '=' then 1 else 0 end)
     and ytdw.simple_expr(brand_type, 'in', brand_type_value) = (case when brand_type_operator = '=' then 1 else 0 end)
-    and if(nvl(shop_group, shop_group) = '' OR shop_group_value = '', 0, ytdw.simple_expr(substr(shop_group_value, 2, length(shop_group_value) - 2), 'in', concat('[', nvl(shop_group, shop_group), ']'))) = (case when shop_group_operator ='=' then 1 else 0 end)
+    and if(shop_group = '' OR shop_group_value = '', 0, ytdw.simple_expr(substr(shop_group_value, 2, length(shop_group_value) - 2), 'in', concat('[', shop_group, ']'))) = (case when shop_group_operator ='=' then 1 else 0 end)
     and (ytdw.simple_expr(brand_id, 'in', brand_key_value) = (case when brand_key_operator = '=' then 1 else 0 end) OR ytdw.simple_expr(brand_key, 'in', brand_key_value) = (case when brand_key_operator = '=' then 1 else 0 end))
     group by dayid,
              no,
