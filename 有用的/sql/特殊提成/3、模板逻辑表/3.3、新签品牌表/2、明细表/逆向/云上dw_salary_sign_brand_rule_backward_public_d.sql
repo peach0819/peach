@@ -84,13 +84,69 @@ refund as (
     group by order_id, dayid
 ),
 
-sign as (
+before_sign as (
     select /*+ mapjoin(plan) */
+           plan.*,
            ord.dayid,
-           plan.no as planno,
+           ord.item_style,
+           ord.item_style_name,
+           ord.shop_id,
+           ord.shop_name,
+           ord.store_type,
+           ord.store_type_name,
+           ord.war_zone_id,
+           ord.war_zone_name,
+           ord.war_zone_dep_id,
+           ord.war_zone_dep_name,
+           ord.area_manager_id,
+           ord.area_manager_name,
+           ord.area_manager_dep_id,
+           ord.area_manager_dep_name,
+           ord.bd_manager_id,
+           ord.bd_manager_name,
+           ord.bd_manager_dep_id,
+           ord.bd_manager_dep_name,
+           ord.service_user_id_freezed,
+           ord.service_department_id_freezed,
+           ord.service_user_name_freezed,
+           ord.service_feature_name_freezed,
+           ord.service_job_name_freezed,
+           ord.service_department_name_freezed,
+           ord.pay_time,
+           ord.pay_day,
+           ord.gmv - nvl(refund.refund_actual_amount, 0) as gmv_less_refund,
+           ord.gmv,
+           ord.pay_amount,
+           ord.pay_amount - nvl(refund.refund_actual_amount, 0) as pay_amount_less_refund
+           nvl(refund.refund_actual_amount, 0) as refund_actual_amount,
+           nvl(refund.refund_actual_amount, 0) as refund_retreat_amount,
+           ord.sale_team_id,
+           ord.category_id_first,
+           ord.category_id_second,
+           ord.category_id_third,
+           ord.item_id,
+           ord.brand_tag_code,
+           ord.brand_type,
+           shop_group_mapping.shop_group as shop_group,
+
+           --加工字段
            if(plan.merge_brand = '是', -1, brand_id) as brand_id,
            if(plan.merge_brand = '是', '-1', yt_crm.brand_series_match(brand_id, brand_series_id, plan.brand_key_value)) as brand_key,
            if(plan.merge_brand = '是', '合并品牌', brand_name) as brand_name,
+           if(if(plan.merge_brand = '是', '-1', yt_crm.brand_series_match(brand_id, brand_series_id, plan.brand_key_value)) = ord.brand_key, nvl(shop_brand_series_sign_day, shop_brand_sign_day), shop_brand_sign_day) as shop_brand_sign_day
+    FROM ord
+    cross join plan ON ord.dayid = split(plan.backward_date, ',')[0]
+    LEFT JOIN shop_group_mapping ON ord.shop_id = shop_group_mapping.group_shop_id AND ord.dayid = shop_group_mapping.dayid
+    LEFT JOIN refund ON ord.order_id = refund.order_id AND refund.dayid = if(ytdw.simple_expr(brand_id, 'in', unback_brand_value) = (case when unback_brand_operator = '!=' then 0 else 1 end), ord.dayid, '${v_date}')
+),
+
+sign as (
+    select /*+ mapjoin(plan) */
+           dayid,
+           no as planno,
+           brand_id,
+           brand_key,
+           brand_name,
            item_style,
            item_style_name,
            shop_id,
@@ -117,43 +173,36 @@ sign as (
            service_department_name_freezed,
            min(pay_time) as new_sign_time,
            min(pay_day) as new_sign_day,          --新签日期
-           min(if(if(plan.merge_brand = '是', '-1', yt_crm.brand_series_match(brand_id, brand_series_id, plan.brand_key_value)) = ord.brand_key, nvl(shop_brand_series_sign_day, shop_brand_sign_day), shop_brand_sign_day)) as shop_brand_sign_day,  --门店品牌新签时间
-           sum(gmv - nvl(refund.refund_actual_amount,0)) as gmv_less_refund,       --实货gmv-退款
+           min(shop_brand_sign_day) as shop_brand_sign_day,  --门店品牌新签时间
+           sum(gmv_less_refund) as gmv_less_refund,       --实货gmv-退款
            sum(gmv) as gmv,--实货gmv,
            sum(pay_amount) as pay_amount,--实货支付金额
-           sum(pay_amount - nvl(refund.refund_actual_amount,0)) as pay_amount_less_refund,--实货支付金额-退款
-           sum(nvl(refund.refund_actual_amount,0)) as refund_actual_amount,--实货退款
-           sum(nvl(refund.refund_retreat_amount,0)) as refund_retreat_amount,--实货清退金额
-           case when sum(gmv - nvl(refund.refund_actual_amount,0)) >= new_sign_line then '是' else '否' end as is_over_sign_line--是否满足新签门槛
-    from ord
-    cross join plan ON ord.dayid = split(plan.backward_date, ',')[0]
-    LEFT JOIN refund ON ord.order_id = refund.order_id AND refund.dayid = if(ytdw.simple_expr(brand_id, 'in', unback_brand_value) = (case when unback_brand_operator = '!=' then 0 else 1 end), ord.dayid, '${v_date}')
-    LEFT JOIN shop_group_mapping ON ord.shop_id = shop_group_mapping.group_shop_id AND ord.dayid = shop_group_mapping.dayid
-    where yt_crm.plan_calculate_date(plan.calculate_date, 'between', if(if(plan.merge_brand = '是', '-1', yt_crm.brand_series_match(brand_id, brand_series_id, plan.brand_key_value)) = ord.brand_key, nvl(shop_brand_series_sign_day, shop_brand_sign_day), shop_brand_sign_day)) = 'true'
+           sum(pay_amount_less_refund) as pay_amount_less_refund,--实货支付金额-退款
+           sum(refund_actual_amount) as refund_actual_amount,--实货退款
+           sum(refund_actual_amount) as refund_retreat_amount,--实货清退金额
+           case when sum(gmv_less_refund) >= new_sign_line then '是' else '否' end as is_over_sign_line--是否满足新签门槛
+    from before_sign
+    where yt_crm.plan_calculate_date(calculate_date, 'between', shop_brand_sign_day) = 'true'
     and pay_day <= calculate_date_value_end
-    and ytdw.simple_expr( sale_team_id,'in',sales_team_value)=(case when sales_team_operator ='=' then 1 else 0 end)
-    and ytdw.simple_expr( item_style_name,'in',item_style_value)=(case when item_style_operator ='=' then 1 else 0 end)
-    and ytdw.simple_expr( category_id_first,'in',category_first_value)=(case when category_first_operator ='=' then 1 else 0 end)
-    and ytdw.simple_expr( category_id_second,'in',category_second_value)=(case when category_second_operator ='=' then 1 else 0 end)
-    and ytdw.simple_expr( category_id_third, 'in', category_third_value) = (case when category_third_operator = '=' then 1 else 0 end)
-    and ytdw.simple_expr( brand_id,'in',brand_value)=(case when brand_operator ='=' then 1 else 0 end)
-    and ytdw.simple_expr( item_id, 'in', item_value) = (case when item_operator = '=' then 1 else 0 end)
-    and ytdw.simple_expr( war_zone_dep_id,'in',war_area_value)=(case when war_area_operator ='=' then 1 else 0 end)
-    and ytdw.simple_expr( area_manager_dep_id,'in',bd_area_value)=(case when bd_area_operator ='=' then 1 else 0 end)
-    and ytdw.simple_expr( bd_manager_dep_id,'in',manage_area_value)=(case when manage_area_operator ='=' then 1 else 0 end)
-    and ytdw.simple_expr(ord.brand_tag_code, 'in', brand_tag_value) = (case when brand_tag_operator = '=' then 1 else 0 end)
-    and ytdw.simple_expr(ord.brand_type, 'in', brand_type_value) = (case when brand_type_operator = '=' then 1 else 0 end)
-    and if(nvl(shop_group_mapping.shop_group, ord.shop_group) = '' OR shop_group_value = '', 0, ytdw.simple_expr(substr(shop_group_value, 2, length(shop_group_value) - 2), 'in', concat('[', nvl(shop_group_mapping.shop_group, ord.shop_group), ']'))) = (case when shop_group_operator ='=' then 1 else 0 end)
-    and (ytdw.simple_expr(ord.brand_id, 'in', brand_key_value) = (case when brand_key_operator = '=' then 1 else 0 end) OR ytdw.simple_expr(ord.brand_key, 'in', brand_key_value) = (case when brand_key_operator = '=' then 1 else 0 end))
-    group by ord.dayid,
-             plan.no,
-             plan.merge_brand,
+    and ytdw.simple_expr(sale_team_id,'in',sales_team_value) = (case when sales_team_operator ='=' then 1 else 0 end)
+    and ytdw.simple_expr(item_style_name,'in',item_style_value) = (case when item_style_operator ='=' then 1 else 0 end)
+    and ytdw.simple_expr(category_id_first,'in',category_first_value) = (case when category_first_operator ='=' then 1 else 0 end)
+    and ytdw.simple_expr(category_id_second,'in',category_second_value) = (case when category_second_operator ='=' then 1 else 0 end)
+    and ytdw.simple_expr(category_id_third, 'in', category_third_value) = (case when category_third_operator = '=' then 1 else 0 end)
+    and ytdw.simple_expr(brand_id,'in',brand_value) = (case when brand_operator ='=' then 1 else 0 end)
+    and ytdw.simple_expr(item_id, 'in', item_value) = (case when item_operator = '=' then 1 else 0 end)
+    and ytdw.simple_expr(war_zone_dep_id,'in',war_area_value) = (case when war_area_operator ='=' then 1 else 0 end)
+    and ytdw.simple_expr(area_manager_dep_id,'in',bd_area_value) = (case when bd_area_operator ='=' then 1 else 0 end)
+    and ytdw.simple_expr(bd_manager_dep_id,'in',manage_area_value) = (case when manage_area_operator ='=' then 1 else 0 end)
+    and ytdw.simple_expr(brand_tag_code, 'in', brand_tag_value) = (case when brand_tag_operator = '=' then 1 else 0 end)
+    and ytdw.simple_expr(brand_type, 'in', brand_type_value) = (case when brand_type_operator = '=' then 1 else 0 end)
+    and if(nvl(shop_group, shop_group) = '' OR shop_group_value = '', 0, ytdw.simple_expr(substr(shop_group_value, 2, length(shop_group_value) - 2), 'in', concat('[', nvl(shop_group, shop_group), ']'))) = (case when shop_group_operator ='=' then 1 else 0 end)
+    and (ytdw.simple_expr(brand_id, 'in', brand_key_value) = (case when brand_key_operator = '=' then 1 else 0 end) OR ytdw.simple_expr(brand_key, 'in', brand_key_value) = (case when brand_key_operator = '=' then 1 else 0 end))
+    group by dayid,
+             no,
              brand_id,
-             brand_series_id,
-             plan.brand_key_value,
-             if(plan.merge_brand = '是', -1, brand_id),
-             if(plan.merge_brand = '是', -1, yt_crm.brand_series_match(brand_id, brand_series_id, plan.brand_key_value)),
-             if(plan.merge_brand = '是', '合并品牌', brand_name),
+             brand_key,
+             brand_name,
              item_style,
              item_style_name,
              shop_id,
@@ -178,7 +227,7 @@ sign as (
              service_feature_name_freezed,
              service_job_name_freezed,
              service_department_name_freezed,
-             plan.new_sign_line
+             new_sign_line
 ),
 
 big_bd_manager as (
