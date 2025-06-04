@@ -7,7 +7,6 @@ with new_ord as (
     and bu_id=0
     and sp_id is null --剔除服务商订单
     and business_unit not in ('卡券票','其他')
-    and item_style=1
 ),
 
 old_ord as (
@@ -19,19 +18,32 @@ old_ord as (
     and bu_id=0
     and sp_id is null --剔除服务商订单
     and business_unit not in ('卡券票','其他')
-    and item_style=1
+),
+
+item as (
+    SELECT item_id,
+           brand_series_id,
+           brand_series_name
+    FROM ytdw.dim_ytj_itm_item_d
+    WHERE dayid = '${v_date}'
 ),
 
 ord_base as (
-    SELECT *
-    FROM new_ord
+    SELECT t.*,
+           item.brand_series_id,
+           item.brand_series_name
+    FROM (
+        SELECT *
+        FROM new_ord
 
-    UNION ALL
+        UNION ALL
 
-    SELECT old_ord.*
-    FROM old_ord
-    LEFT JOIN new_ord ON old_ord.order_id = new_ord.order_id
-    WHERE new_ord.order_id is null
+        SELECT old_ord.*
+        FROM old_ord
+        LEFT JOIN new_ord ON old_ord.order_id = new_ord.order_id
+        WHERE new_ord.order_id is null
+    ) t
+    LEFT JOIN item ON t.item_id = item.item_id
 )
 
 insert overwrite table dw_salary_sign_rule_public_mid_v2_d partition (dayid='${v_date}')
@@ -42,9 +54,9 @@ select order.order_id,
        category_id_second, --商品二级类目,
        category_id_first_name,
        category_id_second_name,
-       brand_id,
+       order.brand_id,
        brand_name,--商品品牌,
-       item_id,
+       order.item_id,
        item_name,--商品名称,
        item_style,
        item_style_name,--ab类型,
@@ -95,10 +107,24 @@ select order.order_id,
        		 when sale_team_freezed_name='美妆销售团队' then 5 else null end as sale_team_freezed_id,
        null as shop_group,
        category_id_third,
-       category_id_third_name
+       category_id_third_name,
+
+       --品牌标签
+       item.item_brand_tag_code,
+       item.item_brand_tag_name,
+
+       --品牌类型 大包小包
+       if(big_pack.brand_id is not null, '大包', '小包') as brand_type,
+
+       --品牌系列
+       order.brand_series_id,
+       order.brand_series_name,
+       order.shop_brand_series_sign_day,
+       order.shop_brand_series_sign_time
 --订单表
 from (
-    select order_id,trade_no,
+    select order_id,
+           trade_no,
            business_unit,--业务域,
            category_id_first,  --商品一级类目,
            category_id_second, --商品二级类目,
@@ -118,6 +144,8 @@ from (
            shop_item_sign_time,
            substr(shop_brand_sign_time,1,8) as shop_brand_sign_day,
            shop_brand_sign_time,
+           substr(shop_brand_series_sign_time,1,8) as shop_brand_series_sign_day,
+           shop_brand_series_sign_time,
            pay_time,
            pay_day,
            shop_id,
@@ -146,7 +174,11 @@ from (
            pay_amount,--实货支付金额
            gmv,--实货gmv,
            sale_team_name,
-      	   sale_team_freezed_name
+      	   sale_team_freezed_name,
+
+           --品牌系列
+           brand_series_id,
+           brand_series_name
     from (
         select order_id,
                trade_no,
@@ -162,8 +194,9 @@ from (
                item_id,
                item_name,--商品名称,
                item_style,
-               first_value(pay_time) over(partition by shop_id,item_id order by pay_time) as shop_item_sign_time,
-               first_value(pay_time) over(partition by shop_id,brand_id order by pay_time) as shop_brand_sign_time,
+               first_value(pay_time) over(partition by shop_id, item_id order by pay_time) as shop_item_sign_time,
+               first_value(pay_time) over(partition by shop_id, brand_id order by pay_time) as shop_brand_sign_time,
+               first_value(pay_time) over(partition by shop_id, brand_id, brand_series_id order by pay_time) as shop_brand_series_sign_time,
                pay_time,
                pay_day,
                shop_id,
@@ -176,10 +209,16 @@ from (
                pay_amount,--实货支付金额
                total_pay_amount as gmv,--实货gmv
         	   sale_team_name,
-        	   sale_team_freezed_name
+        	   sale_team_freezed_name,
+
+               --品牌系列
+               brand_series_id,
+               brand_series_name
         from ord_base
     ) order_mid
-    where substr(shop_brand_sign_time,1,8)>='${v_120_days_ago}' or substr(shop_item_sign_time,1,8)>='${v_120_days_ago}'
+    where substr(shop_brand_sign_time,1,8) >= '${v_120_days_ago}'
+    or substr(shop_item_sign_time,1,8) >= '${v_120_days_ago}'
+    or substr(shop_brand_series_sign_time,1,8) >= '${v_120_days_ago}'
 ) order
 
 --退款表
@@ -218,5 +257,21 @@ left join (
     from ytdw.dw_shop_base_d
     where dayid ='${v_date}'
 ) shop on order.shop_id=shop.shop_id
+
+--商品表
+LEFT JOIN (
+    SELECT item_id,
+           item_brand_tag_code,
+           item_brand_tag_name
+    FROM ytdw.dim_ytj_itm_item_d
+    WHERE dayid = '${v_date}'
+) item ON order.item_id = item.item_id
+
+-- 大包品
+LEFT JOIN (
+    SELECT brand_id
+    FROM yt_crm.ads_salary_base_big_package_brand_d
+    WHERE dayid = '${v_date}'
+) big_pack ON big_pack.brand_id = order.brand_id
 
 where spec_order.trade_no is null --过滤特殊订单
