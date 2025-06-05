@@ -1,4 +1,4 @@
-with new_ord as (
+with ord_base as (
     SELECT *
     FROM ytdw.dw_order_d
     WHERE dayid = '${v_date}'
@@ -9,15 +9,13 @@ with new_ord as (
     and business_unit not in ('卡券票','其他')
 ),
 
-old_ord as (
-    SELECT *
-    from ytdw.dw_order_d
-    where dayid ='20991231'
-    and pay_time is not null
-    and substr(pay_time, 1, 8) <= '${v_date}'
-    and bu_id=0
-    and sp_id is null --剔除服务商订单
-    and business_unit not in ('卡券票','其他')
+sign_day as (
+    select shop_id,
+           item_id,
+           min_pay_time as sign_time
+    from ytdw.dws_hpc_shop_item_new_sign_d
+    where dayid = '${v_date}'
+    and substr(min_pay_time, 1, 8) <= '${v_date}'
 ),
 
 item as (
@@ -28,22 +26,46 @@ item as (
     WHERE dayid = '${v_date}'
 ),
 
-ord_base as (
-    SELECT t.*,
+order_mid as (
+    select ord_base.order_id,
+           ord_base.trade_no,
+           ord_base.business_unit,--业务域,
+           ord_base.category_id_first,  --商品一级类目,
+           ord_base.category_id_second, --商品二级类目,
+           ord_base.category_id_first_name,
+           ord_base.category_id_second_name,
+           ord_base.category_id_third,
+           ord_base.category_id_third_name,
+           ord_base.brand_id,
+           ord_base.brand_name,--商品品牌,
+           ord_base.item_id,
+           ord_base.item_name,--商品名称,
+           ord_base.item_style,
+           ord_base.pay_time,
+           ord_base.pay_day,
+           ord_base.shop_id,
+           ord_base.shop_name,--门店名称,
+           ord_base.store_type,--门店类型,
+           ord_base.store_type_name,
+    	   ord_base.service_info_freezed,
+
+           --默认指标--
+           ord_base.pay_amount,--实货支付金额
+           ord_base.total_pay_amount as gmv,--实货gmv
+    	   ord_base.sale_team_name,
+    	   ord_base.sale_team_freezed_name,
+
+           --品牌系列
            item.brand_series_id,
-           item.brand_series_name
-    FROM (
-        SELECT *
-        FROM new_ord
+           item.brand_series_name,
 
-        UNION ALL
-
-        SELECT old_ord.*
-        FROM old_ord
-        LEFT JOIN new_ord ON old_ord.order_id = new_ord.order_id
-        WHERE new_ord.order_id is null
-    ) t
-    LEFT JOIN item ON t.item_id = item.item_id
+           --新签时间
+           first_value(sign_time) over(partition by ord_base.shop_id, ord_base.item_id order by sign_time) as shop_item_sign_time,
+           first_value(sign_time) over(partition by ord_base.shop_id, ord_base.brand_id order by sign_time) as shop_brand_sign_time,
+           first_value(sign_time) over(partition by ord_base.shop_id, ord_base.brand_id, item.brand_series_id order by sign_time) as shop_brand_series_sign_time
+    from ord_base
+    LEFT JOIN item ON ord_base.item_id = item.item_id
+    LEFT JOIN sign_day ON ord_base.shop_id = sign_day.shop_id and ord_base.item_id = sign_day.item_id
 )
 
 insert overwrite table dw_salary_sign_rule_public_mid_v2_d partition (dayid='${v_date}')
@@ -179,43 +201,7 @@ from (
            --品牌系列
            brand_series_id,
            brand_series_name
-    from (
-        select order_id,
-               trade_no,
-               business_unit,--业务域,
-               category_id_first,  --商品一级类目,
-               category_id_second, --商品二级类目,
-               category_id_first_name,
-               category_id_second_name,
-               category_id_third,
-               category_id_third_name,
-               brand_id,
-               brand_name,--商品品牌,
-               item_id,
-               item_name,--商品名称,
-               item_style,
-               first_value(pay_time) over(partition by shop_id, item_id order by pay_time) as shop_item_sign_time,
-               first_value(pay_time) over(partition by shop_id, brand_id order by pay_time) as shop_brand_sign_time,
-               first_value(pay_time) over(partition by shop_id, brand_id, brand_series_id order by pay_time) as shop_brand_series_sign_time,
-               pay_time,
-               pay_day,
-               shop_id,
-               shop_name,--门店名称,
-               store_type,--门店类型,
-               store_type_name,
-        	   service_info_freezed,
-
-               --默认指标--
-               pay_amount,--实货支付金额
-               total_pay_amount as gmv,--实货gmv
-        	   sale_team_name,
-        	   sale_team_freezed_name,
-
-               --品牌系列
-               brand_series_id,
-               brand_series_name
-        from ord_base
-    ) order_mid
+    from order_mid
     where substr(shop_brand_sign_time,1,8) >= '${v_120_days_ago}'
     or substr(shop_item_sign_time,1,8) >= '${v_120_days_ago}'
     or substr(shop_brand_series_sign_time,1,8) >= '${v_120_days_ago}'
