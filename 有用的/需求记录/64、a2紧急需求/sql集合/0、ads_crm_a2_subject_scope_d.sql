@@ -410,3 +410,33 @@ UNION ALL
 SELECT 11752 as subject_id, 0 as need_stats, 2 as shop_type, '复购' as subject_type
 UNION ALL
 SELECT 11753 as subject_id, 0 as need_stats, 2 as shop_type, '新签' as subject_type
+UNION ALL
+SELECT 11912 as subject_id, 1 as need_stats, 1 as shop_type, '复购' as subject_type
+UNION ALL
+SELECT 11913 as subject_id, 1 as need_stats, 1 as shop_type, '复购' as subject_type
+UNION ALL
+SELECT 11911 as subject_id, 1 as need_stats, 1 as shop_type, '新签' as subject_type
+UNION ALL
+SELECT 11903 as subject_id, 1 as need_stats, 1 as shop_type, '新签' as subject_type
+UNION ALL
+SELECT 11904 as subject_id, 1 as need_stats, 1 as shop_type, '新签' as subject_type
+UNION ALL
+SELECT 11905 as subject_id, 1 as need_stats, 1 as shop_type, '新签' as subject_type
+UNION ALL
+SELECT 11918 as subject_id, 0 as need_stats, 1 as shop_type, '复购' as subject_type
+UNION ALL
+SELECT 11919 as subject_id, 0 as need_stats, 1 as shop_type, '复购' as subject_type
+UNION ALL
+SELECT 11920 as subject_id, 0 as need_stats, 1 as shop_type, '新签' as subject_type
+UNION ALL
+SELECT 11921 as subject_id, 1 as need_stats, 2 as shop_type, '复购' as subject_type
+UNION ALL
+SELECT 11922 as subject_id, 1 as need_stats, 2 as shop_type, '复购' as subject_type
+UNION ALL
+SELECT 11923 as subject_id, 1 as need_stats, 2 as shop_type, '新签' as subject_type
+UNION ALL
+SELECT 11924 as subject_id, 0 as need_stats, 2 as shop_type, '复购' as subject_type
+UNION ALL
+SELECT 11925 as subject_id, 0 as need_stats, 2 as shop_type, '复购' as subject_type
+UNION ALL
+SELECT 11926 as subject_id, 0 as need_stats, 2 as shop_type, '新签' as subject_type
