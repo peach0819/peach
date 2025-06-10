@@ -131,3 +131,6 @@ SET indicator_desc =
   ]
 }'
 WHERE id IN (124);
+
+--当月拜访覆盖率不可见
+update t_crm_visit_indicator_visible_v2 set is_deleted = 1 WHERE indicator_id = 124;
