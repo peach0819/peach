@@ -1,5 +1,7 @@
 package com.peach.algo;
 
+import com.peach.algo.base.Node;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,23 +27,6 @@ import java.util.List;
  * 著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
  */
 public class LC590_n_ary_tree_postorder_traversal {
-
-    class Node {
-
-        public int val;
-        public List<Node> children;
-
-        public Node() {}
-
-        public Node(int _val) {
-            val = _val;
-        }
-
-        public Node(int _val, List<Node> _children) {
-            val = _val;
-            children = _children;
-        }
-    }
 
     public List<Integer> postorder(Node root) {
         List<Integer> result = new ArrayList<>();

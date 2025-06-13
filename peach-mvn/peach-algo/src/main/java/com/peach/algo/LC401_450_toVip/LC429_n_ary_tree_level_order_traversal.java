@@ -1,5 +1,7 @@
 package com.peach.algo.LC401_450_toVip;
 
+import com.peach.algo.base.Node;
+
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -23,23 +25,6 @@ import java.util.Map;
  * 著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
  */
 public class LC429_n_ary_tree_level_order_traversal {
-
-    class Node {
-
-        public int val;
-        public List<Node> children;
-
-        public Node() {}
-
-        public Node(int _val) {
-            val = _val;
-        }
-
-        public Node(int _val, List<Node> _children) {
-            val = _val;
-            children = _children;
-        }
-    }
 
     public List<List<Integer>> levelOrder(Node root) {
         Map<Integer, List<Integer>> deptMap = new LinkedHashMap<>();
