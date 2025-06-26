@@ -21,7 +21,7 @@ import java.util.List;
  * n 不含前导 0
  * n 代表在 [1, 1018 - 1] 范围内的整数
  */
-public class LC565_find_the_closest_palindrome {
+public class LC564_find_the_closest_palindrome {
 
     public String nearestPalindromic(String n) {
         long selfNumber = Long.parseLong(n), ans = -1;
