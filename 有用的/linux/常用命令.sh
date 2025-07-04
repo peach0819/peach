@@ -40,9 +40,9 @@ ${pre_month_where} 是指从当前定义的局部变量里面取值
 
 # dump 内存
 jmap -dump:live,format=b,file=/alidata/log/heap-dump.hprof  37
-tar -czf hsp09182.tar.gz heap-dump.hprof
+tar -czf peach0703.tar.gz heap-dump.hprof
 curl ftp://172.16.222.129/dump/hsp0918.hprof -u ftpadmin:hipac.228 -T /alidata/log/heap-dump.hprof
-curl ftp://172.16.222.129/dump/hsp09182.tar.gz -u ftpadmin:hipac.228 -T /alidata/log/hsp09182.tar.gz
+curl ftp://172.16.222.129/dump/peach0703.tar.gz -u ftpadmin:hipac.228 -T /alidata/log/peach0703.tar.gz
 
 
 # 看一个日志第几行的内容
