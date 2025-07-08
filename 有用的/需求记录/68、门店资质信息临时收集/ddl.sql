@@ -1,0 +1,20 @@
+CREATE TABLE `t_crm_shop_qualification_temp` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `creator` varchar(32) NOT NULL DEFAULT '' COMMENT '创建人id',
+  `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `editor` varchar(32) DEFAULT '' COMMENT '修改人id',
+  `edit_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
+  `is_deleted` tinyint(1) NOT NULL DEFAULT '0' COMMENT '是否有效 1无效 0有效',
+  `shop_id` varchar(32) NOT NULL DEFAULT '' COMMENT '门店id',
+  `shop_license_photo` varchar(255) DEFAULT NULL COMMENT '营业执照照片',
+  `shop_license_code` varchar(128) DEFAULT NULL COMMENT '门店营业执照编码(统一社会信用代码)',
+  `shop_license_name` varchar(128) DEFAULT NULL COMMENT '门店营业执照名称',
+  `card_photo_front` varchar(255) DEFAULT NULL COMMENT '身份证正面',
+  `card_photo_back` varchar(255) DEFAULT NULL COMMENT '身份证反面',
+  `shop_license_person` varchar(32) DEFAULT NULL COMMENT '营业执照法人',
+  `shop_license_person_card_id` varchar(32) DEFAULT NULL COMMENT '法人身份证',
+  `check_status` tinyint(1) NOT NULL DEFAULT '0' COMMENT '校验状态 0校验通过 1校验未通过',
+  `check_message` varchar(255) DEFAULT NULL COMMENT '校验信息',
+  PRIMARY KEY (`id`),
+  KEY `idx_shop_id` (`shop_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='门店资质临时收集信息';
