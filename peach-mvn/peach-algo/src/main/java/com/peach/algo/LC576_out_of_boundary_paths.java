@@ -56,7 +56,7 @@ public class LC576_out_of_boundary_paths {
     }
 
     public int findPaths1(int m, int n, int maxMove, int startRow, int startColumn) {
-        this.dp = new int[m][n][maxMove + 1];
+        this.dp = new long[m][n][maxMove + 1];
         this.m = m;
         this.n = n;
         this.maxMove = maxMove;
