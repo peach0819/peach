@@ -6,3 +6,4 @@ CREATE TABLE IF NOT EXISTS ads_crm_shop_stats_d
     has_duty        BIGINT COMMENT '是否有打卡 1:有 0:无',
     extra           STRING COMMENT '额外信息'
 ) PARTITIONED BY (dayid STRING);
+
