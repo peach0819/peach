@@ -260,7 +260,7 @@ SELECT /*+ mapjoin(user) */
            'month_hospital_visit_valid_rate_denominator', count(if(array_contains(visible.indicator_config, 'month_hospital_visit_valid_rate'), sub.user_id, null))
        )) as biz_value
 FROM user
-INNER JOIN user sub ON user.user_root_key = sub.user_root_key OR locate(user.user_root_key, sub.user_parent_root_key) > 0 --表示contains
+INNER JOIN user sub ON user.user_root_key = sub.user_root_key OR locate(user.user_id, sub.user_parent_root_key) > 0 --表示contains
 INNER JOIN indicator ON indicator.user_id = sub.user_id
 LEFT JOIN visible ON visible.user_id = sub.user_id
 group by indicator.data_month, user.user_id
@@ -336,7 +336,7 @@ SELECT /*+ mapjoin(user) */
            'month_hospital_visit_valid_rate_denominator', count(if(array_contains(visible.indicator_config, 'month_hospital_visit_valid_rate'), sub.user_id, null))
        )) as biz_value
 FROM user
-INNER JOIN user sub ON locate(user.user_root_key, sub.user_parent_root_key) > 0 --表示contains
+INNER JOIN user sub ON locate(user.user_id, sub.user_parent_root_key) > 0 --表示contains
 INNER JOIN indicator ON indicator.user_id = sub.user_id
 LEFT JOIN visible ON visible.user_id = sub.user_id
 group by indicator.data_month, user.user_id
@@ -412,7 +412,7 @@ SELECT /*+ mapjoin(user) */
            'month_hospital_visit_valid_rate_denominator', count(if(array_contains(visible.indicator_config, 'month_hospital_visit_valid_rate'), sub.user_id, null))
        )) as biz_value
 FROM user
-INNER JOIN user sub ON user.user_root_key = sub.user_root_key OR locate(user.user_root_key, sub.user_parent_root_key) > 0 --表示contains
+INNER JOIN user sub ON user.user_root_key = sub.user_root_key OR locate(user.user_id, sub.user_parent_root_key) > 0 --表示contains
 INNER JOIN indicator ON indicator.user_id = sub.user_id
 INNER JOIN virtual_group ON virtual_group.leader_id = user.user_id
 LEFT JOIN visible ON visible.user_id = sub.user_id
@@ -491,7 +491,7 @@ SELECT /*+ mapjoin(user,virtual_group) */
            'month_hospital_visit_valid_rate_denominator', count(if(array_contains(visible.indicator_config, 'month_hospital_visit_valid_rate'), sub.user_id, null))
        )) as biz_value
 FROM user
-INNER JOIN user sub ON user.user_root_key = sub.user_root_key OR locate(user.user_root_key, sub.user_parent_root_key) > 0 --表示contains
+INNER JOIN user sub ON user.user_root_key = sub.user_root_key OR locate(user.user_id, sub.user_parent_root_key) > 0 --表示contains
 INNER JOIN indicator ON indicator.user_id = sub.user_id
 INNER JOIN virtual_group ON sub.user_root_key like concat('%', virtual_group.leader_id, '%') --表示contains
 LEFT JOIN visible ON visible.user_id = sub.user_id
