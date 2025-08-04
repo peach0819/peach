@@ -25,7 +25,7 @@ import java.util.Map;
  */
 public class OpenApiUtil {
 
-    public static String syncPush(String api, String data, Env env) {
+    public static String syncPush(String api, String data, OpenEnv env) {
         try {
             //第一步 .构建参数
             Map<String, String> paramMap = new HashMap<>();
@@ -114,41 +114,6 @@ public class OpenApiUtil {
             } catch (NoSuchAlgorithmException e) {
                 throw new RuntimeException(e);
             }
-        }
-    }
-
-    enum Env {
-
-        MASTER("HIPAC91", "11c80b2461aed9c663ea89d144784634", "master", "https://master-openapi.hipac.cn"),
-
-        PROD("HIPAC2018050210020252", "1d63a1267912731d8224a54c402e464c", "prod", "https://openapi.hipac.cn");
-
-        private final String appKey;
-        private final String secret;
-        private final String env;
-        private final String host;
-
-        public String getAppKey() {
-            return appKey;
-        }
-
-        public String getSecret() {
-            return secret;
-        }
-
-        public String getEnv() {
-            return env;
-        }
-
-        public String getHost() {
-            return host;
-        }
-
-        Env(String appKey, String secret, String env, String host) {
-            this.appKey = appKey;
-            this.secret = secret;
-            this.env = env;
-            this.host = host;
         }
     }
 }

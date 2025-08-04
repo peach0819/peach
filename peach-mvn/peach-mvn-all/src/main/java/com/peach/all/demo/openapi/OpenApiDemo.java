@@ -1,7 +1,6 @@
 package com.peach.all.demo.openapi;
 
 import com.alibaba.fastjson.JSON;
-import org.essentials4j.New;
 
 /**
  * @author feitao.zt
@@ -10,16 +9,15 @@ import org.essentials4j.New;
 public class OpenApiDemo {
 
     public static void main(String[] args) {
-        //ElnVersionForm versionForm = new ElnVersionForm();
-        //versionForm.setVersionType(1);
-        //String result = OpenApiUtil.syncPush("hipac.crm.shopdanonesync.createVersion", JSON.toJSONString(versionForm),
-        //        OpenApiUtil.Env.PROD);
+        //WyethVisitSyncForm form = new WyethVisitSyncForm();
+        //form.setVisitId("1234531232");
+        //form.setAuditResult(true);
+        //OpenApiUtil.syncPush("hipac.crm.open.wyeth.visitSyncPush", JSON.toJSONString(form), OpenEnv.WYETH_MASTER);
 
-        ElnVersionSyncForm<ElnVersionSyncSpcDutyForm> form = new ElnVersionSyncForm<>();
-        form.setVersionId(2L);
-        form.setLastPage(false);
-        form.setDataList(New.list(new ElnVersionSyncSpcDutyForm("REM2024082112244411065296", 0)));
-        OpenApiUtil.syncPush("hipac.crm.shopdanonesync.syncSpcDuty", JSON.toJSONString(form), OpenApiUtil.Env.PROD);
+        WyethShopSyncForm form = new WyethShopSyncForm();
+        form.setWyethStoreCode("1234531232");
+        form.setAuditResult(true);
+        OpenApiUtil.syncPush("hipac.crm.open.wyeth.storeAuditNotify", JSON.toJSONString(form), OpenEnv.WYETH_MASTER);
     }
 
 }
