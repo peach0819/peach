@@ -450,3 +450,13 @@ UNION ALL
 SELECT 12214 as subject_id, 1 as need_stats, 1 as shop_type, '复购' as subject_type
 UNION ALL
 SELECT 12215 as subject_id, 1 as need_stats, 1 as shop_type, '复购' as subject_type
+UNION ALL
+SELECT 12353 as subject_id, 1 as need_stats, 1 as shop_type, '新签' as subject_type
+UNION ALL
+SELECT 12354 as subject_id, 1 as need_stats, 1 as shop_type, '新签' as subject_type
+UNION ALL
+SELECT 12355 as subject_id, 1 as need_stats, 1 as shop_type, '复购' as subject_type
+UNION ALL
+SELECT 12356 as subject_id, 1 as need_stats, 1 as shop_type, '复购' as subject_type
+UNION ALL
+SELECT 12357 as subject_id, 1 as need_stats, 1 as shop_type, '复购' as subject_type
