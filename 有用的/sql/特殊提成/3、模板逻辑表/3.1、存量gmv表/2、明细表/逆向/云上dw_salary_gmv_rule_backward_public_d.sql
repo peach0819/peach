@@ -141,6 +141,7 @@ ord as (
     FROM yt_crm.dw_salary_gmv_rule_public_mid_v2_d d
     LEFT JOIN shop_group_mapping ON d.shop_id = shop_group_mapping.group_shop_id AND d.dayid = shop_group_mapping.dayid
     where d.dayid > '0'
+    AND (d.dayid = '${v_date}' OR (d.dayid < concat('${v_cur_month}', '01') AND d.dayid > concat('${v_pre_12_month}', '01')))
 ),
 
 big_bd_manager as (
