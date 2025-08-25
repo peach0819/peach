@@ -14,10 +14,7 @@ import java.util.List;
 @Slf4j
 public class TestApplication {
 
-    public static void main(String[] args) {
-        List<String> tagNameList = getTagNameList("1,2,3,4,5,6");
-        System.out.println(tagNameList);
-    }
+
 
     /**
      * 获取拆分后的标签列表

@@ -12,7 +12,9 @@ public enum OpenEnv {
 
     WYETH_MASTER("HIPAC106", "b497bd1570365eb2cab207a8de9b8c2e", "master", "https://master-openapi.hipac.cn"),
 
-    WYETH_PROD("HIPAC2018050210020333", "ae62271af784e2ce3ad613f4da806660", "prod", "https://openapi.hipac.cn");
+    WYETH_PROD("HIPAC2018050210020332", "9de69327281943583a20c3dbd58338b3", "prod", "https://openapi.hipac.cn"),
+
+    WYETH_PRE("HIPAC2018050210020332", "9de69327281943583a20c3dbd58338b3", "pre", "https://pre-openapi.hipac.cn");
 
     private final String appKey;
     private final String secret;

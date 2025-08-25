@@ -14,9 +14,9 @@ public class WyethShopSyncForm implements Serializable {
     private static final long serialVersionUID = 1003337898764984842L;
 
     /**
-     * 惠氏门店编码
+     * 统一信用代码
      */
-    private String wyethStoreCode;
+    private String uscc;
 
     /**
      * 审核结果 true通过 false不通过
