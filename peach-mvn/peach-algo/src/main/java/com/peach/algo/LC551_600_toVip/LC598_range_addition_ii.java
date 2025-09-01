@@ -1,4 +1,4 @@
-package com.peach.algo;
+package com.peach.algo.LC551_600_toVip;
 
 /**
  * @author feitao.zt
