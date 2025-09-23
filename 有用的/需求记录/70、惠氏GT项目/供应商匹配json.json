@@ -1,0 +1,240 @@
+[
+  {
+    "areaName": "东莞市",
+    "distributorCode": "SD4673",
+    "supplierCode": "SD4519",
+    "strategyCode": "SD4519",
+    "areaId": "247"
+  },
+  {
+    "areaName": "东营市",
+    "distributorCode": "SD4681",
+    "supplierCode": "SD4532",
+    "strategyCode": "SD4532",
+    "areaId": "173"
+  },
+  {
+    "areaName": "中山市",
+    "distributorCode": "SD4676",
+    "supplierCode": "SD4519",
+    "strategyCode": "SD4519",
+    "areaId": "248"
+  },
+  {
+    "areaName": "云浮市",
+    "distributorCode": "SD4672",
+    "supplierCode": "SD4519",
+    "strategyCode": "SD4519",
+    "areaId": "251"
+  },
+  {
+    "areaName": "佛山市",
+    "distributorCode": "SD4676",
+    "supplierCode": "SD4519",
+    "strategyCode": "SD4519",
+    "areaId": "236"
+  },
+  {
+    "areaName": "威海市",
+    "distributorCode": "SD4679",
+    "supplierCode": "SD4532",
+    "strategyCode": "SD4532",
+    "areaId": "178"
+  },
+  {
+    "areaName": "广州市",
+    "distributorCode": "SD4673",
+    "supplierCode": "SD4519",
+    "strategyCode": "SD4519",
+    "areaId": "231"
+  },
+  {
+    "areaName": "德州市",
+    "distributorCode": "SD4681",
+    "supplierCode": "SD4532",
+    "strategyCode": "SD4532",
+    "areaId": "182"
+  },
+  {
+    "areaName": "惠州市",
+    "distributorCode": "SD4673",
+    "supplierCode": "SD4519",
+    "strategyCode": "SD4519",
+    "areaId": "241"
+  },
+  {
+    "areaName": "揭阳市",
+    "distributorCode": "SD4673",
+    "supplierCode": "SD4519",
+    "strategyCode": "SD4519",
+    "areaId": "250"
+  },
+  {
+    "areaName": "梅州市",
+    "distributorCode": "SD4675",
+    "supplierCode": "SD4519",
+    "strategyCode": "SD4519",
+    "areaId": "242"
+  },
+  {
+    "areaName": "汕头市",
+    "distributorCode": "SD4673",
+    "supplierCode": "SD4519",
+    "strategyCode": "SD4519",
+    "areaId": "235"
+  },
+  {
+    "areaName": "汕尾市",
+    "distributorCode": "SD4673",
+    "supplierCode": "SD4519",
+    "strategyCode": "SD4519",
+    "areaId": "243"
+  },
+  {
+    "areaName": "江门市",
+    "distributorCode": "SD4676",
+    "supplierCode": "SD4519",
+    "strategyCode": "SD4519",
+    "areaId": "237"
+  },
+  {
+    "areaName": "河源市",
+    "distributorCode": "SD4675",
+    "supplierCode": "SD4519",
+    "strategyCode": "SD4519",
+    "areaId": "244"
+  },
+  {
+    "areaName": "泰安市",
+    "distributorCode": "SD4680",
+    "supplierCode": "SD4532",
+    "strategyCode": "SD4532",
+    "areaId": "177"
+  },
+  {
+    "areaName": "济南市",
+    "distributorCode": "SD4681",
+    "supplierCode": "SD4532",
+    "strategyCode": "SD4532",
+    "areaId": "169"
+  },
+  {
+    "areaName": "济宁市",
+    "distributorCode": "SD4680",
+    "supplierCode": "SD4532",
+    "strategyCode": "SD4532",
+    "areaId": "176"
+  },
+  {
+    "areaName": "淄博市",
+    "distributorCode": "SD4680",
+    "supplierCode": "SD4532",
+    "strategyCode": "SD4532",
+    "areaId": "171"
+  },
+  {
+    "areaName": "深圳市",
+    "distributorCode": "SD4676",
+    "supplierCode": "SD4519",
+    "strategyCode": "SD4519",
+    "areaId": "233"
+  },
+  {
+    "areaName": "清远市",
+    "distributorCode": "SD4675",
+    "supplierCode": "SD4519",
+    "strategyCode": "SD4519",
+    "areaId": "246"
+  },
+  {
+    "areaName": "湛江市",
+    "distributorCode": "SD4672",
+    "supplierCode": "SD4519",
+    "strategyCode": "SD4519",
+    "areaId": "238"
+  },
+  {
+    "areaName": "滨州市",
+    "distributorCode": "SD4681",
+    "supplierCode": "SD4532",
+    "strategyCode": "SD4532",
+    "areaId": "184"
+  },
+  {
+    "areaName": "潍坊市",
+    "distributorCode": "SD4681",
+    "supplierCode": "SD4532",
+    "strategyCode": "SD4532",
+    "areaId": "175"
+  },
+  {
+    "areaName": "潮州市",
+    "distributorCode": "SD4673",
+    "supplierCode": "SD4519",
+    "strategyCode": "SD4519",
+    "areaId": "249"
+  },
+  {
+    "areaName": "烟台市",
+    "distributorCode": "SD4679",
+    "supplierCode": "SD4532",
+    "strategyCode": "SD4532",
+    "areaId": "174"
+  },
+  {
+    "areaName": "珠海市",
+    "distributorCode": "SD4676",
+    "supplierCode": "SD4519",
+    "strategyCode": "SD4519",
+    "areaId": "234"
+  },
+  {
+    "areaName": "聊城市",
+    "distributorCode": "SD4681",
+    "supplierCode": "SD4532",
+    "strategyCode": "SD4532",
+    "areaId": "183"
+  },
+  {
+    "areaName": "肇庆市",
+    "distributorCode": "SD4676",
+    "supplierCode": "SD4519",
+    "strategyCode": "SD4519",
+    "areaId": "240"
+  },
+  {
+    "areaName": "茂名市",
+    "distributorCode": "SD4672",
+    "supplierCode": "SD4519",
+    "strategyCode": "SD4519",
+    "areaId": "239"
+  },
+  {
+    "areaName": "菏泽市",
+    "distributorCode": "SD4680",
+    "supplierCode": "SD4532",
+    "strategyCode": "SD4532",
+    "areaId": "185"
+  },
+  {
+    "areaName": "阳江市",
+    "distributorCode": "SD4672",
+    "supplierCode": "SD4519",
+    "strategyCode": "SD4519",
+    "areaId": "245"
+  },
+  {
+    "areaName": "青岛市",
+    "distributorCode": "SD4679",
+    "supplierCode": "SD4532",
+    "strategyCode": "SD4532",
+    "areaId": "170"
+  },
+  {
+    "areaName": "韶关市",
+    "distributorCode": "SD4675",
+    "supplierCode": "SD4519",
+    "strategyCode": "SD4519",
+    "areaId": "232"
+  }
+]
