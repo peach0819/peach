@@ -1,4 +1,4 @@
-package com.peach.algo;
+package com.peach.algo.LC601_650_toVip;
 
 import com.google.common.collect.Lists;
 
