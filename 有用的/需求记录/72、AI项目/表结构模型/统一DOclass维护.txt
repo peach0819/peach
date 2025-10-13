@@ -1,0 +1,55 @@
+########com.yt.crm.dal.crm.BaseDO
+package com.yt.crm.dal.crm;
+
+import lombok.Data;
+import java.io.Serializable;
+import java.util.Date;
+
+@Data
+public class BaseDO implements Serializable {
+
+    private static final long serialVersionUID = 1614155142612556395L;
+    private Date createTime;
+    private Date editTime;
+    private String creator;
+    private String editor;
+    private Integer isDeleted;
+}
+
+########com.yt.crm.dal.crm.visitaction.entity.VisitActionTaskDO
+package com.yt.crm.dal.crm.visitaction.entity;
+
+import com.yt.crm.dal.crm.BaseDO;
+import lombok.Data;
+
+@Data
+public class VisitActionTaskDO extends BaseDO {
+
+    private Long id;
+    private String name;
+    private String desc;
+    private Integer status;
+}
+
+########com.yt.crm.dal.crm.visitaction.entity.VisitActionTaskContentDO
+package com.yt.crm.dal.crm.visitaction.entity;
+
+import com.yt.crm.dal.crm.BaseDO;
+import lombok.Data;
+
+@Data
+public class VisitActionTaskContentDO extends BaseDO {
+
+    private Long id;
+    private Integer status;
+    private Long taskId;
+    private Integer taskType;
+    private Integer teamType;
+    private String jobId;
+    private Integer contentType;
+    private String dmpId;
+    private Integer strategyId;
+    private Long brandId;
+    private Long brandSeriesId;
+    private String actionConfig;
+}

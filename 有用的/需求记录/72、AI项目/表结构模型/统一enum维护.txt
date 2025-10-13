@@ -1,0 +1,91 @@
+#########com.yt.crm.biz.visitaction.enums.VisitActionTaskStatusEnum
+package com.yt.crm.biz.visitaction.enums;
+
+import lombok.AllArgsConstructor;
+
+@AllArgsConstructor
+public enum VisitActionTaskStatusEnum {
+
+    VALID(0, "生效中"),
+
+    INVALID(1, "已失效");
+
+    private final Integer code;
+    private final String desc;
+}
+
+#########com.yt.crm.biz.visitaction.enums.VisitActionTaskContentStatusEnum
+package com.yt.crm.biz.visitaction.enums;
+
+import lombok.AllArgsConstructor;
+
+@AllArgsConstructor
+public enum VisitActionTaskContentStatusEnum {
+
+    VALID(0, "生效中"),
+
+    INVALID(1, "已失效");
+
+    private final Integer code;
+    private final String desc;
+}
+
+#########com.yt.crm.biz.visitaction.enums.VisitActionTaskTypeEnum
+package com.yt.crm.biz.visitaction.enums;
+
+import lombok.AllArgsConstructor;
+
+@AllArgsConstructor
+public enum VisitActionTaskTypeEnum {
+
+    BEFORE_SALE(0, "卖进前"),
+
+    AFTER_SALE(1, "卖进后");
+
+    private final Integer code;
+    private final String desc;
+}
+
+#########com.yt.crm.biz.visitaction.enums.VisitActionTaskTeamTypeEnum
+package com.yt.crm.biz.visitaction.enums;
+
+import lombok.AllArgsConstructor;
+
+@AllArgsConstructor
+public enum VisitActionTaskTeamTypeEnum {
+
+    BD(0, "BD团队");
+
+    private final Integer code;
+    private final String desc;
+}
+
+#########com.yt.crm.biz.visitaction.enums.VisitActionTaskContentTypeEnum
+package com.yt.crm.biz.visitaction.enums;
+
+import lombok.AllArgsConstructor;
+
+@AllArgsConstructor
+public enum VisitActionTaskContentTypeEnum {
+
+    MANUAL(0, "人工设定"),
+
+    STRATEGY(1, "系统策略");
+
+    private final Integer code;
+    private final String desc;
+}
+
+########com.yt.crm.biz.visitaction.enums.VisitActionTaskStrategyEnum
+package com.yt.crm.biz.visitaction.enums;
+
+import lombok.AllArgsConstructor;
+
+@AllArgsConstructor
+public enum VisitActionTaskStrategyEnum {
+
+    BUY_INVENTORY(1, "必拍+库存策略（仅限卖进后）");
+
+    private final Integer code;
+    private final String desc;
+}

@@ -1,0 +1,36 @@
+DO类：com.yt.crm.dal.crm.visitaction.entity.VisitActionTaskContentDO
+
+@content_status
+枚举: com.yt.crm.biz.visitaction.enums.VisitActionTaskContentStatusEnum
+
+@task_id
+外键: t_crm_visit_action_task.id
+条件描述: 同一个task_id下，存在多个记录，仅最新一条记录的content_status=0，其他的content_status=1
+
+@task_type
+枚举: com.yt.crm.biz.visitaction.enums.VisitActionTaskTypeEnum
+
+@team_type
+枚举: com.yt.crm.biz.visitaction.enums.VisitActionTaskTeamTypeEnum
+
+@job_id
+Json: List<Long>
+
+@content_type
+枚举: com.yt.crm.biz.visitaction.enums.VisitActionTaskContentTypeEnum
+
+@dmp_id
+条件描述: 仅content_type=1有数据
+
+@brand_id
+条件描述: 仅content_type=0有数据
+
+@brand_series_id
+条件描述: 仅content_type=0有数据
+
+@strategy_id
+条件描述: 仅content_type=1有数据
+枚举: com.yt.crm.biz.visitaction.enums.VisitActionTaskStrategyEnum
+
+@action_config
+Json: List<com.yt.crm.biz.visitaction.dto.VisitActionTaskActionDTO>

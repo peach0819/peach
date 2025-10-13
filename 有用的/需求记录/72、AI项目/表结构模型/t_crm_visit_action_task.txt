@@ -1,0 +1,4 @@
+DO类：com.yt.crm.dal.crm.visitaction.entity.VisitActionTaskDO
+
+@task_status
+枚举: com.yt.crm.biz.visitaction.enums.VisitActionTaskStatusEnum
