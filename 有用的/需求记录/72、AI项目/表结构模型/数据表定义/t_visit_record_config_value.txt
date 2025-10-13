@@ -1,0 +1,4 @@
+DO类:com.yt.crm.dal.crm.visit.entity.VisitRecordConfigValueDO
+
+@extra_json
+Json: com.yt.crm.biz.visit.domain.OnlineVisitAimConfigExtraDTO

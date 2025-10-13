@@ -1,0 +1,41 @@
+DO类：com.yangt.cif.dal.visitrecord.entity.VisitRecordDO
+
+@recordType
+枚举: com.yangt.cif.visitrecord.domain.enums.RecordTypeEnum
+
+@visitor_json
+Json：com.yangt.cif.biz.service.visitrecord.domain.dto.VisitorDTO
+
+@object_json
+Json：com.yangt.cif.biz.service.visitrecord.domain.dto.VisitObjectDTO
+
+@visit_mode
+枚举：record_type = 3时 com.yangt.cif.visitrecord.domain.enums.OffLineVisitModeEnum
+      record_type = 4时 com.yangt.cif.visitrecord.domain.enums.OnLineVisitModeEnum
+
+@visit_type
+枚举: record_type = 3时 com.yangt.cif.visitrecord.domain.enums.OffLineVisitTypeEnum
+     record_type = 4时 com.yangt.cif.visitrecord.domain.enums.OnLineVisitTypeEnum
+
+@visit_aims_type
+枚举: record_type = 3时 com.crm.app.api.visit.enums.VisitAimsTypeEnum
+外键: record_type = 4时 t_visit_record_config_value.id
+条件描述: 多个Long类型拜访目的，通过逗号分割
+
+@visit_status
+枚举: com.yangt.cif.visitrecord.domain.enums.RecordVisitStatusEnum
+
+@linker_json
+Json: com.yangt.cif.biz.service.visitrecord.domain.dto.LinkerDTO
+
+@position_json
+Json: com.yangt.cif.biz.service.visitrecord.domain.dto.PositionDTO
+
+@file_json
+Json: com.yangt.cif.biz.service.visitrecord.domain.dto.VisitFileDTO
+
+@verify_status
+枚举: com.yangt.cif.visitrecord.domain.enums.RecordVerifyStatusEnum
+
+@extra_json
+Json: com.yt.crm.biz.visit.domain.VisitExtraDTO
