@@ -1,3 +1,6 @@
+数据库类型：mysql
+库名：crm
+表名：t_crm_visit_action_task
 DO类：com.yt.crm.dal.crm.visitaction.entity.VisitActionTaskDO
 
 @task_status

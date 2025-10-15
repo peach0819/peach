@@ -1,3 +1,6 @@
+数据库类型：mysql
+库名：crm
+表名：t_visit_record_config_value
 DO类:com.yt.crm.dal.crm.visit.entity.VisitRecordConfigValueDO
 
 @extra_json

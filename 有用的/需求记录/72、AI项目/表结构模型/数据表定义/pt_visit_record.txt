@@ -1,3 +1,6 @@
+数据库类型：mysql
+库名：crm
+表名：pt_visit_record_0
 DO类：com.yangt.cif.dal.visitrecord.entity.VisitRecordDO
 
 @recordType
