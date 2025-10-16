@@ -472,3 +472,15 @@ UNION ALL
 SELECT 12594 as subject_id, 1 as need_stats, 1 as shop_type, '复购' as subject_type
 UNION ALL
 SELECT 12663 as subject_id, 1 as need_stats, 1 as shop_type, '新签' as subject_type
+UNION ALL
+SELECT 12906 as subject_id, 1 as need_stats, 1 as shop_type, '新签' as subject_type
+UNION ALL
+SELECT 12909 as subject_id, 1 as need_stats, 1 as shop_type, '新签' as subject_type
+UNION ALL
+SELECT 12911 as subject_id, 1 as need_stats, 1 as shop_type, '复购' as subject_type
+UNION ALL
+SELECT 12912 as subject_id, 1 as need_stats, 1 as shop_type, '复购' as subject_type
+UNION ALL
+SELECT 12905 as subject_id, 1 as need_stats, 1 as shop_type, '新签' as subject_type
+UNION ALL
+SELECT 12904 as subject_id, 1 as need_stats, 1 as shop_type, '新签' as subject_type
