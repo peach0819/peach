@@ -157,7 +157,7 @@ SELECT user_shop.shop_id,
        ,']', '') as user_list
 FROM user_shop
 left join feature_group on user_shop.service_feature_id = feature_group.feature_id
-LEFT JOIN dept ON user_shop.dept_id = dept.dept_id AND dept.root_key like concat('%',feature_group.dept_root_key,'%')
+LEFT JOIN dept ON user_shop.dept_id = dept.dept_id AND dept.root_key like concat('%\_', feature_group.dept_root_key, '\_%')
 WHERE user_shop.dept_id != 0
 AND user_shop.user_id != ''
 group by user_shop.shop_id,
