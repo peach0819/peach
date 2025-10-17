@@ -3,7 +3,8 @@ INSERT OVERWRITE TABLE ads_crm_subject_feature_group_d partition (dayid='${v_dat
 select 1 as feature_type,
        3 AS group_type,
        '1,5,12,14' AS feature_ids,
-       '32' as dept_root_key
+       '32' as dept_root_key,
+       'bd' as group_type_tag
 
 UNION ALL
 
@@ -11,7 +12,8 @@ UNION ALL
 select 1 as feature_type,
        4 AS group_type,
        '21' AS feature_ids,
-       '1804' as dept_root_key
+       '1804' as dept_root_key,
+       'cbd' as group_type_tag
 
 UNION ALL
 
@@ -19,7 +21,8 @@ UNION ALL
 select 2 as feature_type,
        1 AS group_type,
        '2,6,7,13,15' AS feature_ids,
-       '63' as dept_root_key
+       '63' as dept_root_key,
+       'ts' as group_type_tag
 
 UNION ALL
 
@@ -27,7 +30,8 @@ UNION ALL
 select 2 as feature_type,
        2 AS group_type,
        '40,41' AS feature_ids,
-       '2211' as dept_root_key
+       '2211' as dept_root_key,
+       'vs' as group_type_tag
 
 UNION ALL
 
@@ -35,4 +39,5 @@ UNION ALL
 select 2 as feature_type,
        5 AS group_type,
        '68' AS feature_ids,
-       '1945' as dept_root_key
+       '1945' as dept_root_key,
+       'zhpdx' as group_type_tag
