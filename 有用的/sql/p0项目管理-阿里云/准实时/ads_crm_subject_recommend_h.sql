@@ -3,21 +3,24 @@
 --@exclude_input=ytdw.ods_vf_pt_order_shop
 --@exclude_input=ytdw.ods_vf_t_p0_subject
 --@exclude_input=ytdw.ods_vf_t_p0_subject_shop
-WITH shop_saler as (
-	SELECT
-        if(nvl(ts.shop_id,'')='',vs.shop_id,ts.shop_id) as shop_id,
-        ts.user_id AS ts_user_id,
-        ts.dept_id AS ts_dept_id,
-        ts.parent_dept_id AS ts_parent_dept_id,
-        ts.parent_2_dept_id AS ts_parent_2_dept_id,
-        vs.user_id AS vs_user_id,
-        vs.dept_id AS vs_dept_id,
-        vs.parent_dept_id AS vs_parent_dept_id,
-        vs.parent_2_dept_id AS vs_parent_2_dept_id
-    FROM
-    (select * from yt_crm.ads_crm_shop_user_d WHERE dayid = '${v_date}' and feature_type = 'ts')ts
-    FULL JOIN
-    (select * from yt_crm.ads_crm_shop_user_d WHERE dayid = '${v_date}' and feature_type = 'vs')vs on ts.shop_id=vs.shop_id
+WITH shop_user as (
+    select *
+    from yt_crm.ads_crm_subject_shop_user_d
+    WHERE dayid = '${v_date}'
+),
+
+shop_saler as (
+	SELECT if(nvl(ts.shop_id,'')='',vs.shop_id,ts.shop_id) as shop_id,
+           ts.user_id AS ts_user_id,
+           ts.dept_id AS ts_dept_id,
+           ts.parent_dept_id AS ts_parent_dept_id,
+           ts.parent_2_dept_id AS ts_parent_2_dept_id,
+           vs.user_id AS vs_user_id,
+           vs.dept_id AS vs_dept_id,
+           vs.parent_dept_id AS vs_parent_dept_id,
+           vs.parent_2_dept_id AS vs_parent_2_dept_id
+    FROM (select * from shop_user WHERE group_type_tag = 'ts') ts
+    FULL JOIN (select * from shop_user WHERE group_type_tag = 'vs') vs on ts.shop_id = vs.shop_id
 )
 
 INSERT OVERWRITE TABLE ads_crm_subject_recommend_h PARTITION (dayid='${v_date}')
@@ -97,8 +100,7 @@ FROM (
 	GROUP BY subject_shop.shop_id
 ) shop_subject
 left JOIN shop_saler ON shop_subject.shop_id = shop_saler.shop_id
-left join
-(select * FROM ytdw.dw_shop_base_d WHERE dayid='${v_date}')shop on shop.shop_id=shop_subject.shop_id
+left join (select * FROM ytdw.dw_shop_base_d WHERE dayid='${v_date}') shop on shop.shop_id=shop_subject.shop_id
 LEFT JOIN (
 	SELECT shop_id,
            visit_frequency,
@@ -119,17 +121,17 @@ LEFT JOIN (
 		AND bu_id = 0
 	) all_order
 	JOIN (
-			SELECT id
-			FROM ytdw.dwd_item_d
-			WHERE dayid = '${v_date}'
-			AND item_style = 0
-		) item ON all_order.item_id = item.id
+		SELECT id
+		FROM ytdw.dwd_item_d
+		WHERE dayid = '${v_date}'
+		AND item_style = 0
+	) item ON all_order.item_id = item.id
 	LEFT JOIN (
-			SELECT order_id,
-                   sp_id
-			FROM ytdw.ods_vf_t_sp_order_snapshot
-			WHERE is_deleted = 0
-		) sp_order ON all_order.order_id = sp_order.order_id
+		SELECT order_id,
+               sp_id
+		FROM ytdw.ods_vf_t_sp_order_snapshot
+		WHERE is_deleted = 0
+	) sp_order ON all_order.order_id = sp_order.order_id
 	WHERE sp_order.sp_id IS NULL
 	GROUP BY shop_id
 ) shop_pay ON shop_subject.shop_id = shop_pay.shop_id
