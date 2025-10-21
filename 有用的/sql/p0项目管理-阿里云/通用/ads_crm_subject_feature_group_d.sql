@@ -41,3 +41,12 @@ select 2 as feature_type,
        '68' AS feature_ids,
        '1945' as dept_root_key,
        'zhpdx' as group_type_tag
+
+UNION ALL
+
+--品直电销团队
+SELECT 2 AS feature_type,
+       6 AS group_type,
+       '70' AS feature_ids,
+       '63' as dept_root_key,
+       'pznfdx' as group_type_tag
