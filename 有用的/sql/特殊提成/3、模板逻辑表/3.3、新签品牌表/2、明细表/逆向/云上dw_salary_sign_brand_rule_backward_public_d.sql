@@ -72,6 +72,8 @@ ord as (
     select *,
            if(brand_series_id is null, brand_id, concat(brand_id, '_', brand_series_id)) as brand_key
     from yt_crm.dw_salary_sign_rule_public_mid_v2_d
+    where dayid > '0'
+    AND (dayid = '${v_date}' OR (dayid < concat('${v_cur_month}', '01') AND dayid > concat('${v_pre_12_month}', '01')))
 ),
 
 refund as (
