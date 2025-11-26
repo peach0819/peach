@@ -17,3 +17,8 @@ nJVT2XqB8hHWOpNm
 rm-bp1hsz883pfmy5xvz.mysql.rds.aliyuncs.com
 query
 j0S5Z0NxRtcYmH8B
+
+线上-美赞-新集群
+rm-wz9ud54ata429d221.mysql.rds.aliyuncs.com
+query
+j0S5Z0NxRtcYmH8B
