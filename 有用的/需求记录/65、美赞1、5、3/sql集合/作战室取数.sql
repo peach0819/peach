@@ -1,7 +1,7 @@
 with user as (
     SELECT user_id, user_real_name
     FROM p_mdson.ads_crm_visit_user_d
-    WHERE dayid = '20250527'
+    WHERE dayid = '20251204'
 ),
 
 data as (
@@ -49,8 +49,8 @@ data as (
            get_json_object(biz_value, '$.month_hospital_visit_valid_rate_numerator') as month_hospital_visit_valid_rate_numerator,
            get_json_object(biz_value, '$.month_hospital_visit_valid_rate_denominator') as month_hospital_visit_valid_rate_denominator
     FROM p_mdson.ads_crm_visit_user_indicator_v2_d
-    WHERE dayid = '20250527'
-    AND data_month = '2025-05'
+    WHERE dayid = '20251204'
+    AND data_month = '2025-12'
     AND user_id NOT IN ('admin')
 )
 
