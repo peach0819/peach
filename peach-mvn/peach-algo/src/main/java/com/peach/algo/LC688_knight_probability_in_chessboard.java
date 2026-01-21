@@ -43,8 +43,7 @@ public class LC688_knight_probability_in_chessboard {
         while (begin < k) {
             begin++;
             Queue<int[]> newQueue = new LinkedBlockingQueue<>();
-            while (!queue.isEmpty()) {
-                int[] cur = queue.poll();
+            for (int[] cur : queue) {
                 for (int[] index : indexList) {
                     int x = cur[0] + index[0];
                     int y = cur[1] + index[1];
