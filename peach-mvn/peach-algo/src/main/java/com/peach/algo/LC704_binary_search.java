@@ -30,14 +30,8 @@ public class LC704_binary_search {
     }
 
     private int search(int begin, int end) {
-        if (nums[begin] == target) {
-            return begin;
-        }
-        if (nums[end] == target) {
-            return end;
-        }
-        //二分法，因为mid是向下取整，所以左边搜索用Mid, 右边搜索用mid+1
-        if (begin == end) {
+        //这样好记，前半用-1，后半用+1
+        if (begin > end) {
             return -1;
         }
         int mid = (begin + end) / 2;
