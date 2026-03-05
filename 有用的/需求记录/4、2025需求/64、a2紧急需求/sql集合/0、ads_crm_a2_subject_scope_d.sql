@@ -484,3 +484,5 @@ UNION ALL
 SELECT 12905 as subject_id, 1 as need_stats, 1 as shop_type, '新签' as subject_type
 UNION ALL
 SELECT 12904 as subject_id, 1 as need_stats, 1 as shop_type, '新签' as subject_type
+UNION ALL
+SELECT 13866 as subject_id, 1 as need_stats, 1 as shop_type, '新签' as subject_type
