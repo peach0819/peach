@@ -14,6 +14,9 @@ INNER JOIN (
 		FROM t_crm_visit_target_content
 		GROUP BY target_id
 	)
+	AND is_deleted = 0
 ) c ON t.id = c.target_id
-WHERE t.data_month IN ('2026-02', '2026-03')
+WHERE t.data_month IN ('2026-03')
+AND t.is_deleted = 0
+AND inuse = 0
 order by data_month, id
