@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>大商家组 : 触达中心降价通知技术方案</title>
+        <link rel="stylesheet" href="styles/site.css" type="text/css" />
+        <META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    </head>
+
+    <body class="theme-default aui-theme-default">
+        <div id="page">
+            <div id="main" class="aui-page-panel">
+                <div id="main-header">
+                    <div id="breadcrumb-section">
+                        <ol id="breadcrumbs">
+                            <li class="first">
+                                <span><a href="index.html">大商家组</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="82552158.html">触达中心</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="86620182.html">4、日常需求</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="158620599.html">2023需求</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="2023-Q3_123611191.html">2023 Q3</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="126987190.html">触达中心降价通知</a></span>
+                            </li>
+                                                </ol>
+                    </div>
+                    <h1 id="title-heading" class="pagetitle">
+                                                <span id="title-text">
+                            大商家组 : 触达中心降价通知技术方案
+                        </span>
+                    </h1>
+                </div>
+
+                <div id="content" class="view">
+                    <div class="page-metadata">
+                        
+        
+    
+        
+    
+        
+        
+            Created by <span class='author'> tao.zheng8833</span>, last modified on 2023-09-22
+                        </div>
+                    <div id="main-content" class="wiki-content group">
+                    <p><style type='text/css'>/*<![CDATA[*/
+div.rbtoc1775789066428 {padding: 0px;}
+div.rbtoc1775789066428 ul {list-style: disc;margin-left: 0px;}
+div.rbtoc1775789066428 li {margin-left: 0px;padding-left: 0px;}
+
+/*]]>*/</style><div class='toc-macro rbtoc1775789066428'>
+<ul class='toc-indentation'>
+<li><a href='#id-触达中心降价通知技术方案-一、背景'>一、背景</a></li>
+<li><a href='#id-触达中心降价通知技术方案-二、业务目标'>二、业务目标</a></li>
+<li><a href='#id-触达中心降价通知技术方案-三、产品描述'>三、产品描述</a></li>
+<li><a href='#id-触达中心降价通知技术方案-四、名词/术语解释'>四、名词/术语解释</a></li>
+<li><a href='#id-触达中心降价通知技术方案-五、用例'>五、用例</a></li>
+<li><a href='#id-触达中心降价通知技术方案-六、业务流程'>六、业务流程</a></li>
+<li><a href='#id-触达中心降价通知技术方案-七、领域模型'>七、领域模型</a></li>
+<li><a href='#id-触达中心降价通知技术方案-八、系统设计'>八、系统设计</a>
+<ul class='toc-indentation'>
+<li><a href='#id-触达中心降价通知技术方案-1、影响点'>1、影响点</a></li>
+<li><a href='#id-触达中心降价通知技术方案-2、系统架构'>2、系统架构</a></li>
+<li><a href='#id-触达中心降价通知技术方案-3、核心处理流程'>3、核心处理流程</a>
+<ul class='toc-indentation'>
+<li><a href='#id-触达中心降价通知技术方案-VS策略流程'>VS策略流程</a></li>
+<li><a href='#id-触达中心降价通知技术方案-母婴策略流程'>母婴策略流程</a></li>
+<li><a href='#id-触达中心降价通知技术方案-触达流程'>触达流程</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href='#id-触达中心降价通知技术方案-九、类图'>九、类图</a></li>
+<li><a href='#id-触达中心降价通知技术方案-十、数据库设计'>十、数据库设计</a></li>
+<li><a href='#id-触达中心降价通知技术方案-十一、搜索设计'>十一、搜索设计</a></li>
+<li><a href='#id-触达中心降价通知技术方案-十二、接口设计'>十二、接口设计</a>
+<ul class='toc-indentation'>
+<li><a href='#id-触达中心降价通知技术方案-1、HOP接口'>1、HOP接口</a></li>
+</ul>
+</li>
+<li><a href='#id-触达中心降价通知技术方案-十三、涉及数仓的设计'>十三、涉及数仓的设计</a></li>
+<li><a href='#id-触达中心降价通知技术方案-十四、中间件配置相关'>十四、中间件配置相关</a></li>
+<li><a href='#id-触达中心降价通知技术方案-十五、非功能性需求'>十五、非功能性需求</a></li>
+</ul>
+</div></p><h2 id="id-触达中心降价通知技术方案-一、背景">一、背景</h2><ol><li>业务调研，发现较多客户并不知道平台有在售卖自己所需的商品，且不知道所售商品价格更低，且经常有降价。</li><li>价格敏感型门店，降价信息较为关注，需要尽可能及时通知，促成转化。但是现在人工自己比较价格，效率完全无法跟上。</li></ol><h2 id="id-触达中心降价通知技术方案-二、业务目标">二、业务目标</h2><p><span style="color: rgb(0,0,0);">两个运营团队，对于重点监控价格商品，30天GMV环比，保底20%增长率。（见下图）</span></p><p><br/></p><h2 id="id-触达中心降价通知技术方案-三、产品描述">三、产品描述</h2><ol><li><span>基于一定逻辑，千店千面的形式，监控商品价格变化，找出降价商品</span></li><li>通过触达策略，对降价商品粗排、精排、过滤，找出门店最匹配的商品</li><li>触达中心系统任务可以执行AI外呼和App弹窗，把降价信息推送出去</li></ol><h2 id="id-触达中心降价通知技术方案-四、名词/术语解释">四、名词/术语解释</h2><h2 id="id-触达中心降价通知技术方案-五、用例"><span>五、用例</span></h2><p><span><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/126989006/126989043.png" data-image-src="attachments/126989006/126989043.png" data-unresolved-comment-count="0" data-linked-resource-id="126989043" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2023-9-18_10-43-52.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="126989006" data-linked-resource-container-version="11"></span></span></p><h2 id="id-触达中心降价通知技术方案-六、业务流程">六、业务流程</h2><p><span style="color: rgb(255,0,0);">          <span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/126989006/126989042.png" data-image-src="attachments/126989006/126989042.png" data-unresolved-comment-count="0" data-linked-resource-id="126989042" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2023-9-18_10-43-25.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="126989006" data-linked-resource-container-version="11"></span></span></p><h2 id="id-触达中心降价通知技术方案-七、领域模型">七、领域模型</h2><p><br/></p><p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/126989006/126989767.png" data-image-src="attachments/126989006/126989767.png" data-unresolved-comment-count="0" data-linked-resource-id="126989767" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2023-9-19_15-0-41.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="126989006" data-linked-resource-container-version="11"></span></p><h2 id="id-触达中心降价通知技术方案-八、系统设计">八、系统设计</h2><h4 id="id-触达中心降价通知技术方案-1、影响点">1、影响点</h4><div class="table-wrap"><table class="confluenceTable"><colgroup><col/><col/></colgroup><tbody><tr><th class="confluenceTh"><p>模块</p><p>***************</p></th><th class="confluenceTh"><p>影响点</p><p>*****************************************</p></th></tr><tr><td rowspan="3" class="confluenceTd">任务配置</td><td class="confluenceTd"><p>推送策略支持动态配置渠道、变量类型</p></td></tr><tr><td colspan="1" class="confluenceTd">新增降价通知策略，隐藏P0物流，现金券策略</td></tr><tr><td colspan="1" class="confluenceTd">通用DMP重复任务支持AI外呼渠道</td></tr><tr><td colspan="1" class="confluenceTd">触达渠道</td><td colspan="1" class="confluenceTd">新增弹窗渠道</td></tr></tbody></table></div><h4 id="id-触达中心降价通知技术方案-2、系统架构"><span style="color: rgb(255,0,0);"><span style="color: rgb(0,0,0);">2、系统架构</span></span></h4><p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/126989006/126990997.png" data-image-src="attachments/126989006/126990997.png" data-unresolved-comment-count="0" data-linked-resource-id="126990997" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2023-9-22_16-58-7.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="126989006" data-linked-resource-container-version="11"></span></p><h4 id="id-触达中心降价通知技术方案-3、核心处理流程">3、核心处理流程</h4><h5 id="id-触达中心降价通知技术方案-VS策略流程">VS策略流程</h5><p><span style="color: rgb(255,0,0);"><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/126989006/126990118.png" data-image-src="attachments/126989006/126990118.png" data-unresolved-comment-count="0" data-linked-resource-id="126990118" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2023-9-20_14-17-55.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="126989006" data-linked-resource-container-version="11"></span></span></p><p><br/></p><h5 id="id-触达中心降价通知技术方案-母婴策略流程"><span style="color: rgb(0,51,102);">母婴策略流程</span></h5><p><span style="color: rgb(0,51,102);"><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/126989006/126990120.png" data-image-src="attachments/126989006/126990120.png" data-unresolved-comment-count="0" data-linked-resource-id="126990120" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2023-9-20_14-18-33.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="126989006" data-linked-resource-container-version="11"></span></span></p><p><br/></p><h5 id="id-触达中心降价通知技术方案-触达流程"><span style="color: rgb(0,51,102);">触达流程</span></h5><p><span style="color: rgb(0,51,102);"><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/126989006/126990999.png" data-image-src="attachments/126989006/126990999.png" data-unresolved-comment-count="0" data-linked-resource-id="126990999" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2023-9-22_16-59-31.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="126989006" data-linked-resource-container-version="11"></span></span></p><p><br/></p><p>       </p><h2 id="id-触达中心降价通知技术方案-九、类图">九、类图</h2><h2 id="id-触达中心降价通知技术方案-十、数据库设计">十、数据库设计</h2><h2 id="id-触达中心降价通知技术方案-十一、搜索设计">十一、搜索设计</h2><h2 id="id-触达中心降价通知技术方案-十二、接口设计">十二、接口设计</h2><h4 id="id-触达中心降价通知技术方案-1、HOP接口">1、HOP接口</h4><div class="table-wrap"><table class="wrapped confluenceTable"><colgroup><col/><col/><col/><col/><col/></colgroup><tbody><tr><th class="confluenceTh">接口功能描述</th><th class="confluenceTh">接口名称</th><th colspan="1" class="confluenceTh">变更类型（新增/更新）</th><th class="confluenceTh">hop地址</th><th colspan="1" class="confluenceTh">变更描述</th></tr><tr><td class="confluenceTd">查询系统任务详情</td><td class="confluenceTd">hipac.touch.system.queryDetail</td><td colspan="1" class="confluenceTd">新增</td><td class="confluenceTd"><a class="external-link" href="https://master-adminapi.yangtuojia.com/add-update.do?apiId=49052108&amp;opType=3&amp;selEnv=6721" rel="nofollow">https://master-adminapi.yangtuojia.com/add-update.do?apiId=49052108&amp;opType=3&amp;selEnv=6721</a></td><td colspan="1" class="confluenceTd">替换原先接口</td></tr><tr><td class="confluenceTd">保存系统任务</td><td class="confluenceTd">hipac.touch.system.save</td><td colspan="1" class="confluenceTd">新增</td><td class="confluenceTd"><a class="external-link" href="https://master-adminapi.yangtuojia.com/add-update.do?apiId=49052107&amp;opType=3&amp;selEnv=6721" rel="nofollow">https://master-adminapi.yangtuojia.com/add-update.do?apiId=49052107&amp;opType=3&amp;selEnv=6721</a></td><td colspan="1" class="confluenceTd">替换原先接口，原先新增和编辑接口合并，传id表示编辑</td></tr><tr><td colspan="1" class="confluenceTd">查询系统任务列表</td><td colspan="1" class="confluenceTd">hipac.touch.system.querySystemTaskList</td><td colspan="1" class="confluenceTd">更新</td><td colspan="1" class="confluenceTd"><a class="external-link" href="https://master-adminapi.yangtuojia.com/add-update.do?apiId=49051387&amp;opType=3&amp;selEnv=6721" rel="nofollow">https://master-adminapi.yangtuojia.com/add-update.do?apiId=49051387&amp;opType=3&amp;selEnv=6721</a></td><td colspan="1" class="confluenceTd">查询和返回值都新增channelType渠道类型</td></tr><tr><td colspan="1" class="confluenceTd">查询系统任务策略列表</td><td colspan="1" class="confluenceTd">hipac.touch.system.querySystemBizTypeConfig</td><td colspan="1" class="confluenceTd">更新</td><td colspan="1" class="confluenceTd"><a class="external-link" href="https://master-adminapi.yangtuojia.com/add-update.do?apiId=49051391&amp;opType=3&amp;selEnv=6721" rel="nofollow">https://master-adminapi.yangtuojia.com/add-update.do?apiId=49051391&amp;opType=3&amp;selEnv=6721</a></td><td colspan="1" class="confluenceTd">新增字段channelTypes 支持渠道类型列表</td></tr><tr><td colspan="1" class="confluenceTd">查询AI外呼任务推送进度</td><td colspan="1" class="confluenceTd"><span style="color: rgb(51,51,51);">hipac.touchcenter.task.statistics</span></td><td colspan="1" class="confluenceTd">更新</td><td colspan="1" class="confluenceTd"><a class="external-link" href="https://master-adminapi.yangtuojia.com/add-update.do?apiId=49051540&amp;opType=3&amp;selEnv=6721" rel="nofollow">https://master-adminapi.yangtuojia.com/add-update.do?apiId=49051540&amp;opType=3&amp;selEnv=6721</a></td><td colspan="1" class="confluenceTd">入参新增instanceId字段，用于系统任务查询</td></tr></tbody></table></div><h2 id="id-触达中心降价通知技术方案-十三、涉及数仓的设计">十三、涉及数仓的设计</h2><h2 id="id-触达中心降价通知技术方案-十四、中间件配置相关">十四、中间件配置相关</h2><h2 id="id-触达中心降价通知技术方案-十五、非功能性需求"><span>十五、非功能性需求</span></h2><p><br/></p><p><br/></p><p><br/></p><p><br/></p><p><br/></p>
+                    </div>
+
+                                        <div class="pageSection group">
+                        <div class="pageSectionHeader">
+                            <h2 id="attachments" class="pageSectionTitle">Attachments:</h2>
+                        </div>
+
+                        <div class="greybox" align="left">
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/126989006/126989007.png">图片 1.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/126989006/126989042.png">image2023-9-18_10-43-25.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/126989006/126989043.png">image2023-9-18_10-43-52.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/126989006/126989767.png">image2023-9-19_15-0-41.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/126989006/126989771.png">image2023-9-19_15-11-34.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/126989006/126990118.png">image2023-9-20_14-17-55.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/126989006/126990120.png">image2023-9-20_14-18-33.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/126989006/126990126.png">image2023-9-20_14-41-48.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/126989006/126990997.png">image2023-9-22_16-58-7.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/126989006/126990999.png">image2023-9-22_16-59-31.png</a> (image/png)
+                                <br/>
+                                                    </div>
+                    </div>
+                    
+                 
+                </div>             </div> 
+            <div id="footer" role="contentinfo">
+                <section class="footer-body">
+                    <p>Document generated by Confluence on 2026-04-10 10:44</p>
+                    <div id="footer-logo"><a href="http://www.atlassian.com/">Atlassian</a></div>
+                </section>
+            </div>
+        </div>     </body>
+</html>

@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>大商家组 : 企微基础数据问题点</title>
+        <link rel="stylesheet" href="styles/site.css" type="text/css" />
+        <META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    </head>
+
+    <body class="theme-default aui-theme-default">
+        <div id="page">
+            <div id="main" class="aui-page-panel">
+                <div id="main-header">
+                    <div id="breadcrumb-section">
+                        <ol id="breadcrumbs">
+                            <li class="first">
+                                <span><a href="index.html">大商家组</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="82552158.html">触达中心</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="86620182.html">4、日常需求</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="158620601.html">2024需求</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="2024-Q2_133359508.html">2024 Q2</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="133359510.html">触达产品化</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="133362346.html">Saas化</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="133362511.html">2）基础数据接入模块</a></span>
+                            </li>
+                                                </ol>
+                    </div>
+                    <h1 id="title-heading" class="pagetitle">
+                                                <span id="title-text">
+                            大商家组 : 企微基础数据问题点
+                        </span>
+                    </h1>
+                </div>
+
+                <div id="content" class="view">
+                    <div class="page-metadata">
+                        
+        
+    
+        
+    
+        
+        
+            Created by <span class='author'> tao.zheng8833</span>, last modified on 2024-03-29
+                        </div>
+                    <div id="main-content" class="wiki-content group">
+                    <h3 id="id-企微基础数据问题点-通讯录企微数据">通讯录企微数据</h3><p>海拍客批量获取通讯录成员的api：<a class="external-link" href="https://developer.work.weixin.qq.com/document/path/90337" rel="nofollow">https://developer.work.weixin.qq.com/document/path/90337</a></p><p>目前海拍客主体下是通过企微主体secret获取企微信息</p><p><a class="external-link" href="https://developer.work.weixin.qq.com/document/path/90337" rel="nofollow"><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" height="250" src="attachments/133362375/133362379.png" data-image-src="attachments/133362375/133362379.png" data-unresolved-comment-count="0" data-linked-resource-id="133362379" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2024-3-25_15-39-42.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133362375" data-linked-resource-container-version="4"></span></a></p><p><br/></p><p>后续如果通过Saas化需要同步三方数据，仅可使用获取成员ID列表接口：<a class="external-link" href="https://developer.work.weixin.qq.com/document/path/96021" rel="nofollow">https://developer.work.weixin.qq.com/document/path/96021</a></p><p>通过三方应用转换接口：<a class="external-link" href="https://developer.work.weixin.qq.com/document/path/95884" rel="nofollow">https://developer.work.weixin.qq.com/document/path/95884</a>，将openuserid转换为userid</p><p>并且此接口只能获取到企微userid，其他什么都不返回</p><p><br/></p><p><br/></p><p>所以这边需要强依赖破解版ipad协议来获取通讯录相关企微数据</p><p><br/></p><h3 id="id-企微基础数据问题点-客户数据">客户数据</h3><p>客户数据需要通过【批量获取客户信息接口】获取：<a class="external-link" href="https://developer.work.weixin.qq.com/document/path/92994" rel="nofollow">https://developer.work.weixin.qq.com/document/path/92994</a></p><p>由于saas化客户企微数据作为三方主体，这边需要进行代开发应用配置，以获取权限，代开发应用创建方式：<a class="external-link" href="https://zhuanlan.zhihu.com/p/448216480" rel="nofollow">https://zhuanlan.zhihu.com/p/448216480</a></p><p>首先需要成为企业微信服务商：</p><p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133362375/133363412.png" data-image-src="attachments/133362375/133363412.png" data-unresolved-comment-count="0" data-linked-resource-id="133363412" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2024-3-29_10-16-2.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133362375" data-linked-resource-container-version="4"></span></p><p>三方应用创建流程：<a class="external-link" href="https://developer.work.weixin.qq.com/document/path/90594" rel="nofollow">https://developer.work.weixin.qq.com/document/path/90594</a></p><p>配置效果参考涂色在海拍客主体下的配置：</p><p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133362375/133362499.png" data-image-src="attachments/133362375/133362499.png" data-unresolved-comment-count="0" data-linked-resource-id="133362499" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2024-3-26_10-11-18.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133362375" data-linked-resource-container-version="4"></span></p>
+                    </div>
+
+                                        <div class="pageSection group">
+                        <div class="pageSectionHeader">
+                            <h2 id="attachments" class="pageSectionTitle">Attachments:</h2>
+                        </div>
+
+                        <div class="greybox" align="left">
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/133362375/133362379.png">image2024-3-25_15-39-42.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/133362375/133362499.png">image2024-3-26_10-11-18.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/133362375/133363412.png">image2024-3-29_10-16-2.png</a> (image/png)
+                                <br/>
+                                                    </div>
+                    </div>
+                    
+                 
+                </div>             </div> 
+            <div id="footer" role="contentinfo">
+                <section class="footer-body">
+                    <p>Document generated by Confluence on 2026-04-10 10:44</p>
+                    <div id="footer-logo"><a href="http://www.atlassian.com/">Atlassian</a></div>
+                </section>
+            </div>
+        </div>     </body>
+</html>

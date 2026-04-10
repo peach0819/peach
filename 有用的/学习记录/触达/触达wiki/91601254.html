@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>大商家组 : 1.触达中心算法压测-20220328-压测报告</title>
+        <link rel="stylesheet" href="styles/site.css" type="text/css" />
+        <META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    </head>
+
+    <body class="theme-default aui-theme-default">
+        <div id="page">
+            <div id="main" class="aui-page-panel">
+                <div id="main-header">
+                    <div id="breadcrumb-section">
+                        <ol id="breadcrumbs">
+                            <li class="first">
+                                <span><a href="index.html">大商家组</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="82552158.html">触达中心</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="91598069.html">5、系统分析&amp;保障</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="115115082.html">1）性能相关</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="91598075.html">1.触达中心系统计算时长测试-20220328</a></span>
+                            </li>
+                                                </ol>
+                    </div>
+                    <h1 id="title-heading" class="pagetitle">
+                                                <span id="title-text">
+                            大商家组 : 1.触达中心算法压测-20220328-压测报告
+                        </span>
+                    </h1>
+                </div>
+
+                <div id="content" class="view">
+                    <div class="page-metadata">
+                        
+        
+    
+        
+    
+        
+        
+            Created by <span class='author'> 宋芷君</span>, last modified on 2022-04-24
+                        </div>
+                    <div id="main-content" class="wiki-content group">
+                    <h2 id="id-1.触达中心算法压测20220328压测报告-一、测试结论：">一、测试结论：</h2><p>1、业务要求系统计算时长不得超过30分钟（算法计算时长不得超过20分钟)。当算法QPS阈值=80情况下，可满足业务方快且稳的需求。各个策略计算时长最快10分钟，最慢17分钟。</p><div class="table-wrap"><table class="relative-table wrapped confluenceTable" style="width: 89.0953%;"><colgroup><col style="width: 7.80399%;"/><col style="width: 20.3267%;"/><col style="width: 11.706%;"/><col style="width: 11.706%;"/><col style="width: 10.98%;"/><col style="width: 7.53176%;"/><col style="width: 29.9456%;"/></colgroup><tbody><tr><th class="confluenceTh">阈值</th><th class="confluenceTh"><span style="color: rgb(23,43,77);">小程序列表新签推品-活动</span></th><th class="confluenceTh">query召回</th><th class="confluenceTh">大长尾日常复购</th><th colspan="1" class="confluenceTh">奶粉价格表</th><th colspan="1" class="confluenceTh">资源负载（all）</th><th colspan="1" class="confluenceTh">备注</th></tr><tr><td class="confluenceTd">60</td><td class="confluenceTd">18分钟</td><td class="confluenceTd">--</td><td class="confluenceTd">--</td><td colspan="1" class="confluenceTd">--</td><td colspan="1" class="confluenceTd">无波动</td><td colspan="1" class="confluenceTd">发现性能不如80，所以60阈值其他策略没有测试的必要了。</td></tr><tr><td class="confluenceTd">80</td><td class="confluenceTd">10分钟</td><td class="confluenceTd">17分钟</td><td class="confluenceTd">16分钟</td><td colspan="1" class="confluenceTd">14分钟</td><td colspan="1" class="confluenceTd">无波动</td><td colspan="1" class="confluenceTd"><br/></td></tr><tr><td class="confluenceTd">100</td><td class="confluenceTd">13分钟</td><td class="confluenceTd">--</td><td class="confluenceTd">--</td><td colspan="1" class="confluenceTd">--</td><td colspan="1" class="confluenceTd">无波动</td><td colspan="1" class="confluenceTd">发现虽然提高了QPS，但是发现性能反倒不如80的配置，所以其他策略没有测试的必要了。</td></tr><tr><td colspan="1" class="confluenceTd">120</td><td colspan="1" class="confluenceTd">16分钟</td><td colspan="1" class="confluenceTd">--</td><td colspan="1" class="confluenceTd">--</td><td colspan="1" class="confluenceTd">12分钟</td><td colspan="1" class="confluenceTd">无波动</td><td colspan="1" class="confluenceTd">发现QPS提高到上游业务可接收的最大值，无论是营销策略还是非营销策略，性能都呈下滑趋势。所以其他策略没有测试的必要了。</td></tr></tbody></table></div><p>2、技术摸底测试：当QPS阈值调整到最大值（200）时。系统计算时长呈下滑趋势。各个业务系统资源负载无压力，但由于ai-match受本身数据库的性能影响，总体计算时长下滑。所以摸底测试没有继续测试的必要了。待后续解决ai-match本身的数据库的性能问题再可以摸底测试。</p><h2 id="id-1.触达中心算法压测20220328压测报告-二、待优化性能问题：">二、待优化性能问题：</h2><div class="table-wrap"><table class="wrapped relative-table confluenceTable" style="width: 100.0%;"><colgroup><col style="width: 33.5738%;"/><col style="width: 5.81413%;"/><col style="width: 4.62038%;"/><col style="width: 6.52189%;"/><col style="width: 6.90168%;"/><col style="width: 42.5681%;"/></colgroup><tbody><tr><th class="confluenceTh">问题</th><th colspan="1" class="confluenceTh">优先级</th><th colspan="1" class="confluenceTh">排期</th><th colspan="1" class="confluenceTh">owner</th><th colspan="1" class="confluenceTh">问题分析</th><th class="confluenceTh">备注</th></tr><tr><td class="confluenceTd"><p>由于写库和拿价格、优惠券属于同步操作导致大量写库耗时比较严重，拉长了整体的系统计算时长。</p><p><span style="color: rgb(255,0,0);">80配置下奶粉价格表14分钟=8分钟（算法计算）+6分钟（写库）</span></p></td><td colspan="1" class="confluenceTd">P0</td><td colspan="1" class="confluenceTd"><strong><span style="color: rgb(0,128,0);">已上线</span></strong></td><td colspan="1" class="confluenceTd">珏远</td><td colspan="1" class="confluenceTd"><a href="91613147.html">2.ai-match同步操作问题</a></td><td class="confluenceTd"><div class="content-wrapper"><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" height="250" src="attachments/91601254/91601331.png" data-image-src="attachments/91601254/91601331.png" data-unresolved-comment-count="0" data-linked-resource-id="91601331" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2022-3-31_15-13-37.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="91601254" data-linked-resource-container-version="22"></span></p></div></td></tr><tr><td class="confluenceTd"><p>当QPS阈值调高后，高配性能反倒不如低配性能。</p><p><span style="color: rgb(255,0,0);">120配置 小程序新签：耗时16分钟</span></p><p><span style="color: rgb(255,0,0);">80配置 小程序新签：耗时10分钟</span></p><p><span style="color: rgb(255,0,0);">奶粉价格表也呈现相同趋势</span></p></td><td colspan="1" class="confluenceTd">P0</td><td colspan="1" class="confluenceTd">0408开发完</td><td colspan="1" class="confluenceTd">珏远</td><td colspan="1" class="confluenceTd"><a href="91618392.html">3.为何算法阈值调大后，导购的的QPS反而下降？</a></td><td class="confluenceTd"><div class="content-wrapper"><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" width="557" src="attachments/91601254/91601387.png" data-image-src="attachments/91601254/91601387.png" data-unresolved-comment-count="0" data-linked-resource-id="91601387" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2022-3-31_15-39-1.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="91601254" data-linked-resource-container-version="22"></span></p></div></td></tr><tr><td colspan="1" class="confluenceTd">减少数据库层的压力。（下掉不需要的策略）</td><td colspan="1" class="confluenceTd">P0</td><td colspan="1" class="confluenceTd">4/9号完成</td><td colspan="1" class="confluenceTd">珏远、芷君</td><td colspan="1" class="confluenceTd"><br/></td><td colspan="1" class="confluenceTd"><br/></td></tr><tr><td colspan="1" class="confluenceTd">召回表的数据量会较大，后期策略会越来越多，MySQL支持不了这个体量。考虑换数据库</td><td colspan="1" class="confluenceTd">P0</td><td colspan="1" class="confluenceTd"><br/></td><td colspan="1" class="confluenceTd">易禛</td><td colspan="1" class="confluenceTd"><br/></td><td colspan="1" class="confluenceTd"><br/></td></tr><tr><td colspan="1" class="confluenceTd">压测过程中，mall-server的RT反而下降</td><td colspan="1" class="confluenceTd">P2</td><td colspan="1" class="confluenceTd"><br/></td><td colspan="1" class="confluenceTd">芷君</td><td colspan="1" class="confluenceTd"><a href="91618567.html">4.压测过程中为什么Mall-Server 的QPS在上涨，但RT在下降？</a></td><td colspan="1" class="confluenceTd"><div class="content-wrapper"><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" width="554" src="attachments/91601254/91601552.png" data-image-src="attachments/91601254/91601552.png" data-unresolved-comment-count="0" data-linked-resource-id="91601552" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2022-3-31_16-51-55.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="91601254" data-linked-resource-container-version="22"></span></p></div></td></tr></tbody></table></div><h2 id="id-1.触达中心算法压测20220328压测报告-三、待跟进问题：">三、待跟进问题：</h2><p>1、问题未修复前：ai-match调整最优阈值80，导购、营销、商品的限流值需要调整到多少最为合适？</p><p>根据多个应用的流量调用比例初步换算下来，ICP的限流调整到22 能够满足触达的业务场景。（限流已调整）</p><div class="table-wrap"><table class="relative-table wrapped confluenceTable" style="width: 85.0565%;"><colgroup><col style="width: 8.26996%;"/><col style="width: 17.9658%;"/><col style="width: 31.1787%;"/><col style="width: 15.2091%;"/><col style="width: 10.7414%;"/><col style="width: 11.9772%;"/></colgroup><tbody><tr><th colspan="1" style="text-align: left;" class="confluenceTh">接口</th><th style="text-align: left;" class="confluenceTh">业务场景</th><th colspan="1" class="confluenceTh">接口</th><th style="text-align: left;" class="confluenceTh">前台应用限流</th><th colspan="1" class="confluenceTh">ai-match阈值</th><th colspan="1" class="confluenceTh"><p>ICP</p><p>（限流：420）</p></th></tr><tr><td rowspan="3" style="text-align: left;" class="confluenceTd">查询价格</td><td style="text-align: left;" class="confluenceTd"><span><span style="color: rgb(17,31,44);">大长尾价格限流 mall(13)</span></span></td><td colspan="1" class="confluenceTd"><p><span style="color: rgb(17,31,44);"><a class="external-link" href="http://com.yt" rel="nofollow">com.yt</a>.mall.openapi.item.OpenItemListAPI</span></p><p><span style="color: rgb(17,31,44);">searchItemListByQuery</span></p></td><td style="text-align: left;" class="confluenceTd">360 （20*13）</td><td colspan="1" class="confluenceTd">80</td><td colspan="1" class="confluenceTd"><p>1:2 （160）</p></td></tr><tr><td style="text-align: left;" class="confluenceTd"><span style="color: rgb(17,31,44);">奶粉价格表(mall-server  6台)</span></td><td colspan="1" class="confluenceTd"><p><span style="color: rgb(17,31,44);"><a class="external-link" href="http://com.yt" rel="nofollow">com.yt</a>.mall.server.api.pricetab.ItemPoolListApi</span></p><p><span style="color: rgb(17,31,44);">queryItemPoolList</span></p></td><td style="text-align: left;" class="confluenceTd">240 （40*6）</td><td colspan="1" class="confluenceTd">80</td><td colspan="1" class="confluenceTd"><p>1:3 （240）</p></td></tr><tr><td style="text-align: left;" class="confluenceTd">小程序list   mall-server  </td><td colspan="1" class="confluenceTd"><p><span style="color: rgb(17,31,44);"><a class="external-link" href="http://com.yt" rel="nofollow">com.yt</a>.mall.server.api.item.ItemListApi</span></p><p><span style="color: rgb(17,31,44);">queryItemList</span></p></td><td style="text-align: left;" class="confluenceTd">300 （50*6）</td><td colspan="1" class="confluenceTd">80</td><td colspan="1" class="confluenceTd"><p>1:2（160）</p></td></tr><tr><td rowspan="2" style="text-align: left;" class="confluenceTd">查询优惠券</td><td colspan="1" style="text-align: left;" class="confluenceTd">小程序list查券 6</td><td colspan="1" class="confluenceTd"><span style="color: rgb(17,31,44);">pushMiniProgramsListMatchCoupon</span></td><td colspan="1" style="text-align: left;" class="confluenceTd">162 （27*6）</td><td colspan="1" class="confluenceTd">80</td><td colspan="1" class="confluenceTd">无影响</td></tr><tr><td colspan="1" style="text-align: left;" class="confluenceTd">大长尾查券 6</td><td colspan="1" class="confluenceTd"><span style="color: rgb(17,31,44);">queryV2ItemDetailCouponListDesc</span></td><td colspan="1" style="text-align: left;" class="confluenceTd">180 （30*6）</td><td colspan="1" class="confluenceTd">80</td><td colspan="1" class="confluenceTd">无影响</td></tr></tbody></table></div><p>2、ai-match性能问题修复后，阈值调整到80 ，实际上给导购的QPS 80*5=400的量。 这个值会触发前台线上业务的限流预警，会影响到业务。注意性能优化后，需要将QPS阈值调整到20，然后在重新压测后根据新的结论再做调整。</p><p>3、ai-match代码优化分析：<a href="91601391.html">5.ai-match性能瓶颈代码分析</a></p>
+                    </div>
+
+                                        <div class="pageSection group">
+                        <div class="pageSectionHeader">
+                            <h2 id="attachments" class="pageSectionTitle">Attachments:</h2>
+                        </div>
+
+                        <div class="greybox" align="left">
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/91601254/91601331.png">image2022-3-31_15-13-37.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/91601254/91601387.png">image2022-3-31_15-39-1.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/91601254/91601552.png">image2022-3-31_16-51-55.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/91601254/91601560.png">image2022-3-31_17-1-27.png</a> (image/png)
+                                <br/>
+                                                    </div>
+                    </div>
+                    
+                 
+                </div>             </div> 
+            <div id="footer" role="contentinfo">
+                <section class="footer-body">
+                    <p>Document generated by Confluence on 2026-04-10 10:44</p>
+                    <div id="footer-logo"><a href="http://www.atlassian.com/">Atlassian</a></div>
+                </section>
+            </div>
+        </div>     </body>
+</html>

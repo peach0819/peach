@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>大商家组 : 微信语音amr转mp3</title>
+        <link rel="stylesheet" href="styles/site.css" type="text/css" />
+        <META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    </head>
+
+    <body class="theme-default aui-theme-default">
+        <div id="page">
+            <div id="main" class="aui-page-panel">
+                <div id="main-header">
+                    <div id="breadcrumb-section">
+                        <ol id="breadcrumbs">
+                            <li class="first">
+                                <span><a href="index.html">大商家组</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="82552158.html">触达中心</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="86620182.html">4、日常需求</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="2026S1_158620608.html">2026S1</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="162804727.html">DJ营养师需求</a></span>
+                            </li>
+                                                </ol>
+                    </div>
+                    <h1 id="title-heading" class="pagetitle">
+                                                <span id="title-text">
+                            大商家组 : 微信语音amr转mp3
+                        </span>
+                    </h1>
+                </div>
+
+                <div id="content" class="view">
+                    <div class="page-metadata">
+                        
+        
+    
+        
+    
+        
+        
+            Created by <span class='author'> tao.zheng8833</span>, last modified on 2026-03-20
+                        </div>
+                    <div id="main-content" class="wiki-content group">
+                    <h1 id="id-微信语音amr转mp3-背景：">背景：</h1><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" height="245" src="attachments/162806712/162807142.png" data-image-src="attachments/162806712/162807142.png" data-unresolved-comment-count="0" data-linked-resource-id="162807142" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2026-3-20_15-53-1.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="162806712" data-linked-resource-container-version="6"></span></p><p>开源工具：<a class="external-link" href="https://github.com/kn007/silk-v3-decoder.git" rel="nofollow">https://github.com/kn007/silk-v3-decoder.git</a> 可以解决这个问题，下面是引入过程</p><h1 id="id-微信语音amr转mp3-decoder编译">decoder编译</h1><p>下载并安装vmware</p><p>下载ubuntu的iso镜像</p><p>打开vmware</p><p>创建虚拟机</p><p><br/></p><p>安装git 拉取项目</p><div class="code panel pdl" style="border-width: 1px;"><div class="codeContent panelContent pdl">
+<pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: bash; gutter: false; theme: Confluence" data-theme="Confluence">sudo apt install git
+git clone https://github.com/kn007/silk-v3-decoder.git</pre>
+</div></div><p><br/></p><p class="auto-cursor-target">安装make和gcc</p><div class="code panel pdl" style="border-width: 1px;"><div class="codeContent panelContent pdl">
+<pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: bash; gutter: false; theme: Confluence" data-theme="Confluence">sudo apt update
+sudo apt install build-essential git -y</pre>
+</div></div><p><br/></p><p><span class="auto-cursor-target">进入silk项目</span></p><div class="code panel pdl" style="border-width: 1px;"><div class="codeContent panelContent pdl">
+<pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: bash; gutter: false; theme: Confluence" data-theme="Confluence">cd silk-v3-decoder/silk
+make lib CC=&quot;gcc -static&quot;
+gcc -static -o decoder test/Decoder.o -L. -lSKP_SILK_SDK
+
+ldd decode 提示 not a dynamic executable 即可</pre>
+</div></div><p><br/></p><p><span class="auto-cursor-target">电脑本地创建文件夹并共享</span></p><ol><li><p class="ds-markdown-paragraph" style="margin-left: 0.0px;"><strong><span>创建共享文件夹</span></strong></p><ul><li><p class="ds-markdown-paragraph" style="margin-left: 0.0px;"><span>在 Windows 桌面上或你喜欢的任何位置，</span><strong><span>新建一个文件夹</span></strong><span>，名字建议用英文，例如 </span><code>share_ubuntu</code><span> </span><span>。</span></p></li></ul></li><li><p class="ds-markdown-paragraph" style="margin-left: 0.0px;"><strong><span>启用网络发现和文件共享</span></strong></p><ul><li><p class="ds-markdown-paragraph" style="margin-left: 0.0px;"><span>打开 </span><strong><span>控制面板</span></strong><span> → </span><strong><span>网络和共享中心</span></strong><span> → </span><strong><span>更改高级共享设置</span></strong><span> </span><span>。</span></p></li><li><p class="ds-markdown-paragraph" style="margin-left: 0.0px;"><span>在“专用”网络配置文件下，确保选中以下两项：</span></p><ul><li><p class="ds-markdown-paragraph" style="margin-left: 0.0px;"><strong><span>启用网络发现</span></strong></p></li><li><p class="ds-markdown-paragraph" style="margin-left: 0.0px;"><strong><span>启用文件和打印机共享</span></strong></p></li></ul></li><li><p class="ds-markdown-paragraph" style="margin-left: 0.0px;"><span>点击 </span><strong><span>保存更改</span></strong><span>。</span></p></li></ul></li><li><p class="ds-markdown-paragraph" style="margin-left: 0.0px;"><strong><span>设置文件夹共享</span></strong></p><ul><li><p class="ds-markdown-paragraph" style="margin-left: 0.0px;"><span>右键点击你刚刚创建的 </span><code>share_ubuntu</code><span> 文件夹，选择 </span><strong><span>“属性”</span></strong><span> </span><span>。</span></p></li><li><p class="ds-markdown-paragraph" style="margin-left: 0.0px;"><span>切换到 </span><strong><span>“共享”</span></strong><span> 选项卡，然后点击 </span><strong><span>“高级共享”</span></strong><span> 按钮 </span><span>。</span></p></li><li><p class="ds-markdown-paragraph" style="margin-left: 0.0px;"><span>在弹出的窗口中，</span><strong><span>勾选“共享此文件夹”</span></strong><span> </span><span>。</span></p></li><li><p class="ds-markdown-paragraph" style="margin-left: 0.0px;"><span>（可选）你可以修改“共享名”，保持默认的 </span><code>share_ubuntu</code><span> 即可。</span></p></li><li><p class="ds-markdown-paragraph" style="margin-left: 0.0px;"><span>点击 </span><strong><span>“权限”</span></strong><span> 按钮 </span><span>。</span></p></li></ul></li><li><p class="ds-markdown-paragraph" style="margin-left: 0.0px;"><strong><span>设置访问权限</span></strong></p><ul><li><p class="ds-markdown-paragraph" style="margin-left: 0.0px;"><span>在权限窗口中，默认可能只有 </span><code>Everyone</code><span>。为了简单起见，我们可以使用 </span><code>Everyone</code><span> 并赋予它读写权限。</span></p></li><li><p class="ds-markdown-paragraph" style="margin-left: 0.0px;"><span>选中 </span><code>Everyone</code><span>，然后在下方 </span><strong><span>勾选“完全控制”和“更改”的“允许”复选框</span></strong><span> </span><span>。</span></p></li><li><p class="ds-markdown-paragraph" style="margin-left: 0.0px;"><span>点击 </span><strong><span>“应用”</span></strong><span> 和 </span><strong><span>“确定”</span></strong><span>，一路点击“确定”关闭所有属性窗口。</span></p></li></ul><blockquote><p class="ds-markdown-paragraph" style="margin-left: 0.0px;"><strong><span>小提示：</span></strong><span> 如果你的公司网络对安全有严格要求，也可以不设置 </span><code>Everyone</code><span>，而是点击“添加”，输入你的 Windows 登录用户名，再赋予权限。不过使用 </span><code>Everyone</code><span> 在虚拟机测试场景下是最方便的。</span></p></blockquote></li><li><p class="ds-markdown-paragraph" style="margin-left: 0.0px;"><strong><span>获取 Windows 的 IP 地址</span></strong></p><ul><li><p class="ds-markdown-paragraph" style="margin-left: 0.0px;"><span>按下 </span><code>Win + R</code><span> 键，输入 </span><code>cmd</code><span> 并回车，打开命令提示符。</span></p></li><li><p class="ds-markdown-paragraph" style="margin-left: 0.0px;"><span>输入 </span><code>ipconfig</code><span> 并回车。</span></p></li><li><p class="ds-markdown-paragraph" style="margin-left: 0.0px;"><span>在输出信息中，找到你当前使用的网络适配器（例如“以太网”或“WLAN”），记下其中的 </span><strong><span>IPv4 地址</span></strong><span>，例如 </span><code>192.168.x.x</code><span>。这个地址稍后会在 Ubuntu 上用到。</span></p></li></ul></li></ol><h3 id="id-微信语音amr转mp3-🐧第二部分：在Ubuntu上访问并复制文件"><span>🐧 第二部分：在 Ubuntu 上访问并复制文件</span></h3><p class="ds-markdown-paragraph"><span>现在回到你的 Ubuntu 虚拟机，我们将把它连接到 Windows 的共享文件夹。</span></p><ol><li><p class="ds-markdown-paragraph" style="margin-left: 0.0px;"><strong><span>安装必要的软件包</span></strong></p><ul><li><p class="ds-markdown-paragraph" style="margin-left: 0.0px;"><span>打开 Ubuntu 的终端（Terminal）。</span></p></li><li><p class="ds-markdown-paragraph" style="margin-left: 0.0px;"><span>执行以下命令，安装 </span><code>cifs-utils</code><span> 工具，它能让 Ubuntu 支持访问 Windows 的共享文件夹 </span><span>：</span><br/><br/></p><pre><span><span class="token function" style="color: rgb(64,120,242);">sudo</span> <span class="token function" style="color: rgb(64,120,242);">apt</span> update</span>
+<span><span class="token function" style="color: rgb(64,120,242);">sudo</span> <span class="token function" style="color: rgb(64,120,242);">apt</span> <span class="token function" style="color: rgb(64,120,242);">install</span> cifs-utils</span></pre></li></ul></li><li><p class="ds-markdown-paragraph" style="margin-left: 0.0px;"><strong><span>创建挂载点</span></strong></p><ul><li><p class="ds-markdown-paragraph" style="margin-left: 0.0px;"><span>在 Ubuntu 上，我们需要一个空文件夹作为“挂载点”，把 Windows 的共享文件夹挂载到这里。</span></p></li><li><p class="ds-markdown-paragraph" style="margin-left: 0.0px;"><span>执行命令创建一个目录，例如 </span><code>~/windows_share</code><span>：</span><br/><br/></p><pre><span><span class="token function" style="color: rgb(64,120,242);">mkdir</span> ~/windows_share</span></pre></li></ul></li><li><p class="ds-markdown-paragraph" style="margin-left: 0.0px;"><strong><span>手动挂载共享文件夹</span></strong></p><ul><li><p class="ds-markdown-paragraph" style="margin-left: 0.0px;"><span>现在，使用 </span><code>mount.cifs</code><span> 命令将 Windows 共享文件夹挂载到刚才创建的目录。请将命令中的 </span><code>//WIN_IP/share_ubuntu</code><span> 和 </span><code>username</code><span> 替换为你自己的信息 </span><span>。</span></p></li><li><p class="ds-markdown-paragraph" style="margin-left: 0.0px;"><code>//WIN_IP/share_ubuntu</code><span>：</span><code>WIN_IP</code><span> 替换为你在 Windows 上记下的 IPv4 地址。</span></p></li><li><p class="ds-markdown-paragraph" style="margin-left: 0.0px;"><code>username</code><span>：替换为你的 Windows 登录用户名。</span></p></li></ul><br/><pre>sudo mount -t cifs //10.250.111.240/share_ubuntu ~/windows_share -o username=tao.zheng8833,uid=$(id -u),gid=$(id -g),dir_mode=0755,file_mode=0644</pre><ul><li><p class="ds-markdown-paragraph" style="margin-left: 0.0px;"><span>输入命令后回车，终端会提示你输入密码，这里输入你的 </span><strong><span>Windows 登录密码</span></strong><span>。</span></p></li></ul></li><li><p class="ds-markdown-paragraph" style="margin-left: 0.0px;"><strong><span>复制 </span><code>decoder</code><span> 文件</span></strong></p><ul><li><p class="ds-markdown-paragraph" style="margin-left: 0.0px;"><span>现在，你可以像操作本地文件夹一样操作 </span><code>~/windows_share</code><span> 了。</span></p></li><li><p class="ds-markdown-paragraph" style="margin-left: 0.0px;"><span>假设你的 </span><code>decoder</code><span> 文件在 Ubuntu 的 </span><code>~/silk-v3-decoder/silk/</code><span> 目录下，执行以下命令复制它：</span><br/><span class="d813de27" style="color: rgb(15,17,21);">bash</span></p><pre><span><span class="token function" style="color: rgb(64,120,242);">cp</span> ~/silk-v3-decoder/silk/decoder ~/windows_share/</span></pre></li><li><p class="ds-markdown-paragraph" style="margin-left: 0.0px;"><span>命令执行后，切换回 Windows，打开 </span><code>share_ubuntu</code><span> 文件夹，你应该就能看到 </span><code>decoder</code><span> 文件了。</span></p></li></ul></li><li><p class="ds-markdown-paragraph" style="margin-left: 0.0px;"><strong><span>使用完毕后卸载共享（可选）</span></strong></p><ul><li><p class="ds-markdown-paragraph" style="margin-left: 0.0px;"><span>如果你不再需要连接，可以在 Ubuntu 终端中执行以下命令来断开连接：</span><br/><span class="d813de27" style="color: rgb(15,17,21);">bash</span></p><p><span><span class="token function" style="color: rgb(64,120,242);">sudo</span> <span class="token function" style="color: rgb(64,120,242);">umount</span> ~/windows_share<br/><br/><br/></span></p></li></ul></li></ol><p>然后把生成的decoder文件放到项目下的resource文件夹下即可使用</p><p><br/></p><h1 id="id-微信语音amr转mp3-ffmepg使用">ffmepg使用</h1><p>引入jave依赖，jave的功能是引入内置的ffmepg，不再需要在服务器提前内置</p><div class="code panel pdl" style="border-width: 1px;"><div class="codeContent panelContent pdl">
+<pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">&lt;dependency&gt;
+                &lt;groupId&gt;ws.schild&lt;/groupId&gt;
+                &lt;artifactId&gt;jave-core&lt;/artifactId&gt;
+                &lt;version&gt;3.5.0&lt;/version&gt;
+            &lt;/dependency&gt;
+
+            &lt;dependency&gt;
+                &lt;groupId&gt;ws.schild&lt;/groupId&gt;
+                &lt;artifactId&gt;jave-nativebin-win64&lt;/artifactId&gt;
+                &lt;version&gt;3.5.0&lt;/version&gt;
+            &lt;/dependency&gt;
+
+            &lt;dependency&gt;
+                &lt;groupId&gt;ws.schild&lt;/groupId&gt;
+                &lt;artifactId&gt;jave-nativebin-linux64&lt;/artifactId&gt;
+                &lt;version&gt;3.5.0&lt;/version&gt;
+            &lt;/dependency&gt;</pre>
+</div></div><p><br/></p><h1 id="id-微信语音amr转mp3-内置silk-v3-decoder">内置silk-v3-decoder</h1><p>从git拉取 ：<a class="external-link" href="https://github.com/kn007/silk-v3-decoder.git" rel="nofollow">https://github.com/kn007/silk-v3-decoder.git</a></p><p>将其中的convert.sh脚本复制到项目下的resource文件夹</p><p><br/></p><p>同时将其中的原生ffmpeg替换为使用环境变量下的ffmpeg</p><p><span style="color: rgb(128,128,128);"># </span><span style="color: rgb(128,128,128);">支持自定义</span><span style="color: rgb(128,128,128);"> FFmpeg </span><span style="color: rgb(128,128,128);">路径（通过环境变量</span><span style="color: rgb(128,128,128);"> FFMPEG_PATH </span><span style="color: rgb(128,128,128);">传入）<br/></span>FFMPEG=<span style="color: rgb(0,128,0);">&quot;</span><span style="color: rgb(0,0,128);">$</span>{FFMPEG_PATH:-ffmpeg}<span style="color: rgb(0,128,0);">&quot;</span><br/><br/>而这里的FFMPEG_PATH 通过jave的内置工具类可以获取</p><div class="code panel pdl" style="border-width: 1px;"><div class="codeContent panelContent pdl">
+<pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">DefaultFFMPEGLocator locator = new DefaultFFMPEGLocator();
+String ffmpegPath = locator.getExecutablePath();</pre>
+</div></div><p><br/></p><h1 id="id-微信语音amr转mp3-完整工具实现类">完整工具实现类</h1><div class="code panel pdl" style="border-width: 1px;">
+ <div class="codeHeader panelHeader pdl hide-border-bottom" style="border-bottom-width: 1px;">
+  <b class="code-title">AmrUtil </b>
+  <span class="collapse-source expand-control" style="display:none;"><span class="expand-control-icon icon">&nbsp;</span><span class="expand-control-text">展开源码</span></span>
+  <span class="collapse-spinner-wrapper"></span>
+ </div>
+ <div class="codeContent panelContent pdl hide-toolbar"> 
+  <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence; collapse: true" data-theme="Confluence">package com.yt.touchc.common.util;
+
+import lombok.extern.slf4j.Slf4j;
+import ws.schild.jave.process.ffmpeg.DefaultFFMPEGLocator;
+
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.StandardCopyOption;
+import java.util.Comparator;
+
+/**
+ * @author feitao.zt
+ * @date 2026/3/18
+ */
+@Slf4j
+public class AmrUtil {
+
+    public static InputStream convertToMp3(String urlString) throws IOException, InterruptedException {
+        URL url = new URL(urlString);
+        // 1. 创建临时工作目录
+        Path workDir = Files.createTempDirectory("wechat_conv_");
+        Path inputFile = workDir.resolve("input.amr");
+        Path outputFile = workDir.resolve("input.mp3"); // 脚本会生成此文件
+
+        try {
+            // 2. 保存微信语音流（跳过头部后的纯数据）到临时文件
+            try (InputStream rawInput = url.openStream()) {
+                rawInput.skip(1); // 跳过微信私有头
+                Files.copy(rawInput, inputFile, StandardCopyOption.REPLACE_EXISTING);
+            }
+
+            // 3. 解压 converter.sh 和 silk/decoder
+            extractScriptAndDecoder(workDir);
+
+            // 4. 获取 JAVE 内置 FFmpeg 路径
+            DefaultFFMPEGLocator locator = new DefaultFFMPEGLocator();
+            String ffmpegPath = locator.getExecutablePath();
+
+            // 5. 执行 converter.sh（单个文件模式）
+            ProcessBuilder pb = new ProcessBuilder(
+                    "bash", workDir.resolve("converter.sh").toString(),
+                    inputFile.toString(),  // 输入文件
+                    "mp3"                  // 输出格式
+            );
+            pb.directory(workDir.toFile());
+            pb.environment().put("FFMPEG_PATH", ffmpegPath); // 关键：传递自定义 ffmpeg
+            pb.redirectErrorStream(true);
+
+            Process process = pb.start();
+            // 打印日志（便于调试）
+            try (BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()))) {
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    log.info("[converter] " + line);
+                }
+            }
+            int exitCode = process.waitFor();
+            if (exitCode != 0) {
+                throw new IOException("转换失败，退出码: " + exitCode);
+            }
+            return new FileInputStream(outputFile.toFile()) {
+
+                @Override
+                public void close() throws IOException {
+                    super.close();
+                    Files.deleteIfExists(outputFile);
+                    Files.walk(workDir)
+                            .sorted(Comparator.reverseOrder())
+                            .forEach(path -&gt; path.toFile().delete());
+                }
+            };
+        } finally {
+            Files.deleteIfExists(inputFile);
+        }
+    }
+
+    private static void extractScriptAndDecoder(Path workDir) throws IOException {
+        // 解压 converter.sh
+        Path scriptTarget = workDir.resolve("converter.sh");
+        try (InputStream is = AmrUtil.class.getResourceAsStream("/silk-v3-decoder/converter.sh")) {
+            if (is == null) {
+                throw new IOException("converter.sh not found in resources");
+            }
+            Files.copy(is, scriptTarget, StandardCopyOption.REPLACE_EXISTING);
+        }
+        scriptTarget.toFile().setExecutable(true);
+
+        // 创建 silk 子目录并解压 decoder
+        Path silkDir = workDir.resolve("silk");
+        Files.createDirectories(silkDir);
+        Path decoderTarget = silkDir.resolve("decoder");
+        try (InputStream is = AmrUtil.class.getResourceAsStream("/silk-v3-decoder/decoder")) {
+            if (is == null) {
+                throw new IOException("decoder not found in resources");
+            }
+            Files.copy(is, decoderTarget, StandardCopyOption.REPLACE_EXISTING);
+        }
+        decoderTarget.toFile().setExecutable(true);
+    }
+}
+
+</pre> 
+ </div>
+</div><div class="code panel pdl" style="border-width: 1px;">
+ <div class="codeHeader panelHeader pdl hide-border-bottom" style="border-bottom-width: 1px;">
+  <b class="code-title">convert.sh</b>
+  <span class="collapse-source expand-control" style="display:none;"><span class="expand-control-icon icon">&nbsp;</span><span class="expand-control-text">展开源码</span></span>
+  <span class="collapse-spinner-wrapper"></span>
+ </div>
+ <div class="codeContent panelContent pdl hide-toolbar"> 
+  <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: bash; gutter: false; theme: Confluence; collapse: true" data-theme="Confluence">#!/bin/bash
+# File: converter.sh (modified for custom ffmpeg)
+# Date: August 19th, 2016
+# Time: 18:56:52 +0800
+# Author: kn007 &lt;kn007@126.com&gt;
+# Blog: https://kn007.net
+# Link: https://github.com/kn007/silk-v3-decoder
+# Usage: sh converter.sh silk_v3_file/input_folder output_format/output_folder flag(format)
+# Flag: not define   ----  not define, convert a file
+#       other value  ----  format, convert a folder, batch conversion support
+# Requirement: gcc ffmpeg (but now we use custom ffmpeg via FFMPEG_PATH)
+
+# 支持自定义 FFmpeg 路径（通过环境变量 FFMPEG_PATH 传入）
+FFMPEG="${FFMPEG_PATH:-ffmpeg}"
+
+# Colors
+RED="$(tput setaf 1 2&gt;/dev/null || echo '\e[0;31m')"
+GREEN="$(tput setaf 2 2&gt;/dev/null || echo '\e[0;32m')"
+YELLOW="$(tput setaf 3 2&gt;/dev/null || echo '\e[0;33m')"
+WHITE="$(tput setaf 7 2&gt;/dev/null || echo '\e[0;37m')"
+RESET="$(tput sgr 0 2&gt;/dev/null || echo '\e[0m')"
+
+# Main
+cur_dir=$(cd `dirname $0`; pwd)
+
+if [ ! -r "$cur_dir/silk/decoder" ]; then
+    echo -e "${WHITE}[Notice]${RESET} Silk v3 Decoder is not found, compile it."
+    cd $cur_dir/silk
+    make &amp;&amp; make decoder
+    [ ! -r "$cur_dir/silk/decoder" ] &amp;&amp; echo -e "${RED}[Error]${RESET} Silk v3 Decoder Compile False, Please Check Your System For GCC." &amp;&amp; exit
+    echo -e "${WHITE}========= Silk v3 Decoder Compile Finish =========${RESET}"
+fi
+
+cd $cur_dir
+
+while [ $3 ]; do
+    # 注释掉进程检查，因为我们的 FFmpeg 是临时路径，不会与其他进程冲突
+    # [[ ! -z "$(pidof ffmpeg)" ]] &amp;&amp; echo -e "${RED}[Error]${RESET} ffmpeg is occupied by another application, please check it." &amp;&amp; exit
+    [ ! -d "$1" ] &amp;&amp; echo -e "${RED}[Error]${RESET} Input folder not found, please check it." &amp;&amp; exit
+    TOTAL=$(ls $1|wc -l)
+    [ ! -d "$2" ] &amp;&amp; mkdir "$2" &amp;&amp; echo -e "${WHITE}[Notice]${RESET} Output folder not found, create it."
+    [ ! -d "$2" ] &amp;&amp; echo -e "${RED}[Error]${RESET} Output folder could not be created, please check it." &amp;&amp; exit
+    CURRENT=0
+    echo -e "${WHITE}========= Batch Conversion Start ==========${RESET}"
+    ls $1 | while read line; do
+        let CURRENT+=1
+        $cur_dir/silk/decoder "$1/$line" "$2/$line.pcm" &gt; /dev/null 2&gt;&amp;1
+        if [ ! -f "$2/$line.pcm" ]; then
+            $FFMPEG -y -i "$1/$line" "$2/${line%.*}.$3" &gt; /dev/null 2&gt;&amp;1 &amp;
+            ffmpeg_pid=$!
+            while kill -0 "$ffmpeg_pid"; do sleep 1; done &gt; /dev/null 2&gt;&amp;1
+            [ -f "$2/${line%.*}.$3" ] &amp;&amp; echo -e "[$CURRENT/$TOTAL]${GREEN}[OK]${RESET} Convert $line to ${line%.*}.$3 success, ${YELLOW}but not a silk v3 encoded file.${RESET}" &amp;&amp; continue
+            echo -e "[$CURRENT/$TOTAL]${YELLOW}[Warning]${RESET} Convert $line false, maybe not a silk v3 encoded file." &amp;&amp; continue
+        fi
+        $FFMPEG -y -f s16le -ar 24000 -ac 1 -i "$2/$line.pcm" "$2/${line%.*}.$3" &gt; /dev/null 2&gt;&amp;1 &amp;
+        ffmpeg_pid=$!
+        while kill -0 "$ffmpeg_pid"; do sleep 1; done &gt; /dev/null 2&gt;&amp;1
+        rm "$2/$line.pcm"
+        [ ! -f "$2/${line%.*}.$3" ] &amp;&amp; echo -e "[$CURRENT/$TOTAL]${YELLOW}[Warning]${RESET} Convert $line false, maybe ffmpeg no format handler for $3." &amp;&amp; continue
+        echo -e "[$CURRENT/$TOTAL]${GREEN}[OK]${RESET} Convert $line To ${line%.*}.$3 Finish."
+    done
+    echo -e "${WHITE}========= Batch Conversion Finish =========${RESET}"
+    exit
+done
+
+$cur_dir/silk/decoder "$1" "$1.pcm"
+if [ ! -f "$1.pcm" ]; then
+    $FFMPEG -y -i "$1" "${1%.*}.$2" &gt; /dev/null 2&gt;&amp;1 &amp;
+    ffmpeg_pid=$!
+    while kill -0 "$ffmpeg_pid"; do sleep 1; done &gt; /dev/null 2&gt;&amp;1
+    [ -f "${1%.*}.$2" ] &amp;&amp; echo -e "${GREEN}[OK]${RESET} Convert $1 to ${1%.*}.$2 success, ${YELLOW}but not a silk v3 encoded file.${RESET}" &amp;&amp; exit
+    echo -e "${YELLOW}[Warning]${RESET} Convert $1 false, maybe not a silk v3 encoded file." &amp;&amp; exit
+fi
+$FFMPEG -y -f s16le -ar 24000 -ac 1 -i "$1.pcm" "${1%.*}.$2" &gt; /dev/null 2&gt;&amp;1
+ffmpeg_pid=$!
+while kill -0 "$ffmpeg_pid"; do sleep 1; done &gt; /dev/null 2&gt;&amp;1
+rm "$1.pcm"
+[ ! -f "${1%.*}.$2" ] &amp;&amp; echo -e "${YELLOW}[Warning]${RESET} Convert $1 false, maybe ffmpeg no format handler for $2." &amp;&amp; exit
+echo -e "${GREEN}[OK]${RESET} Convert $1 To ${1%.*}.$2 Finish."
+exit</pre> 
+ </div>
+</div><p><br/></p>
+                    </div>
+
+                                        <div class="pageSection group">
+                        <div class="pageSectionHeader">
+                            <h2 id="attachments" class="pageSectionTitle">Attachments:</h2>
+                        </div>
+
+                        <div class="greybox" align="left">
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/162806712/162806713.png">image2026-3-19_16-49-3.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/162806712/162806714.png">image2026-3-19_16-49-32.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/162806712/162806715.png">image2026-3-19_16-49-53.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/162806712/162807142.png">image2026-3-20_15-53-1.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/162806712/162807151.png">image2026-3-20_15-58-33.png</a> (image/png)
+                                <br/>
+                                                    </div>
+                    </div>
+                    
+                 
+                </div>             </div> 
+            <div id="footer" role="contentinfo">
+                <section class="footer-body">
+                    <p>Document generated by Confluence on 2026-04-10 10:44</p>
+                    <div id="footer-logo"><a href="http://www.atlassian.com/">Atlassian</a></div>
+                </section>
+            </div>
+        </div>     </body>
+</html>

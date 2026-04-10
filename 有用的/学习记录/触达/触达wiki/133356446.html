@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>大商家组 : 企微离线数据和触达率</title>
+        <link rel="stylesheet" href="styles/site.css" type="text/css" />
+        <META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    </head>
+
+    <body class="theme-default aui-theme-default">
+        <div id="page">
+            <div id="main" class="aui-page-panel">
+                <div id="main-header">
+                    <div id="breadcrumb-section">
+                        <ol id="breadcrumbs">
+                            <li class="first">
+                                <span><a href="index.html">大商家组</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="82552158.html">触达中心</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="86620182.html">4、日常需求</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="158620601.html">2024需求</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="2024-Q1_133333165.html">2024 Q1</a></span>
+                            </li>
+                                                </ol>
+                    </div>
+                    <h1 id="title-heading" class="pagetitle">
+                                                <span id="title-text">
+                            大商家组 : 企微离线数据和触达率
+                        </span>
+                    </h1>
+                </div>
+
+                <div id="content" class="view">
+                    <div class="page-metadata">
+                        
+        
+    
+        
+    
+        
+        
+            Created by <span class='author'> kaijie.ruan</span>, last modified on 2024-03-12
+                        </div>
+                    <div id="main-content" class="wiki-content group">
+                    <h2 id="id-企微离线数据和触达率-企微在线和离线数据-crm库">企微在线和离线数据-crm库</h2><p><br/>select<br/><a class="external-link" href="http://t7.name" rel="nofollow">t7.name</a> as '大区名称',<br/><a class="external-link" href="http://t6.name" rel="nofollow">t6.name</a> as '组名',<br/>t5.full_name as '销售名称',<br/>t4.phone as '企微手机号',<br/><a class="external-link" href="http://t3.name" rel="nofollow">t3.name</a> as '企微昵称',<br/>case t1.tuse_msg_type<br/>when '902500002' then '在线'<br/>else '离线'<br/>end as '动作类型',<br/>t1.tuse_msg_time as '时间',<br/>t1.tuse_wx_id<br/>from<br/>crm.t_crm_tuse_qw_heartbeat_msg t1<br/>left join (<br/>select<br/>qw_chat_id,<br/>qw_tuse_id<br/>from<br/>crm.t_crm_chat_relation<br/>group by<br/>qw_chat_id,<br/>qw_tuse_id<br/>) t2 on t1.tuse_wx_id = t2.qw_tuse_id<br/>left join crm.t_crm_chat t3 on <a class="external-link" href="http://t3.id" rel="nofollow">t3.id</a> = t2.qw_chat_id<br/>left join crm.t_crm_work_phone t4 on t4.bind_qw_user_id = t3.qw_user_id<br/>left join yt_ustone.t_user_admin t5 on t5.user_id = t4.bind_user_id<br/>left join yt_ustone.t_department t6 on <a class="external-link" href="http://t6.id" rel="nofollow">t6.id</a> = t5.dept_id<br/>left join yt_ustone.t_department t7 on <a class="external-link" href="http://t7.id" rel="nofollow">t7.id</a> = t6.parent_id</p><p>-- 去除注释就是最长的离线数据<br/>-- where t1.is_valid=1<br/>-- and t1.tuse_msg_type=902500005<br/>order by t1.tuse_msg_time desc</p><p><br/></p><h2 id="id-企微离线数据和触达率-触达率-离线库">触达率-离线库</h2><p>with detail as (<br/>select<br/>shop_id,<br/>admin_chat_id,<br/>detail_status,<br/>task_instance_id<br/>from<br/>yt_crm.ads_touch_task_detail<br/>where<br/>(<br/>detail_status = 2<br/>OR (<br/>detail_status = 3<br/>AND fail_type IN (3, 12)<br/>)<br/>)<br/>and is_deleted = 0<br/>),<br/>instance as (<br/>SELECT<br/>id,<br/>substr(start_time, 1, 8) as day<br/>FROM<br/>yt_crm.ads_touch_task_instance<br/>WHERE<br/>channel_type = 1<br/>and is_deleted = 0<br/>),<br/>statistics as (<br/>SELECT<br/>instance.day,<br/>detail.admin_chat_id,<br/>count(distinct shop_id) as shop_count,<br/>count(<br/>distinct case<br/>when detail_status = 2 then shop_id<br/>else null<br/>end<br/>) as success_shop_count<br/>FROM<br/>detail<br/>INNER JOIN instance ON detail.task_instance_id = <a class="external-link" href="http://instance.id" rel="nofollow">instance.id</a><br/>group by<br/>instance.day,<br/>detail.admin_chat_id<br/>)<br/>select<br/>statistics.day `日期`,<br/><a class="external-link" href="http://parentDept.name" rel="nofollow">parentDept.name</a> `大区`,<br/><a class="external-link" href="http://dept.name" rel="nofollow">dept.name</a> `小组`,<br/>charger.full_name `主管`,<br/>admin.full_name `电销名`,<br/>statistics.shop_count `目标触达门店数`,<br/>statistics.success_shop_count `成功触达门店数`,<br/>ROUND(statistics.success_shop_count * 100 / statistics.shop_count) `成功触达率`,<br/>statistics.admin_chat_id,<br/><a class="external-link" href="http://chat.id" rel="nofollow">chat.id</a> chat_id,<br/>chat.qw_user_id chat_qw_user_id,<br/><a class="external-link" href="http://workPhone.id" rel="nofollow">workPhone.id</a> work_phone_id,<br/>workPhone.bind_user_id work_phone_bind_user_id<br/>from<br/>statistics<br/>left join dwd_crm_chat_d chat on <a class="external-link" href="http://chat.id" rel="nofollow">chat.id</a> = statistics.admin_chat_id<br/>and chat.dayid = '$v_date' and chat.is_deleted=0<br/>left join dwd_crm_work_phone_d workPhone on workPhone.bind_qw_user_id = chat.qw_user_id <br/>and workPhone.dayid = '$v_date' and workPhone.is_deleted=0<br/>left join dwd_user_admin_d admin on admin.user_id = workPhone.bind_user_id<br/>and admin.dayid = '$v_date' and admin.is_deleted=0<br/>left join dwd_department_d dept on admin.dept_id = <a class="external-link" href="http://dept.id" rel="nofollow">dept.id</a><br/>and dept.dayid = '$v_date' and dept.is_deleted=0<br/>left join dwd_department_d parentDept on <a class="external-link" href="http://parentDept.id" rel="nofollow">parentDept.id</a> = dept.parent_id<br/>and parentDept.dayid = '$v_date' and parentDept.is_deleted=0<br/>left join dwd_user_admin_d charger on charger.user_id = dept.charger<br/>and charger.dayid = '$v_date' and charger.is_deleted=0<br/>order by statistics.day desc</p><p><br/></p>
+                    </div>
+
+                    
+                 
+                </div>             </div> 
+            <div id="footer" role="contentinfo">
+                <section class="footer-body">
+                    <p>Document generated by Confluence on 2026-04-10 10:44</p>
+                    <div id="footer-logo"><a href="http://www.atlassian.com/">Atlassian</a></div>
+                </section>
+            </div>
+        </div>     </body>
+</html>

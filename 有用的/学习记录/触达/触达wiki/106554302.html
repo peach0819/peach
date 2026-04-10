@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>大商家组 : 明细生成阶段-线程池核心线程数</title>
+        <link rel="stylesheet" href="styles/site.css" type="text/css" />
+        <META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    </head>
+
+    <body class="theme-default aui-theme-default">
+        <div id="page">
+            <div id="main" class="aui-page-panel">
+                <div id="main-header">
+                    <div id="breadcrumb-section">
+                        <ol id="breadcrumbs">
+                            <li class="first">
+                                <span><a href="index.html">大商家组</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="82552158.html">触达中心</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="91598069.html">5、系统分析&amp;保障</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="115115082.html">1）性能相关</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="106548558.html">触达任务创建-&gt;发送全链路</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="106548668.html">触达任务（touch-center）</a></span>
+                            </li>
+                                                </ol>
+                    </div>
+                    <h1 id="title-heading" class="pagetitle">
+                                                <span id="title-text">
+                            大商家组 : 明细生成阶段-线程池核心线程数
+                        </span>
+                    </h1>
+                </div>
+
+                <div id="content" class="view">
+                    <div class="page-metadata">
+                        
+        
+    
+        
+    
+        
+        
+            Created by <span class='author'> dong.wang</span>, last modified on 2022-11-22
+                        </div>
+                    <div id="main-content" class="wiki-content group">
+                    <p>前提：</p><p>1）算法策略分批大小（分批大小不变-1000，icp扛不住），<span style="color: rgb(255,0,0);">千人千面</span></p><p>2）算法返回的商品行数（3、10），算法当前最大返回商品行数为10（奶粉价格表），一般&lt;=3</p><p>3）touch-center服务内部分批执行（明细生成核心线程池大小5、10、20、30、40，本次<span style="color: rgb(255,0,0);">变量</span>），<span style="color: rgb(255,0,0);">一批50个门店</span></p><p>4）单个门店生成明细数（&lt;=3）</p><h1 id="id-明细生成阶段线程池核心线程数-1、测试数据">1、测试数据</h1><div class="table-wrap"><table class="wrapped confluenceTable"><colgroup><col style="width: 183.0px;"/><col style="width: 91.0px;"/><col style="width: 625.0px;"/><col style="width: 525.0px;"/></colgroup><tbody><tr><th class="confluenceTh">时间</th><th class="confluenceTh">核心线程数</th><th class="confluenceTh">期间任务分布情况</th><th colspan="1" class="confluenceTh">期间任务分布情况（小时）</th></tr><tr><td class="confluenceTd"><p><span style="color: rgb(0,0,0);">2022-11-08~2022-11-09</span></p></td><td class="confluenceTd">5</td><td class="confluenceTd"><div class="content-wrapper"><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" width="600" src="attachments/106554302/106561329.png" data-image-src="attachments/106554302/106561329.png" data-unresolved-comment-count="0" data-linked-resource-id="106561329" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2022-11-21_15-15-47.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="106554302" data-linked-resource-container-version="132"></span></p></div></td><td colspan="1" class="confluenceTd"><div class="content-wrapper"><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" width="500" src="attachments/106554302/106561345.png" data-image-src="attachments/106554302/106561345.png" data-unresolved-comment-count="0" data-linked-resource-id="106561345" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2022-11-21_15-36-6.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="106554302" data-linked-resource-container-version="132"></span></p></div></td></tr><tr><td class="confluenceTd"><span style="color: rgb(0,0,0);">2022-11-14~2022-11-15</span></td><td class="confluenceTd"><p>10</p></td><td class="confluenceTd"><div class="content-wrapper"><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" width="600" src="attachments/106554302/106558307.png" data-image-src="attachments/106554302/106558307.png" data-unresolved-comment-count="0" data-linked-resource-id="106558307" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2022-11-17_10-53-46.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="106554302" data-linked-resource-container-version="132"></span></p></div></td><td colspan="1" class="confluenceTd"><div class="content-wrapper"><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" width="500" src="attachments/106554302/106561347.png" data-image-src="attachments/106554302/106561347.png" data-unresolved-comment-count="0" data-linked-resource-id="106561347" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2022-11-21_15-37-4.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="106554302" data-linked-resource-container-version="132"></span></p></div></td></tr><tr><td class="confluenceTd"><span style="color: rgb(0,0,0);">2022-11-16~2022-11-17</span></td><td class="confluenceTd">20</td><td class="confluenceTd"><div class="content-wrapper"><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" width="600" src="attachments/106554302/106558304.png" data-image-src="attachments/106554302/106558304.png" data-unresolved-comment-count="0" data-linked-resource-id="106558304" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2022-11-17_10-53-11.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="106554302" data-linked-resource-container-version="132"></span></p></div></td><td colspan="1" class="confluenceTd"><div class="content-wrapper"><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" width="500" src="attachments/106554302/106561348.png" data-image-src="attachments/106554302/106561348.png" data-unresolved-comment-count="0" data-linked-resource-id="106561348" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2022-11-21_15-38-14.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="106554302" data-linked-resource-container-version="132"></span></p></div></td></tr><tr><td class="confluenceTd"><span style="color: rgb(0,0,0);">2022-11-17~2022-11-18</span></td><td class="confluenceTd">30</td><td class="confluenceTd"><div class="content-wrapper"><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" width="600" src="attachments/106554302/106559472.png" data-image-src="attachments/106554302/106559472.png" data-unresolved-comment-count="0" data-linked-resource-id="106559472" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2022-11-18_16-54-59.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="106554302" data-linked-resource-container-version="132"></span></p></div></td><td colspan="1" class="confluenceTd"><div class="content-wrapper"><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" width="500" src="attachments/106554302/106561352.png" data-image-src="attachments/106554302/106561352.png" data-unresolved-comment-count="0" data-linked-resource-id="106561352" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2022-11-21_15-38-52.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="106554302" data-linked-resource-container-version="132"></span></p></div></td></tr><tr><td class="confluenceTd"><span style="color: rgb(0,0,0);">2022-11-18~2022-11-19</span></td><td class="confluenceTd">40</td><td class="confluenceTd"><div class="content-wrapper"><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" width="600" src="attachments/106554302/106561203.png" data-image-src="attachments/106554302/106561203.png" data-unresolved-comment-count="0" data-linked-resource-id="106561203" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2022-11-21_11-6-53.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="106554302" data-linked-resource-container-version="132"></span></p></div></td><td colspan="1" class="confluenceTd"><div class="content-wrapper"><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" width="500" src="attachments/106554302/106561353.png" data-image-src="attachments/106554302/106561353.png" data-unresolved-comment-count="0" data-linked-resource-id="106561353" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2022-11-21_15-39-10.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="106554302" data-linked-resource-container-version="132"></span></p></div></td></tr></tbody></table></div><p class="auto-cursor-target">1）千人一面每天生成明细数在40万+，千人千面生成明细数在15+左右（除了核心线程数20那天，只有2万+）</p><p class="auto-cursor-target">2）千人千面每天密集生成时间点都是在，早上9点与下位1点（除了核心线程数20那天，只有早上9点）</p><p class="auto-cursor-target">3）千人一面为单任务单机处理模式，要想压力越大，只需要单次涉及的门店数越大即可</p><p class="auto-cursor-target">4）千人千面为单任务集群处理模式，单次处理最大值已定，只需要全量并行即可</p><p class="auto-cursor-target">5）所选区间内也没有大任务数据导出的任务，只有3次不超过3500的导出，可以当做普通的前人一面任务</p><h1 class="auto-cursor-target" id="id-明细生成阶段线程池核心线程数-2、dubbo活跃线程数">2、dubbo活跃线程数</h1><p>5<span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" width="1200" src="attachments/106554302/106561319.png" data-image-src="attachments/106554302/106561319.png" data-unresolved-comment-count="0" data-linked-resource-id="106561319" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2022-11-21_15-11-11.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="106554302" data-linked-resource-container-version="132"></span></p><p>10<span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" width="1200" src="attachments/106554302/106561211.png" data-image-src="attachments/106554302/106561211.png" data-unresolved-comment-count="0" data-linked-resource-id="106561211" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2022-11-21_11-13-38.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="106554302" data-linked-resource-container-version="132"></span></p><p>20<span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" width="1200" src="attachments/106554302/106561215.png" data-image-src="attachments/106554302/106561215.png" data-unresolved-comment-count="0" data-linked-resource-id="106561215" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2022-11-21_11-14-20.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="106554302" data-linked-resource-container-version="132"></span></p><p>30<span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" width="1200" src="attachments/106554302/106561218.png" data-image-src="attachments/106554302/106561218.png" data-unresolved-comment-count="0" data-linked-resource-id="106561218" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2022-11-21_11-15-49.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="106554302" data-linked-resource-container-version="132"></span></p><p>40<span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" width="1200" src="attachments/106554302/106561219.png" data-image-src="attachments/106554302/106561219.png" data-unresolved-comment-count="0" data-linked-resource-id="106561219" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2022-11-21_11-16-24.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="106554302" data-linked-resource-container-version="132"></span></p><p>外部请求情况基本相似，偶有1-2个时间点线程池任务数增趋势不同，是由于企微大量划拨后回调引起，服务耗时不超过50ms，对服务影响不大</p><h1 class="auto-cursor-target" id="id-明细生成阶段线程池核心线程数-3、cpu">3、cpu</h1><p>5<span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" width="700" src="attachments/106554302/106561317.png" data-image-src="attachments/106554302/106561317.png" data-unresolved-comment-count="0" data-linked-resource-id="106561317" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2022-11-21_15-9-48.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="106554302" data-linked-resource-container-version="132"></span></p><p>10<span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" width="700" src="attachments/106554302/106561235.png" data-image-src="attachments/106554302/106561235.png" data-unresolved-comment-count="0" data-linked-resource-id="106561235" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2022-11-21_11-32-8.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="106554302" data-linked-resource-container-version="132"></span></p><p>20<span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" width="700" src="attachments/106554302/106561237.png" data-image-src="attachments/106554302/106561237.png" data-unresolved-comment-count="0" data-linked-resource-id="106561237" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2022-11-21_11-32-51.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="106554302" data-linked-resource-container-version="132"></span></p><p>30<span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" width="700" src="attachments/106554302/106561238.png" data-image-src="attachments/106554302/106561238.png" data-unresolved-comment-count="0" data-linked-resource-id="106561238" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2022-11-21_11-33-16.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="106554302" data-linked-resource-container-version="132"></span></p><p>40<span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" width="700" src="attachments/106554302/106561239.png" data-image-src="attachments/106554302/106561239.png" data-unresolved-comment-count="0" data-linked-resource-id="106561239" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2022-11-21_11-33-41.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="106554302" data-linked-resource-container-version="132"></span></p><p><br/></p><p>随着核心线程的扩大，</p><p>1）对于较大的的千人一面的任务（产生明细3万左右），cpu尖刺也是越高，cpu切换也越频繁</p><p>2）对于千人千面任务，cpu尖刺比较平稳，只是会出现区间段内的高、多尖刺。由于算法限制，一次最大处理1000，而内部50一批分批处理，最大也就是20个线程并行处理</p><h1 class="auto-cursor-target" id="id-明细生成阶段线程池核心线程数-4、启动线程趋势">4、启动线程趋势</h1><p>5<span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" width="700" src="attachments/106554302/106561321.png" data-image-src="attachments/106554302/106561321.png" data-unresolved-comment-count="0" data-linked-resource-id="106561321" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2022-11-21_15-12-11.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="106554302" data-linked-resource-container-version="132"></span></p><p>10<span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" width="700" src="attachments/106554302/106561274.png" data-image-src="attachments/106554302/106561274.png" data-unresolved-comment-count="0" data-linked-resource-id="106561274" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2022-11-21_13-59-28.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="106554302" data-linked-resource-container-version="132"></span></p><p>20<span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" width="700" src="attachments/106554302/106561275.png" data-image-src="attachments/106554302/106561275.png" data-unresolved-comment-count="0" data-linked-resource-id="106561275" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2022-11-21_14-0-16.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="106554302" data-linked-resource-container-version="132"></span></p><p>30<span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" width="700" src="attachments/106554302/106561276.png" data-image-src="attachments/106554302/106561276.png" data-unresolved-comment-count="0" data-linked-resource-id="106561276" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2022-11-21_14-0-47.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="106554302" data-linked-resource-container-version="132"></span></p><p>40<span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" width="700" src="attachments/106554302/106561277.png" data-image-src="attachments/106554302/106561277.png" data-unresolved-comment-count="0" data-linked-resource-id="106561277" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2022-11-21_14-1-34.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="106554302" data-linked-resource-container-version="132"></span></p><p>随着核心线程数越大，启动线程自然也是越大，仅仅针对任务量够大的千人一面任务；千人千面任务在核心线程池扩大到20以后就几乎保持不变</p><h1 class="auto-cursor-target" id="id-明细生成阶段线程池核心线程数-5、内存">5、内存</h1><p>5<span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" width="700" src="attachments/106554302/106561315.png" data-image-src="attachments/106554302/106561315.png" data-unresolved-comment-count="0" data-linked-resource-id="106561315" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2022-11-21_15-8-54.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="106554302" data-linked-resource-container-version="132"></span></p><p>10<span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" width="700" src="attachments/106554302/106561282.png" data-image-src="attachments/106554302/106561282.png" data-unresolved-comment-count="0" data-linked-resource-id="106561282" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2022-11-21_14-8-12.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="106554302" data-linked-resource-container-version="132"></span></p><p>20<span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" width="700" src="attachments/106554302/106561283.png" data-image-src="attachments/106554302/106561283.png" data-unresolved-comment-count="0" data-linked-resource-id="106561283" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2022-11-21_14-8-39.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="106554302" data-linked-resource-container-version="132"></span></p><p>30<span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" width="700" src="attachments/106554302/106561284.png" data-image-src="attachments/106554302/106561284.png" data-unresolved-comment-count="0" data-linked-resource-id="106561284" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2022-11-21_14-9-18.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="106554302" data-linked-resource-container-version="132"></span></p><p>40<span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" width="700" src="attachments/106554302/106561285.png" data-image-src="attachments/106554302/106561285.png" data-unresolved-comment-count="0" data-linked-resource-id="106561285" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2022-11-21_14-9-45.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="106554302" data-linked-resource-container-version="132"></span></p><p>1）数据在此阶段会有许多大对象，但生命周期都比较短，都是朝生夕死；偶有泄露，但是不大，老年代始终维持的也比较稳定；后续再决定是否将内存向年轻代倾斜，以充分使用服务器内存</p><p>2）老年代的内存保持基本稳定，说明内存的增长速率与可回收的内存增长速率之间保持平衡。和业务比较单一相关，没有多余的其他业务造成平衡打破；未来每次新业务引入后，或参数调节后（比如核心线程数），</p><p>可以观察一段时间的内存情况来判断服务的平衡状态是否被打破，业务之间如何协同</p><h1 id="id-明细生成阶段线程池核心线程数-6、GC">6、GC</h1><p>5<span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" width="1200" src="attachments/106554302/106561323.png" data-image-src="attachments/106554302/106561323.png" data-unresolved-comment-count="0" data-linked-resource-id="106561323" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2022-11-21_15-13-7.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="106554302" data-linked-resource-container-version="132"></span></p><p>10<span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" width="1200" src="attachments/106554302/106561262.png" data-image-src="attachments/106554302/106561262.png" data-unresolved-comment-count="0" data-linked-resource-id="106561262" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2022-11-21_11-43-11.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="106554302" data-linked-resource-container-version="132"></span></p><p>20<span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" width="1200" src="attachments/106554302/106561261.png" data-image-src="attachments/106554302/106561261.png" data-unresolved-comment-count="0" data-linked-resource-id="106561261" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2022-11-21_11-42-33.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="106554302" data-linked-resource-container-version="132"></span></p><p>30<span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" width="1200" src="attachments/106554302/106561260.png" data-image-src="attachments/106554302/106561260.png" data-unresolved-comment-count="0" data-linked-resource-id="106561260" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2022-11-21_11-42-3.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="106554302" data-linked-resource-container-version="132"></span></p><p>40<span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" width="1200" src="attachments/106554302/106561259.png" data-image-src="attachments/106554302/106561259.png" data-unresolved-comment-count="0" data-linked-resource-id="106561259" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2022-11-21_11-41-31.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="106554302" data-linked-resource-container-version="132"></span></p><h1 id="id-明细生成阶段线程池核心线程数-7、结论">7、结论</h1><div class="table-wrap"><table class="wrapped confluenceTable"><colgroup><col style="width: 91.0px;"/><col style="width: 119.0px;"/><col style="width: 116.0px;"/><col style="width: 413.0px;"/><col style="width: 91.0px;"/><col style="width: 257.0px;"/></colgroup><tbody><tr><th class="confluenceTh">核心线程数</th><th colspan="1" class="confluenceTh">满线程处理批数</th><th class="confluenceTh">cpu(max，%)</th><th class="confluenceTh">明细批数（任务id）</th><th colspan="1" class="confluenceTh">生成明细数</th><th class="confluenceTh">内存大小（dmp阶段+明细生成阶段）</th></tr><tr><td class="confluenceTd">5</td><td colspan="1" class="confluenceTd">5*50</td><td class="confluenceTd">20</td><td class="confluenceTd">11970（34737）</td><td colspan="1" class="confluenceTd">23940</td><td class="confluenceTd"><div class="content-wrapper"><p>流程处理过程中伴随着gc，内存不好估算</p><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" width="400" src="attachments/106554302/106561455.png" data-image-src="attachments/106554302/106561455.png" data-unresolved-comment-count="0" data-linked-resource-id="106561455" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2022-11-21_17-33-19.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="106554302" data-linked-resource-container-version="132"></span></p><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" width="400" src="attachments/106554302/106561458.png" data-image-src="attachments/106554302/106561458.png" data-unresolved-comment-count="0" data-linked-resource-id="106561458" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2022-11-21_17-34-10.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="106554302" data-linked-resource-container-version="132"></span></p></div></td></tr><tr><td class="confluenceTd">10</td><td colspan="1" class="confluenceTd">10*50</td><td class="confluenceTd">17</td><td class="confluenceTd">12189（35971）</td><td colspan="1" class="confluenceTd">36567</td><td class="confluenceTd"><div class="content-wrapper"><p>流程处理过程中伴随着gc，内存不好估算<span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" width="400" src="attachments/106554302/106561437.png" data-image-src="attachments/106554302/106561437.png" data-unresolved-comment-count="0" data-linked-resource-id="106561437" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2022-11-21_17-21-20.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="106554302" data-linked-resource-container-version="132"></span></p><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" width="400" src="attachments/106554302/106561438.png" data-image-src="attachments/106554302/106561438.png" data-unresolved-comment-count="0" data-linked-resource-id="106561438" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2022-11-21_17-22-49.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="106554302" data-linked-resource-container-version="132"></span></p></div></td></tr><tr><td class="confluenceTd">20</td><td colspan="1" class="confluenceTd">20*50</td><td class="confluenceTd">20</td><td class="confluenceTd">12888（36589）</td><td colspan="1" class="confluenceTd">25776</td><td class="confluenceTd">内存足够，396M，600M</td></tr><tr><td colspan="1" class="confluenceTd">30</td><td colspan="1" class="confluenceTd">30*50</td><td colspan="1" class="confluenceTd">23</td><td colspan="1" class="confluenceTd">13179（36947）</td><td colspan="1" class="confluenceTd">39537</td><td colspan="1" class="confluenceTd">内存足够，1.339G，2.267G，</td></tr><tr><td colspan="1" class="confluenceTd">40</td><td colspan="1" class="confluenceTd">40*50</td><td colspan="1" class="confluenceTd">39</td><td colspan="1" class="confluenceTd"><p>26538（37154，37155）</p><p>两个任务都在同一台服务，同一秒开始，都是13269</p></td><td colspan="1" class="confluenceTd">79814</td><td colspan="1" class="confluenceTd"><p>内存足够，577M，1.664G，</p></td></tr></tbody></table></div><p class="auto-cursor-target">1）在触达中心当下承载的业务模式下，明细处理阶段<span style="color: rgb(255,0,0);">并发处理2000门店</span>也不存在性能瓶颈问题，cpu的使用率虽然达到39%，但还远未到cpu的瓶颈（触达中心任务更像是大数据任务，内存更重要）。</p><p class="auto-cursor-target">2）以电销<span style="color: rgb(255,0,0);">人均门店数按照1000+、40核心</span>线程数据计算，至少支持<span style="color: rgb(255,0,0);">79814/1000=8</span>个电销并发使用，因为部署的是集群，所以支持<span style="color: rgb(255,0,0);">8*4=32</span>个电销同时使用（<span style="color: rgb(255,0,0);">近30天触达任务创建人日均30+左右</span>）。</p><p class="auto-cursor-target">因为业务的特殊模式，也不存在大量的任务并发开始，所以明细处理阶段不会存在瓶颈。</p><p class="auto-cursor-target"><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" width="400" src="attachments/106554302/110559425.png" data-image-src="attachments/106554302/110559425.png" data-unresolved-comment-count="0" data-linked-resource-id="110559425" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2022-11-22_10-11-27.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="106554302" data-linked-resource-container-version="132"></span>        <span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" width="200" src="attachments/106554302/110559431.png" data-image-src="attachments/106554302/110559431.png" data-unresolved-comment-count="0" data-linked-resource-id="110559431" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2022-11-22_10-13-57.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="106554302" data-linked-resource-container-version="132"></span></p><p class="auto-cursor-target">3）任务处理流程较长，其中也会生成许多对象，尽量缩短对象的存活时长也可以保证垃圾回收能回收更多的内存（优化代码逻辑）。</p>
+                    </div>
+
+                                        <div class="pageSection group">
+                        <div class="pageSectionHeader">
+                            <h2 id="attachments" class="pageSectionTitle">Attachments:</h2>
+                        </div>
+
+                        <div class="greybox" align="left">
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/106554302/106556411.png">image2022-11-14_11-36-44.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/106554302/106557282.png">image2022-11-15_14-54-19.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/106554302/106557288.png">image2022-11-15_14-58-20.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/106554302/106557304.png">image2022-11-15_15-8-16.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/106554302/106557319.png">image2022-11-15_15-16-46.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/106554302/106557323.png">image2022-11-15_15-22-19.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/106554302/106557328.png">image2022-11-15_15-26-37.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/106554302/106557335.png">image2022-11-15_15-30-51.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/106554302/106557338.png">image2022-11-15_15-31-48.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/106554302/106557343.png">image2022-11-15_15-34-16.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/106554302/106557351.png">image2022-11-15_15-37-58.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/106554302/106557366.png">image2022-11-15_15-43-5.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/106554302/106557410.png">image2022-11-15_15-55-2.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/106554302/106557413.png">image2022-11-15_15-56-39.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/106554302/106557414.png">image2022-11-15_15-57-46.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/106554302/106557439.png">image2022-11-15_16-8-52.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/106554302/106557496.png">image2022-11-15_16-26-6.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/106554302/106557513.png">image2022-11-15_16-38-17.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/106554302/106557514.png">image2022-11-15_16-38-50.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/106554302/106557520.png">image2022-11-15_16-44-31.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/106554302/106558285.png">image2022-11-17_10-41-24.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/106554302/106558288.png">image2022-11-17_10-42-26.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/106554302/106558290.png">image2022-11-17_10-42-45.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/106554302/106558304.png">image2022-11-17_10-53-11.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/106554302/106558307.png">image2022-11-17_10-53-46.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/106554302/106559469.png">image2022-11-18_16-48-59.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/106554302/106559472.png">image2022-11-18_16-54-59.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/106554302/106561203.png">image2022-11-21_11-6-53.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/106554302/106561208.png">image2022-11-21_11-13-12.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/106554302/106561211.png">image2022-11-21_11-13-38.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/106554302/106561215.png">image2022-11-21_11-14-20.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/106554302/106561218.png">image2022-11-21_11-15-49.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/106554302/106561219.png">image2022-11-21_11-16-24.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/106554302/106561223.png">image2022-11-21_11-20-40.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/106554302/106561224.png">image2022-11-21_11-21-39.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/106554302/106561225.png">image2022-11-21_11-22-19.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/106554302/106561226.png">image2022-11-21_11-22-50.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/106554302/106561235.png">image2022-11-21_11-32-8.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/106554302/106561236.png">image2022-11-21_11-32-38.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/106554302/106561237.png">image2022-11-21_11-32-51.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/106554302/106561238.png">image2022-11-21_11-33-16.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/106554302/106561239.png">image2022-11-21_11-33-41.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/106554302/106561258.png">image2022-11-21_11-41-26.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/106554302/106561259.png">image2022-11-21_11-41-31.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/106554302/106561260.png">image2022-11-21_11-42-3.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/106554302/106561261.png">image2022-11-21_11-42-33.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/106554302/106561262.png">image2022-11-21_11-43-11.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/106554302/106561274.png">image2022-11-21_13-59-28.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/106554302/106561275.png">image2022-11-21_14-0-16.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/106554302/106561276.png">image2022-11-21_14-0-47.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/106554302/106561277.png">image2022-11-21_14-1-34.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/106554302/106561282.png">image2022-11-21_14-8-12.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/106554302/106561283.png">image2022-11-21_14-8-39.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/106554302/106561284.png">image2022-11-21_14-9-18.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/106554302/106561285.png">image2022-11-21_14-9-45.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/106554302/106561315.png">image2022-11-21_15-8-54.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/106554302/106561317.png">image2022-11-21_15-9-48.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/106554302/106561319.png">image2022-11-21_15-11-11.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/106554302/106561321.png">image2022-11-21_15-12-11.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/106554302/106561323.png">image2022-11-21_15-13-7.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/106554302/106561329.png">image2022-11-21_15-15-47.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/106554302/106561343.png">image2022-11-21_15-35-40.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/106554302/106561345.png">image2022-11-21_15-36-6.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/106554302/106561347.png">image2022-11-21_15-37-4.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/106554302/106561348.png">image2022-11-21_15-38-14.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/106554302/106561352.png">image2022-11-21_15-38-52.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/106554302/106561353.png">image2022-11-21_15-39-10.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/106554302/106561437.png">image2022-11-21_17-21-20.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/106554302/106561438.png">image2022-11-21_17-22-49.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/106554302/106561455.png">image2022-11-21_17-33-19.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/106554302/106561458.png">image2022-11-21_17-34-10.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/106554302/110559418.png">image2022-11-22_10-8-49.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/106554302/110559425.png">image2022-11-22_10-11-27.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/106554302/110559431.png">image2022-11-22_10-13-57.png</a> (image/png)
+                                <br/>
+                                                    </div>
+                    </div>
+                    
+                 
+                </div>             </div> 
+            <div id="footer" role="contentinfo">
+                <section class="footer-body">
+                    <p>Document generated by Confluence on 2026-04-10 10:44</p>
+                    <div id="footer-logo"><a href="http://www.atlassian.com/">Atlassian</a></div>
+                </section>
+            </div>
+        </div>     </body>
+</html>

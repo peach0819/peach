@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>大商家组 : 触达任务（touch-center）</title>
+        <link rel="stylesheet" href="styles/site.css" type="text/css" />
+        <META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    </head>
+
+    <body class="theme-default aui-theme-default">
+        <div id="page">
+            <div id="main" class="aui-page-panel">
+                <div id="main-header">
+                    <div id="breadcrumb-section">
+                        <ol id="breadcrumbs">
+                            <li class="first">
+                                <span><a href="index.html">大商家组</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="82552158.html">触达中心</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="91598069.html">5、系统分析&amp;保障</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="115115082.html">1）性能相关</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="106548558.html">触达任务创建-&gt;发送全链路</a></span>
+                            </li>
+                                                </ol>
+                    </div>
+                    <h1 id="title-heading" class="pagetitle">
+                                                <span id="title-text">
+                            大商家组 : 触达任务（touch-center）
+                        </span>
+                    </h1>
+                </div>
+
+                <div id="content" class="view">
+                    <div class="page-metadata">
+                        
+        
+    
+        
+    
+        
+        
+            Created by <span class='author'> dong.wang</span>, last modified on 2022-11-11
+                        </div>
+                    <div id="main-content" class="wiki-content group">
+                    <h1 id="id-触达任务（touchcenter）-一、链路概览">一、链路概览</h1><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" width="1000" src="attachments/106548668/106551270.jpg" data-image-src="attachments/106548668/106551270.jpg" data-unresolved-comment-count="0" data-linked-resource-id="106551270" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="创建-_明细 全链路 (1).jpg" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/jpeg" data-linked-resource-container-id="106548668" data-linked-resource-container-version="30"></span></p><h1 id="id-触达任务（touchcenter）-二、业务流程">二、业务流程</h1><h2 id="id-触达任务（touchcenter）-2.1、核心流程（三种触达任务+合成素材）">2.1、核心流程 （三种触达任务+合成素材）</h2><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" width="1000" src="attachments/106548668/106552054.jpg" data-image-src="attachments/106548668/106552054.jpg" data-unresolved-comment-count="0" data-linked-resource-id="106552054" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="创建-_明细生成 (2).jpg" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/jpeg" data-linked-resource-container-id="106548668" data-linked-resource-container-version="30"></span></p><h1 id="id-触达任务（touchcenter）-三、稳定性分析">三、稳定性分析</h1><h2 id="id-触达任务（touchcenter）-3.1、业务预测风险点">3.1、业务预测风险点</h2><h3 id="id-触达任务（touchcenter）-3.1.1、大批量任务并发致内存上涨">3.1.1、大批量任务并发致内存上涨</h3><p>1）dmp阶段未使用线程池，一次请求（任务定时启动、人工创建定时启动）就会有一个线程获取一份dmp的全量数据</p><p>2）所有任务生成明细时共用线程池，核心线程稳定。但此阶段持续时间较长，并且每个线程会持有一定的业务数据，算法的商品行的增加可能导致内存成倍的增加</p><p><br/></p><p><strong>取最近的峰值数据分析，任务生成总量，任务第一批生成时间与最后一批完成时间 （128716，2022-11-06 14:04:47~2022-11-06 15:38:43）<span style="color: rgb(255,0,0);">数据会经过各种规则条件过滤，实际过程数据会大于当前数据</span></strong></p><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" width="500" src="attachments/106548668/106551346.png" data-image-src="attachments/106548668/106551346.png" data-unresolved-comment-count="0" data-linked-resource-id="106551346" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2022-11-7_15-10-45.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="106548668" data-linked-resource-container-version="30"></span><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" width="500" src="attachments/106548668/106551350.png" data-image-src="attachments/106548668/106551350.png" data-unresolved-comment-count="0" data-linked-resource-id="106551350" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2022-11-7_15-16-41.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="106548668" data-linked-resource-container-version="30"></span></p><p><strong>指定区间内</strong></p><p><strong>1）线程池任务数大增；</strong></p><p><strong>2）cpu抖动明显，持续时间较长，但都未超过10%，性能还是比较充足；</strong></p><p><strong>3）jvm回收频率的提升，但是老年代内存稳定，不存在内存泄露问题，说明内存的增长速度与可回收的内存增长速度保持的比较合理</strong><strong>；</strong></p><p><strong>4）数据库实例cpu尖刺与明细产生关联不大，主要造成的影响是一段区间内的cpu平均使用率的提高</strong></p><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" width="1000" src="attachments/106548668/106551366.png" data-image-src="attachments/106548668/106551366.png" data-unresolved-comment-count="0" data-linked-resource-id="106551366" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2022-11-7_15-32-35.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="106548668" data-linked-resource-container-version="30"></span></p><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" width="1000" src="attachments/106548668/106551367.png" data-image-src="attachments/106548668/106551367.png" data-unresolved-comment-count="0" data-linked-resource-id="106551367" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2022-11-7_15-33-14.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="106548668" data-linked-resource-container-version="30"></span></p><p><br/></p><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" width="1000" src="attachments/106548668/106551368.png" data-image-src="attachments/106548668/106551368.png" data-unresolved-comment-count="0" data-linked-resource-id="106551368" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2022-11-7_15-33-56.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="106548668" data-linked-resource-container-version="30"></span></p><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" width="1000" src="attachments/106548668/106551371.png" data-image-src="attachments/106548668/106551371.png" data-unresolved-comment-count="0" data-linked-resource-id="106551371" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2022-11-7_15-39-8.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="106548668" data-linked-resource-container-version="30"></span></p><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" width="1000" src="attachments/106548668/106551410.png" data-image-src="attachments/106548668/106551410.png" data-unresolved-comment-count="0" data-linked-resource-id="106551410" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2022-11-7_16-19-33.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="106548668" data-linked-resource-container-version="30"></span></p><h3 id="id-触达任务（touchcenter）-3.1.2、任务明细导出">3.1.2、任务明细导出</h3><p>数据先全量读到内存，再补充所有其他相关数据，最后再一次性导出数据。导出大任务、或并发导出多个任务时，会造成内存上涨</p><p>以下做了几次线上导出测试 </p><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" width="1000" src="attachments/106548668/106551494.png" data-image-src="attachments/106548668/106551494.png" data-unresolved-comment-count="0" data-linked-resource-id="106551494" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2022-11-7_17-40-49.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="106548668" data-linked-resource-container-version="30"></span></p><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" width="1000" src="attachments/106548668/106551498.png" data-image-src="attachments/106548668/106551498.png" data-unresolved-comment-count="0" data-linked-resource-id="106551498" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2022-11-7_17-45-39.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="106548668" data-linked-resource-container-version="30"></span></p><p>cpu尖刺比较高，RowDML从innodb表读取大量数据，应该是数据不在内存导致需要大量读取，导致cpu尖刺较高</p><p><br/></p><p>假设在业务最繁忙的时候，刚好有大数据的导出任务，更加容易引发数据泄露</p><p><br/></p><h3 id="id-触达任务（touchcenter）-3.1.3、素材合成，企微客户端并发请求">3.1.3、素材合成，企微客户端并发请求</h3><p>请求在时间上分开比较合理，平均rt很小，最大rt偶有尖刺，不影响，不存在瓶颈</p><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" width="1000" src="attachments/106548668/106552136.png" data-image-src="attachments/106548668/106552136.png" data-unresolved-comment-count="0" data-linked-resource-id="106552136" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2022-11-9_9-56-45.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="106548668" data-linked-resource-container-version="30"></span></p><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" width="1000" src="attachments/106548668/106552131.png" data-image-src="attachments/106548668/106552131.png" data-unresolved-comment-count="0" data-linked-resource-id="106552131" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2022-11-9_9-53-41.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="106548668" data-linked-resource-container-version="30"></span></p><h1 id="id-触达任务（touchcenter）-四.事项&amp;计划">四. 事项&amp;计划<span style="color: rgb(193,199,208);"><span> </span></span></h1><div class="table-wrap"><table class="fixed-table wrapped confluenceTable"><colgroup><col style="width: 100.0px;"/><col style="width: 247.0px;"/><col style="width: 558.0px;"/><col style="width: 75.0px;"/><col style="width: 75.0px;"/><col style="width: 104.0px;"/><col style="width: 140.0px;"/></colgroup><tbody><tr><th style="text-align: center;" class="confluenceTh">分类</th><th style="text-align: center;" class="confluenceTh">事项(方案)</th><th style="text-align: center;" class="confluenceTh">目标</th><th colspan="1" style="text-align: center;" class="confluenceTh">优先级</th><th colspan="1" style="text-align: center;" class="confluenceTh">进度</th><th colspan="1" style="text-align: center;" class="confluenceTh">负责人</th><th colspan="1" style="text-align: center;" class="confluenceTh">时间计划</th></tr><tr><td rowspan="2" style="text-align: left;" class="confluenceTd">持续压测<br/><br/><br/><br/><br/><br/></td><td style="text-align: left;" class="confluenceTd"><p>dmp阶段压测（千人一面任务）</p><p>变量：</p><p>1、同时启动任务数量</p></td><td style="text-align: left;" class="confluenceTd"><p>获取单机能支持最大的并发任务数量级，得出能够同时支撑大概多少普通电销并发使用触达中心</p></td><td colspan="1" style="text-align: center;" class="confluenceTd">P1</td><td colspan="1" style="text-align: center;" class="confluenceTd"><br/></td><td colspan="1" style="text-align: center;" class="confluenceTd"><br/></td><td colspan="1" style="text-align: center;" class="confluenceTd"><br/></td></tr><tr><td colspan="1" class="confluenceTd"><p>明细生成阶段压测（千人千面任务）</p><p>变量：</p><p>1、算法策略分批大小（分批大小不变，icp扛不住）</p><p>2、明细生成核心线程池大小</p><p>（5、10、15、20）</p><p>3、算法返回的商品行数</p><p>（3、10，算法这边不好扩，没业务不扩展）</p><p><br/></p></td><td colspan="1" class="confluenceTd"><p>单机能支持的最大核心线程数（任务明细的生成速率）</p><p>在不改变现有变量的情况下，估算能支持算法返回的商品行数</p></td><td colspan="1" class="confluenceTd">     P2</td><td colspan="1" class="confluenceTd"><br/></td><td colspan="1" class="confluenceTd"><br/></td><td colspan="1" class="confluenceTd"><a href="106554302.html">明细生成阶段-线程池核心线程数</a></td></tr><tr><td rowspan="2" style="text-align: left;" class="confluenceTd"><p>逻辑优化</p></td><td colspan="1" style="text-align: left;" class="confluenceTd">导出优化</td><td colspan="1" style="text-align: left;" class="confluenceTd">导出实现数据分批导出，</td><td colspan="1" style="text-align: center;" class="confluenceTd">P0</td><td colspan="1" style="text-align: center;" class="confluenceTd"><br/></td><td colspan="1" style="text-align: center;" class="confluenceTd"><br/></td><td colspan="1" style="text-align: center;" class="confluenceTd"><br/></td></tr><tr><td colspan="1" class="confluenceTd">明细生成阶段逻辑优化（明细压测之后）</td><td colspan="1" class="confluenceTd">数据存活时间限制，大对象能否优化数据结构</td><td colspan="1" class="confluenceTd">     P2</td><td colspan="1" class="confluenceTd"><br/></td><td colspan="1" class="confluenceTd"><br/></td><td colspan="1" class="confluenceTd"><br/></td></tr></tbody></table></div><p><br/></p><p><br/></p><p><br/></p><p><br/></p><p><br/></p>
+                    </div>
+
+                                        <div class="pageSection group">
+                        <div class="pageSectionHeader">
+                            <h2 id="attachments" class="pageSectionTitle">Attachments:</h2>
+                        </div>
+
+                        <div class="greybox" align="left">
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/106548668/106551303.jpg">创建-_明细生成.jpg</a> (image/jpeg)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/106548668/106551250.jpg">创建-_明细 全链路.jpg</a> (image/jpeg)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/106548668/106551270.jpg">创建-_明细 全链路 (1).jpg</a> (image/jpeg)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/106548668/106552046.jpg">创建-_明细生成.jpg</a> (image/jpeg)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/106548668/106551346.png">image2022-11-7_15-10-45.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/106548668/106551349.png">image2022-11-7_15-16-14.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/106548668/106551350.png">image2022-11-7_15-16-41.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/106548668/106551355.png">image2022-11-7_15-19-48.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/106548668/106551356.png">image2022-11-7_15-20-58.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/106548668/106551366.png">image2022-11-7_15-32-35.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/106548668/106551367.png">image2022-11-7_15-33-14.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/106548668/106551368.png">image2022-11-7_15-33-56.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/106548668/106551371.png">image2022-11-7_15-39-8.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/106548668/106551410.png">image2022-11-7_16-19-33.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/106548668/106551494.png">image2022-11-7_17-40-49.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/106548668/106551498.png">image2022-11-7_17-45-39.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/106548668/106551198.jpg">创建-_明细生成.jpg</a> (image/jpeg)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/106548668/106552054.jpg">创建-_明细生成 (2).jpg</a> (image/jpeg)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/106548668/106552131.png">image2022-11-9_9-53-41.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/106548668/106552136.png">image2022-11-9_9-56-45.png</a> (image/png)
+                                <br/>
+                                                    </div>
+                    </div>
+                    
+                 
+                </div>             </div> 
+            <div id="footer" role="contentinfo">
+                <section class="footer-body">
+                    <p>Document generated by Confluence on 2026-04-10 10:44</p>
+                    <div id="footer-logo"><a href="http://www.atlassian.com/">Atlassian</a></div>
+                </section>
+            </div>
+        </div>     </body>
+</html>

@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>大商家组 : 20221025 触达中心数据库实例CPU问题排查记录</title>
+        <link rel="stylesheet" href="styles/site.css" type="text/css" />
+        <META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    </head>
+
+    <body class="theme-default aui-theme-default">
+        <div id="page">
+            <div id="main" class="aui-page-panel">
+                <div id="main-header">
+                    <div id="breadcrumb-section">
+                        <ol id="breadcrumbs">
+                            <li class="first">
+                                <span><a href="index.html">大商家组</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="82552158.html">触达中心</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="82552162.html">6、问题排查</a></span>
+                            </li>
+                                                </ol>
+                    </div>
+                    <h1 id="title-heading" class="pagetitle">
+                                                <span id="title-text">
+                            大商家组 : 20221025 触达中心数据库实例CPU问题排查记录
+                        </span>
+                    </h1>
+                </div>
+
+                <div id="content" class="view">
+                    <div class="page-metadata">
+                        
+        
+    
+        
+    
+        
+        
+            Created by <span class='author'> tao.zheng8833</span>, last modified on 2022-10-25
+                        </div>
+                    <div id="main-content" class="wiki-content group">
+                    <h3 id="id-20221025触达中心数据库实例CPU问题排查记录-问题记录">问题记录</h3><p>1025下午14点10分，小橘反馈crm实例，出现qps上涨的情况</p><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image confluence-thumbnail" height="250" src="attachments/106543018/106543022.png" data-image-src="attachments/106543018/106543022.png" data-unresolved-comment-count="0" data-linked-resource-id="106543022" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2022-10-25_17-27-17.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="106543018" data-linked-resource-container-version="3"></span></p><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" height="250" src="attachments/106543018/106543023.png" data-image-src="attachments/106543018/106543023.png" data-unresolved-comment-count="0" data-linked-resource-id="106543023" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2022-10-25_17-28-7.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="106543018" data-linked-resource-container-version="3"></span></p><p><br/></p><p>一开始猜测可能是因为触达任务发送的原因，看了一下rds调用的qps，发现实际上qps跟之前的差别并不大，存在略微波动</p><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" height="250" src="attachments/106543018/106543024.png" data-image-src="attachments/106543018/106543024.png" data-unresolved-comment-count="0" data-linked-resource-id="106543024" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2022-10-25_17-29-9.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="106543018" data-linked-resource-container-version="3"></span></p><p><br/></p><p>排查过程中，下午14点48分，报警群出现告警，touch-center应用heap报警</p><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image confluence-thumbnail" height="250" src="attachments/106543018/106543033.png" data-image-src="attachments/106543018/106543033.png" data-unresolved-comment-count="0" data-linked-resource-id="106543033" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2022-10-25_17-34-39.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="106543018" data-linked-resource-container-version="3"></span></p><p>观察错误日志发现有导出报错，于是查询了导出的日志，发现导出成功的实际只花费了两秒，而导出失败的也是报错之后直接中断，跟这个问题无关</p><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" height="250" src="attachments/106543018/106543044.png" data-image-src="attachments/106543018/106543044.png" data-unresolved-comment-count="0" data-linked-resource-id="106543044" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2022-10-25_17-37-42.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="106543018" data-linked-resource-container-version="3"></span></p><p>观察hisee日志，发现实际有大量youngGC，并且老年代是由于youngGC没有回收掉内存，导致对象进入老年代，导致内存涨高</p><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" height="250" src="attachments/106543018/106543195.png" data-image-src="attachments/106543018/106543195.png" data-unresolved-comment-count="0" data-linked-resource-id="106543195" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2022-10-25_21-8-0.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="106543018" data-linked-resource-container-version="3"></span></p><p><br/></p><p>dump了机器，发现卡住较久的线程都是生成明细线程，说明生成明细时生成大量线程并行运行导致内存增高</p><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" height="250" src="attachments/106543018/106543054.png" data-image-src="attachments/106543018/106543054.png" data-unresolved-comment-count="0" data-linked-resource-id="106543054" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2022-10-25_17-39-55.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="106543018" data-linked-resource-container-version="3"></span></p><p>看了代码发现，当前明细生成线程中，存在较多的crm实例读写，推测是因为RDS的cpu飙高导致线程池线程持续存活</p><p><br/></p><p>通过了阿里云的sql诊断分析，发现rds cpu的尖刺，每一个尖刺对应的时间点，都对应着一个innodb data written的尖刺，也就表示存在一个大量写入的任务（定时任务或者回流）</p><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" height="250" src="attachments/106543018/106543060.png" data-image-src="attachments/106543018/106543060.png" data-unresolved-comment-count="0" data-linked-resource-id="106543060" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2022-10-25_17-41-58.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="106543018" data-linked-resource-container-version="3"></span><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" height="250" src="attachments/106543018/106543061.png" data-image-src="attachments/106543018/106543061.png" data-unresolved-comment-count="0" data-linked-resource-id="106543061" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2022-10-25_17-42-6.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="106543018" data-linked-resource-container-version="3"></span></p><p><br/></p><p>通过sql洞察和分析，捞取了指定尖刺时间点的任务，发现存在往回流表大量写数据的情况，且一条sql仅写入一行数据</p><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" height="250" src="attachments/106543018/106543064.png" data-image-src="attachments/106543018/106543064.png" data-unresolved-comment-count="0" data-linked-resource-id="106543064" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2022-10-25_17-43-55.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="106543018" data-linked-resource-container-version="3"></span></p><p>通过hirac调度日志发现，sync_st_nrt_72_hour_a_gmv_h 准实时任务的调度时间点，和尖刺时间点基本吻合，观察了回流表一个版本的数据，数据量在1W左右，并且create_time都是同一秒，说明在一秒钟，产生了1W条左右的sql，并且是并行执行的</p><p>导致对数据量cpu压力飙升。</p><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" height="250" src="attachments/106543018/106543065.png" data-image-src="attachments/106543018/106543065.png" data-unresolved-comment-count="0" data-linked-resource-id="106543065" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2022-10-25_17-44-15.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="106543018" data-linked-resource-container-version="3"></span></p><p><br/></p><p>后续在晚上没有触达任务的场景下，也观察到出现innodb的写尖刺，可以论证和业务无关，与定时准实时回流任务有关</p><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" height="250" src="attachments/106543018/106543201.png" data-image-src="attachments/106543018/106543201.png" data-unresolved-comment-count="0" data-linked-resource-id="106543201" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2022-10-25_21-14-11.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="106543018" data-linked-resource-container-version="3"></span></p><h3 id="id-20221025触达中心数据库实例CPU问题排查记录-结论：">结论：</h3><p>1、造成RDS CPU飙升的原因为：</p><p>1）当天为大促，crm-core会员等级业务接口中，对t_shop_biz查询量增大，基础qps增高</p><p>2）当天为大促，并且企微解封，开始日常使用，出现大量群发任务，基础qps增高</p><p>3）常规回流任务，会正常产生尖刺，在1） 2）的加持下，造成了突破rds cpu阈值的现象</p><p><br/></p><p>2、造成touch-center内存飙高的原因：</p><p>1）当天为大促，在14点-15点本身存在大量明细生成的场景</p><p>2）上述rds cpu飙升，并且明细生成线程本身跟crm实例数据库交互较多（1个线程包含10处左右），并且单个明细生成线程中内存存在线程上下文，存储了大量业务前置数据，伴随着数据库查询变慢，线程持续存活，线程上下文中的对象持续无法被younggc回收，导致内存进入老年代</p><p><br/></p><p>3、action:</p><p>1）touch-center中的明细生成线程，减小单个线程生成明细数，以及线程池核心线程数，减小内存堆积</p><p>2）后续回流任务上云后，云上会控制回流并发线程数，不会再跟目前sqoop一样，一秒钟并发写入大量sql，对rds产生性能尖刺。</p><p><br/></p>
+                    </div>
+
+                                        <div class="pageSection group">
+                        <div class="pageSectionHeader">
+                            <h2 id="attachments" class="pageSectionTitle">Attachments:</h2>
+                        </div>
+
+                        <div class="greybox" align="left">
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/106543018/106543022.png">image2022-10-25_17-27-17.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/106543018/106543023.png">image2022-10-25_17-28-7.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/106543018/106543024.png">image2022-10-25_17-29-9.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/106543018/106543033.png">image2022-10-25_17-34-39.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/106543018/106543044.png">image2022-10-25_17-37-42.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/106543018/106543054.png">image2022-10-25_17-39-55.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/106543018/106543060.png">image2022-10-25_17-41-58.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/106543018/106543061.png">image2022-10-25_17-42-6.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/106543018/106543064.png">image2022-10-25_17-43-55.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/106543018/106543065.png">image2022-10-25_17-44-15.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/106543018/106543195.png">image2022-10-25_21-8-0.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/106543018/106543201.png">image2022-10-25_21-14-11.png</a> (image/png)
+                                <br/>
+                                                    </div>
+                    </div>
+                    
+                 
+                </div>             </div> 
+            <div id="footer" role="contentinfo">
+                <section class="footer-body">
+                    <p>Document generated by Confluence on 2026-04-10 10:45</p>
+                    <div id="footer-logo"><a href="http://www.atlassian.com/">Atlassian</a></div>
+                </section>
+            </div>
+        </div>     </body>
+</html>

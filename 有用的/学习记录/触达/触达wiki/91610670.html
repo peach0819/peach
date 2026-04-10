@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>大商家组 : 触达中心算法性能优化V1.0压测报告-20220413</title>
+        <link rel="stylesheet" href="styles/site.css" type="text/css" />
+        <META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    </head>
+
+    <body class="theme-default aui-theme-default">
+        <div id="page">
+            <div id="main" class="aui-page-panel">
+                <div id="main-header">
+                    <div id="breadcrumb-section">
+                        <ol id="breadcrumbs">
+                            <li class="first">
+                                <span><a href="index.html">大商家组</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="82552158.html">触达中心</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="91598069.html">5、系统分析&amp;保障</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="115115082.html">1）性能相关</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="91609967.html">2.触达中心算法性能优化V1.0压测方案-20220413</a></span>
+                            </li>
+                                                </ol>
+                    </div>
+                    <h1 id="title-heading" class="pagetitle">
+                                                <span id="title-text">
+                            大商家组 : 触达中心算法性能优化V1.0压测报告-20220413
+                        </span>
+                    </h1>
+                </div>
+
+                <div id="content" class="view">
+                    <div class="page-metadata">
+                        
+        
+    
+        
+    
+        
+        
+            Created by <span class='author'> 宋芷君</span>, last modified on 2022-04-24
+                        </div>
+                    <div id="main-content" class="wiki-content group">
+                    <h2 id="id-触达中心算法性能优化V1.0压测报告20220413-一、测试结论：">一、测试结论：</h2><p>1、相同场景、阈值、策略下，算法性能有明显提升，略提升1-9分钟不等（策略复杂度不同，提升幅度不同）。目前在80阈值下最快7分钟，最慢13分钟可计算完成。当阈值调整120，算法计算时长大概10分钟左右。后续会阶梯性将阈值调整到120。</p><p><strong>优化前：</strong></p><div class="table-wrap"><table class="relative-table wrapped confluenceTable" style="width: 83.2952%;"><colgroup><col style="width: 6.87443%;"/><col style="width: 20.9899%;"/><col style="width: 16.7736%;"/><col style="width: 16.3153%;"/><col style="width: 16.5903%;"/><col style="width: 8.15765%;"/><col style="width: 14.2988%;"/></colgroup><thead><tr><th style="text-align: left;" class="confluenceTh"><p>阈值</p></th><th style="text-align: left;" class="confluenceTh"><p><span style="color: rgb(23,43,77);">小程序列表新签推品-活动</span></p></th><th style="text-align: left;" class="confluenceTh"><p>query召回</p></th><th style="text-align: left;" class="confluenceTh"><p>大长尾日常复购</p></th><th colspan="1" style="text-align: left;" class="confluenceTh"><p>奶粉价格表</p></th><th colspan="1" style="text-align: left;" class="confluenceTh"><p>资源负载（all）</p></th><th colspan="1" style="text-align: left;" class="confluenceTh"><p>备注</p></th></tr></thead><tbody><tr><td style="text-align: left;" class="confluenceTd">60</td><td style="text-align: left;" class="confluenceTd">18分钟</td><td style="text-align: left;" class="confluenceTd">--</td><td style="text-align: left;" class="confluenceTd">--</td><td colspan="1" style="text-align: left;" class="confluenceTd">--</td><td colspan="1" style="text-align: left;" class="confluenceTd">无波动</td><td colspan="1" style="text-align: left;" class="confluenceTd"><br/></td></tr><tr><td style="text-align: left;" class="confluenceTd">80</td><td style="text-align: left;" class="confluenceTd">10分钟</td><td style="text-align: left;" class="confluenceTd">17分钟</td><td style="text-align: left;" class="confluenceTd">16分钟</td><td colspan="1" style="text-align: left;" class="confluenceTd">14分钟</td><td colspan="1" style="text-align: left;" class="confluenceTd">无波动</td><td colspan="1" style="text-align: left;" class="confluenceTd"><br/></td></tr><tr><td style="text-align: left;" class="confluenceTd">100</td><td style="text-align: left;" class="confluenceTd">13分钟</td><td style="text-align: left;" class="confluenceTd">--</td><td style="text-align: left;" class="confluenceTd">--</td><td colspan="1" style="text-align: left;" class="confluenceTd">--</td><td colspan="1" style="text-align: left;" class="confluenceTd">无波动</td><td colspan="1" style="text-align: left;" class="confluenceTd"><br/></td></tr><tr><td colspan="1" style="text-align: left;" class="confluenceTd">120</td><td colspan="1" style="text-align: left;" class="confluenceTd">16分钟</td><td colspan="1" style="text-align: left;" class="confluenceTd">--</td><td colspan="1" style="text-align: left;" class="confluenceTd">--</td><td colspan="1" style="text-align: left;" class="confluenceTd">12分钟</td><td colspan="1" style="text-align: left;" class="confluenceTd">无波动</td><td colspan="1" style="text-align: left;" class="confluenceTd"><br/></td></tr></tbody></table></div><p class="auto-cursor-target"><span style="color: rgb(255,0,0);"><strong>优化后：</strong></span></p><div class="table-wrap"><table class="relative-table wrapped confluenceTable" style="width: 83.2952%;"><colgroup><col style="width: 6.96609%;"/><col style="width: 21.2649%;"/><col style="width: 16.3153%;"/><col style="width: 16.407%;"/><col style="width: 16.3153%;"/><col style="width: 8.43263%;"/><col style="width: 14.2988%;"/></colgroup><thead><tr><th style="text-align: left;" class="confluenceTh"><p>阈值</p></th><th style="text-align: left;" class="confluenceTh"><p><span style="color: rgb(23,43,77);">小程序列表新签推品-活动</span></p></th><th style="text-align: left;" class="confluenceTh"><p>query召回</p></th><th style="text-align: left;" class="confluenceTh"><p>大长尾日常复购</p></th><th colspan="1" style="text-align: left;" class="confluenceTh"><p>奶粉价格表</p></th><th colspan="1" style="text-align: left;" class="confluenceTh"><p>资源负载（all）</p></th><th colspan="1" style="text-align: left;" class="confluenceTh"><p>备注</p></th></tr></thead><tbody><tr><td style="text-align: left;" class="confluenceTd">60</td><td style="text-align: left;" class="confluenceTd">11分钟 <span style="color: rgb(255,0,0);">↑（提升5分钟）</span></td><td style="text-align: left;" class="confluenceTd">--</td><td style="text-align: left;" class="confluenceTd">--</td><td colspan="1" style="text-align: left;" class="confluenceTd">--</td><td colspan="1" style="text-align: left;" class="confluenceTd">无波动</td><td colspan="1" style="text-align: left;" class="confluenceTd"><br/></td></tr><tr><td style="text-align: left;" class="confluenceTd">80</td><td style="text-align: left;" class="confluenceTd"><span style="color: rgb(0,0,0);">10分钟--<span style="color: rgb(0,128,0);">（持平）</span></span></td><td style="text-align: left;" class="confluenceTd"><span style="color: rgb(0,0,0);">12分钟 <span style="color: rgb(255,0,0);">↑（提升5分钟）</span></span></td><td style="text-align: left;" class="confluenceTd"><span style="color: rgb(0,0,0);">7分钟 <span style="color: rgb(255,0,0);">↑ （提升9分钟）</span></span></td><td colspan="1" style="text-align: left;" class="confluenceTd"><span style="color: rgb(0,0,0);">13分钟<span style="color: rgb(255,0,0);">↑ （提升1分钟）</span></span></td><td colspan="1" style="text-align: left;" class="confluenceTd">无波动</td><td colspan="1" style="text-align: left;" class="confluenceTd"><br/></td></tr><tr><td style="text-align: left;" class="confluenceTd">100</td><td style="text-align: left;" class="confluenceTd"><p>9分钟 <span style="color: rgb(255,0,0);">↑（提升4分钟）</span></p></td><td style="text-align: left;" class="confluenceTd">--</td><td style="text-align: left;" class="confluenceTd">--</td><td colspan="1" style="text-align: left;" class="confluenceTd">--</td><td colspan="1" style="text-align: left;" class="confluenceTd">无波动</td><td colspan="1" style="text-align: left;" class="confluenceTd"><br/></td></tr><tr><td colspan="1" style="text-align: left;" class="confluenceTd">120</td><td colspan="1" style="text-align: left;" class="confluenceTd">9分钟 <span style="color: rgb(255,0,0);">↑（提升7分钟）</span></td><td colspan="1" style="text-align: left;" class="confluenceTd">--</td><td colspan="1" style="text-align: left;" class="confluenceTd">--</td><td colspan="1" style="text-align: left;" class="confluenceTd">9分钟<span style="color: rgb(255,0,0);">↑（提升3分钟）</span></td><td colspan="1" style="text-align: left;" class="confluenceTd">无波动</td><td colspan="1" style="text-align: left;" class="confluenceTd"><br/></td></tr></tbody></table></div><p><br/></p><h2 id="id-触达中心算法性能优化V1.0压测报告20220413-二、待优化性能问题：">二、待优化性能问题：</h2><div class="table-wrap"><table class="relative-table wrapped confluenceTable" style="width: 100.0%;"><colgroup><col style="width: 39.635%;"/><col style="width: 5.86594%;"/><col style="width: 4.95229%;"/><col style="width: 8.53173%;"/><col style="width: 12.4129%;"/><col style="width: 28.6021%;"/></colgroup><thead><tr><th style="text-align: left;" class="confluenceTh"><p>问题</p></th><th colspan="1" style="text-align: left;" class="confluenceTh"><p>优先级</p></th><th colspan="1" class="confluenceTh">状态</th><th colspan="1" style="text-align: left;" class="confluenceTh"><p>排期</p></th><th colspan="1" style="text-align: left;" class="confluenceTh"><p>owner</p></th><th style="text-align: left;" class="confluenceTh"><p>备注</p></th></tr></thead><tbody><tr><td style="text-align: left;" class="confluenceTd"><p>由于写库和拿价格、优惠券属于同步操作导致大量写库耗时比较严重，拉长了整体的系统计算时长。</p><p><span style="color: rgb(255,0,0);">80配置下奶粉价格表14分钟=8分钟（算法计算）+6分钟（写库）</span></p></td><td colspan="1" style="text-align: left;" class="confluenceTd">P0</td><td colspan="1" class="confluenceTd"><span style="color: rgb(0,128,0);">已解决</span></td><td colspan="1" style="text-align: left;" class="confluenceTd"><span style="color: rgb(0,128,0);">0413已发布</span></td><td colspan="1" style="text-align: left;" class="confluenceTd">远哥、芷君</td><td style="text-align: left;" class="confluenceTd"><div class="content-wrapper"><p><br/></p></div></td></tr><tr><td colspan="1" class="confluenceTd"><p style="text-align: left;">当QPS阈值调高后，QPS压不上去。</p><p style="text-align: left;"><span style="color: rgb(255,0,0);">120配置 小程序新签：耗时16分钟</span></p><p style="text-align: left;"><span style="color: rgb(255,0,0);">80配置 小程序新签：耗时10分钟</span></p><p style="text-align: left;"><span style="color: rgb(255,0,0);">奶粉价格表也呈现相同趋势</span></p></td><td colspan="1" class="confluenceTd">P1</td><td colspan="1" class="confluenceTd">待解决</td><td colspan="1" class="confluenceTd"><br/></td><td colspan="1" class="confluenceTd">珏远</td><td colspan="1" class="confluenceTd">压不上去的原因跟线程同步锁的使用方式有关，目前Thread.sleep的实现方式多线程执行时不会释放锁，可以改成wait方式以提升并发性能。</td></tr><tr><td colspan="1" class="confluenceTd"><span style="color: rgb(23,43,77);">减少数据库层的压力。（下掉不需要的策略）</span></td><td colspan="1" class="confluenceTd">P2</td><td colspan="1" class="confluenceTd">待解决</td><td colspan="1" class="confluenceTd"><br/></td><td colspan="1" class="confluenceTd">珏远</td><td colspan="1" class="confluenceTd">已和产品同步过，用不到的策略逐步下线</td></tr><tr><td colspan="1" class="confluenceTd"><span style="color: rgb(23,43,77);">召回表的数据量会较大，后期策略会越来越多，MySQL支持不了这个体量。考虑换数据库</span></td><td colspan="1" class="confluenceTd">P2</td><td colspan="1" class="confluenceTd">待解决</td><td colspan="1" class="confluenceTd"><br/></td><td colspan="1" class="confluenceTd">珏远</td><td colspan="1" class="confluenceTd">已立项召回引擎使用mongodb解决大数据量存储及召回策略复用问题</td></tr><tr><td colspan="1" class="confluenceTd">80阈值下小程序新签list策略优化前后耗时相同。</td><td colspan="1" class="confluenceTd">P3</td><td colspan="1" class="confluenceTd">待验证</td><td colspan="1" class="confluenceTd"><br/></td><td colspan="1" class="confluenceTd">芷君</td><td colspan="1" class="confluenceTd"><br/></td></tr></tbody></table></div><h2 class="auto-cursor-target" id="id-触达中心算法性能优化V1.0压测报告20220413-三、算法阈值调整跟进">三、算法阈值调整跟进</h2><p>从压测数据看，当阈值调整到120时，对上下游业务没有太大影响，且算法也能满足业务方需求，所以决定将ai-match阶梯性切换到80。每隔一周观察下线上数据，再做调整。具体细节参考下图：</p><p>最优点位计算：</p><ul style=""><li>阈值耗时X毫秒</li><li>导购接口平均耗时110毫秒</li><li>营销查券接口耗时25毫秒</li><li>算法内部消耗耗时Y毫秒</li><li>导购QPS最高只能达到80左右</li><li>平衡点：(1000/X+110+25+Y)*4*5 = 80    →    计算得出X+Y=115 。也就是说阈值调整和内部消耗时长控制在115以内最优。<span style="color: rgb(255,0,0);">（备注：4：代表4台机器，5：代表：5个线程）</span></li></ul><div class="table-wrap"><table class="relative-table wrapped confluenceTable" style="width: 46.8345%;"><colgroup><col style="width: 7.99347%;"/><col style="width: 17.9445%;"/><col style="width: 16.6395%;"/><col style="width: 57.4225%;"/></colgroup><tbody><tr><th class="confluenceTh">阶梯</th><th class="confluenceTh">时间段</th><th class="confluenceTh">是否完成</th><th class="confluenceTh">备注</th></tr><tr><td class="confluenceTd">20</td><td class="confluenceTd">0328</td><td class="confluenceTd"><img class="emoticon emoticon-tick" src="images/icons/emoticons/check.svg" data-emoticon-name="tick" alt="(滴答)"/></td><td class="confluenceTd"><br/></td></tr><tr><td class="confluenceTd">40</td><td class="confluenceTd">0401早上</td><td class="confluenceTd"><img class="emoticon emoticon-tick" src="images/icons/emoticons/check.svg" data-emoticon-name="tick" alt="(滴答)"/></td><td class="confluenceTd"><br/></td></tr><tr><td colspan="1" class="confluenceTd">60</td><td colspan="1" class="confluenceTd">0401晚上</td><td colspan="1" class="confluenceTd"><img class="emoticon emoticon-tick" src="images/icons/emoticons/check.svg" data-emoticon-name="tick" alt="(滴答)"/></td><td colspan="1" class="confluenceTd"><br/></td></tr><tr><td colspan="1" class="confluenceTd">80</td><td colspan="1" class="confluenceTd">0413</td><td colspan="1" class="confluenceTd"><img class="emoticon emoticon-tick" src="images/icons/emoticons/check.svg" data-emoticon-name="tick" alt="(滴答)"/></td><td colspan="1" class="confluenceTd"><br/></td></tr></tbody></table></div>
+                    </div>
+
+                                        <div class="pageSection group">
+                        <div class="pageSectionHeader">
+                            <h2 id="attachments" class="pageSectionTitle">Attachments:</h2>
+                        </div>
+
+                        <div class="greybox" align="left">
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/91610670/91610679.png">image2022-3-31_15-13-37.png</a> (image/png)
+                                <br/>
+                                                    </div>
+                    </div>
+                    
+                 
+                </div>             </div> 
+            <div id="footer" role="contentinfo">
+                <section class="footer-body">
+                    <p>Document generated by Confluence on 2026-04-10 10:44</p>
+                    <div id="footer-logo"><a href="http://www.atlassian.com/">Atlassian</a></div>
+                </section>
+            </div>
+        </div>     </body>
+</html>

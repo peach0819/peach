@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>大商家组 : 触达中心降本分析</title>
+        <link rel="stylesheet" href="styles/site.css" type="text/css" />
+        <META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    </head>
+
+    <body class="theme-default aui-theme-default">
+        <div id="page">
+            <div id="main" class="aui-page-panel">
+                <div id="main-header">
+                    <div id="breadcrumb-section">
+                        <ol id="breadcrumbs">
+                            <li class="first">
+                                <span><a href="index.html">大商家组</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="82552158.html">触达中心</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="91598069.html">5、系统分析&amp;保障</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="115115092.html">3）资源相关</a></span>
+                            </li>
+                                                </ol>
+                    </div>
+                    <h1 id="title-heading" class="pagetitle">
+                                                <span id="title-text">
+                            大商家组 : 触达中心降本分析
+                        </span>
+                    </h1>
+                </div>
+
+                <div id="content" class="view">
+                    <div class="page-metadata">
+                        
+        
+    
+        
+    
+        
+        
+            Created by <span class='author'> tao.zheng8833</span>, last modified on 2023-01-06
+                        </div>
+                    <div id="main-content" class="wiki-content group">
+                    <div class="table-wrap"><table class="wrapped confluenceTable"><colgroup><col/><col/><col/><col/></colgroup><tbody><tr><th class="confluenceTh"><p>内容</p><p>****************</p></th><th class="confluenceTh"><p>明细</p><p>************</p></th><th class="confluenceTh"><p>目前使用情况</p><p>****************************************************************************************</p></th><th class="confluenceTh"><p>可降本情况</p><p>**************************************************************************************</p></th></tr><tr><td rowspan="4" class="confluenceTd">应用基础资源</td><td colspan="1" class="confluenceTd">服务器</td><td colspan="1" class="confluenceTd">无ecs，k8s和k8s-hpk双集群均只有两台机器，最低标准</td><td colspan="1" class="confluenceTd">无</td></tr><tr><td colspan="1" class="confluenceTd">日志服务sls</td><td colspan="1" class="confluenceTd">仅业务通用日志采集，保留7天，最低标准</td><td colspan="1" class="confluenceTd">无</td></tr><tr><td colspan="1" class="confluenceTd">数据库</td><td colspan="1" class="confluenceTd">yt_touch_center库，目前在crm实例中，crm实例近期刚完成降配</td><td colspan="1" class="confluenceTd">无</td></tr><tr><td colspan="1" class="confluenceTd">redis</td><td colspan="1" class="confluenceTd">使用dba统一分配的redis实例中的单个db，最低标准</td><td colspan="1" class="confluenceTd">无</td></tr><tr><td rowspan="4" class="confluenceTd">中间件<br/><br/><br/></td><td class="confluenceTd">disconf</td><td class="confluenceTd">使用disconf作为动态配置变更，在disconf中仅一个应用，最低标准</td><td class="confluenceTd">无</td></tr><tr><td colspan="1" class="confluenceTd">toc</td><td colspan="1" class="confluenceTd">常规使用toc作为定时任务触发器，目前所有定时任务均为有效</td><td colspan="1" class="confluenceTd">无</td></tr><tr><td colspan="1" class="confluenceTd">mq</td><td colspan="1" class="confluenceTd">作为常规provider、consumer，单consumerGroup，最低标准</td><td colspan="1" class="confluenceTd">无</td></tr><tr><td colspan="1" class="confluenceTd">hisee</td><td colspan="1" class="confluenceTd">配置常规错误日志、jvm、dubbo、druid监控，告警时会发短信、钉钉消息</td><td colspan="1" class="confluenceTd">如果降本缺口强烈需要，可以把监控的短信消息去掉</td></tr><tr><td rowspan="2" class="confluenceTd">存储</td><td colspan="1" class="confluenceTd">mysql</td><td colspan="1" class="confluenceTd"><p>目前聊天记录数据保留15天（小记使用），触达明细记录保留30天（触达统计使用），</p><p>其余维度数据均保留全量无法删减，目前磁盘使用率56%</p><p><br/></p></td><td colspan="1" class="confluenceTd"><p>目前事实数据已经缩减至业务最低接受范围（跟PD反复确认），维度数据全量不可删除，</p><p>如果降本缺口强烈需要，需要让业务方克服，减少存储数据使用天数，降低mysql存储量</p></td></tr><tr><td colspan="1" class="confluenceTd">数仓</td><td colspan="1" class="confluenceTd">聊天数据、触达明细数据全量保留dwd7个分区，目前单分区数量暂时可控</td><td colspan="1" class="confluenceTd">如果降本缺口强烈需要，可以从保留7个分区变为保留3个分区</td></tr><tr><td rowspan="3" class="confluenceTd">三方依赖<br/><br/></td><td class="confluenceTd">短信</td><td class="confluenceTd">短信通道为ops提供，目前业务测试后发现效果不佳，已经停止使用，目前无费用</td><td class="confluenceTd">无</td></tr><tr><td colspan="1" class="confluenceTd">涂色</td><td colspan="1" class="confluenceTd">产品承担跟涂色合同费用，api无额外费用</td><td colspan="1" class="confluenceTd">无</td></tr><tr><td colspan="1" class="confluenceTd">企微官方api</td><td colspan="1" class="confluenceTd">产品承担跟企微合同费用，api无额外费用</td><td colspan="1" class="confluenceTd">无</td></tr></tbody></table></div>
+                    </div>
+
+                    
+                 
+                </div>             </div> 
+            <div id="footer" role="contentinfo">
+                <section class="footer-body">
+                    <p>Document generated by Confluence on 2026-04-10 10:45</p>
+                    <div id="footer-logo"><a href="http://www.atlassian.com/">Atlassian</a></div>
+                </section>
+            </div>
+        </div>     </body>
+</html>

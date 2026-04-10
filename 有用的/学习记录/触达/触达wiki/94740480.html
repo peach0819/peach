@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>大商家组 : 短信加链接（跳转小程序）技术方案</title>
+        <link rel="stylesheet" href="styles/site.css" type="text/css" />
+        <META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    </head>
+
+    <body class="theme-default aui-theme-default">
+        <div id="page">
+            <div id="main" class="aui-page-panel">
+                <div id="main-header">
+                    <div id="breadcrumb-section">
+                        <ol id="breadcrumbs">
+                            <li class="first">
+                                <span><a href="index.html">大商家组</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="82552158.html">触达中心</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="86620182.html">4、日常需求</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="158620597.html">2022需求</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="2022-Q2_91616867.html">2022 Q2</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="91616869.html">短信加链接</a></span>
+                            </li>
+                                                </ol>
+                    </div>
+                    <h1 id="title-heading" class="pagetitle">
+                                                <span id="title-text">
+                            大商家组 : 短信加链接（跳转小程序）技术方案
+                        </span>
+                    </h1>
+                </div>
+
+                <div id="content" class="view">
+                    <div class="page-metadata">
+                        
+        
+    
+        
+    
+        
+        
+            Created by <span class='author'> tao.zheng8833</span>, last modified on 2022-05-10
+                        </div>
+                    <div id="main-content" class="wiki-content group">
+                    <p><style type='text/css'>/*<![CDATA[*/
+div.rbtoc1775789049546 {padding: 0px;}
+div.rbtoc1775789049546 ul {list-style: disc;margin-left: 0px;}
+div.rbtoc1775789049546 li {margin-left: 0px;padding-left: 0px;}
+
+/*]]>*/</style><div class='toc-macro rbtoc1775789049546'>
+<ul class='toc-indentation'>
+<li><a href='#id-短信加链接（跳转小程序）技术方案-一、背景'>一、背景</a></li>
+<li><a href='#id-短信加链接（跳转小程序）技术方案-二、业务目标'>二、业务目标</a></li>
+<li><a href='#id-短信加链接（跳转小程序）技术方案-三、产品描述'>三、产品描述</a></li>
+<li><a href='#id-短信加链接（跳转小程序）技术方案-四、名词/术语解释'>四、名词/术语解释</a></li>
+<li><a href='#id-短信加链接（跳转小程序）技术方案-五、用例'>五、用例</a></li>
+<li><a href='#id-短信加链接（跳转小程序）技术方案-六、业务流程'>六、业务流程</a></li>
+<li><a href='#id-短信加链接（跳转小程序）技术方案-七、领域模型'>七、领域模型</a></li>
+<li><a href='#id-短信加链接（跳转小程序）技术方案-八、系统设计'>八、系统设计</a>
+<ul class='toc-indentation'>
+<li><a href='#id-短信加链接（跳转小程序）技术方案-1、整体流程'>1、整体流程</a></li>
+<li><a href='#id-短信加链接（跳转小程序）技术方案-'></a></li>
+<li><a href='#id-短信加链接（跳转小程序）技术方案-2、短信发送'>2、短信发送</a></li>
+<li><a href='#id-短信加链接（跳转小程序）技术方案-3、前端配合'>3、前端配合</a></li>
+</ul>
+</li>
+<li><a href='#id-短信加链接（跳转小程序）技术方案-九、类图'>九、类图</a></li>
+<li><a href='#id-短信加链接（跳转小程序）技术方案-十、数据库设计'>十、数据库设计</a></li>
+<li><a href='#id-短信加链接（跳转小程序）技术方案-十一、搜索设计'>十一、搜索设计</a></li>
+<li><a href='#id-短信加链接（跳转小程序）技术方案-十二、接口设计'>十二、接口设计</a></li>
+<li><a href='#id-短信加链接（跳转小程序）技术方案-十三、涉及数仓的设计'>十三、涉及数仓的设计</a></li>
+<li><a href='#id-短信加链接（跳转小程序）技术方案-十四、中间件配置相关'>十四、中间件配置相关</a></li>
+</ul>
+</div></p><h2 id="id-短信加链接（跳转小程序）技术方案-一、背景">一、背景</h2><p>目前采用ai外呼+企微主动添加的场景下，存在两个问题：<br/>一个是异步动作，AI外呼和添加存在较长时间的差值，企微主动搜索客户加好友，用户好友申请通过率低。<br/>一个是主动添加客户，企微有限制（单日80次请求），希望能尝试被动添加（别人来加我们）</p><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" height="95" src="attachments/94740480/94740485.png" data-image-src="attachments/94740480/94740485.png" data-unresolved-comment-count="0" data-linked-resource-id="94740485" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2022-5-10_10-19-17.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="94740480" data-linked-resource-container-version="7"></span></p><h2 id="id-短信加链接（跳转小程序）技术方案-二、业务目标">二、业务目标</h2><p style="text-align: left;"><span>短信的触达率做到95%以上</span></p><p style="text-align: left;"><span>短信引导添加成功率能做到15%（业界最好成绩）</span></p><h2 id="id-短信加链接（跳转小程序）技术方案-三、产品描述">三、产品描述</h2><h2 id="id-短信加链接（跳转小程序）技术方案-四、名词/术语解释">四、名词/术语解释</h2><h2 id="id-短信加链接（跳转小程序）技术方案-五、用例"><span style="font-size: 20.0px;letter-spacing: -0.008em;">五、用例</span></h2><h2 id="id-短信加链接（跳转小程序）技术方案-六、业务流程">六、业务流程</h2><p><span style="color: rgb(255,0,0);">          <span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" height="250" src="attachments/94740480/94740490.png" data-image-src="attachments/94740480/94740490.png" data-unresolved-comment-count="0" data-linked-resource-id="94740490" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2022-5-10_10-20-14.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="94740480" data-linked-resource-container-version="7"></span></span></p><h2 id="id-短信加链接（跳转小程序）技术方案-七、领域模型">七、领域模型</h2><h2 id="id-短信加链接（跳转小程序）技术方案-八、系统设计">八、系统设计</h2><h4 id="id-短信加链接（跳转小程序）技术方案-1、整体流程">1、整体流程</h4><h4 id="id-短信加链接（跳转小程序）技术方案-"><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" height="250" src="attachments/94740480/94740643.png" data-image-src="attachments/94740480/94740643.png" data-unresolved-comment-count="0" data-linked-resource-id="94740643" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2022-5-10_11-44-15.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="94740480" data-linked-resource-container-version="7"></span></h4><p>这里川枫需要提供一个兜底企微帐号</p><p><br/></p><h4 id="id-短信加链接（跳转小程序）技术方案-2、短信发送">2、短信发送</h4><p>曹进咨询大汉三通、云信供应商后，得到结论，使用营销号可以发送添加企微短信</p><p>alita目前发送暂时无法指定营销号，跟小崮沟通后决定，在短信模板侧添加是否营销下拉框，不影响发送逻辑</p><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" height="250" src="attachments/94740480/94741008.png" data-image-src="attachments/94740480/94741008.png" data-unresolved-comment-count="0" data-linked-resource-id="94741008" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2022-5-10_16-21-6.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="94740480" data-linked-resource-container-version="7"></span></p><p><br/></p><h4 id="id-短信加链接（跳转小程序）技术方案-3、前端配合">3、前端配合</h4><p>需要开发一个ytms页面（无需登录），页面url参数中包含电销二维码图片，页面根据url解析显示二维码，二维码图片长按可添加；</p><p>页面需要埋点信息</p><p><br/></p><h2 id="id-短信加链接（跳转小程序）技术方案-九、类图">九、类图</h2><h2 id="id-短信加链接（跳转小程序）技术方案-十、数据库设计">十、数据库设计</h2><h2 id="id-短信加链接（跳转小程序）技术方案-十一、搜索设计">十一、搜索设计</h2><h2 id="id-短信加链接（跳转小程序）技术方案-十二、接口设计">十二、接口设计</h2><h2 id="id-短信加链接（跳转小程序）技术方案-十三、涉及数仓的设计"><span style="font-size: 20.0px;letter-spacing: -0.008em;">十三、涉及数仓的设计</span></h2><h2 id="id-短信加链接（跳转小程序）技术方案-十四、中间件配置相关">十四、中间件配置相关</h2><p><span style="font-size: 20.0px;letter-spacing: -0.008em;">十五、非功能性需求</span></p><p><span style="font-size: 20.0px;letter-spacing: -0.008em;"><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" height="250" src="attachments/94740480/94741114.png" data-image-src="attachments/94740480/94741114.png" data-unresolved-comment-count="0" data-linked-resource-id="94741114" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2022-5-10_17-11-49.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="94740480" data-linked-resource-container-version="7"></span></span></p><p><br/></p>
+                    </div>
+
+                                        <div class="pageSection group">
+                        <div class="pageSectionHeader">
+                            <h2 id="attachments" class="pageSectionTitle">Attachments:</h2>
+                        </div>
+
+                        <div class="greybox" align="left">
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/94740480/94740481.png">image2021-4-7_21-38-35.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/94740480/94740482.jpg">系统架构.jpg</a> (image/jpeg)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/94740480/94740483.png">图片 1.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/94740480/94740485.png">image2022-5-10_10-19-17.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/94740480/94740490.png">image2022-5-10_10-20-14.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/94740480/94740643.png">image2022-5-10_11-44-15.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/94740480/94741006.png">image2022-5-10_16-20-2.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/94740480/94741008.png">image2022-5-10_16-21-6.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/94740480/94741114.png">image2022-5-10_17-11-49.png</a> (image/png)
+                                <br/>
+                                                    </div>
+                    </div>
+                    
+                 
+                </div>             </div> 
+            <div id="footer" role="contentinfo">
+                <section class="footer-body">
+                    <p>Document generated by Confluence on 2026-04-10 10:44</p>
+                    <div id="footer-logo"><a href="http://www.atlassian.com/">Atlassian</a></div>
+                </section>
+            </div>
+        </div>     </body>
+</html>

@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>大商家组 : 3.为何算法阈值调大后，导购的的QPS反而下降？</title>
+        <link rel="stylesheet" href="styles/site.css" type="text/css" />
+        <META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    </head>
+
+    <body class="theme-default aui-theme-default">
+        <div id="page">
+            <div id="main" class="aui-page-panel">
+                <div id="main-header">
+                    <div id="breadcrumb-section">
+                        <ol id="breadcrumbs">
+                            <li class="first">
+                                <span><a href="index.html">大商家组</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="82552158.html">触达中心</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="91598069.html">5、系统分析&amp;保障</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="115115082.html">1）性能相关</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="91598075.html">1.触达中心系统计算时长测试-20220328</a></span>
+                            </li>
+                                                </ol>
+                    </div>
+                    <h1 id="title-heading" class="pagetitle">
+                                                <span id="title-text">
+                            大商家组 : 3.为何算法阈值调大后，导购的的QPS反而下降？
+                        </span>
+                    </h1>
+                </div>
+
+                <div id="content" class="view">
+                    <div class="page-metadata">
+                        
+        
+    
+        
+    
+        
+        
+            Created by <span class='author'> 宋芷君</span>, last modified on 2022-04-24
+                        </div>
+                    <div id="main-content" class="wiki-content group">
+                    <h2 id="id-3.为何算法阈值调大后，导购的的QPS反而下降？-一、问题现象描述">一、问题现象描述</h2><p>1、<span style="color: rgb(23,43,77);">相同策略（小程序list新签策略）当调高阈值时，</span><span style="color: rgb(23,43,77);">Mall-Server的QPS呈现80&gt;120&gt;100&gt;60的趋势</span></p><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image confluence-external-resource" width="887" src="attachments/91613147/91614268.png" data-image-src="http://k.yangtuojia.com/download/attachments/91613147/image2022-4-19_15-36-32.png?version=1&amp;modificationDate=1650353793000&amp;api=v2"></span></p><p><br/></p><h2 id="id-3.为何算法阈值调大后，导购的的QPS反而下降？-二、问题分析">二、问题分析</h2><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" width="530" src="attachments/91618392/91618535.png" data-image-src="attachments/91618392/91618535.png" data-unresolved-comment-count="0" data-linked-resource-id="91618535" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2022-4-24_16-28-15.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="91618392" data-linked-resource-container-version="7"></span></p><ul><li>阈值耗时X毫秒</li><li>导购接口平均耗时110毫秒</li><li>营销查券接口耗时25毫秒</li><li>算法内部消耗耗时Y毫秒</li><li>导购QPS最高只能达到80左右</li><li>平衡点：(1000/X+110+25+Y)*4*5 = 80    →    计算得出X+Y=115 。也就是说阈值调整和内部消耗时长控制在115以内最优。<span style="color: rgb(255,0,0);">（备注：4：代表4台机器，5：代表：5个线程）</span></li></ul><p>当阈值在不断调高后，得同时需要算法内部消耗的时长越短，导购的QPS才能同等压上去。但事实是，阈值调的越高，由于算法写库是同步操作问题，导致堆积的待处理门店越来越多，所以导购端的QPS不上反而下降。</p><p><br/></p>
+                    </div>
+
+                                        <div class="pageSection group">
+                        <div class="pageSectionHeader">
+                            <h2 id="attachments" class="pageSectionTitle">Attachments:</h2>
+                        </div>
+
+                        <div class="greybox" align="left">
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/91618392/91618398.png">image2022-4-19_16-5-27.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/91618392/91618535.png">image2022-4-24_16-28-15.png</a> (image/png)
+                                <br/>
+                                                    </div>
+                    </div>
+                    
+                 
+                </div>             </div> 
+            <div id="footer" role="contentinfo">
+                <section class="footer-body">
+                    <p>Document generated by Confluence on 2026-04-10 10:44</p>
+                    <div id="footer-logo"><a href="http://www.atlassian.com/">Atlassian</a></div>
+                </section>
+            </div>
+        </div>     </body>
+</html>

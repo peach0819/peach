@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>大商家组 : 触达中心8月日常 技术方案</title>
+        <link rel="stylesheet" href="styles/site.css" type="text/css" />
+        <META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    </head>
+
+    <body class="theme-default aui-theme-default">
+        <div id="page">
+            <div id="main" class="aui-page-panel">
+                <div id="main-header">
+                    <div id="breadcrumb-section">
+                        <ol id="breadcrumbs">
+                            <li class="first">
+                                <span><a href="index.html">大商家组</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="82552158.html">触达中心</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="86620182.html">4、日常需求</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="158620597.html">2022需求</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="2022-Q3_99156981.html">2022 Q3</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="99187466.html">触达中心8月日常</a></span>
+                            </li>
+                                                </ol>
+                    </div>
+                    <h1 id="title-heading" class="pagetitle">
+                                                <span id="title-text">
+                            大商家组 : 触达中心8月日常 技术方案
+                        </span>
+                    </h1>
+                </div>
+
+                <div id="content" class="view">
+                    <div class="page-metadata">
+                        
+        
+    
+        
+    
+        
+        
+            Created by <span class='author'> tao.zheng8833</span> on 2022-08-15
+                        </div>
+                    <div id="main-content" class="wiki-content group">
+                    <p><style type='text/css'>/*<![CDATA[*/
+div.rbtoc1775789053826 {padding: 0px;}
+div.rbtoc1775789053826 ul {list-style: disc;margin-left: 0px;}
+div.rbtoc1775789053826 li {margin-left: 0px;padding-left: 0px;}
+
+/*]]>*/</style><div class='toc-macro rbtoc1775789053826'>
+<ul class='toc-indentation'>
+<li><a href='#id-触达中心8月日常技术方案-一、背景'>一、背景</a></li>
+<li><a href='#id-触达中心8月日常技术方案-二、业务目标'>二、业务目标</a></li>
+<li><a href='#id-触达中心8月日常技术方案-三、产品描述'>三、产品描述</a></li>
+<li><a href='#id-触达中心8月日常技术方案-四、名词/术语解释'>四、名词/术语解释</a></li>
+<li><a href='#id-触达中心8月日常技术方案-五、用例'>五、用例</a></li>
+<li><a href='#id-触达中心8月日常技术方案-六、业务流程'>六、业务流程</a></li>
+<li><a href='#id-触达中心8月日常技术方案-七、领域模型'>七、领域模型</a></li>
+<li><a href='#id-触达中心8月日常技术方案-八、系统设计'>八、系统设计</a>
+<ul class='toc-indentation'>
+<li><a href='#id-触达中心8月日常技术方案-1、需求1：钉钉提醒逻辑'>1、需求1：钉钉提醒逻辑</a></li>
+<li><a href='#id-触达中心8月日常技术方案-2、需求2：任务取消发送延迟'>2、需求2：任务取消发送延迟</a></li>
+<li><a href='#id-触达中心8月日常技术方案-3、需求3：任务发送免打扰规则'>3、需求3：任务发送免打扰规则</a></li>
+</ul>
+</li>
+<li><a href='#id-触达中心8月日常技术方案-九、类图'>九、类图</a></li>
+<li><a href='#id-触达中心8月日常技术方案-十、数据库设计'>十、数据库设计</a></li>
+<li><a href='#id-触达中心8月日常技术方案-十一、搜索设计'>十一、搜索设计</a></li>
+<li><a href='#id-触达中心8月日常技术方案-十二、接口设计'>十二、接口设计</a>
+<ul class='toc-indentation'>
+<li><a href='#id-触达中心8月日常技术方案-1、HOP接口'>         1、HOP接口</a></li>
+<li><a href='#id-触达中心8月日常技术方案-2、Dubbo接口'>          2、Dubbo接口</a></li>
+</ul>
+</li>
+<li><a href='#id-触达中心8月日常技术方案-十三、涉及数仓的设计'>十三、涉及数仓的设计</a></li>
+<li><a href='#id-触达中心8月日常技术方案-十四、中间件配置相关'>十四、中间件配置相关</a></li>
+</ul>
+</div></p><h2 id="id-触达中心8月日常技术方案-一、背景">一、背景</h2><p><a class="external-link" href="http://demo.yangtuojia.com/%E4%B8%9A%E5%8A%A1%E6%9C%8D%E5%8A%A1/2022-%E4%BC%81%E5%BE%AE/2022-08-%E6%8E%89%E7%BA%BF%E6%8F%90%E9%86%92%2B%E5%85%8D%E6%89%93%E6%89%B0/#id=977ixt&amp;p=%E9%92%89%E9%92%89%E6%8F%90%E9%86%92%E9%80%BB%E8%BE%91&amp;g=1" rel="nofollow">http://demo.yangtuojia.com/%E4%B8%9A%E5%8A%A1%E6%9C%8D%E5%8A%A1/2022-%E4%BC%81%E5%BE%AE/2022-08-%E6%8E%89%E7%BA%BF%E6%8F%90%E9%86%92%2B%E5%85%8D%E6%89%93%E6%89%B0/#id=977ixt&amp;p=%E9%92%89%E9%92%89%E6%8F%90%E9%86%92%E9%80%BB%E8%BE%91&amp;g=1</a></p><h2 id="id-触达中心8月日常技术方案-二、业务目标">二、业务目标</h2><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" height="250" src="attachments/99187469/99187488.png" data-image-src="attachments/99187469/99187488.png" data-unresolved-comment-count="0" data-linked-resource-id="99187488" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2022-8-15_9-50-15.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="99187469" data-linked-resource-container-version="1"></span></p><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" height="210" src="attachments/99187469/99187489.png" data-image-src="attachments/99187469/99187489.png" data-unresolved-comment-count="0" data-linked-resource-id="99187489" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2022-8-15_9-50-32.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="99187469" data-linked-resource-container-version="1"></span></p><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" height="250" src="attachments/99187469/99187490.png" data-image-src="attachments/99187469/99187490.png" data-unresolved-comment-count="0" data-linked-resource-id="99187490" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2022-8-15_9-50-40.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="99187469" data-linked-resource-container-version="1"></span></p><p><br/></p><p><br/></p><h2 id="id-触达中心8月日常技术方案-三、产品描述">三、产品描述</h2><h2 id="id-触达中心8月日常技术方案-四、名词/术语解释">四、名词/术语解释</h2><h2 id="id-触达中心8月日常技术方案-五、用例"><span style="font-size: 20.0px;letter-spacing: -0.008em;">五、用例</span></h2><h2 id="id-触达中心8月日常技术方案-六、业务流程">六、业务流程</h2><h2 id="id-触达中心8月日常技术方案-七、领域模型">七、领域模型</h2><h2 id="id-触达中心8月日常技术方案-八、系统设计">八、系统设计</h2><h3 id="id-触达中心8月日常技术方案-1、需求1：钉钉提醒逻辑">1、需求1：钉钉提醒逻辑</h3><p>调用涂色获取个人号接口：<span style="color: rgb(80,80,80);"><a class="external-link" href="https://gateway.bilinl.com/business/wxAcc/list" rel="nofollow">https://gateway.bilinl.com/business/wxAcc/list</a> 并将帐号信息拼接，发送到指定钉钉群</span></p><p><span style="color: rgb(80,80,80);">掉线帐号对应参数：isOnline = 0</span></p><p><span style="color: rgb(80,80,80);">封号帐号对应参数：<span style="color: rgb(59,72,89);">isClose = 1</span></span></p><p><span style="color: rgb(80,80,80);"><span style="color: rgb(59,72,89);">限制帐号对应参数：isForbiden = 1</span></span></p><h3 id="id-触达中心8月日常技术方案-2、需求2：任务取消发送延迟"><span style="color: rgb(80,80,80);"><span style="color: rgb(59,72,89);">2、需求2：任务取消发送延迟</span></span></h3><p><span style="color: rgb(80,80,80);"><span style="color: rgb(59,72,89);">原先逻辑：除了电销和主管发送，均需要延迟10分钟，且打印延迟发送日志</span></span></p><p><span style="color: rgb(59,72,89);">变更为：仅千人千面需要合成图的任务延迟5分钟，且不打印日志</span></p><h3 id="id-触达中心8月日常技术方案-3、需求3：任务发送免打扰规则"><span style="color: rgb(59,72,89);">3、需求3：任务发送免打扰规则</span></h3><p><span style="color: rgb(59,72,89);"><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" width="400" src="attachments/99187469/99187520.png" data-image-src="attachments/99187469/99187520.png" data-unresolved-comment-count="0" data-linked-resource-id="99187520" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2022-8-15_10-4-49.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="99187469" data-linked-resource-container-version="1"></span></span></p><p><br/></p><h2 id="id-触达中心8月日常技术方案-九、类图">九、类图</h2><h2 id="id-触达中心8月日常技术方案-十、数据库设计">十、数据库设计</h2><h2 id="id-触达中心8月日常技术方案-十一、搜索设计">十一、搜索设计</h2><h2 id="id-触达中心8月日常技术方案-十二、接口设计">十二、接口设计</h2><h4 id="id-触达中心8月日常技术方案-1、HOP接口">         1、HOP接口</h4><div class="table-wrap"><table class="wrapped confluenceTable"><colgroup><col/><col/><col/><col/><col/></colgroup><tbody><tr><th class="confluenceTh">接口功能描述</th><th class="confluenceTh">接口名称</th><th colspan="1" class="confluenceTh">变更类型（新增/更新）</th><th class="confluenceTh">对应dubbo接口声明</th><th colspan="1" class="confluenceTh">变更描述</th></tr><tr><td class="confluenceTd"><br/></td><td class="confluenceTd"><br/></td><td colspan="1" class="confluenceTd"><br/></td><td class="confluenceTd"><br/></td><td colspan="1" class="confluenceTd"><br/></td></tr><tr><td class="confluenceTd"><br/></td><td class="confluenceTd"><br/></td><td colspan="1" class="confluenceTd"><br/></td><td class="confluenceTd"><br/></td><td colspan="1" class="confluenceTd"><br/></td></tr></tbody></table></div><h4 id="id-触达中心8月日常技术方案-2、Dubbo接口">          2、Dubbo接口</h4><div class="table-wrap"><table class="wrapped confluenceTable"><colgroup><col/><col/><col/><col/><col/></colgroup><tbody><tr><th class="confluenceTh">接口功能描述</th><th class="confluenceTh">接口声明</th><th class="confluenceTh">接口是否存在富客户端缓存</th><th colspan="1" class="confluenceTh">变更类型（新增/更新）</th><th colspan="1" class="confluenceTh">变更描述</th></tr><tr><td class="confluenceTd"><br/></td><td class="confluenceTd"><br/></td><td class="confluenceTd"><br/></td><td colspan="1" class="confluenceTd"><br/></td><td colspan="1" class="confluenceTd"><br/></td></tr><tr><td class="confluenceTd"><br/></td><td class="confluenceTd"><br/></td><td class="confluenceTd"><br/></td><td colspan="1" class="confluenceTd"><br/></td><td colspan="1" class="confluenceTd"><br/></td></tr></tbody></table></div><h2 id="id-触达中心8月日常技术方案-十三、涉及数仓的设计">十三、涉及数仓的设计</h2><h2 id="id-触达中心8月日常技术方案-十四、中间件配置相关">十四、中间件配置相关</h2><p><span style="font-size: 20.0px;letter-spacing: -0.008em;">十五、非功能性需求</span></p><p><br/></p><p><br/></p><p><br/></p><p><br/></p><p><br/></p>
+                    </div>
+
+                                        <div class="pageSection group">
+                        <div class="pageSectionHeader">
+                            <h2 id="attachments" class="pageSectionTitle">Attachments:</h2>
+                        </div>
+
+                        <div class="greybox" align="left">
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/99187469/99187470.png">image2022-7-6_16-58-30.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/99187469/99187471.png">image2022-7-6_14-37-57.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/99187469/99187472.png">image2022-7-4_16-56-19.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/99187469/99187473.png">image2022-7-4_16-1-58.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/99187469/99187474.png">image2022-7-4_15-49-14.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/99187469/99187475.png">image2022-7-4_15-20-45.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/99187469/99187476.png">image2022-7-4_14-19-42.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/99187469/99187477.png">image2022-7-4_10-48-10.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/99187469/99187478.png">image2022-7-4_10-35-28.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/99187469/99187479.png">image2022-7-4_10-22-17.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/99187469/99187480.png">image2022-7-4_10-21-58.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/99187469/99187481.png">image2022-7-4_10-19-9.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/99187469/99187482.png">image2022-7-4_10-17-7.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/99187469/99187483.png">image2022-7-4_10-16-54.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/99187469/99187484.png">image2022-7-4_10-16-24.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/99187469/99187485.png">image2021-4-7_21-38-35.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/99187469/99187486.jpg">系统架构.jpg</a> (image/jpeg)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/99187469/99187487.png">图片 1.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/99187469/99187488.png">image2022-8-15_9-50-15.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/99187469/99187489.png">image2022-8-15_9-50-32.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/99187469/99187490.png">image2022-8-15_9-50-40.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/99187469/99187520.png">image2022-8-15_10-4-49.png</a> (image/png)
+                                <br/>
+                                                    </div>
+                    </div>
+                    
+                 
+                </div>             </div> 
+            <div id="footer" role="contentinfo">
+                <section class="footer-body">
+                    <p>Document generated by Confluence on 2026-04-10 10:44</p>
+                    <div id="footer-logo"><a href="http://www.atlassian.com/">Atlassian</a></div>
+                </section>
+            </div>
+        </div>     </body>
+</html>

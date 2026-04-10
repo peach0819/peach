@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>大商家组 : 模型定义</title>
+        <link rel="stylesheet" href="styles/site.css" type="text/css" />
+        <META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    </head>
+
+    <body class="theme-default aui-theme-default">
+        <div id="page">
+            <div id="main" class="aui-page-panel">
+                <div id="main-header">
+                    <div id="breadcrumb-section">
+                        <ol id="breadcrumbs">
+                            <li class="first">
+                                <span><a href="index.html">大商家组</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="82552158.html">触达中心</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="86620182.html">4、日常需求</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="2026S1_158620608.html">2026S1</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="162804727.html">DJ营养师需求</a></span>
+                            </li>
+                                                </ol>
+                    </div>
+                    <h1 id="title-heading" class="pagetitle">
+                                                <span id="title-text">
+                            大商家组 : 模型定义
+                        </span>
+                    </h1>
+                </div>
+
+                <div id="content" class="view">
+                    <div class="page-metadata">
+                        
+        
+    
+        
+    
+        
+        
+            Created by <span class='author'> tao.zheng8833</span>, last modified on 2026-03-20
+                        </div>
+                    <div id="main-content" class="wiki-content group">
+                    <h1 id="id-模型定义-1、二方包依赖">1、二方包依赖</h1><div class="code panel pdl" style="border-width: 1px;"><div class="codeContent panelContent pdl">
+<pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">            &lt;dependency&gt;
+                &lt;groupId&gt;com.yt.touchc&lt;/groupId&gt;
+                &lt;artifactId&gt;touchc-api&lt;/artifactId&gt;
+                &lt;version&gt;1.3.4-SNAPSHOT&lt;/version&gt;
+            &lt;/dependency&gt;</pre>
+</div></div><p><br/></p><h1 id="id-模型定义-2、个微群聊消息mq接入">2、个微群聊消息mq接入</h1><h3 id="id-模型定义-消息topic：">消息topic：</h3><p>测试环境：<span>touch_tuse_wx_group_msg_master</span></p><p><span>预发环境：touch_tuse_wx_group_msg_pre</span></p><p><span>线上环境：touch_tuse_wx_group_msg_prod</span></p><p><br/></p><h3 id="id-模型定义-消息tag："><span>消息tag：</span></h3><p><span>tuseWxGroupMsg</span></p><p><br/></p><h3 id="id-模型定义-消息对象：com.yt.touchc.api.tuse.to.TuseWxGroupMsgTO">消息对象：<a class="external-link" href="http://com.yt.touchc.api.tuse.to" rel="nofollow">com.yt.touchc.api.tuse.to</a>.TuseWxGroupMsgTO</h3><div class="code panel pdl" style="border-width: 1px;">
+ <div class="codeHeader panelHeader pdl hide-border-bottom" style="border-bottom-width: 1px;">
+  <b class="code-title">TuseWxGroupMsgTO对象</b>
+  <span class="collapse-source expand-control" style="display:none;"><span class="expand-control-icon icon">&nbsp;</span><span class="expand-control-text">展开源码</span></span>
+  <span class="collapse-spinner-wrapper"></span>
+ </div>
+ <div class="codeContent panelContent pdl hide-toolbar"> 
+  <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence; collapse: true" data-theme="Confluence">public class TuseWxGroupMsgTO implements Serializable {
+
+    private static final long serialVersionUID = -3178609946894181690L;
+
+    /**
+     * 消息id
+     */
+    private String msgId;
+
+    /**
+     * 群id
+     */
+    private String groupId;
+
+    /**
+     * 发送者涂色id
+     */
+    private String sendWxId;
+
+    /**
+     * at的涂色id列表，没有表示没有at
+     */
+    private List&lt;String&gt; toWxIds;
+
+    /**
+     * 涂色微信消息类型
+     * @see TuseMsgTypeEnum
+     */
+    private Integer msgType;
+
+    /**
+     * 涂色微信消息内容
+     */
+    private String msgContent;
+
+    /**
+     * 涂色消息时间
+     */
+    private Date msgTime;
+}</pre> 
+ </div>
+</div><h1 class="auto-cursor-target" id="id-模型定义-3、基础信息查询服务">3、基础信息查询服务</h1><h3 id="id-模型定义-群信息查询">群信息查询</h3><p>dubbo接口类：<a class="external-link" href="http://com.yt" rel="nofollow">com.yt</a>.touchc.api.chat.ChatGroupApi</p><p>groupType：对应枚举 <a class="external-link" href="http://com.yt" rel="nofollow">com.yt</a>.touchc.api.chat.enums.ChatGroupTypeEnum#WX</p><p>groupIds：关联<a class="external-link" href="http://com.yt.touchc.api.tuse.to" rel="nofollow">com.yt.touchc.api.tuse.to</a>.TuseWxGroupMsgTO#groupId</p><div class="code panel pdl" style="border-width: 1px;"><div class="codeContent panelContent pdl">
+<pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">package com.yt.touchc.api.chat;
+
+public interface ChatGroupApi {
+
+    /**
+     * 通过三方群id批量查询已入库数据
+     *
+     * @param groupType 群类型
+     * @param groupIds  三方群id
+     * @return 群列表
+     */
+    RpcResult&lt;List&lt;ChatGroupTO&gt;&gt; getByGroupIds(Integer groupType, List&lt;String&gt; groupIds);
+}</pre>
+</div></div><p><br/></p><h3 id="id-模型定义-群成员信息查询">群成员信息查询</h3><p>dubbo接口类：<a class="external-link" href="http://com.yt" rel="nofollow">com.yt</a>.touchc.api.chat.ChatGroupMemberApi</p><p>chatGroupId：关联 <a class="external-link" href="http://com.yt.touchc.api.chat.to" rel="nofollow">com.yt.touchc.api.chat.to</a>.ChatGroupTO#id</p><p>memberType：对应枚举 <a class="external-link" href="http://com.yt" rel="nofollow">com.yt</a>.touchc.api.chat.enums.ChatGroupMemberTypeEnum#WX_LINKER</p><p>groupUserIds：关联 <a class="external-link" href="http://com.yt.touchc.api.tuse.to" rel="nofollow">com.yt.touchc.api.tuse.to</a>.TuseWxGroupMsgTO#sendWxId 和 <a class="external-link" href="http://com.yt.touchc.api.tuse.to" rel="nofollow">com.yt.touchc.api.tuse.to</a>.TuseWxGroupMsgTO#toWxIds</p><div class="code panel pdl" style="border-width: 1px;"><div class="codeContent panelContent pdl">
+<pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">package com.yt.touchc.api.chat;
+
+public interface ChatGroupMemberApi {
+
+    /**
+     * 通过群id批量查询群成员列表
+     *
+     * @param chatGroupId  群id
+     * @param memberType   群成员类型  com.yt.touchc.api.chat.enums.ChatGroupMemberTypeEnum
+     * @param groupUserIds 群成员id列表
+     * @return 群成员列表
+     */
+    RpcResult&lt;List&lt;ChatGroupMemberTO&gt;&gt; getByGroupUserIds(Long chatGroupId, Integer memberType, List&lt;String&gt; groupUserIds);
+}</pre>
+</div></div><p><br/></p><h1 id="id-模型定义-4、消息回复">4、消息回复</h1><p>dubbo类：<a class="external-link" href="http://com.yt" rel="nofollow">com.yt</a>.touchc.api.chat.ChatMsgApi</p><div class="code panel pdl" style="border-width: 1px;"><div class="codeContent panelContent pdl">
+<pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">public interface ChatMsgApi {
+
+    /**
+     * 涂色群消息回复
+     *
+     * @param form 回复内容
+     * @return 操作编号
+     */
+    RpcResult&lt;String&gt; tuseWxGroupMsgReplySend(TuseWxGroupMsgReplySendForm form);
+}</pre>
+</div></div><p>表单模型：</p><div class="code panel pdl" style="border-width: 1px;"><div class="codeContent panelContent pdl">
+<pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">public class TuseWxGroupMsgReplySendForm implements Serializable {
+
+    private static final long serialVersionUID = -1875886932217480573L;
+
+    /**
+     * 原始消息id
+     */
+    private String msgId;
+
+    /**
+     * 群id
+     */
+    private String groupId;
+
+    /**
+     * at的成员id列表，没有表示没有at
+     */
+    private List&lt;String&gt; toWxIds;
+
+    /**
+     * 消息内容
+     */
+    private List&lt;TuseWxGroupMsgReplyContentForm&gt; contentList;
+
+}
+
+public class TuseWxGroupMsgReplyContentForm implements Serializable {
+
+    private static final long serialVersionUID = 8875098276140279926L;
+
+    /**
+     * 消息序号 1 2 3
+     */
+    private Integer msgNum;
+
+    /**
+     * 消息类型
+     *
+     * @see com.yt.touchc.api.tuse.enums.TuseMsgTypeEnum;
+     */
+    private Integer msgType;
+
+    /**
+     * 消息内容
+     */
+    private String content;
+}</pre>
+</div></div><p><br/></p><h3 id="id-模型定义-结果通过mq消息获取">结果通过mq消息获取</h3><h3 id="id-模型定义-消息topic：.1">消息topic：</h3><p>测试环境：<span>touch_tuse_wx_group_msg_master</span></p><p><span>预发环境：touch_tuse_wx_group_msg_pre</span></p><p><span>线上环境：touch_tuse_wx_group_msg_prod</span></p><p><br/></p><h3 id="id-模型定义-消息tag：.1"><span>消息tag：</span></h3><p><span style="color: rgb(0,51,102);">tuseSendWxGroupMsg</span></p><p><br/></p><h3 id="id-模型定义-消息对象：com.yt.touchc.api.tuse.to.TuseSendWxGroupMsgTO"><span style="color: rgb(0,51,102);">消息对象：<a class="external-link" href="http://com.yt.touchc.api.tuse.to" rel="nofollow">com.yt.touchc.api.tuse.to</a>.TuseSendWxGroupMsgTO</span></h3><div class="code panel pdl" style="border-width: 1px;"><div class="codeContent panelContent pdl">
+<pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">public class TuseSendWxGroupMsgTO implements Serializable {
+
+    private static final long serialVersionUID = 7514255916106565838L;
+
+    /**
+     * 操作编号
+     */
+    private String optSerNo;
+
+    /**
+     * 消息序号
+     */
+    private Integer msgNum;
+
+    /**
+     * 消息发送是否成功
+     */
+    private boolean success;
+
+    /**
+     * 失败类型
+     *
+     * @see com.yt.touchc.api.task.enums.TaskFailTypeEnum
+     */
+    private Integer failType;
+
+    /**
+     * 返回信息
+     */
+    private String resultMsg;
+}
+
+</pre>
+</div></div>
+                    </div>
+
+                    
+                 
+                </div>             </div> 
+            <div id="footer" role="contentinfo">
+                <section class="footer-body">
+                    <p>Document generated by Confluence on 2026-04-10 10:44</p>
+                    <div id="footer-logo"><a href="http://www.atlassian.com/">Atlassian</a></div>
+                </section>
+            </div>
+        </div>     </body>
+</html>

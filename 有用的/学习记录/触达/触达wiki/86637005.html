@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>大商家组 : 触达内容管理技术方案</title>
+        <link rel="stylesheet" href="styles/site.css" type="text/css" />
+        <META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    </head>
+
+    <body class="theme-default aui-theme-default">
+        <div id="page">
+            <div id="main" class="aui-page-panel">
+                <div id="main-header">
+                    <div id="breadcrumb-section">
+                        <ol id="breadcrumbs">
+                            <li class="first">
+                                <span><a href="index.html">大商家组</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="82552158.html">触达中心</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="86620182.html">4、日常需求</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="158620597.html">2022需求</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="2022-Q1_86620184.html">2022 Q1</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="86636999.html">触达内容管理</a></span>
+                            </li>
+                                                </ol>
+                    </div>
+                    <h1 id="title-heading" class="pagetitle">
+                                                <span id="title-text">
+                            大商家组 : 触达内容管理技术方案
+                        </span>
+                    </h1>
+                </div>
+
+                <div id="content" class="view">
+                    <div class="page-metadata">
+                        
+        
+    
+        
+    
+        
+        
+            Created by <span class='author'> tao.zheng8833</span>, last modified by <span class='editor'> 未知用户 (lichao.gong)</span> on 2023-03-13
+                        </div>
+                    <div id="main-content" class="wiki-content group">
+                    <p><style type='text/css'>/*<![CDATA[*/
+div.rbtoc1775789048099 {padding: 0px;}
+div.rbtoc1775789048099 ul {list-style: disc;margin-left: 0px;}
+div.rbtoc1775789048099 li {margin-left: 0px;padding-left: 0px;}
+
+/*]]>*/</style><div class='toc-macro rbtoc1775789048099'>
+<ul class='toc-indentation'>
+<li><a href='#id-触达内容管理技术方案-一、背景'>一、背景</a></li>
+<li><a href='#id-触达内容管理技术方案-二、业务目标'>二、业务目标</a></li>
+<li><a href='#id-触达内容管理技术方案-三、产品描述'>三、产品描述</a></li>
+<li><a href='#id-触达内容管理技术方案-四、名词/术语解释'>四、名词/术语解释</a></li>
+<li><a href='#id-触达内容管理技术方案-五、用例'>五、用例</a></li>
+<li><a href='#id-触达内容管理技术方案-六、业务流程'>六、业务流程</a>
+<ul class='toc-indentation'>
+<li><a href='#id-触达内容管理技术方案-'></a></li>
+</ul>
+</li>
+<li><a href='#id-触达内容管理技术方案-七、领域模型'>七、领域模型</a></li>
+<li><a href='#id-触达内容管理技术方案-八、系统设计'>八、系统设计</a>
+<ul class='toc-indentation'>
+<li><a href='#id-触达内容管理技术方案-1、触达规则配置'>1、触达规则配置</a></li>
+<li><a href='#id-触达内容管理技术方案-2、疲劳度控制漏斗'>2、疲劳度控制漏斗</a></li>
+<li><a href='#id-触达内容管理技术方案-3、离线重试流程（补偿通道）'>3、离线重试流程（补偿通道）</a></li>
+<li><a href='#id-触达内容管理技术方案-4、企微官方通道流程'>4、企微官方通道流程</a></li>
+<li><a href='#id-触达内容管理技术方案-5、触达通道全链路'>5、触达通道全链路</a></li>
+</ul>
+</li>
+<li><a href='#id-触达内容管理技术方案-九、类图'>九、类图</a></li>
+<li><a href='#id-触达内容管理技术方案-十、数据库设计'>十、数据库设计</a></li>
+<li><a href='#id-触达内容管理技术方案-十一、搜索设计'>十一、搜索设计</a></li>
+<li><a href='#id-触达内容管理技术方案-十二、接口设计'>十二、接口设计</a>
+<ul class='toc-indentation'>
+<li><a href='#id-触达内容管理技术方案-1、HOP接口'>1、HOP接口</a></li>
+</ul>
+</li>
+<li><a href='#id-触达内容管理技术方案-十三、涉及数仓的设计'>十三、涉及数仓的设计</a></li>
+<li><a href='#id-触达内容管理技术方案-十四、中间件配置相关'>十四、中间件配置相关</a></li>
+</ul>
+</div></p><h2 id="id-触达内容管理技术方案-一、背景">一、背景</h2><p>触达中心主要是以 营销活动发送 为主要场景.  </p><p>当使用方为了基于考核目标,可能会在不考虑转化率的情况下不停发送营销信息,导致用户对其不厌其烦,最终可能导致直接 屏蔽/拉黑/停止合作 等. 该过程往往不可逆或成本较高.</p><p>因此为了避免打扰用户,影响整个通道的健康度.</p><p><br/></p><p>目前 企微(含触达中心) 的指标为   绑定率, 活跃率, 打开率. 这些指标都是门店粒度的. </p><p>疲劳度做工的点在</p><p>1) 通过控制发送频率,减少门店恶感, 避免过度打扰导致被拉黑. 降低拉黑率, 进而稳定 绑定率</p><p>2) 通过 1) 控制发送频率 2) 匹配合适的发送通道 来提高门店对触达的 反馈率. (该反馈率为发送任务粒度的), 确保消息是门店实际上需要的.</p><p><br/></p><p>企微渠道与涂色渠道差异梳理：<a href="91596838.html">企微渠道和涂色渠道差异性记录</a></p><h2 id="id-触达内容管理技术方案-二、业务目标">二、业务目标</h2><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" width="800" src="attachments/86637005/86637015.png" data-image-src="attachments/86637005/86637015.png" data-unresolved-comment-count="0" data-linked-resource-id="86637015" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2022-3-10_17-36-7.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="86637005" data-linked-resource-container-version="19"></span></p><h2 id="id-触达内容管理技术方案-三、产品描述">三、产品描述</h2><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" width="800" src="attachments/86637005/86637014.png" data-image-src="attachments/86637005/86637014.png" data-unresolved-comment-count="0" data-linked-resource-id="86637014" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2022-3-10_17-35-20.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="86637005" data-linked-resource-container-version="19"></span></p><p>demo：<a class="external-link" href="http://demo.yangtuojia.com/%E4%B8%9A%E5%8A%A1%E6%9C%8D%E5%8A%A1/2022-%E4%BC%81%E5%BE%AE/2022-02-%E4%BC%81%E5%BE%AE%E7%BE%A4%E5%8F%91%E7%AE%A1%E7%90%86%E6%8E%AA%E6%96%BD/#id=w7fxd4&amp;p=%E8%A7%A6%E8%BE%BE%E8%A7%84%E5%88%99%E7%AE%A1%E7%90%86_p0&amp;g=1" rel="nofollow">http://demo.yangtuojia.com/%E4%B8%9A%E5%8A%A1%E6%9C%8D%E5%8A%A1/2022-%E4%BC%81%E5%BE%AE/2022-02-%E4%BC%81%E5%BE%AE%E7%BE%A4%E5%8F%91%E7%AE%A1%E7%90%86%E6%8E%AA%E6%96%BD/#id=w7fxd4&amp;p=%E8%A7%A6%E8%BE%BE%E8%A7%84%E5%88%99%E7%AE%A1%E7%90%86_p0&amp;g=1</a></p><p>UI：<a class="external-link" href="http://demo.yangtuojia.com/%E4%B8%9A%E5%8A%A1%E6%9C%8D%E5%8A%A1/2022-%E4%BC%81%E5%BE%AE/%E4%BC%81%E5%BE%AE%E7%BE%A4%E5%8F%91%E7%AE%A1%E7%90%86%E6%8E%AA%E6%96%BD-UI/#artboard1" rel="nofollow">http://demo.yangtuojia.com/%E4%B8%9A%E5%8A%A1%E6%9C%8D%E5%8A%A1/2022-%E4%BC%81%E5%BE%AE/%E4%BC%81%E5%BE%AE%E7%BE%A4%E5%8F%91%E7%AE%A1%E7%90%86%E6%8E%AA%E6%96%BD-UI/#artboard1</a></p><h2 id="id-触达内容管理技术方案-四、名词/术语解释">四、名词/术语解释</h2><h2 id="id-触达内容管理技术方案-五、用例"><span style="font-size: 20.0px;letter-spacing: -0.008em;">五、用例</span></h2><h2 id="id-触达内容管理技术方案-六、业务流程">六、业务流程</h2><h4 id="id-触达内容管理技术方案-"><span style="color: rgb(255,0,0);"><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" width="800" src="attachments/86637005/86637013.png" data-image-src="attachments/86637005/86637013.png" data-unresolved-comment-count="0" data-linked-resource-id="86637013" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2022-3-10_17-34-43.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="86637005" data-linked-resource-container-version="19"></span></span></h4><h2 id="id-触达内容管理技术方案-七、领域模型">七、领域模型</h2><h2 id="id-触达内容管理技术方案-八、系统设计">八、系统设计</h2><h4 id="id-触达内容管理技术方案-1、触达规则配置">1、触达规则配置</h4><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" height="400" src="attachments/86637005/86637108.png" data-image-src="attachments/86637005/86637108.png" data-unresolved-comment-count="0" data-linked-resource-id="86637108" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2022-3-10_18-34-27.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="86637005" data-linked-resource-container-version="19"></span></p><div class="code panel pdl" style="border-width: 1px;"><div class="codeHeader panelHeader pdl" style="border-bottom-width: 1px;"><b>disconf</b></div><div class="codeContent panelContent pdl">
+<pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">#每天可触达数量
+sendNumbers=5
+
+#白名单用户列表
+whiteAdminUserIds=[&quot;928e8b81432b485c83e581338b8dd466&quot;,&quot;854d7cd616514a8bb8d84f926d438404&quot;,&quot;657169d8a8db404f844ed3bd00a8336c&quot;,&quot;063432e17761490ab6737c08e683dea0&quot;,&quot;0a78b5b5c32d4c3898803090648fdcca&quot;,&quot;1fd8282380ee480da79a83b149566865&quot;,&quot;2024f5009c73484ab466492789072bc5&quot;,&quot;25bd6fbb9cc5458a8e1effb905deb3f4&quot;,&quot;9edb16ef2d1141cfaf9957a75c920354&quot;,&quot;a2b5433f82cf45318d30c060e2f5754e&quot;,&quot;d3d040e79008487ea1d4730d1d96d637&quot;,&quot;d55b5fb174b14c7a945a333a60e48e49&quot;,&quot;a970f288eab84596be1c60d4989e0655&quot;,&quot;1ca98042ee9c4476b9b4e339e7da9a96&quot;,&quot;1462fbbec9b04ab988c6fd968c015106&quot;,&quot;beed67b145744cd789f55fe95829d2e2&quot;,&quot;787b6f3216b24028bb9414fcdd02e94b&quot;,&quot;7ae7e63e2e6147fab2b252ec025f99c1&quot;,&quot;be6a57617eea4e989317b3811dc3ab8d&quot;]
+
+#可发送角色 运营、电销、产品
+sendRoleIds=xx,xx,xx
+
+#角色、规则配置
+sendRules={}</pre>
+</div></div><h4 id="id-触达内容管理技术方案-2、疲劳度控制漏斗">2、疲劳度控制漏斗</h4><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" width="300" src="attachments/86637005/86637890.png" data-image-src="attachments/86637005/86637890.png" data-unresolved-comment-count="0" data-linked-resource-id="86637890" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2022-3-11_17-30-23.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="86637005" data-linked-resource-container-version="19"></span></p><h4 id="id-触达内容管理技术方案-3、离线重试流程（补偿通道）">3、离线重试流程（补偿通道）</h4><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image confluence-thumbnail" height="250" src="attachments/86637005/91586979.png" data-image-src="attachments/86637005/91586979.png" data-unresolved-comment-count="0" data-linked-resource-id="91586979" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2022-3-14_9-54-18.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="86637005" data-linked-resource-container-version="19"></span></p><h4 id="id-触达内容管理技术方案-4、企微官方通道流程">4、企微官方通道流程</h4><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" width="400" src="attachments/86637005/86637472.png" data-image-src="attachments/86637005/86637472.png" data-unresolved-comment-count="0" data-linked-resource-id="86637472" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2022-3-11_11-34-46.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="86637005" data-linked-resource-container-version="19"></span></p><h4 id="id-触达内容管理技术方案-5、触达通道全链路">5、触达通道全链路</h4><p><br/></p><p><span class="confluence-embedded-file-wrapper">         <span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" width="300" src="attachments/86637005/86637050.png" data-image-src="attachments/86637005/86637050.png" data-unresolved-comment-count="0" data-linked-resource-id="86637050" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2022-3-10_17-58-18.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="86637005" data-linked-resource-container-version="19"></span></span><span class="confluence-embedded-file-wrapper">      </span></p><h2 id="id-触达内容管理技术方案-九、类图">九、类图</h2><h2 id="id-触达内容管理技术方案-十、数据库设计">十、数据库设计</h2><div class="code panel pdl" style="border-width: 1px;"><div class="codeContent panelContent pdl">
+<pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: sql; gutter: true; theme: Confluence" data-theme="Confluence">ALTER TABLE t_touch_task ADD COLUMN channel_type tinyint(4) NOT NULL DEFAULT &#39;0&#39; COMMENT &#39;发送渠道 0涂色通道 1企微官方通道&#39;;
+ALTER TABLE t_touch_task_detail ADD COLUMN qw_msg_id varchar(200) COMMENT &#39;企微官方通道消息id&#39;;
+ALTER TABLE t_touch_task_detail ADD COLUMN qw_msg_time datetime COMMENT &#39;企微官方消息发送时间&#39;;
+
+ALTER TABLE t_touch_task_detail ADD KEY `idx_qw_msg_id` (`qw_msg_id`);</pre>
+</div></div><h2 id="id-触达内容管理技术方案-十一、搜索设计">十一、搜索设计</h2><h2 id="id-触达内容管理技术方案-十二、接口设计">十二、接口设计</h2><h4 id="id-触达内容管理技术方案-1、HOP接口">1、HOP接口</h4><div class="table-wrap"><table class="wrapped confluenceTable"><colgroup><col style="width: 133.0px;"/><col style="width: 77.0px;"/><col style="width: 167.0px;"/><col style="width: 148.0px;"/><col style="width: 77.0px;"/></colgroup><tbody><tr><th class="confluenceTh">接口功能描述</th><th class="confluenceTh">接口名称</th><th colspan="1" class="confluenceTh">变更类型（新增/更新）</th><th class="confluenceTh">对应dubbo接口声明</th><th colspan="1" class="confluenceTh"><p>变更描述</p><p>*************************************************************</p></th></tr><tr><td class="confluenceTd">保存触达任务</td><td class="confluenceTd"><span style="color: rgb(51,51,51);">hipac.touchcenter.task.saveTask</span></td><td colspan="1" class="confluenceTd">更新</td><td class="confluenceTd"><br/></td><td colspan="1" class="confluenceTd"><p>1、新增企微官方通道相关字段</p></td></tr><tr><td class="confluenceTd">查询触达任务明细</td><td class="confluenceTd"><span style="color: rgb(51,51,51);">hipac.touchcenter.task.getTaskDetail</span></td><td colspan="1" class="confluenceTd">更新</td><td class="confluenceTd"><br/></td><td colspan="1" class="confluenceTd"><p>1、新增企微官方通道相关字段</p></td></tr><tr><td colspan="1" class="confluenceTd"><p>查询发送配置</p></td><td colspan="1" class="confluenceTd"><br/></td><td colspan="1" class="confluenceTd">新增</td><td colspan="1" class="confluenceTd"><br/></td><td colspan="1" class="confluenceTd"><br/></td></tr><tr><td colspan="1" class="confluenceTd">保存发送配置</td><td colspan="1" class="confluenceTd"><br/></td><td colspan="1" class="confluenceTd">新增</td><td colspan="1" class="confluenceTd"><br/></td><td colspan="1" class="confluenceTd"><br/></td></tr><tr><td colspan="1" class="confluenceTd">查询白名单配置</td><td colspan="1" class="confluenceTd"><br/></td><td colspan="1" class="confluenceTd">新增</td><td colspan="1" class="confluenceTd"><br/></td><td colspan="1" class="confluenceTd"><br/></td></tr><tr><td colspan="1" class="confluenceTd">保存白名单配置</td><td colspan="1" class="confluenceTd"><br/></td><td colspan="1" class="confluenceTd">新增</td><td colspan="1" class="confluenceTd"><br/></td><td colspan="1" class="confluenceTd">废弃原接口，统一使用新接口</td></tr></tbody></table></div><h2 id="id-触达内容管理技术方案-十三、涉及数仓的设计"><span style="font-size: 20.0px;letter-spacing: -0.008em;">十三、涉及数仓的设计</span></h2><h2 id="id-触达内容管理技术方案-十四、中间件配置相关">十四、中间件配置相关</h2><p><span style="font-size: 20.0px;letter-spacing: -0.008em;">十五、非功能性需求</span></p><p>排期：</p><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" height="250" src="attachments/86637005/86637911.png" data-image-src="attachments/86637005/86637911.png" data-unresolved-comment-count="0" data-linked-resource-id="86637911" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2022-3-11_17-47-4.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="86637005" data-linked-resource-container-version="19"></span></p>
+                    </div>
+
+                                        <div class="pageSection group">
+                        <div class="pageSectionHeader">
+                            <h2 id="attachments" class="pageSectionTitle">Attachments:</h2>
+                        </div>
+
+                        <div class="greybox" align="left">
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/86637005/86637006.png">image2021-4-7_21-38-35.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/86637005/86637007.jpg">系统架构.jpg</a> (image/jpeg)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/86637005/86637008.png">图片 1.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/86637005/86637012.png">image2022-3-10_17-34-8.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/86637005/86637013.png">image2022-3-10_17-34-43.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/86637005/86637014.png">image2022-3-10_17-35-20.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/86637005/86637015.png">image2022-3-10_17-36-7.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/86637005/86637021.png">image2022-3-10_17-42-8.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/86637005/86637050.png">image2022-3-10_17-58-18.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/86637005/86637056.png">image2022-3-10_18-0-1.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/86637005/86637108.png">image2022-3-10_18-34-27.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/86637005/86637467.png">image2022-3-11_11-32-35.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/86637005/86637472.png">image2022-3-11_11-34-46.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/86637005/86637890.png">image2022-3-11_17-30-23.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/86637005/86637907.png">image2022-3-11_17-45-58.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/86637005/86637908.png">image2022-3-11_17-46-11.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/86637005/86637909.pdf">触达内容管理排期.pdf</a> (application/pdf)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/86637005/86637911.png">image2022-3-11_17-47-4.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/86637005/91586979.png">image2022-3-14_9-54-18.png</a> (image/png)
+                                <br/>
+                                                    </div>
+                    </div>
+                    
+                 
+                </div>             </div> 
+            <div id="footer" role="contentinfo">
+                <section class="footer-body">
+                    <p>Document generated by Confluence on 2026-04-10 10:44</p>
+                    <div id="footer-logo"><a href="http://www.atlassian.com/">Atlassian</a></div>
+                </section>
+            </div>
+        </div>     </body>
+</html>

@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>大商家组 : 系统触达任务技术方案</title>
+        <link rel="stylesheet" href="styles/site.css" type="text/css" />
+        <META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    </head>
+
+    <body class="theme-default aui-theme-default">
+        <div id="page">
+            <div id="main" class="aui-page-panel">
+                <div id="main-header">
+                    <div id="breadcrumb-section">
+                        <ol id="breadcrumbs">
+                            <li class="first">
+                                <span><a href="index.html">大商家组</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="82552158.html">触达中心</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="86620182.html">4、日常需求</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="158620597.html">2022需求</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="2022-Q1_86620184.html">2022 Q1</a></span>
+                            </li>
+                                                </ol>
+                    </div>
+                    <h1 id="title-heading" class="pagetitle">
+                                                <span id="title-text">
+                            大商家组 : 系统触达任务技术方案
+                        </span>
+                    </h1>
+                </div>
+
+                <div id="content" class="view">
+                    <div class="page-metadata">
+                        
+        
+    
+        
+    
+        
+        
+            Created by <span class='author'> kai.wang</span>, last modified by <span class='editor'> tao.zheng8833</span> on 2022-05-16
+                        </div>
+                    <div id="main-content" class="wiki-content group">
+                    <p><style type='text/css'>/*<![CDATA[*/
+div.rbtoc1775789044499 {padding: 0px;}
+div.rbtoc1775789044499 ul {list-style: disc;margin-left: 0px;}
+div.rbtoc1775789044499 li {margin-left: 0px;padding-left: 0px;}
+
+/*]]>*/</style><div class='toc-macro rbtoc1775789044499'>
+<ul class='toc-indentation'>
+<li><a href='#id-系统触达任务技术方案-一需求背景'>一 需求背景</a>
+<ul class='toc-indentation'>
+<li><a href='#id-系统触达任务技术方案-背景'>背景</a></li>
+<li><a href='#id-系统触达任务技术方案-PRD'>PRD</a></li>
+</ul>
+</li>
+<li><a href='#id-系统触达任务技术方案-二、目标'>二、目标</a>
+<ul class='toc-indentation'>
+<li><a href='#id-系统触达任务技术方案-2.1：业务目标'>2.1：业务目标</a></li>
+<li><a href='#id-系统触达任务技术方案-2.2：系统目标'>2.2：系统目标</a></li>
+</ul>
+</li>
+<li><a href='#id-系统触达任务技术方案-三、名词解释'>三、名词解释</a></li>
+<li><a href='#id-系统触达任务技术方案-四、系统设计'>四、系统设计</a>
+<ul class='toc-indentation'>
+<li><a href='#id-系统触达任务技术方案-4.1：整体架构'>4.1：整体架构</a>
+<ul class='toc-indentation'>
+<li><a href='#id-系统触达任务技术方案-1.产品架构'>1.产品架构</a></li>
+<li><a href='#id-系统触达任务技术方案-2.技术架构'>2. 技术架构</a></li>
+<li><a href='#id-系统触达任务技术方案-'></a></li>
+</ul>
+</li>
+<li><a href='#id-系统触达任务技术方案-4.2：模型关系'>4.2：模型关系</a></li>
+<li><a href='#id-系统触达任务技术方案-4.3：用例'>4.3：用例</a></li>
+<li><a href='#id-系统触达任务技术方案-4.4：系统依赖'>4.4：系统依赖</a></li>
+<li><a href='#id-系统触达任务技术方案-4.5：流程图&amp;时序图'>4.5：流程图&amp;时序图</a>
+<ul class='toc-indentation'>
+<li><a href='#id-系统触达任务技术方案-1.产品流程图'>1. 产品流程图</a></li>
+<li><a href='#id-系统触达任务技术方案-2.整体系统流程'>2. 整体系统流程</a></li>
+</ul>
+</li>
+<li><a href='#id-系统触达任务技术方案-4.6：系统内场景模块设计'>4.6：系统内场景模块设计</a>
+<ul class='toc-indentation'>
+<li><a href='#id-系统触达任务技术方案-1.优惠券场景技术方案'>1.优惠券场景技术方案</a></li>
+<li><a href='#id-系统触达任务技术方案-20220418平台现金劵和VIP88劵提醒'>20220418平台现金劵和VIP88劵提醒</a></li>
+<li><a href='#id-系统触达任务技术方案-2.P0物流消息'>2. P0物流消息</a>
+<ul class='toc-indentation'>
+<li><a href='#id-系统触达任务技术方案-模块流程图'>模块流程图</a></li>
+<li><a href='#id-系统触达任务技术方案-配置项设计'>配置项设计</a></li>
+</ul>
+</li>
+<li><a href='#id-系统触达任务技术方案-3.优惠券场景消息'>3. 优惠券场景消息</a>
+<ul class='toc-indentation'>
+<li><a href='#id-系统触达任务技术方案-模块流程图.1'>模块流程图</a></li>
+<li><a href='#id-系统触达任务技术方案-配置项设计.1'>配置项设计</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href='#id-系统触达任务技术方案-4.7：拍口令改动'>4.7：拍口令改动</a></li>
+<li><a href='#id-系统触达任务技术方案-4.8：测试发布关注点'>4.8：测试发布关注点</a>
+<ul class='toc-indentation'>
+<li><a href='#id-系统触达任务技术方案-4.8.1：测试相关'>4.8.1：测试相关</a></li>
+<li><a href='#id-系统触达任务技术方案-4.8.2：发布相关'>4.8.2：发布相关 </a></li>
+</ul>
+</li>
+<li><a href='#id-系统触达任务技术方案-4.9：影响点'>4.9：影响点</a></li>
+</ul>
+</li>
+<li><a href='#id-系统触达任务技术方案-5、数据'>5、数据</a>
+<ul class='toc-indentation'>
+
+<ul class='toc-indentation'>
+<li><a href='#id-系统触达任务技术方案-57.1：库表'>57.1：库表</a></li>
+<li><a href='#id-系统触达任务技术方案-5.7.1.1：数据库schema'>5.7.1.1：数据库 schema </a>
+<ul class='toc-indentation'>
+<li><a href='#id-系统触达任务技术方案-5.7.1.1.1：表ER图'>5.7.1.1.1：表ER图</a></li>
+<li><a href='#id-系统触达任务技术方案-5.7.1..12：表详细设计'>5.7.1..12：表详细设计</a></li>
+</ul>
+</li>
+<li><a href='#id-系统触达任务技术方案-六、安全-容错-配置-兼容性'>六、安全-容错-配置-兼容性</a></li>
+</ul>
+<li><a href='#id-系统触达任务技术方案-6.1：安全设计'>6.1：安全设计</a></li>
+<li><a href='#id-系统触达任务技术方案-6.2：容错设计'>6.2：容错设计 </a></li>
+<li><a href='#id-系统触达任务技术方案-6.3：系统开关'>6.3：系统开关</a></li>
+</ul>
+</li>
+<li><a href='#id-系统触达任务技术方案-七、埋点'>七、埋点</a>
+<ul class='toc-indentation'>
+<li><a href='#id-系统触达任务技术方案-7.1：业务埋点要求'>7.1：业务埋点要求</a></li>
+</ul>
+</li>
+<li><a href='#id-系统触达任务技术方案-八、依赖其它中间件配合'>八、依赖其它中间件配合</a>
+<ul class='toc-indentation'>
+<li><a href='#id-系统触达任务技术方案-8.1：定时任务'>8.1：定时任务</a></li>
+<li><a href='#id-系统触达任务技术方案-8.2：消息任务'>8.2：消息任务</a></li>
+<li><a href='#id-系统触达任务技术方案-8.4：批量任务'>8.4：批量任务 </a></li>
+<li><a href='#id-系统触达任务技术方案-8.5：缓存使用'>8.5：缓存使用</a></li>
+</ul>
+</li>
+<li><a href='#id-系统触达任务技术方案-九、排期和人员安排'>九、排期和人员安排</a></li>
+<li><a href='#id-系统触达任务技术方案-十、发布计划'>十、发布计划</a></li>
+</ul>
+</div></p><p><br/></p><h1 id="id-系统触达任务技术方案-一需求背景"><span style="color: rgb(0,0,0);">一 需求背景</span></h1><h2 id="id-系统触达任务技术方案-背景"><span style="color: rgb(0,0,0);">背景</span></h2><ol><li><span>企微渠道活跃度提升过程中，需要通过部分服务性和福利性的内容来引导，以物流售后KP消息和券临期提醒为首次尝试。</span></li><li><span>人工建立触达任务的效果基本沉淀出来了，逐步交由系统进行发放，这样先做到提效的目的，再让不同渠道联动触达成为可能。</span></li></ol><h2 id="id-系统触达任务技术方案-PRD"><span style="color: rgb(0,0,0);">PRD</span></h2><p><a class="external-link" href="http://demo.yangtuojia.com/%E4%B8%9A%E5%8A%A1%E6%9C%8D%E5%8A%A1/2022-%E4%BC%81%E5%BE%AE/2022-03-%E4%BC%81%E5%BE%AE%E6%B8%A0%E9%81%93%E8%87%AA%E5%8A%A8%E5%8C%961.0/#id=qh8j9k&amp;p=%E9%9C%80%E6%B1%82%E8%83%8C%E6%99%AF%E5%92%8C%E7%9B%AE%E6%A0%87&amp;g=1" rel="nofollow">http://demo.yangtuojia.com/%E4%B8%9A%E5%8A%A1%E6%9C%8D%E5%8A%A1/2022-%E4%BC%81%E5%BE%AE/2022-03-%E4%BC%81%E5%BE%AE%E6%B8%A0%E9%81%93%E8%87%AA%E5%8A%A8%E5%8C%961.0/#id=qh8j9k&amp;p=%E9%9C%80%E6%B1%82%E8%83%8C%E6%99%AF%E5%92%8C%E7%9B%AE%E6%A0%87&amp;g=1</a></p><h1 id="id-系统触达任务技术方案-二、目标"><span style="color: rgb(0,0,0);">二、目标</span></h1><h2 id="id-系统触达任务技术方案-2.1：业务目标"><span style="color: rgb(51,51,51);">2.1：业务目标</span></h2><ol><li style="text-align: left;"><span style="color: rgb(51,51,51);">服务型消息接入一个月后，企微活跃门店数上升1w家。</span></li><li style="text-align: left;"><span style="color: rgb(51,51,51);">5月份可以引入渠道联动的形式进行转化收割。</span></li></ol><h2 id="id-系统触达任务技术方案-2.2：系统目标"><span style="color: rgb(51,51,51);">2.2：系统目标</span></h2><ol><li><span style="color: rgb(51,51,51);">建立系统触达任务对接服务、模型、以及统一的接入模式, 为以后全集团2c、2b业务场景业务事件引导提供全新随时触达模式.</span></li><li><span style="color: rgb(51,51,51);">沉淀任务处理批次模型, 以支持系统任务、人工任务. 大任务拆分、业务拆分场景下, 分批处理下并需要流程监控和统计的服务能力.</span></li><li><span style="color: rgb(51,51,51);">触达任务核心执行时间条件, 支持任意定制化, 为后期系统对接各场景业务提供更高的扩展性.</span></li></ol><p><br/></p><h1 id="id-系统触达任务技术方案-三、名词解释"><span style="color: rgb(0,0,0);">三、名词解释</span></h1><p><span style="color: rgb(51,51,51);"><strong>任务模板</strong>：即任务创建框创建的含有任务业务名称(如系统任务名称)、业务触达逻辑、触达内容模板、发送圈店逻辑配置、发送时间等属性所属的任务定义模型.</span></p><p><span style="color: rgb(51,51,51);"><strong>任务实例</strong>：<strong>运行时模型, </strong>业务任务、批量执行任务的调度单位, (如现金券任务, 每隔N天执行一次, 每次执行都为一个批次), 一个任务模板可关联, 一个或多个任务批次, 代表当前任务多次的批量调度单位(单批次下可含有全量或多).</span></p><p><span style="color: rgb(51,51,51);"><strong>任务明细</strong>：<strong>运行时模型, </strong>触达任务执行的最小单位. 涵盖单个触达模型中的所有内容(触达对象、触达内容、发送方、任务明细执行状态).</span></p><p><span style="color: rgb(51,51,51);"><strong>任务策略</strong>：触达任务发送过程中的业务规则总和,  包含<strong>业务事件</strong>、<strong>固定规则</strong>、以及部分业务场景下<strong>业务扩展点.</strong></span></p><p><span style="color: rgb(51,51,51);"><strong>业务事件：</strong>对应任务模板中<strong>业务触达逻辑</strong>具体在业务侧的触发事件(如门店物流异常) 主要指代<strong>业务侧的事件</strong>, 某种意义上是业务对接过程中和其他业务线开发边界梳理的核心.</span></p><p><br/></p><div class="confluence-information-macro confluence-information-macro-tip"><p class="title">此次包含的业务事件如下:</p><span class="aui-icon aui-icon-small aui-iconfont-approve confluence-information-macro-icon"></span><div class="confluence-information-macro-body"><p><span style="color: rgb(51,51,51);">现金券临期3天<br/>88VIP满减券临期3天<br/>88VIP现金券临期3天<br/>88VIP常规88元已发券月初提醒<br/>88VIP超88元已发券月初提醒<br/>P0物流月初提醒</span></p></div></div><p><br/></p><p><span style="color: rgb(51,51,51);"><strong>固定规则：</strong>此处特指可通过D<strong>MP指标</strong>量化和对接的规则 .</span></p><p><span style="color: rgb(51,51,51);"><strong>业务扩展点：</strong>无法通过固定规则和业务事件涵盖的逻辑, 或作为业务上某些业务定制逻辑或case的补充(如针对dmp t+1数据实时部分逻辑的补充和过滤, 或者物流信息产品逻辑层面需要对单个触达对象单位时间内相同的触达消息做归并等)</span></p><h1 id="id-系统触达任务技术方案-四、系统设计"><span style="color: rgb(0,0,0);">四、系统设计</span></h1><h2 id="id-系统触达任务技术方案-4.1：整体架构"><span style="color: rgb(0,0,0);">4.1：整体架构</span></h2><h3 id="id-系统触达任务技术方案-1.产品架构"><span style="color: rgb(0,0,0);">1.产品架构</span></h3><p><span style="color: rgb(0,0,0);"><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image confluence-external-resource" alt="image2022-1-5_19-42-31.png" src="attachments/86607915/86607983.png" data-image-src="http://k.yangtuojia.com/download/attachments/86607915/image2022-1-5_19-42-31.png?version=1&amp;modificationDate=1641382953000&amp;api=v2"></span></span></p><p><br/></p><h3 id="id-系统触达任务技术方案-2.技术架构"><span style="color: rgb(0,0,0);">2. 技术架构</span></h3><h3 id="id-系统触达任务技术方案-"><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/91610518/91611906.png" data-image-src="attachments/91610518/91611906.png" data-unresolved-comment-count="0" data-linked-resource-id="91611906" data-linked-resource-version="3" data-linked-resource-type="attachment" data-linked-resource-default-alias="触达中心系统任务-系统架构.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="91610518" data-linked-resource-container-version="42"></span></h3><h2 id="id-系统触达任务技术方案-4.2：模型关系"><span style="color: rgb(0,0,0);">4.2：模型关系</span></h2><p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/91610518/91614905.png" data-image-src="attachments/91610518/91614905.png" data-unresolved-comment-count="0" data-linked-resource-id="91614905" data-linked-resource-version="4" data-linked-resource-type="attachment" data-linked-resource-default-alias="触达中心系统任务_模型图.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="91610518" data-linked-resource-container-version="42"></span></p><p><br/></p><p><br/></p><h2 id="id-系统触达任务技术方案-4.3：用例"><span style="color: rgb(0,0,0);">4.3：用例</span></h2><p><span style="color: rgb(153,153,153);"><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/91610518/91613155.png" data-image-src="attachments/91610518/91613155.png" data-unresolved-comment-count="0" data-linked-resource-id="91613155" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="触达任务管理_用例.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="91610518" data-linked-resource-container-version="42"></span></span></p><h2 id="id-系统触达任务技术方案-4.4：系统依赖"><span style="color: rgb(0,0,0);">4.4：系统依赖</span></h2><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" height="400" src="attachments/91610518/91613339.png" data-image-src="attachments/91610518/91613339.png" data-unresolved-comment-count="0" data-linked-resource-id="91613339" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="触达中心系统任务_系统依赖.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="91610518" data-linked-resource-container-version="42"></span></p><h2 id="id-系统触达任务技术方案-4.5：流程图&amp;时序图"><span style="color: rgb(0,0,0);">4.5：流程图&amp;时序图</span></h2><h3 id="id-系统触达任务技术方案-1.产品流程图"><span style="color: rgb(0,0,0);">1. 产品流程图</span></h3><p><span style="color: rgb(0,0,0);"><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/91610518/91614217.png" data-image-src="attachments/91610518/91614217.png" data-unresolved-comment-count="0" data-linked-resource-id="91614217" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="触达中心_系统任务_产品流程.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="91610518" data-linked-resource-container-version="42"></span></span></p><h3 id="id-系统触达任务技术方案-2.整体系统流程">2. 整体系统流程</h3><p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/91610518/91614779.png" data-image-src="attachments/91610518/91614779.png" data-unresolved-comment-count="0" data-linked-resource-id="91614779" data-linked-resource-version="5" data-linked-resource-type="attachment" data-linked-resource-default-alias="TouchSystemCreate.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="91610518" data-linked-resource-container-version="42"></span></p><h2 id="id-系统触达任务技术方案-4.6：系统内场景模块设计">4.6：系统内场景模块设计</h2><h3 id="id-系统触达任务技术方案-1.优惠券场景技术方案">1.优惠券场景技术方案</h3><h3 id="id-系统触达任务技术方案-20220418平台现金劵和VIP88劵提醒http://k.yangtuojia.com/pages/viewpage.action?pageId=91613344"><a href="http://k.yangtuojia.com/pages/viewpage.action?pageId=91613344">20220418平台现金劵和VIP88劵提醒</a></h3><p><br/></p><h3 id="id-系统触达任务技术方案-2.P0物流消息">2. P0物流消息</h3><h4 id="id-系统触达任务技术方案-模块流程图">模块流程图</h4><p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/91610518/91615033.png" data-image-src="attachments/91610518/91615033.png" data-unresolved-comment-count="0" data-linked-resource-id="91615033" data-linked-resource-version="5" data-linked-resource-type="attachment" data-linked-resource-default-alias="TouchSystemLogitics.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="91610518" data-linked-resource-container-version="42"></span></p><p><br/></p><h4 id="id-系统触达任务技术方案-配置项设计"><span style="letter-spacing: -0.003em;">配置项设计</span></h4><p>disconf配置</p><ul><li><span>trade 系统的 orderNotice_mapping.properties, 因为trade没有消息的枚举, 只有disconf通过json格式维护.  且P0物流对应消息经常调整. 故最佳方案是按照消息id获取对应文案.</span></li><li><span>touch-center 新增 p0使用消息id配置(名称待定). 用以存储业务关注的消息实体.</span></li></ul><p><br/></p><p>消息配置</p><ul><li>topic: yangtuo-order   tag: notice   同交易之间交互通过消息完成</li></ul><p><br/></p><h3 id="id-系统触达任务技术方案-3.优惠券场景消息">3. 优惠券场景消息</h3><h4 id="id-系统触达任务技术方案-模块流程图.1">模块流程图</h4><p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/91610518/91615087.png" data-image-src="attachments/91610518/91615087.png" data-unresolved-comment-count="0" data-linked-resource-id="91615087" data-linked-resource-version="4" data-linked-resource-type="attachment" data-linked-resource-default-alias="TouchSystemCoupon.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="91610518" data-linked-resource-container-version="42"></span></p><h4 id="id-系统触达任务技术方案-配置项设计.1"><span>配置项设计</span></h4><p>disconf配置</p><p>无</p><p>消息配置</p><p>通过定时调的的任务统一通过消息回调处理.且符合以下逻辑:</p><ul><li>使用同一个topic</li><li>业务间通过tag区分</li><li>toc bizId 在 topic和tag唯一 (可设置为任务实例id)</li></ul><h2 id="id-系统触达任务技术方案-4.7：拍口令改动">4.7：拍口令改动</h2><p class="with-breadcrumbs"><a href="http://k.yangtuojia.com/pages/viewpage.action?pageId=94734414" rel="nofollow" style="text-decoration: none;">拍口令配合(触达中心)新场景-技术改造</a></p><h2 id="id-系统触达任务技术方案-4.8：测试发布关注点">4.8：测试发布关注点</h2><h3 id="id-系统触达任务技术方案-4.8.1：测试相关">4.8.1：测试相关</h3><ul><li><span style="color: rgb(51,51,51);">临期现金券内容模板, 拍口令跳转mall app指定优惠券页面, 由于需要客户端开发. 测试环境验证需要最新的包方可.</span></li><li><span style="color: rgb(51,51,51);">优惠券相关逻辑由于依赖数据回流, 测试环境需要人为造数, 预发需要提前准备数据, 且数据做了disconf以保证预发测试阶段不影响线上用户,故预发需要维护白名单配置</span></li></ul><h3 id="id-系统触达任务技术方案-4.8.2：发布相关">4.8.2：发布相关 </h3><ul><li><span style="color: rgb(51,51,51);">测试、预发、发布 皆需要依赖trade-manage、smc、touch-core前置部署/发布</span></li></ul><p><br/></p><h2 id="id-系统触达任务技术方案-4.9：影响点">4.9：<span style="color: rgb(0,0,0);">影响点</span></h2><p><span style="color: rgb(153,153,153);">Context output type: html_export This is wrong type.</span></p><p><br/></p><h1 id="id-系统触达任务技术方案-5、数据">5、数据</h1><h3 id="id-系统触达任务技术方案-57.1：库表">57.1：库表</h3><h3 id="id-系统触达任务技术方案-5.7.1.1：数据库schema">5.7.1.1：数据库 schema </h3><div class="code panel pdl" style="border-width: 1px;"><div class="codeContent panelContent pdl">
+<pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: sql; gutter: false; theme: Confluence" data-theme="Confluence">ALTER TABLE `yt_touch_center`.`t_touch_task` ADD COLUMN `schedule_corn` varchar(100) NULL COMMENT &#39;调度表达式&#39;,
+ALTER TABLE `yt_touch_center`.`t_touch_task` ADD COLUMN `sub_biz_type` tinyint(1) NULL COMMENT &#39;业务类型  1现金券 2.P0物流&#39;,
+ALTER TABLE `yt_touch_center`.`t_touch_task` ADD COLUMN `biz_type` tinyint(1) NOT NULL DEFAULT 1 COMMENT &#39;1:人工任务 2:系统任务&#39;;
+ALTER TABLE `yt_touch_center`.`t_touch_task` ADD COLUMN `sub_biz_status` tinyint(1) NULL COMMENT &#39;指定bizType下的状态 系统任务下0停用 1启用&#39;;
+ALTER TABLE `yt_touch_center`.`t_touch_task` MODIFY COLUMN `dmp_id` bigint(32) NULL COMMENT &#39;圈选id&#39;;
+
+ALTER TABLE `yt_touch_center`.t_touch_task_detail ADD COLUMN task_instance_id bigint(32) NOT NULL DEFAULT &#39;0&#39; COMMENT &#39;触达实例id&#39;;
+ALTER TABLE `yt_touch_center`.t_touch_task_detail ADD KEY `idx_task_instance_id_admin_chat_id` (`task_instance_id`, `admin_chat_id`);
+ALTER TABLE `yt_touch_center`.t_touch_task_detail ADD KEY `idx_task_instance_id_detail_status_second_push` (`task_instance_id`, `detail_status`, `second_push`);
+
+ALTER TABLE `yt_touch_center`.`t_touch_task_log` ADD COLUMN `task_instance_id` bigint(32) NULL COMMENT &#39;实例id&#39;;
+
+ALTER TABLE `yt_touch_center`.`t_touch_task_shop` 
+ADD COLUMN `task_instance_id` bigint(32) NULL COMMENT &#39;实例id&#39;,
+ADD INDEX `idx_task_instance_id_shop_id`(`task_instance_id`, `shop_id`) USING BTREE;
+
+CREATE TABLE `t_touch_task_instance` (
+  `id` bigint(32) unsigned NOT NULL AUTO_INCREMENT COMMENT &#39;自增主键&#39;,
+  `creator` varchar(32) NOT NULL COMMENT &#39;创建人&#39;,
+  `editor` varchar(32) NOT NULL COMMENT &#39;辑人&#39;,
+  `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT &#39;创建时间&#39;,
+  `edit_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT &#39;编辑时间&#39;,
+  `is_deleted` tinyint(1) NOT NULL DEFAULT &#39;0&#39; COMMENT &#39;是否删除 (0.未删除 1.删除)&#39;,
+  `biz_type` tinyint(4) NOT NULL COMMENT &#39;业务场景 1、触达中心人工创建任务 2、触达中心系统任务&#39;,
+  `biz_id` varchar(32) NOT NULL COMMENT &#39;业务id, 触达中心场景为task_id&#39;,
+  `instance_level` tinyint(4) DEFAULT NULL COMMENT &#39;实例等级 1、紧急；2、一般；3、不紧急&#39;,
+  `instance_type` tinyint(4) DEFAULT NULL COMMENT &#39;实例内容类型 1活动营销类 2单品推广类 3奶粉行情类 4人设养成类 5官方通知类 6主推项目类&#39;,
+  `instance_status` tinyint(4) NOT NULL COMMENT &#39;实例状态 1、待发送，2、正在发送，3、发送完成，4、发送暂停，5、发送取消，6、二次推送&#39;,
+  `use_ab_test` tinyint(4) NOT NULL DEFAULT &#39;0&#39; COMMENT &#39;是否开启AB测试 0不开启 1开启&#39;,
+  `channel_type` tinyint(4) NOT NULL DEFAULT &#39;1&#39; COMMENT &#39;发送渠道 1涂色通道 2企微官方通道&#39;,
+  `start_time` datetime DEFAULT NULL COMMENT &#39;开始时间&#39;,
+  `end_time` datetime DEFAULT NULL COMMENT &#39;结束时间&#39;,
+  PRIMARY KEY (`id`),
+  KEY `idx_biz_type_biz_id` (`biz_type`,`biz_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=100000 DEFAULT CHARSET=utf8mb4 COMMENT=&#39;触达任务实例&#39;;
+
+</pre>
+</div></div><p class="p1"><br/></p><h4 id="id-系统触达任务技术方案-5.7.1.1.1：表ER图">5.7.1.1.1：表ER图</h4><p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/91610518/91615297.png" data-image-src="attachments/91610518/91615297.png" data-unresolved-comment-count="0" data-linked-resource-id="91615297" data-linked-resource-version="2" data-linked-resource-type="attachment" data-linked-resource-default-alias="触达中心系统任务_ER图.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="91610518" data-linked-resource-container-version="42"></span></p><h4 id="id-系统触达任务技术方案-5.7.1..12：表详细设计">5.7.1..12：表详细设计</h4><p><span style="color: rgb(153,153,153);">主要把本次设计的表详细梳理出来，包括索引键，下面为例</span></p><div class="table-wrap"><table class="fixed-table wrapped confluenceTable" style="width: 1182.0px;"><colgroup><col style="width: 205.0px;"/><col style="width: 205.0px;"/><col style="width: 299.0px;"/><col style="width: 135.0px;"/><col style="width: 129.0px;"/><col style="width: 209.0px;"/></colgroup><tbody style="margin-left: 90.0px;"><tr style="margin-left: 90.0px;"><th colspan="6" style="text-align: left;width: 1182.0px;" class="confluenceTh"><p>详情页信息（t_detail_page）</p><p>PRIMARY KEY (`id`)</p><p>UNIQUE KEY `uk_scene_code_is_deleted` (`scene_code`, `is_deleted`)</p><p>KEY `idx_page_scene_type` (`page_scene_type`)</p><p>KEY `idx_create_time` (`create_time`)</p><p>KEY `idx_edit_time` (`edit_time`)</p></th></tr><tr style="margin-left: 90.0px;"><th style="text-align: left;width: 205.0px;" class="confluenceTh"><span style="color: rgb(23,43,77);">字段名</span></th><th style="text-align: left;width: 205.0px;" class="confluenceTh"><span style="color: rgb(23,43,77);">字段类型</span></th><th style="text-align: left;width: 299.0px;" class="confluenceTh"><span style="color: rgb(23,43,77);">字段描述</span></th><th style="text-align: left;width: 135.0px;" class="confluenceTh">是否索引</th><th style="text-align: left;width: 129.0px;" class="confluenceTh"><span style="color: rgb(23,43,77);">是否必填</span></th><th style="text-align: left;width: 209.0px;" class="confluenceTh">备注</th></tr><tr><td style="width: 205.0px;" class="confluenceTd">`id` </td><td style="width: 205.0px;" class="confluenceTd">bigint(32)</td><td style="width: 299.0px;" class="confluenceTd">自增主键</td><td style="width: 135.0px;" class="confluenceTd">自增主键</td><td style="width: 129.0px;" class="confluenceTd">是</td><td style="width: 209.0px;" class="confluenceTd"><br/></td></tr><tr><td style="width: 205.0px;" class="confluenceTd">`biz_type` </td><td style="width: 205.0px;" class="confluenceTd">tinyint(4)</td><td style="width: 299.0px;" class="confluenceTd">任务类型1.人工任务 2系统任务</td><td style="width: 135.0px;" class="confluenceTd"><br/></td><td style="width: 129.0px;" class="confluenceTd">是</td><td style="width: 209.0px;" class="confluenceTd"><br/></td></tr><tr><td style="width: 205.0px;" class="confluenceTd">`biz_id` </td><td style="width: 205.0px;" class="confluenceTd">bigint(20)</td><td style="width: 299.0px;" class="confluenceTd">任务id</td><td style="width: 135.0px;" class="confluenceTd"><br/></td><td style="width: 129.0px;" class="confluenceTd">是</td><td style="width: 209.0px;" class="confluenceTd"><br/></td></tr><tr><td style="width: 205.0px;" class="confluenceTd">`instance_level`</td><td style="width: 205.0px;" class="confluenceTd">tinyint(4)</td><td style="width: 299.0px;" class="confluenceTd">紧急等级 </td><td style="width: 135.0px;" class="confluenceTd"><br/></td><td style="width: 129.0px;" class="confluenceTd">否</td><td style="width: 209.0px;" class="confluenceTd"><br/></td></tr><tr><td style="width: 205.0px;" class="confluenceTd">`instance_type` </td><td style="width: 205.0px;" class="confluenceTd">tinyint(4)</td><td style="width: 299.0px;" class="confluenceTd">内容类型</td><td style="width: 135.0px;" class="confluenceTd"><br/></td><td style="width: 129.0px;" class="confluenceTd">否</td><td style="width: 209.0px;" class="confluenceTd"><br/></td></tr><tr><td style="width: 205.0px;" class="confluenceTd">`instance_status</td><td style="width: 205.0px;" class="confluenceTd">tinyint(4)</td><td style="width: 299.0px;" class="confluenceTd">实例状态</td><td style="width: 135.0px;" class="confluenceTd"><br/></td><td style="width: 129.0px;" class="confluenceTd">是</td><td style="width: 209.0px;" class="confluenceTd"><br/></td></tr><tr><td style="width: 205.0px;" class="confluenceTd">`use_ab_test` </td><td style="width: 205.0px;" class="confluenceTd">tinyint(4)</td><td style="width: 299.0px;" class="confluenceTd">是否开启AB测试</td><td style="width: 135.0px;" class="confluenceTd"><br/></td><td style="width: 129.0px;" class="confluenceTd">是</td><td style="width: 209.0px;" class="confluenceTd"><br/></td></tr><tr><td style="width: 205.0px;" class="confluenceTd">`channel_type` </td><td style="width: 205.0px;" class="confluenceTd">tinyint(4)</td><td style="width: 299.0px;" class="confluenceTd">发送通道</td><td style="width: 135.0px;" class="confluenceTd"><br/></td><td style="width: 129.0px;" class="confluenceTd">是</td><td style="width: 209.0px;" class="confluenceTd"><br/></td></tr><tr><td style="width: 205.0px;" class="confluenceTd">`start_time` </td><td style="width: 205.0px;" class="confluenceTd">datetime </td><td style="width: 299.0px;" class="confluenceTd">开始时间</td><td style="width: 135.0px;" class="confluenceTd"><br/></td><td style="width: 129.0px;" class="confluenceTd">否</td><td style="width: 209.0px;" class="confluenceTd"><br/></td></tr><tr style="margin-left: 90.0px;"><td style="text-align: left;width: 205.0px;" class="confluenceTd">is_deleted</td><td style="text-align: left;width: 205.0px;" class="confluenceTd"><span style="color: rgb(23,43,77);">bigint(20)</span></td><td style="text-align: left;width: 299.0px;" class="confluenceTd">是否已删除，0.否，id：是</td><td style="text-align: left;width: 135.0px;" class="confluenceTd"><br/></td><td style="text-align: left;width: 129.0px;" class="confluenceTd">是</td><td style="text-align: left;width: 209.0px;" class="confluenceTd"><br/></td></tr><tr style="margin-left: 90.0px;"><td style="text-align: left;width: 205.0px;" class="confluenceTd">creator</td><td style="text-align: left;width: 205.0px;" class="confluenceTd">varchar(32)</td><td style="text-align: left;width: 299.0px;" class="confluenceTd">创建人</td><td style="text-align: left;width: 135.0px;" class="confluenceTd"><br/></td><td style="text-align: left;width: 129.0px;" class="confluenceTd">是</td><td style="text-align: left;width: 209.0px;" class="confluenceTd"><br/></td></tr><tr style="margin-left: 90.0px;"><td style="text-align: left;width: 205.0px;" class="confluenceTd">editor</td><td style="text-align: left;width: 205.0px;" class="confluenceTd">varchar(32)</td><td style="text-align: left;width: 299.0px;" class="confluenceTd">修改人</td><td style="text-align: left;width: 135.0px;" class="confluenceTd"><br/></td><td style="text-align: left;width: 129.0px;" class="confluenceTd">否</td><td style="text-align: left;width: 209.0px;" class="confluenceTd"><br/></td></tr><tr style="margin-left: 90.0px;"><td style="text-align: left;width: 205.0px;" class="confluenceTd">create_time</td><td style="text-align: left;width: 205.0px;" class="confluenceTd">datetime</td><td style="text-align: left;width: 299.0px;" class="confluenceTd">创建时间</td><td style="text-align: left;width: 135.0px;" class="confluenceTd">是</td><td style="text-align: left;width: 129.0px;" class="confluenceTd">是</td><td style="text-align: left;width: 209.0px;" class="confluenceTd"><br/></td></tr><tr style="margin-left: 90.0px;"><td style="text-align: left;width: 205.0px;" class="confluenceTd">edit_time</td><td style="text-align: left;width: 205.0px;" class="confluenceTd">datetime</td><td style="text-align: left;width: 299.0px;" class="confluenceTd">更新时间</td><td style="text-align: left;width: 135.0px;" class="confluenceTd"><br/></td><td style="text-align: left;width: 129.0px;" class="confluenceTd">是</td><td style="text-align: left;width: 209.0px;" class="confluenceTd"><br/></td></tr><tr style="margin-left: 90.0px;"><td colspan="6" style="text-align: left;width: 1182.0px;" class="confluenceTd"><div class="content-wrapper"><p style="text-align: left;"><span class="collapse-source expand-control" style="text-decoration: none;"><span class="expand-control-icon icon"> </span><span class="expand-control-text" style="color: rgb(59,115,175);">展开源码</span></span></p></div></td></tr></tbody></table></div><h3 id="id-系统触达任务技术方案-六、安全-容错-配置-兼容性"><span style="font-size: 24.0px;font-weight: normal;letter-spacing: -0.01em;">六、安全-容错-配置-兼容性</span></h3><h2 id="id-系统触达任务技术方案-6.1：安全设计">6.1：安全设计</h2><p><span style="color: rgb(51,51,51);">目前粗粒度系统触达消息可根据系统任务状态停用启用控制. </span></p><p><span style="color: rgb(51,51,51);">细粒度规划, 每种业务做dmp业务域过滤. 或开关紧急过滤(某业务场景下)</span></p><h2 id="id-系统触达任务技术方案-6.2：容错设计">6.2：容错设计 </h2><p><span style="color: rgb(51,51,51);">见详细设计</span></p><h2 id="id-系统触达任务技术方案-6.3：系统开关">6.3：系统开关</h2><p>见详细设计</p><p><br/></p><h1 id="id-系统触达任务技术方案-七、埋点">七、埋点</h1><h2 id="id-系统触达任务技术方案-7.1：业务埋点要求">7.1：业务埋点要求</h2><p>无</p><h1 id="id-系统触达任务技术方案-八、依赖其它中间件配合">八、依赖其它中间件配合</h1><h2 id="id-系统触达任务技术方案-8.1：定时任务">8.1：定时任务</h2><p><span style="color: rgb(51,51,51);">承接触达系统任务定时调度职责</span></p><h2 id="id-系统触达任务技术方案-8.2：消息任务">8.2：消息任务</h2><p><span style="color: rgb(51,51,51);">toc定时任务触发通道、以及业务系统之间交互的通道</span></p><h2 id="id-系统触达任务技术方案-8.4：批量任务">8.4：批量任务 </h2><p><span style="color: rgb(51,51,51);">暂不需要, 目前只有批查询, 且量不大</span></p><h2 id="id-系统触达任务技术方案-8.5：缓存使用">8.5：缓存使用</h2><p><span style="color: rgb(51,51,51);">基于redis做系统消息时间窗口内的去重</span></p><p><br/></p><h1 id="id-系统触达任务技术方案-九、排期和人员安排">九、排期和人员安排</h1><div class="table-wrap"><table class="relative-table wrapped confluenceTable" style="width: 23.6396%;"><colgroup><col style="width: 26.7956%;"/><col style="width: 40.6909%;"/><col style="width: 32.5079%;"/></colgroup><tbody><tr><th style="text-align: center;" class="confluenceTh">职能划分</th><th style="text-align: center;" class="confluenceTh">开发人员</th><th style="text-align: center;" class="confluenceTh">发布</th></tr><tr><td style="text-align: center;" class="confluenceTd">QA</td><td class="confluenceTd"><span>闻羽、橘子、唐君</span></td><td class="confluenceTd"><br/></td></tr><tr><td style="text-align: center;" class="confluenceTd"><span>crm</span></td><td class="confluenceTd"><span>栋、肥桃、凯</span></td><td class="confluenceTd"><br/></td></tr><tr><td style="text-align: center;" class="confluenceTd"><span>交易</span></td><td class="confluenceTd"><span>胡强、大晶</span></td><td class="confluenceTd">独立前置发布</td></tr><tr><td style="text-align: center;" class="confluenceTd"><span>营销</span></td><td class="confluenceTd"><span>土人</span></td><td class="confluenceTd">独立前置发布</td></tr><tr><td style="text-align: center;" class="confluenceTd"><span>前端</span></td><td class="confluenceTd"><span>方木、姜兰</span></td><td class="confluenceTd"><br/></td></tr><tr><td colspan="1" style="text-align: center;" class="confluenceTd"><span>客户端</span></td><td colspan="1" class="confluenceTd"><span>钻风、杰瑞</span></td><td colspan="1" class="confluenceTd">独立前置发布</td></tr></tbody></table></div><p style="margin-left: 0.0px;text-align: left;"><br/></p><p style="margin-left: 0.0px;text-align: left;"><br/></p><h1 id="id-系统触达任务技术方案-十、发布计划">十、发布计划</h1><p><span style="color: rgb(128,128,128);"><a href="http://k.yangtuojia.com/pages/viewpage.action?pageId=56050474" rel="nofollow" style="text-decoration: none;">发布计划模版</a></span></p>
+                    </div>
+
+                                        <div class="pageSection group">
+                        <div class="pageSectionHeader">
+                            <h2 id="attachments" class="pageSectionTitle">Attachments:</h2>
+                        </div>
+
+                        <div class="greybox" align="left">
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/91610518/91610519.png">image2019-11-15 10:29:41.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/91610518/91613525.png">触达中心系统任务-系统架构.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/91610518/91613024.png">触达系统任务影响点.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/91610518/91613025">触达系统任务影响点</a> (application/namymap+json)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/91610518/91613153.png">触达系统任务影响点.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/91610518/91613154">触达系统任务影响点</a> (application/namymap+json)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/91610518/91613022.png">触达系统任务影响点.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/91610518/91613023">触达系统任务影响点</a> (application/namymap+json)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/91610518/91613155.png">触达任务管理_用例.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/91610518/91613339.png">触达中心系统任务_系统依赖.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/91610518/91615596.png">触达中心系统任务-系统架构.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/91610518/91614217.png">触达中心_系统任务_产品流程.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/91610518/91614807.png">TouchSystemCreate.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/91610518/91615814.png">TouchSystemCreate.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/91610518/91615487.png">触达中心系统任务_模型图.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/91610518/91615049.png">TouchSystemLogitics.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/91610518/91615815.png">TouchSystemLogitics.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/91610518/91615101.png">TouchSystemCoupon.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/91610518/91615816.png">TouchSystemCoupon.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/91610518/91615504.png">触达中心系统任务_ER图.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/91610518/91616060.png">触达中心系统任务_模型图.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/91610518/91615297.png">触达中心系统任务_ER图.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/91610518/91611906.png">触达中心系统任务-系统架构.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/91610518/91615934.png">TouchSystemCreate.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/91610518/91615820.png">TouchSystemLogitics.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/91610518/91615938.png">TouchSystemCoupon.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/91610518/91615936.png">TouchSystemLogitics.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/91610518/94734780.png">TouchSystemCreate.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/91610518/91615033.png">TouchSystemLogitics.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/91610518/91615087.png">TouchSystemCoupon.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/91610518/91616061.png">触达中心系统任务_模型图.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/91610518/91614905.png">触达中心系统任务_模型图.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/91610518/91614779.png">TouchSystemCreate.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/91610518/94737498.png">image2022-5-5_17-59-45.png</a> (image/png)
+                                <br/>
+                                                    </div>
+                    </div>
+                    
+                 
+                </div>             </div> 
+            <div id="footer" role="contentinfo">
+                <section class="footer-body">
+                    <p>Document generated by Confluence on 2026-04-10 10:44</p>
+                    <div id="footer-logo"><a href="http://www.atlassian.com/">Atlassian</a></div>
+                </section>
+            </div>
+        </div>     </body>
+</html>

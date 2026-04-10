@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>大商家组 : 4.压测过程中为什么Mall-Server 的QPS在上涨，但RT在下降？</title>
+        <link rel="stylesheet" href="styles/site.css" type="text/css" />
+        <META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    </head>
+
+    <body class="theme-default aui-theme-default">
+        <div id="page">
+            <div id="main" class="aui-page-panel">
+                <div id="main-header">
+                    <div id="breadcrumb-section">
+                        <ol id="breadcrumbs">
+                            <li class="first">
+                                <span><a href="index.html">大商家组</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="82552158.html">触达中心</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="91598069.html">5、系统分析&amp;保障</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="115115082.html">1）性能相关</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="91598075.html">1.触达中心系统计算时长测试-20220328</a></span>
+                            </li>
+                                                </ol>
+                    </div>
+                    <h1 id="title-heading" class="pagetitle">
+                                                <span id="title-text">
+                            大商家组 : 4.压测过程中为什么Mall-Server 的QPS在上涨，但RT在下降？
+                        </span>
+                    </h1>
+                </div>
+
+                <div id="content" class="view">
+                    <div class="page-metadata">
+                        
+        
+    
+        
+    
+        
+        
+            Created by <span class='author'> 宋芷君</span>, last modified on 2022-04-24
+                        </div>
+                    <div id="main-content" class="wiki-content group">
+                    <p>1、观察Mall-server的请求，发现QPS在上涨时，RT在下降。现象如下：从hisee的情况可以看到18:30分没有进行压测，RT到达130左右，在7点50左右压测，RT反而下降到110左右。</p><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" width="843" src="attachments/91618567/91618573.png" data-image-src="attachments/91618567/91618573.png" data-unresolved-comment-count="0" data-linked-resource-id="91618573" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2022-4-19_16-5-27.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="91618567" data-linked-resource-container-version="7"></span></p><p>2、查看18:30 mall-server的流量情况。切换到没有压测的时间段，发现ai-match并未给mall-server 增加流量。</p><p><span style="color: rgb(255,0,0);">怀疑：推断出：ai-match并未给mall-server整体RT拖后腿。那到底是哪个应该给mall-server带来的流量使得RT到130ms呢？此时 需要查看该时间段下mall-server的其他调用方的RT情况</span></p><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" width="845" src="attachments/91618567/91618595.png" data-image-src="attachments/91618567/91618595.png" data-unresolved-comment-count="0" data-linked-resource-id="91618595" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2022-4-24_16-48-50.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="91618567" data-linked-resource-container-version="7"></span></p><p>3、查看该时间段下，<span style="color: rgb(0,0,0);">mall-server的其他调用方。发现只有三个调用方ai-match,cmc,mall</span></p><p><span style="color: rgb(255,0,0);">结论：发现该时间段下，cmc给mall-server 的流量最高100左右，所以推断出cmc没有给mall-server整体RT拖后腿。</span></p><p><span style="color: rgb(255,0,0);">怀疑：怀疑是mall应用调用mall-server才会导致RT升高</span></p><p><span style="color: rgb(0,0,0);"><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" width="888" src="attachments/91618567/91618603.png" data-image-src="attachments/91618567/91618603.png" data-unresolved-comment-count="0" data-linked-resource-id="91618603" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2022-4-24_16-52-50.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="91618567" data-linked-resource-container-version="7"></span></span></p><p><br/></p><p><span style="color: rgb(0,0,0);">4、排查发现，该时间段下，mall给mall-serverRT比较高。几班达到135ms左右。</span></p><p><span style="color: rgb(255,0,0);">结论：压测的查价格接口性能平均RT100左右，比导购日常业务的RT要低。压测过程中在大量的该接口请求下，会拉低mall-server整体的RT。</span></p><p><span style="color: rgb(0,0,0);"><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" width="882" src="attachments/91618567/91618612.png" data-image-src="attachments/91618567/91618612.png" data-unresolved-comment-count="0" data-linked-resource-id="91618612" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2022-4-24_16-56-33.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="91618567" data-linked-resource-container-version="7"></span></span></p><p><br/></p>
+                    </div>
+
+                                        <div class="pageSection group">
+                        <div class="pageSectionHeader">
+                            <h2 id="attachments" class="pageSectionTitle">Attachments:</h2>
+                        </div>
+
+                        <div class="greybox" align="left">
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/91618567/91618573.png">image2022-4-19_16-5-27.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/91618567/91618595.png">image2022-4-24_16-48-50.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/91618567/91618596.png">image2022-4-24_16-49-1.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/91618567/91618603.png">image2022-4-24_16-52-50.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/91618567/91618612.png">image2022-4-24_16-56-33.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/91618567/91618614.png">image2022-4-24_16-56-53.png</a> (image/png)
+                                <br/>
+                                                    </div>
+                    </div>
+                    
+                 
+                </div>             </div> 
+            <div id="footer" role="contentinfo">
+                <section class="footer-body">
+                    <p>Document generated by Confluence on 2026-04-10 10:44</p>
+                    <div id="footer-logo"><a href="http://www.atlassian.com/">Atlassian</a></div>
+                </section>
+            </div>
+        </div>     </body>
+</html>

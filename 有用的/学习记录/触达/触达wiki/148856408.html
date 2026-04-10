@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>大商家组 : 优化前后对比</title>
+        <link rel="stylesheet" href="styles/site.css" type="text/css" />
+        <META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    </head>
+
+    <body class="theme-default aui-theme-default">
+        <div id="page">
+            <div id="main" class="aui-page-panel">
+                <div id="main-header">
+                    <div id="breadcrumb-section">
+                        <ol id="breadcrumbs">
+                            <li class="first">
+                                <span><a href="index.html">大商家组</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="82552158.html">触达中心</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="91598069.html">5、系统分析&amp;保障</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="115115082.html">1）性能相关</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="148834597.html">触达应用dubbo服务rt分析</a></span>
+                            </li>
+                                                </ol>
+                    </div>
+                    <h1 id="title-heading" class="pagetitle">
+                                                <span id="title-text">
+                            大商家组 : 优化前后对比
+                        </span>
+                    </h1>
+                </div>
+
+                <div id="content" class="view">
+                    <div class="page-metadata">
+                        
+        
+    
+        
+    
+        
+        
+            Created by <span class='author'> tao.zheng8833</span>, last modified on 2025-05-23
+                        </div>
+                    <div id="main-content" class="wiki-content group">
+                    <p><span class="panel-title-text">原始数据：<a href="148834597.html">触达应用dubbo服务rt分析</a></span></p><p><span class="panel-title-text">优化前数据：2.13-2.20</span></p><p><span class="panel-title-text">优化后数据：5.15-5.22</span></p><h3 id="id-优化前后对比-touch-center"><span class="panel-title-text">touch-center</span></h3><div class="table-wrap"><table class="wrapped confluenceTable"><colgroup><col/><col/><col/><col/><col/><col/><col/><col/></colgroup><thead><tr><th style="text-align: left;" class="confluenceTh"><p style="text-align: left;">接口-方法</p></th><th style="text-align: left;" class="confluenceTh">优化前调用量<span> </span></th><th style="text-align: left;" class="confluenceTh"><p style="text-align: left;">优化前最大RT</p></th><th style="text-align: left;" class="confluenceTh"><p style="text-align: left;">优化前平均RT</p></th><th colspan="1" class="confluenceTh">高RT原因     </th><th colspan="1" class="confluenceTh">优化后调用量</th><th colspan="1" class="confluenceTh">优化后最大RT</th><th colspan="1" class="confluenceTh">优化前平均RT</th></tr></thead><tbody><tr><td class="confluenceTd"><a class="external-link" href="https://hisee.yangtuojia.com/hisee-static/monitor/dubbo_pp?var-interfaceAndMethod=com.yt.touch.api.hop.touchtask.TouchTaskApi-list&amp;from=1739416370621&amp;to=1740021170621" rel="nofollow" style="text-decoration: underline;">com.yt.touch.api.hop.touchtask.TouchTaskApi-list</a></td><td class="confluenceTd">2977</td><td class="confluenceTd">1 s</td><td class="confluenceTd"><span style="color: rgb(255,0,0);">133 ms</span></td><td colspan="1" class="confluenceTd">task表保留的全量数据，任务名模糊搜索</td><td colspan="1" class="confluenceTd"><span style="color: rgb(70,76,84);">3428</span></td><td colspan="1" class="confluenceTd">1s</td><td colspan="1" class="confluenceTd"><span style="color: rgb(255,0,0);">75ms</span></td></tr><tr><td class="confluenceTd"><a class="external-link" href="https://hisee.yangtuojia.com/hisee-static/monitor/dubbo_pp?var-interfaceAndMethod=com.yt.touch.api.hop.touchtask.TouchTaskApi-listTaskName&amp;from=1739416370621&amp;to=1740021170621" rel="nofollow" style="text-decoration: underline;">com.yt.touch.api.hop.touchtask.TouchTaskApi-listTaskName</a></td><td class="confluenceTd">1930</td><td class="confluenceTd">5 s</td><td class="confluenceTd"><span style="color: rgb(255,0,0);">252 ms</span></td><td colspan="1" class="confluenceTd">同上</td><td colspan="1" class="confluenceTd"><span style="color: rgb(70,76,84);">2045</span></td><td colspan="1" class="confluenceTd">2s</td><td colspan="1" class="confluenceTd"><span style="color: rgb(255,0,0);">78ms</span></td></tr></tbody></table></div><h3 class="auto-cursor-target" id="id-优化前后对比-touch-core"><span class="panel-title-text">touch-core</span></h3><div class="table-wrap"><table class="confluenceTable"><colgroup><col/><col/><col/><col/><col/><col/><col/><col/></colgroup><thead><tr><th style="text-align: left;" class="confluenceTh"><p style="text-align: left;">接口-方法</p></th><th style="text-align: left;" class="confluenceTh">优化前调用量<span> </span></th><th style="text-align: left;" class="confluenceTh"><p style="text-align: left;">优化前最大RT</p></th><th style="text-align: left;" class="confluenceTh"><p style="text-align: left;">优化前平均RT</p></th><th colspan="1" class="confluenceTh">高RT原因                                                 </th><th colspan="1" class="confluenceTh">优化后调用量</th><th colspan="1" class="confluenceTh">优化后最大RT</th><th colspan="1" class="confluenceTh">优化前平均RT</th></tr></thead><tbody><tr><td class="confluenceTd"><a class="external-link" href="https://hisee.yangtuojia.com/hisee-static/monitor/dubbo_pp?var-interfaceAndMethod=com.yt.touchc.api.task.TaskInstanceApi-parseWaterUrl&amp;from=1739416370621&amp;to=1740021170621" rel="nofollow" style="text-decoration: underline;">com.yt.touchc.api.task.TaskInstanceApi-parseWaterUrl</a></td><td class="confluenceTd">334381</td><td class="confluenceTd">8 s</td><td class="confluenceTd"><span style="color: rgb(255,0,0);">475 ms</span></td><td colspan="1" class="confluenceTd">降价弹窗，水印图短链生成，可优化</td><td colspan="1" class="confluenceTd">0</td><td colspan="1" class="confluenceTd">/</td><td colspan="1" class="confluenceTd">/</td></tr><tr><td class="confluenceTd"><a class="external-link" href="https://hisee.yangtuojia.com/hisee-static/monitor/dubbo_pp?var-interfaceAndMethod=com.yt.touchc.api.task.TaskCountApi-queryProgress&amp;from=1739416370621&amp;to=1740021170621" rel="nofollow" style="text-decoration: underline;">com.yt.touchc.api.task.TaskCountApi-queryProgress</a></td><td class="confluenceTd">435</td><td class="confluenceTd">321 ms</td><td class="confluenceTd"><span style="color: rgb(255,0,0);">103 ms</span></td><td colspan="1" class="confluenceTd">触达任务统计，数据量大</td><td colspan="1" class="confluenceTd">565</td><td colspan="1" class="confluenceTd">260ms</td><td colspan="1" class="confluenceTd"><span style="color: rgb(255,0,0);">65ms</span></td></tr><tr><td class="confluenceTd"><a class="external-link" href="https://hisee.yangtuojia.com/hisee-static/monitor/dubbo_pp?var-interfaceAndMethod=com.yt.touchc.api.task.TaskCountApi-listQwProgress&amp;from=1739416370621&amp;to=1740021170621" rel="nofollow" style="text-decoration: underline;">com.yt.touchc.api.task.TaskCountApi-listQwProgress</a></td><td class="confluenceTd">141</td><td class="confluenceTd">2 s</td><td class="confluenceTd"><span style="color: rgb(255,0,0);">446 ms</span></td><td colspan="1" class="confluenceTd">触达任务统计，数据量大</td><td colspan="1" class="confluenceTd">238</td><td colspan="1" class="confluenceTd">2s</td><td colspan="1" class="confluenceTd"><span style="color: rgb(255,0,0);">271ms</span></td></tr></tbody></table></div><p class="auto-cursor-target">yt_touch_center数据库整体慢查：</p><p class="auto-cursor-target"><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" width="1000" src="attachments/148856408/148856510.png" data-image-src="attachments/148856408/148856510.png" data-unresolved-comment-count="0" data-linked-resource-id="148856510" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2025-5-23_14-55-13.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="148856408" data-linked-resource-container-version="4"></span></p>
+                    </div>
+
+                                        <div class="pageSection group">
+                        <div class="pageSectionHeader">
+                            <h2 id="attachments" class="pageSectionTitle">Attachments:</h2>
+                        </div>
+
+                        <div class="greybox" align="left">
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/148856408/148856510.png">image2025-5-23_14-55-13.png</a> (image/png)
+                                <br/>
+                                                    </div>
+                    </div>
+                    
+                 
+                </div>             </div> 
+            <div id="footer" role="contentinfo">
+                <section class="footer-body">
+                    <p>Document generated by Confluence on 2026-04-10 10:45</p>
+                    <div id="footer-logo"><a href="http://www.atlassian.com/">Atlassian</a></div>
+                </section>
+            </div>
+        </div>     </body>
+</html>

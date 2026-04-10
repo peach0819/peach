@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>大商家组 : CRM_Rds实例资源降配分析</title>
+        <link rel="stylesheet" href="styles/site.css" type="text/css" />
+        <META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    </head>
+
+    <body class="theme-default aui-theme-default">
+        <div id="page">
+            <div id="main" class="aui-page-panel">
+                <div id="main-header">
+                    <div id="breadcrumb-section">
+                        <ol id="breadcrumbs">
+                            <li class="first">
+                                <span><a href="index.html">大商家组</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="82552158.html">触达中心</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="91598069.html">5、系统分析&amp;保障</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="115115092.html">3）资源相关</a></span>
+                            </li>
+                                                </ol>
+                    </div>
+                    <h1 id="title-heading" class="pagetitle">
+                                                <span id="title-text">
+                            大商家组 : CRM_Rds实例资源降配分析
+                        </span>
+                    </h1>
+                </div>
+
+                <div id="content" class="view">
+                    <div class="page-metadata">
+                        
+        
+    
+        
+    
+        
+        
+            Created by <span class='author'> kai.wang</span>, last modified on 2023-05-18
+                        </div>
+                    <div id="main-content" class="wiki-content group">
+                    <p><style type='text/css'>/*<![CDATA[*/
+div.rbtoc1775789113848 {padding: 0px;}
+div.rbtoc1775789113848 ul {list-style: disc;margin-left: 0px;}
+div.rbtoc1775789113848 li {margin-left: 0px;padding-left: 0px;}
+
+/*]]>*/</style><div class='toc-macro rbtoc1775789113848'>
+<ul class='toc-indentation'>
+<li><a href='#CRM_Rds实例资源降配分析-一.背景'>一. 背景</a></li>
+<li><a href='#CRM_Rds实例资源降配分析-二.分析'>二. 分析</a>
+<ul class='toc-indentation'>
+<li><a href='#CRM_Rds实例资源降配分析-2.1当前配置分析'>2.1 当前配置分析</a></li>
+<li><a href='#CRM_Rds实例资源降配分析-2.2aliyunrds套餐'>2.2 aliyun rds 套餐</a></li>
+<li><a href='#CRM_Rds实例资源降配分析-2.3rds指标分析'>2.3 rds 指标分析</a>
+<ul class='toc-indentation'>
+<li><a href='#CRM_Rds实例资源降配分析-1yt_shop_group指标分析'>1 yt_shop_group指标分析</a>
+<ul class='toc-indentation'>
+<li><a href='#CRM_Rds实例资源降配分析-1).cpu'>1).cpu</a></li>
+<li><a href='#CRM_Rds实例资源降配分析-2).内存'>2). 内存</a></li>
+<li><a href='#CRM_Rds实例资源降配分析-3).连接数&amp;iops'>3). 连接数 &amp; iops</a></li>
+</ul>
+</li>
+<li><a href='#CRM_Rds实例资源降配分析-2crm指标分析'>2 crm指标分析 </a>
+<ul class='toc-indentation'>
+<li><a href='#CRM_Rds实例资源降配分析-1).cpu.1'>1).cpu</a></li>
+<li><a href='#CRM_Rds实例资源降配分析-2).内存.1'>2).内存</a></li>
+<li><a href='#CRM_Rds实例资源降配分析-3).连接数&amp;iops.1'>3).连接数&amp;iops</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href='#CRM_Rds实例资源降配分析-三.总结'>三. 总结</a></li>
+</ul>
+</div></p><h1 id="CRM_Rds实例资源降配分析-一.背景">一. 背景</h1><p>降本提效大背景下, 分析当下rds 配置是否有进一步优化空间. </p><p><br/></p><h1 id="CRM_Rds实例资源降配分析-二.分析">二. 分析</h1><p>目前crm组应用涉及rds实例包括 <strong>crm</strong>、<strong>yt_shop_group</strong>、<strong>yt_admin</strong> . (数据库涉及9个). 其中crm应用业务独享的实例是<strong>crm</strong> 和 <strong>yt_shop_group</strong>.</p><h2 id="CRM_Rds实例资源降配分析-2.1当前配置分析">2.1 当前配置分析</h2><div class="table-wrap"><table class="confluenceTable"><colgroup><col/><col/><col/><col/><col/><col/></colgroup><tbody><tr><th style="text-align: center;" class="confluenceTh">实例名称</th><th style="text-align: center;" class="confluenceTh"><p>当前年化费率</p></th><th style="text-align: center;" class="confluenceTh"><p>CPU</p></th><th style="text-align: center;" class="confluenceTh"><p>内存</p></th><th style="text-align: center;" class="confluenceTh">连接数</th><th colspan="1" style="text-align: center;" class="confluenceTh">IOPS</th></tr><tr><td class="confluenceTd"><strong>yt_shop_group</strong></td><td class="confluenceTd"><span style="color: rgb(255,138,0);">49200元 (4000/月)</span></td><td class="confluenceTd">8核</td><td class="confluenceTd">32G</td><td class="confluenceTd">5000</td><td colspan="1" class="confluenceTd">9000</td></tr><tr><td class="confluenceTd"><strong>crm</strong></td><td class="confluenceTd"><span style="color: rgb(255,138,0);">39000元 (3250/月)</span></td><td class="confluenceTd">4核</td><td class="confluenceTd">32G</td><td class="confluenceTd">5000</td><td colspan="1" class="confluenceTd">9000</td></tr></tbody></table></div><h2 class="auto-cursor-target" id="CRM_Rds实例资源降配分析-2.2aliyunrds套餐">2.2 aliyun rds 套餐</h2><div class="table-wrap"><table class="confluenceTable"><colgroup><col/><col/><col/><col/><col/></colgroup><tbody><tr><td colspan="1" style="text-align: center;" class="confluenceTd"><span>CPU</span></td><td colspan="1" style="text-align: center;" class="confluenceTd"><span>内存</span></td><td colspan="1" style="text-align: center;" class="confluenceTd">连接数</td><td colspan="1" style="text-align: center;" class="confluenceTd"><span>IOPS</span></td><td colspan="1" style="text-align: center;" class="confluenceTd">月度参考价格</td></tr><tr><td style="text-align: right;" class="confluenceTd"><p>8核</p></td><td style="text-align: right;" class="confluenceTd"><span class="sc-gTRrQi jFgzQk wind-rc-truncate__wrapper"><span class="sc-bgqQcB hePPrt wind-rc-truncate"><span class="wind-rc-truncate__truncated">32GB</span></span></span></td><td style="text-align: right;" class="confluenceTd"><p>5000</p></td><td style="text-align: right;" class="confluenceTd"><p>9000</p></td><td style="text-align: right;" class="confluenceTd"><p><span class="price" style="color: rgb(255,138,0);">¥ 4100/月</span></p></td></tr><tr><td style="text-align: right;" class="confluenceTd"><p>4核</p></td><td style="text-align: right;" class="confluenceTd"><span class="sc-gTRrQi jFgzQk wind-rc-truncate__wrapper"><span class="sc-bgqQcB hePPrt wind-rc-truncate"><span class="wind-rc-truncate__truncated">32GB</span></span></span></td><td style="text-align: right;" class="confluenceTd"><p>5000</p></td><td style="text-align: right;" class="confluenceTd"><p>9000</p></td><td style="text-align: right;" class="confluenceTd"><p><span class="price" style="color: rgb(255,138,0);">¥ 3250/月</span></p></td></tr><tr><td style="text-align: right;" class="confluenceTd"><p>4核</p></td><td style="text-align: right;" class="confluenceTd"><span class="sc-gTRrQi jFgzQk wind-rc-truncate__wrapper"><span class="sc-bgqQcB hePPrt wind-rc-truncate"><span class="wind-rc-truncate__truncated">16GB</span></span></span></td><td style="text-align: right;" class="confluenceTd"><p>2500</p></td><td style="text-align: right;" class="confluenceTd"><p>4500</p></td><td style="text-align: right;" class="confluenceTd"><p><span class="price" style="color: rgb(255,138,0);">¥ 2100/月</span></p></td></tr><tr><td style="text-align: right;" class="confluenceTd"><p>2核</p></td><td style="text-align: right;" class="confluenceTd"><span class="sc-gTRrQi jFgzQk wind-rc-truncate__wrapper"><span class="sc-bgqQcB hePPrt wind-rc-truncate"><span class="wind-rc-truncate__truncated">16GB</span></span></span></td><td style="text-align: right;" class="confluenceTd"><p>2500</p></td><td style="text-align: right;" class="confluenceTd"><p>4500</p></td><td style="text-align: right;" class="confluenceTd"><p><span class="price" style="color: rgb(255,138,0);">¥ 1650/月</span></p></td></tr></tbody></table></div><h2 id="CRM_Rds实例资源降配分析-2.3rds指标分析">2.3 rds 指标分析</h2><h3 id="CRM_Rds实例资源降配分析-1yt_shop_group指标分析">1 yt_shop_group指标分析</h3><h4 id="CRM_Rds实例资源降配分析-1).cpu">1).cpu</h4><p>根据近七日 rds cpu指标分析可知. CPU峰值为<strong>40%</strong>, 存在较明显波动,</p><p>具体明细为: </p><ul><li>每日00:00 - 01:00 之间的峰值40% , 对应业务为: 每日定时清理历史无效版本数据(删除)</li><li>每日04:00 - 06:30 之间的峰值15% , 对应业务为: 分组增量数据更新(写入).</li></ul><p><strong>结论: </strong></p><p><strong>  按照目前aliyun rds 减配策略, </strong></p><ul><li>cpu 可下调选项为 8核 → 4核. <span style="color: rgb(255,0,0);"><strong>整体可降配.但需降低rds峰值至30%以内. </strong></span>按照目前40%峰值计算, 若前提cpu核数和cpu使用率成正比, 降配后cpu使用率将近80%, 不符合60%的稳定线. 故不可直接升级 (实际肯定非正比, 因cpu下降删除速率也会下降, 实际肯定低于80%), </li></ul><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" height="250" src="attachments/120346665/120346701.png" data-image-src="attachments/120346665/120346701.png" data-unresolved-comment-count="0" data-linked-resource-id="120346701" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2023-5-18_11-43-45.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="120346665" data-linked-resource-container-version="2"></span></p><p><br/></p><h4 id="CRM_Rds实例资源降配分析-2).内存">2). 内存</h4><p>根据近七日 rds cpu/内存指标分析可知. 内存平均使用率 <strong>66.4%,</strong> rds 内存主要观察buffer pool指标, 根据mysql 参数分析可得 buffer pool 最重要的3个指标分别为</p><p>innodb_buffer_pool_size：24G 内存占比75%<br/>innodb_buffer_pool_chunk_size：128M(未设置, 读默认值) <br/>innodb_buffer_pool_instances：8 (理论buffer pool数量 8*24个)</p><p><strong>指标分析明细:</strong></p><p>buffer命中率99.5以上 (侧面印证了innoDB引擎数据逻辑层面的内存数据库), 脏页在比率在数据写入、删除阶段会有一定上涨(峰值60%左右)</p><p>buffer pool 读取页请求峰值QPS150W, 写入页峰值QPS45W.  排除数据删除期间日常流量读取峰值QPS59W, 排除数据删除期间日常流量写入峰值QPS16W . 整体指标与icp相仿(icp buffer pool读写QPS分别为 47W/7W).</p><p><strong>结论:</strong></p><p><strong>  按照目前aliyun rds 减配策略, </strong></p><ul><li>内存可下调选项为 32G → 16G, <span style="color: rgb(255,0,0);">不建议yt_shop_group 实例进行内存降配</span> (但内存不可单独降配, 前提需cpu降配至4核内存方可降配).  按照定量分析类比(目前相同体量的rds只有icp).</li></ul><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" height="250" src="attachments/120346665/120346762.png" data-image-src="attachments/120346665/120346762.png" data-unresolved-comment-count="0" data-linked-resource-id="120346762" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2023-5-18_15-20-15.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="120346665" data-linked-resource-container-version="2"></span></p><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" height="250" src="attachments/120346665/120346763.png" data-image-src="attachments/120346665/120346763.png" data-unresolved-comment-count="0" data-linked-resource-id="120346763" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2023-5-18_15-23-25.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="120346665" data-linked-resource-container-version="2"></span></p><p><br/></p><h4 id="CRM_Rds实例资源降配分析-3).连接数&amp;iops">3). 连接数 &amp; iops</h4><p>连接数和iops 不可单独降配, 需绑定cpu/内存套餐. 只有 5000/9000 和 2500/4500 2中选项. 故需分析其中短板. </p><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" height="250" src="attachments/120346665/120346805.png" data-image-src="attachments/120346665/120346805.png" data-unresolved-comment-count="0" data-linked-resource-id="120346805" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2023-5-18_16-46-24.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="120346665" data-linked-resource-container-version="2"></span></p><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" height="250" src="attachments/120346665/120346808.png" data-image-src="attachments/120346665/120346808.png" data-unresolved-comment-count="0" data-linked-resource-id="120346808" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2023-5-18_16-48-55.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="120346665" data-linked-resource-container-version="2"></span></p><p><strong>指标分析明细:</strong></p><ul><li>连接数利用率在3.5%以内, 有很大盈余. </li><li>iops 每日基本都会超过100% , iops 字面理解是rds 磁盘的读写QPS. 但实际上影响该指标的因素很多, 该指标也会影响到磁盘的响应速度</li></ul><p><strong>影响该指标因素主要包括:</strong></p><ul><li>物理读写.</li><li>逻辑读写(与buffer pool相关联, 内存不满足条件下, 排序等操作会产生大量IO)</li></ul><p><strong>该指标影响范围主要为磁盘性能,衍生影响包括并不限于:</strong></p><ul><li>主/备、读/写实例延迟</li><li>innodb刷盘效率</li><li>rds cpu资源 (逻辑读会导致buffer pool中维护一致性的latch和mutex锁家具竞争)</li></ul><p><strong>结论:</strong></p><p><strong>  按照目前aliyun rds 减配策略</strong></p><p><strong> iops 是 cpu上涨的根本原因</strong>. 但不建议直接降配, 虽然尖刺期间为业务低峰期. 但根据优化方案估算, cpu 可优化空间为50%. iops 即为峰值的120% → 60%. 但若iops 降配至一半, 伴随cpu减配, 当下问题必定会加剧. 甚至可能影响到0点开始的大促. </p><p><br/></p><h3 id="CRM_Rds实例资源降配分析-2crm指标分析">2 crm指标分析 </h3><p>crm实例目前关联应用为 crm-core、crm、touch、touch-center、cif等应用. 实例下挂有库crm、crm_reprt、yt_touch_center. 业务较复杂. 存在数据回流、 后台批量操作、定时任务等指标影响较大操作. </p><h4 id="CRM_Rds实例资源降配分析-1).cpu.1">1).cpu</h4><p>通用曲线日均cpu峰值在40%以内, 相对稳定. 但实际的瞬时cpu峰值在70%左右(业务影响).  </p><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" height="250" src="attachments/120346665/120346852.png" data-image-src="attachments/120346665/120346852.png" data-unresolved-comment-count="0" data-linked-resource-id="120346852" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2023-5-18_17-17-22.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="120346665" data-linked-resource-container-version="2"></span></p><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" height="250" src="attachments/120346665/120346853.png" data-image-src="attachments/120346665/120346853.png" data-unresolved-comment-count="0" data-linked-resource-id="120346853" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2023-5-18_17-21-9.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="120346665" data-linked-resource-container-version="2"></span></p><p><strong>结论: cpu暂不建议降配, 目前已是4核. 切业务上存在各种瞬时请求. 目前已是基本要求</strong></p><p><br/></p><h4 id="CRM_Rds实例资源降配分析-2).内存.1">2).内存</h4><p>根据近七日 rds cpu/内存指标分析可知. 内存平均使用率 <strong>67.5%,</strong> rds 内存主要观察buffer pool指标同crm-core :</p><p>innodb_buffer_pool_size：24G 内存占比75%<br/>innodb_buffer_pool_chunk_size：128M(未设置, 读默认值) <br/>innodb_buffer_pool_instances：8 (理论buffer pool数量 8*24个)</p><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" height="250" src="attachments/120346665/120346855.png" data-image-src="attachments/120346665/120346855.png" data-unresolved-comment-count="0" data-linked-resource-id="120346855" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2023-5-18_17-29-30.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="120346665" data-linked-resource-container-version="2"></span></p><p><strong>指标分析明细:</strong></p><p>buffer命中率99.9</p><p>buffer pool 日常流量读取峰值QPS76W, 排除数据删除期间日常流量写入峰值QPS6.5W .  crm的整体的内存使用率高于 crm-core 、icp</p><p><strong>结论:</strong></p><p><strong>  按照目前aliyun rds 减配策略, </strong></p><ul><li><strong><span style="color: rgb(255,0,0);">不建议crm 实例进行内存降配</span> (但内存不可单独降配, 前提需cpu降配至4核内存方可降配).  按照定量分析类比(目前相同体量的rds只有icp).</strong></li></ul><h4 id="CRM_Rds实例资源降配分析-3).连接数&amp;iops.1">3).连接数&amp;iops</h4><p>crm iops 使用率在16%以内.连接数在10%以内. </p><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" height="400" src="attachments/120346665/120346857.png" data-image-src="attachments/120346665/120346857.png" data-unresolved-comment-count="0" data-linked-resource-id="120346857" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2023-5-18_17-35-35.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="120346665" data-linked-resource-container-version="2"></span></p><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" height="250" src="attachments/120346665/120346860.png" data-image-src="attachments/120346665/120346860.png" data-unresolved-comment-count="0" data-linked-resource-id="120346860" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2023-5-18_17-36-42.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="120346665" data-linked-resource-container-version="2"></span></p><p><strong>结论:</strong></p><p><strong><span style="color: rgb(255,0,0);">  crm 实例连接数/iops不可降配, </span></strong><span style="color: rgb(255,0,0);"><span style="color: rgb(51,51,51);">虽然整体较为充裕, 但连接数&amp;iops根据套餐绑定不可单独减配. 除非cpu/ 内存中有一项降配. </span></span></p><p><br/></p><h1 id="CRM_Rds实例资源降配分析-三.总结"><span style="color: rgb(255,0,0);"><span style="color: rgb(51,51,51);">三. 总结</span></span></h1><p><span style="color: rgb(255,0,0);"><span style="color: rgb(51,51,51);">根据分析, 目前crm业务独享实例中yt_shop_group 存在减配空间. 但需先对0:00 - 1:00之间的数据删除任务进行打散, 保证cpu 在理论值30%以内. 完成后预计节省 10200元/年</span></span></p><p><span style="color: rgb(255,0,0);"><span style="color: rgb(51,51,51);">(可选项: rds 磁盘空间减配至500G 合计节省1131元/年)</span></span></p>
+                    </div>
+
+                                        <div class="pageSection group">
+                        <div class="pageSectionHeader">
+                            <h2 id="attachments" class="pageSectionTitle">Attachments:</h2>
+                        </div>
+
+                        <div class="greybox" align="left">
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/120346665/120346701.png">image2023-5-18_11-43-45.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/120346665/120346718.png">image2023-5-18_14-28-21.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/120346665/120346762.png">image2023-5-18_15-20-15.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/120346665/120346763.png">image2023-5-18_15-23-25.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/120346665/120346800.png">image2023-5-18_16-38-21.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/120346665/120346805.png">image2023-5-18_16-46-24.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/120346665/120346808.png">image2023-5-18_16-48-55.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/120346665/120346852.png">image2023-5-18_17-17-22.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/120346665/120346853.png">image2023-5-18_17-21-9.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/120346665/120346855.png">image2023-5-18_17-29-30.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/120346665/120346857.png">image2023-5-18_17-35-35.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/120346665/120346860.png">image2023-5-18_17-36-42.png</a> (image/png)
+                                <br/>
+                                                    </div>
+                    </div>
+                    
+                 
+                </div>             </div> 
+            <div id="footer" role="contentinfo">
+                <section class="footer-body">
+                    <p>Document generated by Confluence on 2026-04-10 10:45</p>
+                    <div id="footer-logo"><a href="http://www.atlassian.com/">Atlassian</a></div>
+                </section>
+            </div>
+        </div>     </body>
+</html>

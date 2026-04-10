@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>大商家组 : 2.ai-match同步操作问题</title>
+        <link rel="stylesheet" href="styles/site.css" type="text/css" />
+        <META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    </head>
+
+    <body class="theme-default aui-theme-default">
+        <div id="page">
+            <div id="main" class="aui-page-panel">
+                <div id="main-header">
+                    <div id="breadcrumb-section">
+                        <ol id="breadcrumbs">
+                            <li class="first">
+                                <span><a href="index.html">大商家组</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="82552158.html">触达中心</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="91598069.html">5、系统分析&amp;保障</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="115115082.html">1）性能相关</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="91598075.html">1.触达中心系统计算时长测试-20220328</a></span>
+                            </li>
+                                                </ol>
+                    </div>
+                    <h1 id="title-heading" class="pagetitle">
+                                                <span id="title-text">
+                            大商家组 : 2.ai-match同步操作问题
+                        </span>
+                    </h1>
+                </div>
+
+                <div id="content" class="view">
+                    <div class="page-metadata">
+                        
+        
+    
+        
+    
+        
+        
+            Created by <span class='author'> 宋芷君</span>, last modified on 2022-04-24
+                        </div>
+                    <div id="main-content" class="wiki-content group">
+                    <p><style type='text/css'>/*<![CDATA[*/
+div.rbtoc1775789081499 {padding: 0px;}
+div.rbtoc1775789081499 ul {list-style: disc;margin-left: 0px;}
+div.rbtoc1775789081499 li {margin-left: 0px;padding-left: 0px;}
+
+/*]]>*/</style><div class='toc-macro rbtoc1775789081499'>
+<ul class='toc-indentation'>
+<li><a href='#id-2.aimatch同步操作问题-一、问题现象描述'>一、问题现象描述</a></li>
+<li><a href='#id-2.aimatch同步操作问题-二、企微触达业务流程'>二、企微触达业务流程</a></li>
+<li><a href='#id-2.aimatch同步操作问题-三、问题跟踪过程'>三、问题跟踪过程</a></li>
+<li><a href='#id-2.aimatch同步操作问题-四、如何优化？'>四、如何优化？</a></li>
+</ul>
+</div></p><h2 id="id-2.aimatch同步操作问题-一、问题现象描述">一、问题现象描述</h2><p style="text-align: left;">1、发现压测过程中21:04分已经结束了调用，但是算法库的结果表的数据一直在增加。<span style="color: rgb(255,0,0);">80配置下奶粉价格表14分钟=8分钟（算法计算）+6分钟（写库）</span></p><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image confluence-external-resource" width="887" src="attachments/91601254/91601331.png" data-image-src="http://k.yangtuojia.com/download/attachments/91601254/image2022-3-31_15-13-37.png?version=1&amp;modificationDate=1648710818000&amp;api=v2"></span></p><h2 id="id-2.aimatch同步操作问题-二、企微触达业务流程">二、企微触达业务流程</h2><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image confluence-external-resource" alt="image2022-3-28_20-59-20.png" width="1007" src="attachments/86612721/91598746.png" data-image-src="http://k.yangtuojia.com/download/attachments/86612721/image2022-3-28_20-59-20.png?version=1&amp;modificationDate=1648472360000&amp;api=v2"></span></p><h2 id="id-2.aimatch同步操作问题-三、问题跟踪过程">三、问题跟踪过程</h2><p>1、相同策略（小程序list新签策略）当调高阈值时，mall-server的QPS压不上去。Mall-Server的QPS呈现80&gt;120&gt;100&gt;60的趋势。怀疑：有可能是ai-match本身的原因导致整体的QPS上不去。（因为与前台交互的过程ai-match是入口应用，很有可能是ai-match本身的业务逻辑处理将算法计算时长拉长，才会导致QPS下降的趋势）</p><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" height="250" src="attachments/91613147/91614268.png" data-image-src="attachments/91613147/91614268.png" data-unresolved-comment-count="0" data-linked-resource-id="91614268" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2022-4-19_15-36-32.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="91613147" data-linked-resource-container-version="34"></span></p><p><br/></p><p>2、查看ai-match应用情况：</p><ul><li>查看ai-match应用资源负载比较正常，接口情况呈现QPS上涨，但RT下降的现象（该问题后面会讲解）。</li><li>接着查看数据库的连接况，发现数据库连接池很活跃。而且链接数一直都很密集，在真实的压测过程中其实是有间隔时间的，但发现连接池的情况一直是出于较活跃的状态。说明在压测间隔的几分钟一直都在操作数据库，这也就证明了前面的现象。</li><li><span style="color: rgb(255,0,0);">结论：（80配置下奶粉价格表14分钟=8分钟（算法计算）+6分钟（写库）。</span>算法计算完成之后存在堆积SQL未处理。</li></ul><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" height="250" src="attachments/91613147/91614625.png" data-image-src="attachments/91613147/91614625.png" data-unresolved-comment-count="0" data-linked-resource-id="91614625" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2022-4-19_20-24-46.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="91613147" data-linked-resource-container-version="34"></span></p><p>3、查看SQL的执行情况发现每次压测过程中SQL的操作较为频繁，且数据量较大。从这个单个SQL的执行次数看不出什么问题，只能说明在触达任务启动时，存在较多SQL需要执行，其中<a class="graph-legend-alias pointer" rel="nofollow" style="text-decoration: none;text-align: left;" title="MatchTouchRecallDAO.recallByID">MatchTouchRecallDAO.recallByID、</a><a class="graph-legend-alias pointer" rel="nofollow" style="text-decoration: none;text-align: left;" title="MatchTouchResultDAO.batchInsert">MatchTouchResultDAO.batchInsert、</a><a class="graph-legend-alias pointer" rel="nofollow" style="text-decoration: none;text-align: left;" title="MatchTouchTaskDAO.updateByShop">MatchTouchTaskDAO.updateByShop这些方法均是触达业务中算法需要调用的的SQL。</a></p><ul><li><span style="color: rgb(0,0,0);"><a class="graph-legend-alias pointer" rel="nofollow" style="text-decoration: none;text-align: left;color: rgb(0,0,0);" title="MatchTouchTaskDAO.updateByShop">怀疑SQL的本身写的有漏洞，第一反应去查看这些SQL的逻辑是否有对应的索引给加上。这时候先去排查一下表结构。</a></span></li><li><span style="color: rgb(255,0,0);">结论：从这些SQL逻辑以及表结构来看，该加的索引已经都加好了，理论上这些SQL应该不会存在耗时的情况。</span></li></ul><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" height="250" src="attachments/91613147/91614162.png" data-image-src="attachments/91613147/91614162.png" data-unresolved-comment-count="0" data-linked-resource-id="91614162" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2022-4-19_14-46-7.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="91613147" data-linked-resource-container-version="34"></span></p><p><br/></p><p><br/></p><p>4、看了一下慢SQL的执行此和时间，发现最高也只有40次的慢SQL，总体这40次SQL执行耗时最高达到10秒左右。从5.5万家门店数据来看，出现40次慢SQL，也大致可接受，排查到这里可断定的是SQL语句方面至少是没有太大问题的。但可以说明一个问题，5万家门店计算时执行<a class="graph-legend-alias pointer" rel="nofollow" style="text-decoration: none;text-align: left;" title="MatchTouchResultDAO.batchInsert">MatchTouchResultDAO.batchInsert、</a><a class="graph-legend-alias pointer" rel="nofollow" style="text-decoration: none;text-align: left;" title="MatchTouchTaskDAO.updateByShop">MatchTouchTaskDAO.updateByShop 方法存在排队情况。所以需要梳理一下该方法的上层调用方的情况。</a></p><ul><li><span style="color: rgb(255,0,0);">怀疑：单从SQL上找不到很根本的原因，需要梳理一下业务流程。</span></li></ul><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" width="950" src="attachments/91613147/91614642.png" data-image-src="attachments/91613147/91614642.png" data-unresolved-comment-count="0" data-linked-resource-id="91614642" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2022-4-19_20-37-48.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="91613147" data-linked-resource-container-version="34"></span></p><p>5、排查ai-match执行任务的代码.</p><p>从触达中心创建任务（5.5W家门店）后，ai-match会启动7个线程处理（其中一个线程负责拉取门店，5个线程处理核心业务逻辑，另外一个线程拉取失败门店）。从流程图上可以清晰的业务逻辑最重的是核心线程池的处理。并且不管是否走缓存，门店是否有匹配的召回数据，门店是否有导购和营销的数据，门店是否不匹配重排规则，都会有大量的insert操作和update操作。并且流程都属于同步操作，上一条未执行完，下一条就一直阻塞在那里。这也是为什么写入数据需要耗时6分钟的原因，也就是5.5万家门店堵塞的原因。</p><ul><li>缓存是否有价格数据，若从缓存中取数。但此次取完数后需要有insert和update操作。一个门店需要有一次insert+一次update操作。</li><li>若缓存无数据，走接口查询，若接口有数据，且满足精排和重排规则，后面需要有insert和update操作。</li><li>若接口无数据，也需要有insert和update操作。</li></ul><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" width="645" src="attachments/91613147/91613951.png" data-image-src="attachments/91613147/91613951.png" data-unresolved-comment-count="0" data-linked-resource-id="91613951" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2022-4-19_10-58-16.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="91613147" data-linked-resource-container-version="34"></span></p><p>代码细节点：</p><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" height="250" src="attachments/91613147/91614010.png" data-image-src="attachments/91613147/91614010.png" data-unresolved-comment-count="0" data-linked-resource-id="91614010" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2022-4-19_11-33-55.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="91613147" data-linked-resource-container-version="34"></span><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" width="653" src="attachments/91613147/91614014.png" data-image-src="attachments/91613147/91614014.png" data-unresolved-comment-count="0" data-linked-resource-id="91614014" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2022-4-19_11-34-50.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="91613147" data-linked-resource-container-version="34"></span></p><h2 id="id-2.aimatch同步操作问题-四、如何优化？">四、如何优化？</h2><ul><li>从缓存中查询实时价格后，丢队列；</li><li>从导购拿到实时价格后，丢队列；</li><li>从营销拿到优惠券后，丢队列；</li><li>更新门店执行状态，丢队列；</li><li>单独起一个线程用于执行数据的插入和修改操作。</li></ul><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" width="674" src="attachments/91613147/91618383.png" data-image-src="attachments/91613147/91618383.png" data-unresolved-comment-count="0" data-linked-resource-id="91618383" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2022-4-24_15-21-33.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="91613147" data-linked-resource-container-version="34"></span></p><p><br/></p><p><br/></p><p><br/></p>
+                    </div>
+
+                                        <div class="pageSection group">
+                        <div class="pageSectionHeader">
+                            <h2 id="attachments" class="pageSectionTitle">Attachments:</h2>
+                        </div>
+
+                        <div class="greybox" align="left">
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/91613147/91613937.png">image2022-4-19_10-49-58.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/91613147/91613951.png">image2022-4-19_10-58-16.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/91613147/91614010.png">image2022-4-19_11-33-55.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/91613147/91614014.png">image2022-4-19_11-34-50.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/91613147/91614162.png">image2022-4-19_14-46-7.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/91613147/91614254.png">image2022-4-19_15-27-32.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/91613147/91614268.png">image2022-4-19_15-36-32.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/91613147/91614294.png">image2022-4-19_16-5-27.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/91613147/91614620.png">image2022-4-19_20-22-31.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/91613147/91614624.png">image2022-4-19_20-24-20.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/91613147/91614625.png">image2022-4-19_20-24-46.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/91613147/91614642.png">image2022-4-19_20-37-48.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/91613147/91618383.png">image2022-4-24_15-21-33.png</a> (image/png)
+                                <br/>
+                                                    </div>
+                    </div>
+                    
+                 
+                </div>             </div> 
+            <div id="footer" role="contentinfo">
+                <section class="footer-body">
+                    <p>Document generated by Confluence on 2026-04-10 10:44</p>
+                    <div id="footer-logo"><a href="http://www.atlassian.com/">Atlassian</a></div>
+                </section>
+            </div>
+        </div>     </body>
+</html>

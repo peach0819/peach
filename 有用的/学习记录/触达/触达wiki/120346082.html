@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>大商家组 : 4、ICC替换涂色技术方案</title>
+        <link rel="stylesheet" href="styles/site.css" type="text/css" />
+        <META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    </head>
+
+    <body class="theme-default aui-theme-default">
+        <div id="page">
+            <div id="main" class="aui-page-panel">
+                <div id="main-header">
+                    <div id="breadcrumb-section">
+                        <ol id="breadcrumbs">
+                            <li class="first">
+                                <span><a href="index.html">大商家组</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="82552158.html">触达中心</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="86620182.html">4、日常需求</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="158620599.html">2023需求</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="2023-Q2_120334193.html">2023 Q2</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="120334195.html">涂色替换三方服务商</a></span>
+                            </li>
+                                                </ol>
+                    </div>
+                    <h1 id="title-heading" class="pagetitle">
+                                                <span id="title-text">
+                            大商家组 : 4、ICC替换涂色技术方案
+                        </span>
+                    </h1>
+                </div>
+
+                <div id="content" class="view">
+                    <div class="page-metadata">
+                        
+        
+    
+        
+    
+        
+        
+            Created by <span class='author'> dong.wang</span>, last modified on 2023-05-16
+                        </div>
+                    <div id="main-content" class="wiki-content group">
+                    <p style="text-align: left;"><style type='text/css'>/*<![CDATA[*/
+div.rbtoc1775789060913 {padding: 0px;}
+div.rbtoc1775789060913 ul {list-style: disc;margin-left: 0px;}
+div.rbtoc1775789060913 li {margin-left: 0px;padding-left: 0px;}
+
+/*]]>*/</style><div class='toc-macro rbtoc1775789060913'>
+<ul class='toc-indentation'>
+<li><a href='#id-4、ICC替换涂色技术方案-一.业务背景'>一. 业务背景</a></li>
+<li><a href='#id-4、ICC替换涂色技术方案-二.需求梳理'>二. 需求梳理</a></li>
+<li><a href='#id-4、ICC替换涂色技术方案-三.概要设计'>三. 概要设计</a>
+<ul class='toc-indentation'>
+<li><a href='#id-4、ICC替换涂色技术方案-3.1用例图'>3.1 用例图</a></li>
+<li><a href='#id-4、ICC替换涂色技术方案-3.2核心、关键点设计'>3.2 核心、关键点设计</a></li>
+<li><a href='#id-4、ICC替换涂色技术方案-3.3系统架构'>3.3 系统架构</a></li>
+<li><a href='#id-4、ICC替换涂色技术方案-3.4领域模型图'>3.4 领域模型图</a></li>
+<li><a href='#id-4、ICC替换涂色技术方案-3.5流程图'>3.5 流程图</a></li>
+<li><a href='#id-4、ICC替换涂色技术方案-3.6功能模块梳理'>3.6 功能模块梳理</a></li>
+</ul>
+</li>
+<li><a href='#id-4、ICC替换涂色技术方案-四.数据库设计'>四. 数据库设计</a></li>
+<li><a href='#id-4、ICC替换涂色技术方案-'></a></li>
+<li><a href='#id-4、ICC替换涂色技术方案-五.接口设计'>五. 接口设计</a></li>
+<li><a href='#id-4、ICC替换涂色技术方案-六.权限管理'>六. 权限管理</a></li>
+<li><a href='#id-4、ICC替换涂色技术方案-七、排期'>七、排期</a></li>
+</ul>
+</div></p><h1 style="text-align: left;" id="id-4、ICC替换涂色技术方案-一.业务背景">一. 业务背景</h1><p>demo：<a class="external-link" href="https://hidemo.yangtuojia.com/view/tracker/TRACKER-15731/3857#id=t3re0b&amp;p=%E8%AF%84%E4%BC%B0%E5%8F%82%E8%80%83%E5%86%85%E5%AE%B9&amp;g=1" rel="nofollow">https://hidemo.yangtuojia.com/view/tracker/TRACKER-15731/3857#id=t3re0b&amp;p=%E8%AF%84%E4%BC%B0%E5%8F%82%E8%80%83%E5%86%85%E5%AE%B9&amp;g=1</a></p><p><span style="color: rgb(51,51,51);">ICC渠道接入测试，用于替换涂色通道</span></p><h1 style="text-align: left;" id="id-4、ICC替换涂色技术方案-二.需求梳理">二. 需求梳理</h1><p>1、涂色渠道场景下支持白名单走ICC渠道发送</p><p>2、现有企微侧边栏页面，接入ICC侧边栏</p><p>3、消息明细打上ICC渠道标签，用于后续数据分析</p><h1 style="text-align: left;" id="id-4、ICC替换涂色技术方案-三.概要设计"><span>三. 概要设计</span></h1><h2 id="id-4、ICC替换涂色技术方案-3.1用例图">3.1 用例图</h2><h2 id="id-4、ICC替换涂色技术方案-3.2核心、关键点设计">3.2 核心、关键点设计</h2><p>1）侧边栏</p><p>页面提供token，全局变量（企微chatId，门店id，联系人id，联系人姓名等）</p><p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/120346082/120346327.jpg" data-image-src="attachments/120346082/120346327.jpg" data-unresolved-comment-count="0" data-linked-resource-id="120346327" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="侧边栏 (1).jpg" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/jpeg" data-linked-resource-container-id="120346082" data-linked-resource-container-version="20"></span></p><p><span class="confluence-embedded-file-wrapper"><a class="confluence-embedded-file" href="/download/attachments/120346082/%E7%BD%91%E9%A1%B5%E5%AE%A2%E6%9C%8D%E4%BE%A7%E8%BE%B9%E6%A0%8F%281%29.pdf?version=1&amp;modificationDate=1684204431000&amp;api=v2" data-nice-type="PDF Document" data-file-src="/download/attachments/120346082/%E7%BD%91%E9%A1%B5%E5%AE%A2%E6%9C%8D%E4%BE%A7%E8%BE%B9%E6%A0%8F%281%29.pdf?version=1&amp;modificationDate=1684204431000&amp;api=v2" data-linked-resource-id="120346332" data-linked-resource-type="attachment" data-linked-resource-container-id="120346082" data-linked-resource-default-alias="网页客服侧边栏(1).pdf" data-mime-type="application/pdf" data-has-thumbnail="true" data-linked-resource-version="1"><img src="rest/documentConversion/latest/conversion/thumbnail/120346332/1" height="250"/></a></span></p><h2 id="id-4、ICC替换涂色技术方案-3.3系统架构">3.3 系统架构</h2><h2 id="id-4、ICC替换涂色技术方案-3.4领域模型图">3.4 领域模型图</h2><h2 id="id-4、ICC替换涂色技术方案-3.5流程图">3.5 流程图</h2><p>1、<span style="color: rgb(51,51,51);">ICC渠道接入</span></p><p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/120346082/120346219.jpg" data-image-src="attachments/120346082/120346219.jpg" data-unresolved-comment-count="0" data-linked-resource-id="120346219" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="ICC渠道.jpg" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/jpeg" data-linked-resource-container-id="120346082" data-linked-resource-container-version="20"></span></p><p>icc错误码：<span class="confluence-embedded-file-wrapper"><a class="confluence-embedded-file" href="/download/attachments/120346082/IBOT%E9%94%99%E8%AF%AF%E7%A0%81%E6%B1%87%E6%80%BB%E8%A1%A8.xlsx?version=1&amp;modificationDate=1684203336000&amp;api=v2" data-nice-type="Excel Spreadsheet" data-file-src="/download/attachments/120346082/IBOT%E9%94%99%E8%AF%AF%E7%A0%81%E6%B1%87%E6%80%BB%E8%A1%A8.xlsx?version=1&amp;modificationDate=1684203336000&amp;api=v2" data-linked-resource-id="120346323" data-linked-resource-type="attachment" data-linked-resource-container-id="120346082" data-linked-resource-default-alias="IBOT错误码汇总表.xlsx" data-mime-type="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" data-has-thumbnail="true" data-linked-resource-version="1"><img src="rest/documentConversion/latest/conversion/thumbnail/120346323/1" height="250"/></a></span></p><p><br/></p><p><span style="color: rgb(255,0,0);">着重测试：</span></p><p><span style="color: rgb(255,0,0);">1）打标，是否icc渠道发送</span></p><p><span style="color: rgb(255,0,0);">2）疲劳度</span></p><h2 id="id-4、ICC替换涂色技术方案-3.6功能模块梳理">3.6 功能模块梳理</h2><h1 style="text-align: left;" id="id-4、ICC替换涂色技术方案-四.数据库设计">四. 数据库设计</h1><p>1、<span style="color: rgb(0,0,0);">t_touch_task_detail</span></p><p><span style="color: rgb(0,0,0);">新增字段，extend（text）；扩展字段，json格式，用于保存一些非必要信息</span></p><h1 style="text-align: left;" id="id-4、ICC替换涂色技术方案-"><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/120346082/120346320.png" data-image-src="attachments/120346082/120346320.png" data-unresolved-comment-count="0" data-linked-resource-id="120346320" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2023-5-16_10-12-14.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="120346082" data-linked-resource-container-version="20"></span></h1><h1 style="text-align: left;" id="id-4、ICC替换涂色技术方案-五.接口设计">五. 接口设计</h1><div class="table-wrap"><table class="relative-table wrapped confluenceTable" style="width: 93.7849%;"><colgroup><col style="width: 2.45902%;"/><col style="width: 7.07899%;"/><col style="width: 23.6191%;"/><col style="width: 29.2107%;"/><col style="width: 26.3791%;"/><col style="width: 11.253%;"/></colgroup><thead><tr><th style="text-align: center;" class="confluenceTh"><br/></th><th colspan="1" style="text-align: center;" class="confluenceTh"><p>模块</p><p>########</p></th><th style="text-align: center;" class="confluenceTh"><p>功能</p><p>################################</p></th><th style="text-align: center;" class="confluenceTh"><p>API</p></th><th colspan="1" style="text-align: center;" class="confluenceTh"><p>备注</p></th><th colspan="1" class="confluenceTh"><br/></th></tr></thead><tbody><tr><td style="text-align: left;" class="confluenceTd"><br/></td><td style="text-align: left;" class="confluenceTd"><br/></td><td style="text-align: left;" class="confluenceTd"><br/></td><td style="text-align: left;" class="confluenceTd"><br/></td><td colspan="1" style="text-align: left;" class="confluenceTd"><br/></td><td colspan="1" class="confluenceTd"><br/></td></tr></tbody></table></div><h1 class="auto-cursor-target" id="id-4、ICC替换涂色技术方案-六.权限管理">六. 权限管理</h1><h1 class="auto-cursor-target" id="id-4、ICC替换涂色技术方案-七、排期">七、排期</h1>
+                    </div>
+
+                                        <div class="pageSection group">
+                        <div class="pageSectionHeader">
+                            <h2 id="attachments" class="pageSectionTitle">Attachments:</h2>
+                        </div>
+
+                        <div class="greybox" align="left">
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/120346082/120346088.png">image2023-2-6_15-6-10.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/120346082/120346089.jpg">微商企微大客户播报 - 脚本.jpg</a> (image/jpeg)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/120346082/120346090.jpg">微商企微大客户播报.jpg</a> (image/jpeg)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/120346082/120346219.jpg">ICC渠道.jpg</a> (image/jpeg)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/120346082/120346318.jpg">侧边栏.jpg</a> (image/jpeg)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/120346082/120346320.png">image2023-5-16_10-12-14.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/120346082/120346323.xlsx">IBOT错误码汇总表.xlsx</a> (application/vnd.openxmlformats-officedocument.spreadsheetml.sheet)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/120346082/120346327.jpg">侧边栏 (1).jpg</a> (image/jpeg)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/120346082/120346332.pdf">网页客服侧边栏(1).pdf</a> (application/pdf)
+                                <br/>
+                                                    </div>
+                    </div>
+                    
+                 
+                </div>             </div> 
+            <div id="footer" role="contentinfo">
+                <section class="footer-body">
+                    <p>Document generated by Confluence on 2026-04-10 10:44</p>
+                    <div id="footer-logo"><a href="http://www.atlassian.com/">Atlassian</a></div>
+                </section>
+            </div>
+        </div>     </body>
+</html>

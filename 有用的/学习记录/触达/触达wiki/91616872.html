@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>大商家组 : 短信跳转小程序技术调研</title>
+        <link rel="stylesheet" href="styles/site.css" type="text/css" />
+        <META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    </head>
+
+    <body class="theme-default aui-theme-default">
+        <div id="page">
+            <div id="main" class="aui-page-panel">
+                <div id="main-header">
+                    <div id="breadcrumb-section">
+                        <ol id="breadcrumbs">
+                            <li class="first">
+                                <span><a href="index.html">大商家组</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="82552158.html">触达中心</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="86620182.html">4、日常需求</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="158620597.html">2022需求</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="2022-Q2_91616867.html">2022 Q2</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="91616869.html">短信加链接</a></span>
+                            </li>
+                                                </ol>
+                    </div>
+                    <h1 id="title-heading" class="pagetitle">
+                                                <span id="title-text">
+                            大商家组 : 短信跳转小程序技术调研
+                        </span>
+                    </h1>
+                </div>
+
+                <div id="content" class="view">
+                    <div class="page-metadata">
+                        
+        
+    
+        
+    
+        
+        
+            Created by <span class='author'> tao.zheng8833</span>, last modified on 2022-04-22
+                        </div>
+                    <div id="main-content" class="wiki-content group">
+                    <h2 id="id-短信跳转小程序技术调研-1、官方文档">1、官方文档</h2><p><a class="external-link" href="https://developers.weixin.qq.com/miniprogram/dev/framework/open-ability/sms.html" rel="nofollow">https://developers.weixin.qq.com/miniprogram/dev/framework/open-ability/sms.html</a></p><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" width="600" src="attachments/91616872/91616873.png" data-image-src="attachments/91616872/91616873.png" data-unresolved-comment-count="0" data-linked-resource-id="91616873" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2022-4-22_14-20-23.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="91616872" data-linked-resource-container-version="7"></span></p><p>基于urllink可以实现</p><p>urllink说明：<a class="external-link" href="https://developers.weixin.qq.com/miniprogram/dev/framework/open-ability/url-link.html" rel="nofollow">https://developers.weixin.qq.com/miniprogram/dev/framework/open-ability/url-link.html</a></p><p>自定义h5页面urllink示例：<span style="color: rgb(34,34,34);"><a class="external-link" href="https://wxaurl.cn/GI7aI2G1otd" rel="nofollow">https://wxaurl.cn/GI7aI2G1otd</a></span></p><p><span style="color: rgb(34,34,34);">限制：</span></p><p><span style="color: rgb(34,34,34);"><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" height="102" src="attachments/91616872/91616889.png" data-image-src="attachments/91616872/91616889.png" data-unresolved-comment-count="0" data-linked-resource-id="91616889" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2022-4-22_14-27-33.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="91616872" data-linked-resource-container-version="7"></span></span></p><p><span style="color: rgb(34,34,34);">实现效果：</span></p><p><span style="color: rgb(34,34,34);"><span class="confluence-embedded-file-wrapper"><a class="confluence-embedded-file" href="/download/attachments/91616872/normal%20video%281%29.mp4?version=1&amp;modificationDate=1650619863000&amp;api=v2" data-nice-type="Multimedia" data-file-src="/download/attachments/91616872/normal%20video%281%29.mp4?version=1&amp;modificationDate=1650619863000&amp;api=v2" data-linked-resource-id="91617404" data-linked-resource-type="attachment" data-linked-resource-container-id="91616872" data-linked-resource-default-alias="normal video(1).mp4" data-mime-type="video/mp4" data-has-thumbnail="false" data-linked-resource-version="1"><img src="download/resources/com.atlassian.confluence.plugins.confluence-view-file-macro:view-file-macro-resources/images/placeholder-medium-multimedia.png" height="250"/><span class="title">normal video(1).mp4</span></a></span></span></p><p><br/></p><h2 id="id-短信跳转小程序技术调研-2、实现流程">2、实现流程</h2><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" height="250" src="attachments/91616872/91617053.png" data-image-src="attachments/91616872/91617053.png" data-unresolved-comment-count="0" data-linked-resource-id="91617053" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2022-4-22_15-35-36.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="91616872" data-linked-resource-container-version="7"></span></p><h3 id="id-短信跳转小程序技术调研-1）token生成">1）token生成</h3><p>根据需要跳转小程序的 appid, secret生成小程序接口调用token</p><p><a class="external-link" href="https://developers.weixin.qq.com/miniprogram/dev/api-backend/open-api/access-token/auth.getAccessToken.html" rel="nofollow">https://developers.weixin.qq.com/miniprogram/dev/api-backend/open-api/access-token/auth.getAccessToken.html</a></p><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" height="250" src="attachments/91616872/91616877.png" data-image-src="attachments/91616872/91616877.png" data-unresolved-comment-count="0" data-linked-resource-id="91616877" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2022-4-22_14-21-56.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="91616872" data-linked-resource-container-version="7"></span></p><p><br/></p><h3 id="id-短信跳转小程序技术调研-2）urllink生成">2）urllink生成</h3><p>获取小程序 URL Link，适用于短信、邮件、网页、微信内等拉起小程序的业务场景；</p><p>生成短链后拼接 <a class="external-link" href="https://wxaurl.cn/*TICKET*" rel="nofollow">https://wxaurl.cn/<s>短链</s> </a>，即可跳转到短链对应的微信小程序链接</p><p><a class="external-link" href="https://developers.weixin.qq.com/miniprogram/dev/api-backend/open-api/url-link/urllink.generate.html" rel="nofollow">https://developers.weixin.qq.com/miniprogram/dev/api-backend/open-api/url-link/urllink.generate.html</a></p><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" height="250" src="attachments/91616872/91616883.png" data-image-src="attachments/91616872/91616883.png" data-unresolved-comment-count="0" data-linked-resource-id="91616883" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2022-4-22_14-24-17.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="91616872" data-linked-resource-container-version="7"></span></p><p><br/></p><h3 id="id-短信跳转小程序技术调研-3)短信发送">3) 短信发送</h3><p>短信模板配置中，新增短链对应模板，模板中占位符替换处，进行短链url替换即可</p><p><a class="external-link" href="https://hioa.yangtuojia.com/base-center-static/admin/smsTemplate" rel="nofollow">https://hioa.yangtuojia.com/base-center-static/admin/smsTemplate</a></p><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" height="250" src="attachments/91616872/91616979.png" data-image-src="attachments/91616872/91616979.png" data-unresolved-comment-count="0" data-linked-resource-id="91616979" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2022-4-22_15-9-12.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="91616872" data-linked-resource-container-version="7"></span></p><p><br/></p>
+                    </div>
+
+                                        <div class="pageSection group">
+                        <div class="pageSectionHeader">
+                            <h2 id="attachments" class="pageSectionTitle">Attachments:</h2>
+                        </div>
+
+                        <div class="greybox" align="left">
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/91616872/91616873.png">image2022-4-22_14-20-23.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/91616872/91616877.png">image2022-4-22_14-21-56.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/91616872/91616883.png">image2022-4-22_14-24-17.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/91616872/91616889.png">image2022-4-22_14-27-33.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/91616872/91616929.mp4">normal video.mp4</a> (video/mp4)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/91616872/91616979.png">image2022-4-22_15-9-12.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/91616872/91617032.png">image2022-4-22_15-29-40.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/91616872/91617053.png">image2022-4-22_15-35-36.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/91616872/91617404.mp4">normal video(1).mp4</a> (video/mp4)
+                                <br/>
+                                                    </div>
+                    </div>
+                    
+                 
+                </div>             </div> 
+            <div id="footer" role="contentinfo">
+                <section class="footer-body">
+                    <p>Document generated by Confluence on 2026-04-10 10:44</p>
+                    <div id="footer-logo"><a href="http://www.atlassian.com/">Atlassian</a></div>
+                </section>
+            </div>
+        </div>     </body>
+</html>

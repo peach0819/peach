@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>大商家组 : 2、个微聊天记录ROM</title>
+        <link rel="stylesheet" href="styles/site.css" type="text/css" />
+        <META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    </head>
+
+    <body class="theme-default aui-theme-default">
+        <div id="page">
+            <div id="main" class="aui-page-panel">
+                <div id="main-header">
+                    <div id="breadcrumb-section">
+                        <ol id="breadcrumbs">
+                            <li class="first">
+                                <span><a href="index.html">大商家组</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="82552158.html">触达中心</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="86620182.html">4、日常需求</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="158620599.html">2023需求</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="2023-Q1_115119302.html">2023 Q1</a></span>
+                            </li>
+                                                </ol>
+                    </div>
+                    <h1 id="title-heading" class="pagetitle">
+                                                <span id="title-text">
+                            大商家组 : 2、个微聊天记录ROM
+                        </span>
+                    </h1>
+                </div>
+
+                <div id="content" class="view">
+                    <div class="page-metadata">
+                        
+        
+    
+        
+    
+        
+        
+            Created by <span class='author'> dong.wang</span>, last modified on 2023-03-09
+                        </div>
+                    <div id="main-content" class="wiki-content group">
+                    <p style="text-align: left;"><style type='text/css'>/*<![CDATA[*/
+div.rbtoc1775789056447 {padding: 0px;}
+div.rbtoc1775789056447 ul {list-style: disc;margin-left: 0px;}
+div.rbtoc1775789056447 li {margin-left: 0px;padding-left: 0px;}
+
+/*]]>*/</style><div class='toc-macro rbtoc1775789056447'>
+<ul class='toc-indentation'>
+<li><a href='#id-2、个微聊天记录ROM-一.业务背景'>一. 业务背景</a></li>
+<li><a href='#id-2、个微聊天记录ROM-二.需求梳理'>二. 需求梳理</a></li>
+<li><a href='#id-2、个微聊天记录ROM-三.概要设计'>三. 概要设计</a>
+<ul class='toc-indentation'>
+<li><a href='#id-2、个微聊天记录ROM-3.1用例图'>3.1 用例图</a></li>
+<li><a href='#id-2、个微聊天记录ROM-3.2核心、关键点设计'>3.2 核心、关键点设计</a></li>
+<li><a href='#id-2、个微聊天记录ROM-3.3系统架构'>3.3 系统架构</a></li>
+<li><a href='#id-2、个微聊天记录ROM-3.4领域模型图'>3.4 领域模型图</a></li>
+<li><a href='#id-2、个微聊天记录ROM-3.5流程图'>3.5 流程图</a></li>
+<li><a href='#id-2、个微聊天记录ROM-3.6功能模块梳理'>3.6 功能模块梳理</a></li>
+</ul>
+</li>
+<li><a href='#id-2、个微聊天记录ROM-四.数据库设计'>四. 数据库设计</a></li>
+<li><a href='#id-2、个微聊天记录ROM-五.接口设计'>五. 接口设计</a></li>
+<li><a href='#id-2、个微聊天记录ROM-六.权限管理'>六. 权限管理</a></li>
+<li><a href='#id-2、个微聊天记录ROM-七、排期'>七、排期</a></li>
+</ul>
+</div></p><p style="text-align: left;">接口调用签名</p><p style="text-align: left;">{</p><p style="text-align: left;"><span style="color: rgb(0,0,0);">超级管理员的partnerId：pAAADE768121B4610989BF7263AAD178B</span><br/><span style="color: rgb(0,0,0);">签名key：E169DB51F2AB463AACC603</span><br/><span style="color: rgb(0,0,0);">company：vz0wyn</span><br/><span style="color: rgb(0,0,0);">开放平台API文档地址：</span><a class="external-link" href="https://crm.yunkecn.com/xdapi/doc/open.html" rel="nofollow">https://crm.yunkecn.com/xdapi/doc/open.html</a></p><p style="text-align: left;">}</p><h1 style="text-align: left;" id="id-2、个微聊天记录ROM-一.业务背景">一. 业务背景</h1><p>wiki：<a href="http://k.yangtuojia.com/pages/viewpage.action?pageId=115133912">个微聊天记录-ROM方案</a></p><ol><li>微信群聊天记录中包含较多关键商品行情信息，例如价格，热度，等。经过一段时间使用后，价值得到证明。（主要使用团队-商品组-土豆）</li><li>涂色比邻系统作为初始第三方系统，会存在以下问题难以解决，但是ROM方案可以规避。<ol><li>扫码登陆到托管平台，容易导致掉线和封号。</li><li>单个账号可获取群聊信息的群数量存在100的上限，难以快速提升。</li></ol></li></ol><h1 style="text-align: left;" id="id-2、个微聊天记录ROM-二.需求梳理">二. 需求梳理</h1><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" height="250" src="attachments/115136104/115136244.png" data-image-src="attachments/115136104/115136244.png" data-unresolved-comment-count="0" data-linked-resource-id="115136244" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2023-3-7_10-5-13.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="115136104" data-linked-resource-container-version="41"></span></p><p>1、基础模型数据补充  </p><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" height="250" src="attachments/115136104/115136278.jpg" data-image-src="attachments/115136104/115136278.jpg" data-unresolved-comment-count="0" data-linked-resource-id="115136278" data-linked-resource-version="3" data-linked-resource-type="attachment" data-linked-resource-default-alias="聊天实体.jpg" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/jpeg" data-linked-resource-container-id="115136104" data-linked-resource-container-version="41"></span></p><p>2、聊天数据补充</p><p>1）企微官方私聊+群聊消息</p><p>2）涂色微信私聊+群聊消息</p><p><span style="color: rgb(255,0,0);">3）云客微信私聊+群聊消息</span></p><h1 style="text-align: left;" id="id-2、个微聊天记录ROM-三.概要设计"><span>三. 概要设计</span></h1><h2 id="id-2、个微聊天记录ROM-3.1用例图">3.1 用例图</h2><h2 id="id-2、个微聊天记录ROM-3.2核心、关键点设计">3.2 核心、关键点设计</h2><p>1、接口调用频率限制，toc控制单机运行，单机adapter控制频率</p><p>2、抓取数据控量，避免单次大量数据，细水长流</p><h2 id="id-2、个微聊天记录ROM-3.3系统架构">3.3 系统架构</h2><h2 id="id-2、个微聊天记录ROM-3.4领域模型图">3.4 领域模型图</h2><h2 id="id-2、个微聊天记录ROM-3.5流程图">3.5 流程图</h2><p>1、个微+个微好友 抓取</p><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" width="600" src="attachments/115136104/115136327.jpg" data-image-src="attachments/115136104/115136327.jpg" data-unresolved-comment-count="0" data-linked-resource-id="115136327" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="个微+个微好友 抓取 (1).jpg" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/jpeg" data-linked-resource-container-id="115136104" data-linked-resource-container-version="41"></span></p><p>分页获取公司所有的微信账号：<a class="external-link" href="https://open.smarttrust.com.cn/xdapi/doc/openChannel.html#u5206u9875u83b7u53d6u516cu53f8u6240u6709u7684u5faeu4fe1u8d26u53f70a3ca20id3du5206u9875u83b7u53d6u516cu53f8u6240u6709u7684u5faeu4fe1u8d26u53f73e203ca3e" rel="nofollow">https://open.smarttrust.com.cn/xdapi/doc/openChannel.html#u5206u9875u83b7u53d6u516cu53f8u6240u6709u7684u5faeu4fe1u8d26u53f70a3ca20id3du5206u9875u83b7u53d6u516cu53f8u6240u6709u7684u5faeu4fe1u8d26u53f73e203ca3e</a></p><p>根据微信id查询微信好友或群列表：<a class="external-link" href="https://open.smarttrust.com.cn/xdapi/doc/openChannel.html#u6839u636eu5faeu4fe1idu67e5u8be2u5faeu4fe1u597du53cbu6216u7fa4u5217u88680a3ca20id3du6839u636eu5faeu4fe1idu67e5u8be2u5faeu4fe1u597du53cbu6216u7fa4u5217u88683e203ca3e" rel="nofollow">https://open.smarttrust.com.cn/xdapi/doc/openChannel.html#u6839u636eu5faeu4fe1idu67e5u8be2u5faeu4fe1u597du53cbu6216u7fa4u5217u88680a3ca20id3du6839u636eu5faeu4fe1idu67e5u8be2u5faeu4fe1u597du53cbu6216u7fa4u5217u88683e203ca3e</a></p><p><br/></p><p>2、个微群+群成员 抓取</p><p><span style="color: rgb(255,0,0);">微信群：500人 </span><span style="color: rgb(255,0,0);">企微群：2000人</span></p><p><span style="color: rgb(255,0,0);"><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" width="700" src="attachments/115136104/115136417.jpg" data-image-src="attachments/115136104/115136417.jpg" data-unresolved-comment-count="0" data-linked-resource-id="115136417" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="个微群+群成员 抓取.jpg" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/jpeg" data-linked-resource-container-id="115136104" data-linked-resource-container-version="41"></span></span></p><p>获取公司所有微信好友或微信群：</p><p><a class="external-link" href="https://open.smarttrust.com.cn/xdapi/doc/openChannel.html#u83b7u53d6u516cu53f8u6240u6709u5faeu4fe1u597du53cbu6216u5faeu4fe1u7fa40a3ca20id3du83b7u53d6u516cu53f8u6240u6709u5faeu4fe1u597du53cbu6216u5faeu4fe1u7fa43e203ca3e" rel="nofollow">https://open.smarttrust.com.cn/xdapi/doc/openChannel.html#u83b7u53d6u516cu53f8u6240u6709u5faeu4fe1u597du53cbu6216u5faeu4fe1u7fa40a3ca20id3du83b7u53d6u516cu53f8u6240u6709u5faeu4fe1u597du53cbu6216u5faeu4fe1u7fa43e203ca3e</a></p><p>根据群id获取群成员列表：</p><p><a class="external-link" href="https://open.smarttrust.com.cn/xdapi/doc/openChannel.html#u6839u636eu7fa4idu83b7u53d6u7fa4u6210u5458u5217u88680a3ca20id3du6839u636eu7fa4idu83b7u53d6u7fa4u6210u5458u5217u88683e203ca3e" rel="nofollow">https://open.smarttrust.com.cn/xdapi/doc/openChannel.html#u6839u636eu7fa4idu83b7u53d6u7fa4u6210u5458u5217u88680a3ca20id3du6839u636eu7fa4idu83b7u53d6u7fa4u6210u5458u5217u88683e203ca3e</a></p><p><br/></p><p>3、群聊/私聊消息 抓取</p><p><span style="color: rgb(255,0,0);">由于聊天记录和文件是分别上传，（图片、语音消息、视频、文件）等类型的数据会延迟上传到服务器，当查询的聊天数据缺少文件时，可以等30分钟后通过</span></p><p>上传他们服务端多久时间。</p><p><span style="color: rgb(255,0,0);"><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" width="800" src="attachments/115136104/115136600.jpg" data-image-src="attachments/115136104/115136600.jpg" data-unresolved-comment-count="0" data-linked-resource-id="115136600" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="聊天记录抓取.jpg" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/jpeg" data-linked-resource-container-id="115136104" data-linked-resource-container-version="41"></span></span></p><p>根据公司码获取聊天数据：</p><p><a class="external-link" href="https://open.smarttrust.com.cn/xdapi/doc/openChannel.html#u6839u636eu516cu53f8u7801u83b7u53d6u804au5929u6570u636e0a3ca20id3du6839u636eu516cu53f8u7801u83b7u53d6u804au5929u6570u636e3e203ca3e" rel="nofollow">https://open.smarttrust.com.cn/xdapi/doc/openChannel.html#u6839u636eu516cu53f8u7801u83b7u53d6u804au5929u6570u636e0a3ca20id3du6839u636eu516cu53f8u7801u83b7u53d6u804au5929u6570u636e3e203ca3e</a></p><p>根据消息id获取语音等文件消息补充链接：</p><p><a class="external-link" href="https://open.smarttrust.com.cn/xdapi/doc/openChannel.html#u6839u636eu6d88u606fidu83b7u53d6u8bedu97f3u7b49u6587u4ef6u6d88u606fu8865u5145u94feu63a50a3ca20id3du6839u636eu6d88u606fidu83b7u53d6u8bedu97f3u7b49u6587u4ef6u6d88u606fu8865u5145u94feu63a53e203ca3e" rel="nofollow">https://open.smarttrust.com.cn/xdapi/doc/openChannel.html#u6839u636eu6d88u606fidu83b7u53d6u8bedu97f3u7b49u6587u4ef6u6d88u606fu8865u5145u94feu63a50a3ca20id3du6839u636eu6d88u606fidu83b7u53d6u8bedu97f3u7b49u6587u4ef6u6d88u606fu8865u5145u94feu63a53e203ca3e</a></p><p>微信语⾳文件转码：</p><p><a class="external-link" href="https://open.smarttrust.com.cn/xdapi/doc/openChannel.html#u5faeu4fe1u8bedu2fb3u6587u4ef6u8f6cu78010a3ca20id3du5faeu4fe1u8bedu2fb3u6587u4ef6u8f6cu78013e203ca3e" rel="nofollow">https://open.smarttrust.com.cn/xdapi/doc/openChannel.html#u5faeu4fe1u8bedu2fb3u6587u4ef6u8f6cu78010a3ca20id3du5faeu4fe1u8bedu2fb3u6587u4ef6u8f6cu78013e203ca3e</a></p><p><br/></p><p>4、数据抽取</p><p>1）ods源头数据抽取要注意，抽取方式改为获取数仓上一天全量数据+今天的全量数据覆盖</p><p>2）mysql不做业务查询的话，数据不会存储太长时间，或作定期的数据删除</p><h2 id="id-2、个微聊天记录ROM-3.6功能模块梳理">3.6 功能模块梳理</h2><h1 style="text-align: left;" id="id-2、个微聊天记录ROM-四.数据库设计">四. 数据库设计</h1><h1 style="text-align: left;" id="id-2、个微聊天记录ROM-五.接口设计">五. 接口设计</h1><h1 class="auto-cursor-target" id="id-2、个微聊天记录ROM-六.权限管理">六. 权限管理</h1><h1 class="auto-cursor-target" id="id-2、个微聊天记录ROM-七、排期">七、排期</h1>
+                    </div>
+
+                                        <div class="pageSection group">
+                        <div class="pageSectionHeader">
+                            <h2 id="attachments" class="pageSectionTitle">Attachments:</h2>
+                        </div>
+
+                        <div class="greybox" align="left">
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/115136104/115136107.png">image2023-2-6_15-6-10.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/115136104/115136108.jpg">微商企微大客户播报 - 脚本.jpg</a> (image/jpeg)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/115136104/115136109.jpg">微商企微大客户播报.jpg</a> (image/jpeg)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/115136104/115136244.png">image2023-3-7_10-5-13.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/115136104/115136282.jpg">聊天实体.jpg</a> (image/jpeg)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/115136104/115136280.jpg">聊天实体 (1).jpg</a> (image/jpeg)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/115136104/115136388.jpg">聊天实体.jpg</a> (image/jpeg)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/115136104/115136324.jpg">个微+个微好友 抓取.jpg</a> (image/jpeg)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/115136104/115136327.jpg">个微+个微好友 抓取 (1).jpg</a> (image/jpeg)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/115136104/115136278.jpg">聊天实体.jpg</a> (image/jpeg)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/115136104/115136417.jpg">个微群+群成员 抓取.jpg</a> (image/jpeg)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/115136104/115136600.jpg">聊天记录抓取.jpg</a> (image/jpeg)
+                                <br/>
+                                                    </div>
+                    </div>
+                    
+                 
+                </div>             </div> 
+            <div id="footer" role="contentinfo">
+                <section class="footer-body">
+                    <p>Document generated by Confluence on 2026-04-10 10:44</p>
+                    <div id="footer-logo"><a href="http://www.atlassian.com/">Atlassian</a></div>
+                </section>
+            </div>
+        </div>     </body>
+</html>

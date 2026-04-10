@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>大商家组 : 涂色替换三方服务商</title>
+        <link rel="stylesheet" href="styles/site.css" type="text/css" />
+        <META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    </head>
+
+    <body class="theme-default aui-theme-default">
+        <div id="page">
+            <div id="main" class="aui-page-panel">
+                <div id="main-header">
+                    <div id="breadcrumb-section">
+                        <ol id="breadcrumbs">
+                            <li class="first">
+                                <span><a href="index.html">大商家组</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="82552158.html">触达中心</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="86620182.html">4、日常需求</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="158620599.html">2023需求</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="2023-Q2_120334193.html">2023 Q2</a></span>
+                            </li>
+                                                </ol>
+                    </div>
+                    <h1 id="title-heading" class="pagetitle">
+                                                <span id="title-text">
+                            大商家组 : 涂色替换三方服务商
+                        </span>
+                    </h1>
+                </div>
+
+                <div id="content" class="view">
+                    <div class="page-metadata">
+                        
+        
+    
+        
+    
+        
+        
+            Created by <span class='author'> dong.wang</span>, last modified on 2023-04-21
+                        </div>
+                    <div id="main-content" class="wiki-content group">
+                    <p><style type='text/css'>/*<![CDATA[*/
+div.rbtoc1775789058048 {padding: 0px;}
+div.rbtoc1775789058048 ul {list-style: disc;margin-left: 0px;}
+div.rbtoc1775789058048 li {margin-left: 0px;padding-left: 0px;}
+
+/*]]>*/</style><div class='toc-macro rbtoc1775789058048'>
+<ul class='toc-indentation'>
+<li><a href='#id-涂色替换三方服务商-一、当前系统状况分析'>一、当前系统状况分析</a>
+<ul class='toc-indentation'>
+<li><a href='#id-涂色替换三方服务商-1、涂色原始数据抓取***'>1、涂色原始数据抓取***</a></li>
+<li><a href='#id-涂色替换三方服务商-2、业务数据***'>2、 业务数据***</a></li>
+<li><a href='#id-涂色替换三方服务商-3、功能'>3、功能</a></li>
+<li><a href='#id-涂色替换三方服务商-3、接口实现方式'>3、接口实现方式</a></li>
+</ul>
+</li>
+<li><a href='#id-涂色替换三方服务商-二、三方系统分析'>二、三方系统分析</a></li>
+<li><a href='#id-涂色替换三方服务商-三、三方服务产品数据分布'>三、三方服务产品数据分布</a></li>
+</ul>
+</div></p><h1 id="id-涂色替换三方服务商-一、当前系统状况分析">一、当前系统状况分析</h1><h2 id="id-涂色替换三方服务商-1、涂色原始数据抓取***">1、涂色原始数据抓取<span style="color: rgb(0,204,255);"><strong>***</strong></span></h2><p>①企微+企微好友三方标识唯一id，接口调用需要</p><p>②企微私聊消息（前提：企微订阅）</p><p>③企微群聊消息（前提：群订阅）</p><p>④微信+微信好友+微信标签</p><p>⑤微信群</p><h2 id="id-涂色替换三方服务商-2、业务数据***">2、 业务数据<span style="color: rgb(0,204,255);"><strong>***</strong></span></h2><p>⑥聊天实体模型</p><p>企微官方企微实体，企微官方微信实体，<span style="color: rgb(255,0,0);">涂色微信实体</span>，云客微信实体（应该就是微信的实体，可信度最高），<span style="color: rgb(255,0,0);">好友关系（包含三方的唯一标识，来源于①）</span></p><p>⑦聊天群实体</p><p>企微官方群，<span style="color: rgb(255,0,0);">涂色微信群</span>，云客微信群</p><p>⑧手机号-企微-涂色账号-小二userId</p><p>功能：手机号管理  <a class="external-link" href="https://iwork.hipac.cn/crm-cluster/mobilePhoneNumberManage" rel="nofollow">https://iwork.hipac.cn/crm-cluster/mobilePhoneNumberManage</a></p><p>⑨门店联系人（linkerId）-企微好友（内部的聊天实体id）</p><p>功能：门店微信 <a class="external-link" href="https://iwork.hipac.cn/crm-cluster/wechatmanage" rel="nofollow">https://iwork.hipac.cn/crm-cluster/wechatmanage</a></p><h2 id="id-涂色替换三方服务商-3、功能">3、功能</h2><p>31、自动添加微信群内好友 <a class="external-link" href="https://iwork.hipac.cn/crm-cluster/autoFriendsManage" rel="nofollow">https://iwork.hipac.cn/crm-cluster/autoFriendsManage</a></p><p>依赖：⑤</p><p>3.2、自动添加比邻标签 <a class="external-link" href="https://iwork.hipac.cn/crm-cluster/autoTagManage" rel="nofollow">https://iwork.hipac.cn/crm-cluster/autoTagManage</a></p><p>依赖：④</p><p>3.3、涂色企微离线检查 （钉钉群内通知）</p><p>依赖：⑧</p><p>3.4、小程序素材转换（群主企微涂色状态检查）<span style="color: rgb(0,204,255);"><strong>***</strong></span></p><p>依赖：③</p><p>3.5、涂色企微侧边栏 （自动登录海拍客账号）<a class="external-link" href="https://bilinkefu.bilinl.com/#/chat" rel="nofollow">https://bilinkefu.bilinl.com/#/chat</a>  <span style="color: rgb(0,204,255);"><strong>***</strong></span></p><p>依赖：⑥⑧</p><p><span style="color: rgb(255,0,0);">3.6、触达中心发消息</span> <a class="external-link" href="https://touch.yangtuojia.com/contact-center/task" rel="nofollow">https://touch.yangtuojia.com/contact-center/task</a>   <span style="color: rgb(0,204,255);"><strong>***</strong></span></p><p>依赖：⑥⑧⑨，以及3.4</p><p>3.7、数据分析</p><p>1）达芬奇看板（技术专用）<span style="color: rgb(0,204,255);"><strong>***</strong></span></p><p>2）数仓<span style="color: rgb(0,204,255);"><strong>***</strong></span></p><p>3）取数<span style="color: rgb(0,204,255);"><strong>***</strong></span></p><h2 id="id-涂色替换三方服务商-3、接口实现方式">3、接口实现方式</h2><p><br/></p><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" height="400" src="attachments/120334195/120334319.png" data-image-src="attachments/120334195/120334319.png" data-unresolved-comment-count="0" data-linked-resource-id="120334319" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2023-4-17_18-25-44.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="120334195" data-linked-resource-container-version="59"></span></p><p><br/></p><h1 id="id-涂色替换三方服务商-二、三方系统分析">二、三方系统分析</h1><p><span style="color: rgb(255,0,0);">1）私有化部署成本：按4核8g，5台，一年是1w4   </span></p><p><span style="color: rgb(255,0,0);">2）能否多端登录</span></p><p>产品搜集信息：<a href="http://k.yangtuojia.com/pages/viewpage.action?pageId=120333840">02-三方系统可靠性调研</a></p><p>实现方式，相同实现方式各厂商区别，所有厂商方式频率？</p><div class="table-wrap"><table class="wrapped relative-table confluenceTable" style="width: 84.7815%;"><colgroup><col style="width: 4.28596%;"/><col style="width: 6.1981%;"/><col style="width: 5.96574%;"/><col style="width: 12.4535%;"/><col style="width: 5.15502%;"/><col style="width: 16.4498%;"/><col style="width: 3.82226%;"/><col style="width: 5.03935%;"/><col style="width: 5.32904%;"/><col style="width: 4.45998%;"/><col style="width: 26.5265%;"/><col style="width: 4.29099%;"/></colgroup><tbody><tr><th rowspan="2" class="confluenceTh">三方系统</th><th colspan="3" style="text-align: center;" class="confluenceTh">技术相关</th><th colspan="2" style="text-align: center;" class="confluenceTh">产品相关</th><th colspan="2" style="text-align: center;" class="confluenceTh">服务</th><th rowspan="2" class="confluenceTh">案例</th><th rowspan="2" style="text-align: center;" class="confluenceTh">其它补充项</th><th rowspan="2" class="confluenceTh">影响点/问题（待确认点）</th><th rowspan="2" class="confluenceTh">接入成本</th></tr><tr><th class="confluenceTh">部署方式</th><th colspan="1" class="confluenceTh">实现方式</th><th class="confluenceTh">接口定义</th><th colspan="1" class="confluenceTh">触达用户</th><th colspan="1" class="confluenceTh">支持功能</th><th colspan="1" class="confluenceTh">承诺</th><th colspan="1" class="confluenceTh">协作模式</th></tr><tr><td colspan="1" class="confluenceTd">涂色</td><td colspan="1" class="confluenceTd"><p><span class="placeholder-inline-tasks">支持私有化</span></p></td><td colspan="1" class="confluenceTd"><p>hook</p><p style="text-align: left;">ipad协议</p><p style="text-align: left;">windows协议</p></td><td colspan="1" class="confluenceTd"><ul class="inline-task-list" data-inline-tasks-content-id="120334195"><li class="checked" data-inline-task-id="38"><span class="placeholder-inline-tasks">支持批量</span></li><li data-inline-task-id="39"><span class="placeholder-inline-tasks">支持频率、间隔设置</span></li><li data-inline-task-id="40"><span class="placeholder-inline-tasks">一次发送最大支持x个群/微信</span></li></ul></td><td colspan="1" class="confluenceTd"><br/></td><td colspan="1" class="confluenceTd"><ul class="inline-task-list" data-inline-tasks-content-id="120334195"><li class="checked" data-inline-task-id="41"><span class="placeholder-inline-tasks">自动加群</span></li><li class="checked" data-inline-task-id="42"><span class="placeholder-inline-tasks">自动打标签</span></li><li class="checked" data-inline-task-id="43"><span class="placeholder-inline-tasks">素材</span></li><li class="checked" data-inline-task-id="44"><span class="placeholder-inline-tasks">企微侧边栏</span></li><li class="checked" data-inline-task-id="45"><span class="placeholder-inline-tasks">自动发消息</span></li></ul></td><td colspan="1" class="confluenceTd">无</td><td colspan="1" class="confluenceTd">钉钉群</td><td colspan="1" class="confluenceTd"><br/></td><td colspan="1" class="confluenceTd"><br/></td><td colspan="1" class="confluenceTd"><br/></td><td colspan="1" class="confluenceTd"><br/></td></tr><tr><td class="confluenceTd">圈量</td><td class="confluenceTd">支持私有化（内网、水印、白名单）</td><td colspan="1" class="confluenceTd">不详</td><td class="confluenceTd">不详（还未拿到接口文档）</td><td colspan="1" class="confluenceTd">1亿+</td><td colspan="1" class="confluenceTd"><ul class="inline-task-list" data-inline-tasks-content-id="120334195"><li class="checked" data-inline-task-id="46"><span class="placeholder-inline-tasks">自动加群</span></li><li class="checked" data-inline-task-id="47"><span class="placeholder-inline-tasks">自动打标签</span></li><li data-inline-task-id="48"><span class="placeholder-inline-tasks">素材</span></li><li data-inline-task-id="49"><span class="placeholder-inline-tasks">企微侧边栏--会话聚合？？</span></li><li class="checked" data-inline-task-id="50"><span class="placeholder-inline-tasks">自动发消息</span></li></ul></td><td colspan="1" class="confluenceTd">无</td><td colspan="1" class="confluenceTd">不详</td><td colspan="1" class="confluenceTd"><p>可优比</p><p>热风优惠券</p></td><td colspan="1" class="confluenceTd"><br/></td><td colspan="1" class="confluenceTd"><p>效率</p><p>1、标准的发消息sop整个流程耗时</p><p>2、单个企微多个发消息的sop怎么控制，多个s不同行为的op是串行还是并行</p><p>风控</p></td><td colspan="1" class="confluenceTd"><br/></td></tr><tr><td colspan="1" class="confluenceTd">暮云</td><td colspan="1" class="confluenceTd">支持私有化</td><td colspan="1" class="confluenceTd"><p>ipad协议</p><p>windows协议</p></td><td colspan="1" class="confluenceTd"><br/></td><td colspan="1" class="confluenceTd"><br/></td><td colspan="1" class="confluenceTd"><br/></td><td colspan="1" class="confluenceTd"><br/></td><td colspan="1" class="confluenceTd">钉钉群</td><td colspan="1" class="confluenceTd"><br/></td><td colspan="1" class="confluenceTd"><br/></td><td colspan="1" class="confluenceTd"><p>1、发送小程序接口，如何获取封面图片段</p><p>2、发消息是否支持批量</p><p>3、风控</p></td><td colspan="1" class="confluenceTd"><br/></td></tr><tr><td colspan="1" class="confluenceTd"><span style="color: rgb(255,0,0);">ICC</span></td><td colspan="1" class="confluenceTd">不详</td><td colspan="1" class="confluenceTd">不详</td><td colspan="1" class="confluenceTd"><ul class="inline-task-list" data-inline-tasks-content-id="120334195"><li class="checked" data-inline-task-id="51"><span class="placeholder-inline-tasks">支持批量</span></li><li data-inline-task-id="52"><span class="placeholder-inline-tasks">支持频率、间隔设置</span></li><li class="checked" data-inline-task-id="53"><span class="placeholder-inline-tasks">一次发送最大支持200个</span></li></ul></td><td colspan="1" class="confluenceTd">1.65亿+（累计）</td><td colspan="1" class="confluenceTd"><ul class="inline-task-list" data-inline-tasks-content-id="120334195"><li data-inline-task-id="54"><span class="placeholder-inline-tasks">自动加群</span></li><li class="checked" data-inline-task-id="55"><span class="placeholder-inline-tasks">自动打标签</span></li><li data-inline-task-id="56"><span class="placeholder-inline-tasks">素材</span></li><li data-inline-task-id="57"><span class="placeholder-inline-tasks">企微侧边栏（矩阵化运营工具-日历）</span></li><li class="checked" data-inline-task-id="58"><span class="placeholder-inline-tasks">自动发消息</span></li></ul></td><td colspan="1" class="confluenceTd">无</td><td colspan="1" class="confluenceTd">不详</td><td colspan="1" class="confluenceTd">锅圈-千店千面</td><td colspan="1" class="confluenceTd"><br/></td><td colspan="1" class="confluenceTd"><br/></td><td colspan="1" class="confluenceTd"><br/></td></tr><tr><td class="confluenceTd"><s><span style="color: rgb(17,31,44);">句子互动</span></s></td><td class="confluenceTd">不详</td><td colspan="1" class="confluenceTd">rpa</td><td class="confluenceTd"><ul class="inline-task-list" data-inline-tasks-content-id="120334195"><li class="checked" data-inline-task-id="59"><span class="placeholder-inline-tasks">支持批量</span></li><li data-inline-task-id="60"><span class="placeholder-inline-tasks">支持频率、间隔设置</span></li><li data-inline-task-id="61"><span class="placeholder-inline-tasks">一次发送最大支持x个</span></li></ul></td><td colspan="1" class="confluenceTd">不详</td><td colspan="1" class="confluenceTd"><ul class="inline-task-list" data-inline-tasks-content-id="120334195"><li data-inline-task-id="62"><span class="placeholder-inline-tasks">自动加群</span></li><li class="checked" data-inline-task-id="63"><span class="placeholder-inline-tasks">自动打标签</span></li><li class="checked" data-inline-task-id="64"><span class="placeholder-inline-tasks">素材</span></li><li data-inline-task-id="65"><span class="placeholder-inline-tasks">企微侧边栏--会话聚合？？</span></li><li class="checked" data-inline-task-id="66"><span class="placeholder-inline-tasks">自动发消息</span></li></ul></td><td colspan="1" class="confluenceTd">无</td><td colspan="1" class="confluenceTd">不详</td><td colspan="1" class="confluenceTd"><br/></td><td colspan="1" class="confluenceTd">腾讯企业微信学习证明</td><td colspan="1" class="confluenceTd"><br/></td><td colspan="1" class="confluenceTd"><br/></td></tr><tr><td colspan="1" class="confluenceTd"><span style="color: rgb(255,0,0);">有机云</span></td><td colspan="1" class="confluenceTd">私有化、本地化、定制化</td><td colspan="1" class="confluenceTd">rpa</td><td colspan="1" class="confluenceTd"><ul class="inline-task-list" data-inline-tasks-content-id="120334195"><li class="checked" data-inline-task-id="67"><span class="placeholder-inline-tasks">支持频率、间隔设置</span></li><li data-inline-task-id="68"><span class="placeholder-inline-tasks">一次发送最大支持x个群/微信</span></li><li class="checked" data-inline-task-id="69"><span class="placeholder-inline-tasks">建议1次最多8条</span></li></ul></td><td colspan="1" class="confluenceTd">5亿+（微信活跃用户）</td><td colspan="1" class="confluenceTd"><ul class="inline-task-list" data-inline-tasks-content-id="120334195"><li class="checked" data-inline-task-id="70"><span class="placeholder-inline-tasks">自动加群</span></li><li class="checked" data-inline-task-id="71"><span class="placeholder-inline-tasks">自动打标签</span></li><li data-inline-task-id="72"><span class="placeholder-inline-tasks">素材</span></li><li data-inline-task-id="73"><span class="placeholder-inline-tasks">企微侧边栏--会话聚合？</span></li><li class="checked" data-inline-task-id="74"><span class="placeholder-inline-tasks">自动发消息</span></li></ul></td><td colspan="1" class="confluenceTd">承诺12小时响应客户</td><td colspan="1" class="confluenceTd">不详</td><td colspan="1" class="confluenceTd"><br/></td><td colspan="1" class="confluenceTd">企微官方认证服务商</td><td colspan="1" class="confluenceTd"><p>小程序封面图千人千面可能实现不了</p></td><td colspan="1" class="confluenceTd"><br/></td></tr></tbody></table></div><h1 class="auto-cursor-target" id="id-涂色替换三方服务商-三、三方服务产品数据分布">三、三方服务产品数据分布</h1><div class="table-wrap"><table class="wrapped confluenceTable"><colgroup><col/><col/><col/><col/></colgroup><tbody><tr><th class="confluenceTh">三方</th><th class="confluenceTh">实现方式</th><th class="confluenceTh">企微总数</th><th class="confluenceTh">被封企微总数</th></tr><tr><td class="confluenceTd"><br/></td><td class="confluenceTd"><br/></td><td class="confluenceTd"><br/></td><td class="confluenceTd"><br/></td></tr></tbody></table></div>
+                    </div>
+
+                                        <div class="pageSection group">
+                        <div class="pageSectionHeader">
+                            <h2 id="attachments" class="pageSectionTitle">Attachments:</h2>
+                        </div>
+
+                        <div class="greybox" align="left">
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/120334195/120334300.png">image2023-4-17_18-3-44.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/120334195/120334317.png">image2023-4-17_18-24-30.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/120334195/120334319.png">image2023-4-17_18-25-44.png</a> (image/png)
+                                <br/>
+                                                    </div>
+                    </div>
+                    
+                 
+                </div>             </div> 
+            <div id="footer" role="contentinfo">
+                <section class="footer-body">
+                    <p>Document generated by Confluence on 2026-04-10 10:44</p>
+                    <div id="footer-logo"><a href="http://www.atlassian.com/">Atlassian</a></div>
+                </section>
+            </div>
+        </div>     </body>
+</html>

@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>大商家组 : 触达中心基建内容</title>
+        <link rel="stylesheet" href="styles/site.css" type="text/css" />
+        <META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    </head>
+
+    <body class="theme-default aui-theme-default">
+        <div id="page">
+            <div id="main" class="aui-page-panel">
+                <div id="main-header">
+                    <div id="breadcrumb-section">
+                        <ol id="breadcrumbs">
+                            <li class="first">
+                                <span><a href="index.html">大商家组</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="82552158.html">触达中心</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="91598069.html">5、系统分析&amp;保障</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="115115087.html">2）稳定性相关</a></span>
+                            </li>
+                                                </ol>
+                    </div>
+                    <h1 id="title-heading" class="pagetitle">
+                                                <span id="title-text">
+                            大商家组 : 触达中心基建内容
+                        </span>
+                    </h1>
+                </div>
+
+                <div id="content" class="view">
+                    <div class="page-metadata">
+                        
+        
+    
+        
+    
+        
+        
+            Created by <span class='author'> 未知用户 (yueguo.zhang3671)</span>, last modified on 2022-03-24
+                        </div>
+                    <div id="main-content" class="wiki-content group">
+                    <h2 id="id-触达中心基建内容-一、背景">一、背景</h2><h4 id="id-触达中心基建内容-系统稳定性问题：1）我们的整个触达发送链路比较长，涉及到很多环节，特别是小程序千人千面封面图转换，依赖脱离系统的部分，需要添加必要的监控和系统自动化的问题处理逻辑">系统稳定性问题：<br/>1）我们的整个触达发送链路比较长，涉及到很多环节，特别是小程序千人千面封面图转换，依赖脱离系统的部分，需要添加必要的监控和系统自动化的问题处理逻辑<br/><br/></h4><p>案例：</p><ul><li>我们的千人千面小程序封面图的转换依赖微信群发送小程序，群中有关联了涂色账号的企业微信账号，订阅了涂色的聊天消息回调，然后涂色会把群中的涂色账号的聊天消息回传给我们，我们再从回传回来的聊天消息中获取发送小程序封面图需要的mediaId。运维进行涂色客户端全员推送，所有云桌面重启，导致上述机制中的涂色离线，从而涂色没有返回回调，我们就拿不到mediaId，导致我们触达明细生成素材失败，发送就失败了。需要给添加监控报警，对于上述机制可以出现的问题，如涂色离线，微信群没有进行转发等情况做实时的监控，出现问题及时报警，及时处理</li></ul><p><br/></p><ul><li>合成图的小程序封面图转换和上述过程类似，也需要做相应的监控告警；</li></ul><p><strong>千人千面小程序推品是我们常用的营销手段，业务上面很重要，需要做好稳定性的保障。</strong></p><p><br/></p><h4 id="id-触达中心基建内容-2）涂色的稳定性比较差，需要建设针对（首先是我们发现过的）出现的问题做相应的系统自动化处理机制">2）涂色的稳定性比较差，需要建设针对（首先是我们发现过的）出现的问题做相应的系统自动化处理机制</h4><p>涂色的稳定性比较差，经常出现一些发布导致的线上问题</p><p>案例</p><ul><li>涂色的底层开放平台做账号资源的分离，给海拍客单独开了账号，但是没有给该账号添加聊天记录回调，导致我们触达任务发送出去的聊天数据都没有回传回来，依赖这份数据的业务都出问题；</li><li>在离线再上线的场景下，涂色开放平台没有识别这个场景，再上线的账号没有挂到新开的海拍客账号下，导致发送返回“机器人不存在”的问题，发送失败。</li></ul><p>对于上面的问题都是依靠人为发现，时效不可控，恢复需要手工处理，效率低下，不及时。</p><p><br/></p><h4 id="id-触达中心基建内容-系统架构问题：1）业务快速发展，功能模块，代码规模都在快速增长，需要及时理清功能边界，进行系统拆分，做好结构化，控制系统复杂度，为后续业务的快速，稳定发展提供一个更好的基础">系统架构问题：<br/>1）业务快速发展，功能模块，代码规模都在快速增长，需要及时理清功能边界，进行系统拆分，做好结构化，控制系统复杂度，为后续业务的快速，稳定发展提供一个更好的基础</h4><h4 id="id-触达中心基建内容-数据缺失问题：1）还有一些我们的业务操作沉淀在企业微信的数据没有拉取回来，如直接通过企业微信后台做的群发记录，发布的朋友圈数据等。没有拉取回来，我们在做一些数据统计分析就没法做，也没法给业务更好的反馈。">数据缺失问题：<br/>1）还有一些我们的业务操作沉淀在企业微信的数据没有拉取回来，如直接通过企业微信后台做的群发记录，发布的朋友圈数据等。没有拉取回来，我们在做一些数据统计分析就没法做，也没法给业务更好的反馈。</h4><p><br/></p><h2 id="id-触达中心基建内容-二、基建内容（目标）">二、基建内容（目标）</h2><p><br/>1、触达稳定性建设<br/>1）对于整个触达任务发送链路异步操作，不同系统执行情况做足监控，及时提出告警，针对可能出现的告警有处理预案，可以快速处理，且系统化；</p><p>2）针对已知涂色出现过的每种发送失败情况，添加对应的二次处理机制（可以二次推送的自动推送）</p><p>2、系统架构升级<br/>1）进行系统拆分，做好结构化，控制系统复杂度，为后续业务的快速，稳定发展提供一个更好的基础</p><p>3、企业微信数据同步<br/>1）将企业微信已有的数据提供接口全部同步回来</p><p><br/></p><h2 id="id-触达中心基建内容-三、业务分析">三、业务分析</h2><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" height="400" src="attachments/91595292/91595432.png" data-image-src="attachments/91595292/91595432.png" data-unresolved-comment-count="0" data-linked-resource-id="91595432" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="触达中心2022规划-营销平台业务分析.drawio.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="91595292" data-linked-resource-container-version="7"></span></p><p><br/></p><h2 id="id-触达中心基建内容-四、系统框架图">四、系统框架图</h2><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" height="400" src="attachments/91595292/91595434.png" data-image-src="attachments/91595292/91595434.png" data-unresolved-comment-count="0" data-linked-resource-id="91595434" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="触达中心2022规划-营销平台系统架构.drawio (1).png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="91595292" data-linked-resource-container-version="7"></span>                   </p><h2 id="id-触达中心基建内容-五、领域模型图">五、领域模型图</h2><p><br/></p><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" height="400" src="attachments/91595292/91595431.png" data-image-src="attachments/91595292/91595431.png" data-unresolved-comment-count="0" data-linked-resource-id="91595431" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="触达中心2022规划-底层数据er图.drawio.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="91595292" data-linked-resource-container-version="7"></span></p><p><br/></p>
+                    </div>
+
+                                        <div class="pageSection group">
+                        <div class="pageSectionHeader">
+                            <h2 id="attachments" class="pageSectionTitle">Attachments:</h2>
+                        </div>
+
+                        <div class="greybox" align="left">
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/91595292/91595430.png">触达中心2022规划-营销平台系统架构.drawio.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/91595292/91595431.png">触达中心2022规划-底层数据er图.drawio.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/91595292/91595432.png">触达中心2022规划-营销平台业务分析.drawio.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/91595292/91595434.png">触达中心2022规划-营销平台系统架构.drawio (1).png</a> (image/png)
+                                <br/>
+                                                    </div>
+                    </div>
+                    
+                 
+                </div>             </div> 
+            <div id="footer" role="contentinfo">
+                <section class="footer-body">
+                    <p>Document generated by Confluence on 2026-04-10 10:45</p>
+                    <div id="footer-logo"><a href="http://www.atlassian.com/">Atlassian</a></div>
+                </section>
+            </div>
+        </div>     </body>
+</html>
