@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>大商家组 : 5.ai-match性能瓶颈代码分析</title>
+        <link rel="stylesheet" href="styles/site.css" type="text/css" />
+        <META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    </head>
+
+    <body class="theme-default aui-theme-default">
+        <div id="page">
+            <div id="main" class="aui-page-panel">
+                <div id="main-header">
+                    <div id="breadcrumb-section">
+                        <ol id="breadcrumbs">
+                            <li class="first">
+                                <span><a href="index.html">大商家组</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="82552158.html">触达中心</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="91598069.html">5、系统分析&amp;保障</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="115115082.html">1）性能相关</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="91598075.html">1.触达中心系统计算时长测试-20220328</a></span>
+                            </li>
+                                                </ol>
+                    </div>
+                    <h1 id="title-heading" class="pagetitle">
+                                                <span id="title-text">
+                            大商家组 : 5.ai-match性能瓶颈代码分析
+                        </span>
+                    </h1>
+                </div>
+
+                <div id="content" class="view">
+                    <div class="page-metadata">
+                        
+        
+    
+        
+    
+        
+        
+            Created by <span class='author'> tao.zheng8833</span>, last modified by <span class='editor'> 宋芷君</span> on 2022-04-24
+                        </div>
+                    <div id="main-content" class="wiki-content group">
+                    <p>1、从数据库拉取明细到本地队列的方法，和实际执行算法计算的方法，共享了同一个间隔， 任务qps通过该间隔控制，预期调高qps时，间隔缩短，会导致拉取数据的方法也不停的执行，这里涉及大量db的count操作</p><p>建议：从数据库拉数据到本地队列，单独使用一个间隔变量</p><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" height="250" src="attachments/91601391/91601462.png" data-image-src="attachments/91601391/91601462.png" data-unresolved-comment-count="0" data-linked-resource-id="91601462" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2022-3-31_16-5-43.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="91601391" data-linked-resource-container-version="6"></span></p><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" height="250" src="attachments/91601391/91601422.png" data-image-src="attachments/91601391/91601422.png" data-unresolved-comment-count="0" data-linked-resource-id="91601422" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2022-3-31_15-52-27.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="91601391" data-linked-resource-container-version="6"></span></p><p><br/></p><p>2、从数据库拉取明细到队列的方法，由于是本机操作，整个集群有多台机器，无法保证并发的原子性，可能会导致以下情况</p><p>1）t_match_touch_task表的部分重复数据，被两个机器的线程同时更新，其中一台机器优先更新时，对数据库这些行进行了行锁，导致另一台机器更新时，出现锁等待。</p><p>2）从召回表sync_ai_match_recall_d查询shop_id数据时，出现了重复查询，没有最大化利用资源</p><p>建议：从数据库拉取明细到队列的过程中，读取db的部分是不是可以加一个redis锁，保证每次读取的数据都不是重复的，并且锁的粒度足够小，不会产生太大的锁竞争</p><blockquote><p>珏远：</p><p>可以用锁或批处理中间件解决这个问题</p></blockquote><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" height="250" src="attachments/91601391/91601501.png" data-image-src="attachments/91601391/91601501.png" data-unresolved-comment-count="0" data-linked-resource-id="91601501" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2022-3-31_16-18-8.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="91601391" data-linked-resource-container-version="6"></span></p><p><br/></p><p>3、当前步骤：</p><p>1）查询外部服务</p><p>2）精排</p><p>3）重排</p><p>4）写入数据</p><p>在同一个线程里面同步进行，导致步骤（1）的qps实际上会收到（2）（3）（4）的影响</p><p>建议：是否可以将（2）（3）（4）步骤异步进行，使得interval参数能够精确的控制到调用外部服务的qps。</p><blockquote><p>珏远：</p><p>精排、重排是有先后依赖关系的，异步会达不到预期业务效果</p><p>写入数据可以异步</p></blockquote><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" height="250" src="attachments/91601391/91601542.png" data-image-src="attachments/91601391/91601542.png" data-unresolved-comment-count="0" data-linked-resource-id="91601542" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2022-3-31_16-45-5.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="91601391" data-linked-resource-container-version="6"></span><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" height="250" src="attachments/91601391/91601545.png" data-image-src="attachments/91601391/91601545.png" data-unresolved-comment-count="0" data-linked-resource-id="91601545" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2022-3-31_16-46-3.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="91601391" data-linked-resource-container-version="6"></span></p><p><br/></p><p>4、数据库变更操作：当前每个门店在算法计算完成结果后，都会执行</p><p>1）将算法计算结果insert到t_match_touch_result表</p><p>2）将t_match_touch_task队列表中该门店数据更新为FINISH状态</p><p>这两个步骤由于是单门店调用，会导致大量的db操作，对db的健康度是不利的，并且会产生性能瓶颈</p><p>建议：这两个步骤是否可以推入内存队列，并配置一个轮询线程去批量获取后批量处理，这样db调用次数能从万级别下降到百级别；</p><p>可行性原因：当前实际上从db读取到本地队列时，db的明细状态会更新为RUNNING，这些数据不会再次被重复获取，所以并不存在需要立即更新的时效性；同时任务整体完成之后，才会发出消息，对整体任务的延迟也只会延迟最后一批队列数据的写入时长，在秒级别，属于可以接受的范围</p><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" height="250" src="attachments/91601391/91601550.png" data-image-src="attachments/91601391/91601550.png" data-unresolved-comment-count="0" data-linked-resource-id="91601550" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2022-3-31_16-51-5.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="91601391" data-linked-resource-container-version="6"></span><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" height="250" src="attachments/91601391/91601551.png" data-image-src="attachments/91601391/91601551.png" data-unresolved-comment-count="0" data-linked-resource-id="91601551" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2022-3-31_16-51-46.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="91601391" data-linked-resource-container-version="6"></span></p>
+                    </div>
+
+                                        <div class="pageSection group">
+                        <div class="pageSectionHeader">
+                            <h2 id="attachments" class="pageSectionTitle">Attachments:</h2>
+                        </div>
+
+                        <div class="greybox" align="left">
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/91601391/91601422.png">image2022-3-31_15-52-27.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/91601391/91601423.png">image2022-3-31_15-52-43.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/91601391/91601462.png">image2022-3-31_16-5-43.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/91601391/91601499.png">image2022-3-31_16-18-1.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/91601391/91601501.png">image2022-3-31_16-18-8.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/91601391/91601542.png">image2022-3-31_16-45-5.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/91601391/91601545.png">image2022-3-31_16-46-3.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/91601391/91601550.png">image2022-3-31_16-51-5.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/91601391/91601551.png">image2022-3-31_16-51-46.png</a> (image/png)
+                                <br/>
+                                                    </div>
+                    </div>
+                    
+                 
+                </div>             </div> 
+            <div id="footer" role="contentinfo">
+                <section class="footer-body">
+                    <p>Document generated by Confluence on 2026-04-10 10:44</p>
+                    <div id="footer-logo"><a href="http://www.atlassian.com/">Atlassian</a></div>
+                </section>
+            </div>
+        </div>     </body>
+</html>

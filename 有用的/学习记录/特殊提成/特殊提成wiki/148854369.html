@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>大商家组 : 5、特殊提成整体架构</title>
+        <link rel="stylesheet" href="styles/site.css" type="text/css" />
+        <META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    </head>
+
+    <body class="theme-default aui-theme-default">
+        <div id="page">
+            <div id="main" class="aui-page-panel">
+                <div id="main-header">
+                    <div id="breadcrumb-section">
+                        <ol id="breadcrumbs">
+                            <li class="first">
+                                <span><a href="index.html">大商家组</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="115136623.html">CRM薪资业务</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="115136628.html">2、特殊提成</a></span>
+                            </li>
+                                                </ol>
+                    </div>
+                    <h1 id="title-heading" class="pagetitle">
+                                                <span id="title-text">
+                            大商家组 : 5、特殊提成整体架构
+                        </span>
+                    </h1>
+                </div>
+
+                <div id="content" class="view">
+                    <div class="page-metadata">
+                        
+        
+    
+        
+    
+        
+        
+            Created by <span class='author'> tao.zheng8833</span>, last modified on 2025-05-27
+                        </div>
+                    <div id="main-content" class="wiki-content group">
+                    <h3 id="id-5、特殊提成整体架构-/*&lt;![CDATA[*/div.rbtoc1775789956240{padding:0px;}div.rbtoc1775789956240ul{list-style:disc;margin-left:0px;}div.rbtoc1775789956240li{margin-left:0px;padding-left:0px;}/*]]&gt;*/#id-5、特殊提成整体架构-1-需求背景：#id-5、特殊提成整体架构-1-需求背景：2-产品架构#id-5、特殊提成整体架构-2-产"><style type='text/css'>/*<![CDATA[*/
+div.rbtoc1775789956240 {padding: 0px;}
+div.rbtoc1775789956240 ul {list-style: disc;margin-left: 0px;}
+div.rbtoc1775789956240 li {margin-left: 0px;padding-left: 0px;}
+
+/*]]>*/</style><div class='toc-macro rbtoc1775789956240'>
+<ul class='toc-indentation'>
+<li><a href='#id-5、特殊提成整体架构-'></a></li>
+</ul>
+<li><a href='#id-5、特殊提成整体架构-1-需求背景：'>1-需求背景：</a></li>
+<li><a href='#id-5、特殊提成整体架构-2-产品架构'>2-产品架构</a>
+<ul class='toc-indentation'>
+<li><a href='#id-5、特殊提成整体架构-需求开发周期：'>需求开发周期：</a></li>
+</ul>
+</li>
+<li><a href='#id-5、特殊提成整体架构-3-方案业务模型总览'>3-方案业务模型总览</a>
+<ul class='toc-indentation'>
+
+<ul class='toc-indentation'>
+<li><a href='#id-5、特殊提成整体架构-事实数据→维度数据模型'>事实数据 → 维度数据模型</a></li>
+<li><a href='#id-5、特殊提成整体架构-维度数据模型'>维度数据模型</a></li>
+</ul>
+<li><a href='#id-5、特殊提成整体架构-模型细分'>模型细分</a>
+<ul class='toc-indentation'>
+<li><a href='#id-5、特殊提成整体架构-1）方案基本信息（bounty_plan）'>1）方案基本信息 （bounty_plan）</a></li>
+<li><a href='#id-5、特殊提成整体架构-2）发放对象（bounty_payout_object）'>2）发放对象 （bounty_payout_object）</a></li>
+<li><a href='#id-5、特殊提成整体架构-3）模板规则（bounty_rule_type）'>3）模板规则 （bounty_rule_type）</a></li>
+<li><a href='#id-5、特殊提成整体架构-4）统计指标（bounty_indicator）'>4）统计指标（bounty_indicator）</a></li>
+<li><a href='#id-5、特殊提成整体架构-5）过滤条件（bounty_filter）'>5）过滤条件（bounty_filter）</a></li>
+<li><a href='#id-5、特殊提成整体架构-6）提成奖励类型（bounty_payout_rule_type）'>6）提成奖励类型（bounty_payout_rule_type）</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href='#id-5、特殊提成整体架构-4-数仓调度架构模型'>4-数仓调度架构模型</a>
+<ul class='toc-indentation'>
+<li><a href='#id-5、特殊提成整体架构-方案数据调度组装'>方案数据调度组装</a></li>
+<li><a href='#id-5、特殊提成整体架构-调度模式'>调度模式</a></li>
+</ul>
+</li>
+<li><a href='#id-5、特殊提成整体架构-5-资损防控'>5-资损防控</a></li>
+</ul>
+</div></h3><h1 id="id-5、特殊提成整体架构-1-需求背景：">1-需求背景：</h1><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image confluence-external-resource" width="1500" src="https://demo.yangtuojia.com/%E4%B8%9A%E5%8A%A1%E6%9C%8D%E5%8A%A1/%E6%95%B0%E6%8D%AE%E4%B8%AD%E5%BF%83/02_%E9%A1%B9%E7%9B%AE/%E7%89%B9%E6%AE%8A%E6%8F%90%E6%88%90%E4%BA%A7%E5%93%81%E5%8C%96/%E6%8F%90%E6%88%90%E7%B3%BB%E7%BB%9Fdemo(%E6%96%B0)/images/3_3_%E7%89%B9%E6%AE%8A%E6%8F%90%E6%88%90%E4%B8%9A%E5%8A%A1%E6%B5%81%E7%A8%8B%E5%9B%BE/u14.png" data-image-src="https://demo.yangtuojia.com/%E4%B8%9A%E5%8A%A1%E6%9C%8D%E5%8A%A1/%E6%95%B0%E6%8D%AE%E4%B8%AD%E5%BF%83/02_%E9%A1%B9%E7%9B%AE/%E7%89%B9%E6%AE%8A%E6%8F%90%E6%88%90%E4%BA%A7%E5%93%81%E5%8C%96/%E6%8F%90%E6%88%90%E7%B3%BB%E7%BB%9Fdemo(%E6%96%B0)/images/3_3_%E7%89%B9%E6%AE%8A%E6%8F%90%E6%88%90%E4%B8%9A%E5%8A%A1%E6%B5%81%E7%A8%8B%E5%9B%BE/u14.png"></span></p><p>1）方案数量繁多</p><p>2）计算过程不严谨，完全由业务组自行计算，可能存在一定误差</p><p>3）无法有效对清退订单进行奖励追回</p><p>4）销售在过程中，无法感知当前项目的进度</p><p>5）业务规则变化后，统计逻辑变更响应失效慢</p><p>6）数据更新不及时，需要人工手动计算，手动播报数据</p><h1 id="id-5、特殊提成整体架构-2-产品架构">2-产品架构</h1><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image confluence-external-resource" alt="image2023-3-15_10-35-14.png" width="1300" src="attachments/115141011/115141132.png" data-image-src="http://k.yangtuojia.com/download/attachments/115141011/image2023-3-15_10-35-14.png?version=1&amp;modificationDate=1678847714000&amp;api=v2"></span></p><p><br/></p><p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image confluence-external-resource" alt="image2023-3-15_10-33-40.png" src="attachments/115141011/115141127.png" data-image-src="http://k.yangtuojia.com/download/attachments/115141011/image2023-3-15_10-33-40.png?version=1&amp;modificationDate=1678847620000&amp;api=v2"></span></p><h3 id="id-5、特殊提成整体架构-需求开发周期：">需求开发周期：</h3><p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image confluence-external-resource" alt="image2023-3-16_16-48-45.png" src="attachments/115141582/115141659.png" data-image-src="http://k.yangtuojia.com/download/attachments/115141582/image2023-3-16_16-48-45.png?version=1&amp;modificationDate=1678956526000&amp;api=v2"></span></p><p><br/></p><p><br/></p><h1 id="id-5、特殊提成整体架构-3-方案业务模型总览">3-方案业务模型总览</h1><h3 id="id-5、特殊提成整体架构-事实数据→维度数据模型">事实数据 → 维度数据模型</h3><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" width="400" src="attachments/148854369/148857059.png" data-image-src="attachments/148854369/148857059.png" data-unresolved-comment-count="0" data-linked-resource-id="148857059" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2023-3-14_17-53-0.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="148854369" data-linked-resource-container-version="8"></span></p><p><span style="color: rgb(0,0,0);">bounty_rule_type 是枚举类型，可以通过crm代码BountyRuleTypeEnum 查看。</span></p><p><br/></p><h3 id="id-5、特殊提成整体架构-维度数据模型">维度数据模型</h3><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" width="700" src="attachments/148854369/148857060.png" data-image-src="attachments/148854369/148857060.png" data-unresolved-comment-count="0" data-linked-resource-id="148857060" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2023-3-14_17-59-22.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="148854369" data-linked-resource-container-version="8"></span></p><h2 id="id-5、特殊提成整体架构-模型细分">模型细分</h2><h3 id="id-5、特殊提成整体架构-1）方案基本信息（bounty_plan）">1）方案基本信息 （bounty_plan）</h3><p>方案本身的基础信息，包括方案名称，方案时间（支持月度、季度），方案归属业务方，备注</p><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" height="250" src="attachments/148854369/148857061.png" data-image-src="attachments/148854369/148857061.png" data-unresolved-comment-count="0" data-linked-resource-id="148857061" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2023-3-14_17-24-28.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="148854369" data-linked-resource-container-version="8"></span></p><h3 id="id-5、特殊提成整体架构-2）发放对象（bounty_payout_object）">2）发放对象 （bounty_payout_object）</h3><p>方案统计奖励对应的人，目前支持BD、大BD、BD主管、指定受益人（业务项目PM）</p><p>一个发放对象对应bounty_payout_object表一行数据</p><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" height="250" src="attachments/148854369/148857062.png" data-image-src="attachments/148854369/148857062.png" data-unresolved-comment-count="0" data-linked-resource-id="148857062" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2023-3-14_17-26-17.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="148854369" data-linked-resource-container-version="8"></span></p><h3 id="id-5、特殊提成整体架构-3）模板规则（bounty_rule_type）">3）模板规则 （bounty_rule_type）</h3><p>方案对应的业务规则逻辑，基于不同发放对象，可以选择的模板不同</p><p>模板规则对应crm-master代码中 <a class="external-link" href="http://com.yt.crm.biz" rel="nofollow">com.yt.crm.biz</a>.bountyplan.enums.BountyRuleTypeEnum 枚举</p><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" height="212" src="attachments/148854369/148857063.png" data-image-src="attachments/148854369/148857063.png" data-unresolved-comment-count="0" data-linked-resource-id="148857063" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2023-3-14_17-27-23.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="148854369" data-linked-resource-container-version="8"></span></p><h3 id="id-5、特殊提成整体架构-4）统计指标（bounty_indicator）">4）统计指标（bounty_indicator）</h3><p>方案配置 模板规则下具体统计的业绩指标口径，基于不同模板规则，可以选择的业绩指标不同</p><p>一个业绩指标对应bounty_indicator一行数据</p><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" height="250" src="attachments/148854369/148857064.png" data-image-src="attachments/148854369/148857064.png" data-unresolved-comment-count="0" data-linked-resource-id="148857064" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2023-3-14_17-28-13.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="148854369" data-linked-resource-container-version="8"></span></p><p><br/></p><h3 id="id-5、特殊提成整体架构-5）过滤条件（bounty_filter）">5）过滤条件（bounty_filter）</h3><p>方案配置 模板规则下，具体的过滤条件，用于判断需要统计的业务数据范围，例如gmv模板，统计范围作用就是过滤统计的订单范围</p><p>过滤条件分为必填和非必填，每个过滤条件对应bounty_filter表一行数据，动态渲染前端组件</p><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" width="800" src="attachments/148854369/148857065.png" data-image-src="attachments/148854369/148857065.png" data-unresolved-comment-count="0" data-linked-resource-id="148857065" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2023-3-14_17-29-36.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="148854369" data-linked-resource-container-version="8"></span></p><h3 id="id-5、特殊提成整体架构-6）提成奖励类型（bounty_payout_rule_type）">6）提成奖励类型（bounty_payout_rule_type）</h3><p>方案配置 业绩指标下，对应人员的指标数据能够获得的奖励配置</p><p>提成类型对应crm-master代码中 <a class="external-link" href="http://com.yt.crm.biz" rel="nofollow">com.yt.crm.biz</a>.bountyplan.enums.BountyPayoutRuleTypeEnum 枚举</p><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" height="250" src="attachments/148854369/148857066.png" data-image-src="attachments/148854369/148857066.png" data-unresolved-comment-count="0" data-linked-resource-id="148857066" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2023-3-14_17-35-39.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="148854369" data-linked-resource-container-version="8"></span></p><p><br/></p><h1 id="id-5、特殊提成整体架构-4-数仓调度架构模型">4-数仓调度架构模型</h1><h3 class="auto-cursor-target" id="id-5、特殊提成整体架构-方案数据调度组装">方案数据调度组装</h3><p><span class="confluence-embedded-file-wrapper"><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/148854369/148857067.png" data-image-src="attachments/148854369/148857067.png" data-unresolved-comment-count="0" data-linked-resource-id="148857067" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2023-3-15_16-48-17.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="148854369" data-linked-resource-container-version="8"></span></span></p><h3 class="auto-cursor-target" id="id-5、特殊提成整体架构-调度模式">调度模式</h3><p class="auto-cursor-target"><span class="confluence-embedded-file-wrapper"><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/148854369/148857068.png" data-image-src="attachments/148854369/148857068.png" data-unresolved-comment-count="0" data-linked-resource-id="148857068" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2023-3-15_14-35-33.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="148854369" data-linked-resource-container-version="8"></span></span></p><h1 class="auto-cursor-target" id="id-5、特殊提成整体架构-5-资损防控">5-资损防控</h1><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" width="1500" src="attachments/148854369/148857069.png" data-image-src="attachments/148854369/148857069.png" data-unresolved-comment-count="0" data-linked-resource-id="148857069" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2023-5-29_16-0-57.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="148854369" data-linked-resource-container-version="8"></span></span></p><p><span class="confluence-embedded-file-wrapper"><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/148854369/148857070.png" data-image-src="attachments/148854369/148857070.png" data-unresolved-comment-count="0" data-linked-resource-id="148857070" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2023-3-15_11-35-44.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="148854369" data-linked-resource-container-version="8"></span></span></p><p><br/></p><p><br/></p>
+                    </div>
+
+                                        <div class="pageSection group">
+                        <div class="pageSectionHeader">
+                            <h2 id="attachments" class="pageSectionTitle">Attachments:</h2>
+                        </div>
+
+                        <div class="greybox" align="left">
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/148854369/148857059.png">image2023-3-14_17-53-0.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/148854369/148857060.png">image2023-3-14_17-59-22.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/148854369/148857061.png">image2023-3-14_17-24-28.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/148854369/148857062.png">image2023-3-14_17-26-17.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/148854369/148857063.png">image2023-3-14_17-27-23.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/148854369/148857064.png">image2023-3-14_17-28-13.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/148854369/148857065.png">image2023-3-14_17-29-36.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/148854369/148857066.png">image2023-3-14_17-35-39.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/148854369/148857067.png">image2023-3-15_16-48-17.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/148854369/148857068.png">image2023-3-15_14-35-33.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/148854369/148857069.png">image2023-5-29_16-0-57.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/148854369/148857070.png">image2023-3-15_11-35-44.png</a> (image/png)
+                                <br/>
+                                                    </div>
+                    </div>
+                    
+                 
+                </div>             </div> 
+            <div id="footer" role="contentinfo">
+                <section class="footer-body">
+                    <p>Document generated by Confluence on 2026-04-10 10:59</p>
+                    <div id="footer-logo"><a href="http://www.atlassian.com/">Atlassian</a></div>
+                </section>
+            </div>
+        </div>     </body>
+</html>

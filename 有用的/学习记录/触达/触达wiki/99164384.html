@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>大商家组 : AI外呼接入触达通道测试方案思考</title>
+        <link rel="stylesheet" href="styles/site.css" type="text/css" />
+        <META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    </head>
+
+    <body class="theme-default aui-theme-default">
+        <div id="page">
+            <div id="main" class="aui-page-panel">
+                <div id="main-header">
+                    <div id="breadcrumb-section">
+                        <ol id="breadcrumbs">
+                            <li class="first">
+                                <span><a href="index.html">大商家组</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="82552158.html">触达中心</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="86620182.html">4、日常需求</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="158620597.html">2022需求</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="2022-Q3_99156981.html">2022 Q3</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="99156983.html">AI外呼接入触达中心</a></span>
+                            </li>
+                                                </ol>
+                    </div>
+                    <h1 id="title-heading" class="pagetitle">
+                                                <span id="title-text">
+                            大商家组 : AI外呼接入触达通道测试方案思考
+                        </span>
+                    </h1>
+                </div>
+
+                <div id="content" class="view">
+                    <div class="page-metadata">
+                        
+        
+    
+        
+    
+        
+        
+            Created by <span class='author'> mei.ma8518</span>, last modified by <span class='editor'> dong.wang</span> on 2022-07-22
+                        </div>
+                    <div id="main-content" class="wiki-content group">
+                    <p>AI外呼项目中的修改点&amp;触达中心影响点</p><div class="table-wrap"><table class="relative-table wrapped confluenceTable" style="width: 64.7794%;"><colgroup><col style="width: 20.9091%;"/><col style="width: 79.0909%;"/></colgroup><tbody><tr><th class="confluenceTh"><br/></th><th class="confluenceTh"><br/></th></tr><tr><td class="confluenceTd">肥桃</td><td class="confluenceTd">任务发送逻辑、推送进度统计、任务结束逻辑</td></tr><tr><td colspan="1" class="confluenceTd">栋</td><td colspan="1" class="confluenceTd">触达任务新建，修改，选任何一种内容能发出来就行</td></tr><tr><td colspan="1" class="confluenceTd">前端</td><td colspan="1" class="confluenceTd"><p><span style="color: rgb(23,26,29);text-decoration: none;">人工任务 前端这边需要重点回归的： 任务列表，列表推送日志，列表操作–取消/取消/暂停/继续/二次发送；<br/></span></p><p><span style="color: rgb(23,26,29);text-decoration: none;">新建页面发送规则模块，底部模块--保存取消，任务详情发送对象模块，</span></p></td></tr></tbody></table></div><p><br/></p><p><br/></p><p>一、测试数据：</p><div class="table-wrap"><table class="relative-table wrapped confluenceTable" style="width: 74.8529%;"><colgroup><col style="width: 30.5801%;"/><col style="width: 21.4356%;"/><col style="width: 45.1327%;"/><col style="width: 2.85152%;"/></colgroup><tbody><tr><th class="confluenceTh">描述</th><th class="confluenceTh">圈选名称</th><th class="confluenceTh">圈选中门店名称及其对应的手机号</th><th colspan="1" class="confluenceTh"><br/></th></tr><tr><td class="confluenceTd">圈选中所有门店都没有联系人</td><td class="confluenceTd"><span class="longtext--0Gl2x">门店没有联系人</span></td><td class="confluenceTd"><span class="longtext--0Gl2x" style="color: rgb(255,0,0);">门店没有联系人</span></td><td colspan="1" class="confluenceTd"><br/></td></tr><tr><td colspan="1" class="confluenceTd">圈选中部分门店没有联系人（一个门店有，一个门店没有）</td><td colspan="1" class="confluenceTd"><span class="longtext--0Gl2x">部分门店有联系人</span></td><td colspan="1" class="confluenceTd"><span class="page-title mr-md of-e shop-name">1、<span style="color: rgb(255,0,0);">门店没有联系人2</span><br/></span>2、<span style="color: rgb(255,0,0);">联系人是橘子</span>——18707171090</td><td colspan="1" class="confluenceTd"><br/></td></tr><tr><td colspan="1" class="confluenceTd">圈选中有很多联系人</td><td colspan="1" class="confluenceTd">圈选中有很多联系人</td><td colspan="1" class="confluenceTd"><span class="page-title mr-md of-e shop-name">1、<span style="color: rgb(255,0,0);">门店没有联系人2</span><br/></span>2、<span style="color: rgb(255,0,0);">橘子的手机</span>——18707171090<br/>3、<span class="page-title mr-md of-e shop-name"><span style="color: rgb(255,0,0);">苹果13pro</span>——<span>13067792072</span><br/>4、<span style="color: rgb(255,0,0);">小米11pro1</span>——<span>13116759551</span><br/>5、<span style="color: rgb(255,0,0);">小米11pro2</span>——<span>13116752634（手机号已停用）<br/>6、</span></span></td><td colspan="1" class="confluenceTd"><br/></td></tr><tr><td colspan="1" class="confluenceTd">圈选中有12个联系人</td><td colspan="1" class="confluenceTd"><br/></td><td colspan="1" class="confluenceTd"><p><span class="page-title mr-md of-e shop-name">1、<span style="color: rgb(255,0,0);">门店没有联系人2</span><br/></span>2、<span style="color: rgb(255,0,0);">橘子的手机</span>——18707171090<br/>3、<span class="page-title mr-md of-e shop-name"><span style="color: rgb(255,0,0);">苹果13pro</span>——<span>13067792072</span><br/>4、<span style="color: rgb(255,0,0);">小米11pro1</span>——<span>13116759551</span><br/>5、<span style="color: rgb(255,0,0);">小米11pro2</span>——<span>13116752634（手机号已停用）</span></span></p><p>6、<span style="color: rgb(23,26,29);text-decoration: none;">c2990634e10d49b0ae5218247c6cf112-鲸鱼<br/>7、c85fe2aceb184925bef48c3e1a17278c-珊竹<br/>8、肥桃：10280d1b21d2430a87afae65d861befc<br style="text-decoration: none;text-align: left;"/>9、逐星：d374688756794a1f9137f2707b489e00<br style="text-decoration: none;text-align: left;"/>10、栋：395a1987ae3840b4ba9025a8ecb45bcb<br/>11、</span>空号：e8a69cf0178a4e2db9c694625cd67913<br/>12、华为mate40ka1:ee19a24187094fa1a0f56878df67c2f1<br/>13、华为mate40ka2:068f001670c242a78751529544ab54fd<br/>14、红米九：3a43646234cf4f62908bb7806c315921<br/>15、苹果粉色：<span style="color: rgb(23,43,77);">15558191283</span></p></td><td colspan="1" class="confluenceTd"><br/></td></tr></tbody></table></div><p>备注：外呼联系人大概接听两次后手机号就无法接听了，所以需要较多手机号接听电话 ：<a href="86633324.html">1、持有资源</a><br/><br/></p><p>二、测试安排</p><div class="table-wrap"><table class="relative-table wrapped confluenceTable" style="width: 61.2639%;"><colgroup><col style="width: 17.2539%;"/><col style="width: 23.6938%;"/><col style="width: 14.8238%;"/><col style="width: 16.4034%;"/><col style="width: 27.825%;"/></colgroup><tbody><tr><th colspan="1" class="confluenceTh">测试周期</th><th class="confluenceTh">功能模块</th><th class="confluenceTh">时长</th><th colspan="1" class="confluenceTh">投入资源</th><th class="confluenceTh">时间</th></tr><tr><td rowspan="7" class="confluenceTd"><p><br/></p><p><br/></p><p><br/></p><p>测试环境测试</p></td><td class="confluenceTd">新增任务</td><td class="confluenceTd">0.5d</td><td colspan="1" class="confluenceTd">橘子</td><td rowspan="2" class="confluenceTd">7.19<br/><br/></td></tr><tr><td class="confluenceTd">修改任务</td><td class="confluenceTd">0.5d</td><td colspan="1" class="confluenceTd">橘子</td></tr><tr><td class="confluenceTd">任务日志+明细</td><td class="confluenceTd">0.5d</td><td colspan="1" class="confluenceTd">橘子</td><td rowspan="2" class="confluenceTd">7.20</td></tr><tr><td class="confluenceTd">任务列表</td><td class="confluenceTd">0.5d</td><td colspan="1" class="confluenceTd">橘子</td></tr><tr><td colspan="1" class="confluenceTd">各种拨号场景</td><td colspan="1" class="confluenceTd">0.5d</td><td colspan="1" class="confluenceTd">橘子、闻羽</td><td rowspan="2" class="confluenceTd">7.21</td></tr><tr><td colspan="1" class="confluenceTd">三方交互场景</td><td colspan="1" class="confluenceTd">0.5d</td><td colspan="1" class="confluenceTd">橘子、闻羽</td></tr><tr><td colspan="1" class="confluenceTd">回归触达中心</td><td colspan="1" class="confluenceTd">1d</td><td colspan="1" class="confluenceTd">橘子、闻羽</td><td colspan="1" class="confluenceTd">7.22</td></tr><tr><td rowspan="2" class="confluenceTd">预发环境</td><td colspan="1" class="confluenceTd">验证核心case</td><td colspan="1" class="confluenceTd">1d</td><td colspan="1" class="confluenceTd">橘子、闻羽</td><td colspan="1" class="confluenceTd">7.25</td></tr><tr><td colspan="1" class="confluenceTd">产品验收</td><td colspan="1" class="confluenceTd">0.5d</td><td colspan="1" class="confluenceTd">橘子</td><td rowspan="2" class="confluenceTd">7.26</td></tr><tr><td colspan="1" class="confluenceTd"><br/></td><td colspan="1" class="confluenceTd">发布</td><td colspan="1" class="confluenceTd">0.5d</td><td colspan="1" class="confluenceTd">橘子</td></tr></tbody></table></div><p class="auto-cursor-target">三、发布计划</p><p class="auto-cursor-target">1、发布前在disconf需配置好主叫号码池<br/><br/>2、发布计划：touch-core → touch-center<br/><br/><br/>四、异常场景</p><p class="auto-cursor-target">1、阿里云回调</p><p class="auto-cursor-target">2、呼叫重试</p><p class="auto-cursor-target">五、、AI外呼监控</p><p class="auto-cursor-target">开发测试共建 AI任务的失败监控</p><p class="auto-cursor-target">六、项目总结</p>
+                    </div>
+
+                    
+                 
+                </div>             </div> 
+            <div id="footer" role="contentinfo">
+                <section class="footer-body">
+                    <p>Document generated by Confluence on 2026-04-10 10:44</p>
+                    <div id="footer-logo"><a href="http://www.atlassian.com/">Atlassian</a></div>
+                </section>
+            </div>
+        </div>     </body>
+</html>

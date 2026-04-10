@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>大商家组 : 历史任务数据量分析</title>
+        <link rel="stylesheet" href="styles/site.css" type="text/css" />
+        <META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    </head>
+
+    <body class="theme-default aui-theme-default">
+        <div id="page">
+            <div id="main" class="aui-page-panel">
+                <div id="main-header">
+                    <div id="breadcrumb-section">
+                        <ol id="breadcrumbs">
+                            <li class="first">
+                                <span><a href="index.html">大商家组</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="82552158.html">触达中心</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="86620182.html">4、日常需求</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="158620599.html">2023需求</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="2023-Q3_123611191.html">2023 Q3</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="123614279.html">触达中心价格因子</a></span>
+                            </li>
+                                                </ol>
+                    </div>
+                    <h1 id="title-heading" class="pagetitle">
+                                                <span id="title-text">
+                            大商家组 : 历史任务数据量分析
+                        </span>
+                    </h1>
+                </div>
+
+                <div id="content" class="view">
+                    <div class="page-metadata">
+                        
+        
+    
+        
+    
+        
+        
+            Created by <span class='author'> tao.zheng8833</span>, last modified by <span class='editor'> 未知用户 (lichao.gong)</span> on 2023-07-18
+                        </div>
+                    <div id="main-content" class="wiki-content group">
+                    <h4 id="id-历史任务数据量分析-以7.12为例">以7.12为例</h4><p>微商组的任务门店数据量查询</p><div class="code panel pdl" style="border-width: 1px;">
+ <div class="codeHeader panelHeader pdl hide-border-bottom" style="border-bottom-width: 1px;">
+  <b class="code-title">每个任务门店数</b>
+  <span class="collapse-source expand-control" style="display:none;"><span class="expand-control-icon icon">&nbsp;</span><span class="expand-control-text">展开源码</span></span>
+  <span class="collapse-spinner-wrapper"></span>
+ </div>
+ <div class="codeContent panelContent pdl hide-toolbar"> 
+  <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: sql; gutter: false; theme: Confluence; collapse: true" data-theme="Confluence">with detail as ( 
+    SELECT  * FROM ytdw.dwd_touch_task_detail_d WHERE dayid = '${v_date}'
+),
+
+instance as (
+    SELECT * FROM ytdw.dwd_touch_task_instance_d WHERE dayid = '${v_date}' AND channel_type = 1 AND instance_status = 3
+)
+
+SELECT instance.biz_id as task_id, instance.start_time, count(distinct detail.shop_id) as shop_cnt
+FROM detail 
+INNER JOIN instance ON detail.task_instance_id = instance.id 
+WHERE substr(instance.start_time, 1, 8) = '${v_date}'
+AND instance.creator IN (
+    'f187b471db2348acb0b14e273a504e48',
+    '5032d8424982403387372e3a57edf2fb',
+    'f5140192d272427a85ceb3ab7ea3551e'
+)
+group by instance.biz_id, instance.start_time
+order by instance.start_time</pre> 
+ </div>
+</div><p>可以看到存在大量任务，且部分任务门店数接近2W</p><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image confluence-thumbnail" height="250" src="attachments/123614622/123614624.png" data-image-src="attachments/123614622/123614624.png" data-unresolved-comment-count="0" data-linked-resource-id="123614624" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2023-7-13_17-50-56.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="123614622" data-linked-resource-container-version="13"></span><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image confluence-thumbnail" height="250" src="attachments/123614622/123614899.png" data-image-src="attachments/123614622/123614899.png" data-unresolved-comment-count="0" data-linked-resource-id="123614899" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2023-7-14_16-26-25.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="123614622" data-linked-resource-container-version="13"></span><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image confluence-thumbnail" height="250" src="attachments/123614622/123614901.png" data-image-src="attachments/123614622/123614901.png" data-unresolved-comment-count="0" data-linked-resource-id="123614901" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2023-7-14_16-26-45.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="123614622" data-linked-resource-container-version="13"></span></p><p><br/></p><p>微商组的任务小时门店数据量查询：</p><div class="code panel pdl" style="border-width: 1px;">
+ <div class="codeHeader panelHeader pdl hide-border-bottom">
+  <b class="code-title"></b>
+  <span class="collapse-source expand-control" style="display:none;"><span class="expand-control-icon icon">&nbsp;</span><span class="expand-control-text">展开源码</span></span>
+  <span class="collapse-spinner-wrapper"></span>
+ </div>
+ <div class="codeContent panelContent pdl hide-toolbar"> 
+  <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: sql; gutter: false; theme: Confluence; collapse: true" data-theme="Confluence">with detail as ( 
+    SELECT  * FROM ytdw.dwd_touch_task_detail_d WHERE dayid = '${v_date}'
+),
+
+instance as (
+    SELECT * FROM ytdw.dwd_touch_task_instance_d WHERE dayid = '${v_date}' AND channel_type = 1 AND instance_status = 3
+)
+
+SELECT substr(instance.start_time, 1,10) as start_time, count(distinct detail.shop_id) as shop_cnt
+FROM detail 
+INNER JOIN instance ON detail.task_instance_id = instance.id 
+WHERE substr(instance.start_time, 1, 8) = '${v_date}'
+AND instance.creator IN (
+    'f187b471db2348acb0b14e273a504e48',
+    '5032d8424982403387372e3a57edf2fb',
+    'f5140192d272427a85ceb3ab7ea3551e'
+)
+group by substr(instance.start_time, 1,10)
+order by substr(instance.start_time, 1,10)</pre> 
+ </div>
+</div><p>可以看到从早上8点开始，几乎每个小时都在1W-2W之间</p><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image confluence-thumbnail" height="250" src="attachments/123614622/123614625.png" data-image-src="attachments/123614622/123614625.png" data-unresolved-comment-count="0" data-linked-resource-id="123614625" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2023-7-13_17-52-19.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="123614622" data-linked-resource-container-version="13"></span></p><p><br/></p><p>按照门店*品的数量计算</p><div class="code panel pdl" style="border-width: 1px;">
+ <div class="codeHeader panelHeader pdl hide-border-bottom">
+  <b class="code-title"></b>
+  <span class="collapse-source expand-control" style="display:none;"><span class="expand-control-icon icon">&nbsp;</span><span class="expand-control-text">展开源码</span></span>
+  <span class="collapse-spinner-wrapper"></span>
+ </div>
+ <div class="codeContent panelContent pdl hide-toolbar"> 
+  <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: sql; gutter: false; theme: Confluence; collapse: true" data-theme="Confluence">with detail as ( 
+    SELECT  * FROM ytdw.dwd_touch_task_detail_d WHERE dayid = '${v_date}'
+),
+
+instance as (
+    SELECT * FROM ytdw.dwd_touch_task_instance_d WHERE dayid = '${v_date}' AND channel_type = 1 AND instance_status = 3
+),
+
+item_cnt as ( 
+    SELECT task_id, sum(size(split(get_json_object(content_info, '$.content'), '#'))) as cnt
+    FROM ytdw.dwd_touch_task_content_d 
+    lateral view explode(split(regexp_replace(replace(REPLACE(content_template, '[', ''), ']',''),'\},','\}\;'),'\;')) tmp as content_info
+    WHERE dayid = '20230712' 
+    AND get_json_object(content_info, '$.type') = 1
+    group by task_id
+),
+
+temp as (
+
+SELECT instance.biz_id as task_id, instance.start_time, count(distinct detail.shop_id) as shop_cnt, item_cnt.cnt, count(distinct detail.shop_id)*item_cnt.cnt as total
+FROM detail 
+INNER JOIN instance ON detail.task_instance_id = instance.id 
+INNER JOIN item_cnt ON instance.biz_id = item_cnt.task_id
+WHERE substr(instance.start_time, 1, 8) = '${v_date}'
+AND instance.creator IN (
+    'f187b471db2348acb0b14e273a504e48',
+    '5032d8424982403387372e3a57edf2fb',
+    'f5140192d272427a85ceb3ab7ea3551e'
+)
+group by instance.biz_id, instance.start_time, item_cnt.cnt
+order by instance.start_time
+)
+
+SELECT substr(start_time, 1,10) as start_time, sum(total) as total
+FROM temp
+group by substr(start_time, 1,10)
+order by substr(start_time, 1,10)</pre> 
+ </div>
+</div><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image confluence-thumbnail" height="250" src="attachments/123614622/123614894.png" data-image-src="attachments/123614622/123614894.png" data-unresolved-comment-count="0" data-linked-resource-id="123614894" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2023-7-14_16-21-32.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="123614622" data-linked-resource-container-version="13"></span></p><p><br/></p><h3 id="id-历史任务数据量分析-结论：">结论：</h3><p>如果按照千人千面模式，</p><p>实时调用成本：</p><p>每个门店获取的价格因子都需要单独调用</p><p>按照1小时135W店品计算，每秒钟需求店品计算量 = 1350000/3600 ≈ 375</p><p><br/></p><p>目前导购给出的qps为5，分批最大品数量为20（如果为200个品，等于10次调用）</p><p>1分钟集群能够处理的店品数量：</p><p><span style="color: rgb(255,0,0);">1）如果按单品计算，每分钟 60*5 = 300个店品, 一小时能处理 18000个店品</span></p><p><span style="color: rgb(255,0,0);">2)  如果按多品-200品算，一小时只能处理18000/10 = 1800个店</span></p><p><br/></p><p><span style="color: rgb(255,0,0);">按照目前多品的门店数来看，多品基本没法支持千人千面算量</span></p><p><span style="color: rgb(255,0,0);">单品可以支持一小时1W8以内的算量，所以全量门店的单品也基本上无法支持</span></p><p><br/></p><h3 id="id-历史任务数据量分析-投产比评估：">投产比评估：</h3><h4 id="id-历史任务数据量分析-开发成本：">开发成本：</h4><p>触达：</p><p>1、价格因子提前计算，额外表存储、价格计算后台任务开发、调用集群流控-3天</p><p>2、价格因子做实例分批（千人一面分批）-1天</p><p><br/></p><p>导购：</p><p>1、单独接口限流，调用icp需要分批处理 - 1天</p><p><br/></p><p>商品:</p><p>1、需要新增剔除会员价格逻辑接口，以保障性能 （原本icp老接口即可使用）- 1天</p><p><br/></p><h4 id="id-历史任务数据量分析-性能相关：">性能相关：</h4><p>1、当前一天涉及发送的门店*品的数量在300W，平均时长一共12小时，如果按照提前处理，需要8小时处理300W数据量，平均每秒要求计算104的店品价，否则会影响任务数据准确性，同时对当前机器性能压力极大，存在影响底层价格计算的风险，会影响主站链路</p><p>2、任务计算时长会增长，同时价格实时性无法保证</p><p>3、当前千人千面任务算法侧调用导购 和 本次价格因子调用的qps会叠加，一旦出现重叠，qps将是翻倍的</p><p><br/></p><h4 id="id-历史任务数据量分析-产出收益：">产出收益：</h4><p>1、不同门店差异化数据？待川枫确认</p><p>——主要是运费后差异。商品价格本身，除奶粉外，基本差距在几毛钱以内。</p><p>——90%门店注册地在江门。</p><p><br/></p><h3 id="id-历史任务数据量分析-------川枫补充"><strong><em>------川枫补充</em></strong></h3><div class="table-wrap"><table class="wrapped confluenceTable"><colgroup><col/><col/><col/></colgroup><tbody><tr><th class="confluenceTh">组</th><th class="confluenceTh">发送数量概览---每天</th><th colspan="1" class="confluenceTh">合并来看</th></tr><tr><td class="confluenceTd">vs 商品组</td><td class="confluenceTd"><p>3条全量——里面是多个商品信息（一条100+，一条9个，一条50+）——发给全量vs门店</p><p>3条单品——里面是一个商品信息——发给全量vs门店</p><p>2条单品——里面是一个商品信息——各发50%左右的vs门店</p></td><td rowspan="3" class="confluenceTd"><p>每天峰值是商品组一条（1.9w个门店*100品）</p></td></tr><tr><td class="confluenceTd">vs 用户组-vvan</td><td class="confluenceTd"><p>49条单品——里面是一个商品信息——发给4k+门店</p><p>2条清单——里面是多个商品信息（一般20+）——发给1.2w+门店</p></td></tr><tr><td class="confluenceTd">vs 用户组-zhuzhu</td><td class="confluenceTd"><p>6条单品——里面是一个商品信息——发给1.2w门店</p><p>35条清单——里面是多个商品信息（一般6个）——发给7k左右门店</p></td></tr></tbody></table></div><p>综述：</p><ol><li>全量门店或者多品的形式，计算量太大，无法实现（最大实现范围见上文红字）</li><li>和降价推送无关（降价体量不会这么大，可以实现）</li></ol><p><br/></p><p><br/></p>
+                    </div>
+
+                                        <div class="pageSection group">
+                        <div class="pageSectionHeader">
+                            <h2 id="attachments" class="pageSectionTitle">Attachments:</h2>
+                        </div>
+
+                        <div class="greybox" align="left">
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/123614622/123614624.png">image2023-7-13_17-50-56.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/123614622/123614625.png">image2023-7-13_17-52-19.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/123614622/123614894.png">image2023-7-14_16-21-32.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/123614622/123614899.png">image2023-7-14_16-26-25.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/123614622/123614901.png">image2023-7-14_16-26-45.png</a> (image/png)
+                                <br/>
+                                                    </div>
+                    </div>
+                    
+                 
+                </div>             </div> 
+            <div id="footer" role="contentinfo">
+                <section class="footer-body">
+                    <p>Document generated by Confluence on 2026-04-10 10:44</p>
+                    <div id="footer-logo"><a href="http://www.atlassian.com/">Atlassian</a></div>
+                </section>
+            </div>
+        </div>     </body>
+</html>

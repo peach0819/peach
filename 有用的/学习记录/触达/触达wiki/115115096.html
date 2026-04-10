@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>大商家组 : 触达流程&amp;指标</title>
+        <link rel="stylesheet" href="styles/site.css" type="text/css" />
+        <META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    </head>
+
+    <body class="theme-default aui-theme-default">
+        <div id="page">
+            <div id="main" class="aui-page-panel">
+                <div id="main-header">
+                    <div id="breadcrumb-section">
+                        <ol id="breadcrumbs">
+                            <li class="first">
+                                <span><a href="index.html">大商家组</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="82552158.html">触达中心</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="91598069.html">5、系统分析&amp;保障</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="115115092.html">3）资源相关</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="111946225.html">触达中心降本分析</a></span>
+                            </li>
+                                                </ol>
+                    </div>
+                    <h1 id="title-heading" class="pagetitle">
+                                                <span id="title-text">
+                            大商家组 : 触达流程&amp;指标
+                        </span>
+                    </h1>
+                </div>
+
+                <div id="content" class="view">
+                    <div class="page-metadata">
+                        
+        
+    
+        
+    
+        
+        
+            Created by <span class='author'> tao.zheng8833</span>, last modified on 2023-01-29
+                        </div>
+                    <div id="main-content" class="wiki-content group">
+                    <h3 class="auto-cursor-target" id="id-触达流程&amp;指标-背景（业务需求）">背景（业务需求）</h3><p class="auto-cursor-target">一个触达千人千面算法任务，圈选了5W门店时，在最复杂的策略场景下，需要能够在5分钟内开始进行第一批发送，同时分批发送之间不能存在间隔</p><h3 class="auto-cursor-target" id="id-触达流程&amp;指标-概念解释">概念解释</h3><div class="table-wrap"><table class="wrapped confluenceTable"><colgroup><col/><col/></colgroup><tbody><tr><th class="confluenceTh"><p>概念</p><p>******************************</p></th><th class="confluenceTh"><p>解释</p><p>**********************************************************************************************************************</p></th></tr><tr><td class="confluenceTd">千人千面任务</td><td class="confluenceTd">触达任务中，圈选的每一家门店发送的内容，都根据门店个性化需求推荐</td></tr><tr><td colspan="1" class="confluenceTd">算法策略</td><td colspan="1" class="confluenceTd">由ai-match提供，不同算法策略计算出的门店推品不同，耗时不同，对下游qps影响也不同</td></tr><tr><td colspan="1" class="confluenceTd">批次</td><td colspan="1" class="confluenceTd">touch-core的实例，目前设定1000家门店为一批，一个5W家门店的触达任务，会被分成50个批次</td></tr><tr><td colspan="1" class="confluenceTd">分批发送</td><td colspan="1" class="confluenceTd">目前触达中心发送机制为，按批次给算法数据，算法计算完一批，触达中心这边就开始进行这一批次的发送</td></tr><tr><td colspan="1" class="confluenceTd">分批发送之间不存在间隔</td><td colspan="1" class="confluenceTd"><p>对于一个批次的门店（1000家），需要在第一批发送结束之前，第二个批次已经完成计算，即算法速率不能小于发送速率</p></td></tr><tr><td colspan="1" class="confluenceTd"><span style="color: rgb(255,0,0);">5分钟内开始第一批发送</span></td><td colspan="1" class="confluenceTd">第一批门店（1000家），要求任何策略的场景下，算法都能在5分钟内返回算法数据</td></tr></tbody></table></div><h3 class="auto-cursor-target" id="id-触达流程&amp;指标-触达流程&amp;指标">触达流程&amp;指标</h3><div class="table-wrap"><table class="wrapped confluenceTable"><colgroup><col style="width: 174.0px;"/><col style="width: 29.0px;"/><col style="width: 49.0px;"/><col style="width: 49.0px;"/></colgroup><tbody><tr><th class="confluenceTh"><p>阶段</p><p>************************</p></th><th colspan="1" class="confluenceTh"><p>流程</p><p>***********************</p></th><th class="confluenceTh"><p>应用</p><p>****************************</p></th><th class="confluenceTh"><p>描述</p><p>*************************************************************</p></th></tr><tr><td rowspan="7" class="confluenceTd">触达中心系统计算阶段</td><td colspan="1" class="confluenceTd">touch-center调用dmp获取任务门店</td><td class="confluenceTd"><p>touch-center -&gt; dmp</p></td><td class="confluenceTd">无qps要求，单个接口dubbo调用并返回，接口rt 3s以内</td></tr><tr><td colspan="1" class="confluenceTd">touch-center根据获取到的门店，分批调用算法ai-match，通知批次内门店信息以及分批信息</td><td colspan="1" class="confluenceTd">touch-center -&gt; ai-match</td><td colspan="1" class="confluenceTd">无qps要求，目前1000家门店为一批，dubbo调用ai-match并实时返回</td></tr><tr><td colspan="1" class="confluenceTd">算法开始计算，调用mall-server获取门店召回池商品价格信息</td><td colspan="1" class="confluenceTd">ai-match -&gt; mall-server</td><td colspan="1" class="confluenceTd">算法qps目前为15，具体到mall-server的qps根据策略不同存在不同，从压测结果看目前最高比例为<span style="color: rgb(255,0,0);">1:3</span>，具体策略qps比例明细需要咨询青云子</td></tr><tr><td colspan="1" class="confluenceTd">mall-server调用icp获取商品价格</td><td colspan="1" class="confluenceTd">mall-server -&gt; icp</td><td colspan="1" class="confluenceTd">算法qps为15的情况下，ai-match → mall-server → icp的链路下，icp：ai-match的比例从压测结果来看最高为<span style="color: rgb(255,0,0);">1:14</span>，即ai-match为15，icp为210</td></tr><tr><td colspan="1" class="confluenceTd">算法根据获取到的门店商品价格，进行策略的精排、重排</td><td colspan="1" class="confluenceTd">ai-match</td><td colspan="1" class="confluenceTd">无qps要求，算法（ai-match、ai-service）内部实现</td></tr><tr><td colspan="1" class="confluenceTd">算法一批计算完成后，发送mq消息给touch-center, touch-center开始进行明细生成</td><td colspan="1" class="confluenceTd">touch-center</td><td colspan="1" class="confluenceTd">无qps要求，touch-center内部实现</td></tr><tr><td colspan="1" class="confluenceTd">明细生成结束，实例启动</td><td colspan="1" class="confluenceTd">touch-center -&gt; touch-core</td><td colspan="1" class="confluenceTd">整体时长，1000家门店，需要在<span style="color: rgb(255,0,0);">5分钟</span>内完成系统计算阶段，具体时长主要取决于算法计算时长；从之前的压测表现看，在算法15qps前提下，icp210的qps几乎已经达到瓶颈，再提高qps时，icp的pod的cpu会飙升，<span style="color: rgb(255,0,0);">存在风险</span>。目前1000家门店在奶粉价格表策略（最复杂策略）下，算法常规计算时长为<span style="color: rgb(255,0,0);">3分钟</span>，<span style="color: rgb(255,0,0);">能够满足业务需求的5分钟内开始第一批发送</span></td></tr><tr><td class="confluenceTd">触达中心发送阶段</td><td colspan="1" class="confluenceTd">touch-core对已生成明细，并且已启动的实例进行推送</td><td class="confluenceTd">touch-core</td><td class="confluenceTd"><p>目前发送速率为单个企微，1分钟发送5家门店的消息；</p><p>目前一批1000家门店，单个企微分配到需要发送的最大场景为30家门店（库内5W家门店，单企微最大好友数为1500，比例为1000:30），按照发送速率需要<span style="color: rgb(255,0,0);">6分钟</span>内发送完成； 而目前的算法为<span style="color: rgb(255,0,0);">3分钟</span>计算完1000条，能够满足<span style="color: rgb(255,0,0);">分批发送之间不存在间隔</span></p><p><br/></p></td></tr></tbody></table></div><h3 class="auto-cursor-target" id="id-触达流程&amp;指标-现状">现状</h3><p>目前千人千面的触达任务，通过分批机制，能够满足业务需求的发送速率以及算法计算速率，同时算法计算阶段的主要瓶颈为icp价格获取（会员价格差异化项目上线后出现的），</p><p>之前在icp下线部分pod的压测中，跟八戒咨询过是否还有优化空间，八戒反馈目前icp由于资源限制，无法大幅度优化qps，如果后续icp能够支撑的qps能够提升，算法这边的qps随时可以上调，整体算法计算能够更快</p>
+                    </div>
+
+                    
+                 
+                </div>             </div> 
+            <div id="footer" role="contentinfo">
+                <section class="footer-body">
+                    <p>Document generated by Confluence on 2026-04-10 10:45</p>
+                    <div id="footer-logo"><a href="http://www.atlassian.com/">Atlassian</a></div>
+                </section>
+            </div>
+        </div>     </body>
+</html>

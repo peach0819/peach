@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>大商家组 : CRM业务上云 技术方案</title>
+        <link rel="stylesheet" href="styles/site.css" type="text/css" />
+        <META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    </head>
+
+    <body class="theme-default aui-theme-default">
+        <div id="page">
+            <div id="main" class="aui-page-panel">
+                <div id="main-header">
+                    <div id="breadcrumb-section">
+                        <ol id="breadcrumbs">
+                            <li class="first">
+                                <span><a href="index.html">大商家组</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="115136623.html">CRM薪资业务</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="102895712.html">0、CRM数仓上云项目</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="102895719.html">2、CRM业务上云 - 方案</a></span>
+                            </li>
+                                                </ol>
+                    </div>
+                    <h1 id="title-heading" class="pagetitle">
+                                                <span id="title-text">
+                            大商家组 : CRM业务上云 技术方案
+                        </span>
+                    </h1>
+                </div>
+
+                <div id="content" class="view">
+                    <div class="page-metadata">
+                        
+        
+    
+        
+    
+        
+        
+            Created by <span class='author'> tao.zheng8833</span>, last modified on 2022-11-08
+                        </div>
+                    <div id="main-content" class="wiki-content group">
+                    <h3 class="auto-cursor-target" id="CRM业务上云技术方案-1、select语句中，表自带库名、时间变量替换">1、select语句中，表自带库名、时间变量替换</h3><p>通过com.alibaba.druid解析器，解析所有表，并添加上yt_crm或ytdw的库名；解析所有ON、WHERE语句，把$v_date替换为${v_date}</p><div class="code panel pdl" style="border-width: 1px;">
+ <div class="codeHeader panelHeader pdl hide-border-bottom" style="border-bottom-width: 1px;">
+  <b class="code-title">hivesql解析器</b>
+  <span class="collapse-source expand-control" style="display:none;"><span class="expand-control-icon icon">&nbsp;</span><span class="expand-control-text">展开源码</span></span>
+  <span class="collapse-spinner-wrapper"></span>
+ </div>
+ <div class="codeContent panelContent pdl hide-toolbar"> 
+  <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence; collapse: true" data-theme="Confluence">public class HiveParser {
+
+    private static final List&lt;String&gt; TIME_VARIABLES = New.list(
+            "$v_date",
+            "[$]v_[0-9]*[1-9][0-9]*_days_ago",
+            "$v_op_time",
+            "$v_op_month",
+            "$v_now",
+            "$v_time",
+            "$v_today",
+            "$v_cur_day",
+            "$v_first_day",
+            "$v_fifteen_day",
+            "$v_day",
+            "$v_month",
+            "$v_year",
+            "$v_cur_month",
+            "$v_pre_day",
+            "$v_pre_week",
+            "$v_pre_sunday",
+            "$v_first_day_week",
+            "$v_last_day_week",
+            "$v_pre_month",
+            "$v_pre_month_first_day",
+            "$v_pre_month_last_day",
+            "$v_next_month_first_day",
+            "$v_pre_month_today",
+            "$v_pre_last_month",
+            "$v_today_cur_month_m",
+            "$v_today_fifteen_day",
+            "$v_today_pre_month_m",
+            "$v_pre_last_month_first_day",
+            "$v_five_day_ago",
+            "$v_used_month",
+            "$v_yes_date",
+            "$v_cur_hour",
+            "$v_cur_time"
+    );
+
+    private static final List&lt;String&gt; YT_UDFS = New.list(
+            "yt_date_format",
+            "getValueFromKVString",
+            "sort_connect",
+            "get_service_info",
+            "get_role",
+            "convertRedpillCode",
+            "removeEmoji",
+            "keyvaluestring2map",
+            "getValueFromJson",
+            "index_repurchase_shop",
+            "user_traces_split",
+            "agg_multi_bd_map",
+            "get_role",
+            "simple_expr",
+            "usertraceparse",
+            "isExistInString",
+            "locationDistance",
+            "intersection_arrays",
+            "agg_average_from_array",
+            "array2string",
+            "getFirstJHSID",
+            "compareItemIdJHSId",
+            "get_search_map"
+    );
+
+    //迁移的业务db
+    private String dbName;
+
+    private String sql;
+
+    //语句中提前with出来的表
+    private Set&lt;String&gt; withTables;
+
+    private List&lt;String&gt; crmTables;
+
+    private String insertTable;
+
+    public static class CrmHiveTableCache {
+
+        public static List&lt;String&gt; getTables() {
+            String tables = CacheUtil.getValue("crm_hive_table");
+            if (StringUtils.isNotBlank(tables)) {
+                return JSON.parseArray(tables, String.class);
+            }
+            return new ArrayList&lt;&gt;();
+        }
+
+        public static void addTables(String table) {
+            List&lt;String&gt; tables = getTables();
+            if (!tables.contains(table)) {
+                tables.add(table);
+                CacheUtil.set("crm_hive_table", JSON.toJSONString(tables), 86400 * 365);
+            }
+        }
+    }
+
+    private HiveParser(String dbName, String sql) {
+        this.dbName = dbName;
+        this.sql = sql;
+        this.withTables = new HashSet&lt;&gt;();
+        this.crmTables = CrmHiveTableCache.getTables();
+    }
+
+    public void setInsertTable(String insertTable) {
+        this.insertTable = insertTable;
+        if (!crmTables.contains(insertTable)) {
+            CrmHiveTableCache.addTables(insertTable);
+        }
+    }
+
+    public static HiveParser build(String dbName, String sql) {
+        return new HiveParser(dbName, sql);
+    }
+
+    /**
+     * 执行解析动作
+     */
+    public String parse() {
+        List&lt;SQLStatement&gt; sqlStatements = SQLUtils.parseStatements(sql, JdbcConstants.HIVE);
+        ArgumentAssert.isTrue(sqlStatements.size() == 1);
+
+        SQLStatement sqlStatement = sqlStatements.get(0);
+        doParseStatement(sqlStatement);
+
+        String resultSql = SQLUtils.toSQLString(sqlStatement, JdbcConstants.HIVE);
+        return replaceFormat(resultSql);
+    }
+
+    private String replaceFormat(String sql) {
+        //格式化逗号换行
+        for (int i = 1; i &lt; 10; i++) {
+            StringBuilder regex = new StringBuilder("\n");
+            for (int j = 0; j &lt; i; j++) {
+                regex.append("\t");
+            }
+            regex.append(", ");
+
+            StringBuilder replacement = new StringBuilder(",\n");
+            for (int j = 0; j &lt; i; j++) {
+                replacement.append("\t");
+            }
+            sql = sql.replaceAll(regex.toString(), replacement.toString());
+        }
+
+        //格式化ON
+        for (int i = 1; i &lt; 10; i++) {
+            StringBuilder regex = new StringBuilder("\n");
+            for (int j = 0; j &lt; i; j++) {
+                regex.append("\t");
+            }
+            regex.append("ON ");
+
+            sql = sql.replaceAll(regex.toString(), " ON ");
+        }
+
+        //解决逗号到注释的问题
+        Pattern p = Pattern.compile(" [-][-] .*,\n");
+        Matcher m = p.matcher(sql);
+        while (m.find()) {
+            String group = m.group();
+            String replaceGroup = ",";
+            if (group.contains(",")) {
+                if (group.contains("(") &amp;&amp; group.contains("),")) {
+                    group = group.split("[(]")[0];
+                    replaceGroup += group;
+                } else {
+                    replaceGroup += group.replaceAll(",", "");
+                }
+                sql = sql.replaceAll(group, replaceGroup);
+            }
+        }
+        sql = sql.replaceAll(",, --", ", --");
+
+        //格式化缩进
+        sql = sql.replaceAll("\tINNER JOIN", "INNER JOIN")
+                .replaceAll("\tJOIN", "JOIN")
+                .replaceAll("\tLEFT JOIN", "LEFT JOIN")
+                .replaceAll("\tFULL JOIN", "FULL JOIN")
+                .replaceAll("\tCROSS JOIN", "CROSS JOIN")
+                .replaceAll("\tLEFT OUTER JOIN", "LEFT OUTER JOIN")
+                .replaceAll("\tAND", "AND")
+                .replaceAll("\tLATERAL VIEW", "LATERAL VIEW")
+                .replaceAll("\tWHEN", " WHEN")
+                .replaceAll("\tTHEN", " THEN")
+                .replaceAll("\tELSE", " ELSE")
+                .replaceAll("\tOR", "OR");
+
+        return sql;
+    }
+
+    private void doParseStatement(SQLStatement statement) {
+        if (statement instanceof HiveInsertStatement) {
+            doParseInsert((HiveInsertStatement) statement);
+        } else if (statement instanceof SQLSelectStatement) {
+            doParseSelect(((SQLSelectStatement) statement).getSelect().getQueryBlock());
+        }
+    }
+
+    private void doParseInsert(HiveInsertStatement statement) {
+        //处理with
+        doParseWith(statement.getWith());
+
+        //处理分区
+        List&lt;SQLAssignItem&gt; partitions = statement.getPartitions();
+        if (partitions.size() == 1) {
+            SQLAssignItem sqlAssignItem = partitions.get(0);
+            SQLIdentifierExpr target = (SQLIdentifierExpr) sqlAssignItem.getTarget();
+            if ("dayid".equals(target.getName())) {
+                replaceTimeVariable((SQLCharExpr) sqlAssignItem.getValue());
+            }
+        }
+
+        //处理表的库名
+        SQLExpr expr = statement.getTableSource().getExpr();
+        String tableName = null;
+        if (expr instanceof SQLIdentifierExpr) {
+            String name = ((SQLIdentifierExpr) expr).getName();
+            String[] split = name.split("[.]");
+            if (split.length == 1) {
+                tableName = split[0];
+            } else {
+                tableName = split[1];
+                ((SQLIdentifierExpr) expr).setName(split[1]);
+            }
+        } else if (expr instanceof SQLPropertyExpr) {
+            tableName = ((SQLPropertyExpr) expr).getName();
+            statement.getTableSource().setExpr(new SQLIdentifierExpr(tableName));
+        }
+
+        //记录新增的表
+        setInsertTable(tableName);
+
+        //处理select块
+        doParseQuery(statement.getQuery().getQuery());
+    }
+
+    private void doParseWith(SQLWithSubqueryClause with) {
+        if (with == null) {
+            return;
+        }
+        List&lt;SQLWithSubqueryClause.Entry&gt; entries = with.getEntries();
+        for (SQLWithSubqueryClause.Entry entry : entries) {
+            withTables.add(entry.getAlias());
+            doParseQuery(entry.getSubQuery().getQuery());
+        }
+    }
+
+    /**
+     * 替换 $v_date 成 ${v_date}
+     */
+    private void replaceTimeVariable(SQLCharExpr expr) {
+        if (TIME_VARIABLES.contains(expr.getText())
+                || TIME_VARIABLES.stream().anyMatch(v -&gt; Pattern.compile(v).matcher(expr.getText()).find())) {
+            String[] split = expr.getText().split("[$]");
+            if (split.length == 2) {
+                String text = "${" + split[1] + "}";
+                expr.setText(text);
+            }
+        }
+    }
+
+    private void tableAddDb(SQLExprTableSource source) {
+        SQLExpr expr = source.getExpr();
+        if (expr instanceof SQLIdentifierExpr) {
+            String name = ((SQLIdentifierExpr) expr).getName();
+            String[] split = name.split("[.]");
+            if (split.length == 1) {
+                if (!withTables.contains(name) &amp;&amp; !name.equals(insertTable)) {
+                    name = (crmTables.contains(name) ? dbName : "ytdw") + "." + name;
+                    ((SQLIdentifierExpr) expr).setName(name);
+                }
+            } else if (split[0].equals("rtdw")) {
+                name = "ytdw." + split[1];
+                ((SQLIdentifierExpr) expr).setName(name);
+            }
+        } else if (expr instanceof SQLPropertyExpr) {
+            String ownerName = ((SQLPropertyExpr) expr).getOwnerName();
+            if (ownerName.equals("rtdw")) {
+                ((SQLPropertyExpr) expr).setOwner("ytdw");
+            } else if (ownerName.equals("ytdw") &amp;&amp; crmTables.contains(((SQLPropertyExpr) expr).getName())) {
+                ((SQLPropertyExpr) expr).setOwner(dbName);
+            }
+        }
+    }
+
+    private void doParseQuery(SQLSelectQuery query) {
+        if (query instanceof SQLSelectQueryBlock) {
+            doParseSelect((SQLSelectQueryBlock) query);
+        } else if (query instanceof SQLUnionQuery) {
+            doParseUnion((SQLUnionQuery) query);
+        }
+    }
+
+    private void doParseUnion(SQLUnionQuery query) {
+        for (SQLSelectQuery relation : query.getRelations()) {
+            doParseQuery(relation);
+        }
+    }
+
+    private void doParseSelect(SQLSelectQueryBlock block) {
+        //处理select
+        block.getSelectList().forEach(s -&gt; doParseExpr(s.getExpr()));
+
+        //处理from
+        doParseTableSource(block.getFrom());
+
+        //处理where
+        doParseExpr(block.getWhere());
+    }
+
+    private void doParseTableSource(SQLTableSource from) {
+        if (from instanceof SQLExprTableSource) {
+            tableAddDb((SQLExprTableSource) from);
+        } else if (from instanceof SQLSubqueryTableSource) {
+            doParseQuery(((SQLSubqueryTableSource) from).getSelect().getQuery());
+        } else if (from instanceof SQLLateralViewTableSource) {
+            doParseTableSource(((SQLLateralViewTableSource) from).getTableSource());
+        } else if (from instanceof SQLJoinTableSource) {
+            doParseTableSource(((SQLJoinTableSource) from).getLeft());
+            doParseTableSource(((SQLJoinTableSource) from).getRight());
+            doParseExpr(((SQLJoinTableSource) from).getCondition());
+        } else if (from instanceof SQLUnionQueryTableSource) {
+            doParseQuery(((SQLUnionQueryTableSource) from).getUnion());
+        }
+    }
+
+    private void doParseExpr(SQLExpr expr) {
+        if (expr == null) {
+            return;
+        }
+        if (expr instanceof SQLBinaryOpExpr) {
+            doParseExpr(((SQLBinaryOpExpr) expr).getLeft());
+            doParseExpr(((SQLBinaryOpExpr) expr).getRight());
+        } else if (expr instanceof SQLCharExpr) {
+            replaceTimeVariable((SQLCharExpr) expr);
+        } else if (expr instanceof SQLMethodInvokeExpr) {
+            udfAddDb((SQLMethodInvokeExpr) expr);
+            ((SQLMethodInvokeExpr) expr).getArguments().forEach(e -&gt; doParseExpr(e));
+        } else if (expr instanceof SQLCaseExpr) {
+            ((SQLCaseExpr) expr).getItems().forEach(i -&gt; doParseExpr(i.getConditionExpr()));
+            doParseExpr(((SQLCaseExpr) expr).getElseExpr());
+        }
+    }
+
+    private void udfAddDb(SQLMethodInvokeExpr expr) {
+        if (expr.getOwner() != null) {
+            return;
+        }
+        String methodName = expr.getMethodName();
+        String[] split = methodName.split("[.]");
+        if (split.length == 1) {
+            if (YT_UDFS.contains(methodName)) {
+                methodName = "ytdw." + methodName;
+                expr.setMethodName(methodName);
+            }
+        }
+    }
+}</pre> 
+ </div>
+</div>
+                    </div>
+
+                                        <div class="pageSection group">
+                        <div class="pageSectionHeader">
+                            <h2 id="attachments" class="pageSectionTitle">Attachments:</h2>
+                        </div>
+
+                        <div class="greybox" align="left">
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/102891631/102891688.png">image2022-8-16_15-43-34.png</a> (image/png)
+                                <br/>
+                                                    </div>
+                    </div>
+                    
+                 
+                </div>             </div> 
+            <div id="footer" role="contentinfo">
+                <section class="footer-body">
+                    <p>Document generated by Confluence on 2026-04-10 10:58</p>
+                    <div id="footer-logo"><a href="http://www.atlassian.com/">Atlassian</a></div>
+                </section>
+            </div>
+        </div>     </body>
+</html>

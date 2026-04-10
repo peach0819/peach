@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>大商家组 : 3、基本提成-测试</title>
+        <link rel="stylesheet" href="styles/site.css" type="text/css" />
+        <META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    </head>
+
+    <body class="theme-default aui-theme-default">
+        <div id="page">
+            <div id="main" class="aui-page-panel">
+                <div id="main-header">
+                    <div id="breadcrumb-section">
+                        <ol id="breadcrumbs">
+                            <li class="first">
+                                <span><a href="index.html">大商家组</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="115136623.html">CRM薪资业务</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="115136626.html">1、基本提成</a></span>
+                            </li>
+                                                </ol>
+                    </div>
+                    <h1 id="title-heading" class="pagetitle">
+                                                <span id="title-text">
+                            大商家组 : 3、基本提成-测试
+                        </span>
+                    </h1>
+                </div>
+
+                <div id="content" class="view">
+                    <div class="page-metadata">
+                        
+        
+    
+        
+    
+        
+        
+            Created by <span class='author'> dong.wang</span>, last modified by <span class='editor'> 未知用户 (junjie.yao7824)</span> on 2021-03-23
+                        </div>
+                    <div id="main-content" class="wiki-content group">
+                    <p><a href="http://k.yangtuojia.com/pages/viewpage.action?pageId=57066448" rel="nofollow" style="text-decoration: none;">工资计算测试</a></p><p>一、薪资脚本-v2</p><p>1、薪资提点-分类1</p><div class="code panel pdl" style="border-width: 1px;"><div class="codeContent panelContent pdl">
+<pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: sql; gutter: false; theme: Confluence" data-theme="Confluence">-- 分类1个人薪资计算-非提货卡
+SELECT
+  sum(commission_actual_amount)
+from
+  (
+    select
+      *
+    from
+      ytdw.dw_salary_base_data_d
+    WHERE
+      item_style_name = &#39;B&#39;
+      and is_split = &#39;BD&#39;
+      and is_pickup_recharge_order_name = &#39;否&#39;
+      and service_user_id = &#39;0035c5a0ac7a4b71aa62239db281d3e6&#39;
+      and dayid = &#39;$v_date&#39;
+  ) a
+ left join 
+  ( SELECT id,name
+     FROM dwd_brand_d
+     where dayid = &#39;$v_date&#39;
+     and (array_contains(split(tags,&#39;,&#39;),&#39;42&#39;)  or  array_contains(split(tags,&#39;,&#39;),&#39;41&#39;))
+   ) celeron on celeron.name=a.brand_name
+  LEFT JOIN 
+( select brand_name from dw_offline_spec_brand_d  where dayid =&#39;$v_date&#39; group by brand_name
+   ) spec_brand on spec_brand.brand_name=a.brand_name
+where spec_brand.brand_name is null and ( celeron.name is not null and a.category_id_first=10)
+
+or a.category_id_first =7999 
+or a.category_id_second in (2807,2721,2712,6820) 
+or a.brand_id = 13818
+-----提货卡
+SELECT
+  sum(commission_actual_amount)
+from
+  (
+    select
+      *
+    from
+      ytdw.dw_salary_base_data_d
+    WHERE
+      item_style_name = &#39;B&#39;
+      and is_split = &#39;BD&#39;
+      and is_pickup_recharge_order_name = &#39;是&#39; 
+      and service_user_id = &#39;0035c5a0ac7a4b71aa62239db281d3e6&#39;
+      and dayid = &#39;$v_date&#39;
+  ) a
+ left join 
+   ( SELECT id,name
+     FROM dwd_brand_d
+     where dayid = &#39;$v_date&#39;
+     and (array_contains(split(tags,&#39;,&#39;),&#39;42&#39;)  or  array_contains(split(tags,&#39;,&#39;),&#39;41&#39;))
+   ) pickup_celeron on pickup_celeron.name=a.pickup_brand_name
+  LEFT JOIN 
+   ( select brand_name from dw_offline_spec_brand_d  where dayid =&#39;$v_date&#39; group by brand_name
+   ) pickup_spec_brand on pickup_spec_brand.brand_name=a.pickup_brand_name
+where pickup_spec_brand.brand_name is null and ( pickup_celeron.name is not null and a.category_id_first=10)
+or a.pickup_category_id_first =7999 
+or a.category_id_second in (2807,2721,2712,6820) 
+or a.brand_id = 13818
+
+
+</pre>
+</div></div><p class="auto-cursor-target">2、薪资提点-分类2</p><div class="code panel pdl" style="border-width: 1px;"><div class="codeContent panelContent pdl">
+<pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: sql; gutter: false; theme: Confluence" data-theme="Confluence">-- 分类2个人薪资计算-非提货卡
+SELECT
+  sum(commission_actual_amount)
+from
+  (
+    select
+      *
+    from
+      ytdw.dw_salary_base_data_d
+    WHERE
+      item_style_name = &#39;B&#39;
+      and is_split = &#39;BD&#39;
+      and is_pickup_recharge_order_name = &#39;否&#39;
+      and service_user_id = &#39;0035c5a0ac7a4b71aa62239db281d3e6&#39;
+      and dayid = &#39;$v_date&#39;
+  ) a
+ left join 
+  ( SELECT id,name
+     FROM dwd_brand_d
+     where dayid = &#39;$v_date&#39;
+     and (array_contains(split(tags,&#39;,&#39;),&#39;42&#39;)  or  array_contains(split(tags,&#39;,&#39;),&#39;41&#39;))
+   ) celeron on celeron.name=a.brand_name
+  LEFT JOIN 
+( select brand_name from dw_offline_spec_brand_d  where dayid =&#39;$v_date&#39; group by brand_name
+   ) spec_brand on spec_brand.brand_name=a.brand_name
+where 
+a.category_id_first=542 and a.brand_id not in (13818,2068,7324,10726,9566)
+or (a.category_id_first in (4,2794,2627,8,2681,11,2560,2750,5) and a.category_id_second not in (6820,2807))
+-----提货卡
+SELECT
+  sum(commission_actual_amount)
+from
+  (
+    select
+      *
+    from
+      ytdw.dw_salary_base_data_d
+    WHERE
+      item_style_name = &#39;B&#39;
+      and is_split = &#39;BD&#39;
+      and is_pickup_recharge_order_name = &#39;是&#39; 
+      and service_user_id = &#39;0035c5a0ac7a4b71aa62239db281d3e6&#39;
+      and dayid = &#39;$v_date&#39;
+  ) a
+ left join 
+   ( SELECT id,name
+     FROM dwd_brand_d
+     where dayid = &#39;$v_date&#39;
+     and (array_contains(split(tags,&#39;,&#39;),&#39;42&#39;)  or  array_contains(split(tags,&#39;,&#39;),&#39;41&#39;))
+   ) pickup_celeron on pickup_celeron.name=a.pickup_brand_name
+  LEFT JOIN 
+   ( select brand_name from dw_offline_spec_brand_d  where dayid =&#39;$v_date&#39; group by brand_name
+   ) pickup_spec_brand on pickup_spec_brand.brand_name=a.pickup_brand_name
+where (a.pickup_category_id_first=542 and a.pickup_brand_id not in (13818,2068,7324,10726,9566))
+or (a.pickup_category_id_first in (4,2794,2627,8,2681,11,2560,2750,5) and a.pickup_category_id_second not in (6820,2807)) 
+
+</pre>
+</div></div><p class="auto-cursor-target">3、</p><p class="auto-cursor-target">4、</p><p class="auto-cursor-target">5、薪资提点-分类5</p><div class="code panel pdl" style="border-width: 1px;"><div class="codeContent panelContent pdl">
+<pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: sql; gutter: false; theme: Confluence" data-theme="Confluence">-- 分类5个人薪资计算-非提货卡
+SELECT
+  sum(commission_actual_amount)
+from
+  (
+    select
+      *
+    from
+      ytdw.dw_salary_base_data_d
+    WHERE
+      item_style_name = &#39;B&#39;
+      and is_split = &#39;BD&#39;
+      and is_pickup_recharge_order_name = &#39;否&#39;
+      and service_user_id = &#39;0035c5a0ac7a4b71aa62239db281d3e6&#39;
+      and dayid = &#39;$v_date&#39;
+  ) a
+ left join 
+  ( SELECT id,name
+     FROM dwd_brand_d
+     where dayid = &#39;$v_date&#39;
+     and (array_contains(split(tags,&#39;,&#39;),&#39;42&#39;)  or  array_contains(split(tags,&#39;,&#39;),&#39;41&#39;))
+   ) celeron on celeron.name=a.brand_name
+  LEFT JOIN 
+( select brand_name from dw_offline_spec_brand_d  where dayid =&#39;$v_date&#39; group by brand_name
+   ) spec_brand on spec_brand.brand_name=a.brand_name
+where 
+a.brand_id in (2068,7324,10726,9566)
+-----提货卡
+SELECT
+  sum(commission_actual_amount)
+from
+  (
+    select
+      *
+    from
+      ytdw.dw_salary_base_data_d
+    WHERE
+      item_style_name = &#39;B&#39;
+      and is_split = &#39;BD&#39;
+      and is_pickup_recharge_order_name = &#39;是&#39; 
+      and service_user_id = &#39;0035c5a0ac7a4b71aa62239db281d3e6&#39;
+      and dayid = &#39;$v_date&#39;
+  ) a
+ left join 
+   ( SELECT id,name
+     FROM dwd_brand_d
+     where dayid = &#39;$v_date&#39;
+     and (array_contains(split(tags,&#39;,&#39;),&#39;42&#39;)  or  array_contains(split(tags,&#39;,&#39;),&#39;41&#39;))
+   ) pickup_celeron on pickup_celeron.name=a.pickup_brand_name
+  LEFT JOIN 
+   ( select brand_name from dw_offline_spec_brand_d  where dayid =&#39;$v_date&#39; group by brand_name
+   ) pickup_spec_brand on pickup_spec_brand.brand_name=a.pickup_brand_name
+where a.pickup_brand_id in (2068,7324,10726,9566)
+
+</pre>
+</div></div><p class="auto-cursor-target">6、薪资提点-分类6</p><div class="code panel pdl" style="border-width: 1px;"><div class="codeContent panelContent pdl">
+<pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: sql; gutter: false; theme: Confluence" data-theme="Confluence">-- 分类6个人薪资计算-非提货卡
+SELECT
+  sum(commission_actual_amount)
+from
+  (
+    select
+      *
+    from
+      ytdw.dw_salary_base_data_d
+    WHERE
+      item_style_name = &#39;B&#39;
+      and is_split = &#39;大BD&#39;
+      and is_pickup_recharge_order_name = &#39;否&#39;
+      and service_user_id = &#39;583f9266a31d4e1eac6de1062718f400&#39;
+      and dayid = &#39;$v_date&#39;
+  ) a
+ left join 
+  ( SELECT id,name
+     FROM dwd_brand_d
+     where dayid = &#39;$v_date&#39;
+     and (array_contains(split(tags,&#39;,&#39;),&#39;42&#39;)  or  array_contains(split(tags,&#39;,&#39;),&#39;41&#39;))
+   ) celeron on celeron.name=a.brand_name
+  LEFT JOIN 
+( select brand_name from dw_offline_spec_brand_d  where dayid =&#39;$v_date&#39; group by brand_name
+   ) spec_brand on spec_brand.brand_name=a.brand_name
+where 
+(a.category_id_first in (4,2794,2627,8,2681,11,2560,2750,5) and a.category_id_second not in (6820,2807))and spec_brand.brand_name is not null
+
+-----提货卡
+SELECT
+  sum(commission_actual_amount)
+from
+  (
+    select
+      *
+    from
+      ytdw.dw_salary_base_data_d
+    WHERE
+      item_style_name = &#39;B&#39;
+      and is_split = &#39;大BD&#39;
+      and is_pickup_recharge_order_name = &#39;是&#39; 
+      and service_user_id = &#39;583f9266a31d4e1eac6de1062718f400&#39;
+      and dayid = &#39;$v_date&#39;
+  ) a
+ left join 
+   ( SELECT id,name
+     FROM dwd_brand_d
+     where dayid = &#39;$v_date&#39;
+     and (array_contains(split(tags,&#39;,&#39;),&#39;42&#39;)  or  array_contains(split(tags,&#39;,&#39;),&#39;41&#39;))
+   ) pickup_celeron on pickup_celeron.name=a.pickup_brand_name
+  LEFT JOIN 
+   ( select brand_name from dw_offline_spec_brand_d  where dayid =&#39;$v_date&#39; group by brand_name
+   ) pickup_spec_brand on pickup_spec_brand.brand_name=a.pickup_brand_name
+where (a.pickup_category_id_first in (4,2794,2627,8,2681,11,2560,2750,5) and a.pickup_category_id_second not in (6820,2807))and pickup_spec_brand.brand_name is not null</pre>
+</div></div><p class="auto-cursor-target">7、</p><div class="code panel pdl" style="border-width: 1px;"><div class="codeContent panelContent pdl">
+<pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: sql; gutter: false; theme: Confluence" data-theme="Confluence">-- 分类7个人薪资计算-非提货卡
+SELECT
+  sum(commission_actual_amount)
+from
+  (
+    select
+      *
+    from
+      ytdw.dw_salary_base_data_d
+    WHERE
+      item_style_name = &#39;B&#39;
+      and is_split = &#39;大BD&#39;
+      and is_pickup_recharge_order_name = &#39;否&#39;
+      and service_user_id = &#39;0039e154927847fab2efbdfd3e4a4be6&#39;
+      and dayid = &#39;$v_date&#39;
+  ) a
+ left join 
+  ( SELECT id,name
+     FROM dwd_brand_d
+     where dayid = &#39;$v_date&#39;
+     and (array_contains(split(tags,&#39;,&#39;),&#39;42&#39;)  or  array_contains(split(tags,&#39;,&#39;),&#39;41&#39;))
+   ) celeron on celeron.name=a.brand_name
+  LEFT JOIN 
+( select brand_name from dw_offline_spec_brand_d  where dayid =&#39;$v_date&#39; group by brand_name
+   ) spec_brand on spec_brand.brand_name=a.brand_name
+where 
+(a.category_id_first=12 or category_id_third=11191) and spec_brand.brand_name is not null
+
+-----提货卡
+SELECT
+  sum(commission_actual_amount)
+from
+  (
+    select
+      *
+    from
+      ytdw.dw_salary_base_data_d
+    WHERE
+      item_style_name = &#39;B&#39;
+      and is_split = &#39;大BD&#39;
+      and is_pickup_recharge_order_name = &#39;是&#39; 
+      and service_user_id = &#39;0039e154927847fab2efbdfd3e4a4be6&#39;
+      and dayid = &#39;$v_date&#39;
+  ) a
+ left join 
+   ( SELECT id,name
+     FROM dwd_brand_d
+     where dayid = &#39;$v_date&#39;
+     and (array_contains(split(tags,&#39;,&#39;),&#39;42&#39;)  or  array_contains(split(tags,&#39;,&#39;),&#39;41&#39;))
+   ) pickup_celeron on pickup_celeron.name=a.pickup_brand_name
+  LEFT JOIN 
+   ( select brand_name from dw_offline_spec_brand_d  where dayid =&#39;$v_date&#39; group by brand_name
+   ) pickup_spec_brand on pickup_spec_brand.brand_name=a.pickup_brand_name
+where  pickup_spec_brand.brand_name is not null and (a.pickup_category_id_first=12 or a.pickup_category_id_third=11191 ) </pre>
+</div></div><p class="auto-cursor-target">8、</p><p class="auto-cursor-target">9、</p><div class="code panel pdl" style="border-width: 1px;"><div class="codeContent panelContent pdl">
+<pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: sql; gutter: false; theme: Confluence" data-theme="Confluence">-- 分类9个人薪资计算-非提货卡
+SELECT
+  sum(commission_actual_amount)
+from
+  (
+    select
+      *
+    from
+      ytdw.dw_salary_base_data_d
+    WHERE
+      item_style_name = &#39;B&#39;
+      and is_split = &#39;大BD&#39;
+      and is_pickup_recharge_order_name = &#39;否&#39;
+      and service_user_id = &#39;56001d93de784225a5f60e78277617ec&#39;
+      and dayid = &#39;$v_date&#39;
+  ) a
+ left join 
+  ( SELECT id,name
+     FROM dwd_brand_d
+     where dayid = &#39;$v_date&#39;
+     and (array_contains(split(tags,&#39;,&#39;),&#39;42&#39;)  or  array_contains(split(tags,&#39;,&#39;),&#39;41&#39;))
+   ) celeron on celeron.name=a.brand_name
+  LEFT JOIN 
+( select brand_name from dw_offline_spec_brand_d  where dayid =&#39;$v_date&#39; group by brand_name
+   ) spec_brand on spec_brand.brand_name=a.brand_name
+where 
+a.brand_id in (2068,7324,10726,9566) and spec_brand.brand_name is null
+
+-----提货卡
+SELECT
+  sum(commission_actual_amount)
+from
+  (
+    select
+      *
+    from
+      ytdw.dw_salary_base_data_d
+    WHERE
+      item_style_name = &#39;B&#39;
+      and is_split = &#39;大BD&#39;
+      and is_pickup_recharge_order_name = &#39;是&#39; 
+      and service_user_id = &#39;56001d93de784225a5f60e78277617ec&#39;
+      and dayid = &#39;$v_date&#39;
+  ) a
+ left join 
+   ( SELECT id,name
+     FROM dwd_brand_d
+     where dayid = &#39;$v_date&#39;
+     and (array_contains(split(tags,&#39;,&#39;),&#39;42&#39;)  or  array_contains(split(tags,&#39;,&#39;),&#39;41&#39;))
+   ) pickup_celeron on pickup_celeron.name=a.pickup_brand_name
+  LEFT JOIN 
+   ( select brand_name from dw_offline_spec_brand_d  where dayid =&#39;$v_date&#39; group by brand_name
+   ) pickup_spec_brand on pickup_spec_brand.brand_name=a.pickup_brand_name
+where a.pickup_brand_id in (2068,7324,10726,9566) and a.pickup_spec_brand.brand_name is null
+
+</pre>
+</div></div>
+                    </div>
+
+                    
+                 
+                </div>             </div> 
+            <div id="footer" role="contentinfo">
+                <section class="footer-body">
+                    <p>Document generated by Confluence on 2026-04-10 10:58</p>
+                    <div id="footer-logo"><a href="http://www.atlassian.com/">Atlassian</a></div>
+                </section>
+            </div>
+        </div>     </body>
+</html>

@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>大商家组 : AI外呼接入触达中心技术方案</title>
+        <link rel="stylesheet" href="styles/site.css" type="text/css" />
+        <META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    </head>
+
+    <body class="theme-default aui-theme-default">
+        <div id="page">
+            <div id="main" class="aui-page-panel">
+                <div id="main-header">
+                    <div id="breadcrumb-section">
+                        <ol id="breadcrumbs">
+                            <li class="first">
+                                <span><a href="index.html">大商家组</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="82552158.html">触达中心</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="86620182.html">4、日常需求</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="158620597.html">2022需求</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="2022-Q3_99156981.html">2022 Q3</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="99156983.html">AI外呼接入触达中心</a></span>
+                            </li>
+                                                </ol>
+                    </div>
+                    <h1 id="title-heading" class="pagetitle">
+                                                <span id="title-text">
+                            大商家组 : AI外呼接入触达中心技术方案
+                        </span>
+                    </h1>
+                </div>
+
+                <div id="content" class="view">
+                    <div class="page-metadata">
+                        
+        
+    
+        
+    
+        
+        
+            Created by <span class='author'> tao.zheng8833</span>, last modified on 2022-07-06
+                        </div>
+                    <div id="main-content" class="wiki-content group">
+                    <p><style type='text/css'>/*<![CDATA[*/
+div.rbtoc1775789052407 {padding: 0px;}
+div.rbtoc1775789052407 ul {list-style: disc;margin-left: 0px;}
+div.rbtoc1775789052407 li {margin-left: 0px;padding-left: 0px;}
+
+/*]]>*/</style><div class='toc-macro rbtoc1775789052407'>
+<ul class='toc-indentation'>
+<li><a href='#AI外呼接入触达中心技术方案-一、背景'>一、背景</a></li>
+<li><a href='#AI外呼接入触达中心技术方案-二、业务目标'>二、业务目标</a></li>
+<li><a href='#AI外呼接入触达中心技术方案-'></a></li>
+<li><a href='#AI外呼接入触达中心技术方案-三、产品描述'>三、产品描述</a>
+<ul class='toc-indentation'>
+<li><a href='#AI外呼接入触达中心技术方案-.1'>    </a></li>
+</ul>
+</li>
+<li><a href='#AI外呼接入触达中心技术方案-四、名词/术语解释'>四、名词/术语解释</a></li>
+<li><a href='#AI外呼接入触达中心技术方案-六、业务流程'>六、业务流程</a></li>
+<li><a href='#AI外呼接入触达中心技术方案-七、领域模型'>七、领域模型</a></li>
+<li><a href='#AI外呼接入触达中心技术方案-八、系统设计'>八、系统设计</a>
+<ul class='toc-indentation'>
+<li><a href='#AI外呼接入触达中心技术方案-1、系统架构'>1、系统架构</a></li>
+<li><a href='#AI外呼接入触达中心技术方案-2、核心、关键点设计'>2、核心、关键点设计</a>
+<ul class='toc-indentation'>
+<li><a href='#AI外呼接入触达中心技术方案-2.1groot接入'>2.1 groot接入</a></li>
+<li><a href='#AI外呼接入触达中心技术方案-2.2主叫号码池维护'>2.2 主叫号码池维护</a></li>
+<li><a href='#AI外呼接入触达中心技术方案-2.3AI外呼任务创建'>2.3 AI外呼任务创建</a></li>
+<li><a href='#AI外呼接入触达中心技术方案-2.4外呼通道逻辑'>2.4 外呼通道逻辑</a></li>
+<li><a href='#AI外呼接入触达中心技术方案-2.5统计指标计算口径'>2.5 统计指标计算口径</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href='#AI外呼接入触达中心技术方案-九、类图'>九、类图</a></li>
+<li><a href='#AI外呼接入触达中心技术方案-十、数据库设计'>十、数据库设计</a></li>
+<li><a href='#AI外呼接入触达中心技术方案-十一、搜索设计'>十一、搜索设计</a></li>
+<li><a href='#AI外呼接入触达中心技术方案-十二、接口设计'>十二、接口设计</a>
+<ul class='toc-indentation'>
+<li><a href='#AI外呼接入触达中心技术方案-1、HOP接口'>         1、HOP接口</a></li>
+<li><a href='#AI外呼接入触达中心技术方案-2、Dubbo接口'>          2、Dubbo接口</a></li>
+</ul>
+</li>
+<li><a href='#AI外呼接入触达中心技术方案-十三、涉及数仓的设计'>十三、涉及数仓的设计</a></li>
+<li><a href='#AI外呼接入触达中心技术方案-十四、中间件配置相关'>十四、中间件配置相关</a></li>
+</ul>
+</div></p><h2 id="AI外呼接入触达中心技术方案-一、背景">一、背景</h2><p><a class="external-link" href="http://demo.yangtuojia.com/%E4%B8%9A%E5%8A%A1%E6%9C%8D%E5%8A%A1/2022-%E4%BC%81%E5%BE%AE/2022-06-AI%E5%A4%96%E5%91%BC%E7%B3%BB%E7%BB%9F%E6%8E%A5%E5%85%A5/#id=uahktd&amp;p=%E9%9C%80%E6%B1%82%E8%83%8C%E6%99%AF%E5%92%8C%E7%AE%80%E8%BF%B0&amp;g=1" rel="nofollow">http://demo.yangtuojia.com/%E4%B8%9A%E5%8A%A1%E6%9C%8D%E5%8A%A1/2022-%E4%BC%81%E5%BE%AE/2022-06-AI%E5%A4%96%E5%91%BC%E7%B3%BB%E7%BB%9F%E6%8E%A5%E5%85%A5/#id=uahktd&amp;p=%E9%9C%80%E6%B1%82%E8%83%8C%E6%99%AF%E5%92%8C%E7%AE%80%E8%BF%B0&amp;g=1</a></p><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" width="600" src="attachments/99156989/99159479.png" data-image-src="attachments/99156989/99159479.png" data-unresolved-comment-count="0" data-linked-resource-id="99159479" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2022-7-4_10-16-24.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="99156989" data-linked-resource-container-version="9"></span></p><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" height="250" src="attachments/99156989/99159481.png" data-image-src="attachments/99156989/99159481.png" data-unresolved-comment-count="0" data-linked-resource-id="99159481" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2022-7-4_10-16-54.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="99156989" data-linked-resource-container-version="9"></span></p><h2 id="AI外呼接入触达中心技术方案-二、业务目标">二、业务目标</h2><p>1、AI外呼接入触达中心，新增话术关联、重拨规则、电话接通数据、沟通回合数据、AI引导数据等功能</p><p>2、在业务上解决流程过长、使用复杂、数据分析繁琐的问题，让运营能够简单的创建外呼任务，并获取外呼结果数据</p><h2 id="AI外呼接入触达中心技术方案-"><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" height="250" src="attachments/99156989/99159482.png" data-image-src="attachments/99156989/99159482.png" data-unresolved-comment-count="0" data-linked-resource-id="99159482" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2022-7-4_10-17-7.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="99156989" data-linked-resource-container-version="9"></span></h2><p><br/></p><h2 id="AI外呼接入触达中心技术方案-三、产品描述">三、产品描述</h2><h4 id="AI外呼接入触达中心技术方案-.1"><span style="color: rgb(255,0,0);">  <span style="color: rgb(0,0,0);">  <span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" height="250" src="attachments/99156989/99159511.png" data-image-src="attachments/99156989/99159511.png" data-unresolved-comment-count="0" data-linked-resource-id="99159511" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2022-7-4_10-48-10.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="99156989" data-linked-resource-container-version="9"></span></span></span></h4><h2 id="AI外呼接入触达中心技术方案-四、名词/术语解释">四、名词/术语解释</h2><div class="table-wrap"><table class="wrapped confluenceTable"><colgroup><col/><col/></colgroup><tbody><tr><th class="confluenceTh"><p>名词</p><p>**********************************</p></th><th class="confluenceTh"><p>定义</p><p>*****************************************</p></th></tr><tr><td class="confluenceTd">话术</td><td class="confluenceTd"><p>智能联络中心的机器人外呼所需要使用到的话术内容。一套话术包含：主线流程、知识库、全局配置等部分</p></td></tr></tbody></table></div><p><span style="font-size: 20.0px;letter-spacing: -0.008em;">五、用例</span></p><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image confluence-thumbnail" height="250" src="attachments/99156989/99159498.png" data-image-src="attachments/99156989/99159498.png" data-unresolved-comment-count="0" data-linked-resource-id="99159498" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2022-7-4_10-22-17.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="99156989" data-linked-resource-container-version="9"></span></p><h2 id="AI外呼接入触达中心技术方案-六、业务流程">六、业务流程</h2><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" width="200" src="attachments/99156989/99159497.png" data-image-src="attachments/99156989/99159497.png" data-unresolved-comment-count="0" data-linked-resource-id="99159497" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2022-7-4_10-21-58.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="99156989" data-linked-resource-container-version="9"></span></p><h2 id="AI外呼接入触达中心技术方案-七、领域模型">七、领域模型</h2><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" height="250" src="attachments/99156989/99159562.png" data-image-src="attachments/99156989/99159562.png" data-unresolved-comment-count="0" data-linked-resource-id="99159562" data-linked-resource-version="2" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2022-7-4_14-19-42.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="99156989" data-linked-resource-container-version="9"></span></p><h2 id="AI外呼接入触达中心技术方案-八、系统设计">八、系统设计</h2><h4 id="AI外呼接入触达中心技术方案-1、系统架构"><span style="color: rgb(255,0,0);"><span style="color: rgb(0,0,0);">1、系统架构</span></span></h4><p><span style="color: rgb(255,0,0);"><span style="color: rgb(0,0,0);"><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image confluence-thumbnail" height="250" src="attachments/99156989/99159822.png" data-image-src="attachments/99156989/99159822.png" data-unresolved-comment-count="0" data-linked-resource-id="99159822" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2022-7-4_15-20-45.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="99156989" data-linked-resource-container-version="9"></span></span></span></p><p><span class="confluence-embedded-file-wrapper">         </span></p><h4 id="AI外呼接入触达中心技术方案-2、核心、关键点设计"><span class="confluence-embedded-file-wrapper">2、核心、关键点设计</span></h4><h5 id="AI外呼接入触达中心技术方案-2.1groot接入"><span class="confluence-embedded-file-wrapper">2.1 groot接入</span></h5><p><span class="confluence-embedded-file-wrapper"><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image confluence-thumbnail" height="250" src="attachments/99156989/99159852.png" data-image-src="attachments/99156989/99159852.png" data-unresolved-comment-count="0" data-linked-resource-id="99159852" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2022-7-4_15-49-14.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="99156989" data-linked-resource-container-version="9"></span></span></p><h5 id="AI外呼接入触达中心技术方案-2.2主叫号码池维护"><span class="confluence-embedded-file-wrapper">2.2 主叫号码池维护</span></h5><p><span class="confluence-embedded-file-wrapper">通过disconf维护，当前的主叫号码以及是否开启早媒体识别（0.09一通）</span></p><p><span class="confluence-embedded-file-wrapper"><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" height="250" src="attachments/99156989/99160852.png" data-image-src="attachments/99156989/99160852.png" data-unresolved-comment-count="0" data-linked-resource-id="99160852" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2022-7-6_14-37-57.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="99156989" data-linked-resource-container-version="9"></span></span></p><h5 id="AI外呼接入触达中心技术方案-2.3AI外呼任务创建"><span class="confluence-embedded-file-wrapper">2.3 AI外呼任务创建</span></h5><p><span class="confluence-embedded-file-wrapper"><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image confluence-thumbnail" height="250" src="attachments/99156989/99159857.png" data-image-src="attachments/99156989/99159857.png" data-unresolved-comment-count="0" data-linked-resource-id="99159857" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2022-7-4_16-1-58.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="99156989" data-linked-resource-container-version="9"></span></span></p><h5 id="AI外呼接入触达中心技术方案-2.4外呼通道逻辑"><span class="confluence-embedded-file-wrapper">2.4 外呼通道逻辑</span></h5><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image confluence-thumbnail" height="250" src="attachments/99156989/99159917.png" data-image-src="attachments/99156989/99159917.png" data-unresolved-comment-count="0" data-linked-resource-id="99159917" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2022-7-4_16-56-19.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="99156989" data-linked-resource-container-version="9"></span></p><p><br/></p><h5 id="AI外呼接入触达中心技术方案-2.5统计指标计算口径">2.5 统计指标计算口径</h5><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" height="157" src="attachments/99156989/99160994.png" data-image-src="attachments/99156989/99160994.png" data-unresolved-comment-count="0" data-linked-resource-id="99160994" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2022-7-6_16-58-30.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="99156989" data-linked-resource-container-version="9"></span></p><p><span style="color: rgb(255,0,0);">重拨次数</span>：detail中，重拨次数汇总值</p><p><span style="color: rgb(255,0,0);">呼叫门店数</span>：detail总数</p><p><span style="color: rgb(255,0,0);">系统执行门店数</span>：detail_status != 1 （不等于待发送）的门店数</p><p><span style="color: rgb(255,0,0);">接通门店数</span>：detail_status = 2 （发送成功）的门店数</p><p><span style="color: rgb(255,0,0);">平均通话时长</span>：detail中，duration（通话时长）不为0的数据的平均值</p><p><span style="color: rgb(255,0,0);">有交互的门店数</span>：slot_num（节点数）大于等于2的门店数</p><p><span style="color: rgb(255,0,0);">完播门店数</span>：挂机结果为机器人挂机（direction = 0）的门店数</p><p><br/></p><h2 id="AI外呼接入触达中心技术方案-九、类图">九、类图</h2><h2 id="AI外呼接入触达中心技术方案-十、数据库设计">十、数据库设计</h2><div class="code panel pdl" style="border-width: 1px;"><div class="codeContent panelContent pdl">
+<pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: sql; gutter: true; theme: Confluence" data-theme="Confluence">CREATE TABLE `t_touch_task_detail_call` (
+  `id` bigint(32) unsigned NOT NULL AUTO_INCREMENT COMMENT &#39;自增主键&#39;,
+  `creator` varchar(32) NOT NULL COMMENT &#39;创建人&#39;,
+  `editor` varchar(32) NOT NULL COMMENT &#39;辑人&#39;,
+  `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT &#39;创建时间&#39;,
+  `edit_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT &#39;编辑时间&#39;,
+  `is_deleted` tinyint(1) NOT NULL DEFAULT &#39;0&#39; COMMENT &#39;是否删除 (0.未删除 1.删除)&#39;,
+
+  `task_instance_id` bigint(32) NOT NULL COMMENT &#39;触达实例id&#39;,
+  `task_detail_id` bigint(32) NOT NULL COMMENT &#39;明细id&#39;,
+  `call_phone` varchar(1000) NOT NULL COMMENT &#39;主叫号码&#39;,
+  `shop_phone` varchar(1000) NOT NULL COMMENT &#39;门店号码（被叫号码）&#39;,
+  `aiccs_call_id` varchar(100) COMMENT &#39;智能联络中心呼叫id，标记唯一一次通话&#39;,
+  `aiccs_call_param` varchar(2000) COMMENT &#39;智能联络中心外呼参数&#39;,
+  `aiccs_call_code` bigint(32) COMMENT &#39;智能联络中心呼叫返回码（早媒体识别）&#39;,
+  `aiccs_call_data` mediumtext COMMENT &#39;智能联络中心呼叫回执&#39;,
+  `aiccs_err_code` varchar(100) COMMENT &#39;智能联络中心异常信息code（未能成功呼叫）&#39;,
+  `aiccs_err_msg` text COMMENT &#39;智能联络中心异常信息描述（未能成功呼叫）&#39;,
+
+  `duration` bigint(32) COMMENT &#39;通话时长&#39;,
+  `ring_time` datetime COMMENT &#39;响铃时间&#39;,
+  `answer_time` datetime COMMENT &#39;应答时间&#39;,
+  `start_time` datetime COMMENT &#39;通话开始时间&#39;,
+  `end_time` datetime COMMENT &#39;通话结束时间&#39;,
+  `direction` varchar(10) COMMENT &#39;挂机方向 0机器人挂机 1客户挂机&#39;,
+  `slot_num` bigint(10) COMMENT &#39;节点数&#39;
+  PRIMARY KEY (`id`),
+  KEY `idx_task_instance_id` (`task_instance_id`),
+  KEY `idx_task_detail_id` (`task_detail_id`),
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COMMENT=&#39;触达任务明细（外呼）&#39;;
+
+ALTER TABLE t_touch_task ADD COLUMN `channel_config` text COMMENT &#39;渠道配置信息&#39;;
+ALTER TABLE t_touch_task_instance ADD COLUMN `channel_config` text COMMENT &#39;渠道配置信息&#39;;
+ALTER TABLE t_touch_task_detail ADD COLUMN `retry_num` bigint(32) NOT NULL default &#39;0&#39; COMMENT &#39;已重试次数&#39;;</pre>
+</div></div><p><br/></p><h2 id="AI外呼接入触达中心技术方案-十一、搜索设计">十一、搜索设计</h2><h2 id="AI外呼接入触达中心技术方案-十二、接口设计">十二、接口设计</h2><h4 id="AI外呼接入触达中心技术方案-1、HOP接口">         1、HOP接口</h4><div class="table-wrap"><table class="wrapped confluenceTable"><colgroup><col/><col/><col/><col/><col/></colgroup><tbody><tr><th class="confluenceTh">接口功能描述</th><th class="confluenceTh">接口名称</th><th colspan="1" class="confluenceTh">变更类型（新增/更新）</th><th class="confluenceTh">对应dubbo接口声明</th><th colspan="1" class="confluenceTh">变更描述</th></tr><tr><td class="confluenceTd"><br/></td><td class="confluenceTd"><br/></td><td colspan="1" class="confluenceTd"><br/></td><td class="confluenceTd"><br/></td><td colspan="1" class="confluenceTd"><br/></td></tr><tr><td class="confluenceTd"><br/></td><td class="confluenceTd"><br/></td><td colspan="1" class="confluenceTd"><br/></td><td class="confluenceTd"><br/></td><td colspan="1" class="confluenceTd"><br/></td></tr></tbody></table></div><h4 id="AI外呼接入触达中心技术方案-2、Dubbo接口">          2、Dubbo接口</h4><div class="table-wrap"><table class="wrapped confluenceTable"><colgroup><col/><col/><col/><col/><col/></colgroup><tbody><tr><th class="confluenceTh">接口功能描述</th><th class="confluenceTh">接口声明</th><th class="confluenceTh">接口是否存在富客户端缓存</th><th colspan="1" class="confluenceTh">变更类型（新增/更新）</th><th colspan="1" class="confluenceTh">变更描述</th></tr><tr><td class="confluenceTd"><br/></td><td class="confluenceTd"><br/></td><td class="confluenceTd"><br/></td><td colspan="1" class="confluenceTd"><br/></td><td colspan="1" class="confluenceTd"><br/></td></tr><tr><td class="confluenceTd"><br/></td><td class="confluenceTd"><br/></td><td class="confluenceTd"><br/></td><td colspan="1" class="confluenceTd"><br/></td><td colspan="1" class="confluenceTd"><br/></td></tr></tbody></table></div><h2 id="AI外呼接入触达中心技术方案-十三、涉及数仓的设计">十三、涉及数仓的设计</h2><h2 id="AI外呼接入触达中心技术方案-十四、中间件配置相关">十四、中间件配置相关</h2><p><span style="font-size: 20.0px;letter-spacing: -0.008em;">十五、非功能性需求</span></p><p><br/></p><p><br/></p><p><br/></p><p><br/></p><p><br/></p>
+                    </div>
+
+                                        <div class="pageSection group">
+                        <div class="pageSectionHeader">
+                            <h2 id="attachments" class="pageSectionTitle">Attachments:</h2>
+                        </div>
+
+                        <div class="greybox" align="left">
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/99156989/99156992.png">图片 1.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/99156989/99156990.png">image2021-4-7_21-38-35.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/99156989/99156991.jpg">系统架构.jpg</a> (image/jpeg)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/99156989/99159479.png">image2022-7-4_10-16-24.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/99156989/99159481.png">image2022-7-4_10-16-54.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/99156989/99159482.png">image2022-7-4_10-17-7.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/99156989/99159483.png">image2022-7-4_10-19-9.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/99156989/99159497.png">image2022-7-4_10-21-58.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/99156989/99159498.png">image2022-7-4_10-22-17.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/99156989/99159504.png">image2022-7-4_10-35-28.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/99156989/99159511.png">image2022-7-4_10-48-10.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/99156989/111939444.png">image2022-7-4_14-19-42.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/99156989/99159822.png">image2022-7-4_15-20-45.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/99156989/99159852.png">image2022-7-4_15-49-14.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/99156989/99159857.png">image2022-7-4_16-1-58.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/99156989/99159917.png">image2022-7-4_16-56-19.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/99156989/99160852.png">image2022-7-6_14-37-57.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/99156989/99160994.png">image2022-7-6_16-58-30.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/99156989/99159562.png">image2022-7-4_14-19-42.png</a> (image/png)
+                                <br/>
+                                                    </div>
+                    </div>
+                    
+                 
+                </div>             </div> 
+            <div id="footer" role="contentinfo">
+                <section class="footer-body">
+                    <p>Document generated by Confluence on 2026-04-10 10:44</p>
+                    <div id="footer-logo"><a href="http://www.atlassian.com/">Atlassian</a></div>
+                </section>
+            </div>
+        </div>     </body>
+</html>

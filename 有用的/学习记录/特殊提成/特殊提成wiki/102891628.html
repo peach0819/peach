@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>大商家组 : 1、CRM业务上云 - 评估</title>
+        <link rel="stylesheet" href="styles/site.css" type="text/css" />
+        <META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    </head>
+
+    <body class="theme-default aui-theme-default">
+        <div id="page">
+            <div id="main" class="aui-page-panel">
+                <div id="main-header">
+                    <div id="breadcrumb-section">
+                        <ol id="breadcrumbs">
+                            <li class="first">
+                                <span><a href="index.html">大商家组</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="115136623.html">CRM薪资业务</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="102895712.html">0、CRM数仓上云项目</a></span>
+                            </li>
+                                                </ol>
+                    </div>
+                    <h1 id="title-heading" class="pagetitle">
+                                                <span id="title-text">
+                            大商家组 : 1、CRM业务上云 - 评估
+                        </span>
+                    </h1>
+                </div>
+
+                <div id="content" class="view">
+                    <div class="page-metadata">
+                        
+        
+    
+        
+    
+        
+        
+            Created by <span class='author'> tao.zheng8833</span>, last modified on 2022-08-22
+                        </div>
+                    <div id="main-content" class="wiki-content group">
+                    <div class="table-wrap"><table class="wrapped confluenceTable"><colgroup><col/><col/><col/><col/><col/><col/><col/><col/></colgroup><tbody><tr><th colspan="1" class="confluenceTh"><p>顺序（相同序号可并行）</p><p>*************</p></th><th class="confluenceTh"><p>业务</p><p>*******************************</p></th><th colspan="1" class="confluenceTh"><p>负责人</p><p>*****************</p></th><th class="confluenceTh"><p>数仓依赖</p><p>************************************</p></th><th class="confluenceTh"><p>内部依赖</p><p>**************************</p></th><th class="confluenceTh"><p>工作事项</p><p>********************************************************************</p></th><th colspan="1" class="confluenceTh"><p>工作量评估</p><p>******************</p><p>31d+</p></th><th colspan="1" class="confluenceTh"><p>测试工作量评估</p><p>******************</p><p>11d</p></th></tr><tr><td colspan="1" class="confluenceTd">1</td><td class="confluenceTd">门店分组</td><td colspan="1" class="confluenceTd">凯</td><td class="confluenceTd">dmp自行处理dubbo调用能力</td><td class="confluenceTd">无</td><td class="confluenceTd">crm内部门店分组dubbo接口开放即可</td><td colspan="1" class="confluenceTd">1d</td><td colspan="1" class="confluenceTd"><p>0.5d</p><p>回归分组写入正确</p></td></tr><tr><td colspan="1" class="confluenceTd">1</td><td class="confluenceTd">规则中心</td><td colspan="1" class="confluenceTd">肥桃</td><td class="confluenceTd"><p>埼玉的urule-udf、onedata订单数据</p><p>迁移工具</p></td><td class="confluenceTd">无</td><td class="confluenceTd"><p>表结构迁移</p><p>urule-udf迁移，规则中心逻辑迁移（复制历史数据、新增今日数据）、规则中心测试版本临时拉起调度支持</p></td><td colspan="1" class="confluenceTd">3工作日</td><td colspan="1" class="confluenceTd"><p>1d</p><p>订单数量</p><p>订单归属</p></td></tr><tr><td colspan="1" class="confluenceTd">1</td><td class="confluenceTd">基本提成</td><td colspan="1" class="confluenceTd">肥桃</td><td class="confluenceTd"><p>迁移工具</p><p>oss解析excel能力、拉取调度能力</p><p>（业务方在页面上传excel到oss后需要重刷一遍数仓数据）</p></td><td class="confluenceTd">无</td><td class="confluenceTd"><p>表结构迁移</p><p>oss解析excel节点开发，调度api内部调用（这里需要数仓开出来api或者直接用阿里云api？），数仓ads层脚本直接工具迁移即可</p></td><td colspan="1" class="confluenceTd">5工作日</td><td colspan="1" class="confluenceTd"><p>0.5d</p><p>基本提脚本比对</p></td></tr><tr><td colspan="1" class="confluenceTd">2</td><td colspan="1" class="confluenceTd">特殊提成</td><td colspan="1" class="confluenceTd">肥桃</td><td colspan="1" class="confluenceTd"><p>onedata订单、门店、品牌、人员等数据</p><p>数仓hive-udf</p><p><br/></p></td><td colspan="1" class="confluenceTd"><p>dmp门店分组、</p><p>规则中心、</p><p>基本提成</p></td><td colspan="1" class="confluenceTd"><p>表结构迁移</p><p>所有脚本迁移到maxcompute节点流程编排</p><p>脚本逻辑迁移到循环节点、补数逻辑迁移到参数节点、调度逻辑迁移到归并节点（<span style="color: rgb(255,0,0);">涉及gmv、新签品牌、新签商品、多品进店、基本提成5套模板累计41个脚本改造</span>）</p><p>dqc资损防控逻辑迁移（<span style="color: rgb(255,0,0);">当前有9个特殊提成监控脚本</span>）</p><p><br/></p></td><td colspan="1" class="confluenceTd">15工作日</td><td colspan="1" class="confluenceTd"><p>3d</p><p>结果表数据比对</p></td></tr><tr><td colspan="1" class="confluenceTd">3</td><td colspan="1" class="confluenceTd">p0项目管理</td><td colspan="1" class="confluenceTd">逐星</td><td colspan="1" class="confluenceTd">onedata数据、迁移工具</td><td colspan="1" class="confluenceTd">基本提成、特殊提成</td><td colspan="1" class="confluenceTd"><p>表结构迁移</p><p>特殊提成、基本提成相关数据表数据，分别执行当月、上月、上上月数据版本后，回流数据，该逻辑迁移</p></td><td colspan="1" class="confluenceTd">2工作日</td><td colspan="1" class="confluenceTd"><p>1h</p><p>页面回归P0数据展示</p></td></tr><tr><td colspan="1" class="confluenceTd">4</td><td colspan="1" class="confluenceTd">其余简单脚本（无特殊逻辑）</td><td colspan="1" class="confluenceTd">具体脚本负责人</td><td colspan="1" class="confluenceTd">onedata数据、迁移工具</td><td colspan="1" class="confluenceTd"><br/></td><td colspan="1" class="confluenceTd">数据组工具支持、crm组需要check变量替换，产出数据核对，功能验证</td><td colspan="1" class="confluenceTd">5d</td><td colspan="1" class="confluenceTd"><p>5d</p><p>1、录制回放</p><p>2、页面功能梳理 回归</p></td></tr></tbody></table></div>
+                    </div>
+
+                    
+                 
+                </div>             </div> 
+            <div id="footer" role="contentinfo">
+                <section class="footer-body">
+                    <p>Document generated by Confluence on 2026-04-10 10:58</p>
+                    <div id="footer-logo"><a href="http://www.atlassian.com/">Atlassian</a></div>
+                </section>
+            </div>
+        </div>     </body>
+</html>

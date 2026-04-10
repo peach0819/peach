@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>大商家组 : AB测试实现选择对比</title>
+        <link rel="stylesheet" href="styles/site.css" type="text/css" />
+        <META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    </head>
+
+    <body class="theme-default aui-theme-default">
+        <div id="page">
+            <div id="main" class="aui-page-panel">
+                <div id="main-header">
+                    <div id="breadcrumb-section">
+                        <ol id="breadcrumbs">
+                            <li class="first">
+                                <span><a href="index.html">大商家组</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="82552158.html">触达中心</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="86620182.html">4、日常需求</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="158620597.html">2022需求</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="2022-Q1_86620184.html">2022 Q1</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="86620186.html">AB测试</a></span>
+                            </li>
+                                                </ol>
+                    </div>
+                    <h1 id="title-heading" class="pagetitle">
+                                                <span id="title-text">
+                            大商家组 : AB测试实现选择对比
+                        </span>
+                    </h1>
+                </div>
+
+                <div id="content" class="view">
+                    <div class="page-metadata">
+                        
+        
+    
+        
+    
+        
+        
+            Created by <span class='author'> tao.zheng8833</span>, last modified on 2022-02-09
+                        </div>
+                    <div id="main-content" class="wiki-content group">
+                    <div class="table-wrap"><table class="relative-table wrapped confluenceTable" style="width: 62.9348%;"><colgroup><col style="width: 15.0308%;"/><col style="width: 19.987%;"/><col style="width: 20.5637%;"/><col style="width: 22.2086%;"/><col style="width: 22.2099%;"/></colgroup><tbody><tr><th style="text-align: center;" class="confluenceTh"><p><br/></p><p>************************</p></th><th colspan="1" class="confluenceTh"><p style="text-align: center;">明细</p><p>*********************************</p></th><th style="text-align: center;" class="confluenceTh"><p>AB平台</p><p>**********************************</p></th><th style="text-align: center;" class="confluenceTh"><p>自研实现</p><p>*************************************</p></th><th colspan="1" style="text-align: center;" class="confluenceTh"><p>对比</p><p style="text-align: center;">*************************************</p></th></tr><tr><td class="confluenceTd">成本</td><td colspan="1" class="confluenceTd">AB实验场景</td><td class="confluenceTd">需要新增AB实验场景-触达中心</td><td class="confluenceTd">不需要</td><td colspan="1" style="text-align: left;" class="confluenceTd">接入AB平台需要云帆额外配合</td></tr><tr><td class="confluenceTd"><br/></td><td colspan="1" class="confluenceTd">AB平台api对接</td><td class="confluenceTd">需要接入AB平台api，联调测试</td><td class="confluenceTd">不需要</td><td colspan="1" style="text-align: left;" class="confluenceTd">接入AB平台需要增加外部对接成本</td></tr><tr><td colspan="1" class="confluenceTd"><br/></td><td colspan="1" class="confluenceTd">分桶算法实现</td><td colspan="1" class="confluenceTd">不需要</td><td colspan="1" class="confluenceTd">分桶算法需要自研实现，由于触达任务为一次性使用，开发工具类即可</td><td colspan="1" class="confluenceTd">自研实现分桶算法，工作量不大，预计半天开发量，可以接受</td></tr><tr><td colspan="1" class="confluenceTd"><br/></td><td colspan="1" class="confluenceTd">触达AB测试与AB平台关联</td><td colspan="1" class="confluenceTd">需要提前创建一个触达中心场景的AB实验，每次创建AB测试任务都通过该AB实验进行分桶</td><td colspan="1" class="confluenceTd">不需要</td><td colspan="1" class="confluenceTd">接入AB平台需要依赖AB平台实验记录</td></tr><tr><td colspan="1" class="confluenceTd"><br/></td><td colspan="1" class="confluenceTd">分桶结果存储</td><td colspan="1" class="confluenceTd">调用AB平台api生成结果后，存储在task_detail表</td><td colspan="1" class="confluenceTd">调用自研工具类生成结果后，存储在task_detail表</td><td colspan="1" class="confluenceTd">相同，都存储在触达明细表中，没有差别</td></tr><tr><td colspan="1" class="confluenceTd">功能完善性</td><td colspan="1" class="confluenceTd">多AB实验相互干扰</td><td colspan="1" class="confluenceTd">AB平台支持多个实验同时进行，并且能够隔离多个实验之间互相感染</td><td colspan="1" class="confluenceTd">不具备</td><td colspan="1" class="confluenceTd">触达中心每次发送为一次性，不存在相互干扰 ，不需要使用该功能</td></tr><tr><td colspan="1" class="confluenceTd"><br/></td><td colspan="1" class="confluenceTd">时效性</td><td colspan="1" class="confluenceTd">AB平台实验通常在2周以上，并支持根据时间加盐，避免分桶随机性导致的AB测试偶然性</td><td colspan="1" class="confluenceTd">不具备</td><td colspan="1" class="confluenceTd">触达中心发送为一次性，并非长时间，不需要使用该功能</td></tr><tr><td colspan="1" class="confluenceTd"><br/></td><td colspan="1" class="confluenceTd">随机性</td><td colspan="1" class="confluenceTd">AB平台加盐根据时间可选择天、小时，连续创建的两个任务，相同门店会分布在同一个桶中</td><td colspan="1" class="confluenceTd">随机性，门店分桶任务维度独立</td><td colspan="1" class="confluenceTd">自研实现门店分桶更随机，不同任务之间门店分桶不同，更利于多样本测试，避免分桶导致的AB测试偶然性</td></tr><tr><td colspan="1" class="confluenceTd"><br/></td><td colspan="1" class="confluenceTd">报表</td><td colspan="1" class="confluenceTd">AB平台支持mall app埋点分析报表</td><td colspan="1" class="confluenceTd">不支持</td><td colspan="1" class="confluenceTd">触达中心AB测试报表并非依赖mall app埋点，仍需要单独实现，没法复用AB平台报表，不需要依赖AB平台</td></tr></tbody></table></div><p><br/></p>
+                    </div>
+
+                    
+                 
+                </div>             </div> 
+            <div id="footer" role="contentinfo">
+                <section class="footer-body">
+                    <p>Document generated by Confluence on 2026-04-10 10:44</p>
+                    <div id="footer-logo"><a href="http://www.atlassian.com/">Atlassian</a></div>
+                </section>
+            </div>
+        </div>     </body>
+</html>

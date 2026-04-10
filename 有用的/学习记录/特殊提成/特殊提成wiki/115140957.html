@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>大商家组 : 2）数仓调度架构模型</title>
+        <link rel="stylesheet" href="styles/site.css" type="text/css" />
+        <META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    </head>
+
+    <body class="theme-default aui-theme-default">
+        <div id="page">
+            <div id="main" class="aui-page-panel">
+                <div id="main-header">
+                    <div id="breadcrumb-section">
+                        <ol id="breadcrumbs">
+                            <li class="first">
+                                <span><a href="index.html">大商家组</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="115136623.html">CRM薪资业务</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="115136628.html">2、特殊提成</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="115136632.html">2、系统架构设计</a></span>
+                            </li>
+                                                </ol>
+                    </div>
+                    <h1 id="title-heading" class="pagetitle">
+                                                <span id="title-text">
+                            大商家组 : 2）数仓调度架构模型
+                        </span>
+                    </h1>
+                </div>
+
+                <div id="content" class="view">
+                    <div class="page-metadata">
+                        
+        
+    
+        
+    
+        
+        
+            Created by <span class='author'> tao.zheng8833</span>, last modified on 2023-05-04
+                        </div>
+                    <div id="main-content" class="wiki-content group">
+                    <h3 class="auto-cursor-target" id="id-2）数仓调度架构模型-方案数据调度组装">方案数据调度组装</h3><p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/115140957/115141364.png" data-image-src="attachments/115140957/115141364.png" data-unresolved-comment-count="0" data-linked-resource-id="115141364" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2023-3-15_16-48-17.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="115140957" data-linked-resource-container-version="12"></span></p><h3 class="auto-cursor-target" id="id-2）数仓调度架构模型-调度模式">调度模式</h3><p class="auto-cursor-target"><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/115140957/115141241.png" data-image-src="attachments/115140957/115141241.png" data-unresolved-comment-count="0" data-linked-resource-id="115141241" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2023-3-15_14-35-33.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="115140957" data-linked-resource-container-version="12"></span></p><h3 class="auto-cursor-target" id="id-2）数仓调度架构模型-模板表">模板表</h3><div class="table-wrap"><table class="wrapped confluenceTable"><colgroup><col/><col/><col/><col/><col/><col/></colgroup><tbody><tr><th class="confluenceTh"><p>模板</p><p>**************</p></th><th colspan="1" class="confluenceTh"><p>正向&amp;逆向</p><p>***********</p></th><th class="confluenceTh"><p>业务中间层</p><p>**********************************************</p></th><th class="confluenceTh"><p>模板明细表</p><p>****************************************</p></th><th colspan="1" class="confluenceTh"><p>汇总表</p><p>***************************************</p></th><th colspan="1" class="confluenceTh"><p>比对汇总（逆向专属）</p><p>***********************************</p></th></tr><tr><td rowspan="2" class="confluenceTd">存量gmv</td><td colspan="1" class="confluenceTd">正向</td><td rowspan="2" class="confluenceTd">dw_salary_gmv_rule_public_mid_v2_d</td><td class="confluenceTd"><p>dw_salary_gmv_rule_public_d</p><p>(分区：pltype = 'cur')</p></td><td colspan="1" class="confluenceTd"><p>dw_salary_forward_plan_sum_d</p><p>(分区：bounty_rule_type = 1)</p></td><td colspan="1" class="confluenceTd">无</td></tr><tr><td colspan="1" class="confluenceTd">逆向</td><td colspan="1" class="confluenceTd"><p>dw_salary_gmv_rule_public_d</p><p>(分区：pltype = 'pre')</p></td><td colspan="1" class="confluenceTd"><p>dw_salary_backward_plan_sum_mid_d</p><p>(分区：bounty_rule_type = 1)</p></td><td colspan="1" class="confluenceTd">dw_salary_backward_plan_sum_d</td></tr><tr><td rowspan="2" class="confluenceTd">新签商品</td><td colspan="1" class="confluenceTd">正向</td><td rowspan="2" class="confluenceTd">dw_salary_sign_rule_public_mid_v2_d</td><td colspan="1" class="confluenceTd"><p>dw_salary_sign_item_rule_public_d</p><p>(分区：pltype = 'cur')</p></td><td colspan="1" class="confluenceTd"><p>dw_salary_forward_plan_sum_d</p><p>(分区：bounty_rule_type = 2)</p></td><td colspan="1" class="confluenceTd">无</td></tr><tr><td colspan="1" class="confluenceTd">逆向</td><td colspan="1" class="confluenceTd"><p>dw_salary_sign_item_rule_public_d</p><p>(分区：pltype = 'pre')</p></td><td colspan="1" class="confluenceTd"><p>dw_salary_backward_plan_sum_mid_d</p><p>(分区：bounty_rule_type = 2)</p></td><td colspan="1" class="confluenceTd">dw_salary_backward_plan_sum_d</td></tr><tr><td rowspan="2" class="confluenceTd">新签品牌</td><td colspan="1" class="confluenceTd">正向</td><td rowspan="2" class="confluenceTd">dw_salary_sign_rule_public_mid_v2_d</td><td colspan="1" class="confluenceTd"><p>dw_salary_sign_brand_rule_public_d</p><p>(分区：pltype = 'cur')</p></td><td colspan="1" class="confluenceTd"><p>dw_salary_forward_plan_sum_d</p><p>(分区：bounty_rule_type = 3)</p></td><td colspan="1" class="confluenceTd">无</td></tr><tr><td colspan="1" class="confluenceTd">逆向</td><td colspan="1" class="confluenceTd"><p>dw_salary_sign_brand_rule_public_d</p><p>(分区：pltype = 'pre')</p></td><td colspan="1" class="confluenceTd"><p>dw_salary_backward_plan_sum_mid_d</p><p>(分区：bounty_rule_type = 3)</p></td><td colspan="1" class="confluenceTd">dw_salary_backward_plan_sum_d</td></tr><tr><td rowspan="2" class="confluenceTd">多品进店</td><td colspan="1" class="confluenceTd">正向</td><td rowspan="2" class="confluenceTd">dw_salary_brand_shop_rule_public_mid_v2_d</td><td colspan="1" class="confluenceTd"><p>dw_salary_brand_shop_sum_d</p><p>(分区：pltype = 'cur')</p></td><td colspan="1" class="confluenceTd"><p>dw_salary_forward_plan_sum_d</p><p>(分区：bounty_rule_type = 4)</p></td><td colspan="1" class="confluenceTd">无</td></tr><tr><td colspan="1" class="confluenceTd">逆向</td><td colspan="1" class="confluenceTd"><p>dw_salary_brand_shop_sum_d</p><p>(分区：pltype = 'pre')</p></td><td colspan="1" class="confluenceTd"><p>dw_salary_backward_plan_sum_mid_d</p><p>(分区：bounty_rule_type = 4)</p></td><td colspan="1" class="confluenceTd">dw_salary_backward_plan_sum_d</td></tr><tr><td colspan="1" class="confluenceTd">基本提成</td><td colspan="1" class="confluenceTd">正向</td><td colspan="1" class="confluenceTd"><p>销售：ads_salary_result_sale_d</p><p>主管：ads_salary_result_manager_d</p></td><td colspan="1" class="confluenceTd"><p>dw_salary_base_salary_public_d</p><p>(分区：pltype = 'cur')</p></td><td colspan="1" class="confluenceTd"><p>dw_salary_forward_plan_sum_d</p><p>(分区：bounty_rule_type = 5)</p></td><td colspan="1" class="confluenceTd">无</td></tr></tbody></table></div><h3 class="auto-cursor-target" id="id-2）数仓调度架构模型-调度脚本">调度脚本</h3><div class="table-wrap"><table class="wrapped confluenceTable"><colgroup><col/><col/><col/><col/><col/><col/></colgroup><tbody><tr><th class="confluenceTh"><p>模板</p><p>**************</p></th><th colspan="1" class="confluenceTh"><p>正向&amp;逆向</p><p>***********</p></th><th class="confluenceTh"><p>业务中间层</p><p>**********************************************</p></th><th class="confluenceTh"><p>模板明细表</p><p>********************************************</p></th><th colspan="1" class="confluenceTh"><p>汇总表</p><p>******************************************************</p></th><th colspan="1" class="confluenceTh"><p>比对汇总（逆向专属）</p><p>***********************************</p></th></tr><tr><td rowspan="3" class="confluenceTd">存量gmv</td><td colspan="1" class="confluenceTd">正向</td><td rowspan="3" class="confluenceTd">dw_salary_gmv_rule_public_mid_v2_d</td><td class="confluenceTd"><p>dw_salary_gmv_rule_forward_public_d</p></td><td colspan="1" class="confluenceTd"><p>dw_salary_gmv_rule_forward_plan_sum_d</p></td><td rowspan="14" style="text-align: center;" class="confluenceTd"><p><br/></p><p><br/></p><p><br/></p><p><br/></p><p><br/></p><p><br/></p><p><br/></p><p>dw_salary_backward_plan_sum_d</p></td></tr><tr><td colspan="1" class="confluenceTd">逆向</td><td colspan="1" class="confluenceTd"><p>dw_salary_gmv_rule_backward_public_d</p></td><td colspan="1" class="confluenceTd"><p>dw_salary_gmv_rule_backward_plan_sum_d</p></td></tr><tr><td colspan="1" class="confluenceTd">补数</td><td colspan="2" style="text-align: center;" class="confluenceTd"><p><span style="color: rgb(30,32,45);">supply_gmv_rule_forward_d</span></p><p><span style="color: rgb(30,32,45);">supply_gmv_rule_backward_d</span></p></td></tr><tr><td rowspan="3" class="confluenceTd">新签商品</td><td colspan="1" class="confluenceTd">正向</td><td rowspan="3" class="confluenceTd">dw_salary_sign_rule_public_mid_v2_d</td><td colspan="1" class="confluenceTd"><p>dw_salary_sign_item_forward_public_d</p></td><td colspan="1" class="confluenceTd"><p>dw_salary_sign_item_forward_plan_sum_d</p></td></tr><tr><td colspan="1" class="confluenceTd">逆向</td><td colspan="1" class="confluenceTd"><p>dw_salary_sign_item_backward_public_d</p></td><td colspan="1" class="confluenceTd"><p>dw_salary_sign_item_backward_plan_sum_d</p></td></tr><tr><td colspan="1" class="confluenceTd">补数</td><td colspan="2" style="text-align: center;" class="confluenceTd"><p><span style="color: rgb(30,32,45);">supply_sign_item_forward_d</span></p><p><span style="color: rgb(30,32,45);">supply_sign_item_backward_d</span></p></td></tr><tr><td rowspan="3" class="confluenceTd">新签品牌</td><td colspan="1" class="confluenceTd">正向</td><td rowspan="3" class="confluenceTd">dw_salary_sign_rule_public_mid_v2_d</td><td colspan="1" class="confluenceTd"><p>dw_salary_sign_brand_forward_public_d</p></td><td colspan="1" class="confluenceTd"><p>dw_salary_sign_brand_forward_plan_sum_d</p></td></tr><tr><td colspan="1" class="confluenceTd">逆向</td><td colspan="1" class="confluenceTd"><p>dw_salary_sign_brand_backward_public_d</p></td><td colspan="1" class="confluenceTd"><p>dw_salary_sign_brand_backward_plan_sum_d</p></td></tr><tr><td colspan="1" class="confluenceTd">补数</td><td colspan="2" style="text-align: center;" class="confluenceTd"><p><span style="color: rgb(30,32,45);">supply_sign_brand_forward_d</span></p><p><span style="color: rgb(30,32,45);">supply_sign_brand_backward_d</span></p></td></tr><tr><td rowspan="3" class="confluenceTd">多品进店</td><td colspan="1" class="confluenceTd">正向</td><td rowspan="3" class="confluenceTd">dw_salary_brand_shop_rule_public_mid_v2_d</td><td colspan="1" class="confluenceTd"><p><span style="color: rgb(30,32,45);">dw_salary_brand_shop_forward_sum_d</span></p></td><td colspan="1" class="confluenceTd"><p><span style="color: rgb(30,32,45);">dw_salary_brand_shop_forward_plan_sum_d</span></p></td></tr><tr><td colspan="1" class="confluenceTd">逆向</td><td class="confluenceTd"><p style="text-align: left;"><span style="color: rgb(30,32,45);">dw_salary_brand_shop_backward_sum_d</span></p></td><td class="confluenceTd"><p style="text-align: left;"><span style="color: rgb(30,32,45);">dw_salary_brand_shop_backward_plan_sum_d</span></p></td></tr><tr><td colspan="1" class="confluenceTd">补数</td><td colspan="2" style="text-align: center;" class="confluenceTd"><p><span style="color: rgb(30,32,45);">supply_brand_shop_forward_d</span></p><p><span style="color: rgb(30,32,45);">supply_brand_shop_backward_d</span></p></td></tr><tr><td rowspan="2" class="confluenceTd">基本提成</td><td colspan="1" class="confluenceTd">正向</td><td rowspan="2" class="confluenceTd"><p>销售：ads_salary_result_sale_d</p><p>主管：ads_salary_result_manager_d</p></td><td colspan="1" class="confluenceTd"><p>dw_salary_base_salary_forward_public_d</p></td><td colspan="1" class="confluenceTd"><p>dw_salary_base_salary_forward_plan_sum_d</p></td></tr><tr><td colspan="1" class="confluenceTd">补数</td><td colspan="2" style="text-align: center;" class="confluenceTd"><p><span style="color: rgb(30,32,45);">supply_base_salary_forward_d</span></p></td></tr></tbody></table></div>
+                    </div>
+
+                                        <div class="pageSection group">
+                        <div class="pageSectionHeader">
+                            <h2 id="attachments" class="pageSectionTitle">Attachments:</h2>
+                        </div>
+
+                        <div class="greybox" align="left">
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/115140957/115141241.png">image2023-3-15_14-35-33.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/115140957/115141360.png">image2023-3-15_16-44-38.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/115140957/115141362.png">image2023-3-15_16-45-52.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/115140957/115141364.png">image2023-3-15_16-48-17.png</a> (image/png)
+                                <br/>
+                                                    </div>
+                    </div>
+                    
+                 
+                </div>             </div> 
+            <div id="footer" role="contentinfo">
+                <section class="footer-body">
+                    <p>Document generated by Confluence on 2026-04-10 10:59</p>
+                    <div id="footer-logo"><a href="http://www.atlassian.com/">Atlassian</a></div>
+                </section>
+            </div>
+        </div>     </body>
+</html>

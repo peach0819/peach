@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>大商家组 : 特殊提成支持品牌系列筛选</title>
+        <link rel="stylesheet" href="styles/site.css" type="text/css" />
+        <META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    </head>
+
+    <body class="theme-default aui-theme-default">
+        <div id="page">
+            <div id="main" class="aui-page-panel">
+                <div id="main-header">
+                    <div id="breadcrumb-section">
+                        <ol id="breadcrumbs">
+                            <li class="first">
+                                <span><a href="index.html">大商家组</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="115136623.html">CRM薪资业务</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="115136628.html">2、特殊提成</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="115136634.html">3、日常需求</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="2025.Q1_148839775.html">2025.Q1</a></span>
+                            </li>
+                                                </ol>
+                    </div>
+                    <h1 id="title-heading" class="pagetitle">
+                                                <span id="title-text">
+                            大商家组 : 特殊提成支持品牌系列筛选
+                        </span>
+                    </h1>
+                </div>
+
+                <div id="content" class="view">
+                    <div class="page-metadata">
+                        
+        
+    
+        
+    
+        
+        
+            Created by <span class='author'> tao.zheng8833</span>, last modified on 2025-03-13
+                        </div>
+                    <div id="main-content" class="wiki-content group">
+                    <p>demo：<a href="http://k.yangtuojia.com/pages/viewpage.action?pageId=148839370">202503_01_日常_特殊提成日常</a></p><p><br/></p><p>新增品牌系列筛选过滤条件</p><div class="code panel pdl" style="border-width: 1px;"><div class="codeContent panelContent pdl">
+<pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: sql; gutter: false; theme: Confluence" data-theme="Confluence">INSERT INTO `bounty_filter` (`id`, `title`, `key`, `field_sql`, `required`, `global`, `global_type`, `plan_date_sign`, `component_type`, `component_value_config`)
+VALUES (34, &#39;品牌系列名称&#39;, &#39;brand_key&#39;, &#39;brand_key&#39;, 0, 1, 1, 0, &#39;brand_series_select&#39;, &#39;{&quot;type&quot;:&quot;url&quot;, &quot;url&quot;:&quot;hipac.crm.bountyPlan.treeFilterResult&quot;,&quot;code&quot;:&quot;BRAND_SERIES&quot;}&#39;);</pre>
+</div></div><p><br/></p><p>新增组件类型：</p><p>listFilter接口里面 brand_series_select 表示 品牌系列组件（定制的父子节点不关联逻辑）</p><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" height="250" src="attachments/148839777/148839906.png" data-image-src="attachments/148839777/148839906.png" data-unresolved-comment-count="0" data-linked-resource-id="148839906" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2025-3-13_15-23-3.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="148839777" data-linked-resource-container-version="5"></span></p><p><br/></p><p>新增接口：</p><div class="table-wrap"><table class="wrapped confluenceTable"><colgroup><col style="width: 154.0px;"/><col style="width: 270.0px;"/><col style="width: 180.0px;"/><col style="width: 709.0px;"/><col style="width: 77.0px;"/></colgroup><thead><tr><th style="text-align: left;" class="confluenceTh"><p>接口功能描述</p><p>*********************</p></th><th style="text-align: left;" class="confluenceTh"><p>接口名称</p><p>***************************************</p></th><th colspan="1" style="text-align: left;" class="confluenceTh"><p>变更类型（新增/更新）</p><p>*************************</p></th><th colspan="1" style="text-align: left;" class="confluenceTh"><p>hop地址</p><p>************************************************************************************************************</p></th><th colspan="1" style="text-align: left;" class="confluenceTh"><p>变更描述</p><p>**********************************************</p></th></tr></thead><tbody><tr><td colspan="1" style="text-align: left;" class="confluenceTd">查询树形下拉列表</td><td colspan="1" style="text-align: left;" class="confluenceTd">hipac.crm.bountyPlan.treeFilterResult</td><td colspan="1" style="text-align: left;" class="confluenceTd">新增</td><td colspan="1" style="text-align: left;" class="confluenceTd"><a class="external-link" href="https://master-adminapi.yangtuojia.com/add-update.do?apiId=54582211&amp;opType=3&amp;selEnv=7258&amp;ref=hione" rel="nofollow">https://master-adminapi.yangtuojia.com/add-update.do?apiId=54582211&amp;opType=3&amp;selEnv=7258&amp;ref=hione</a></td><td colspan="1" style="text-align: left;" class="confluenceTd"><p>入参同原先的hipac.crm.bountyPlan.listFilterResult，</p><p>根据id批量导入也同原先的入参；</p><p><br/></p><p>返回值模型跟原先模型key value字段不变，新增children字段，用于展示树形子节点</p></td></tr></tbody></table></div><p class="auto-cursor-target">模糊搜索：</p><p class="auto-cursor-target"><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/148839777/148839892.png" data-image-src="attachments/148839777/148839892.png" data-unresolved-comment-count="0" data-linked-resource-id="148839892" data-linked-resource-version="2" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2025-3-13_15-10-16.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="148839777" data-linked-resource-container-version="5"></span></p><p class="auto-cursor-target">批量输入id：</p><p class="auto-cursor-target"><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/148839777/148839893.png" data-image-src="attachments/148839777/148839893.png" data-unresolved-comment-count="0" data-linked-resource-id="148839893" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2025-3-13_15-12-19.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="148839777" data-linked-resource-container-version="5"></span></p>
+                    </div>
+
+                                        <div class="pageSection group">
+                        <div class="pageSectionHeader">
+                            <h2 id="attachments" class="pageSectionTitle">Attachments:</h2>
+                        </div>
+
+                        <div class="greybox" align="left">
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/148839777/148841315.png">image2025-3-13_15-10-16.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/148839777/148839893.png">image2025-3-13_15-12-19.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/148839777/148839906.png">image2025-3-13_15-23-3.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/148839777/148839892.png">image2025-3-13_15-10-16.png</a> (image/png)
+                                <br/>
+                                                    </div>
+                    </div>
+                    
+                 
+                </div>             </div> 
+            <div id="footer" role="contentinfo">
+                <section class="footer-body">
+                    <p>Document generated by Confluence on 2026-04-10 10:59</p>
+                    <div id="footer-logo"><a href="http://www.atlassian.com/">Atlassian</a></div>
+                </section>
+            </div>
+        </div>     </body>
+</html>

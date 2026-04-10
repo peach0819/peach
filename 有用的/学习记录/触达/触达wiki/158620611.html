@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>大商家组 : 企微侧边栏聊天记录</title>
+        <link rel="stylesheet" href="styles/site.css" type="text/css" />
+        <META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    </head>
+
+    <body class="theme-default aui-theme-default">
+        <div id="page">
+            <div id="main" class="aui-page-panel">
+                <div id="main-header">
+                    <div id="breadcrumb-section">
+                        <ol id="breadcrumbs">
+                            <li class="first">
+                                <span><a href="index.html">大商家组</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="82552158.html">触达中心</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="86620182.html">4、日常需求</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="2026S1_158620608.html">2026S1</a></span>
+                            </li>
+                                                </ol>
+                    </div>
+                    <h1 id="title-heading" class="pagetitle">
+                                                <span id="title-text">
+                            大商家组 : 企微侧边栏聊天记录
+                        </span>
+                    </h1>
+                </div>
+
+                <div id="content" class="view">
+                    <div class="page-metadata">
+                        
+        
+    
+        
+    
+        
+        
+            Created by <span class='author'> tao.zheng8833</span>, last modified on 2026-01-19
+                        </div>
+                    <div id="main-content" class="wiki-content group">
+                    <p><style type='text/css'>/*<![CDATA[*/
+div.rbtoc1775789079055 {padding: 0px;}
+div.rbtoc1775789079055 ul {list-style: disc;margin-left: 0px;}
+div.rbtoc1775789079055 li {margin-left: 0px;padding-left: 0px;}
+
+/*]]>*/</style><div class='toc-macro rbtoc1775789079055'>
+<ul class='toc-indentation'>
+<li><a href='#id-企微侧边栏聊天记录-1.背景和目标'>1.背景和目标</a></li>
+<li><a href='#id-企微侧边栏聊天记录-2.名词解释'>2.名词解释</a></li>
+<li><a href='#id-企微侧边栏聊天记录-3.影响点'>3.影响点</a>
+<ul class='toc-indentation'>
+<li><a href='#id-企微侧边栏聊天记录-3.1.功能影响点'>3.1.功能影响点 </a></li>
+<li><a href='#id-企微侧边栏聊天记录-3.2.结算/资金影响点'>3.2.结算/资金影响点</a></li>
+<li><a href='#id-企微侧边栏聊天记录-3.3.数仓影响点评估'>3.3.数仓影响点评估</a></li>
+</ul>
+</li>
+<li><a href='#id-企微侧边栏聊天记录-4.模块/功能设计'>4.模块/功能设计</a>
+<ul class='toc-indentation'>
+<li><a href='#id-企微侧边栏聊天记录-4.1.模块/功能一CRM门店认证资质有效期取消定时机制'>4.1.模块/功能一 CRM门店认证资质有效期取消定时机制</a>
+<ul class='toc-indentation'>
+<li><a href='#id-企微侧边栏聊天记录-4.1.1.模块/功能描述以及设计思路'>4.1.1.模块/功能描述以及设计思路</a></li>
+<li><a href='#id-企微侧边栏聊天记录-4.1.2.流程图'>4.1.2.流程图</a></li>
+<li><a href='#id-企微侧边栏聊天记录-4.1.3.模型图'>4.1.3.模型图</a></li>
+<li><a href='#id-企微侧边栏聊天记录-4.1.4.模块/功能时序图（可选）'>4.1.4.模块/功能时序图（可选）</a></li>
+<li><a href='#id-企微侧边栏聊天记录-4.1.5.数据库设计（可选）'>4.1.5.数据库设计（可选）</a></li>
+<li><a href='#id-企微侧边栏聊天记录-4.1.6.模块/功能接口设计'>4.1.6.模块/功能接口设计</a></li>
+<li><a href='#id-企微侧边栏聊天记录-4.1.7.测试考虑'>4.1.7.测试考虑</a></li>
+</ul>
+</li>
+<li><a href='#id-企微侧边栏聊天记录-4.2.模块/功能二侧边栏历史聊天记录查看'>4.2.模块/功能二 侧边栏历史聊天记录查看</a>
+<ul class='toc-indentation'>
+<li><a href='#id-企微侧边栏聊天记录-4.2.1.模块/功能描述以及设计思路'>4.2.1.模块/功能描述以及设计思路</a></li>
+<li><a href='#id-企微侧边栏聊天记录-查询模型'>查询模型</a></li>
+<li><a href='#id-企微侧边栏聊天记录-消息模型'>消息模型</a></li>
+<li><a href='#id-企微侧边栏聊天记录-数据逻辑：'>数据逻辑：</a></li>
+<li><a href='#id-企微侧边栏聊天记录-4.2.2.流程图'>4.2.2.流程图</a></li>
+<li><a href='#id-企微侧边栏聊天记录-4.2.3.模型图'>4.2.3.模型图</a></li>
+<li><a href='#id-企微侧边栏聊天记录-4.2.4.模块/功能时序图（可选）'>4.2.4.模块/功能时序图（可选）</a></li>
+<li><a href='#id-企微侧边栏聊天记录-4.2.5.数据库设计（可选）'>4.2.5.数据库设计（可选）</a></li>
+<li><a href='#id-企微侧边栏聊天记录-4.2.6.模块/功能接口设计'>4.2.6.模块/功能接口设计</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href='#id-企微侧边栏聊天记录-5.埋点设计'>5.埋点设计</a></li>
+<li><a href='#id-企微侧边栏聊天记录-6.风险评估'>6.风险评估</a></li>
+<li><a href='#id-企微侧边栏聊天记录-7.排期'>7.排期</a></li>
+</ul>
+</div></p><h1 id="id-企微侧边栏聊天记录-1.背景和目标">1.背景和目标</h1><p>demo：<a class="external-link" href="https://hidemo.yangtuojia.com/view/tracker/CRM-13316/4648" rel="nofollow">https://hidemo.yangtuojia.com/view/tracker/CRM-13316/4648</a></p><p>目标1：更新门店营业执照为永久有效时，原始有效期不再生效</p><p>目标2：企微客户继承后，能通过侧边栏看到历史交接销售跟该客户聊天记录</p><h1 id="id-企微侧边栏聊天记录-2.名词解释">2.名词解释</h1><h1 id="id-企微侧边栏聊天记录-3.影响点">3.影响点</h1><h2 id="id-企微侧边栏聊天记录-3.1.功能影响点">3.1.功能影响点 </h2><ol><li>更新门店营业执照为永久有效时（其他场景无影响），原有有效期不再生效</li><li>侧边栏新增聊天记录页面</li></ol><h2 id="id-企微侧边栏聊天记录-3.2.结算/资金影响点">3.2.结算/资金影响点</h2><h2 id="id-企微侧边栏聊天记录-3.3.数仓影响点评估">3.3.数仓影响点评估</h2><h1 id="id-企微侧边栏聊天记录-4.模块/功能设计">4.模块/功能设计</h1><h2 id="id-企微侧边栏聊天记录-4.1.模块/功能一CRM门店认证资质有效期取消定时机制">4.1.模块/功能一 <span>CRM门店认证资质有效期取消定时机制</span></h2><h3 id="id-企微侧边栏聊天记录-4.1.1.模块/功能描述以及设计思路">4.1.1.模块/功能描述以及设计思路</h3><p><span style="color: rgb(51,51,51);">功能：若门店营业执照资质过期前补充了新的资质信息，系统审核门店认证时需要以新的资质有效期为主，取消定时机制</span></p><h3 id="id-企微侧边栏聊天记录-4.1.2.流程图">4.1.2.流程图</h3><p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/158620611/158620808.png" data-image-src="attachments/158620611/158620808.png" data-unresolved-comment-count="0" data-linked-resource-id="158620808" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2026-1-16_14-34-4.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="158620611" data-linked-resource-container-version="9"></span></p><h3 id="id-企微侧边栏聊天记录-4.1.3.模型图">4.1.3.模型图</h3><h3 id="id-企微侧边栏聊天记录-4.1.4.模块/功能时序图（可选）">4.1.4.模块/功能时序图（可选）</h3><h3 id="id-企微侧边栏聊天记录-4.1.5.数据库设计（可选）">4.1.5.数据库设计（可选）</h3><h3 id="id-企微侧边栏聊天记录-4.1.6.模块/功能接口设计">4.1.6.模块/功能接口设计</h3><h3 id="id-企微侧边栏聊天记录-4.1.7.测试考虑">4.1.7.测试考虑</h3><h2 id="id-企微侧边栏聊天记录-4.2.模块/功能二侧边栏历史聊天记录查看">4.2.模块/功能二 侧边栏历史聊天记录查看</h2><h3 id="id-企微侧边栏聊天记录-4.2.1.模块/功能描述以及设计思路">4.2.1.模块/功能描述以及设计思路</h3><p>企微侧边栏新增页面——历史记录，可查看历史继承销售聊天记录</p><p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/158620611/158620815.png" data-image-src="attachments/158620611/158620815.png" data-unresolved-comment-count="0" data-linked-resource-id="158620815" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2026-1-16_14-40-40.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="158620611" data-linked-resource-container-version="9"></span></p><h3 id="id-企微侧边栏聊天记录-查询模型">查询模型</h3><div class="code panel pdl" style="border-width: 1px;"><div class="codeContent panelContent pdl">
+<pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">public class ChatMsgQuery extends CrmBaseQuery {
+
+    private static final long serialVersionUID = -8613283515559437329L;
+
+    /**
+     * 企微实体id
+     */
+    private Long qwChatId;
+
+    /**
+     * 门店外部联系人userid
+     */
+    private String externalUserId;
+
+    /**
+     * 起始id，传了就表示查询该id后的记录（不包含当前id）
+     */
+    private Long beginId;
+
+    /**
+     * 结束id，传了就表示查询该id前的记录（不包含当前id）
+     */
+    private Long endId;
+
+    /**
+     * 消息开始时间
+     */
+    private Date beginTime;
+
+    /**
+     * 消息结束时间
+     */
+    private Date endTime;
+
+    /**
+     * 消息文案查询关键字
+     */
+    private String text;
+
+}</pre>
+</div></div><h3 id="id-企微侧边栏聊天记录-消息模型">消息模型</h3><div class="code panel pdl" style="border-width: 1px;"><div class="codeContent panelContent pdl">
+<pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">public class ChatMsgTO implements Serializable {
+
+    private static final long serialVersionUID = -6931463015518735664L;
+
+    /**
+     * 消息id
+     */
+    private Long id;
+
+    /**
+     * 实体id
+     */
+    private Long chatId;
+
+    /**
+     * 实体名
+     */
+    private String chatName;
+
+    /**
+     * 头像
+     */
+    private String chatPhoto;
+
+    /**
+     * 单个记录的发言人
+     * 1：右边，表示自己 （企微）
+     * 2：左边，表示别人 （个微）
+     * @see com.yt.touchc.api.chat.enums.ChatMsgDirectionEnum
+     */
+    private Integer direction;
+
+    /**
+     * 消息时间
+     */
+    private String msgTime;
+
+    /**
+     * 消息类型 text文本 image图片 voice语音
+     * @see com.yt.touchc.api.chat.enums.ChatMsgTypeEnum
+     */
+    private String messageType;
+
+    /**
+     * 消息内容
+     */
+    private String content;
+}</pre>
+</div></div><p><br/></p><h3 id="id-企微侧边栏聊天记录-数据逻辑：">数据逻辑：</h3><p>查询历史交接人员</p><div class="code panel pdl" style="border-width: 1px;"><div class="codeContent panelContent pdl">
+<pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: sql; gutter: false; theme: Confluence" data-theme="Confluence">SELECT * 
+FROM t_crm_import_content 
+WHERE import_type IN (4,5) 
+AND result = &#39;接替完毕&#39; 
+AND status = 2
+AND json_extract(content_json, &#39;$.externalUserId&#39;) = &#39;wm9D3QEAAAli9SHO1b7_Accm4LSyREYQ&#39;
+AND json_extract(content_json, &#39;$.newQwUserId&#39;) = &#39;13221026341&#39;
+AND create_time &gt; &#39;2025-06-16 00:00:00&#39;
+order by id desc
+limit 1</pre>
+</div></div><p>查询聊天记录</p><div class="code panel pdl" style="border-width: 1px;"><div class="codeContent panelContent pdl">
+<pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: sql; gutter: false; theme: Confluence" data-theme="Confluence">SELECT * 
+FROM t_crm_chat_msg_qw 
+WHERE msg_type IN (&#39;text&#39;, &#39;image&#39;, &#39;voice&#39;)
+AND admin_chat_id = 21731682
+AND shop_chat_id = 24151127
+AND msg_time &gt; &#39;2025-12-16 00:00:00&#39;
+AND qw_action = &#39;send&#39;
+-- AND id &gt; 987290719 下拉用
+-- AND id &lt; 987290719 定位到原始消息后上啦用
+order by id desc
+limit 10</pre>
+</div></div><p><br/></p><h3 id="id-企微侧边栏聊天记录-4.2.2.流程图">4.2.2.流程图</h3><h3 id="id-企微侧边栏聊天记录-4.2.3.模型图">4.2.3.模型图</h3><h3 id="id-企微侧边栏聊天记录-4.2.4.模块/功能时序图（可选）">4.2.4.模块/功能时序图（可选）</h3><h3 id="id-企微侧边栏聊天记录-4.2.5.数据库设计（可选）">4.2.5.数据库设计（可选）</h3><h3 id="id-企微侧边栏聊天记录-4.2.6.模块/功能接口设计">4.2.6.模块/功能接口设计</h3><div class="table-wrap"><table class="wrapped relative-table confluenceTable" style="width: 80.5479%;"><colgroup><col style="width: 11.9809%;"/><col style="width: 16.6099%;"/><col style="width: 8.64534%;"/><col style="width: 49.1491%;"/><col style="width: 1.49762%;"/><col style="width: 12.1171%;"/></colgroup><tbody><tr><th colspan="1" class="confluenceTh">接口名称描述</th><th class="confluenceTh">接口-方法</th><th class="confluenceTh">是否新增</th><th colspan="1" class="confluenceTh">hop地址</th><th colspan="2" class="confluenceTh">备注</th></tr><tr><td colspan="1" class="confluenceTd">查询历史销售列表</td><td class="confluenceTd"><span>hipac.crm.sidebar.queryTransferChat </span></td><td class="confluenceTd">新增</td><td colspan="1" class="confluenceTd"><a class="external-link" href="https://master-adminapi.yangtuojia.com/add-update.do?apiId=57665875&amp;opType=3&amp;selEnv=7544" rel="nofollow">https://master-adminapi.yangtuojia.com/add-update.do?apiId=57665875&amp;opType=3&amp;selEnv=7544</a></td><td colspan="2" class="confluenceTd"><br/></td></tr><tr><td colspan="1" class="confluenceTd">查询聊天记录列表</td><td colspan="1" class="confluenceTd"><span>hipac.crm.sidebar.queryChatMsg </span></td><td colspan="1" class="confluenceTd">新增</td><td colspan="1" class="confluenceTd"><a class="external-link" href="https://master-adminapi.yangtuojia.com/add-update.do?apiId=57665876&amp;opType=3&amp;selEnv=7544" rel="nofollow">https://master-adminapi.yangtuojia.com/add-update.do?apiId=57665876&amp;opType=3&amp;selEnv=7544</a></td><td colspan="2" class="confluenceTd"><br/></td></tr></tbody></table></div><p><br/></p><h1 id="id-企微侧边栏聊天记录-5.埋点设计">5.埋点设计</h1><h1 id="id-企微侧边栏聊天记录-6.风险评估">6.风险评估</h1><h1 id="id-企微侧边栏聊天记录-7.排期">7.排期</h1><p><br/></p>
+                    </div>
+
+                                        <div class="pageSection group">
+                        <div class="pageSectionHeader">
+                            <h2 id="attachments" class="pageSectionTitle">Attachments:</h2>
+                        </div>
+
+                        <div class="greybox" align="left">
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/158620611/158620808.png">image2026-1-16_14-34-4.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/158620611/158620815.png">image2026-1-16_14-40-40.png</a> (image/png)
+                                <br/>
+                                                    </div>
+                    </div>
+                    
+                 
+                </div>             </div> 
+            <div id="footer" role="contentinfo">
+                <section class="footer-body">
+                    <p>Document generated by Confluence on 2026-04-10 10:44</p>
+                    <div id="footer-logo"><a href="http://www.atlassian.com/">Atlassian</a></div>
+                </section>
+            </div>
+        </div>     </body>
+</html>

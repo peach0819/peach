@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>大商家组 : 2、合成图技术方案</title>
+        <link rel="stylesheet" href="styles/site.css" type="text/css" />
+        <META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    </head>
+
+    <body class="theme-default aui-theme-default">
+        <div id="page">
+            <div id="main" class="aui-page-panel">
+                <div id="main-header">
+                    <div id="breadcrumb-section">
+                        <ol id="breadcrumbs">
+                            <li class="first">
+                                <span><a href="index.html">大商家组</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="82552158.html">触达中心</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="86620182.html">4、日常需求</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="158620597.html">2022需求</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="2022-Q1_86620184.html">2022 Q1</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="86629378.html">触达中心小程序封面支持合成图</a></span>
+                            </li>
+                                                </ol>
+                    </div>
+                    <h1 id="title-heading" class="pagetitle">
+                                                <span id="title-text">
+                            大商家组 : 2、合成图技术方案
+                        </span>
+                    </h1>
+                </div>
+
+                <div id="content" class="view">
+                    <div class="page-metadata">
+                        
+        
+    
+        
+    
+        
+        
+            Created by <span class='author'> dong.wang</span>, last modified on 2022-03-07
+                        </div>
+                    <div id="main-content" class="wiki-content group">
+                    <p><span style="color: rgb(0,0,0);"><style type='text/css'>/*<![CDATA[*/
+div.rbtoc1775789046395 {padding: 0px;}
+div.rbtoc1775789046395 ul {list-style: disc;margin-left: 0px;}
+div.rbtoc1775789046395 li {margin-left: 0px;padding-left: 0px;}
+
+/*]]>*/</style><div class='toc-macro rbtoc1775789046395'>
+<ul class='toc-indentation'>
+<li><a href='#id-2、合成图技术方案-一、背景'>一、背景</a>
+<ul class='toc-indentation'>
+<li><a href='#id-2、合成图技术方案-1、背景：'>          1、背景：</a></li>
+<li><a href='#id-2、合成图技术方案-2、demo：'>         2、demo：</a></li>
+</ul>
+</li>
+<li><a href='#id-2、合成图技术方案-二、业务目标'>二、业务目标</a></li>
+<li><a href='#id-2、合成图技术方案-三、产品描述'>三、产品描述</a>
+<ul class='toc-indentation'>
+<li><a href='#id-2、合成图技术方案-1、产品框架'>            1、产品框架       </a></li>
+<li><a href='#id-2、合成图技术方案-2、产品核心流程'>            2、产品核心流程</a></li>
+</ul>
+</li>
+<li><a href='#id-2、合成图技术方案-四、名词/术语解释'>四、名词/术语解释</a></li>
+<li><a href='#id-2、合成图技术方案-五、用例'>五、用例         </a></li>
+<li><a href='#id-2、合成图技术方案-六、业务流程'>六、业务流程     </a></li>
+<li><a href='#id-2、合成图技术方案-七、领域模型'>七、领域模型      </a></li>
+<li><a href='#id-2、合成图技术方案-八、系统设计'>八、系统设计</a>
+<ul class='toc-indentation'>
+<li><a href='#id-2、合成图技术方案-1、系统架构'>      1、系统架构               </a></li>
+<li><a href='#id-2、合成图技术方案-2、核心、关键点设计'>      2、核心、关键点设计</a></li>
+<li><a href='#id-2、合成图技术方案-3、核心处理流程'>      3、核心处理流程</a>
+<ul class='toc-indentation'>
+<li><a href='#id-2、合成图技术方案-3.1、触达任务生成明细流程'>3.1、触达任务生成明细流程</a></li>
+<li><a href='#id-2、合成图技术方案-3.2、图片合成'>3.2、图片合成</a></li>
+<li><a href='#id-2、合成图技术方案-3.3、图片转换为小程序素材图'>3.3、图片转换为小程序素材图</a></li>
+<li><a href='#id-2、合成图技术方案-3.4、云桌面避免获取重复数据'>3.4、云桌面避免获取重复数据</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href='#id-2、合成图技术方案-九、类图'>九、类图</a></li>
+<li><a href='#id-2、合成图技术方案-十、数据库设计'>十、数据库设计</a>
+<ul class='toc-indentation'>
+<li><a href='#id-2、合成图技术方案-1、数据库ER图'>           1、数据库ER图           </a></li>
+<li><a href='#id-2、合成图技术方案-2、数据库表结构'>           2、数据库表结构</a></li>
+<li><a href='#id-2、合成图技术方案-3、对读写分离的考虑'>           3、对读写分离的考虑</a></li>
+<li><a href='#id-2、合成图技术方案-4、对数据库性能的影响'>          4、对数据库性能的影响</a></li>
+</ul>
+</li>
+<li><a href='#id-2、合成图技术方案-十一、搜索设计'>十一、搜索设计</a>
+<ul class='toc-indentation'>
+<li><a href='#id-2、合成图技术方案-1、索引结构'>       1、索引结构</a></li>
+<li><a href='#id-2、合成图技术方案-2、查询条件组装'>       2、查询条件组装</a></li>
+<li><a href='#id-2、合成图技术方案-3、返回结果解析'>       3、返回结果解析</a></li>
+</ul>
+</li>
+<li><a href='#id-2、合成图技术方案-十二、接口设计'>十二、接口设计</a>
+<ul class='toc-indentation'>
+<li><a href='#id-2、合成图技术方案-1、Dubbo接口'>         1、Dubbo接口</a></li>
+<li><a href='#id-2、合成图技术方案-2、hop接口'>   2、hop接口</a></li>
+</ul>
+</li>
+<li><a href='#id-2、合成图技术方案-十三、涉及数仓的设计'>十三、涉及数仓的设计</a>
+<ul class='toc-indentation'>
+<li><a href='#id-2、合成图技术方案-1、edp任务'>           1、edp任务</a></li>
+<li><a href='#id-2、合成图技术方案-2、回流表'>2、回流表</a></li>
+</ul>
+</li>
+<li><a href='#id-2、合成图技术方案-十四、中间件配置相关'>十四、中间件配置相关</a>
+<ul class='toc-indentation'>
+<li><a href='#id-2、合成图技术方案-1、disconf配置'>         1、disconf配置</a></li>
+</ul>
+</li>
+<li><a href='#id-2、合成图技术方案-十五、非功能性需求'>十五、非功能性需求</a>
+<ul class='toc-indentation'>
+<li><a href='#id-2、合成图技术方案-1、性能'>          1、性能</a></li>
+<li><a href='#id-2、合成图技术方案-2、权限'>          2、权限</a></li>
+<li><a href='#id-2、合成图技术方案-3、数据初始化'>          3、数据初始化</a></li>
+<li><a href='#id-2、合成图技术方案-4、数据订正'>          4、数据订正</a></li>
+</ul>
+</li>
+</ul>
+</div></span></p><p><br/></p><p><br/></p><p style="text-align: left;"><span style="color: rgb(0,0,0);"><a href="http://k.yangtuojia.com/pages/viewpage.action?pageId=77058795">涂色侧边栏前端技术方案</a></span></p><h2 style="text-align: left;" id="id-2、合成图技术方案-一、背景"><span style="color: rgb(0,0,0);">一、背景</span></h2><h4 style="text-align: left;" id="id-2、合成图技术方案-1、背景："><span style="color: rgb(0,0,0);">          1、背景：</span></h4><p><span style="color: rgb(0,0,0);"><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" height="400" src="attachments/86630784/86630801.png" data-image-src="attachments/86630784/86630801.png" data-unresolved-comment-count="0" data-linked-resource-id="86630801" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2022-3-1_17-10-24.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="86630784" data-linked-resource-container-version="22"></span></span></p><h4 style="text-align: left;" id="id-2、合成图技术方案-2、demo："><span style="color: rgb(0,0,0);">         2、demo：</span></h4><p style="text-align: left;"><span style="color: rgb(0,0,0);"><em>        <a class="external-link" href="http://demo.yangtuojia.com/B2C/%E4%BA%A4%E6%98%93%E7%BB%84/01%E6%97%A5%E5%B8%B8/2022%E7%AC%AC1%E5%AD%A3%E5%BA%A6/%E5%B0%8F%E7%A8%8B%E5%BA%8Flist/demo/#id=ys94u3&amp;p=%E7%89%88%E6%9C%AC%E8%AE%B0%E5%BD%95&amp;g=1" rel="nofollow">http://demo.yangtuojia.com/B2C/%E4%BA%A4%E6%98%93%E7%BB%84/01%E6%97%A5%E5%B8%B8/2022%E7%AC%AC1%E5%AD%A3%E5%BA%A6/%E5%B0</a></em></span><span style="color: rgb(0,0,0);"><em><a class="external-link" href="http://demo.yangtuojia.com/B2C/%E4%BA%A4%E6%98%93%E7%BB%84/01%E6%97%A5%E5%B8%B8/2022%E7%AC%AC1%E5%AD%A3%E5%BA%A6/%E5%B0%8F%E7%A8%8B%E5%BA%8Flist/demo/#id=ys94u3&amp;p=%E7%89%88%E6%9C%AC%E8%AE%B0%E5%BD%95&amp;g=1" rel="nofollow">%8F%E7%A8%8B%E5%BA%8Flist/demo/#id=ys94u3&amp;p=%E7%89%88%E6%9C%AC%E8%AE%B0%E5%BD%95&amp;g=1</a></em></span></p><h2 style="text-align: left;" id="id-2、合成图技术方案-二、业务目标"><span style="color: rgb(0,0,0);">二、业务目标</span></h2><p style="text-align: left;"><span>企微push小程序 打开率</span></p><p style="text-align: left;"><span>企微push小程序 下单率</span></p><h2 style="text-align: left;" id="id-2、合成图技术方案-三、产品描述"><span style="color: rgb(0,0,0);">三、产品描述</span></h2><h4 style="text-align: left;" id="id-2、合成图技术方案-1、产品框架"><span style="color: rgb(0,0,0);">            1、产品框架       </span></h4><h4 style="text-align: left;" id="id-2、合成图技术方案-2、产品核心流程"><span style="color: rgb(0,0,0);">            2、产品核心流程</span></h4><h2 style="text-align: left;" id="id-2、合成图技术方案-四、名词/术语解释"><span style="color: rgb(0,0,0);">四、名词/术语解释</span></h2><h2 style="text-align: left;" id="id-2、合成图技术方案-五、用例"><span style="color: rgb(0,0,0);">五、用例<em>         </em></span></h2><h2 style="text-align: left;" id="id-2、合成图技术方案-六、业务流程"><span style="color: rgb(0,0,0);">六、业务流程     </span></h2><p><span style="color: rgb(0,0,0);"><a class="external-link" href="http://demo.yangtuojia.com/B2C/%E4%BA%A4%E6%98%93%E7%BB%84/01%E6%97%A5%E5%B8%B8/2022%E7%AC%AC1%E5%AD%A3%E5%BA%A6/%E5%B0%8F%E7%A8%8B%E5%BA%8Flist/demo/#id=sar9g1&amp;p=2_%E6%B5%81%E7%A8%8B%E5%9B%BE&amp;g=1" rel="nofollow">http://demo.yangtuojia.com/B2C/%E4%BA%A4%E6%98%93%E7%BB%84/01%E6%97%A5%E5%B8%B8/2022%E7%AC%AC1%E5%AD%A3%E5%BA%A6/%E5%B0%8F%</a></span><span style="color: rgb(0,0,0);"><a class="external-link" href="http://demo.yangtuojia.com/B2C/%E4%BA%A4%E6%98%93%E7%BB%84/01%E6%97%A5%E5%B8%B8/2022%E7%AC%AC1%E5%AD%A3%E5%BA%A6/%E5%B0%8F%E7%A8%8B%E5%BA%8Flist/demo/#id=sar9g1&amp;p=2_%E6%B5%81%E7%A8%8B%E5%9B%BE&amp;g=1" rel="nofollow">E7%A8%8B%E5%BA%8Flist/demo/#id=sar9g1&amp;p=2_%E6%B5%81%E7%A8%8B%E5%9B%BE&amp;g=1</a></span></p><h2 style="text-align: left;" id="id-2、合成图技术方案-七、领域模型"><span style="color: rgb(0,0,0);">七、领域模型      </span></h2><h2 style="text-align: left;" id="id-2、合成图技术方案-八、系统设计"><span style="color: rgb(0,0,0);">八、系统设计</span></h2><h4 style="text-align: left;" id="id-2、合成图技术方案-1、系统架构"><span style="color: rgb(0,0,0);">      1、系统架构      <span class="confluence-embedded-file-wrapper">         </span></span></h4><h4 style="text-align: left;" id="id-2、合成图技术方案-2、核心、关键点设计"><span class="confluence-embedded-file-wrapper" style="color: rgb(0,0,0);">      2、核心、关键点设计</span></h4><h4 style="text-align: left;" id="id-2、合成图技术方案-3、核心处理流程"><span style="color: rgb(0,0,0);">      3、核心处理流程</span></h4><h5 style="text-align: left;margin-left: 30.0px;" id="id-2、合成图技术方案-3.1、触达任务生成明细流程"><span style="color: rgb(0,0,0);">3.1、触达任务生成明细流程</span></h5><p><span style="color: rgb(0,0,0);"><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" height="400" src="attachments/86630784/86632155.jpg" data-image-src="attachments/86630784/86632155.jpg" data-unresolved-comment-count="0" data-linked-resource-id="86632155" data-linked-resource-version="2" data-linked-resource-type="attachment" data-linked-resource-default-alias="任务启动流程.jpg" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/jpeg" data-linked-resource-container-id="86630784" data-linked-resource-container-version="22"></span></span></p><h5 style="text-align: left;margin-left: 30.0px;" id="id-2、合成图技术方案-3.2、图片合成"><span style="color: rgb(0,0,0);">3.2、图片合成</span></h5><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" height="250" src="attachments/86630784/86632330.jpg" data-image-src="attachments/86630784/86632330.jpg" data-unresolved-comment-count="0" data-linked-resource-id="86632330" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="合成素材 (1).jpg" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/jpeg" data-linked-resource-container-id="86630784" data-linked-resource-container-version="22"></span></p><h5 style="text-align: left;margin-left: 30.0px;" id="id-2、合成图技术方案-3.3、图片转换为小程序素材图"><span style="color: rgb(0,0,0);">3.3、图片转换为小程序素材图</span></h5><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" height="400" src="attachments/86630784/86632218.jpg" data-image-src="attachments/86630784/86632218.jpg" data-unresolved-comment-count="0" data-linked-resource-id="86632218" data-linked-resource-version="2" data-linked-resource-type="attachment" data-linked-resource-default-alias="转换素材服务.jpg" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/jpeg" data-linked-resource-container-id="86630784" data-linked-resource-container-version="22"></span></p><h5 style="text-align: left;margin-left: 30.0px;" id="id-2、合成图技术方案-3.4、云桌面避免获取重复数据"><span style="color: rgb(0,0,0);">3.4、云桌面避免获取重复数据</span></h5><p><span style="color: rgb(0,0,0);"><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" height="400" src="attachments/86630784/86632498.jpg" data-image-src="attachments/86630784/86632498.jpg" data-unresolved-comment-count="0" data-linked-resource-id="86632498" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="数据重复避免.jpg" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/jpeg" data-linked-resource-container-id="86630784" data-linked-resource-container-version="22"></span></span></p><h2 style="text-align: left;" id="id-2、合成图技术方案-九、类图"><span style="color: rgb(0,0,0);">九、类图</span></h2><p style="text-align: left;"><span style="color: rgb(0,0,0);">            对关键核心代码模块做代码结构的设计，要把类的关键方法和相互之间的关系表达清楚，例如：</span></p><h2 style="text-align: left;" id="id-2、合成图技术方案-十、数据库设计"><span style="color: rgb(0,0,0);">十、数据库设计</span></h2><p><br/></p><h4 style="text-align: left;" id="id-2、合成图技术方案-1、数据库ER图"><span style="color: rgb(0,0,0);">           1、数据库ER图</span><span style="color: rgb(0,0,0);">           </span></h4><h4 style="text-align: left;" id="id-2、合成图技术方案-2、数据库表结构"><span style="color: rgb(0,0,0);">           2、数据库表结构</span></h4><h4 style="text-align: left;" id="id-2、合成图技术方案-3、对读写分离的考虑"><span style="color: rgb(0,0,0);">           3、对读写分离的考虑</span></h4><p style="text-align: left;"><span style="color: rgb(0,0,0);">           主要考虑的场景是对变更数据的快速（当前线程）、高并发获取，从库在同步主库数据的过程中会存在时延，而且时长可能出现比较大的情况，所以如果存在类似的场景需要指定读取走主库。</span></p><h4 style="text-align: left;" id="id-2、合成图技术方案-4、对数据库性能的影响"><span style="color: rgb(0,0,0);">          4、对数据库性能的影响</span></h4><p style="text-align: left;"><span style="color: rgb(0,0,0);">         如是否存在大数据量的写入，删除，更新操作对数据库链接数，cpu等存在影响，如有需要在方案上体现如何应对。</span></p><h2 style="text-align: left;" id="id-2、合成图技术方案-十一、搜索设计"><span style="color: rgb(0,0,0);">十一、搜索设计</span></h2><h4 style="text-align: left;" id="id-2、合成图技术方案-1、索引结构"><span style="color: rgb(0,0,0);">       1、索引结构</span></h4><h4 style="text-align: left;" id="id-2、合成图技术方案-2、查询条件组装"><span style="color: rgb(0,0,0);">       2、查询条件组装</span></h4><h4 style="text-align: left;" id="id-2、合成图技术方案-3、返回结果解析"><span style="color: rgb(0,0,0);">       3、返回结果解析</span></h4><h2 style="text-align: left;" id="id-2、合成图技术方案-十二、接口设计"><span style="color: rgb(0,0,0);">十二、接口设计</span></h2><h4 style="text-align: left;" id="id-2、合成图技术方案-1、Dubbo接口"><span style="color: rgb(0,0,0);">         1、Dubbo接口</span></h4><div class="table-wrap"><table class="wrapped confluenceTable"><colgroup><col/><col/><col/><col/><col/></colgroup><tbody><tr><th class="confluenceTh"><span style="color: rgb(0,0,0);">接口功能描述</span></th><th class="confluenceTh"><span style="color: rgb(0,0,0);">接口声明</span></th><th class="confluenceTh"><span style="color: rgb(0,0,0);">接口是否存在富客户端缓存</span></th><th class="confluenceTh"><span style="color: rgb(0,0,0);">变更类型（新增/更新）</span></th><th class="confluenceTh"><span style="color: rgb(0,0,0);">变更描述</span></th></tr></tbody></table></div><h4 style="text-align: left;" id="id-2、合成图技术方案-2、hop接口"><span style="color: rgb(0,0,0);">   2、hop接口</span></h4><div class="table-wrap"><table class="relative-table wrapped confluenceTable" style="width: 92.9375%;"><colgroup><col style="width: 7.6716%;"/><col style="width: 8.41184%;"/><col style="width: 23.8223%;"/><col style="width: 12.0458%;"/><col style="width: 5.24899%;"/></colgroup><tbody><tr><th class="confluenceTh"><span style="color: rgb(0,0,0);">接口功能描述</span></th><th class="confluenceTh"><span style="color: rgb(0,0,0);">接口名称</span></th><th colspan="1" class="confluenceTh">接口明细</th><th class="confluenceTh"><span style="color: rgb(0,0,0);">变更类型（新增/更新）</span></th><th class="confluenceTh"><span style="color: rgb(0,0,0);">变更描述</span></th></tr><tr><td class="confluenceTd"><br/></td><td class="confluenceTd"><br/></td><td colspan="1" class="confluenceTd"><br/></td><td class="confluenceTd"><br/></td><td class="confluenceTd"><br/></td></tr><tr><td colspan="1" class="confluenceTd"><br/></td><td colspan="1" class="confluenceTd"><br/></td><td colspan="1" class="confluenceTd"><br/></td><td colspan="1" class="confluenceTd"><br/></td><td colspan="1" class="confluenceTd"><br/></td></tr></tbody></table></div><h2 style="text-align: left;" id="id-2、合成图技术方案-十三、涉及数仓的设计"><span style="color: rgb(0,0,0);">十三、涉及数仓的设计</span></h2><h4 style="text-align: left;" id="id-2、合成图技术方案-1、edp任务"><span style="color: rgb(0,0,0);">           1、edp任务</span></h4><div class="table-wrap"><table class="wrapped confluenceTable"><colgroup><col/><col/><col/><col/><col/><col/></colgroup><tbody><tr><th class="confluenceTh"><span style="color: rgb(0,0,0);">项目名称</span></th><th class="confluenceTh"><span style="color: rgb(0,0,0);">项目地址</span></th><th class="confluenceTh"><span style="color: rgb(0,0,0);">任务名称</span></th><th class="confluenceTh"><span style="color: rgb(0,0,0);">调度时间</span></th><th class="confluenceTh"><span style="color: rgb(0,0,0);">变更类型（新增/更新）</span></th><th class="confluenceTh"><span style="color: rgb(0,0,0);">变更描述</span></th></tr><tr><td class="confluenceTd"><br/></td><td class="confluenceTd"><br/></td><td class="confluenceTd"><br/></td><td class="confluenceTd"><br/></td><td class="confluenceTd"><br/></td><td class="confluenceTd"><br/></td></tr><tr><td class="confluenceTd"><br/></td><td class="confluenceTd"><br/></td><td class="confluenceTd"><br/></td><td class="confluenceTd"><br/></td><td class="confluenceTd"><br/></td><td class="confluenceTd"><br/></td></tr></tbody></table></div><h4 style="text-align: left;margin-left: 30.0px;" id="id-2、合成图技术方案-2、回流表"><span style="color: rgb(0,0,0);">2、回流表</span></h4><h2 style="text-align: left;" id="id-2、合成图技术方案-十四、中间件配置相关"><span style="color: rgb(0,0,0);">十四、中间件配置相关</span></h2><h4 style="text-align: left;" id="id-2、合成图技术方案-1、disconf配置"><span style="color: rgb(0,0,0);">         1、disconf配置</span></h4><h2 style="text-align: left;" id="id-2、合成图技术方案-十五、非功能性需求"><span style="color: rgb(0,0,0);">十五、非功能性需求</span></h2><h4 style="text-align: left;" id="id-2、合成图技术方案-1、性能"><span style="color: rgb(0,0,0);">          1、性能</span></h4><div class="table-wrap"><table class="wrapped confluenceTable"><colgroup><col/><col/><col/></colgroup><tbody><tr><th class="confluenceTh"><span style="color: rgb(0,0,0);">duboo接口声明</span></th><th class="confluenceTh"><span style="color: rgb(0,0,0);">需要满足的qps</span></th><th class="confluenceTh"><span style="color: rgb(0,0,0);">需要满足的rt</span></th></tr><tr><td class="confluenceTd"><br/></td><td class="confluenceTd"><br/></td><td class="confluenceTd"><br/></td></tr><tr><td class="confluenceTd"><br/></td><td class="confluenceTd"><br/></td><td class="confluenceTd"><br/></td></tr></tbody></table></div><h4 style="text-align: left;" id="id-2、合成图技术方案-2、权限"><span style="color: rgb(0,0,0);">       </span><span style="color: rgb(0,0,0);">   2、权限</span></h4><p style="text-align: left;"><span style="color: rgb(0,0,0);">          把需要添加的权限罗列清楚</span></p><h4 style="text-align: left;" id="id-2、合成图技术方案-3、数据初始化"><span style="color: rgb(0,0,0);">          3、数据初始化</span></h4><p style="text-align: left;"><span style="color: rgb(0,0,0);">          把需要进行数据初始化的场景说明清楚，初始化脚本可在上线前的发布计划中确定和评审</span></p><h4 style="text-align: left;" id="id-2、合成图技术方案-4、数据订正"><span style="color: rgb(0,0,0);">          4、数据订正</span></h4><p style="text-align: left;"><span style="color: rgb(0,0,0);">          把需要进行数据订正的场景说明清楚，具体的订正脚本可以在上线前的发布计划中确定和评审</span></p><p style="text-align: left;"><br/></p><p style="text-align: left;"><br/></p><p style="text-align: left;"><br/></p><p style="text-align: left;"><br/></p><p style="text-align: left;"><br/></p><p><br/></p><p><br/></p>
+                    </div>
+
+                                        <div class="pageSection group">
+                        <div class="pageSectionHeader">
+                            <h2 id="attachments" class="pageSectionTitle">Attachments:</h2>
+                        </div>
+
+                        <div class="greybox" align="left">
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/86630784/86630785.jpg">企微侧边栏免登.jpg</a> (image/jpeg)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/86630784/86630786.jpg">涂色侧边栏免登.jpg</a> (image/jpeg)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/86630784/86630801.png">image2022-3-1_17-10-24.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/86630784/86632266.jpg">任务启动流程.jpg</a> (image/jpeg)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/86630784/86632196.jpg">系统架构.jpg</a> (image/jpeg)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/86630784/86632210.jpg">系统架构 (1).jpg</a> (image/jpeg)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/86630784/86632367.jpg">转换素材服务.jpg</a> (image/jpeg)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/86630784/86632155.jpg">任务启动流程.jpg</a> (image/jpeg)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/86630784/86632319.jpg">合成素材.jpg</a> (image/jpeg)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/86630784/86632330.jpg">合成素材 (1).jpg</a> (image/jpeg)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/86630784/86632218.jpg">转换素材服务.jpg</a> (image/jpeg)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/86630784/86632498.jpg">数据重复避免.jpg</a> (image/jpeg)
+                                <br/>
+                                                    </div>
+                    </div>
+                    
+                 
+                </div>             </div> 
+            <div id="footer" role="contentinfo">
+                <section class="footer-body">
+                    <p>Document generated by Confluence on 2026-04-10 10:44</p>
+                    <div id="footer-logo"><a href="http://www.atlassian.com/">Atlassian</a></div>
+                </section>
+            </div>
+        </div>     </body>
+</html>

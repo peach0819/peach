@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>大商家组 : 20240103_大门店项目_日常技术方案</title>
+        <link rel="stylesheet" href="styles/site.css" type="text/css" />
+        <META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    </head>
+
+    <body class="theme-default aui-theme-default">
+        <div id="page">
+            <div id="main" class="aui-page-panel">
+                <div id="main-header">
+                    <div id="breadcrumb-section">
+                        <ol id="breadcrumbs">
+                            <li class="first">
+                                <span><a href="index.html">大商家组</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="82552158.html">触达中心</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="86620182.html">4、日常需求</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="158620599.html">2023需求</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="2023-Q4_130097630.html">2023 Q4</a></span>
+                            </li>
+                                                </ol>
+                    </div>
+                    <h1 id="title-heading" class="pagetitle">
+                                                <span id="title-text">
+                            大商家组 : 20240103_大门店项目_日常技术方案
+                        </span>
+                    </h1>
+                </div>
+
+                <div id="content" class="view">
+                    <div class="page-metadata">
+                        
+        
+    
+        
+    
+        
+        
+            Created by <span class='author'> kai.wang</span>, last modified on 2024-01-03
+                        </div>
+                    <div id="main-content" class="wiki-content group">
+                    <h1 id="id-20240103_大门店项目_日常技术方案-一.需求背景">一. 需求背景</h1><p><a class="external-link" href="https://hidemo.yangtuojia.com/view/tracker/TRACKER-15986/4065#id=lgmugr&amp;p=crm_app-____-p0" rel="nofollow">https://hidemo.yangtuojia.com/view/tracker/TRACKER-15986/4065#id=lgmugr&amp;p=crm_app-____-p0</a></p><p><br/></p><h1 id="id-20240103_大门店项目_日常技术方案-二.目标">二. 目标</h1><ol><li>crmapp 门店详情回A类大门店奖励品牌明细</li><li>pc 新增A类大门店奖励品牌列表</li></ol><p><br/></p><h1 id="id-20240103_大门店项目_日常技术方案-三.接口文档">三. 接口文档</h1><h2 id="id-20240103_大门店项目_日常技术方案-1.门店详情">1.门店详情</h2><div class="table-wrap"><table class="relative-table wrapped confluenceTable" style="width: 71.7724%;"><colgroup><col style="width: 10.2747%;"/><col style="width: 21.058%;"/><col style="width: 11.3937%;"/><col style="width: 11.9023%;"/><col style="width: 45.3713%;"/></colgroup><thead><tr><th style="text-align: left;" class="confluenceTh"><p>接口功能描述</p></th><th style="text-align: left;" class="confluenceTh"><p>接口名称</p></th><th colspan="1" style="text-align: left;" class="confluenceTh"><p>变更类型（新增/更新）</p></th><th colspan="1" style="text-align: left;" class="confluenceTh"><p>hop地址</p></th><th colspan="1" style="text-align: left;" class="confluenceTh"><p>变更描述</p></th></tr></thead><tbody><tr><td style="text-align: left;" class="confluenceTd">crmapp门店详情</td><td style="text-align: left;" class="confluenceTd"><span style="color: rgb(51,51,51);">hipac.crmapp.shopDetail.get</span></td><td colspan="1" style="text-align: left;" class="confluenceTd">更新</td><td colspan="1" style="text-align: left;" class="confluenceTd"><a class="external-link" href="https://master-adminapi.yangtuojia.com/add-update.do?apiId=50270030&amp;opType=3&amp;selEnv=6843" rel="nofollow">接口文档地址</a></td><td colspan="1" style="text-align: left;" class="confluenceTd"><ul><li><span style="color: rgb(0,51,102);">新增子对象 </span><span style="color: rgb(0,51,102);">appShopRewardBrandCount</span></li><li><span style="color: rgb(0,51,102);">内部属性 </span><span style="color: rgb(0,51,102);">shopRewardBrandCount</span></li></ul></td></tr></tbody></table></div><p><br/></p><h2 id="id-20240103_大门店项目_日常技术方案-2.奖励汇总">2.奖励汇总</h2><div class="table-wrap"><table class="wrapped confluenceTable"><colgroup><col/><col/><col/><col/><col/></colgroup><thead><tr><th style="text-align: left;" class="confluenceTh"><p>接口功能描述</p></th><th style="text-align: left;" class="confluenceTh"><p>接口名称</p></th><th colspan="1" style="text-align: left;" class="confluenceTh"><p>变更类型（新增/更新）</p></th><th colspan="1" style="text-align: left;" class="confluenceTh"><p>hop地址</p></th><th colspan="1" style="text-align: left;" class="confluenceTh"><p>变更描述</p></th></tr></thead><tbody><tr><td style="text-align: left;" class="confluenceTd">PC奖励汇总列表查询</td><td style="text-align: left;" class="confluenceTd"><p>hipac.crm.shop.queryRewardBrand</p></td><td colspan="1" style="text-align: left;" class="confluenceTd">新增</td><td colspan="1" style="text-align: left;" class="confluenceTd"><a class="external-link" href="https://master-adminapi.yangtuojia.com/add-update.do?apiId=50287367&amp;opType=3&amp;selEnv=6843&amp;ref=hione" rel="nofollow">接口文档地址</a></td><td colspan="1" style="text-align: left;" class="confluenceTd"><br/></td></tr><tr><td colspan="1" class="confluenceTd">PC奖励汇总列表导出</td><td colspan="1" class="confluenceTd">hipac.crm.shop.exportRewardBrand</td><td colspan="1" class="confluenceTd">新增</td><td colspan="1" class="confluenceTd"><a class="external-link" href="https://master-adminapi.yangtuojia.com/add-update.do?apiId=50307181&amp;opType=3&amp;selEnv=6843&amp;ref=hione" rel="nofollow">接口文档地址</a></td><td colspan="1" class="confluenceTd"><br/></td></tr></tbody></table></div>
+                    </div>
+
+                    
+                 
+                </div>             </div> 
+            <div id="footer" role="contentinfo">
+                <section class="footer-body">
+                    <p>Document generated by Confluence on 2026-04-10 10:44</p>
+                    <div id="footer-logo"><a href="http://www.atlassian.com/">Atlassian</a></div>
+                </section>
+            </div>
+        </div>     </body>
+</html>

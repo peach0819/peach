@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>大商家组 : touch-center redis连接问题记录</title>
+        <link rel="stylesheet" href="styles/site.css" type="text/css" />
+        <META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    </head>
+
+    <body class="theme-default aui-theme-default">
+        <div id="page">
+            <div id="main" class="aui-page-panel">
+                <div id="main-header">
+                    <div id="breadcrumb-section">
+                        <ol id="breadcrumbs">
+                            <li class="first">
+                                <span><a href="index.html">大商家组</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="82552158.html">触达中心</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="82552162.html">6、问题排查</a></span>
+                            </li>
+                                                </ol>
+                    </div>
+                    <h1 id="title-heading" class="pagetitle">
+                                                <span id="title-text">
+                            大商家组 : touch-center redis连接问题记录
+                        </span>
+                    </h1>
+                </div>
+
+                <div id="content" class="view">
+                    <div class="page-metadata">
+                        
+        
+    
+        
+    
+        
+        
+            Created by <span class='author'> tao.zheng8833</span> on 2021-11-20
+                        </div>
+                    <div id="main-content" class="wiki-content group">
+                    <p>11.18日晚上，touch-center应用进行发布，发布后通过ops确认redis企微资源分配信息是否正常，此时意外的发现，线上ecs集群和k8s集群的企微资源分配信息不同（同一个rediskey）</p><p>经过代码逻辑梳理，调用的是统一个方法，不存在特殊的内部处理逻辑</p><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" height="250" src="attachments/82550069/82550072.png" data-image-src="attachments/82550069/82550072.png" data-unresolved-comment-count="0" data-linked-resource-id="82550072" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2021-11-20_10-39-36.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="82550069" data-linked-resource-container-version="1"></span></p><p>并且，连接的是同一个redis cfgkey，不存在差异</p><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" height="147" src="attachments/82550069/82550073.png" data-image-src="attachments/82550069/82550073.png" data-unresolved-comment-count="0" data-linked-resource-id="82550073" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2021-11-20_10-40-33.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="82550069" data-linked-resource-container-version="1"></span></p><p>遂猜测，要么是线上redis根据集群进行隔离，要么就是ytasd-redis拼接key的时候，根据集群进行了区分。</p><p><br/></p><p>11.19早复现该问题，可以看到截图中的ecs和k8s集群分别调用ops，获取到的redis的值是不一样的，反馈问题给小橘，小橘排查，线上redis库内的值是跟ecs的值是一致的，那么问题就出在k8s机器上</p><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image confluence-thumbnail" height="250" src="attachments/82550069/82550070.png" data-image-src="attachments/82550069/82550070.png" data-unresolved-comment-count="0" data-linked-resource-id="82550070" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2021-11-20_10-35-58.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="82550069" data-linked-resource-container-version="1"></span><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image confluence-thumbnail" height="250" src="attachments/82550069/82550074.png" data-image-src="attachments/82550069/82550074.png" data-unresolved-comment-count="0" data-linked-resource-id="82550074" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2021-11-20_10-42-17.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="82550069" data-linked-resource-container-version="1"></span><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" height="250" src="attachments/82550069/82550071.png" data-image-src="attachments/82550069/82550071.png" data-unresolved-comment-count="0" data-linked-resource-id="82550071" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2021-11-20_10-36-7.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="82550069" data-linked-resource-container-version="1"></span></p><p><br/></p><p>反馈该问题给张昱，并给出ytasd-redis拼接key问题的猜测，张昱确认后反馈，拼接key未进行集群区分</p><p><br/></p><p>随后登录了线上的ecs机器和k8s机器，执行了netstat的指令，发现6379端口连接到的是不同的ip，而通过Get redis cfg, host日志查询，从disconf上获取到的host地址是相同的，那么排除了disconf配置的问题。</p><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" height="250" src="attachments/82550069/82550075.png" data-image-src="attachments/82550069/82550075.png" data-unresolved-comment-count="0" data-linked-resource-id="82550075" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2021-11-20_10-45-29.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="82550069" data-linked-resource-container-version="1"></span></p><p><br/></p><p>这是disconf上touch-center的redis配置 host: <a class="external-link" href="http://r-bp1b289067545c64.redis.rds.aliyuncs.com" rel="nofollow">r-bp1b289067545c64.redis.rds.aliyuncs.com</a> 该机器询问小橘后确认地址为172.16.3.184，而线上ecs链接的为该ip，而k8s链接的为172.16.3.182，小橘查询后发现，182这台机器（<a class="external-link" href="http://r-bp1435501ff9f494.redis.rds.aliyuncs.com" rel="nofollow">r-bp1435501ff9f494.redis.rds.aliyuncs.com</a>）为icp的redis地址</p><p><br/></p><p>张昱猜测可能是host解析的问题，k8s集群的dns解析把原本应该解析到184的host解析到了182，</p><p>反馈问题给智深，智深排查后反馈，dns解析没有问题，返回的就是184机器的ip</p><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" height="250" src="attachments/82550069/82550076.png" data-image-src="attachments/82550069/82550076.png" data-unresolved-comment-count="0" data-linked-resource-id="82550076" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2021-11-20_10-50-21.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="82550069" data-linked-resource-container-version="1"></span></p><p>并且确认了ytasd-redis底层dns解析服务使用的就是机器自带的，即k8s的linux内核解析，理论上来说解析结果就是184机器无误，排除了域名解析的问题。</p><p><br/></p><p>于是又从代码本身进行了排查，发现yticp-api内部也存在redis的bean声明，并且bean的name和touch-center内部的bean的名字是一样的</p><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" height="250" src="attachments/82550069/82550077.png" data-image-src="attachments/82550069/82550077.png" data-unresolved-comment-count="0" data-linked-resource-id="82550077" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2021-11-20_10-52-33.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="82550069" data-linked-resource-container-version="1"></span></p><p>于是修改了touch-center的redis的bean名，但是发现还是没有解决问题</p><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" height="193" src="attachments/82550069/82550078.png" data-image-src="attachments/82550069/82550078.png" data-unresolved-comment-count="0" data-linked-resource-id="82550078" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2021-11-20_10-53-8.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="82550069" data-linked-resource-container-version="1"></span></p><p><br/></p><p>栋提出了猜测，是否可能跟单例线程池相关，在同一个机器中声明了多个rediscache的bean，并且都是单例的情况下，理论上是会出现这个问题的</p><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" height="250" src="attachments/82550069/82550080.png" data-image-src="attachments/82550069/82550080.png" data-unresolved-comment-count="0" data-linked-resource-id="82550080" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2021-11-20_10-54-45.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="82550069" data-linked-resource-container-version="1"></span></p><p>确认后发现，touch-center的cache配置，栋在升级disconf的时候，去掉了useSingletonPool=false这个条件；</p><p><br/></p><p>加上这个条件后重新部署，问题解决。</p><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" height="250" src="attachments/82550069/82550081.png" data-image-src="attachments/82550069/82550081.png" data-unresolved-comment-count="0" data-linked-resource-id="82550081" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2021-11-20_10-57-35.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="82550069" data-linked-resource-container-version="1"></span></p><p><br/></p><h3 id="touchcenterredis连接问题记录-结论：">结论：</h3><p>1、在应用中，存在多个rediscache的bean注册的时候，如果多个bean都是使用的单例线程池，那么后进行classload的bean，就会覆盖前面的bean的单例instance，导致在进行依赖注入的时候，读取到的实际上是后面的bean；同时对外开放的api中，如果涉及redis的引用，尽量不要使用单例线程池，避免对引用方产生干扰。</p><p>2、而之所以ecs机器是正常的，而k8s机器有问题，推测是因为不同集群类加载顺序存在差异导致的。</p><p>3、张昱这边也强调了一点，在升级redis cfgkey的时候，不要修改无关的参数</p><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" height="223" src="attachments/82550069/82550083.png" data-image-src="attachments/82550069/82550083.png" data-unresolved-comment-count="0" data-linked-resource-id="82550083" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2021-11-20_11-1-35.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="82550069" data-linked-resource-container-version="1"></span></p><p><br/></p><p><br/></p><p><br/></p><p><br/></p><p><br/></p>
+                    </div>
+
+                                        <div class="pageSection group">
+                        <div class="pageSectionHeader">
+                            <h2 id="attachments" class="pageSectionTitle">Attachments:</h2>
+                        </div>
+
+                        <div class="greybox" align="left">
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/82550069/82550070.png">image2021-11-20_10-35-58.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/82550069/82550071.png">image2021-11-20_10-36-7.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/82550069/82550072.png">image2021-11-20_10-39-36.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/82550069/82550073.png">image2021-11-20_10-40-33.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/82550069/82550074.png">image2021-11-20_10-42-17.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/82550069/82550075.png">image2021-11-20_10-45-29.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/82550069/82550076.png">image2021-11-20_10-50-21.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/82550069/82550077.png">image2021-11-20_10-52-33.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/82550069/82550078.png">image2021-11-20_10-53-8.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/82550069/82550079.png">image2021-11-20_10-53-54.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/82550069/82550080.png">image2021-11-20_10-54-45.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/82550069/82550081.png">image2021-11-20_10-57-35.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/82550069/82550082.png">image2021-11-20_11-1-16.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/82550069/82550083.png">image2021-11-20_11-1-35.png</a> (image/png)
+                                <br/>
+                                                    </div>
+                    </div>
+                    
+                 
+                </div>             </div> 
+            <div id="footer" role="contentinfo">
+                <section class="footer-body">
+                    <p>Document generated by Confluence on 2026-04-10 10:45</p>
+                    <div id="footer-logo"><a href="http://www.atlassian.com/">Atlassian</a></div>
+                </section>
+            </div>
+        </div>     </body>
+</html>

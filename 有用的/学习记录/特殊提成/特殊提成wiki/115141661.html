@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>大商家组 : 调度模板格式</title>
+        <link rel="stylesheet" href="styles/site.css" type="text/css" />
+        <META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    </head>
+
+    <body class="theme-default aui-theme-default">
+        <div id="page">
+            <div id="main" class="aui-page-panel">
+                <div id="main-header">
+                    <div id="breadcrumb-section">
+                        <ol id="breadcrumbs">
+                            <li class="first">
+                                <span><a href="index.html">大商家组</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="115136623.html">CRM薪资业务</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="115136628.html">2、特殊提成</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="115136632.html">2、系统架构设计</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="115140957.html">2）数仓调度架构模型</a></span>
+                            </li>
+                                                </ol>
+                    </div>
+                    <h1 id="title-heading" class="pagetitle">
+                                                <span id="title-text">
+                            大商家组 : 调度模板格式
+                        </span>
+                    </h1>
+                </div>
+
+                <div id="content" class="view">
+                    <div class="page-metadata">
+                        
+        
+    
+        
+    
+        
+        
+            Created by <span class='author'> tao.zheng8833</span>, last modified on 2023-03-16
+                        </div>
+                    <div id="main-content" class="wiki-content group">
+                    <h3 id="id-调度模板格式-核心问题：">核心问题：</h3><p>1）正逆向脚本 常规调度和补数调度，需要共用一套脚本（否则一套逻辑需要在多个脚本里维护，容易产生故障，造成资损）</p><p>2）补数的数据，应仅产出本次补数数据，不能影响历史正逆向数据</p><p>3）如果没有需要补数的数据，不应全量执行调度脚本，减少性能损耗</p><h3 id="id-调度模板格式-解决思路：">解决思路：</h3><p>解决问题1）通过dw_bounty_plan_schedule_d的调度日期字段（forward_date、backward_date、supply_date）和 shell脚本动态传参的能力解决</p><p>解决问题2）通过脚本调度仅运算本次需要运算的方案数据，并UNION ALL历史产出不需要运算的方案数据，最后再一起insert overwrite解决</p><p>解决问题3）通过shell脚本的临时运行变量赋值方式，先查询需要补数的方案以及补数日期，仅对这些需要补数的日期进行function调用，如果不需要补数直接exit</p><h3 id="id-调度模板格式-数据流程：">数据流程：</h3><p>抽象流程：</p><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" width="350" src="attachments/115141661/115141665.png" data-image-src="attachments/115141661/115141665.png" data-unresolved-comment-count="0" data-linked-resource-id="115141665" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2023-3-16_16-51-38.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="115141661" data-linked-resource-container-version="2"></span></p><p><br/></p><p>补数脚本（仅有需要补数的日期时，才补数）：</p><p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/115141661/115141669.png" data-image-src="attachments/115141661/115141669.png" data-unresolved-comment-count="0" data-linked-resource-id="115141669" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2023-3-16_16-54-48.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="115141661" data-linked-resource-container-version="2"></span></p><p><br/></p><p>正逆向脚本：</p><p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/115141661/115141664.png" data-image-src="attachments/115141661/115141664.png" data-unresolved-comment-count="0" data-linked-resource-id="115141664" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2023-3-16_16-51-11.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="115141661" data-linked-resource-container-version="2"></span></p>
+                    </div>
+
+                                        <div class="pageSection group">
+                        <div class="pageSectionHeader">
+                            <h2 id="attachments" class="pageSectionTitle">Attachments:</h2>
+                        </div>
+
+                        <div class="greybox" align="left">
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/115141661/115141664.png">image2023-3-16_16-51-11.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/115141661/115141665.png">image2023-3-16_16-51-38.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/115141661/115141669.png">image2023-3-16_16-54-48.png</a> (image/png)
+                                <br/>
+                                                    </div>
+                    </div>
+                    
+                 
+                </div>             </div> 
+            <div id="footer" role="contentinfo">
+                <section class="footer-body">
+                    <p>Document generated by Confluence on 2026-04-10 10:59</p>
+                    <div id="footer-logo"><a href="http://www.atlassian.com/">Atlassian</a></div>
+                </section>
+            </div>
+        </div>     </body>
+</html>

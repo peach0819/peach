@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>大商家组 : 4、基本提成-资损防控</title>
+        <link rel="stylesheet" href="styles/site.css" type="text/css" />
+        <META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    </head>
+
+    <body class="theme-default aui-theme-default">
+        <div id="page">
+            <div id="main" class="aui-page-panel">
+                <div id="main-header">
+                    <div id="breadcrumb-section">
+                        <ol id="breadcrumbs">
+                            <li class="first">
+                                <span><a href="index.html">大商家组</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="115136623.html">CRM薪资业务</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="115136626.html">1、基本提成</a></span>
+                            </li>
+                                                </ol>
+                    </div>
+                    <h1 id="title-heading" class="pagetitle">
+                                                <span id="title-text">
+                            大商家组 : 4、基本提成-资损防控
+                        </span>
+                    </h1>
+                </div>
+
+                <div id="content" class="view">
+                    <div class="page-metadata">
+                        
+        
+    
+        
+    
+        
+        
+            Created by <span class='author'> dong.wang</span>, last modified on 2021-03-15
+                        </div>
+                    <div id="main-content" class="wiki-content group">
+                    <h1 id="id-4、基本提成资损防控-一、整体流程"><style type='text/css'>/*<![CDATA[*/
+div.rbtoc1775789936048 {padding: 0px;}
+div.rbtoc1775789936048 ul {list-style: disc;margin-left: 0px;}
+div.rbtoc1775789936048 li {margin-left: 0px;padding-left: 0px;}
+
+/*]]>*/</style><div class='toc-macro rbtoc1775789936048'>
+<ul class='toc-indentation'>
+<li><a href='#id-4、基本提成资损防控-一、整体流程'>一、整体流程</a></li>
+<li><a href='#id-4、基本提成资损防控-二、具体业务流程'>二、具体业务流程</a></li>
+<li><a href='#id-4、基本提成资损防控-三、流程监控'>三、流程监控</a>
+<ul class='toc-indentation'>
+<li><a href='#id-4、基本提成资损防控-3.1、数据（业务规则沉淀）'>3.1、数据（业务规则沉淀）</a>
+<ul class='toc-indentation'>
+<li><a href='#id-4、基本提成资损防控-3.1.1、数据本身正确性'>3.1.1、数据本身正确性</a></li>
+<li><a href='#id-4、基本提成资损防控-3.1.2、业务本身存在的逻辑性校验'>3.1.2、业务本身存在的逻辑性校验</a></li>
+</ul>
+</li>
+<li><a href='#id-4、基本提成资损防控-3.2、程序'>3.2、程序</a></li>
+</ul>
+</li>
+<li><a href='#id-4、基本提成资损防控-四、降级策略'>四、降级策略</a>
+<ul class='toc-indentation'>
+<li><a href='#id-4、基本提成资损防控-1、异常邮件告警'>1、异常邮件告警</a></li>
+<li><a href='#id-4、基本提成资损防控-2、消息通知'>2、消息通知</a></li>
+</ul>
+</li>
+</ul>
+</div>一、整体流程</h1><p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image confluence-external-resource" alt="基本提成 (1).jpg" src="attachments/54503530/57056981.jpg" data-image-src="http://k.yangtuojia.com/download/attachments/54503530/%E5%9F%BA%E6%9C%AC%E6%8F%90%E6%88%90%20%281%29.jpg?version=1&amp;modificationDate=1610591412000&amp;api=v2"></span></p><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" width="1000" src="attachments/57075724/59236550.jpg" data-image-src="attachments/57075724/59236550.jpg" data-unresolved-comment-count="0" data-linked-resource-id="59236550" data-linked-resource-version="3" data-linked-resource-type="attachment" data-linked-resource-default-alias="流程抽象模型.jpg" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/jpeg" data-linked-resource-container-id="57075724" data-linked-resource-container-version="37"></span></p><p><br/></p><h1 id="id-4、基本提成资损防控-二、具体业务流程">二、具体业务流程</h1><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" width="600" src="attachments/57075724/59236722.jpg" data-image-src="attachments/57075724/59236722.jpg" data-unresolved-comment-count="0" data-linked-resource-id="59236722" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="具体业务流程 (1).jpg" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/jpeg" data-linked-resource-container-id="57075724" data-linked-resource-container-version="37"></span></p><p><br/></p><h1 id="id-4、基本提成资损防控-三、流程监控">三、流程监控</h1><h2 id="id-4、基本提成资损防控-3.1、数据（业务规则沉淀）">3.1、数据（业务规则沉淀）</h2><h3 id="id-4、基本提成资损防控-3.1.1、数据本身正确性">3.1.1、数据本身正确性</h3><p>1）订单归属是否双挂业务（服务商/crm）</p><p>2）门店服务人员-职能是否存在冲突   职能单挂，职能互斥，职能岗位互斥</p><p>3）薪资内人工上传数据准确性校验</p><h3 id="id-4、基本提成资损防控-3.1.2、业务本身存在的逻辑性校验">3.1.2、业务本身存在的逻辑性校验</h3><p>1）销售部门的提成 = 部门下所有销售提成总和  </p><p>2) 提成各提点分类是否会出现品牌属于多分类</p><h2 id="id-4、基本提成资损防控-3.2、程序">3.2、程序</h2><p>1）双程序并存，比对结果，校验程序的正确性  （测试人员）</p><p><br/></p><h1 id="id-4、基本提成资损防控-四、降级策略">四、降级策略</h1><h2 id="id-4、基本提成资损防控-1、异常邮件告警">1、异常邮件告警</h2><h2 id="id-4、基本提成资损防控-2、消息通知">2、消息通知</h2><p><br/></p>
+                    </div>
+
+                                        <div class="pageSection group">
+                        <div class="pageSectionHeader">
+                            <h2 id="attachments" class="pageSectionTitle">Attachments:</h2>
+                        </div>
+
+                        <div class="greybox" align="left">
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/57075724/59235638.drawio">流程模型.drawio</a> (application/octet-stream)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/57075724/59235639.jpg">流程模型.jpg</a> (image/jpeg)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/57075724/59236669.jpg">流程抽象模型.jpg</a> (image/jpeg)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/57075724/59236650.jpg">具体业务流程.jpg</a> (image/jpeg)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/57075724/59236563.jpg">具体业务流程.jpg</a> (image/jpeg)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/57075724/61057816.jpg">流程抽象模型.jpg</a> (image/jpeg)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/57075724/59236671.jpg">流程抽象模型 (1).jpg</a> (image/jpeg)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/57075724/59236722.jpg">具体业务流程 (1).jpg</a> (image/jpeg)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/57075724/59236550.jpg">流程抽象模型.jpg</a> (image/jpeg)
+                                <br/>
+                                                    </div>
+                    </div>
+                    
+                 
+                </div>             </div> 
+            <div id="footer" role="contentinfo">
+                <section class="footer-body">
+                    <p>Document generated by Confluence on 2026-04-10 10:58</p>
+                    <div id="footer-logo"><a href="http://www.atlassian.com/">Atlassian</a></div>
+                </section>
+            </div>
+        </div>     </body>
+</html>

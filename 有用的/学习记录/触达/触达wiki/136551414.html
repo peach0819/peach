@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>大商家组 : 涂色移动端登录技术方案</title>
+        <link rel="stylesheet" href="styles/site.css" type="text/css" />
+        <META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    </head>
+
+    <body class="theme-default aui-theme-default">
+        <div id="page">
+            <div id="main" class="aui-page-panel">
+                <div id="main-header">
+                    <div id="breadcrumb-section">
+                        <ol id="breadcrumbs">
+                            <li class="first">
+                                <span><a href="index.html">大商家组</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="82552158.html">触达中心</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="86620182.html">4、日常需求</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="158620601.html">2024需求</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="2024-Q2_133359508.html">2024 Q2</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="136551411.html">涂色移动端登录</a></span>
+                            </li>
+                                                </ol>
+                    </div>
+                    <h1 id="title-heading" class="pagetitle">
+                                                <span id="title-text">
+                            大商家组 : 涂色移动端登录技术方案
+                        </span>
+                    </h1>
+                </div>
+
+                <div id="content" class="view">
+                    <div class="page-metadata">
+                        
+        
+    
+        
+    
+        
+        
+            Created by <span class='author'> tao.zheng8833</span>, last modified on 2024-04-28
+                        </div>
+                    <div id="main-content" class="wiki-content group">
+                    <p><style type='text/css'>/*<![CDATA[*/
+div.rbtoc1775789071565 {padding: 0px;}
+div.rbtoc1775789071565 ul {list-style: disc;margin-left: 0px;}
+div.rbtoc1775789071565 li {margin-left: 0px;padding-left: 0px;}
+
+/*]]>*/</style><div class='toc-macro rbtoc1775789071565'>
+<ul class='toc-indentation'>
+<li><a href='#id-涂色移动端登录技术方案-一、背景'>一、背景</a></li>
+<li><a href='#id-涂色移动端登录技术方案-二、业务目标'>二、业务目标</a></li>
+<li><a href='#id-涂色移动端登录技术方案-三、产品描述'>三、产品描述</a></li>
+<li><a href='#id-涂色移动端登录技术方案-四、名词/术语解释'>四、名词/术语解释</a></li>
+<li><a href='#id-涂色移动端登录技术方案-五、用例'>五、用例</a></li>
+<li><a href='#id-涂色移动端登录技术方案-六、业务流程'>六、业务流程</a></li>
+<li><a href='#id-涂色移动端登录技术方案-七、领域模型'>七、领域模型</a></li>
+<li><a href='#id-涂色移动端登录技术方案-八、系统设计'>八、系统设计</a>
+<ul class='toc-indentation'>
+<li><a href='#id-涂色移动端登录技术方案-1、系统架构'>1、系统架构  </a></li>
+<li><a href='#id-涂色移动端登录技术方案-2、核心、关键点设计'>2、核心、关键点设计</a></li>
+<li><a href='#id-涂色移动端登录技术方案-3、核心处理流程'>3、核心处理流程</a></li>
+</ul>
+</li>
+<li><a href='#id-涂色移动端登录技术方案-九、类图'>九、类图</a></li>
+<li><a href='#id-涂色移动端登录技术方案-十、数据库设计'>十、数据库设计</a></li>
+<li><a href='#id-涂色移动端登录技术方案-十一、搜索设计'>十一、搜索设计</a></li>
+<li><a href='#id-涂色移动端登录技术方案-十二、接口设计'>十二、接口设计</a>
+<ul class='toc-indentation'>
+<li><a href='#id-涂色移动端登录技术方案-1、HOP接口'>1、HOP接口</a></li>
+</ul>
+</li>
+<li><a href='#id-涂色移动端登录技术方案-十三、涉及数仓的设计'>十三、涉及数仓的设计</a></li>
+<li><a href='#id-涂色移动端登录技术方案-十四、中间件配置相关'>十四、中间件配置相关</a></li>
+<li><a href='#id-涂色移动端登录技术方案-十五、非功能性需求'>十五、非功能性需求</a></li>
+</ul>
+</div></p><h2 id="id-涂色移动端登录技术方案-一、背景">一、背景</h2><p>为降低电销涂色离线率，并解决涂色扫码验证问题，需要在CRM内部提供入口让电销进行涂色登录以及扫码验证</p><h2 id="id-涂色移动端登录技术方案-二、业务目标">二、业务目标</h2><h2 id="id-涂色移动端登录技术方案-三、产品描述">三、产品描述</h2><p>demo：<a class="external-link" href="https://hidemo.yangtuojia.com/view/tracker/TRACKER-16083/4127#id=3zz2rj&amp;p=%E6%8E%89%E7%BA%BF%E9%80%9A%E7%9F%A5app&amp;g=1" rel="nofollow">https://hidemo.yangtuojia.com/view/tracker/TRACKER-16083/4127#id=3zz2rj&amp;p=%E6%8E%89%E7%BA%BF%E9%80%9A%E7%9F%A5app&amp;g=1</a></p><h2 id="id-涂色移动端登录技术方案-四、名词/术语解释">四、名词/术语解释</h2><h2 id="id-涂色移动端登录技术方案-五、用例"><span>五、用例</span></h2><h2 id="id-涂色移动端登录技术方案-六、业务流程">六、业务流程</h2><h2 id="id-涂色移动端登录技术方案-七、领域模型">七、领域模型</h2><h2 id="id-涂色移动端登录技术方案-八、系统设计">八、系统设计</h2><h4 id="id-涂色移动端登录技术方案-1、系统架构"><span style="color: rgb(255,0,0);"><span style="color: rgb(0,0,0);">1、系统架构 </span> </span></h4><h4 id="id-涂色移动端登录技术方案-2、核心、关键点设计"><span class="confluence-embedded-file-wrapper">2、核心、关键点设计</span></h4><p><span class="confluence-embedded-file-wrapper">涉及涂色接口：</span></p><div class="table-wrap"><table class="wrapped confluenceTable"><colgroup><col/><col/><col/><col/></colgroup><thead><tr><th style="text-align: left;" class="confluenceTh"><br/></th><th style="text-align: left;" class="confluenceTh"><p>接口名称</p><p>************************</p></th><th colspan="1" style="text-align: left;" class="confluenceTh"><p>接口地址</p><p>********************************************************************</p></th><th style="text-align: left;" class="confluenceTh"><p>备注</p><p>*********************************</p></th></tr></thead><tbody><tr><td style="text-align: left;" class="confluenceTd">1</td><td style="text-align: left;" class="confluenceTd">获取登录二维码</td><td colspan="1" style="text-align: left;" class="confluenceTd"><span style="color: rgb(59,72,89);">/thirdparty/wxLogin/authorization</span></td><td style="text-align: left;" class="confluenceTd">发起登录二维码请求</td></tr><tr><td colspan="1" style="text-align: left;" class="confluenceTd">2</td><td colspan="1" style="text-align: left;" class="confluenceTd">登录请求结果</td><td colspan="1" style="text-align: left;" class="confluenceTd">/thirdparty/wxLogin/getAuthorizationState</td><td colspan="1" style="text-align: left;" class="confluenceTd">轮询获取二维码</td></tr><tr><td colspan="1" style="text-align: left;" class="confluenceTd">3</td><td colspan="1" style="text-align: left;" class="confluenceTd">获取新设备验证二维码</td><td colspan="1" style="text-align: left;" class="confluenceTd"><span style="color: rgb(59,72,89);">/thirdparty/personal/loginGetQrcode</span></td><td colspan="1" style="text-align: left;" class="confluenceTd">发起新设备验证二维码请求</td></tr><tr><td colspan="1" style="text-align: left;" class="confluenceTd">4</td><td colspan="1" style="text-align: left;" class="confluenceTd">登录状态回调</td><td colspan="1" style="text-align: left;" class="confluenceTd">902500002</td><td colspan="1" style="text-align: left;" class="confluenceTd">二维码扫码成功回调</td></tr><tr><td colspan="1" style="text-align: left;" class="confluenceTd">5</td><td colspan="1" style="text-align: left;" class="confluenceTd">新设备二维码获取回调</td><td colspan="1" style="text-align: left;" class="confluenceTd">500007</td><td colspan="1" style="text-align: left;" class="confluenceTd">异步获取新设备二维码回调</td></tr></tbody></table></div><h4 id="id-涂色移动端登录技术方案-3、核心处理流程">3、核心处理流程</h4><p>整体交互：</p><p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/136551414/136551862.png" data-image-src="attachments/136551414/136551862.png" data-unresolved-comment-count="0" data-linked-resource-id="136551862" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2024-4-26_10-43-27.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="136551414" data-linked-resource-container-version="8"></span></p><p><br/></p><p>获取二维码：</p><p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/136551414/136551850.png" data-image-src="attachments/136551414/136551850.png" data-unresolved-comment-count="0" data-linked-resource-id="136551850" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2024-4-26_10-26-19.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="136551414" data-linked-resource-container-version="8"></span></p><p><br/></p><p>获取扫码状态：</p><p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/136551414/136551853.png" data-image-src="attachments/136551414/136551853.png" data-unresolved-comment-count="0" data-linked-resource-id="136551853" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2024-4-26_10-31-51.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="136551414" data-linked-resource-container-version="8"></span></p><p><br/></p><h2 id="id-涂色移动端登录技术方案-九、类图">九、类图</h2><h2 id="id-涂色移动端登录技术方案-十、数据库设计">十、数据库设计</h2><h2 id="id-涂色移动端登录技术方案-十一、搜索设计">十一、搜索设计</h2><h2 id="id-涂色移动端登录技术方案-十二、接口设计">十二、接口设计</h2><h4 id="id-涂色移动端登录技术方案-1、HOP接口">1、HOP接口</h4><div class="table-wrap"><table class="wrapped confluenceTable"><colgroup><col/><col/><col/><col/><col/></colgroup><thead><tr><th style="text-align: left;" class="confluenceTh"><p>接口功能描述</p></th><th style="text-align: left;" class="confluenceTh"><p>接口名称</p></th><th colspan="1" style="text-align: left;" class="confluenceTh"><p>变更类型（新增/更新）</p></th><th style="text-align: left;" class="confluenceTh"><p>hop地址</p></th><th colspan="1" style="text-align: left;" class="confluenceTh"><p>变更描述</p></th></tr></thead><tbody><tr><td style="text-align: left;" class="confluenceTd">查询小二关联企微号列表</td><td style="text-align: left;" class="confluenceTd">hipac.touchcenter.tuselogin.getTuseQwList</td><td colspan="1" style="text-align: left;" class="confluenceTd">新增</td><td style="text-align: left;" class="confluenceTd"><a class="external-link" href="https://master-adminapi.yangtuojia.com/add-update.do?apiId=51472636&amp;opType=3&amp;selEnv=6961" rel="nofollow">https://master-adminapi.yangtuojia.com/add-update.do?apiId=51472636&amp;opType=3&amp;selEnv=6961</a></td><td colspan="1" style="text-align: left;" class="confluenceTd"><p>获取小二帐号下所有企微，包含状态</p><p>两个tab页前端自己筛选需要状态的企微展示即可</p></td></tr><tr><td style="text-align: left;" class="confluenceTd">查询二维码</td><td style="text-align: left;" class="confluenceTd"><span style="color: rgb(51,51,51);">hipac.touchcenter.tuselogin.getQrCode</span></td><td colspan="1" style="text-align: left;" class="confluenceTd">新增</td><td style="text-align: left;" class="confluenceTd"><a class="external-link" href="https://master-adminapi.yangtuojia.com/add-update.do?apiId=51472637&amp;opType=3&amp;selEnv=6961" rel="nofollow">https://master-adminapi.yangtuojia.com/add-update.do?apiId=51472637&amp;opType=3&amp;selEnv=6961</a></td><td colspan="1" style="text-align: left;" class="confluenceTd"><br/></td></tr><tr><td colspan="1" style="text-align: left;" class="confluenceTd">查询扫码状态</td><td colspan="1" style="text-align: left;" class="confluenceTd"><span style="color: rgb(51,51,51);">hipac.touchcenter.tuselogin.getLoginState</span></td><td colspan="1" style="text-align: left;" class="confluenceTd">新增</td><td colspan="1" style="text-align: left;" class="confluenceTd"><a class="external-link" href="https://master-adminapi.yangtuojia.com/add-update.do?apiId=51472638&amp;opType=3&amp;selEnv=6961" rel="nofollow">https://master-adminapi.yangtuojia.com/add-update.do?apiId=51472638&amp;opType=3&amp;selEnv=6961</a></td><td colspan="1" style="text-align: left;" class="confluenceTd"><br/></td></tr></tbody></table></div><h2 id="id-涂色移动端登录技术方案-十三、涉及数仓的设计">十三、涉及数仓的设计</h2><h2 id="id-涂色移动端登录技术方案-十四、中间件配置相关">十四、中间件配置相关</h2><h2 id="id-涂色移动端登录技术方案-十五、非功能性需求"><span>十五、非功能性需求</span></h2><p><br/></p><p><br/></p><p><br/></p><p><br/></p><p><br/></p>
+                    </div>
+
+                                        <div class="pageSection group">
+                        <div class="pageSectionHeader">
+                            <h2 id="attachments" class="pageSectionTitle">Attachments:</h2>
+                        </div>
+
+                        <div class="greybox" align="left">
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/136551414/136551416.png">image2024-3-5_14-11-11.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/136551414/136551417.png">image2024-3-5_14-27-19.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/136551414/136551418.png">image2024-3-5_14-33-54.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/136551414/136551850.png">image2024-4-26_10-26-19.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/136551414/136551853.png">image2024-4-26_10-31-51.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/136551414/136551862.png">image2024-4-26_10-43-27.png</a> (image/png)
+                                <br/>
+                                                    </div>
+                    </div>
+                    
+                 
+                </div>             </div> 
+            <div id="footer" role="contentinfo">
+                <section class="footer-body">
+                    <p>Document generated by Confluence on 2026-04-10 10:44</p>
+                    <div id="footer-logo"><a href="http://www.atlassian.com/">Atlassian</a></div>
+                </section>
+            </div>
+        </div>     </body>
+</html>

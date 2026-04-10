@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>大商家组 : 接口信息</title>
+        <link rel="stylesheet" href="styles/site.css" type="text/css" />
+        <META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    </head>
+
+    <body class="theme-default aui-theme-default">
+        <div id="page">
+            <div id="main" class="aui-page-panel">
+                <div id="main-header">
+                    <div id="breadcrumb-section">
+                        <ol id="breadcrumbs">
+                            <li class="first">
+                                <span><a href="index.html">大商家组</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="82552158.html">触达中心</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="86620182.html">4、日常需求</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="158620597.html">2022需求</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="2022-Q1_86620184.html">2022 Q1</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="86636999.html">触达内容管理</a></span>
+                            </li>
+                                                </ol>
+                    </div>
+                    <h1 id="title-heading" class="pagetitle">
+                                                <span id="title-text">
+                            大商家组 : 接口信息
+                        </span>
+                    </h1>
+                </div>
+
+                <div id="content" class="view">
+                    <div class="page-metadata">
+                        
+        
+    
+        
+    
+        
+        
+            Created by <span class='author'> tao.zheng8833</span> on 2022-03-14
+                        </div>
+                    <div id="main-content" class="wiki-content group">
+                    <h1 id="id-接口信息-HOP配置">HOP配置</h1><p>hop接口页面：<a class="external-link" href="https://master-adminapi.yangtuojia.com/list.do" rel="nofollow">https://master-adminapi.yangtuojia.com/list.do</a></p><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" height="250" src="attachments/91587632/91587692.png" data-image-src="attachments/91587632/91587692.png" data-unresolved-comment-count="0" data-linked-resource-id="91587692" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2022-3-14_17-15-22.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="91587632" data-linked-resource-container-version="1"></span></p><p><br/></p><h1 id="id-接口信息-使用场景详细说明">使用场景详细说明</h1><h2 id="id-接口信息-新增任务配置页面：">新增任务配置页面：</h2><p>hipac.touchcenter.task.saveTask 保存任务接口，现有接口</p><p><span style="color: rgb(51,51,51);">hipac.touchcenter.task.getTaskDetail 获取任务详情接口，现有接口</span></p><p><span style="color: rgb(51,51,51);">都新增字段taskType，表示内容类型（下拉列表来源见下方查询内容类型接口）</span></p><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" height="250" src="attachments/91587632/91587634.png" data-image-src="attachments/91587632/91587634.png" data-unresolved-comment-count="0" data-linked-resource-id="91587634" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2022-3-14_16-29-42.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="91587632" data-linked-resource-container-version="1"></span></p><p><br/></p><h2 id="id-接口信息-规则配置页面（都是新增接口）：">规则配置页面（都是新增接口）：</h2><h3 id="id-接口信息-发送次数：">发送次数：</h3><p>hipac.touchcenter.taskconfig.getSendNumbers  获取全局发送次数</p><p>hipac.touchcenter.taskconfig.saveSendNumbers 保存全局发送次数</p><h3 id="id-接口信息-规则配置：">规则配置：</h3><p>hipac.touchcenter.taskconfig.listSendRoles 获取可发送的角色列表 （用于tab页显示，角色下拉显示）</p><p>hipac.touchcenter.taskconfig.listTaskTypes 获取触达内容类型列表，根据all字段判断使用场景：</p><ol><li>all为true或者不传时，表示所有触达内容类型，用于规则配置页面下拉显示或查看触达任务详情页面时调用（详情页面只会给一个taskType，前端展示需要从这个接口获取，历史数据没有就显示空）</li><li>all为false时，表示当前登录角色可使用的触达内容类型，用于新增触达任务页面下拉显示</li></ol><p><br/></p><p>hipac.touchcenter.taskconfig.listTaskSendRules 获取发送规则配置列表，根据roleId判断使用场景：</p><ol><li>roleId为null或不传，表示所有规则tab页数据</li><li>roleId传了一个角色的id（数据来源上述hipac.touchcenter.taskconfig.listSendRoles接口），则表示当前角色tab页数据</li></ol><p>hipac.touchcenter.taskconfig.saveTaskSendRules 保存发送规则配置，根据roleId判断使用场景：</p><ol><li>保存所有tab页数据时，roleId不传</li><li>保存单个角色tab页数据时，roleId传角色id（数据来源上述hipac.touchcenter.taskconfig.listSendRoles接口）</li></ol><h3 id="id-接口信息-白名单配置："><br/>白名单配置：</h3><p>hipac.touchcenter.taskconfig.listWhiteAdminUsers 获取白名单人员列表，替换之前的 hipac.touchcenter.task.listWhileAdminUserIds接口</p><p>hipac.touchcenter.taskconfig.saveWhiteAdminUsers 保存白名单人员列表（全量保存），传所有白名单userId的列表</p><p><br/></p>
+                    </div>
+
+                                        <div class="pageSection group">
+                        <div class="pageSectionHeader">
+                            <h2 id="attachments" class="pageSectionTitle">Attachments:</h2>
+                        </div>
+
+                        <div class="greybox" align="left">
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/91587632/91587634.png">image2022-3-14_16-29-42.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/91587632/91587692.png">image2022-3-14_17-15-22.png</a> (image/png)
+                                <br/>
+                                                    </div>
+                    </div>
+                    
+                 
+                </div>             </div> 
+            <div id="footer" role="contentinfo">
+                <section class="footer-body">
+                    <p>Document generated by Confluence on 2026-04-10 10:44</p>
+                    <div id="footer-logo"><a href="http://www.atlassian.com/">Atlassian</a></div>
+                </section>
+            </div>
+        </div>     </body>
+</html>

@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>大商家组 : 数仓逻辑修改梳理</title>
+        <link rel="stylesheet" href="styles/site.css" type="text/css" />
+        <META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    </head>
+
+    <body class="theme-default aui-theme-default">
+        <div id="page">
+            <div id="main" class="aui-page-panel">
+                <div id="main-header">
+                    <div id="breadcrumb-section">
+                        <ol id="breadcrumbs">
+                            <li class="first">
+                                <span><a href="index.html">大商家组</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="115136623.html">CRM薪资业务</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="115136628.html">2、特殊提成</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="115136634.html">3、日常需求</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="2022.Q2_115141154.html">2022.Q2</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="94751531.html">特殊提成9期</a></span>
+                            </li>
+                                                </ol>
+                    </div>
+                    <h1 id="title-heading" class="pagetitle">
+                                                <span id="title-text">
+                            大商家组 : 数仓逻辑修改梳理
+                        </span>
+                    </h1>
+                </div>
+
+                <div id="content" class="view">
+                    <div class="page-metadata">
+                        
+        
+    
+        
+    
+        
+        
+            Created by <span class='author'> tao.zheng8833</span>, last modified by <span class='editor'> mei.ma8518</span> on 2022-05-30
+                        </div>
+                    <div id="main-content" class="wiki-content group">
+                    <h2 id="id-数仓逻辑修改梳理-1、新增指定受益人、参与人员">1、新增指定受益人、参与人员</h2><h3 id="id-数仓逻辑修改梳理-老模板">老模板</h3><p>dw_salary_gmv_rule_public_forward_d 存量GMV</p><p>dw_salary_gmv_rule_public_backward_d 存量GMV</p><p>dw_salary_sign_brand_rule_public_backward_d </p><p>dw_salary_sign_brand_rule_public_forward_d</p><p>dw_salary_sign_item_rule_public_backward_d</p><p>dw_salary_sign_item_rule_public_forward_d</p><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" height="250" src="attachments/94751533/94751539.png" data-image-src="attachments/94751533/94751539.png" data-unresolved-comment-count="0" data-linked-resource-id="94751539" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2022-5-25_10-8-35.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="94751533" data-linked-resource-container-version="4"></span></p><p><br/></p><h3 id="id-数仓逻辑修改梳理-多品模板">多品模板</h3><p>dw_salary_forward_brand_shop_current_public_d</p><p>dw_salary_backward_brand_shop_current_public_d</p><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" height="250" src="attachments/94751533/94751919.png" data-image-src="attachments/94751533/94751919.png" data-unresolved-comment-count="0" data-linked-resource-id="94751919" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2022-5-25_16-20-5.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="94751533" data-linked-resource-container-version="4"></span></p><p><br/></p><p>dw_salary_brand_shop_sum_d</p><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" height="250" src="attachments/94751533/94751912.png" data-image-src="attachments/94751533/94751912.png" data-unresolved-comment-count="0" data-linked-resource-id="94751912" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2022-5-25_16-14-56.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="94751533" data-linked-resource-container-version="4"></span></p><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" height="250" src="attachments/94751533/94751915.png" data-image-src="attachments/94751533/94751915.png" data-unresolved-comment-count="0" data-linked-resource-id="94751915" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2022-5-25_16-17-11.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="94751533" data-linked-resource-container-version="4"></span></p><p><br/></p><p><br/></p><h2 id="id-数仓逻辑修改梳理-2、gmv模板新增指标">2、gmv模板新增指标</h2><p>dw_salary_gmv_rule_public_mid_v2_d</p><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" height="250" src="attachments/94751533/94751545.png" data-image-src="attachments/94751533/94751545.png" data-unresolved-comment-count="0" data-linked-resource-id="94751545" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2022-5-25_10-13-18.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="94751533" data-linked-resource-container-version="4"></span></p><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" height="250" src="attachments/94751533/94751546.png" data-image-src="attachments/94751533/94751546.png" data-unresolved-comment-count="0" data-linked-resource-id="94751546" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2022-5-25_10-14-13.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="94751533" data-linked-resource-container-version="4"></span></p><p><br/></p><p>dw_salary_gmv_rule_public_forward_d</p><p>dw_salary_gmv_rule_public_backward_d</p><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" height="250" src="attachments/94751533/94751548.png" data-image-src="attachments/94751533/94751548.png" data-unresolved-comment-count="0" data-linked-resource-id="94751548" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2022-5-25_10-15-57.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="94751533" data-linked-resource-container-version="4"></span></p><p><br/></p><h2 id="id-数仓逻辑修改梳理-3、新增基本提成指标模板">3、新增基本提成指标模板</h2><p>dw_salary_virtual_node_salary_ddl 新增建表语句虚拟节点</p><p>dw_salary_base_salary_forward_public_d 新增基本提成指标public脚本</p><p>dw_salary_base_salary_forward_plan_sum_d 新增基本提成指标汇总脚本</p><p>dw_salary_supply_data_base_salary 新增基本提成指标补数脚本</p><p><br/></p><h2 id="id-数仓逻辑修改梳理-4、棉之悦定制逻辑">4、棉之悦定制逻辑</h2><p>dw_salary_brand_shop_rule_public_mid_v2_d</p><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" height="250" src="attachments/94751533/94751911.png" data-image-src="attachments/94751533/94751911.png" data-unresolved-comment-count="0" data-linked-resource-id="94751911" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2022-5-25_16-13-23.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="94751533" data-linked-resource-container-version="4"></span></p><p><br/></p><p><br/></p><p><br/></p><p><br/></p><p><br/></p><p><br/></p>
+                    </div>
+
+                                        <div class="pageSection group">
+                        <div class="pageSectionHeader">
+                            <h2 id="attachments" class="pageSectionTitle">Attachments:</h2>
+                        </div>
+
+                        <div class="greybox" align="left">
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/94751533/94751539.png">image2022-5-25_10-8-35.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/94751533/94751543.png">image2022-5-25_10-11-2.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/94751533/94751545.png">image2022-5-25_10-13-18.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/94751533/94751546.png">image2022-5-25_10-14-13.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/94751533/94751548.png">image2022-5-25_10-15-57.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/94751533/94751911.png">image2022-5-25_16-13-23.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/94751533/94751912.png">image2022-5-25_16-14-56.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/94751533/94751915.png">image2022-5-25_16-17-11.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/94751533/94751918.png">image2022-5-25_16-19-33.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/94751533/94751919.png">image2022-5-25_16-20-5.png</a> (image/png)
+                                <br/>
+                                                    </div>
+                    </div>
+                    
+                 
+                </div>             </div> 
+            <div id="footer" role="contentinfo">
+                <section class="footer-body">
+                    <p>Document generated by Confluence on 2026-04-10 10:59</p>
+                    <div id="footer-logo"><a href="http://www.atlassian.com/">Atlassian</a></div>
+                </section>
+            </div>
+        </div>     </body>
+</html>

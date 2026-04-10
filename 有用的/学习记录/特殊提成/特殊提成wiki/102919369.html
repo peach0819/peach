@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>大商家组 : 3）配合数据组迁移流程</title>
+        <link rel="stylesheet" href="styles/site.css" type="text/css" />
+        <META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    </head>
+
+    <body class="theme-default aui-theme-default">
+        <div id="page">
+            <div id="main" class="aui-page-panel">
+                <div id="main-header">
+                    <div id="breadcrumb-section">
+                        <ol id="breadcrumbs">
+                            <li class="first">
+                                <span><a href="index.html">大商家组</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="115136623.html">CRM薪资业务</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="102895712.html">0、CRM数仓上云项目</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="102919220.html">4、CRM业务上云 - 总结</a></span>
+                            </li>
+                                                </ol>
+                    </div>
+                    <h1 id="title-heading" class="pagetitle">
+                                                <span id="title-text">
+                            大商家组 : 3）配合数据组迁移流程
+                        </span>
+                    </h1>
+                </div>
+
+                <div id="content" class="view">
+                    <div class="page-metadata">
+                        
+        
+    
+        
+    
+        
+        
+            Created by <span class='author'> tao.zheng8833</span>, last modified by <span class='editor'> yipeng.tang</span> on 2023-02-16
+                        </div>
+                    <div id="main-content" class="wiki-content group">
+                    <h3 id="id-3）配合数据组迁移流程-1、数据组进行圈定工具圈定需要迁移的edp项目以及脚本（数据组做功）"><style type='text/css'>/*<![CDATA[*/
+div.rbtoc1775789929568 {padding: 0px;}
+div.rbtoc1775789929568 ul {list-style: disc;margin-left: 0px;}
+div.rbtoc1775789929568 li {margin-left: 0px;padding-left: 0px;}
+
+/*]]>*/</style><div class='toc-macro rbtoc1775789929568'>
+<ul class='toc-indentation'>
+<li><a href='#id-3）配合数据组迁移流程-1、数据组进行圈定工具圈定需要迁移的edp项目以及脚本（数据组做功）'>1、数据组进行圈定工具圈定需要迁移的edp项目以及脚本 （数据组做功）</a></li>
+<li><a href='#id-3）配合数据组迁移流程-2、数据组进行已圈定脚本、表、回流任务迁移（数据组做功）'>2、数据组进行已圈定脚本、表、回流任务迁移（数据组做功）</a></li>
+<li><a href='#id-3）配合数据组迁移流程-3、数据组补齐上游依赖（数据组做功）'>3、数据组补齐上游依赖（数据组做功）</a></li>
+<li><a href='#id-3）配合数据组迁移流程-4、对工具已迁移内容，业务线自行进行业务梳理，时间变量替换，上游依赖配置，人工check任务（业务线做功）'>4、对工具已迁移内容，业务线自行进行业务梳理，时间变量替换，上游依赖配置，人工check任务（业务线做功）</a>
+<ul class='toc-indentation'>
+<li><a href='#id-3）配合数据组迁移流程-1）数据组工具迁移内容（数据组统一会挪到一个叫做“数据应用”的业务流程），根据edp项目名称，自行挪到自己业务流程下'>1）数据组工具迁移内容（数据组统一会挪到一个叫做“数据应用”的业务流程），根据edp项目名称，自行挪到自己业务流程下</a></li>
+<li><a href='#id-3）配合数据组迁移流程-2）关联表信息，选择dev环境的表关联（这一步也可以不做，做的目的是为了清楚当前业务流程下已有的表）'>2）关联表信息，选择dev环境的表关联（这一步也可以不做，做的目的是为了清楚当前业务流程下已有的表）</a></li>
+<li><a href='#id-3）配合数据组迁移流程-3）业务线根据表名，在edp中找到edp脚本'>3）业务线根据表名，在edp中找到edp脚本</a></li>
+<li><a href='#id-3）配合数据组迁移流程-4）复制insert语句（如有with语法，需要从with开始复制）到脚本解析工具'>4）复制insert 语句（如有with语法，需要从with开始复制）到脚本解析工具</a></li>
+<li><a href='#id-3）配合数据组迁移流程-4）复制ops解析后的sql到datastudio的sql文件，并检查是否有未配置在当前业务流程的时间变量，如果有，需要在业务流程下配置'>4）复制ops解析后的sql到datastudio的sql文件，并检查是否有未配置在当前业务流程的时间变量，如果有，需要在业务流程下配置</a></li>
+<li><a href='#id-3）配合数据组迁移流程-5）变量校验无误后，打开代码解析，并自动解析依赖，如有依赖节点信息为空，则点击删除，通过exclude_input移除依赖（表示数据组依赖未迁移，先移除并反馈给数据组）'>5）变量校验无误后，打开代码解析，并自动解析依赖，如有依赖节点信息为空，则点击删除，通过exclude_input移除依赖（表示数据组依赖未迁移，先移除并反馈给数据组）</a></li>
+<li><a href='#id-3）配合数据组迁移流程-6）提交并发布任务后，第二天即可在运维中心观察，业务流程下脚本运行情况了，红色的表示有异常，需要自行排查，灰色的表示上游卡住了，查看上游分析后，反馈具体异常信息给数据组排查'>6）提交并发布任务后，第二天即可在运维中心观察，业务流程下脚本运行情况了，红色的表示有异常，需要自行排查，灰色的表示上游卡住了，查看上游分析后，反馈具体异常信息给数据组排查</a></li>
+</ul>
+</li>
+<li><a href='#id-3）配合数据组迁移流程-5、对工具无法迁移内容，业务线自行进行迁移（比如部分shell里面执行sql，或者回流任务里面带有复杂select逻辑，工具无法直接迁移），迁移后配置依赖（业务线做功）'>5、对工具无法迁移内容，业务线自行进行迁移（比如部分shell里面执行sql，或者回流任务里面带有复杂select逻辑，工具无法直接迁移），迁移后配置依赖（业务线做功）</a></li>
+<li><a href='#id-3）配合数据组迁移流程-6、配合数据组进行数据校验（通过数据组的校验工具）（数据组、业务线一起做功）'>6、配合数据组进行数据校验（通过数据组的校验工具）（数据组、业务线一起做功）</a></li>
+<li><a href='#id-3）配合数据组迁移流程-7、梳理业务线使用数据组datacenter、meta等api的地方，确认是否需要进行替换、特殊处理（业务线做功）'>7、梳理业务线使用数据组datacenter、meta等api的地方，确认是否需要进行替换、特殊处理（业务线做功）</a></li>
+<li><a href='#id-3）配合数据组迁移流程-8、检验无误后，回流任务数据源切换（从数据组测试库切换到正式库）'>8、检验无误后，回流任务数据源切换（从数据组测试库切换到正式库）</a></li>
+<li><a href='#id-3）配合数据组迁移流程-9、保持双写（包括数据和脚本都需要两边保持同步），校验一段时间，如中途有问题直接回滚'>9、保持双写（包括数据和脚本都需要两边保持同步），校验一段时间，如中途有问题直接回滚</a></li>
+<li><a href='#id-3）配合数据组迁移流程-10、结束双写，正式完成迁移'>10、结束双写，正式完成迁移</a></li>
+</ul>
+</div>1、数据组进行圈定工具圈定需要迁移的edp项目以及脚本 （数据组做功）</h3><h3 id="id-3）配合数据组迁移流程-2、数据组进行已圈定脚本、表、回流任务迁移（数据组做功）">2、数据组进行已圈定脚本、表、回流任务迁移（数据组做功）</h3><h3 id="id-3）配合数据组迁移流程-3、数据组补齐上游依赖（数据组做功）">3、数据组补齐上游依赖（数据组做功）</h3><h3 id="id-3）配合数据组迁移流程-4、对工具已迁移内容，业务线自行进行业务梳理，时间变量替换，上游依赖配置，人工check任务（业务线做功）">4、对工具已迁移内容，业务线自行进行业务梳理，时间变量替换，上游依赖配置，人工check任务（业务线做功）</h3><h4 id="id-3）配合数据组迁移流程-1）数据组工具迁移内容（数据组统一会挪到一个叫做“数据应用”的业务流程），根据edp项目名称，自行挪到自己业务流程下">1）数据组工具迁移内容（数据组统一会挪到一个叫做“数据应用”的业务流程），根据edp项目名称，自行挪到自己业务流程下</h4><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image confluence-thumbnail" height="250" src="attachments/102919369/102922669.png" data-image-src="attachments/102919369/102922669.png" data-unresolved-comment-count="0" data-linked-resource-id="102922669" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2022-9-28_11-13-25.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="102919369" data-linked-resource-container-version="7"></span><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image confluence-thumbnail" height="250" src="attachments/102919369/102922684.png" data-image-src="attachments/102919369/102922684.png" data-unresolved-comment-count="0" data-linked-resource-id="102922684" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2022-9-28_11-20-18.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="102919369" data-linked-resource-container-version="7"></span></p><p><br/></p><h4 id="id-3）配合数据组迁移流程-2）关联表信息，选择dev环境的表关联（这一步也可以不做，做的目的是为了清楚当前业务流程下已有的表）">2）关联表信息，选择dev环境的表关联（这一步也可以不做，做的目的是为了清楚当前业务流程下已有的表）</h4><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image confluence-thumbnail" height="250" src="attachments/102919369/102922690.png" data-image-src="attachments/102919369/102922690.png" data-unresolved-comment-count="0" data-linked-resource-id="102922690" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2022-9-28_11-24-41.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="102919369" data-linked-resource-container-version="7"></span><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" height="250" src="attachments/102919369/102922691.png" data-image-src="attachments/102919369/102922691.png" data-unresolved-comment-count="0" data-linked-resource-id="102922691" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2022-9-28_11-25-14.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="102919369" data-linked-resource-container-version="7"></span></p><p>如果是自行迁移的表，复制ddl语句并新建即可</p><p><br/></p><h4 id="id-3）配合数据组迁移流程-3）业务线根据表名，在edp中找到edp脚本">3）业务线根据表名，在edp中找到edp脚本</h4><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" height="250" src="attachments/102919369/106552203.png" data-image-src="attachments/102919369/106552203.png" data-unresolved-comment-count="0" data-linked-resource-id="106552203" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2022-11-9_10-54-50.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="102919369" data-linked-resource-container-version="7"></span></p><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" height="250" src="attachments/102919369/102922675.png" data-image-src="attachments/102919369/102922675.png" data-unresolved-comment-count="0" data-linked-resource-id="102922675" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2022-9-28_11-14-42.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="102919369" data-linked-resource-container-version="7"></span></p><h4 id="id-3）配合数据组迁移流程-4）复制insert语句（如有with语法，需要从with开始复制）到脚本解析工具">4）复制insert 语句（如有with语法，需要从with开始复制）到脚本解析工具</h4><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" height="250" src="attachments/102919369/102922678.png" data-image-src="attachments/102919369/102922678.png" data-unresolved-comment-count="0" data-linked-resource-id="102922678" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2022-9-28_11-17-5.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="102919369" data-linked-resource-container-version="7"></span></p><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" height="250" src="attachments/102919369/106552209.png" data-image-src="attachments/102919369/106552209.png" data-unresolved-comment-count="0" data-linked-resource-id="106552209" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2022-11-9_10-58-24.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="102919369" data-linked-resource-container-version="7"></span></p><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" height="250" src="attachments/102919369/102922679.png" data-image-src="attachments/102919369/102922679.png" data-unresolved-comment-count="0" data-linked-resource-id="102922679" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2022-9-28_11-17-42.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="102919369" data-linked-resource-container-version="7"></span></p><p><br/></p><h4 id="id-3）配合数据组迁移流程-4）复制ops解析后的sql到datastudio的sql文件，并检查是否有未配置在当前业务流程的时间变量，如果有，需要在业务流程下配置">4）复制ops解析后的sql到datastudio的sql文件，并检查是否有未配置在当前业务流程的时间变量，如果有，需要在业务流程下配置</h4><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" height="250" src="attachments/102919369/102922681.png" data-image-src="attachments/102919369/102922681.png" data-unresolved-comment-count="0" data-linked-resource-id="102922681" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2022-9-28_11-19-16.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="102919369" data-linked-resource-container-version="7"></span><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" height="250" src="attachments/102919369/102922713.png" data-image-src="attachments/102919369/102922713.png" data-unresolved-comment-count="0" data-linked-resource-id="102922713" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2022-9-28_11-36-51.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="102919369" data-linked-resource-container-version="7"></span></p><p><br/></p><h4 id="id-3）配合数据组迁移流程-5）变量校验无误后，打开代码解析，并自动解析依赖，如有依赖节点信息为空，则点击删除，通过exclude_input移除依赖（表示数据组依赖未迁移，先移除并反馈给数据组）">5）变量校验无误后，打开代码解析，并自动解析依赖，如有依赖节点信息为空，则点击删除，通过exclude_input移除依赖（表示数据组依赖未迁移，先移除并反馈给数据组）</h4><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" height="250" src="attachments/102919369/102922723.png" data-image-src="attachments/102919369/102922723.png" data-unresolved-comment-count="0" data-linked-resource-id="102922723" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2022-9-28_11-38-2.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="102919369" data-linked-resource-container-version="7"></span><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" height="250" src="attachments/102919369/102922729.png" data-image-src="attachments/102919369/102922729.png" data-unresolved-comment-count="0" data-linked-resource-id="102922729" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2022-9-28_11-39-14.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="102919369" data-linked-resource-container-version="7"></span></p><p><br/></p><h4 id="id-3）配合数据组迁移流程-6）提交并发布任务后，第二天即可在运维中心观察，业务流程下脚本运行情况了，红色的表示有异常，需要自行排查，灰色的表示上游卡住了，查看上游分析后，反馈具体异常信息给数据组排查">6）提交并发布任务后，第二天即可在运维中心观察，业务流程下脚本运行情况了，红色的表示有异常，需要自行排查，灰色的表示上游卡住了，查看上游分析后，反馈具体异常信息给数据组排查</h4><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" height="250" src="attachments/102919369/102922732.png" data-image-src="attachments/102919369/102922732.png" data-unresolved-comment-count="0" data-linked-resource-id="102922732" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2022-9-28_11-40-22.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="102919369" data-linked-resource-container-version="7"></span><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" height="250" src="attachments/102919369/102922737.png" data-image-src="attachments/102919369/102922737.png" data-unresolved-comment-count="0" data-linked-resource-id="102922737" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2022-9-28_11-41-36.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="102919369" data-linked-resource-container-version="7"></span></p><h3 id="id-3）配合数据组迁移流程-5、对工具无法迁移内容，业务线自行进行迁移（比如部分shell里面执行sql，或者回流任务里面带有复杂select逻辑，工具无法直接迁移），迁移后配置依赖（业务线做功）">5、对工具无法迁移内容，业务线自行进行迁移（比如部分shell里面执行sql，或者回流任务里面带有复杂select逻辑，工具无法直接迁移），迁移后配置依赖（业务线做功）</h3><p>举例：</p><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" height="250" src="attachments/102919369/106552213.png" data-image-src="attachments/102919369/106552213.png" data-unresolved-comment-count="0" data-linked-resource-id="106552213" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2022-11-9_10-59-13.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="102919369" data-linked-resource-container-version="7"></span><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" height="250" src="attachments/102919369/106552215.png" data-image-src="attachments/102919369/106552215.png" data-unresolved-comment-count="0" data-linked-resource-id="106552215" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2022-11-9_11-2-9.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="102919369" data-linked-resource-container-version="7"></span></p><h3 id="id-3）配合数据组迁移流程-6、配合数据组进行数据校验（通过数据组的校验工具）（数据组、业务线一起做功）">6、配合数据组进行数据校验（通过数据组的校验工具）（数据组、业务线一起做功）</h3><p>数据组校验方式：<a href="http://k.yangtuojia.com/pages/viewpage.action?pageId=106551428">008_another数据校验模块操作手册</a></p><h3 id="id-3）配合数据组迁移流程-7、梳理业务线使用数据组datacenter、meta等api的地方，确认是否需要进行替换、特殊处理（业务线做功）">7、梳理业务线使用数据组datacenter、meta等api的地方，确认是否需要进行替换、特殊处理（业务线做功）</h3><h3 id="id-3）配合数据组迁移流程-8、检验无误后，回流任务数据源切换（从数据组测试库切换到正式库）">8、检验无误后，回流任务数据源切换（从数据组测试库切换到正式库）</h3><h3 id="id-3）配合数据组迁移流程-9、保持双写（包括数据和脚本都需要两边保持同步），校验一段时间，如中途有问题直接回滚">9、保持双写（包括数据和脚本都需要两边保持同步），校验一段时间，如中途有问题直接回滚</h3><h3 id="id-3）配合数据组迁移流程-10、结束双写，正式完成迁移">10、结束双写，正式完成迁移</h3>
+                    </div>
+
+                                        <div class="pageSection group">
+                        <div class="pageSectionHeader">
+                            <h2 id="attachments" class="pageSectionTitle">Attachments:</h2>
+                        </div>
+
+                        <div class="greybox" align="left">
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/102919369/102922669.png">image2022-9-28_11-13-25.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/102919369/102922674.png">image2022-9-28_11-14-34.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/102919369/102922675.png">image2022-9-28_11-14-42.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/102919369/102922678.png">image2022-9-28_11-17-5.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/102919369/102922679.png">image2022-9-28_11-17-42.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/102919369/102922681.png">image2022-9-28_11-19-16.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/102919369/102922684.png">image2022-9-28_11-20-18.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/102919369/102922689.png">image2022-9-28_11-24-15.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/102919369/102922690.png">image2022-9-28_11-24-41.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/102919369/102922691.png">image2022-9-28_11-25-14.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/102919369/102922713.png">image2022-9-28_11-36-51.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/102919369/102922723.png">image2022-9-28_11-38-2.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/102919369/102922729.png">image2022-9-28_11-39-14.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/102919369/102922732.png">image2022-9-28_11-40-22.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/102919369/102922737.png">image2022-9-28_11-41-36.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/102919369/106552203.png">image2022-11-9_10-54-50.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/102919369/106552209.png">image2022-11-9_10-58-24.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/102919369/106552213.png">image2022-11-9_10-59-13.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/102919369/106552215.png">image2022-11-9_11-2-9.png</a> (image/png)
+                                <br/>
+                                                    </div>
+                    </div>
+                    
+                 
+                </div>             </div> 
+            <div id="footer" role="contentinfo">
+                <section class="footer-body">
+                    <p>Document generated by Confluence on 2026-04-10 10:58</p>
+                    <div id="footer-logo"><a href="http://www.atlassian.com/">Atlassian</a></div>
+                </section>
+            </div>
+        </div>     </body>
+</html>

@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>大商家组 : 3、触达中心3月日常（角色规则管理）</title>
+        <link rel="stylesheet" href="styles/site.css" type="text/css" />
+        <META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    </head>
+
+    <body class="theme-default aui-theme-default">
+        <div id="page">
+            <div id="main" class="aui-page-panel">
+                <div id="main-header">
+                    <div id="breadcrumb-section">
+                        <ol id="breadcrumbs">
+                            <li class="first">
+                                <span><a href="index.html">大商家组</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="82552158.html">触达中心</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="86620182.html">4、日常需求</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="158620599.html">2023需求</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="2023-Q1_115119302.html">2023 Q1</a></span>
+                            </li>
+                                                </ol>
+                    </div>
+                    <h1 id="title-heading" class="pagetitle">
+                                                <span id="title-text">
+                            大商家组 : 3、触达中心3月日常（角色规则管理）
+                        </span>
+                    </h1>
+                </div>
+
+                <div id="content" class="view">
+                    <div class="page-metadata">
+                        
+        
+    
+        
+    
+        
+        
+            Created by <span class='author'> tao.zheng8833</span>, last modified on 2023-03-20
+                        </div>
+                    <div id="main-content" class="wiki-content group">
+                    <h1 style="text-align: left;" id="id-3、触达中心3月日常（角色规则管理）-一.业务背景">一. 业务背景</h1><p>demo：<a class="external-link" href="https://hidemo.yangtuojia.com/view/tracker/TRACKER-15666/3811#id=4quwen&amp;p=%E7%8E%B0%E6%9C%89%E4%BA%A7%E5%93%81%E9%80%BB%E8%BE%91&amp;g=1" rel="nofollow">https://hidemo.yangtuojia.com/view/tracker/TRACKER-15666/3811#id=4quwen&amp;p=%E7%8E%B0%E6%9C%89%E4%BA%A7%E5%93%81%E9%80%BB%E8%BE%91&amp;g=1</a></p><p><span style="color: rgb(51,51,51);">触达中心随着使用的团队变多，原本单一的规则已经不再满足所有业务方，需要对不同业务进行规则隔离，独立管控</span></p><h1 style="text-align: left;" id="id-3、触达中心3月日常（角色规则管理）-二.需求梳理">二. 需求梳理<span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" width="1600" src="attachments/115141681/115141690.png" data-image-src="attachments/115141681/115141690.png" data-unresolved-comment-count="0" data-linked-resource-id="115141690" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2023-3-16_17-10-42.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="115141681" data-linked-resource-container-version="14"></span></h1><h1 style="text-align: left;" id="id-3、触达中心3月日常（角色规则管理）-三.概要设计"><span>三. 概要设计</span></h1><h2 id="id-3、触达中心3月日常（角色规则管理）-3.1用例图">3.1 用例图</h2><h2 id="id-3、触达中心3月日常（角色规则管理）-3.2核心、关键点设计">3.2 核心、关键点设计</h2><p>1、触达漏斗</p><p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/115141681/115141844.png" data-image-src="attachments/115141681/115141844.png" data-unresolved-comment-count="0" data-linked-resource-id="115141844" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2023-3-17_10-9-21.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="115141681" data-linked-resource-container-version="14"></span></p><h2 id="id-3、触达中心3月日常（角色规则管理）-3.3系统架构">3.3 系统架构</h2><h2 id="id-3、触达中心3月日常（角色规则管理）-3.4领域模型图">3.4 领域模型图</h2><h2 id="id-3、触达中心3月日常（角色规则管理）-3.5流程图">3.5 流程图</h2><h3 id="id-3、触达中心3月日常（角色规则管理）-1、数据存储">1、数据存储</h3><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" height="238" src="attachments/115141681/115141848.png" data-image-src="attachments/115141681/115141848.png" data-unresolved-comment-count="0" data-linked-resource-id="115141848" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2023-3-17_10-13-2.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="115141681" data-linked-resource-container-version="14"></span></p><p>新版规则存储格式Map&lt;Long, TaskRoleSendRuleTO&gt; ， role → 规则</p><div class="code panel pdl" style="border-width: 1px;"><div class="codeHeader panelHeader pdl" style="border-bottom-width: 1px;"><b>模型定义</b></div><div class="codeContent panelContent pdl">
+<pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">public class TaskRoleTypeRuleTO {
+
+    /**
+     * 内容类型
+     */
+    private Integer taskType;
+
+    /**
+     * 内容类型次数限制
+     */
+    private Integer sendNumbers;
+
+}
+
+public class TaskRoleSendRuleTO {
+
+    /**
+     * 角色id
+     */
+    private Long roleId;
+
+    /**
+     * 总共可发送次数
+     */
+    private Integer sendNumbers;
+
+    /**
+     * 内容类型次数限制列表
+     */
+    private List&lt;TaskRoleTypeRuleTO&gt; typeRules;
+}</pre>
+</div></div><h3 id="id-3、触达中心3月日常（角色规则管理）-2、创建任务">2、创建任务</h3><p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/115141681/115141906.png" data-image-src="attachments/115141681/115141906.png" data-unresolved-comment-count="0" data-linked-resource-id="115141906" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2023-3-17_10-44-41.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="115141681" data-linked-resource-container-version="14"></span></p><h3 id="id-3、触达中心3月日常（角色规则管理）-3、通道流程">3、通道流程</h3><p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/115141681/115141957.png" data-image-src="attachments/115141681/115141957.png" data-unresolved-comment-count="0" data-linked-resource-id="115141957" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2023-3-17_11-21-31.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="115141681" data-linked-resource-container-version="14"></span></p><h2 id="id-3、触达中心3月日常（角色规则管理）-3.6功能模块梳理">3.6 功能模块梳理</h2><h1 style="text-align: left;" id="id-3、触达中心3月日常（角色规则管理）-四.数据库设计">四. 数据库设计</h1><h1 style="text-align: left;" id="id-3、触达中心3月日常（角色规则管理）-五.接口设计">五. 接口设计</h1><div class="table-wrap"><table class="relative-table wrapped confluenceTable" style="width: 69.062%;"><colgroup><col/><col style="width: 10.4928%;"/><col style="width: 25.6757%;"/><col style="width: 35.4531%;"/><col style="width: 28.3784%;"/></colgroup><thead><tr><th class="numberingColumn confluenceTh" style="text-align: center;"><p><br/></p></th><th colspan="1" style="text-align: center;" class="confluenceTh"><p>模块</p><p>#############</p></th><th style="text-align: center;" class="confluenceTh"><p>功能</p><p>###################################</p></th><th style="text-align: center;" class="confluenceTh"><p>API</p></th><th colspan="1" style="text-align: center;" class="confluenceTh"><p>备注</p></th></tr></thead><tbody><tr><td class="numberingColumn confluenceTd" style="text-align: left;">1</td><td style="text-align: left;" class="confluenceTd">触达规则管理</td><td style="text-align: left;" class="confluenceTd">获取用户触达角色</td><td style="text-align: left;" class="confluenceTd">hipac.touchcenter.taskconfig.getUserSendRoles</td><td colspan="1" style="text-align: left;" class="confluenceTd">新增api</td></tr><tr><td class="numberingColumn confluenceTd">2</td><td class="confluenceTd">触达规则管理</td><td colspan="1" class="confluenceTd">获取角色下规则</td><td colspan="1" class="confluenceTd">hipac.touchcenter.taskconfig.getRoleSendRule</td><td colspan="1" class="confluenceTd">新增api</td></tr><tr><td class="numberingColumn confluenceTd">3</td><td colspan="1" class="confluenceTd">触达规则管理</td><td colspan="1" class="confluenceTd">保存角色下规则</td><td colspan="1" class="confluenceTd">hipac.touchcenter.taskconfig.saveRoleSendRule</td><td colspan="1" class="confluenceTd">新增api</td></tr></tbody></table></div><h1 class="auto-cursor-target" id="id-3、触达中心3月日常（角色规则管理）-六.权限管理">六. 权限管理</h1><h1 class="auto-cursor-target" id="id-3、触达中心3月日常（角色规则管理）-七.排期">七. 排期</h1>
+                    </div>
+
+                                        <div class="pageSection group">
+                        <div class="pageSectionHeader">
+                            <h2 id="attachments" class="pageSectionTitle">Attachments:</h2>
+                        </div>
+
+                        <div class="greybox" align="left">
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/115141681/115141685.png">image2023-2-6_15-6-10.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/115141681/115141686.jpg">微商企微大客户播报 - 脚本.jpg</a> (image/jpeg)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/115141681/115141687.jpg">微商企微大客户播报.jpg</a> (image/jpeg)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/115141681/115141690.png">image2023-3-16_17-10-42.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/115141681/115141844.png">image2023-3-17_10-9-21.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/115141681/115141848.png">image2023-3-17_10-13-2.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/115141681/115141906.png">image2023-3-17_10-44-41.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/115141681/115141957.png">image2023-3-17_11-21-31.png</a> (image/png)
+                                <br/>
+                                                    </div>
+                    </div>
+                    
+                 
+                </div>             </div> 
+            <div id="footer" role="contentinfo">
+                <section class="footer-body">
+                    <p>Document generated by Confluence on 2026-04-10 10:44</p>
+                    <div id="footer-logo"><a href="http://www.atlassian.com/">Atlassian</a></div>
+                </section>
+            </div>
+        </div>     </body>
+</html>

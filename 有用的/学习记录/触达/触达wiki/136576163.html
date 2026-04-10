@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>大商家组 : 企业微信pc hook</title>
+        <link rel="stylesheet" href="styles/site.css" type="text/css" />
+        <META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    </head>
+
+    <body class="theme-default aui-theme-default">
+        <div id="page">
+            <div id="main" class="aui-page-panel">
+                <div id="main-header">
+                    <div id="breadcrumb-section">
+                        <ol id="breadcrumbs">
+                            <li class="first">
+                                <span><a href="index.html">大商家组</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="82552158.html">触达中心</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="82552160.html">2、系统设计</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="130121396.html">服务提供</a></span>
+                            </li>
+                                                </ol>
+                    </div>
+                    <h1 id="title-heading" class="pagetitle">
+                                                <span id="title-text">
+                            大商家组 : 企业微信pc hook
+                        </span>
+                    </h1>
+                </div>
+
+                <div id="content" class="view">
+                    <div class="page-metadata">
+                        
+        
+    
+        
+    
+        
+        
+            Created by <span class='author'> dong.wang</span>, last modified on 2024-07-01
+                        </div>
+                    <div id="main-content" class="wiki-content group">
+                    <h1 id="id-企业微信pchook-1、整体思路"><style type='text/css'>/*<![CDATA[*/
+div.rbtoc1775789039760 {padding: 0px;}
+div.rbtoc1775789039760 ul {list-style: disc;margin-left: 0px;}
+div.rbtoc1775789039760 li {margin-left: 0px;padding-left: 0px;}
+
+/*]]>*/</style><div class='toc-macro rbtoc1775789039760'>
+<ul class='toc-indentation'>
+<li><a href='#id-企业微信pchook-1、整体思路'>1、整体思路</a></li>
+<li><a href='#id-企业微信pchook-2、具体思路1-消息触发反推'>2、具体思路1-消息触发反推</a>
+<ul class='toc-indentation'>
+<li><a href='#id-企业微信pchook-2.1、原理'>2.1、原理</a></li>
+<li><a href='#id-企业微信pchook-2.2、结果'>2.2、结果</a></li>
+<li><a href='#id-企业微信pchook-2.3、意外的收获'>2.3、意外的收获</a></li>
+</ul>
+</li>
+<li><a href='#id-企业微信pchook-3、具体思路2-db反推'>3、具体思路2-db反推</a>
+<ul class='toc-indentation'>
+<li><a href='#id-企业微信pchook-3.1、原理'>3.1、原理</a></li>
+<li><a href='#id-企业微信pchook-3.2、结果'>3.2、结果</a></li>
+<li><a href='#id-企业微信pchook-3.3、收获'>3.3、收获</a></li>
+</ul>
+</li>
+<li><a href='#id-企业微信pchook-4、具体思路3-字符串模板（有浅浅的实践）'>4、具体思路3-字符串模板（有浅浅的实践）</a></li>
+<li><a href='#id-企业微信pchook-5、总结'>5、总结</a></li>
+</ul>
+</div>1、整体思路</h1><p>请求全链路，外部请求-&gt;方法入口接收-&gt;内部处理方法栈→返回；只需要在每个方法调用的入口断点，排查下寄存器+堆栈的头部位置的内存数据情况</p><p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/136576163/140117659.jpg" data-image-src="attachments/136576163/140117659.jpg" data-unresolved-comment-count="0" data-linked-resource-id="140117659" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="思路.jpg" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/jpeg" data-linked-resource-container-id="136576163" data-linked-resource-container-version="46"></span><span class="confluence-embedded-file-wrapper"><a class="confluence-embedded-file" href="/download/attachments/136576163/%E6%80%9D%E8%B7%AF.drawio?version=1&amp;modificationDate=1719814671000&amp;api=v2" data-nice-type="null" data-file-src="/download/attachments/136576163/%E6%80%9D%E8%B7%AF.drawio?version=1&amp;modificationDate=1719814671000&amp;api=v2" data-linked-resource-id="140117741" data-linked-resource-type="attachment" data-linked-resource-container-id="136576163" data-linked-resource-default-alias="思路.drawio" data-mime-type="application/octet-stream" data-has-thumbnail="false" data-linked-resource-version="1"><img src="download/resources/com.atlassian.confluence.plugins.confluence-view-file-macro:view-file-macro-resources/images/placeholder-medium-file.png" height="250"/><span class="title">思路.drawio</span></a></span></p><h1 id="id-企业微信pchook-2、具体思路1-消息触发反推">2、具体思路1-消息触发反推</h1><h2 id="id-企业微信pchook-2.1、原理">2.1、原理</h2><p>1）个人微信给企微不停地发消息</p><p>2）通过ce针对每一次的消息进行内存比对，重复多次进行大量无效地址过滤，留下有效的地址</p><p>3）以此为攻击点，进行代码debug</p><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" height="250" src="attachments/136576163/140117674.png" data-image-src="attachments/136576163/140117674.png" data-unresolved-comment-count="0" data-linked-resource-id="140117674" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2024-7-1_11-0-59.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="136576163" data-linked-resource-container-version="46"></span></p><h2 id="id-企业微信pchook-2.2、结果">2.2、结果</h2><p>找出来的hook点在生命周期中的位置不确定，强行debug成本耗时巨大，耗了好多天也未能有进展</p><p>1）debug的是汇编代码，原始代码→汇编代码，代码量翻了10倍+</p><p>2）汇编代码不熟悉，debug涉及函数跳转（循环跳转，if跳转等），容易失去debug重心，导致思绪破坏</p><p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/136576163/140117677.jpg" data-image-src="attachments/136576163/140117677.jpg" data-unresolved-comment-count="0" data-linked-resource-id="140117677" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="思路1-消息触发.jpg" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/jpeg" data-linked-resource-container-id="136576163" data-linked-resource-container-version="46"></span><span class="confluence-embedded-file-wrapper"><a class="confluence-embedded-file" href="/download/attachments/136576163/%E6%80%9D%E8%B7%AF1-%E6%B6%88%E6%81%AF%E8%A7%A6%E5%8F%91.drawio?version=1&amp;modificationDate=1719814684000&amp;api=v2" data-nice-type="null" data-file-src="/download/attachments/136576163/%E6%80%9D%E8%B7%AF1-%E6%B6%88%E6%81%AF%E8%A7%A6%E5%8F%91.drawio?version=1&amp;modificationDate=1719814684000&amp;api=v2" data-linked-resource-id="140117742" data-linked-resource-type="attachment" data-linked-resource-container-id="136576163" data-linked-resource-default-alias="思路1-消息触发.drawio" data-mime-type="application/octet-stream" data-has-thumbnail="false" data-linked-resource-version="1"><img src="download/resources/com.atlassian.confluence.plugins.confluence-view-file-macro:view-file-macro-resources/images/placeholder-medium-file.png" height="250"/><span class="title">思路1-消息触发.drawio</span></a></span></p><h2 id="id-企业微信pchook-2.3、意外的收获">2.3、意外的收获</h2><p>1）进程是有一个核心线程的，核心线程循环接收外部的消息</p><p>2）windows内部框架流程：translateMessage-&gt;dispatchMessageW-&gt;getMessageW</p><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" height="400" src="attachments/136576163/140117693.png" data-image-src="attachments/136576163/140117693.png" data-unresolved-comment-count="0" data-linked-resource-id="140117693" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2024-7-1_11-20-49.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="136576163" data-linked-resource-container-version="46"></span></p><p>3）根据网上文章，自己也稍微了解了下，大致原理（感兴趣的自己再去详细了解）</p><p style="text-align: left;"><span><strong>TranslateMessage函数</strong></span></p><p style="text-align: left;"><span>函数功能描述:将虚拟键消息转换为字符消息。字符消息被送到调用线程的消息队列中，在下一次线程调用函数GetMessage或PeekMessage时被读出。</span></p><p style="text-align: left;"><strong>DispatchMessage函数</strong></p><p style="text-align: left;">函数功能：该函数调度一个消息给窗口程序。通常调度从GetMessage取得的消息。消息被调度到的窗口程序即是MainProc()函数。</p><p style="text-align: left;"><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" height="400" src="attachments/136576163/140117728.png" data-image-src="attachments/136576163/140117728.png" data-unresolved-comment-count="0" data-linked-resource-id="140117728" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="windows流程.drawio.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="136576163" data-linked-resource-container-version="46"></span><span class="confluence-embedded-file-wrapper"><a class="confluence-embedded-file" href="/download/attachments/136576163/windows%E6%B5%81%E7%A8%8B.drawio?version=1&amp;modificationDate=1719814732000&amp;api=v2" data-nice-type="null" data-file-src="/download/attachments/136576163/windows%E6%B5%81%E7%A8%8B.drawio?version=1&amp;modificationDate=1719814732000&amp;api=v2" data-linked-resource-id="140117745" data-linked-resource-type="attachment" data-linked-resource-container-id="136576163" data-linked-resource-default-alias="windows流程.drawio" data-mime-type="application/octet-stream" data-has-thumbnail="false" data-linked-resource-version="1"><img src="download/resources/com.atlassian.confluence.plugins.confluence-view-file-macro:view-file-macro-resources/images/placeholder-medium-file.png" height="250"/><span class="title">windows流程.drawio</span></a></span></p><p style="text-align: left;"><span style="color: rgb(255,0,0);">也花了点时间进行debug，感觉是异步的，导致在某个节点之后，流程就结束了，而且过程函数（回调函数）地址很难寻找</span></p><h1 id="id-企业微信pchook-3、具体思路2-db反推">3、具体思路2-db反推</h1><p>既然以上代码量庞大，那是不是就应该将代码量缩减，那就往最底层去查找，毕竟最后一步都是数据插入本地数据库，那就从获取数据库连接的地方开始</p><h2 id="id-企业微信pchook-3.1、原理">3.1、原理</h2><p>业务数据准备好-&gt;获取数据库连接-&gt;执行数据库插入语句→数据存入本地</p><p><span style="color: rgb(255,0,0);">sqlite函数入口：wxwork.exe+偏移：1C2A20</span></p><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" height="400" src="attachments/136576163/140117699.png" data-image-src="attachments/136576163/140117699.png" data-unresolved-comment-count="0" data-linked-resource-id="140117699" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2024-7-1_11-23-7.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="136576163" data-linked-resource-container-version="46"></span></p><h2 id="id-企业微信pchook-3.2、结果">3.2、结果</h2><p>1）发现了一些业务逻辑，先是执行3次查询操作，应该是为了保证消息幂等，避免消息重复；但是之后的插入操作时有时无。感觉还是最好需要能搞到业务代码的符号表，<br/>操作还是和业务的实现逻辑有很大的关联关系</p><p>2）也debug了很深的位置，每次调用call指令前，8个寄存器地址以及当前堆栈前几个的数据地址的数据也进行过查看，但是也没有找到想要的数据内容</p><p>猜测要么就是debug的位置还没到，或者就是数据是乱码的，需要人工再将所有数据进行处理才能看到明文，但是怎么解决乱码也是一个问题</p><p>3）汇编代码不支持单线程debug，一旦在多个线程共享的代码出停滞，可能就会影响进程崩溃，所有涉及的软件都需要重启，也比较费时间；很多时候电脑也是直接死机</p><h2 id="id-企业微信pchook-3.3、收获">3.3、收获</h2><p>发现sql执行的模板字符串内存是有一份，应该是供所有类似的sql复制，在进行占位符替换，最终拼成sql</p><p>选中企业微信模块→内存智能搜索→内存所有的字符串数据</p><p>od启动不要选择附加，直接像图中一样直接启动企微，这样od对企微的权限应该是最大的</p><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" height="250" src="attachments/136576163/140117770.png" data-image-src="attachments/136576163/140117770.png" data-unresolved-comment-count="0" data-linked-resource-id="140117770" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2024-7-1_15-23-15.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="136576163" data-linked-resource-container-version="46"></span><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" height="250" src="attachments/136576163/140117773.png" data-image-src="attachments/136576163/140117773.png" data-unresolved-comment-count="0" data-linked-resource-id="140117773" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2024-7-1_15-26-17.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="136576163" data-linked-resource-container-version="46"></span></p><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" height="250" src="attachments/136576163/140117774.png" data-image-src="attachments/136576163/140117774.png" data-unresolved-comment-count="0" data-linked-resource-id="140117774" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2024-7-1_15-26-54.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="136576163" data-linked-resource-container-version="46"></span><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" height="250" src="attachments/136576163/140117776.png" data-image-src="attachments/136576163/140117776.png" data-unresolved-comment-count="0" data-linked-resource-id="140117776" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2024-7-1_15-30-5.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="136576163" data-linked-resource-container-version="46"></span></p><h1 id="id-企业微信pchook-4、具体思路3-字符串模板（有浅浅的实践）">4、具体思路3-字符串模板（有浅浅的实践）</h1><p>字符串模板是一些相应操作需要访问的数据，可以下内存访问断点，当字符串被访问的时候，访问该数据的地址就会断点断下。由于时间不足，未进行验证，感兴趣的后续可以耗时间继续深入探究</p><p>1）sql模板</p><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" height="250" src="attachments/136576163/140117777.png" data-image-src="attachments/136576163/140117777.png" data-unresolved-comment-count="0" data-linked-resource-id="140117777" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2024-7-1_15-30-9.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="136576163" data-linked-resource-container-version="46"></span></p><p><a class="external-link" href="https://blog.51cto.com/u_16213562/10840949" rel="nofollow">https://blog.51cto.com/u_16213562/10840949</a>  这是直接破解本地数据库的，也可以看看</p><p>2）函数类名</p><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" height="250" src="attachments/136576163/140117778.png" data-image-src="attachments/136576163/140117778.png" data-unresolved-comment-count="0" data-linked-resource-id="140117778" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2024-7-1_15-31-55.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="136576163" data-linked-resource-container-version="46"></span></p><p>隐患：</p><p>1）是否数据依旧非明文</p><p>2）业务逻辑不清楚，debug深度有待探究</p><p>3）进程容易崩溃问题</p><h1 id="id-企业微信pchook-5、总结">5、总结</h1><p>1）坑一个个踩过来以后，感觉最后一种还未实践的应该是距离真相最近的地方，感觉常用字符串这个数据可以好好分析看看，里面存的都是一些常量；类名、代码引用的常量等；</p><p>2）汇编代码相对实际代码有了10倍以上的代码膨胀，且对人不友好，是机器代码，不难，但是成本巨大，如果能实现一个程序来替换人来进行这些分析，才比较有价值</p><p>3）有一个好的功能，debug的时候可以开启</p><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" height="250" src="attachments/136576163/140117781.png" data-image-src="attachments/136576163/140117781.png" data-unresolved-comment-count="0" data-linked-resource-id="140117781" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2024-7-1_15-42-28.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="136576163" data-linked-resource-container-version="46"></span><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" height="250" src="attachments/136576163/140117782.png" data-image-src="attachments/136576163/140117782.png" data-unresolved-comment-count="0" data-linked-resource-id="140117782" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2024-7-1_15-44-26.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="136576163" data-linked-resource-container-version="46"></span></p><p>优点：可以看到指定方法里的所有步骤，包含操作的指令，以及当时寄存器里的值</p><p>缺点：仅仅只是表层的快照，寄存器的值可能是内存地址，内存地址还要翻译到内存数据，而内存数据永远是最新的，没有快照保存，所以后面拿快照里的地址去内存找数据，找到的数据基本上是不对的</p><p><br/></p><p><br/></p>
+                    </div>
+
+                                        <div class="pageSection group">
+                        <div class="pageSectionHeader">
+                            <h2 id="attachments" class="pageSectionTitle">Attachments:</h2>
+                        </div>
+
+                        <div class="greybox" align="left">
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/136576163/140117649.png">思路.drawio.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/136576163/140117659.jpg">思路.jpg</a> (image/jpeg)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/136576163/140117674.png">image2024-7-1_11-0-59.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/136576163/140117677.jpg">思路1-消息触发.jpg</a> (image/jpeg)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/136576163/140117692.png">image2024-7-1_11-20-42.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/136576163/140117693.png">image2024-7-1_11-20-49.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/136576163/140117699.png">image2024-7-1_11-23-7.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/136576163/140117728.png">windows流程.drawio.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/136576163/140117741.drawio">思路.drawio</a> (application/octet-stream)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/136576163/140117742.drawio">思路1-消息触发.drawio</a> (application/octet-stream)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/136576163/140117745.drawio">windows流程.drawio</a> (application/octet-stream)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/136576163/140117764.png">image2024-7-1_14-59-32.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/136576163/140117770.png">image2024-7-1_15-23-15.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/136576163/140117773.png">image2024-7-1_15-26-17.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/136576163/140117774.png">image2024-7-1_15-26-54.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/136576163/140117776.png">image2024-7-1_15-30-5.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/136576163/140117777.png">image2024-7-1_15-30-9.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/136576163/140117778.png">image2024-7-1_15-31-55.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/136576163/140117781.png">image2024-7-1_15-42-28.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/136576163/140117782.png">image2024-7-1_15-44-26.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/136576163/140117800.rar">吾爱破解专用版Ollydbg.rar</a> (application/octet-stream)
+                                <br/>
+                                                    </div>
+                    </div>
+                    
+                 
+                </div>             </div> 
+            <div id="footer" role="contentinfo">
+                <section class="footer-body">
+                    <p>Document generated by Confluence on 2026-04-10 10:43</p>
+                    <div id="footer-logo"><a href="http://www.atlassian.com/">Atlassian</a></div>
+                </section>
+            </div>
+        </div>     </body>
+</html>
