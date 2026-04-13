@@ -71,3 +71,7 @@ SELECT 'SUPERVISE_PROHIBIT_LIMIT_BRAND', biz_id, 1, 'e5171096ad2d46fda17b51dd734
 FROM t_shop_control_rule_attribute
 WHERE is_deleted = 0
 AND rule_code = 'SUPERVISE_PROHIBIT_SPECIAL_BRAND';
+
+
+--网维白名单不控下单
+DELETE FROM t_shop_control_rule_scene_relation WHERE scene_code IN ('ORDER_BATCH_INTERCEPT', 'ORDER_INTERCEPT') AND rule_code = 'SUPERVISE_PROHIBIT_LIMIT_BRAND';
