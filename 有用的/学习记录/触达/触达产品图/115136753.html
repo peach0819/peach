@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>产品组 : 01_圈选核心逻辑</title>
+        <link rel="stylesheet" href="styles/site.css" type="text/css" />
+        <META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    </head>
+
+    <body class="theme-default aui-theme-default">
+        <div id="page">
+            <div id="main" class="aui-page-panel">
+                <div id="main-header">
+                    <div id="breadcrumb-section">
+                        <ol id="breadcrumbs">
+                            <li class="first">
+                                <span><a href="index.html">产品组</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="111946399.html">川枫-DMP</a></span>
+                            </li>
+                                                </ol>
+                    </div>
+                    <h1 id="title-heading" class="pagetitle">
+                                                <span id="title-text">
+                            产品组 : 01_圈选核心逻辑
+                        </span>
+                    </h1>
+                </div>
+
+                <div id="content" class="view">
+                    <div class="page-metadata">
+                        
+        
+    
+        
+    
+        
+        
+            Created by <span class='author'> 未知用户 (lichao.gong)</span>, last modified on 2023-08-25
+                        </div>
+                    <div id="main-content" class="wiki-content group">
+                    <p><style type='text/css'>/*<![CDATA[*/
+div.rbtoc1776151259157 {padding: 0px;}
+div.rbtoc1776151259157 ul {list-style: disc;margin-left: 0px;}
+div.rbtoc1776151259157 li {margin-left: 0px;padding-left: 0px;}
+
+/*]]>*/</style><div class='toc-macro rbtoc1776151259157'>
+<ul class='toc-indentation'>
+<li><a href='#id-01_圈选核心逻辑-门店圈选、门店分组、门店分群-相互关系'>门店圈选、门店分组、门店分群-相互关系</a></li>
+<li><a href='#id-01_圈选核心逻辑-门店圈选-聚合逻辑'>门店圈选-聚合逻辑</a></li>
+<li><a href='#id-01_圈选核心逻辑-门店圈选-上下游关系'>门店圈选-上下游关系</a></li>
+<li><a href='#id-01_圈选核心逻辑-门店圈选-上下游的角色'>门店圈选-上下游的角色</a></li>
+<li><a href='#id-01_圈选核心逻辑-门店圈选-时效性逻辑'>门店圈选-时效性逻辑</a></li>
+<li><a href='#id-01_圈选核心逻辑-圈选任务异常场景和处理逻辑'>圈选任务异常场景和处理逻辑</a></li>
+</ul>
+</div></p><h1 id="id-01_圈选核心逻辑-门店圈选、门店分组、门店分群-相互关系"><span style="color: rgb(255,0,255);">门店圈选、门店分组、门店分群-相互关系</span></h1><ol><li>门店分组是基础服务，和前台业务直接发生交互。门店圈选是圈选工具，和前台业务没有直接交互，只作为门店集合圈选和刷新的工具形式存在。</li><li>门店圈选是门店分组的一个应用场景。</li><li>门店分群是门店圈选的前身，是替代关系。门店圈选并不是代替门店分组。</li></ol><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image confluence-content-image-border" height="250" width="246" src="attachments/115136753/115136773.png" data-image-src="attachments/115136753/115136773.png" data-unresolved-comment-count="0" data-linked-resource-id="115136773" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="page_1.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="115136753" data-linked-resource-container-version="15"></span><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image confluence-content-image-border" height="250" width="343" src="attachments/115136753/115136774.png" data-image-src="attachments/115136753/115136774.png" data-unresolved-comment-count="0" data-linked-resource-id="115136774" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2023-3-8_18-33-35.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="115136753" data-linked-resource-container-version="15"></span></p><h1 id="id-01_圈选核心逻辑-门店圈选-聚合逻辑"><span style="color: rgb(255,0,255);">门店圈选-聚合逻辑</span></h1><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image confluence-content-image-border" height="150" width="249" src="attachments/115136753/115136923.png" data-image-src="attachments/115136753/115136923.png" data-unresolved-comment-count="0" data-linked-resource-id="115136923" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="未命名文件.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="115136753" data-linked-resource-container-version="15"></span><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image confluence-content-image-border" height="150" src="attachments/115136753/115136924.png" data-image-src="attachments/115136753/115136924.png" data-unresolved-comment-count="0" data-linked-resource-id="115136924" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="未命名文件 (1).png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="115136753" data-linked-resource-container-version="15"></span></p><p>关于且、或、排除：</p><ol><li>单个标签和单个标签之间，无法实现排除。</li><li>多个规则组之间，多个圈选之间，可以实现3种逻辑关系。</li><li>以上3个关系是门店圈选的基础逻辑。整体围绕其展开。</li></ol><h1 id="id-01_圈选核心逻辑-门店圈选-上下游关系"><span style="color: rgb(255,0,255);">门店圈选-上下游关系</span></h1><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image confluence-thumbnail confluence-external-resource" alt="image2022-10-19_16-56-31.png" height="250" src="attachments/61067356/106539009.png" data-image-src="http://k.yangtuojia.com/download/attachments/61067356/image2022-10-19_16-56-31.png?version=1&amp;modificationDate=1666169792000&amp;api=v2"></span></p><h1 id="id-01_圈选核心逻辑-门店圈选-上下游的角色"><span style="color: rgb(255,0,255);">门店圈选-上下游的角色</span></h1><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image confluence-thumbnail confluence-external-resource" alt="image2021-3-18_22-8-5.png" height="250" src="attachments/61067356/61067373.png" data-image-src="http://k.yangtuojia.com/download/attachments/61067356/image2021-3-18_22-8-5.png?version=1&amp;modificationDate=1616076487000&amp;api=v2"></span></p><h1 id="id-01_圈选核心逻辑-门店圈选-时效性逻辑"><span style="color: rgb(255,0,255);">门店圈选-时效性逻辑</span></h1><div class="table-wrap"><table class="wrapped confluenceTable"><colgroup><col/><col/><col/></colgroup><tbody><tr><th class="confluenceTh">维度</th><th class="confluenceTh">时效性类型</th><th colspan="1" class="confluenceTh">二者之间的时效性影响</th></tr><tr><td class="confluenceTd">标签维度</td><td class="confluenceTd"><p>T+1</p><p>准实时</p><p>实时</p></td><td rowspan="2" class="confluenceTd"><ol><li>在业务系统应用中，圈选的时效性结果，以更新频率最慢的，作为时效性定义。<ol><li>例如：标签是1h更新一次，但是圈选任务是手动更新。那么应用中，未手动更新时，都是旧的圈选结果在生效。</li></ol></li><li>在部分业务系统应用中，系统不会关注圈选任务的时效性，直接关注标签时效性。<ol><li>例如：触达中心任务启动时，即使圈选任务是手动更新，也会根据标签的时效性，进行一次最新的门店获取。</li></ol></li></ol></td></tr><tr><td class="confluenceTd">圈选任务维度</td><td class="confluenceTd"><p>手动更新</p><p>每小时更新</p><p>每天更新</p><p>实时更新</p></td></tr></tbody></table></div><h1 id="id-01_圈选核心逻辑-圈选任务异常场景和处理逻辑"><span style="color: rgb(255,0,255);">圈选任务异常场景和处理逻辑</span></h1><div class="table-wrap"><table class="wrapped confluenceTable"><colgroup><col/><col/></colgroup><tbody><tr><th class="confluenceTh">场景</th><th class="confluenceTh">处理方式</th></tr><tr><td class="confluenceTd">圈选任务更新失败</td><td class="confluenceTd"><p>1. 所有的圈选任务.,在 更新时, 如遇到以下结果,则直接 &quot;更新失败&quot;.</p><p>(1) 如果是 规则生成, 则发现当前圈选任务中依赖着 未被授权的 标签. (可能是被下了,但是没有评估到位)</p><p>(2) 计算执行中的技术问题. 集群问题,SQL问题等不限.</p><p>(3) 该圈选选择了 &quot;动态标签&quot; 且 动态标签内包含 有&quot;绝对时间选择限制&quot; 的 筛选条件 且 当前时间已经超出了 &quot;绝对时间选择限制&quot;</p></td></tr><tr><td class="confluenceTd"><span>过期预警</span></td><td class="confluenceTd"><p><span>每天北京时间早上11点,自动判断是否有 &quot;生效&quot; 且 过期日期 为 明天 或 未来第五天 的圈选.</span></p><p><span>——如果有,则推送对应的负责人钉钉消息</span></p><p style="text-align: left;"><span>例如, 现在是北京时间 8月16日11点, 则对过期时间为 8月17日 或  8月21日的圈选任务发送钉钉消息。告知其具体dmp 任务详情将要被处理。</span></p></td></tr><tr><td colspan="1" class="confluenceTd"><span>过期处理</span></td><td colspan="1" class="confluenceTd"><p><span>每天24点,自动判断是否有 &quot;生效&quot; 且 过期日期为 当天 的门店圈选. 并将对应的 &quot;圈选&quot; 状态全部变更为 &quot;已失效&quot;.  取消对应圈选的 &quot;自动更新&quot; 以及相关的可操作的按钮.</span></p><p><span>并且推送对应的负责人钉钉消息，告知其具体dmp 任务详情已经被处理。</span></p></td></tr></tbody></table></div>
+                    </div>
+
+                                        <div class="pageSection group">
+                        <div class="pageSectionHeader">
+                            <h2 id="attachments" class="pageSectionTitle">Attachments:</h2>
+                        </div>
+
+                        <div class="greybox" align="left">
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/115136753/115136773.png">page_1.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/115136753/115136774.png">image2023-3-8_18-33-35.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/115136753/115136923.png">未命名文件.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/115136753/115136924.png">未命名文件 (1).png</a> (image/png)
+                                <br/>
+                                                    </div>
+                    </div>
+                    
+                 
+                </div>             </div> 
+            <div id="footer" role="contentinfo">
+                <section class="footer-body">
+                    <p>Document generated by Confluence on 2026-04-14 15:20</p>
+                    <div id="footer-logo"><a href="http://www.atlassian.com/">Atlassian</a></div>
+                </section>
+            </div>
+        </div>     </body>
+</html>

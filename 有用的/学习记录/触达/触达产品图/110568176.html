@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>产品组 : 05_CRM门店_门店管理_账号管理</title>
+        <link rel="stylesheet" href="styles/site.css" type="text/css" />
+        <META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    </head>
+
+    <body class="theme-default aui-theme-default">
+        <div id="page">
+            <div id="main" class="aui-page-panel">
+                <div id="main-header">
+                    <div id="breadcrumb-section">
+                        <ol id="breadcrumbs">
+                            <li class="first">
+                                <span><a href="index.html">产品组</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="94761270.html">川枫-CRM</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="99171038.html">02_CRM的人货场关系</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="99171045.html">01_CRM的门店管理</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="110567956.html">01_门店类型结构及定义</a></span>
+                            </li>
+                                                </ol>
+                    </div>
+                    <h1 id="title-heading" class="pagetitle">
+                                                <span id="title-text">
+                            产品组 : 05_CRM门店_门店管理_账号管理
+                        </span>
+                    </h1>
+                </div>
+
+                <div id="content" class="view">
+                    <div class="page-metadata">
+                        
+        
+    
+        
+    
+        
+        
+            Created by <span class='author'> 关壮</span> on 2022-12-08
+                        </div>
+                    <div id="main-content" class="wiki-content group">
+                    <h1 id="id-05_CRM门店_门店管理_账号管理-修订历史">修订历史</h1><div class="table-wrap"><table class="confluenceTable"><thead><tr><th class="confluenceTh"><div class="tablesorter-header-inner"><p align="center"><strong>版本号</strong></p></div></th><th class="confluenceTh"><div class="tablesorter-header-inner"><p align="center"><strong>作者</strong></p></div></th><th class="confluenceTh"><div class="tablesorter-header-inner"><p><strong>内容提要</strong></p></div></th><th class="confluenceTh"><div class="tablesorter-header-inner"><p align="center"><strong>发布日期</strong></p></div></th></tr></thead><tbody><tr><th class="confluenceTh"><p>1.0</p></th><td class="confluenceTd"><p>小鱼</p></td><td class="confluenceTd"><p>创建文档</p></td><td class="confluenceTd"><p>2018-03-05</p></td></tr></tbody></table></div><p><style type='text/css'>/*<![CDATA[*/
+div.rbtoc1776151185413 {padding: 0px;}
+div.rbtoc1776151185413 ul {list-style: disc;margin-left: 0px;}
+div.rbtoc1776151185413 li {margin-left: 0px;padding-left: 0px;}
+
+/*]]>*/</style><div class='toc-macro rbtoc1776151185413'>
+<ul class='toc-indentation'>
+<li><a href='#id-05_CRM门店_门店管理_账号管理-1.账号查询'>1.账号查询</a></li>
+<li><a href='#id-05_CRM门店_门店管理_账号管理-2.新增账号'>2.新增账号</a></li>
+<li><a href='#id-05_CRM门店_门店管理_账号管理-3.修改账号'>3.修改账号</a></li>
+</ul>
+</div></p><h1 id="id-05_CRM门店_门店管理_账号管理-1.账号查询">1.账号查询</h1><p><strong>1.描述：</strong>账号查询列表</p><p><strong>2.角色：</strong>在线运营</p><p><strong>3.用户界面：</strong></p><p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/110568176/110568177.png" data-image-src="attachments/110568176/110568177.png" data-unresolved-comment-count="0" data-linked-resource-id="110568177" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2018-3-19 21:10:18.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="110568176" data-linked-resource-container-version="1"></span></p><p><strong>4.前置条件：</strong>该门店服务人员登录账号</p><p><strong>5.触发条件：</strong>点击账号管理</p><p><strong>6.基本流程：</strong></p><p>1）用户输入查询条件，点击查询</p><p>2）系统显示相关门店</p><p><strong>7.输入项：</strong></p><p>姓名/昵称：默认空不限，可填姓名/昵称</p><p>登录账号：默认空不限，可填登录账号</p><p>登录手机号：默认空不限，可填登录手机号</p><p><strong>8.输出项：</strong></p><p>姓名/昵称：显示账号的姓名或昵称</p><p>登录手机号：显示账号的登录手机号，显示前3后4位</p><p>角色：显示账号的角色，管理员、店员</p><p>状态：显示账号的状态，使用中、已停用</p><p>修改时间：显示账号的修改时间，精确到分</p><p>创建时间：显示账号的创建时间，精确到分</p><p><strong>9.分支流程：</strong></p><p><strong>停用账号：</strong></p><p>1）门店账号微小店有未提现金额的，不能停用，提示：该账户微小店收益还有未提现金额，请提现后停用</p><p>2）停用管理员：该店下面所有绑定C变成游客（包括两种情况 ： 1、管理员本身的绑定C变成游客 ； 2、 店员的绑定C变成游客）</p><p>3）停用店员账号：将该店员下的绑定C转到管理员上</p><p><span style="color: rgb(0,255,0);">【0419删除】<span style="color: rgb(255,0,0);"><s>4）门店账号全部停用的时候状态置未开户</s></span></span></p><p>5）若操作人在该门店服务人员类型为只读权限或非该门店服务人员，则提示：您无权停用/启用该门店账号</p><p>6）若登录账号是手机号，则将登录账号更改为随机码</p><p><strong>启用账号：</strong></p><p>1）启用停用的管理员账号，若该门店已存在使用中的管理员账号，则无法启用，提示：1个门店只支持1个管理员账号</p><p>2）若登录账号与现存使用中账号重复，则无法启用，提示：登录账号被占用，建议重新创建账号</p><p>3）若操作人在该门店服务人员类型为只读权限或非该门店服务人员，则提示：您无权停用/启用该门店账号</p><p><strong>10.商业规则：</strong></p><p><strong>11.补充说明：</strong></p><p>1）默认显示所有该门店账号，一页10条，翻页显示更多，按创建时间倒序排序</p><p>2）非该门店服务人员登录账号，无权限查看该页面，提示：您无权限查看门店账号</p><p><br/></p><div><h1 id="id-05_CRM门店_门店管理_账号管理-2.新增账号">2.新增账号</h1><p><strong>1.描述：</strong>新增账号</p><p><strong>2.角色：</strong></p><p><strong>3.用户界面：</strong></p><p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/110568176/110568181.png" data-image-src="attachments/110568176/110568181.png" data-unresolved-comment-count="0" data-linked-resource-id="110568181" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2018-1-30 18:7:13.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="110568176" data-linked-resource-container-version="1"></span></p><p><strong>4.前置条件：</strong>该门店服务人员登录账号，并该服务人员在该门店服务人员类型的权限为读写权限</p><p><strong>5.触发条件：</strong>点击新增账号</p><p><strong>6.基本流程：</strong></p><p>1）输入账号信息</p><p>2）点击保存，新增账号成功</p><p><strong>7.输入项：</strong></p><p>登录手机号：默认空，必填，手机号有效性、重复性判断</p><ul><li>手机有效性判断，若无效则提示：请输入正确的手机号码</li><li>手机重复性判断，若已存在与已使用状态账号的登录账号或登录手机号，则提示：该手机号已存在于其他门店，点击可查看重复门店</li></ul><p>姓名/昵称：默认空，必填，最多10个字</p><p>密码：默认空，必填，8-20个字符，必须同时包含字母和数字</p><p>是否管理员：默认是，必填，可选是、否，一个门店仅支持一个使用中的管理员账号</p><p><strong>8.输出项：</strong></p><p>门店名称：显示新增账号的门店名称</p><p><strong>9.分支流程：</strong></p><p><strong><a href="http://k.yangtuojia.com/pages/viewpage.action?pageId=4491507">CRM通用_门店查重控件</a></strong></p><p><strong>10.商业规则：</strong></p><p><strong>11.补充说明：</strong></p><p>1）保存时，登录手机号有效性判断、重复性判断、密码有效性判断</p><p>2）点击新增、保存按钮时，若操作人在该门店服务人员类型为只读权限或非该门店服务人员，则提示：您无权限新增/修改该门店账号</p><p><br/></p></div><div><h1 id="id-05_CRM门店_门店管理_账号管理-3.修改账号">3.修改账号</h1><p><strong>1.描述：</strong>修改账号</p><p><strong>2.角色：</strong>在线运营</p><p><strong>3.用户界面：</strong></p><p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/110568176/110568182.png" data-image-src="attachments/110568176/110568182.png" data-unresolved-comment-count="0" data-linked-resource-id="110568182" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2018-1-30 18:12:5.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="110568176" data-linked-resource-container-version="1"></span></p><p><strong>4.前置条件：</strong>该门店服务人员登录账号，并该服务人员在该门店服务人员类型的权限为读写权限</p><p><strong>5.触发条件：</strong>点击修改账号</p><p><strong>6.基本流程：</strong></p><p>1）输入要修改的账号信息</p><p>2）点击保存修改账号成功</p><p><strong>7.输入项：</strong></p><p>登录手机号：默认显示该账号的登录手机号，必填，手机号有效性、重复性判断</p><ul><li>手机有效性判断，若无效则提示：请输入正确的手机号码</li><li>手机重复性判断，若已存在与已使用状态账号的登录账号或登录手机号，则提示：该手机号已存在于其他门店，点击可查看重复门店</li></ul><p>姓名/昵称：默认显示该账号的姓名/昵称，必填，最多20个字</p><p>密码：默认空，非必填，8-20个字符，必须同时包含字母和数字。若为空保存则不修改密码</p><p><strong>8.输出项：</strong></p><p>门店名称：显示新增账号的门店名称</p><p>登录账号：显示该账号的登录账号</p><p>账号角色：显示该账号的角色，管理员、店员</p><p><strong>9.分支流程：</strong></p><p><strong><a href="http://k.yangtuojia.com/pages/viewpage.action?pageId=4491507">CRM通用_门店查重控件</a></strong></p><p><strong>10.商业规则：</strong></p><p><strong>11.补充说明：</strong></p><p>1）保存时，登录手机号有效性判断、重复性判断、密码有效性判断</p><p>2）点击修改、保存按钮时，若操作人在该门店服务人员类型为只读权限或非该门店服务人员，则提示：您无权限新增/修改该门店账号</p></div>
+                    </div>
+
+                                        <div class="pageSection group">
+                        <div class="pageSectionHeader">
+                            <h2 id="attachments" class="pageSectionTitle">Attachments:</h2>
+                        </div>
+
+                        <div class="greybox" align="left">
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/110568176/110568177.png">image2018-3-19 21:10:18.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/110568176/110568178.png">image2018-3-14 17:16:2.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/110568176/110568179.png">image2018-3-14 16:58:7.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/110568176/110568180.png">image2018-1-30 18:7:28.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/110568176/110568181.png">image2018-1-30 18:7:13.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/110568176/110568182.png">image2018-1-30 18:12:5.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/110568176/110568183.png">image2018-3-5 16:39:37.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/110568176/110568184.png">image2018-3-5 17:27:38.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/110568176/110568185.png">image2018-3-5 17:27:54.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/110568176/110568186.png">image2018-3-5 17:32:59.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/110568176/110568187.png">image2018-3-5 17:36:39.png</a> (image/png)
+                                <br/>
+                                                    </div>
+                    </div>
+                    
+                 
+                </div>             </div> 
+            <div id="footer" role="contentinfo">
+                <section class="footer-body">
+                    <p>Document generated by Confluence on 2026-04-14 15:19</p>
+                    <div id="footer-logo"><a href="http://www.atlassian.com/">Atlassian</a></div>
+                </section>
+            </div>
+        </div>     </body>
+</html>

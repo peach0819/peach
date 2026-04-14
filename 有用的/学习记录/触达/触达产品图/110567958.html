@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>产品组 : 02_门店业务域管理</title>
+        <link rel="stylesheet" href="styles/site.css" type="text/css" />
+        <META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    </head>
+
+    <body class="theme-default aui-theme-default">
+        <div id="page">
+            <div id="main" class="aui-page-panel">
+                <div id="main-header">
+                    <div id="breadcrumb-section">
+                        <ol id="breadcrumbs">
+                            <li class="first">
+                                <span><a href="index.html">产品组</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="94761270.html">川枫-CRM</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="99171038.html">02_CRM的人货场关系</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="99171045.html">01_CRM的门店管理</a></span>
+                            </li>
+                                                </ol>
+                    </div>
+                    <h1 id="title-heading" class="pagetitle">
+                                                <span id="title-text">
+                            产品组 : 02_门店业务域管理
+                        </span>
+                    </h1>
+                </div>
+
+                <div id="content" class="view">
+                    <div class="page-metadata">
+                        
+        
+    
+        
+    
+        
+        
+            Created by <span class='author'> 关壮</span>, last modified by <span class='editor'> 未知用户 (lichao.gong)</span> on 2023-10-17
+                        </div>
+                    <div id="main-content" class="wiki-content group">
+                    <p>版本记录</p><div class="table-wrap"><table class="wrapped confluenceTable"><colgroup><col/><col/><col/></colgroup><tbody><tr><th class="confluenceTh">版本</th><th class="confluenceTh">描述</th><th class="confluenceTh">链接</th></tr><tr><td class="confluenceTd"><span>202012_项目_CRM业务域管理1.0</span></td><td class="confluenceTd">新增业务域管理，根据渠道服务门店的诉求，对门店进行分类</td><td class="confluenceTd"><a class="external-link" href="https://hidemo.yangtuojia.com/view/tracker/MIGRATE_1328" rel="nofollow">业务域1.0</a></td></tr><tr><td colspan="1" class="confluenceTd"><span>202206_02_日常_VS专属注册链接、业务域迭代</span></td><td colspan="1" class="confluenceTd"><p>1、优化了业务域分配的规则，支持按部门、岗位、个人分配业务域</p><p>2、所有门店也受业务域限制</p></td><td colspan="1" class="confluenceTd"><a class="external-link" href="https://hidemo.yangtuojia.com/view/tracker/MIGRATE_1253/2537#id=mn6174&amp;p=%E4%B8%9A%E5%8A%A1%E5%9F%9F%E7%AE%A1%E7%90%86%E5%88%97%E8%A1%A8&amp;g=1" rel="nofollow">业务域日常优化</a></td></tr></tbody></table></div><h1 id="id-02_门店业务域管理-1、业务背景">1、业务背景</h1><p>存在的意义是解决多渠道团队的个性化数据需求。</p><p><strong>需求背景说明：</strong></p><p><span class="confluence-embedded-file-wrapper"><a class="confluence-embedded-file" href="/download/attachments/110567958/%E4%B8%9A%E5%8A%A1%E9%9C%80%E6%B1%82PK%E4%BC%9A%E2%80%94CRM%E6%9D%83%E9%99%90%E4%BD%93%E7%B3%BB.pptx?version=1&amp;modificationDate=1670467256000&amp;api=v2" data-nice-type="PowerPoint Presentation" data-file-src="/download/attachments/110567958/%E4%B8%9A%E5%8A%A1%E9%9C%80%E6%B1%82PK%E4%BC%9A%E2%80%94CRM%E6%9D%83%E9%99%90%E4%BD%93%E7%B3%BB.pptx?version=1&amp;modificationDate=1670467256000&amp;api=v2" data-linked-resource-id="110568262" data-linked-resource-type="attachment" data-linked-resource-container-id="110567958" data-linked-resource-default-alias="业务需求PK会—CRM权限体系.pptx" data-mime-type="application/vnd.openxmlformats-officedocument.presentationml.presentation" data-has-thumbnail="true" data-linked-resource-version="1"><img src="rest/documentConversion/latest/conversion/thumbnail/110568262/1" height="150"/></a></span></p><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image confluence-thumbnail" height="150" src="attachments/110567958/110568260.png" data-image-src="attachments/110567958/110568260.png" data-unresolved-comment-count="0" data-linked-resource-id="110568260" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2022-12-8_10-40-9.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="110567958" data-linked-resource-container-version="4"></span></p><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image confluence-thumbnail" height="150" src="attachments/110567958/110568261.png" data-image-src="attachments/110567958/110568261.png" data-unresolved-comment-count="0" data-linked-resource-id="110568261" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2022-12-8_10-40-42.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="110567958" data-linked-resource-container-version="4"></span></p><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" height="150" src="attachments/110567958/110568256.png" data-image-src="attachments/110567958/110568256.png" data-unresolved-comment-count="0" data-linked-resource-id="110568256" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2022-12-8_10-37-47.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="110567958" data-linked-resource-container-version="4"></span></p><h1 id="id-02_门店业务域管理-2、产品架构">2、产品架构</h1><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image confluence-thumbnail" height="150" src="attachments/110567958/110568263.png" data-image-src="attachments/110567958/110568263.png" data-unresolved-comment-count="0" data-linked-resource-id="110568263" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2022-12-8_10-45-6.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="110567958" data-linked-resource-container-version="4"></span></p><h1 id="id-02_门店业务域管理-3、重点产品逻辑">3、重点产品逻辑</h1><div class="table-wrap"><table class="confluenceTable"><colgroup><col/><col/><col/></colgroup><tbody><tr><th class="confluenceTh">功能</th><th class="confluenceTh">重点逻辑</th><th class="confluenceTh">对应截图</th></tr><tr><td class="confluenceTd">新增/编辑 业务域</td><td class="confluenceTd"><p>门店查询规则：</p><ol><li>业务域本身是多个门店类型的集合。</li><li>新增业务域，就是圈出新的门店类型集合。</li><li>业务域之间，不纯在任何门店类型的交集。</li></ol><p><br/></p></td><td class="confluenceTd"><div class="content-wrapper"><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image confluence-thumbnail" width="300" src="attachments/110567958/127001717.png" data-image-src="attachments/110567958/127001717.png" data-unresolved-comment-count="0" data-linked-resource-id="127001717" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2023-10-17_15-20-58.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="110567958" data-linked-resource-container-version="4"></span></p></div></td></tr><tr><td class="confluenceTd"><br/></td><td class="confluenceTd">可查看范围<br/><ol><li>岗位</li><li>部门</li><li>个人</li></ol><p>每个业务域均可以按照这三个维度进行设置。属于范围中的小二，可以查看该业务域所属的门店详情页面。（小详情）</p></td><td class="confluenceTd"><div class="content-wrapper"><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image confluence-thumbnail" height="250" src="attachments/110567958/127001718.png" data-image-src="attachments/110567958/127001718.png" data-unresolved-comment-count="0" data-linked-resource-id="127001718" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2023-10-17_15-29-17.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="110567958" data-linked-resource-container-version="4"></span></p></div></td></tr></tbody></table></div><p><br/></p>
+                    </div>
+
+                                        <div class="pageSection group">
+                        <div class="pageSectionHeader">
+                            <h2 id="attachments" class="pageSectionTitle">Attachments:</h2>
+                        </div>
+
+                        <div class="greybox" align="left">
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/110567958/110568256.png">image2022-12-8_10-37-47.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/110567958/110568260.png">image2022-12-8_10-40-9.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/110567958/110568261.png">image2022-12-8_10-40-42.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/110567958/110568262.pptx">业务需求PK会—CRM权限体系.pptx</a> (application/vnd.openxmlformats-officedocument.presentationml.presentation)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/110567958/110568263.png">image2022-12-8_10-45-6.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/110567958/127001717.png">image2023-10-17_15-20-58.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/110567958/127001718.png">image2023-10-17_15-29-17.png</a> (image/png)
+                                <br/>
+                                                    </div>
+                    </div>
+                    
+                 
+                </div>             </div> 
+            <div id="footer" role="contentinfo">
+                <section class="footer-body">
+                    <p>Document generated by Confluence on 2026-04-14 15:19</p>
+                    <div id="footer-logo"><a href="http://www.atlassian.com/">Atlassian</a></div>
+                </section>
+            </div>
+        </div>     </body>
+</html>

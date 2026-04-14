@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>产品组 : 03_工作手机管理</title>
+        <link rel="stylesheet" href="styles/site.css" type="text/css" />
+        <META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    </head>
+
+    <body class="theme-default aui-theme-default">
+        <div id="page">
+            <div id="main" class="aui-page-panel">
+                <div id="main-header">
+                    <div id="breadcrumb-section">
+                        <ol id="breadcrumbs">
+                            <li class="first">
+                                <span><a href="index.html">产品组</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="94761270.html">川枫-CRM</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="110568365.html">03_其他</a></span>
+                            </li>
+                                                </ol>
+                    </div>
+                    <h1 id="title-heading" class="pagetitle">
+                                                <span id="title-text">
+                            产品组 : 03_工作手机管理
+                        </span>
+                    </h1>
+                </div>
+
+                <div id="content" class="view">
+                    <div class="page-metadata">
+                        
+        
+    
+        
+    
+        
+        
+            Created by <span class='author'> 未知用户 (lichao.gong)</span>, last modified on 2023-02-22
+                        </div>
+                    <div id="main-content" class="wiki-content group">
+                    <h2 id="id-03_工作手机管理-功能页面地址："><span style="color: rgb(255,0,0);">功能页面地址：</span></h2><p><span style="color: rgb(255,0,0);"><a class="external-link" href="https://iwork.hipac.cn/crm-cluster/mobilePhoneNumberManage" rel="nofollow">工作手机号码管理</a></span></p><h2 id="id-03_工作手机管理-功能需求迭代："><span style="color: rgb(255,0,0);">功能需求迭代：</span></h2><div class="table-wrap"><table class="confluenceTable"><colgroup><col/><col/><col/></colgroup><tbody><tr><th class="confluenceTh">版本</th><th class="confluenceTh">主要内容</th><th class="confluenceTh">需求地址</th></tr><tr><td colspan="1" class="confluenceTd">1.0</td><td colspan="1" class="confluenceTd">0-1搭建公司内部工作手机号码管理后台，提供同企微、涂色比邻账号、库容门店的关联关系基础</td><td colspan="1" class="confluenceTd"><a class="external-link" href="https://hidemo.yangtuojia.com/view/tracker/MIGRATE_1090/2254#id=l6k0bb&amp;p=%E5%B7%A5%E4%BD%9C%E6%89%8B%E6%9C%BA-%E7%BB%84%E7%BB%87%E6%9E%B6%E6%9E%84-%E4%BC%81%E4%B8%9A%E5%BE%AE%E4%BF%A1-%E6%B6%82%E8%89%B2%E5%B9%B3%E5%8F%B0%E8%B4%A6%E5%8F%B7%E5%85%B3%E7%B3%BB&amp;g=1" rel="nofollow">工作手机号码管理-hidemo (yangtuojia.com)</a></td></tr></tbody></table></div><h2 id="id-03_工作手机管理-重点逻辑"><span style="color: rgb(255,0,0);">重点逻辑</span></h2><h3 id="id-03_工作手机管理-围绕工作手机号的数据关系">围绕工作手机号的数据关系</h3><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image confluence-external-resource confluence-content-image-border" height="150" src="https://hidemo.yangtuojia.com/contents/%E4%B8%9A%E5%8A%A1%E6%9C%8D%E5%8A%A1/2021-%E7%BE%A4%E6%8E%A7%E9%A1%B9%E7%9B%AE/2021-07-%E6%B6%82%E8%89%B2%E7%BE%A4%E6%8E%A7%E5%BE%AE%E4%BF%A1_%E9%97%A8%E5%BA%97%E7%BB%91%E5%AE%9A%E5%85%B3%E7%B3%BB/images/%E5%B7%A5%E4%BD%9C%E6%89%8B%E6%9C%BA-%E7%BB%84%E7%BB%87%E6%9E%B6%E6%9E%84-%E4%BC%81%E4%B8%9A%E5%BE%AE%E4%BF%A1-%E6%B6%82%E8%89%B2%E5%B9%B3%E5%8F%B0%E8%B4%A6%E5%8F%B7%E5%85%B3%E7%B3%BB/u284.png" data-image-src="https://hidemo.yangtuojia.com/contents/%E4%B8%9A%E5%8A%A1%E6%9C%8D%E5%8A%A1/2021-%E7%BE%A4%E6%8E%A7%E9%A1%B9%E7%9B%AE/2021-07-%E6%B6%82%E8%89%B2%E7%BE%A4%E6%8E%A7%E5%BE%AE%E4%BF%A1_%E9%97%A8%E5%BA%97%E7%BB%91%E5%AE%9A%E5%85%B3%E7%B3%BB/images/%E5%B7%A5%E4%BD%9C%E6%89%8B%E6%9C%BA-%E7%BB%84%E7%BB%87%E6%9E%B6%E6%9E%84-%E4%BC%81%E4%B8%9A%E5%BE%AE%E4%BF%A1-%E6%B6%82%E8%89%B2%E5%B9%B3%E5%8F%B0%E8%B4%A6%E5%8F%B7%E5%85%B3%E7%B3%BB/u284.png"></span></p><h3 id="id-03_工作手机管理-产品流程（新增和变更）">产品流程（新增和变更）</h3><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image confluence-external-resource confluence-content-image-border" height="150" src="https://hidemo.yangtuojia.com/contents/%E4%B8%9A%E5%8A%A1%E6%9C%8D%E5%8A%A1/2021-%E7%BE%A4%E6%8E%A7%E9%A1%B9%E7%9B%AE/2021-07-%E6%B6%82%E8%89%B2%E7%BE%A4%E6%8E%A7%E5%BE%AE%E4%BF%A1_%E9%97%A8%E5%BA%97%E7%BB%91%E5%AE%9A%E5%85%B3%E7%B3%BB/images/%E6%96%B0%E5%BB%BA%E5%B7%A5%E4%BD%9C%E6%89%8B%E6%9C%BA_%E7%BB%91%E5%AE%9A%E5%B0%8F%E4%BA%8C/u388.png" data-image-src="https://hidemo.yangtuojia.com/contents/%E4%B8%9A%E5%8A%A1%E6%9C%8D%E5%8A%A1/2021-%E7%BE%A4%E6%8E%A7%E9%A1%B9%E7%9B%AE/2021-07-%E6%B6%82%E8%89%B2%E7%BE%A4%E6%8E%A7%E5%BE%AE%E4%BF%A1_%E9%97%A8%E5%BA%97%E7%BB%91%E5%AE%9A%E5%85%B3%E7%B3%BB/images/%E6%96%B0%E5%BB%BA%E5%B7%A5%E4%BD%9C%E6%89%8B%E6%9C%BA_%E7%BB%91%E5%AE%9A%E5%B0%8F%E4%BA%8C/u388.png"></span></p><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image confluence-external-resource confluence-content-image-border" height="150" width="139" src="https://hidemo.yangtuojia.com/contents/%E4%B8%9A%E5%8A%A1%E6%9C%8D%E5%8A%A1/2021-%E7%BE%A4%E6%8E%A7%E9%A1%B9%E7%9B%AE/2021-07-%E6%B6%82%E8%89%B2%E7%BE%A4%E6%8E%A7%E5%BE%AE%E4%BF%A1_%E9%97%A8%E5%BA%97%E7%BB%91%E5%AE%9A%E5%85%B3%E7%B3%BB/images/%E4%BF%AE%E6%94%B9%E5%B7%A5%E4%BD%9C%E6%89%8B%E6%9C%BA%E7%BB%91%E5%AE%9A%E5%85%B3%E7%B3%BB/u389.png" data-image-src="https://hidemo.yangtuojia.com/contents/%E4%B8%9A%E5%8A%A1%E6%9C%8D%E5%8A%A1/2021-%E7%BE%A4%E6%8E%A7%E9%A1%B9%E7%9B%AE/2021-07-%E6%B6%82%E8%89%B2%E7%BE%A4%E6%8E%A7%E5%BE%AE%E4%BF%A1_%E9%97%A8%E5%BA%97%E7%BB%91%E5%AE%9A%E5%85%B3%E7%B3%BB/images/%E4%BF%AE%E6%94%B9%E5%B7%A5%E4%BD%9C%E6%89%8B%E6%9C%BA%E7%BB%91%E5%AE%9A%E5%85%B3%E7%B3%BB/u389.png"></span></p><h3 id="id-03_工作手机管理-重点逻辑和对应功能">重点逻辑和对应功能</h3><div class="table-wrap"><table class="confluenceTable"><colgroup><col/><col/><col/><col/></colgroup><tbody><tr><th class="confluenceTh">功能项</th><th class="confluenceTh">重点逻辑</th><th class="confluenceTh">对应截图</th><th colspan="1" class="confluenceTh">备注</th></tr><tr><td class="confluenceTd">新增手机号</td><td class="confluenceTd"><p>1、小二人员和工作手机号数量是1对多。</p><p>2、工作手机号和涂色账号是1对1的。涂色账号只能批量手工创建。</p><p>3、工作手机号和企微账号是1对1的。</p><p>4、创建机制：<br/>——新增一个手机号，自动创建对应的企微账号。</p><p>——涂色账号只能批量手工创建。</p></td><td class="confluenceTd"><div class="content-wrapper"><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image confluence-content-image-border" height="149" width="100" src="attachments/111946357/115118798.png" data-image-src="attachments/111946357/115118798.png" data-unresolved-comment-count="0" data-linked-resource-id="115118798" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2023-2-1_22-49-29.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="111946357" data-linked-resource-container-version="4"></span></p></div></td><td colspan="1" class="confluenceTd"><br/></td></tr><tr><td colspan="1" class="confluenceTd">crm后台跳转涂色</td><td colspan="1" class="confluenceTd"><p>当前基本废弃，没有实际使用场景，因为网页版被抛弃。</p><p>如果是一个小二多个手机号，会提示用户人工选择跳转到哪个涂色比邻账号的登录态页面。</p></td><td colspan="1" class="confluenceTd"><div class="content-wrapper"><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image confluence-thumbnail confluence-content-image-border" width="100" src="attachments/111946357/115118799.png" data-image-src="attachments/111946357/115118799.png" data-unresolved-comment-count="0" data-linked-resource-id="115118799" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2023-2-1_22-53-9.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="111946357" data-linked-resource-container-version="4"></span></p></div></td><td colspan="1" class="confluenceTd"><br/></td></tr></tbody></table></div><h3 class="auto-cursor-target" id="id-03_工作手机管理-重点关注问题">重点关注问题</h3><ol><li>工作手机号码，企微注册手机号码，企微user id，一开始三者是统一的。后期逐步不再统一。在以下场景可能需要注意：<ol><li>销售反馈账号被封，手机号其实是可以继续使用的。但是在没删除上一个企微号的时候，无法用该手机建立下一个新的企微号去做承接。</li><li>排查问题的时候常用user id，不是登陆手机号。注意区分清楚。</li></ol></li></ol>
+                    </div>
+
+                                        <div class="pageSection group">
+                        <div class="pageSectionHeader">
+                            <h2 id="attachments" class="pageSectionTitle">Attachments:</h2>
+                        </div>
+
+                        <div class="greybox" align="left">
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/111946357/115118798.png">image2023-2-1_22-49-29.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/111946357/115118799.png">image2023-2-1_22-53-9.png</a> (image/png)
+                                <br/>
+                                                    </div>
+                    </div>
+                    
+                 
+                </div>             </div> 
+            <div id="footer" role="contentinfo">
+                <section class="footer-body">
+                    <p>Document generated by Confluence on 2026-04-14 15:20</p>
+                    <div id="footer-logo"><a href="http://www.atlassian.com/">Atlassian</a></div>
+                </section>
+            </div>
+        </div>     </body>
+</html>

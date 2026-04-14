@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>产品组 : 02-电销小计相关</title>
+        <link rel="stylesheet" href="styles/site.css" type="text/css" />
+        <META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    </head>
+
+    <body class="theme-default aui-theme-default">
+        <div id="page">
+            <div id="main" class="aui-page-panel">
+                <div id="main-header">
+                    <div id="breadcrumb-section">
+                        <ol id="breadcrumbs">
+                            <li class="first">
+                                <span><a href="index.html">产品组</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="94761270.html">川枫-CRM</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="99171038.html">02_CRM的人货场关系</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="99171047.html">02_CRM的渠道管理</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="110567424.html">05_拜访小记模块</a></span>
+                            </li>
+                                                </ol>
+                    </div>
+                    <h1 id="title-heading" class="pagetitle">
+                                                <span id="title-text">
+                            产品组 : 02-电销小计相关
+                        </span>
+                    </h1>
+                </div>
+
+                <div id="content" class="view">
+                    <div class="page-metadata">
+                        
+        
+    
+        
+    
+        
+        
+            Created by <span class='author'> 未知用户 (lichao.gong)</span>, last modified on 2023-08-09
+                        </div>
+                    <div id="main-content" class="wiki-content group">
+                    <div class="contentLayout2">
+<div class="columnLayout three-equal" data-layout="three-equal">
+<div class="cell normal" data-type="normal">
+<div class="innerCell">
+<h1 id="id-02电销小计相关-用户用例"><strong>用户用例</strong></h1><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image confluence-thumbnail confluence-external-resource" height="150" src="attachments/57064343/62705167.png" data-image-src="http://k.yangtuojia.com/download/attachments/57064343/image2021-4-10_10-32-56.png?version=1&amp;modificationDate=1618021977000&amp;api=v2"></span></p></div>
+</div>
+<div class="cell normal" data-type="normal">
+<div class="innerCell">
+<h1 id="id-02电销小计相关-业务流程"><strong>业务流程</strong></h1><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image confluence-content-image-border" height="250" width="81" src="attachments/123624968/123624969.png" data-image-src="attachments/123624968/123624969.png" data-unresolved-comment-count="0" data-linked-resource-id="123624969" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="电销小计-业务流程.drawio.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="123624968" data-linked-resource-container-version="4"></span></p></div>
+</div>
+<div class="cell normal" data-type="normal">
+<div class="innerCell">
+<h1 id="id-02电销小计相关-产品流程"><strong>产品流程</strong></h1><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image confluence-thumbnail confluence-content-image-border" height="150" src="attachments/123624968/123624970.png" data-image-src="attachments/123624968/123624970.png" data-unresolved-comment-count="0" data-linked-resource-id="123624970" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="电销小计-产品流程.drawio.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="123624968" data-linked-resource-container-version="4"></span></span></p></div>
+</div>
+</div>
+<div class="columnLayout single" data-layout="single">
+<div class="cell normal" data-type="normal">
+<div class="innerCell">
+<h1 id="id-02电销小计相关-产品核心逻辑"><strong>产品核心逻辑</strong></h1><div class="table-wrap"><table class="wrapped confluenceTable"><colgroup><col/><col/><col/></colgroup><tbody><tr><th class="confluenceTh">小计类型</th><th class="confluenceTh">功能点</th><th class="confluenceTh">逻辑简述</th></tr><tr><td rowspan="4" class="confluenceTd">企微文字<br/><br/><br/></td><td class="confluenceTd">自动判断逻辑</td><td class="confluenceTd"><ol><li>单个自然日内，从0点开始计算，上一个小计提交时间，到当前小计提交成功时间，该企微账号聊天记录可获取，且企微和客户之间，各自均发送3条以上信息即可（信息内容不做限制），判定为有效小计。反之则判定为无效。</li><li>如果在同一个自然日内，销售使用同个企微和同个客户，创建多条企微文字小计，均按照1的逻辑来走，只看上次小计登记结束时间到本次小计提交时间之间新增的聊天记录，避免同一拨聊天记录重复被使用。</li></ol></td></tr><tr><td class="confluenceTd">消息获取来源</td><td class="confluenceTd"><p>企微会话信息从以下两方面获取。</p><ol><li>企微会话存档开通可获取。</li><li>登录涂色第三方系统可获取。</li></ol><p>两个数据源互为补充，可同时存在。若某个企微号均不具备两个数据来源，企微聊天信息无法获取，小计均为失败。</p></td></tr><tr><td class="confluenceTd">消息获取范围</td><td class="confluenceTd"><ol><li>同一个自然日。</li><li>两个小计之间的聊天消息。（按照小计提交成功时间作为起点和终点）</li></ol></td></tr><tr><td colspan="1" class="confluenceTd">消息获取时间</td><td colspan="1" class="confluenceTd"><ol><li>提交小计时立即获取一次</li><li>每隔15min系统轮询，对提交时未获取的小计，补充获取一次。</li></ol></td></tr><tr><td rowspan="2" class="confluenceTd">企微语音</td><td colspan="1" class="confluenceTd">有效无效判断</td><td colspan="1" class="confluenceTd"><p>目前没有系统判定逻辑，依靠销售提报小计时人工选择为准。</p></td></tr><tr><td colspan="1" class="confluenceTd">消息获取来源</td><td colspan="1" class="confluenceTd"><p>企微会话存档开通可获取，其他系统提供不来</p></td></tr><tr><td rowspan="2" class="confluenceTd"><p>微信文字/语音</p></td><td colspan="1" class="confluenceTd">有效无效判断</td><td colspan="1" class="confluenceTd"><p>目前没有系统判定逻辑，依靠销售提报小计时人工选择为准。</p></td></tr><tr><td colspan="1" class="confluenceTd">消息获取来源</td><td colspan="1" class="confluenceTd"><p>无。依靠人工上传截图。</p></td></tr><tr><td rowspan="4" class="confluenceTd">电话<br/><br/><br/></td><td colspan="1" class="confluenceTd">电话获取来源</td><td colspan="1" class="confluenceTd">安装了销售助手app的工作手机</td></tr><tr><td colspan="1" class="confluenceTd">电话获取范围</td><td colspan="1" class="confluenceTd">工作手机 or 七陌座机 通话记录（一个crm账号同时只能登陆一个工作手机的销售助手app）</td></tr><tr><td colspan="1" class="confluenceTd">电话获取时间</td><td colspan="1" class="confluenceTd"><ol><li>小计提交时，立即获取一次。</li><li>小计</li></ol></td></tr><tr><td colspan="1" class="confluenceTd">有效无效逻辑</td><td colspan="1" class="confluenceTd"><p>这里是人工填写+系统判断的形式：</p><ol><li>人工填写为无效小计时，系统不再对该条小计进行任何电话关联等判断。</li><li>人工填写为有效小计时，<ol><li>小计提交时进行，自动获取一次通话记录。此时如果无法获取，修正为无效；此时如果获取但是通话时长小于30s，判定为无效；</li><li>15-1h以内，会二次补充数据。</li></ol></li><li>对于提交时登记有效但是系统判定为无效的小计，如果当天存在多通电话，其中一通是大于等于30s的，系统会在小计列表进行提醒，无效可改为有效。</li><li>一通电话记录，只能被一个小计关联。</li></ol></td></tr></tbody></table></div></div>
+</div>
+</div>
+</div>
+                    </div>
+
+                                        <div class="pageSection group">
+                        <div class="pageSectionHeader">
+                            <h2 id="attachments" class="pageSectionTitle">Attachments:</h2>
+                        </div>
+
+                        <div class="greybox" align="left">
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/123624968/123624969.png">电销小计-业务流程.drawio.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/123624968/123624970.png">电销小计-产品流程.drawio.png</a> (image/png)
+                                <br/>
+                                                    </div>
+                    </div>
+                    
+                 
+                </div>             </div> 
+            <div id="footer" role="contentinfo">
+                <section class="footer-body">
+                    <p>Document generated by Confluence on 2026-04-14 15:20</p>
+                    <div id="footer-logo"><a href="http://www.atlassian.com/">Atlassian</a></div>
+                </section>
+            </div>
+        </div>     </body>
+</html>
