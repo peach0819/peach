@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>产品组 : 新提成方案数据中心</title>
+        <link rel="stylesheet" href="styles/site.css" type="text/css" />
+        <META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    </head>
+
+    <body class="theme-default aui-theme-default">
+        <div id="page">
+            <div id="main" class="aui-page-panel">
+                <div id="main-header">
+                    <div id="breadcrumb-section">
+                        <ol id="breadcrumbs">
+                            <li class="first">
+                                <span><a href="index.html">产品组</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="19745159.html">02_特殊提成项目</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="PRD_19745164.html">PRD</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="19748449.html">三、方案数据中心</a></span>
+                            </li>
+                                                </ol>
+                    </div>
+                    <h1 id="title-heading" class="pagetitle">
+                                                <span id="title-text">
+                            产品组 : 新提成方案数据中心
+                        </span>
+                    </h1>
+                </div>
+
+                <div id="content" class="view">
+                    <div class="page-metadata">
+                        
+        
+    
+        
+    
+        
+        
+            Created by <span class='author'> 未知用户 (quanru.wang4324)</span>, last modified on 2023-08-17
+                        </div>
+                    <div id="main-content" class="wiki-content group">
+                    <div class="table-wrap"><table class="wrapped confluenceTable"><colgroup><col/><col/><col/><col/><col/></colgroup><thead><tr><th class="confluenceTh"><p>版本号</p></th><th class="confluenceTh"><p>内容</p></th><th class="confluenceTh"><p>作者</p></th><th class="confluenceTh"><p>时间</p></th><th colspan="1" class="confluenceTh"><p>备注</p></th></tr></thead><tbody><tr><td colspan="1" class="confluenceTd">V1</td><td colspan="1" class="confluenceTd">初稿</td><td colspan="1" class="confluenceTd">安泽</td><td colspan="1" class="confluenceTd">2023.08.16</td><td colspan="1" class="confluenceTd"><br/></td></tr></tbody></table></div><p class="auto-cursor-target"><style type='text/css'>/*<![CDATA[*/
+div.rbtoc1776153100105 {padding: 0px;}
+div.rbtoc1776153100105 ul {list-style: disc;margin-left: 0px;}
+div.rbtoc1776153100105 li {margin-left: 0px;padding-left: 0px;}
+
+/*]]>*/</style><div class='toc-macro rbtoc1776153100105'>
+<ul class='toc-indentation'>
+<li><a href='#id-新提成方案数据中心-业务价值'>业务价值</a></li>
+<li><a href='#id-新提成方案数据中心-全局逻辑'>全局逻辑</a></li>
+<li><a href='#id-新提成方案数据中心-筛选器'>筛选器</a></li>
+<li><a href='#id-新提成方案数据中心-数据内容'>数据内容</a>
+<ul class='toc-indentation'>
+<li><a href='#id-新提成方案数据中心-1、方案汇总表'>1、方案汇总表</a></li>
+<li><a href='#id-新提成方案数据中心-2、存量GMV方案明细表'>2、存量GMV方案明细表</a></li>
+<li><a href='#id-新提成方案数据中心-3、新签品牌方案明细表'>3、新签品牌方案明细表</a></li>
+<li><a href='#id-新提成方案数据中心-4、新签商品方案明细表'>4、新签商品方案明细表</a></li>
+</ul>
+</li>
+</ul>
+</div></p><h1 id="id-新提成方案数据中心-业务价值">业务价值</h1><ol><li>本期暂不考虑销售看数据的需求</li><li>本数据中心以最小成本来实现. 只针对后台的管理员,战区等开放. </li></ol><h1 id="id-新提成方案数据中心-全局逻辑">全局逻辑</h1><ol><li>跟业务沟通，目前不做权限控制，即看板权限拥有这可以看到所有的方案数据。</li><li>默认过滤方案名称包含 废弃 或者 测试 关键词的方案. (方案名称通过 join 方案配置表 . 不取离线HIVE里的方案信息)，且只展示正向的进度数据，不包含逆向</li><li>新增 全局过滤条件  方案归属类型 = 业务组方案 且 方案状态 不等于 已废弃</li><li>时效性考虑分区数据，目前t+1更新</li><li>所有的方案信息(方案月份,方案名称,方案归属业务组) 都通过 JOIN 最新的维度表.   不取 HIVE表里回流的方案信息.    </li><li>所有报表可支持数据导出。</li></ol><h1 id="id-新提成方案数据中心-筛选器">筛选器</h1><div class="table-wrap"><table class="wrapped confluenceTable"><colgroup><col/><col/><col/></colgroup><tbody><tr><th class="confluenceTh">筛选器名称</th><th class="confluenceTh">筛选器样式</th><th class="confluenceTh">备注</th></tr><tr><td class="confluenceTd">方案月份</td><td class="confluenceTd">月份选择器</td><td class="confluenceTd">默认当月</td></tr><tr><td colspan="1" class="confluenceTd">项目名称</td><td colspan="1" class="confluenceTd">文本输入框</td><td colspan="1" class="confluenceTd">文本输入框，对内容进行模糊查找</td></tr><tr><td colspan="1" class="confluenceTd">方案编号</td><td colspan="1" class="confluenceTd">数据输入框</td><td colspan="1" class="confluenceTd">对方案ID进行精准查找</td></tr><tr><td colspan="1" class="confluenceTd">方案名称</td><td colspan="1" class="confluenceTd">文本输入框</td><td colspan="1" class="confluenceTd">文本输入框，对方案名称进行模糊查找</td></tr><tr><td colspan="1" class="confluenceTd">人员名称</td><td colspan="1" class="confluenceTd">搜索下拉单选</td><td colspan="1" class="confluenceTd">目标用户为 销售部所有人</td></tr><tr><td colspan="1" class="confluenceTd">人员部门</td><td colspan="1" class="confluenceTd"><span>文本输入框</span></td><td colspan="1" class="confluenceTd">文本输入框. 对内容进行模糊查找</td></tr><tr><td colspan="1" class="confluenceTd">方案类型</td><td colspan="1" class="confluenceTd">搜索下拉单选</td><td colspan="1" class="confluenceTd">展示提成方案类型的枚举值</td></tr><tr><td colspan="1" class="confluenceTd">业务组</td><td colspan="1" class="confluenceTd">搜索下拉单选</td><td colspan="1" class="confluenceTd">展示提成方案归属业务组的枚举值</td></tr><tr><td colspan="1" class="confluenceTd">发放对象类型</td><td colspan="1" class="confluenceTd">搜索下拉多选</td><td colspan="1" class="confluenceTd">展示提成方案发送对象的枚举值</td></tr></tbody></table></div><p>默认查询 计算月份 中最新的时间分区.  比如说今天是2月份,则查1月份的方案,查询20200131分区数据.  2月份则查询 20200213 分区数据.</p><p><br/></p><h1 id="id-新提成方案数据中心-数据内容">数据内容</h1><h2 id="id-新提成方案数据中心-1、方案汇总表">1、方案汇总表</h2><p>字段和解释如下：</p><div class="table-wrap"><table class="relative-table wrapped confluenceTable" style="width: 96.6582%;"><colgroup><col style="width: 4.8152%;"/><col style="width: 8.66718%;"/><col style="width: 5.38438%;"/><col style="width: 5.47194%;"/><col style="width: 8.05422%;"/><col style="width: 6.04112%;"/><col style="width: 6.04112%;"/><col style="width: 7.26613%;"/><col style="width: 8.05422%;"/><col style="width: 6.0849%;"/><col style="width: 8.79853%;"/><col style="width: 5.51573%;"/><col style="width: 5.55951%;"/><col style="width: 2.93254%;"/><col style="width: 4.8152%;"/><col style="width: 6.48351%;"/></colgroup><tbody><tr><th class="confluenceTh">更新时间</th><th class="confluenceTh">项目类型</th><th class="confluenceTh">项目名称</th><th class="confluenceTh">方案编号</th><th class="confluenceTh">方案名称</th><th class="confluenceTh">归属业务组</th><th class="confluenceTh">发放对象类型</th><th colspan="1" class="confluenceTh">参与人数</th><th class="confluenceTh">统计指标名称</th><th class="confluenceTh">统计指标数值</th><th class="confluenceTh">收益人</th><th class="confluenceTh">金额奖励</th><th class="confluenceTh">收益人岗位</th><th class="confluenceTh"><br/></th><th class="confluenceTh"><br/></th><th class="confluenceTh"><br/></th></tr><tr><td class="confluenceTd"><br/></td><td class="confluenceTd">提成对应的项目管理类型</td><td class="confluenceTd">项目管理名称</td><td class="confluenceTd">提成方案id</td><td class="confluenceTd">提成方案名称</td><td class="confluenceTd">方案归属信息</td><td class="confluenceTd">方案里配置信息</td><td colspan="1" class="confluenceTd"><br/></td><td class="confluenceTd">方案配置的统计指标</td><td class="confluenceTd"><br/></td><td class="confluenceTd">提成具体的发放对象</td><td class="confluenceTd">对应具体的提成金额</td><td class="confluenceTd">发放对象发放当月对应的岗位</td><td class="confluenceTd"><br/></td><td class="confluenceTd"><br/></td><td class="confluenceTd"><br/></td></tr></tbody></table></div><p class="auto-cursor-target">参考sql: <a class="external-link" href="https://onequery.yangtuojia.com/?id=24249" rel="nofollow">https://onequery.yangtuojia.com/?id=24249</a></p><h2 id="id-新提成方案数据中心-2、存量GMV方案明细表">2、存量GMV方案明细表</h2><p>取存量GMV模板的明细表，字段和解释如下：</p><div class="table-wrap"><table class="relative-table wrapped confluenceTable" style="width: 98.8579%;"><colgroup><col style="width: 4.70801%;"/><col style="width: 8.47424%;"/><col style="width: 5.26452%;"/><col style="width: 5.35014%;"/><col style="width: 7.87493%;"/><col style="width: 5.90664%;"/><col style="width: 5.90664%;"/><col style="width: 7.10438%;"/><col style="width: 7.87493%;"/><col style="width: 5.94945%;"/><col style="width: 8.60267%;"/><col style="width: 5.39294%;"/><col style="width: 5.43575%;"/><col style="width: 5.09329%;"/><col style="width: 4.70801%;"/><col style="width: 6.33918%;"/></colgroup><tbody><tr><th class="confluenceTh">更新时间</th><th class="confluenceTh">项目类型</th><th class="confluenceTh">项目名称</th><th class="confluenceTh">方案编号</th><th class="confluenceTh">方案名称</th><th class="confluenceTh">归属业务组</th><th class="confluenceTh">发放对象类型</th><th colspan="1" class="confluenceTh">发送对象名称</th><th class="confluenceTh">发送对象部门</th><th class="confluenceTh">门店id</th><th class="confluenceTh">门店名称</th><th class="confluenceTh">一级类目</th><th class="confluenceTh">品牌名称</th><th class="confluenceTh">统计指标名称</th><th class="confluenceTh">统计指标数值</th><th class="confluenceTh"><br/></th></tr><tr><td class="confluenceTd"><br/></td><td class="confluenceTd">提成对应的项目管理类型</td><td class="confluenceTd">项目管理名称</td><td class="confluenceTd">提成方案id</td><td class="confluenceTd">提成方案名称</td><td class="confluenceTd">方案归属信息</td><td class="confluenceTd">方案里配置信息</td><td colspan="1" class="confluenceTd">提成具体的发放对象</td><td class="confluenceTd">发放对象发放当月对应的部门</td><td class="confluenceTd">门店明细</td><td class="confluenceTd"><br/></td><td class="confluenceTd"><br/></td><td class="confluenceTd"><br/></td><td class="confluenceTd"><br/></td><td class="confluenceTd"><br/></td><td class="confluenceTd"><br/></td></tr></tbody></table></div><p class="auto-cursor-target">参考sql:<a class="external-link" href="https://onequery.yangtuojia.com/?id=24240" rel="nofollow">https://onequery.yangtuojia.com/?id=24240</a></p><h2 id="id-新提成方案数据中心-3、新签品牌方案明细表">3、新签品牌方案明细表</h2><p>取存量GMV模板的明细表，字段和解释如下：</p><div class="table-wrap"><table class="relative-table wrapped confluenceTable" style="width: 100.0%;"><colgroup><col style="width: 4.31038%;"/><col style="width: 7.76379%;"/><col style="width: 4.85083%;"/><col style="width: 4.93458%;"/><col style="width: 7.22246%;"/><col style="width: 5.43359%;"/><col style="width: 5.43359%;"/><col style="width: 6.51538%;"/><col style="width: 7.22246%;"/><col style="width: 5.47503%;"/><col style="width: 7.8881%;"/><col style="width: 4.97602%;"/><col style="width: 5.01746%;"/><col style="width: 3.8528%;"/><col style="width: 5.44417%;"/><col style="width: 5.84973%;"/><col style="width: 4.72651%;"/><col style="width: 3.06902%;"/></colgroup><tbody><tr><th class="confluenceTh">更新时间</th><th class="confluenceTh">项目类型</th><th class="confluenceTh">项目名称</th><th class="confluenceTh">方案编号</th><th class="confluenceTh">方案名称</th><th class="confluenceTh">归属业务组</th><th class="confluenceTh">发放对象类型</th><th colspan="1" class="confluenceTh">发送对象名称</th><th class="confluenceTh">发送对象部门</th><th class="confluenceTh">门店id</th><th class="confluenceTh">门店名称</th><th class="confluenceTh">一级类目</th><th class="confluenceTh">品牌名称</th><th class="confluenceTh">新签日期</th><th class="confluenceTh">实货gmv去退款</th><th class="confluenceTh">新签门槛线</th><th colspan="1" class="confluenceTh">达成时间排名</th><th colspan="1" class="confluenceTh">是否新签成功</th></tr><tr><td class="confluenceTd"><br/></td><td class="confluenceTd">提成对应的项目管理类型</td><td class="confluenceTd">项目管理名称</td><td class="confluenceTd">提成方案id</td><td class="confluenceTd">提成方案名称</td><td class="confluenceTd">方案归属信息</td><td class="confluenceTd">方案里配置信息</td><td colspan="1" class="confluenceTd">提成具体的发放对象</td><td class="confluenceTd">发放对象发放当月对应的部门</td><td class="confluenceTd">门店明细</td><td class="confluenceTd"><br/></td><td class="confluenceTd"><br/></td><td class="confluenceTd"><br/></td><td class="confluenceTd"><br/></td><td class="confluenceTd"><br/></td><td class="confluenceTd"><br/></td><td colspan="1" class="confluenceTd"><br/></td><td colspan="1" class="confluenceTd"><br/></td></tr></tbody></table></div><p class="auto-cursor-target">参考sql:<a class="external-link" href="https://onequery.yangtuojia.com/?id=24237" rel="nofollow">https://onequery.yangtuojia.com/?id=24237</a><br/><br/></p><h2 id="id-新提成方案数据中心-4、新签商品方案明细表">4、新签商品方案明细表</h2><p>取存量GMV模板的明细表，字段和解释如下：</p><div class="table-wrap"><table class="relative-table wrapped confluenceTable" style="width: 100.0%;"><colgroup><col style="width: 4.26982%;"/><col style="width: 7.65094%;"/><col style="width: 4.77677%;"/><col style="width: 4.8614%;"/><col style="width: 7.10167%;"/><col style="width: 5.36835%;"/><col style="width: 5.36835%;"/><col style="width: 6.42545%;"/><col style="width: 7.10167%;"/><col style="width: 5.41067%;"/><col style="width: 7.7779%;"/><col style="width: 4.90372%;"/><col style="width: 4.94604%;"/><col style="width: 2.66346%;"/><col style="width: 2.53738%;"/><col style="width: 5.36923%;"/><col style="width: 5.74922%;"/><col style="width: 4.65069%;"/><col style="width: 3.05315%;"/></colgroup><tbody><tr><th class="confluenceTh">更新时间</th><th class="confluenceTh">项目类型</th><th class="confluenceTh">项目名称</th><th class="confluenceTh">方案编号</th><th class="confluenceTh">方案名称</th><th class="confluenceTh">归属业务组</th><th class="confluenceTh">发放对象类型</th><th colspan="1" class="confluenceTh">发送对象名称</th><th class="confluenceTh">发送对象部门</th><th class="confluenceTh">门店id</th><th class="confluenceTh">门店名称</th><th class="confluenceTh">一级类目</th><th class="confluenceTh">品牌名称</th><th colspan="1" class="confluenceTh">商品名称</th><th class="confluenceTh">新签日期</th><th class="confluenceTh">实货gmv去退款</th><th class="confluenceTh">新签门槛线</th><th colspan="1" class="confluenceTh">达成时间排名</th><th colspan="1" class="confluenceTh">是否新签成功</th></tr><tr><td class="confluenceTd"><br/></td><td class="confluenceTd">提成对应的项目管理类型</td><td class="confluenceTd">项目管理名称</td><td class="confluenceTd">提成方案id</td><td class="confluenceTd">提成方案名称</td><td class="confluenceTd">方案归属信息</td><td class="confluenceTd">方案里配置信息</td><td colspan="1" class="confluenceTd">提成具体的发放对象</td><td class="confluenceTd">发放对象发放当月对应的部门</td><td class="confluenceTd">门店明细</td><td class="confluenceTd"><br/></td><td class="confluenceTd"><br/></td><td class="confluenceTd"><br/></td><td colspan="1" class="confluenceTd"><br/></td><td class="confluenceTd"><br/></td><td class="confluenceTd"><br/></td><td class="confluenceTd"><br/></td><td colspan="1" class="confluenceTd"><br/></td><td colspan="1" class="confluenceTd"><br/></td></tr></tbody></table></div><p class="auto-cursor-target">参考sq：l<a class="external-link" href="https://onequery.yangtuojia.com/?id=24239" rel="nofollow">https://onequery.yangtuojia.com/?id=24239</a></p>
+                    </div>
+
+                    
+                 
+                </div>             </div> 
+            <div id="footer" role="contentinfo">
+                <section class="footer-body">
+                    <p>Document generated by Confluence on 2026-04-14 15:51</p>
+                    <div id="footer-logo"><a href="http://www.atlassian.com/">Atlassian</a></div>
+                </section>
+            </div>
+        </div>     </body>
+</html>

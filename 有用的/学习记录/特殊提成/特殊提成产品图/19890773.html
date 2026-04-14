@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>产品组 : 新签场景业务逻辑梳理</title>
+        <link rel="stylesheet" href="styles/site.css" type="text/css" />
+        <META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    </head>
+
+    <body class="theme-default aui-theme-default">
+        <div id="page">
+            <div id="main" class="aui-page-panel">
+                <div id="main-header">
+                    <div id="breadcrumb-section">
+                        <ol id="breadcrumbs">
+                            <li class="first">
+                                <span><a href="index.html">产品组</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="19745159.html">02_特殊提成项目</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="18831061.html">业务文档</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="19917263.html">三、逻辑梳理</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="19917280.html">新签场景</a></span>
+                            </li>
+                                                </ol>
+                    </div>
+                    <h1 id="title-heading" class="pagetitle">
+                                                <span id="title-text">
+                            产品组 : 新签场景业务逻辑梳理
+                        </span>
+                    </h1>
+                </div>
+
+                <div id="content" class="view">
+                    <div class="page-metadata">
+                        
+        
+    
+        
+    
+        
+        
+            Created by <span class='author'> 未知用户 (quanru.wang4324)</span>, last modified on 2020-03-11
+                        </div>
+                    <div id="main-content" class="wiki-content group">
+                    <p>背景：由于目前业务的变更，之前调研的新签场景不再试用于目前特殊提成新签场景方案，故对现在的新签场景进行业务梳理，根据梳理结果进行特殊提成新签场景的规则设计</p><p>之前由老鹰和小样共同规定的新签场景：</p><p> </p><div class="table-wrap"><table class="confluenceTable"><tbody><tr><th class="confluenceTh">基础指标</th><th colspan="1" class="confluenceTh">考核指标</th><th class="confluenceTh">奖励计算方式</th><th colspan="1" class="confluenceTh">定义</th><th class="confluenceTh">数据依赖</th><th colspan="1" class="confluenceTh">发放对象</th><th colspan="1" class="confluenceTh">筛选条件</th><th colspan="1" class="confluenceTh">兼容规则</th><th colspan="1" class="confluenceTh">涉及11月方案数</th></tr><tr><td class="confluenceTd">品牌新签门店数/多品进店门店数</td><td class="confluenceTd"> </td><td colspan="1" class="confluenceTd">阶梯</td><td class="confluenceTd"><p>满5家奖10</p><p>满7家奖15</p><p>满10家奖20</p></td><td colspan="1" class="confluenceTd">新签金额门槛</td><td class="confluenceTd">BD</td><td colspan="1" class="confluenceTd">品牌多选</td><td colspan="1" class="confluenceTd"> </td><td colspan="1" class="confluenceTd">16</td></tr></tbody></table></div><p>新签场景以单品牌或多品牌满足一定新签金额门槛门店数为计算基础。</p><p>举例：</p><div class="table-wrap"><table class="confluenceTable"><tbody><tr><td class="confluenceTd">法维诺爱</td><td class="confluenceTd">大区P0</td><td class="confluenceTd">BD：新签3-4家，奖励50元/家；新签5家以上，奖励80元/家</td></tr></tbody></table></div><p> </p><p> </p><p>目前问题：</p><p>以2月份各战区及省区P0来看，共提交60个方案数，其中新签场景23个，其中涉及到新签门店数这个统计指标为18个方案，综合这18个方案来看目前以下几个问题会给计算奖励造成困难，需要协同业务设定</p><p>1、奖励规则不清晰，既涉及新签GMV又涉及新签门店数，4个方案，举例如下：</p><div class="table-wrap"><table class="confluenceTable"><tbody><tr><td class="confluenceTd">驻地奖励政策：<br/> <br/> 1、新签10家以下门店数，无任何奖励<br/> 2、新签15家门店或gmv达到4000元，奖励80元。<br/> 3、新签20家门店或gmv达到6000元，奖励200元。<br/> 4、新签30家门店或gmv达到8500元，奖励340元。<br/> 5、新签35家门店以上或gmv达到10000元以上，直接按gmv5%奖励。</td></tr></tbody></table></div><p> </p><p>2、新签门槛定义不清晰，涉及为GMV或者下单支付金额，18个方案中4个为支付金额，14个为新签GMV, 方案如下：</p><div class="table-wrap"><table class="confluenceTable"><tbody><tr><td class="confluenceTd">条件：下单金额1000元算一家有效新签，剔除优惠券。<br/> 驻地：<br/> 1、新签门店数小于3家无任何奖励<br/> 2、新签门店数3家以上且不足6家新签每家奖励30元。<br/> 3、新签门店数6家及以上新签单店每1000元奖励50元，单店可累计。（举例新签达6家，多品牌单店新签2000元，奖励为100元。）<br/> 主管：<br/> 条件：主管人数不足5人按5人核算<br/> 1、主管人均未达到3家以下的无任何奖励<br/> 2、主管人均达到3家以上每家给10元奖励。<br/> 3、主管人均达成6家以上多品牌单店新签1000元奖励10元，可单店新签累计。<br/> <br/> 大区福利：北区分为三个梯队省份，其中第一和第二梯队省份参加PK。第一梯队是安徽，河南，京津冀；第二梯队是山西，陕西，辽宁。如果北区战区达到100万新签，则第一梯队和第二梯队的人均新签第一名省区给予3000元开年团队聚会福利，总计6000元。两个梯队的第二名省区给予1000元，总计2000元。</td></tr></tbody></table></div><div class="table-wrap"><table class="confluenceTable"><tbody><tr><td class="confluenceTd">P0时间：2.10-2.20<br/> BD新签奖励：<br/> 新签指定品牌：巴比酷、云裤、喜宝                                       <br/> 新签4-6家激励40元/家<br/> 新签6家以上激励50元/家                                   <br/> 主管奖励：                                                               <br/> 人均3家及以上奖励20元/家<br/> BD有效新签条件：<br/> 1.新签GMV满1000；<br/> 2.同价格39.9超过2个的进店无激励。</td></tr></tbody></table></div><p>3、在新签门店数统计指标外，添加额外的激励条件，其中有会在逆向追查时产生误差，方案5个 举例如下：</p><div class="table-wrap"><table class="confluenceTable"><tbody><tr><td class="confluenceTd">BD：新签单店店满1560元，奖励60元/家；点位覆盖（1箱）奖励20元/点位，5家起算<br/> 月度排名省区新签GMV前20名的BD，奖励升级为100元/家（单店满1560）<br/> <br/> 主管：新签+复购，<br/> 满5万奖励500元<br/> 满10万奖励2000元</td></tr></tbody></table></div><div class="table-wrap"><table class="confluenceTable"><tbody><tr><td class="confluenceTd">BD：新签单店店满1560元，奖励60元/家<br/> 月度排名省区新签GMV前20名的BD，奖励升级为100元/家<br/> <br/> 主管：新签+复购<br/> 满5万奖励500元<br/> 满10万奖励2000元</td></tr></tbody></table></div><p>4、目前都是以门店为基础指标进行统计，既一家门店新签多个品牌也只算一家，但目前存在一家门店多个品牌算多家的情况。目前只有1个方案：</p><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" height="250" src="attachments/19890773/19891189.png" data-image-src="attachments/19890773/19891189.png" data-unresolved-comment-count="0" data-linked-resource-id="19891189" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2020-2-12 20:59:24.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="19890773" data-linked-resource-container-version="15"></span></p><p>5、新签一般指门店首次下单该品牌，但目前涉及新签的方案存在前置条件：事先选定门店，但选定门店条件不同，有5个方案存在前置条件：</p><p> </p><div class="table-wrap"><table class="confluenceTable"><tbody><tr><td class="confluenceTd">P0时间：2.10-2.20<br/> BD新签奖励：<br/> 新签指定品牌：巴比酷、云裤、喜宝                                       <br/> 新签4-6家激励40元/家<br/> 新签6家以上激励50元/家                                   <br/> 主管奖励：                                                               <br/> 人均3家及以上奖励20元/家<br/> BD有效新签条件：<br/> 1.新签GMV满1000；<br/> 2.同价格39.9超过2个的进店无激励。</td></tr></tbody></table></div><p> </p><p>这个与上图对比</p><p>造成的影响：</p><p>以上问题会对特殊提成在新签场景的计算奖励逻辑造成困难，难以统计</p><p>建议的推进节奏：</p><p>1、了解之后业务在新签门店前置条件的后续规划，是否有必要设置前置条件，且前置条件的设置的合理性（目前来看待尿不湿品牌打标上线后，可以支持不同价格代尿不湿条件）</p><p>2、协同业务在奖励规则这块统一，以门店数为统一奖励阶梯，不再混杂新签GMV</p><p>3、新签门店数指标定义的清晰（一家门店新签多个达到门槛的品牌是算一家还是多家）</p><p>4、新签门槛定义的清晰（是以GMV为准还是以支付金额为准，需要业务确定）</p><p>5、额外激励在稽查退款的影响（业务确定是否有额外激励的必要性）</p><p> </p><p>另外要确定的逻辑：</p><p>1、新签是以当天新签为准还是以p0活动期间为准：如1-5日的P0活动，2号下了500，3号又下了600，如果按照以当天新签1000为准，是不满足的，如以活动期间为准是满足的，1月的战区P0中存在这两种新签分歧。</p><p> </p><p><br/><br/></p>
+                    </div>
+
+                                        <div class="pageSection group">
+                        <div class="pageSectionHeader">
+                            <h2 id="attachments" class="pageSectionTitle">Attachments:</h2>
+                        </div>
+
+                        <div class="greybox" align="left">
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/19890773/19891189.png">image2020-2-12 20:59:24.png</a> (image/png)
+                                <br/>
+                                                    </div>
+                    </div>
+                    
+                 
+                </div>             </div> 
+            <div id="footer" role="contentinfo">
+                <section class="footer-body">
+                    <p>Document generated by Confluence on 2026-04-14 15:51</p>
+                    <div id="footer-logo"><a href="http://www.atlassian.com/">Atlassian</a></div>
+                </section>
+            </div>
+        </div>     </body>
+</html>

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>产品组 : 尿不湿品牌定位互斥逻辑实现</title>
+        <link rel="stylesheet" href="styles/site.css" type="text/css" />
+        <META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    </head>
+
+    <body class="theme-default aui-theme-default">
+        <div id="page">
+            <div id="main" class="aui-page-panel">
+                <div id="main-header">
+                    <div id="breadcrumb-section">
+                        <ol id="breadcrumbs">
+                            <li class="first">
+                                <span><a href="index.html">产品组</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="19745159.html">02_特殊提成项目</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="18831061.html">业务文档</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="19917263.html">三、逻辑梳理</a></span>
+                            </li>
+                                                </ol>
+                    </div>
+                    <h1 id="title-heading" class="pagetitle">
+                                                <span id="title-text">
+                            产品组 : 尿不湿品牌定位互斥逻辑实现
+                        </span>
+                    </h1>
+                </div>
+
+                <div id="content" class="view">
+                    <div class="page-metadata">
+                        
+        
+    
+        
+    
+        
+        
+            Created by <span class='author'> 未知用户 (quanru.wang4324)</span>, last modified on 2020-04-23
+                        </div>
+                    <div id="main-content" class="wiki-content group">
+                    <p>背景：目前关于尿不湿品牌定位互斥逻辑为各个战区在尿不湿P0项目中的重要会战逻辑，但各个战区对于尿不湿互斥逻辑的玩法不同，侧重的指标也不同。</p><p>目前先以新签成功后定位品牌数来做为互斥的条件，来实现目前互斥模板规则的实现。</p><p>引入积分的概念，来实现对正向奖励和负向惩罚不同阶梯的实现。</p><p>数据计算方案：</p><p>table 1 : 前3月门店品牌定位存量数据表（需要业务明确数据统计口径，且最好不变）</p><p>该数据只取上月末的最后一天数据，且数据需冻结</p><p>实现方式通过业务方传入筛选条件后自动生成。不存固定表</p><p>主要字段：</p><div class="table-wrap"><table class="confluenceTable"><tbody><tr><th class="confluenceTh">门店id</th><th class="confluenceTh">门店名称</th><th class="confluenceTh">一级类目</th><th class="confluenceTh">品牌定位</th><th colspan="1" class="confluenceTh">存量品牌数</th></tr><tr><td class="confluenceTd"> </td><td class="confluenceTd"> </td><td class="confluenceTd"> </td><td class="confluenceTd"> </td><td colspan="1" class="confluenceTd"> </td></tr></tbody></table></div><p> </p><p>table2:本月新签成功的所有品牌及门店</p><p>该数据与新签模板里新签成功的数据取法类似，但会在品牌前根据筛选条件生成品牌定位。</p><p>主要字段：</p><div class="table-wrap"><table class="confluenceTable"><tbody><tr><th class="confluenceTh">门店id</th><th class="confluenceTh">门店名称</th><th class="confluenceTh">一级类目</th><th class="confluenceTh">品牌定位</th><th colspan="1" class="confluenceTh"><p>新签人</p></th><th colspan="1" class="confluenceTh">新签品牌</th><th class="confluenceTh">新签时间</th><th colspan="1" class="confluenceTh">新签GMV</th></tr><tr><td class="confluenceTd"> </td><td class="confluenceTd"> </td><td class="confluenceTd"> </td><td class="confluenceTd"> </td><td colspan="1" class="confluenceTd"> </td><td colspan="1" class="confluenceTd"> </td><td class="confluenceTd"> </td><td colspan="1" class="confluenceTd"> </td></tr><tr><td class="confluenceTd"> </td><td class="confluenceTd"> </td><td class="confluenceTd"> </td><td class="confluenceTd"> </td><td colspan="1" class="confluenceTd"> </td><td colspan="1" class="confluenceTd"> </td><td class="confluenceTd"> </td><td colspan="1" class="confluenceTd"> </td></tr></tbody></table></div><p> </p><p>table3 :尿不湿互斥通用明细表</p><p>该数据为tale2 left join tabel实现</p><p>主要字段：</p><div class="table-wrap"><table class="confluenceTable"><tbody><tr><th class="confluenceTh">门店id</th><th class="confluenceTh">门店名称</th><th class="confluenceTh">一级类目</th><th class="confluenceTh">品牌定位</th><th colspan="1" class="confluenceTh">新签人</th><th colspan="1" class="confluenceTh">新签品牌</th><th colspan="1" class="confluenceTh">新签时间</th><th colspan="1" class="confluenceTh">新签GMV</th><th colspan="1" class="confluenceTh">前3月同定位品牌存量数（加一个nvl逻辑）</th><th colspan="1" class="confluenceTh">定位新签品牌排名</th><th colspan="1" class="confluenceTh">新签品牌后门店同定位品牌数</th></tr><tr><td class="confluenceTd"> </td><td class="confluenceTd"> </td><td class="confluenceTd"> </td><td class="confluenceTd"> </td><td colspan="1" class="confluenceTd"> </td><td colspan="1" class="confluenceTd"> </td><td colspan="1" class="confluenceTd"> </td><td colspan="1" class="confluenceTd"> </td><td colspan="1" class="confluenceTd"> </td><td colspan="1" class="confluenceTd"> </td><td colspan="1" class="confluenceTd"> </td></tr><tr><td class="confluenceTd"> </td><td class="confluenceTd"> </td><td class="confluenceTd"> </td><td class="confluenceTd"> </td><td colspan="1" class="confluenceTd"> </td><td colspan="1" class="confluenceTd"> </td><td colspan="1" class="confluenceTd"> </td><td colspan="1" class="confluenceTd"> </td><td colspan="1" class="confluenceTd"> </td><td colspan="1" class="confluenceTd"> </td><td colspan="1" class="confluenceTd"> </td></tr></tbody></table></div><p> </p><p>table4 :尿不湿互斥汇总表</p><p>该数据为配置的特定的计算条件后实现指标计算，</p><p>引入积分的概念，将指标换成积分，通过对积分的阶梯换算来实现奖惩和汇总</p><p>主要字段</p><div class="table-wrap"><table class="confluenceTable"><tbody><tr><th class="confluenceTh">发放对象</th><th class="confluenceTh">有钱门店数</th><th class="confluenceTh"><p>扣钱门店数</p></th><th colspan="1" class="confluenceTh">有钱积分</th><th colspan="1" class="confluenceTh"><p>扣钱积分</p></th><th colspan="1" class="confluenceTh">总积分</th><th colspan="1" class="confluenceTh">奖励</th></tr><tr><td colspan="1" class="confluenceTd"> </td><td colspan="1" class="confluenceTd"> </td><td colspan="1" class="confluenceTd"> </td><td colspan="1" class="confluenceTd"> </td><td colspan="1" class="confluenceTd"> </td><td colspan="1" class="confluenceTd"> </td><td colspan="1" class="confluenceTd"> </td></tr><tr><td class="confluenceTd"> </td><td class="confluenceTd"> </td><td class="confluenceTd"> </td><td colspan="1" class="confluenceTd"> </td><td colspan="1" class="confluenceTd"> </td><td colspan="1" class="confluenceTd"> </td><td colspan="1" class="confluenceTd"> </td></tr></tbody></table></div><p> </p><p> </p><p>可以支持的方案场景：</p><p>1、互斥系数灵活配置，可以实现有钱和没钱的区别，如高端互斥有钱50元一家，多进扣10元一家，则可以设置积分为10元一家，当新签后门店品牌&lt;=3时，一家集5分，&gt;3时，一家积-1分。</p><p>2、可以将挡位组合，如高端和其他挡位。高端，中断，低端（低端和超低端和并）</p><p>3、支持对分数设置不同阶梯奖励</p><p> </p><p>不可支持的场景：</p><p>1、不同品牌定位不同奖励规则，如高端50元一家，低端30元一家，</p><p>可以将方案拆成2个进行配置</p><p>2、不同挡位不同互斥逻辑，如高端3为互斥逻辑，低端4为互斥逻辑</p><p>目前暂时不支持</p><p> </p><p> </p>
+                    </div>
+
+                    
+                 
+                </div>             </div> 
+            <div id="footer" role="contentinfo">
+                <section class="footer-body">
+                    <p>Document generated by Confluence on 2026-04-14 15:51</p>
+                    <div id="footer-logo"><a href="http://www.atlassian.com/">Atlassian</a></div>
+                </section>
+            </div>
+        </div>     </body>
+</html>

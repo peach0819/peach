@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>产品组 : 11_下属人数表</title>
+        <link rel="stylesheet" href="styles/site.css" type="text/css" />
+        <META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    </head>
+
+    <body class="theme-default aui-theme-default">
+        <div id="page">
+            <div id="main" class="aui-page-panel">
+                <div id="main-header">
+                    <div id="breadcrumb-section">
+                        <ol id="breadcrumbs">
+                            <li class="first">
+                                <span><a href="index.html">产品组</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="19745159.html">02_特殊提成项目</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="PRD_19745164.html">PRD</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="19745220.html">二、数据逻辑</a></span>
+                            </li>
+                                                </ol>
+                    </div>
+                    <h1 id="title-heading" class="pagetitle">
+                                                <span id="title-text">
+                            产品组 : 11_下属人数表
+                        </span>
+                    </h1>
+                </div>
+
+                <div id="content" class="view">
+                    <div class="page-metadata">
+                        
+        
+    
+        
+    
+        
+        
+            Created by <span class='author'> 未知用户 (lei.xue)</span>, last modified by <span class='editor'> 未知用户 (quanru.wang4324)</span> on 2025-05-06
+                        </div>
+                    <div id="main-content" class="wiki-content group">
+                    <h1 id="id-11_下属人数表-目录">目录</h1><p><style type='text/css'>/*<![CDATA[*/
+div.rbtoc1776153099469 {padding: 0px;}
+div.rbtoc1776153099469 ul {list-style: disc;margin-left: 0px;}
+div.rbtoc1776153099469 li {margin-left: 0px;padding-left: 0px;}
+
+/*]]>*/</style><div class='toc-macro rbtoc1776153099469'>
+<ul class='toc-indentation'>
+<li><a href='#id-11_下属人数表-目录'>目录</a></li>
+<li><a href='#id-11_下属人数表-引用链接'>引用链接</a></li>
+<li><a href='#id-11_下属人数表-报表内容'>报表内容</a></li>
+<li><a href='#id-11_下属人数表-报表逻辑'>报表逻辑</a></li>
+<li><a href='#id-11_下属人数表-报表逻辑.1'>报表逻辑</a></li>
+<li><a href='#id-11_下属人数表-监控规则'>监控规则</a></li>
+<li><a href='#id-11_下属人数表-v.1.7需求：'>v.1.7需求：</a>
+<ul class='toc-indentation'>
+<li><a href='#id-11_下属人数表-需求一、创建一个人工数据上传表，字段如下@数仓'>需求一、创建一个人工数据上传表，字段如下 @数仓</a></li>
+<li><a href='#id-11_下属人数表-需求二、新建新版下属人数表@数仓'>需求二、新建新版下属人数表 @数仓</a></li>
+<li><a href='#id-11_下属人数表-需求三、特殊提成计算下属人数全部改动新版下属人数表@肥桃'>需求三、特殊提成计算下属人数全部改动新版下属人数表@肥桃</a></li>
+</ul>
+</li>
+</ul>
+</div></p><div class="table-wrap"><table class="wrapped confluenceTable"><colgroup><col/><col/><col/><col/></colgroup><tbody><tr><th class="confluenceTh">版本</th><th class="confluenceTh">更新内容</th><th class="confluenceTh">更新人</th><th class="confluenceTh">时间</th></tr><tr><td class="confluenceTd">v1.1</td><td class="confluenceTd">刚开始写</td><td class="confluenceTd">阿雷</td><td class="confluenceTd">2021/03/24</td></tr><tr><td colspan="1" class="confluenceTd">v1.2</td><td colspan="1" class="confluenceTd">确认内容</td><td colspan="1" class="confluenceTd"><p>安泽</p></td><td colspan="1" class="confluenceTd">2021/04/13</td></tr><tr><td colspan="1" class="confluenceTd">v1.3</td><td colspan="1" class="confluenceTd">修改下逻辑</td><td colspan="1" class="confluenceTd"><p>安泽</p></td><td colspan="1" class="confluenceTd">2021/09/07</td></tr><tr><td colspan="1" class="confluenceTd">v1.4</td><td colspan="1" class="confluenceTd">增加两个字段</td><td colspan="1" class="confluenceTd">安泽</td><td colspan="1" class="confluenceTd">2021/10/19</td></tr><tr><td colspan="1" class="confluenceTd">v1.5</td><td colspan="1" class="confluenceTd">兼容下大BD主管的逻辑</td><td colspan="1" class="confluenceTd">安泽</td><td colspan="1" class="confluenceTd">2021/10/19</td></tr><tr><td colspan="1" class="confluenceTd">v1.6</td><td colspan="1" class="confluenceTd">修改离职日期的判断</td><td colspan="1" class="confluenceTd">安泽</td><td colspan="1" class="confluenceTd">2021/10/19</td></tr><tr><td colspan="1" class="confluenceTd">v.1.7</td><td colspan="1" class="confluenceTd">增加数据上传逻辑，保证业务可以修改数据</td><td colspan="1" class="confluenceTd">安泽</td><td colspan="1" class="confluenceTd">2025/05/06</td></tr></tbody></table></div><p><br/></p><h1 id="id-11_下属人数表-引用链接">引用链接</h1><p><br/></p><h1 id="id-11_下属人数表-报表内容">报表内容</h1><div class="table-wrap"><table class="wrapped relative-table confluenceTable"><colgroup><col style="width: 36.0px;"/><col style="width: 185.0px;"/><col style="width: 315.0px;"/></colgroup><thead><tr><th class="numberingColumn confluenceTh"><br/></th><th class="confluenceTh"><p><span style="color: rgb(0,0,0);">字段</span></p></th><th class="confluenceTh"><p><span style="color: rgb(0,0,0);">说明</span></p></th></tr><tr><td class="numberingColumn confluenceTd"><span style="color: rgb(0,0,0);">1</span></td><td colspan="1" class="confluenceTd"><span style="color: rgb(0,0,0);">dayid</span></td><td colspan="1" class="confluenceTd"><span style="color: rgb(0,0,0);">依旧是分区制. 每个分区内全量数据</span></td></tr></thead><tbody><tr><td class="numberingColumn confluenceTd"><span style="color: rgb(0,0,0);">2</span></td><td colspan="1" class="confluenceTd"><br/></td><td colspan="1" class="confluenceTd"><br/></td></tr><tr><td class="numberingColumn confluenceTd"><span style="color: rgb(0,0,0);">3</span></td><td colspan="1" class="confluenceTd"><span style="color: rgb(0,0,0);">岗位</span></td><td colspan="1" class="confluenceTd"><span style="color: rgb(0,0,0);">BD主管,BD大区经理,BD战区经理，大BD主管</span></td></tr><tr><td class="numberingColumn confluenceTd" colspan="1"><span style="color: rgb(0,0,0);">4</span></td><td colspan="1" class="confluenceTd"><span style="color: rgb(0,0,0);">销售人名</span></td><td colspan="1" class="confluenceTd"><span style="color: rgb(0,0,0);">当前档位下的销售人名</span></td></tr><tr><td class="numberingColumn confluenceTd" colspan="1"><span style="color: rgb(0,0,0);">5</span></td><td colspan="1" class="confluenceTd"><span style="color: rgb(0,0,0);">在职状态（<strong>v1.4新增）</strong></span></td><td colspan="1" class="confluenceTd"><span style="color: rgb(0,0,0);">直接取BD主管，BD大区经理，BD战区经理对应用户表中得数据即可，</span></td></tr><tr><td class="numberingColumn confluenceTd" colspan="1"><span style="color: rgb(0,0,0);">6</span></td><td colspan="1" class="confluenceTd"><span style="color: rgb(0,0,0);">离职时间（<strong>v1.4新增）</strong></span></td><td colspan="1" class="confluenceTd"><span style="color: rgb(0,0,0);">直接取BD主管，BD大区经理，BD战区经理对应用户表中得数据即可，</span></td></tr><tr><td class="numberingColumn confluenceTd" colspan="1"><span style="color: rgb(0,0,0);">7</span></td><td colspan="1" class="confluenceTd"><span style="color: rgb(0,0,0);">下属人数</span></td><td colspan="1" class="confluenceTd"><p><span style="color: rgb(0,0,0);">当前销售的所在部门内的下属人数.   </span></p><p><span style="color: rgb(0,0,0);">包括 直接部门内和子部门内的所有下属</span></p><p><br/></p></td></tr><tr><td class="numberingColumn confluenceTd" colspan="1"><span style="color: rgb(0,0,0);">8</span></td><td colspan="1" class="confluenceTd"><br/></td><td colspan="1" class="confluenceTd"><br/></td></tr><tr><td class="numberingColumn confluenceTd" colspan="1"><span style="color: rgb(0,0,0);">9</span></td><td colspan="1" class="confluenceTd"><span style="color: rgb(0,0,0);">----</span></td><td colspan="1" class="confluenceTd"><br/></td></tr><tr><td class="numberingColumn confluenceTd" colspan="1"><span style="color: rgb(0,0,0);">10</span></td><td colspan="1" class="confluenceTd"><span style="color: rgb(0,0,0);">下属人名</span></td><td colspan="1" class="confluenceTd"><span style="color: rgb(0,0,0);">单独起一张明细表维护每个销售对应的下属列表</span></td></tr></tbody></table></div><h1 id="id-11_下属人数表-报表逻辑"><s>报表逻辑</s></h1><ol><li><s>下属人数不包括 当前销售人名.</s></li><li><s>只统计 状态为 启用 且 未被删除 且 入职时间不在当月 的人员</s></li><li><p><s>只取现有的驻地BD（业务方称呼，即BD岗位）人数，主管和大区经理和BD新签都不包含在内,</s></p></li><li><p><s>通用账号和测试账号剔除</s></p></li><li><p><s><span style="color: rgb(23,26,29);">按照部门内实际的直属BD人数来计算. 不存在0.5人的概念. 只计算BD岗位的. 当月离职的也算</span></s></p></li><li><s><span style="color: rgb(23,26,29);">如果主管或者大区既有员工账号也有通用账号，优先取员工账号，如果没有取通用账号</span></s></li><li><s><span style="color: rgb(23,26,29);"><span style="color: rgb(23,43,77);">具体数据逻辑验证：详见<a href="http://k.yangtuojia.com/pages/viewpage.action?pageId=62699726">区域人数数据验证</a></span></span></s></li></ol><h1 id="id-11_下属人数表-报表逻辑.1">报表逻辑</h1><ol><li>下属人数不包括 当前销售人名.</li><li><span style="color: rgb(255,0,0);"><strong>只统计 未被删除 且 入职时间不在当月 的人员（v1.3修改)</strong></span></li><li><p>只取现有的驻地BD（业务方称呼，即BD岗位，大BD岗位）人数，主管和大区经理和BD新签都不包含在内,</p></li><li><p>通用账号和测试账号剔除</p></li><li><p><span style="color: rgb(0,0,0);"><strong>按照部门内实际的直属BD人数来计算. 不存在0.5人的概念. 只计算BD岗位的，判断离职时间，离职时间在当月<span style="color: rgb(255,0,0);">10日</span>及之前不算人数，在<span style="color: rgb(255,0,0);">10日</span>之后算人数</strong><strong>（v1.6修改)</strong></span></p></li><li><span style="color: rgb(23,26,29);">如果主管或者大区既有员工账号也有通用账号，优先取员工账号，如果没有取通用账号</span></li><li><span style="color: rgb(23,26,29);"><span style="color: rgb(23,43,77);">具体数据逻辑验证：详见<a href="http://k.yangtuojia.com/pages/viewpage.action?pageId=62699726">区域人数数据验证</a></span></span></li></ol><p><br/></p><h1 id="id-11_下属人数表-监控规则">监控规则</h1><ol><li>所有在 区域关系表内的 主管,大区经理,战区经理 下的 下属人数必须&gt;=3</li></ol><p><br/></p><h1 id="id-11_下属人数表-v.1.7需求："><span style="color: rgb(255,0,0);"><strong>v.1.7需求：</strong></span></h1><h2 id="id-11_下属人数表-需求一、创建一个人工数据上传表，字段如下@数仓">需求一、创建一个人工数据上传表，字段如下 @数仓</h2><div class="table-wrap"><table class="relative-table confluenceTable" style="width: 25.8193%;"><colgroup><col/><col style="width: 12.5203%;"/><col style="width: 22.3612%;"/><col style="width: 15.6702%;"/><col style="width: 17.3486%;"/><col style="width: 20.7656%;"/></colgroup><tbody><tr><th colspan="1" class="confluenceTh">月份</th><th class="confluenceTh">用户id</th><th class="confluenceTh">用户姓名</th><th class="confluenceTh">岗位名称</th><th class="confluenceTh">部门名称</th><th class="confluenceTh">下属人数</th></tr><tr><td colspan="1" class="confluenceTd">user_month</td><td class="confluenceTd">user_id</td><td class="confluenceTd">user_real_name</td><td class="confluenceTd">job_name</td><td class="confluenceTd"><span style="color: rgb(51,51,51);">dept_name</span></td><td class="confluenceTd"><p style="">underling_cnt</p></td></tr></tbody></table></div><p><br/></p><h2 id="id-11_下属人数表-需求二、新建新版下属人数表@数仓">需求二、新建新版下属人数表 @数仓</h2><p>字段和老版下属人数表保持一致，<strong><span style="color: rgb(0,0,0);">ytdw.dws_usr_bd_manager_underling_d</span></strong></p><p>主要修改以下逻辑</p><p>具体修改点如下：<br/>1、如果当前日期该用户在人工上传表里当月有上传下属人数数据，实际下属人数以人工上传表为准。否则则取老版下属人数表逻辑。</p><p><br/></p><h2 id="id-11_下属人数表-需求三、特殊提成计算下属人数全部改动新版下属人数表@肥桃">需求三、特殊提成计算下属人数全部改动新版下属人数表@肥桃</h2><p>修改特殊提成所有涉及取人均人数的计算逻辑，改成数仓新建的新版人数表。</p><p><br/></p><p><br/></p><p>业务告知@安泽<br/>1、业务操作流程，<br/>1）会配置一个报表，这个报表会有所有主管的人数，业务自行下载查询<br/>2）如果需要特殊修改人数，需要把数据单独修改后发给安泽（会给表模板）<br/>3）安泽操作表上传，第二天特殊提成会自动生效。<br/>2、业务逻辑<br/>1）目前仅支持一个月所有管理层的下属人数保持一致，不支持单月按照方案特殊定制，（比如主管A，方案1有10个人，方案2有5个人，这种不支持），<br/>2）以上已跟业务同步，目前这个成本最小且可以支持业务需求。</p><p><br/></p><p><br/></p>
+                    </div>
+
+                    
+                 
+                </div>             </div> 
+            <div id="footer" role="contentinfo">
+                <section class="footer-body">
+                    <p>Document generated by Confluence on 2026-04-14 15:51</p>
+                    <div id="footer-logo"><a href="http://www.atlassian.com/">Atlassian</a></div>
+                </section>
+            </div>
+        </div>     </body>
+</html>

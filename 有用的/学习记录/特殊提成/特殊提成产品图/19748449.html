@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>产品组 : 三、方案数据中心</title>
+        <link rel="stylesheet" href="styles/site.css" type="text/css" />
+        <META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    </head>
+
+    <body class="theme-default aui-theme-default">
+        <div id="page">
+            <div id="main" class="aui-page-panel">
+                <div id="main-header">
+                    <div id="breadcrumb-section">
+                        <ol id="breadcrumbs">
+                            <li class="first">
+                                <span><a href="index.html">产品组</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="19745159.html">02_特殊提成项目</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="PRD_19745164.html">PRD</a></span>
+                            </li>
+                                                </ol>
+                    </div>
+                    <h1 id="title-heading" class="pagetitle">
+                                                <span id="title-text">
+                            产品组 : 三、方案数据中心
+                        </span>
+                    </h1>
+                </div>
+
+                <div id="content" class="view">
+                    <div class="page-metadata">
+                        
+        
+    
+        
+    
+        
+        
+            Created by <span class='author'> 未知用户 (lei.xue)</span>, last modified on 2020-06-08
+                        </div>
+                    <div id="main-content" class="wiki-content group">
+                    <h1 id="id-三、方案数据中心-目录">目录</h1><div class="table-wrap"><table class="confluenceTable"><thead><tr><th class="confluenceTh"><div class="tablesorter-header-inner">版本号</div></th><th class="confluenceTh"><div class="tablesorter-header-inner">内容</div></th><th class="confluenceTh"><div class="tablesorter-header-inner">作者</div></th><th class="confluenceTh"><div class="tablesorter-header-inner">时间</div></th><th colspan="1" class="confluenceTh"><div class="tablesorter-header-inner">备注</div></th></tr></thead><tbody><tr><td colspan="1" class="confluenceTd">V1.01</td><td colspan="1" class="confluenceTd">初稿</td><td colspan="1" class="confluenceTd">阿雷</td><td colspan="1" class="confluenceTd">2020.02.15</td><td colspan="1" class="confluenceTd"><br/></td></tr><tr><td colspan="1" class="confluenceTd"> V2</td><td colspan="1" class="confluenceTd">新增 方案进度表</td><td colspan="1" class="confluenceTd">阿雷 </td><td colspan="1" class="confluenceTd">2020.04.09</td><td colspan="1" class="confluenceTd"><br/></td></tr><tr><td colspan="1" class="confluenceTd">V3</td><td colspan="1" class="confluenceTd">特殊提成四期需求</td><td colspan="1" class="confluenceTd">阿雷</td><td colspan="1" class="confluenceTd">2020.05.04</td><td colspan="1" class="confluenceTd"><br/></td></tr></tbody></table></div><p><style type='text/css'>/*<![CDATA[*/
+div.rbtoc1776153100094 {padding: 0px;}
+div.rbtoc1776153100094 ul {list-style: disc;margin-left: 0px;}
+div.rbtoc1776153100094 li {margin-left: 0px;padding-left: 0px;}
+
+/*]]>*/</style><div class='toc-macro rbtoc1776153100094'>
+<ul class='toc-indentation'>
+<li><a href='#id-三、方案数据中心-目录'>目录</a></li>
+<li><a href='#id-三、方案数据中心-URL'>URL</a></li>
+<li><a href='#id-三、方案数据中心-业务价值'>业务价值</a></li>
+<li><a href='#id-三、方案数据中心-全局逻辑'>全局逻辑</a></li>
+<li><a href='#id-三、方案数据中心-筛选器'>筛选器</a></li>
+<li><a href='#id-三、方案数据中心-数据内容(全是表格)'>数据内容(全是表格)</a>
+<ul class='toc-indentation'>
+<li><a href='#id-三、方案数据中心-(V4新增)'>03_当月方案进度汇总表(V4新增)</a></li>
+<li><a href='#id-三、方案数据中心-当月方案汇总'>当月方案汇总</a></li>
+</ul>
+</li>
+</ul>
+</div></p><h1 id="id-三、方案数据中心-URL"><a class="external-link" href="https://data.hipac.cn/new/cloudatlas/dashboard/specialroyalty" rel="nofollow">URL</a></h1><h1 id="id-三、方案数据中心-业务价值">业务价值</h1><ol><li>本期暂不考虑销售看数据的需求</li><li>本数据中心以最小成本来实现. 只针对后台的管理员,战区开放. </li></ol><h1 id="id-三、方案数据中心-全局逻辑">全局逻辑</h1><ol><li>类似于运采数据中心. 用户只能看到自己业务组的数据(归属业务组)</li><li><s>默认过滤方案名称包含 废弃 或者 测试 关键词的方案. (方案名称通过 join 方案配置表 . 不取离线HIVE里的方案信息)</s></li><li>新增 全局过滤条件  方案归属类型 = 业务组方案 且 方案状态 不等于 已废弃</li><li>保证回流的时效性. 例如 创建历史方案 后保证 数据能2个小时内回流回 方案数据中心.  </li><li>所有的方案信息(方案月份,方案名称,方案归属业务组) 都通过 JOIN 最新的维度表.   不取 HIVE表里回流的方案信息.</li></ol><h1 id="id-三、方案数据中心-筛选器">筛选器</h1><div class="table-wrap"><table class="confluenceTable"><colgroup><col/><col/><col/></colgroup><tbody><tr><th class="confluenceTh">筛选器名称</th><th class="confluenceTh">筛选器样式</th><th class="confluenceTh">备注</th></tr><tr><td class="confluenceTd">方案月份</td><td class="confluenceTd">月份选择器</td><td class="confluenceTd">默认当月</td></tr><tr><td colspan="1" class="confluenceTd">归属业务组</td><td colspan="1" class="confluenceTd">下拉筛选器</td><td colspan="1" class="confluenceTd">同 运采数据中心.只能看到有自己有权限的业务组.</td></tr><tr><td colspan="1" class="confluenceTd">计算月份</td><td colspan="1" class="confluenceTd"><span>月份选择器</span></td><td colspan="1" class="confluenceTd">默认当月</td></tr><tr><td class="confluenceTd">方案ID</td><td class="confluenceTd"><span>数字输入框</span></td><td class="confluenceTd">对方案ID进行模糊查找</td></tr><tr><td class="confluenceTd">方案名称</td><td class="confluenceTd"><span>文本输入框</span></td><td class="confluenceTd">文本输入框</td></tr><tr><td colspan="1" class="confluenceTd">人员名称</td><td colspan="1" class="confluenceTd">搜索下拉单选</td><td colspan="1" class="confluenceTd">目标用户为 销售部所有人</td></tr><tr><td colspan="1" class="confluenceTd">人员部门</td><td colspan="1" class="confluenceTd"><span>文本输入框</span></td><td colspan="1" class="confluenceTd">文本输入框. 对内容进行模糊查找</td></tr></tbody></table></div><p>默认查询 计算月份 中最新的时间分区.  比如说今天是2月份,则查1月份的方案,查询20200131分区数据.  2月份则查询 20200213 分区数据.</p><h1 id="id-三、方案数据中心-数据内容(全是表格)">数据内容(全是表格)</h1><p>开发保证回流的内容.  具体看板搭建由 阿雷来. </p><h3 id="id-三、方案数据中心-(V4新增)"><a href="20360414.html">03_当月方案进度汇总表</a><span style="color: rgb(255,0,0);">(V4新增)</span></h3><h3 id="id-三、方案数据中心-当月方案汇总"><a href="http://k.yangtuojia.com/pages/viewpage.action?pageId=19748066" rel="nofollow">当月方案汇总</a></h3><p>存量GMV明细表</p><p>新签品牌明细表</p><p>新签商品明细表</p><p><br/><br/></p><p><br/></p><p><br/></p><p><br/></p>
+                    </div>
+
+                    
+                 
+                </div>             </div> 
+            <div id="footer" role="contentinfo">
+                <section class="footer-body">
+                    <p>Document generated by Confluence on 2026-04-14 15:51</p>
+                    <div id="footer-logo"><a href="http://www.atlassian.com/">Atlassian</a></div>
+                </section>
+            </div>
+        </div>     </body>
+</html>

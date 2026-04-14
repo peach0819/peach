@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>产品组 : 202503_01_日常_特殊提成日常</title>
+        <link rel="stylesheet" href="styles/site.css" type="text/css" />
+        <META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    </head>
+
+    <body class="theme-default aui-theme-default">
+        <div id="page">
+            <div id="main" class="aui-page-panel">
+                <div id="main-header">
+                    <div id="breadcrumb-section">
+                        <ol id="breadcrumbs">
+                            <li class="first">
+                                <span><a href="index.html">产品组</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="19745159.html">02_特殊提成项目</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="PRD_19745164.html">PRD</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="19747333.html">零、需求列表</a></span>
+                            </li>
+                                                </ol>
+                    </div>
+                    <h1 id="title-heading" class="pagetitle">
+                                                <span id="title-text">
+                            产品组 : 202503_01_日常_特殊提成日常
+                        </span>
+                    </h1>
+                </div>
+
+                <div id="content" class="view">
+                    <div class="page-metadata">
+                        
+        
+    
+        
+    
+        
+        
+            Created by <span class='author'> 未知用户 (quanru.wang4324)</span>, last modified on 2025-03-12
+                        </div>
+                    <div id="main-content" class="wiki-content group">
+                    <h1 id="id-202503_01_日常_特殊提成日常-业务背景">业务背景</h1><p>因目前BD部和品牌奶粉合作特殊业务背景，目前BD部种有很多针对品牌系列做功的场景，且成为大区主要激励政策，</p><p>目前特殊提成无法针对品牌和品牌系列做功兼容，导致很多特殊提成方案无法计算。</p><p><br/></p><h1 id="id-202503_01_日常_特殊提成日常-需求列表">需求列表</h1><p><br/></p><div class="table-wrap"><table class="relative-table wrapped confluenceTable" style="width: 21.9347%;"><colgroup><col style="width: 62.8381%;"/><col style="width: 12.8991%;"/><col style="width: 13.9858%;"/><col style="width: 10.1847%;"/></colgroup><thead><tr><th style="text-align: left;" class="confluenceTh"><p>需求名称</p></th><th style="text-align: left;" class="confluenceTh"><p>优先级</p></th><th colspan="1" style="text-align: left;" class="confluenceTh"><p>状态</p></th><th colspan="1" style="text-align: left;" class="confluenceTh"><p>节奏</p></th></tr></thead><tbody><tr><td colspan="1" style="text-align: left;" class="confluenceTd">一、修改部分模板下对应的品牌筛选组件</td><td colspan="1" style="text-align: left;" class="confluenceTd">P0</td><td colspan="1" style="text-align: left;" class="confluenceTd">本次评审</td><td colspan="1" style="text-align: left;" class="confluenceTd"><br/></td></tr><tr><td colspan="1" class="confluenceTd">二、GMV模板过滤条件逻辑修改</td><td colspan="1" class="confluenceTd">P0</td><td colspan="1" class="confluenceTd">本次评审</td><td colspan="1" class="confluenceTd"><br/></td></tr><tr><td colspan="1" class="confluenceTd">三、品牌新签模板过滤条件逻辑修改</td><td colspan="1" class="confluenceTd">P0</td><td colspan="1" class="confluenceTd">本次评审</td><td colspan="1" class="confluenceTd"><br/></td></tr></tbody></table></div><h2 id="id-202503_01_日常_特殊提成日常-一、修改部分模板下对应的品牌筛选组件">一、修改部分模板下对应的品牌筛选组件</h2><p>详见：<a href="19747317.html">一、方案配置</a> v7.7改动部分</p><p>修改品牌配置组件，确保可以同时筛选品牌和品牌系列。</p><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" height="250" src="attachments/148839370/148839381.png" data-image-src="attachments/148839370/148839381.png" data-unresolved-comment-count="0" data-linked-resource-id="148839381" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2025-3-11_14-40-31.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="148839370" data-linked-resource-container-version="2"></span></p><p><br/></p><h2 id="id-202503_01_日常_特殊提成日常-二、GMV模板过滤条件逻辑修改">二、GMV模板过滤条件逻辑修改</h2><p>1）GMV模板明细表里新增品牌系列id及名称字段。</p><p>详见：<a href="20589815.html">07_存量GMV模板规则通用明细表(V2.0)</a> V8部分</p><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" height="57" src="attachments/148839370/148839384.png" data-image-src="attachments/148839370/148839384.png" data-unresolved-comment-count="0" data-linked-resource-id="148839384" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2025-3-11_14-43-59.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="148839370" data-linked-resource-container-version="2"></span></p><p>2）明细表品牌系列组件过滤逻辑修改：</p><p>a.当用户只选择品牌，未选择系列时，GMV模板规则中间表只根据品牌id进行过滤即可。</p><p>b、当用户只选择品牌系列，未选择品牌时，GMV模板规则中间表只根据品牌系列id进行过滤即可。</p><p>c、当用户同时选择品牌和品牌系列时，需要根据用户选择的品牌和系列分别进行过滤。如用户选择爱他美品牌，和美赞臣纯冠系列，则汇总表需要保留爱他美品牌和美赞臣纯冠系列的并集数据。</p><p><strong><span style="color: rgb(255,0,0);">PS:这里需要引导用户如果全部选择了品牌，那么不需要再选择系列，</span></strong></p><p><br/></p><h2 id="id-202503_01_日常_特殊提成日常-三、品牌新签模板过滤条件逻辑修改"><span style="color: rgb(0,0,0);"><strong>三、品牌新签模板过滤条件逻辑修改</strong></span></h2><p><span style="color: rgb(0,0,0);"><strong>详见：<a href="20590445.html">08_新签品牌模板规则通用明细表(V2.0)</a>  V5部分</strong></span></p><p><span style="color: rgb(0,0,0);"><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" height="250" src="attachments/148839370/148839392.png" data-image-src="attachments/148839370/148839392.png" data-unresolved-comment-count="0" data-linked-resource-id="148839392" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2025-3-11_15-4-14.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="148839370" data-linked-resource-container-version="2"></span></span></p><p><span style="color: rgb(0,0,0);"><strong><span style="color: rgb(255,0,0);">PS:本次需求主要改动点。</span></strong></span></p><p><br/></p><p><br/></p><p><br/></p>
+                    </div>
+
+                                        <div class="pageSection group">
+                        <div class="pageSectionHeader">
+                            <h2 id="attachments" class="pageSectionTitle">Attachments:</h2>
+                        </div>
+
+                        <div class="greybox" align="left">
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/148839370/148839381.png">image2025-3-11_14-40-31.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/148839370/148839384.png">image2025-3-11_14-43-59.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/148839370/148839392.png">image2025-3-11_15-4-14.png</a> (image/png)
+                                <br/>
+                                                    </div>
+                    </div>
+                    
+                 
+                </div>             </div> 
+            <div id="footer" role="contentinfo">
+                <section class="footer-body">
+                    <p>Document generated by Confluence on 2026-04-14 15:51</p>
+                    <div id="footer-logo"><a href="http://www.atlassian.com/">Atlassian</a></div>
+                </section>
+            </div>
+        </div>     </body>
+</html>

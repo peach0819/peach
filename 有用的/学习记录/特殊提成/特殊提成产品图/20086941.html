@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>产品组 : 特殊提成预警规则梳理</title>
+        <link rel="stylesheet" href="styles/site.css" type="text/css" />
+        <META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    </head>
+
+    <body class="theme-default aui-theme-default">
+        <div id="page">
+            <div id="main" class="aui-page-panel">
+                <div id="main-header">
+                    <div id="breadcrumb-section">
+                        <ol id="breadcrumbs">
+                            <li class="first">
+                                <span><a href="index.html">产品组</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="19745159.html">02_特殊提成项目</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="19745166.html">计算风险及其应对</a></span>
+                            </li>
+                                                </ol>
+                    </div>
+                    <h1 id="title-heading" class="pagetitle">
+                                                <span id="title-text">
+                            产品组 : 特殊提成预警规则梳理
+                        </span>
+                    </h1>
+                </div>
+
+                <div id="content" class="view">
+                    <div class="page-metadata">
+                        
+        
+    
+        
+    
+        
+        
+            Created by <span class='author'> 未知用户 (quanru.wang4324)</span>, last modified on 2020-05-28
+                        </div>
+                    <div id="main-content" class="wiki-content group">
+                    <h1 id="id-特殊提成预警规则梳理-一、方案配置前">一、方案配置前</h1><p>1、职能不符合当前岗位统计判断</p><p>目的：保证 大BD,BD岗位的销售人员对应的 门店上的职能 都是唯一对应的. </p><p>预警规则：<span style="color: rgb(17,31,44);">职能不符合门店数= 0 </span></p><p>预警规则代码：</p><div class="code panel pdl" style="border-width: 1px;">
+ <div class="codeHeader panelHeader pdl hide-border-bottom" style="border-bottom-width: 1px;">
+  <b class="code-title">职能不符合当前岗位</b>
+  <span class="collapse-source expand-control" style="display:none;"><span class="expand-control-icon icon">&nbsp;</span><span class="expand-control-text">展开源码</span></span>
+  <span class="collapse-spinner-wrapper"></span>
+ </div>
+ <div class="codeContent panelContent pdl hide-toolbar"> 
+  <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: sql; gutter: true; theme: Confluence; collapse: true" data-theme="Confluence">&nbsp;select
+count(distinct shop_id)
+from 
+(
+select
+ytdw.get_service_info('service_type:销售',service_info,'service_feature_name') as service_feature_name,
+ytdw.get_service_info('service_type:销售',service_info,'service_job_name') as service_job_name,
+shop_id,
+service_info
+from dw_shop_base_d
+where dayid='$v_date'
+  AND ytdw.get_service_info('service_type:销售',service_info,'service_job_name') in ('大BD','BD','BD新签') 
+  AND ytdw.get_service_info('service_type:销售',service_info,'service_feature_name') != ytdw.get_service_info('service_type:销售',service_info,'service_job_name')
+)t 
+
+</pre> 
+ </div>
+</div><p>2、大BD门店的判断</p><p>目的：保证 大BD门店上挂的是大BD,BD门店上挂的是BD</p><p>预警规则：<span style="color: rgb(17,31,44);">不符合门店数= 0 </span></p><p>预警规则代码：</p><div class="code panel pdl" style="border-width: 1px;">
+ <div class="codeHeader panelHeader pdl hide-border-bottom" style="border-bottom-width: 1px;">
+  <b class="code-title">大BD门店判断</b>
+  <span class="collapse-source expand-control" style="display:none;"><span class="expand-control-icon icon">&nbsp;</span><span class="expand-control-text">展开源码</span></span>
+  <span class="collapse-spinner-wrapper"></span>
+ </div>
+ <div class="codeContent panelContent pdl hide-toolbar"> 
+  <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: sql; gutter: true; theme: Confluence; collapse: true" data-theme="Confluence">&nbsp;select
+count(distinct shop_id)
+from 
+(
+select
+ytdw.get_service_info('service_type:销售',service_info,'service_feature_name') as service_feature_name,
+ytdw.get_service_info('service_type:销售',service_info,'service_job_name') as service_job_name,
+shop_id,
+service_info
+from dw_shop_base_d
+where dayid='$v_date'
+  AND ytdw.get_service_info('service_type:销售',service_info,'service_job_name') in ('大BD','BD') 
+  AND ytdw.get_service_info('service_type:销售',service_info,'service_feature_name') != ytdw.get_service_info('service_type:销售',service_info,'service_job_name')
+)t </pre> 
+ </div>
+</div><p>3、每个销售都有业绩目标</p><p>目的：保证目前销售都有业绩目标，且基本目标唯一</p><p>预警规则：<span style="color: rgb(17,31,44);">不符合人数= 0 </span></p><p>预警规则代码：</p><div class="code panel pdl" style="border-width: 1px;">
+ <div class="codeHeader panelHeader pdl hide-border-bottom" style="border-bottom-width: 1px;">
+  <b class="code-title">销售业绩目标唯一</b>
+  <span class="collapse-source expand-control" style="display:none;"><span class="expand-control-icon icon">&nbsp;</span><span class="expand-control-text">展开源码</span></span>
+  <span class="collapse-spinner-wrapper"></span>
+ </div>
+ <div class="codeContent panelContent pdl hide-toolbar"> 
+  <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: sql; gutter: true; theme: Confluence; collapse: true" data-theme="Confluence">select 
+  count(*)
+from (
+  select 
+   user_target.assessment_id,
+   assessment.month,
+   user_target.user_id,
+   user_target.target
+  
+  from(
+    select
+      assessment_id,
+      user_id,
+      target 
+    from dwd_kpi_indicator_target_d 
+    where dayid = '$v_date' and is_deleted = 0
+  ) user_target 
+  
+  left join (
+    select 
+      id,
+      substr(start_time,0,6) as month 
+    from dwd_kpi_assessment_d
+    -- status 1待生效2生效中3已过期4已失效
+    where dayid = '$v_date' and status in(2,3) and is_deleted = 0
+  ) assessment on user_target.assessment_id = assessment.id
+) tem
+where month &gt; '202001'
+group by assessment_id,month,user_id
+having count(*) &gt;1</pre> 
+ </div>
+</div><p> </p><p>4、部门变更监控</p><p>目的：保证部门变更之后，逆向稽查可以追溯  关于业务规定的部门只能新建，不能修改</p><p>预警规则：保证部门id和name 对应关系不变,不符合部门数=0</p><p>预警规则代码：</p><div class="code panel pdl" style="border-width: 1px;">
+ <div class="codeHeader panelHeader pdl hide-border-bottom" style="border-bottom-width: 1px;">
+  <b class="code-title">部门id和name对应关系</b>
+  <span class="collapse-source expand-control" style="display:none;"><span class="expand-control-icon icon">&nbsp;</span><span class="expand-control-text">展开源码</span></span>
+  <span class="collapse-spinner-wrapper"></span>
+ </div>
+ <div class="codeContent panelContent pdl hide-toolbar"> 
+  <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: sql; gutter: true; theme: Confluence; collapse: true" data-theme="Confluence">&nbsp;select
+count(case when id1=id2 and name1!=name2 then id1 else null end) as m
+from 
+(
+select
+t1.id as id1,
+t2.id as id2,
+t1.name as name1,
+t2.name as name2
+from 
+(
+select
+id,
+name
+from dwd_department_d
+where dayid='$v_date'
+) t1 
+left join 
+(
+select 
+id, 
+name
+from dwd_department_d
+where dayid=from_unixtime(unix_timestamp(date_add(from_unixtime(unix_timestamp('$v_date','yyyyMMdd'),'yyyy-MM-dd') ,-1),'yyyy-MM-dd'),'yyyyMMdd')
+)t2 on t1.id=t2.id
+)t</pre> 
+ </div>
+</div><h1 id="id-特殊提成预警规则梳理-二、方案配置中">二、方案配置中</h1><p>1、关于新签门槛线设置的配置</p><p>目的：保证新签门槛线为正整数，且不能过大</p><p>预警规则：判断新签门槛线的最大值是否过大&gt;=20000</p><p>预警规则代码：</p><div class="code panel pdl" style="border-width: 1px;">
+ <div class="codeHeader panelHeader pdl hide-border-bottom" style="border-bottom-width: 1px;">
+  <b class="code-title">新签门槛线</b>
+  <span class="collapse-source expand-control" style="display:none;"><span class="expand-control-icon icon">&nbsp;</span><span class="expand-control-text">展开源码</span></span>
+  <span class="collapse-spinner-wrapper"></span>
+ </div>
+ <div class="codeContent panelContent pdl hide-toolbar"> 
+  <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: sql; gutter: true; theme: Confluence; collapse: true" data-theme="Confluence">&nbsp;</pre> 
+ </div>
+</div><h1 id="id-特殊提成预警规则梳理-三、方案配置后，计算结果">三、方案配置后，计算结果</h1><p>1、关于销售人员的特殊激励</p><p>目的：保证销售人员的特殊激励计算合理，防止出现不封顶情况</p><p>预警规则：判断销售人员最大的激励是否&gt;=100000,结果不为0则预警</p><p>预警规则代码：</p><div class="code panel pdl" style="border-width: 1px;">
+ <div class="codeHeader panelHeader pdl hide-border-bottom" style="border-bottom-width: 1px;">
+  <b class="code-title">销售人员特殊激励</b>
+  <span class="collapse-source expand-control" style="display:none;"><span class="expand-control-icon icon">&nbsp;</span><span class="expand-control-text">展开源码</span></span>
+  <span class="collapse-spinner-wrapper"></span>
+ </div>
+ <div class="codeContent panelContent pdl hide-toolbar"> 
+  <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: sql; gutter: true; theme: Confluence; collapse: true" data-theme="Confluence">&nbsp;select
+count(1)
+from 
+(
+select
+plan_no,
+grant_object_user_name,
+sum(commission_reward) as commission_reward
+from dw_salary_forward_plan_sum_d
+where dayid='$v_date'
+group by plan_no,
+grant_object_user_name
+)t
+where commission_reward&gt;=100000</pre> 
+ </div>
+</div>
+                    </div>
+
+                    
+                 
+                </div>             </div> 
+            <div id="footer" role="contentinfo">
+                <section class="footer-body">
+                    <p>Document generated by Confluence on 2026-04-14 15:51</p>
+                    <div id="footer-logo"><a href="http://www.atlassian.com/">Atlassian</a></div>
+                </section>
+            </div>
+        </div>     </body>
+</html>

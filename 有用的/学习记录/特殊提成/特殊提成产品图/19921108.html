@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>产品组 : 06_新签商品模板规则通用明细表</title>
+        <link rel="stylesheet" href="styles/site.css" type="text/css" />
+        <META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    </head>
+
+    <body class="theme-default aui-theme-default">
+        <div id="page">
+            <div id="main" class="aui-page-panel">
+                <div id="main-header">
+                    <div id="breadcrumb-section">
+                        <ol id="breadcrumbs">
+                            <li class="first">
+                                <span><a href="index.html">产品组</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="19745159.html">02_特殊提成项目</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="PRD_19745164.html">PRD</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="19745220.html">二、数据逻辑</a></span>
+                            </li>
+                                                </ol>
+                    </div>
+                    <h1 id="title-heading" class="pagetitle">
+                                                <span id="title-text">
+                            产品组 : 06_新签商品模板规则通用明细表
+                        </span>
+                    </h1>
+                </div>
+
+                <div id="content" class="view">
+                    <div class="page-metadata">
+                        
+        
+    
+        
+    
+        
+        
+            Created by <span class='author'> 未知用户 (quanru.wang4324)</span>, last modified by <span class='editor'> 未知用户 (lei.xue)</span> on 2020-05-06
+                        </div>
+                    <div id="main-content" class="wiki-content group">
+                    <h1 id="id-06_新签商品模板规则通用明细表-目录">目录</h1><p> </p><div class="toc-macro client-side-toc-macro  conf-macro output-block hidden-outline"><ul><li><span class="toc-item-body"><a class="toc-link" href="http://k.yangtuojia.com/pages/viewpage.action?pageId=19920883#id-03_01%E6%96%B0%E7%AD%BE%E5%93%81%E7%89%8C%E6%A8%A1%E6%9D%BF%E8%A7%84%E5%88%99%E9%80%9A%E7%94%A8%E6%98%8E%E7%BB%86%E8%A1%A8-%E7%9B%AE%E5%BD%95" rel="nofollow">目录</a></span></li><li><span class="toc-item-body"><a class="toc-link" href="http://k.yangtuojia.com/pages/viewpage.action?pageId=19920883#id-03_01%E6%96%B0%E7%AD%BE%E5%93%81%E7%89%8C%E6%A8%A1%E6%9D%BF%E8%A7%84%E5%88%99%E9%80%9A%E7%94%A8%E6%98%8E%E7%BB%86%E8%A1%A8-%E4%BE%9D%E8%B5%96%E8%BF%87%E6%BB%A4%E6%9D%A1%E4%BB%B6" rel="nofollow">依赖过滤条件</a></span></li><li><span class="toc-item-body"><a class="toc-link" href="http://k.yangtuojia.com/pages/viewpage.action?pageId=19920883#id-03_01%E6%96%B0%E7%AD%BE%E5%93%81%E7%89%8C%E6%A8%A1%E6%9D%BF%E8%A7%84%E5%88%99%E9%80%9A%E7%94%A8%E6%98%8E%E7%BB%86%E8%A1%A8-%E6%8A%A5%E8%A1%A8%E5%86%85%E5%AE%B9" rel="nofollow">报表内容</a></span></li><li><span class="toc-item-body"><a class="toc-link" href="http://k.yangtuojia.com/pages/viewpage.action?pageId=19920883#id-03_01%E6%96%B0%E7%AD%BE%E5%93%81%E7%89%8C%E6%A8%A1%E6%9D%BF%E8%A7%84%E5%88%99%E9%80%9A%E7%94%A8%E6%98%8E%E7%BB%86%E8%A1%A8-%E6%8A%A5%E8%A1%A8%E9%80%BB%E8%BE%91" rel="nofollow">报表逻辑</a></span></li><li><span class="toc-item-body"><a class="toc-link" href="http://k.yangtuojia.com/pages/viewpage.action?pageId=19920883#id-03_01%E6%96%B0%E7%AD%BE%E5%93%81%E7%89%8C%E6%A8%A1%E6%9D%BF%E8%A7%84%E5%88%99%E9%80%9A%E7%94%A8%E6%98%8E%E7%BB%86%E8%A1%A8-%E6%96%B9%E6%A1%88%E6%B1%87%E6%80%BB%E6%8C%87%E6%A0%87%E9%80%BB%E8%BE%91" rel="nofollow">方案汇总指标逻辑</a></span></li><li><span class="toc-item-body"><a class="toc-link" href="http://k.yangtuojia.com/pages/viewpage.action?pageId=19920883#id-03_01%E6%96%B0%E7%AD%BE%E5%93%81%E7%89%8C%E6%A8%A1%E6%9D%BF%E8%A7%84%E5%88%99%E9%80%9A%E7%94%A8%E6%98%8E%E7%BB%86%E8%A1%A8-%E7%A4%BA%E4%BE%8Bsql" rel="nofollow">示例sql</a></span></li></ul></div><p> </p><div class="table-wrap"><table class="confluenceTable"><thead><tr><th class="confluenceTh"><div class="tablesorter-header-inner"><div class="tablesorter-header-inner">版本</div></div></th><th class="confluenceTh"><div class="tablesorter-header-inner"><div class="tablesorter-header-inner">更新内容</div></div></th><th class="confluenceTh"><div class="tablesorter-header-inner"><div class="tablesorter-header-inner">更新人</div></div></th><th class="confluenceTh"><div class="tablesorter-header-inner"><div class="tablesorter-header-inner">时间</div></div></th></tr></thead><tbody><tr><td class="confluenceTd">v1.1</td><td class="confluenceTd"> </td><td class="confluenceTd">安泽</td><td class="confluenceTd">2020.03.04</td></tr><tr><td colspan="1" class="confluenceTd">V2</td><td colspan="1" class="confluenceTd">基于最新要求, 所有统计剔除 伙伴店,美妆门店</td><td colspan="1" class="confluenceTd">阿雷</td><td colspan="1" class="confluenceTd">2020.04.09</td></tr></tbody></table></div><h1 id="id-06_新签商品模板规则通用明细表-报表内容"><br/>报表内容</h1><p>所有字段默认带上其id</p><div class="table-wrap"><table class="confluenceTable"><thead><tr><th class="confluenceTh"><div class="tablesorter-header-inner"><div class="tablesorter-header-inner">序号</div></div></th><th class="confluenceTh"><div class="tablesorter-header-inner"><div class="tablesorter-header-inner"><div class="tablesorter-header-inner">字段</div></div></div></th><th colspan="1" class="confluenceTh"><div class="tablesorter-header-inner"><div class="tablesorter-header-inner">可选统计指标</div></div></th><th class="confluenceTh"><div class="tablesorter-header-inner"><div class="tablesorter-header-inner"><div class="tablesorter-header-inner">说明</div></div></div></th></tr><tr><td colspan="1" class="confluenceTd"><div class="tablesorter-header-inner"><div class="tablesorter-header-inner">1</div></div></td><td colspan="1" class="confluenceTd"><div class="tablesorter-header-inner"><div class="tablesorter-header-inner">dayid</div></div></td><td colspan="1" class="confluenceTd"><div class="tablesorter-header-inner"><div class="tablesorter-header-inner"> </div></div></td><td colspan="1" class="confluenceTd"><div class="tablesorter-header-inner"><div class="tablesorter-header-inner">依旧是分区制. 每个分区内全量数据</div></div></td></tr></thead><tbody><tr><td class="confluenceTd">2</td><td colspan="1" class="confluenceTd">更新时间</td><td colspan="1" class="confluenceTd"> </td><td colspan="1" class="confluenceTd">指对应的该方案执行的时间</td></tr><tr><td colspan="1" class="confluenceTd">3</td><td colspan="1" class="confluenceTd">执行月份</td><td colspan="1" class="confluenceTd"> </td><td colspan="1" class="confluenceTd"> </td></tr><tr><td colspan="1" class="confluenceTd">4</td><td colspan="1" class="confluenceTd">明细类型</td><td colspan="1" class="confluenceTd"> </td><td colspan="1" class="confluenceTd">当月方案/历史方案</td></tr><tr><td colspan="1" class="confluenceTd">5</td><td colspan="1" class="confluenceTd"> </td><td colspan="1" class="confluenceTd"> </td><td colspan="1" class="confluenceTd"> </td></tr><tr><td colspan="1" class="confluenceTd">6</td><td colspan="1" class="confluenceTd"><span style="color: rgb(0,0,0);">---方案基本信息---</span></td><td colspan="1" class="confluenceTd"> </td><td colspan="1" class="confluenceTd"> </td></tr><tr><td colspan="1" class="confluenceTd">7</td><td colspan="1" class="confluenceTd">方案月份</td><td colspan="1" class="confluenceTd"> </td><td colspan="1" class="confluenceTd"> </td></tr><tr><td colspan="1" class="confluenceTd">8</td><td colspan="1" class="confluenceTd"><p>方案时间</p></td><td colspan="1" class="confluenceTd"> </td><td colspan="1" class="confluenceTd">方案开始时间—方案结束时间</td></tr><tr><td colspan="1" class="confluenceTd">9</td><td colspan="1" class="confluenceTd">方案ID</td><td colspan="1" class="confluenceTd"> </td><td colspan="1" class="confluenceTd"> </td></tr><tr><td colspan="1" class="confluenceTd">10</td><td colspan="1" class="confluenceTd">方案名称</td><td colspan="1" class="confluenceTd"> </td><td colspan="1" class="confluenceTd"> </td></tr><tr><td colspan="1" class="confluenceTd">11</td><td colspan="1" class="confluenceTd">归属业务组</td><td colspan="1" class="confluenceTd"> </td><td colspan="1" class="confluenceTd"> </td></tr><tr><td colspan="1" class="confluenceTd">12</td><td colspan="1" class="confluenceTd">新签门槛线</td><td colspan="1" class="confluenceTd"> </td><td colspan="1" class="confluenceTd">业务设置的门店实货GMV-退款的达标线，为正整数</td></tr><tr><td colspan="1" class="confluenceTd">13</td><td colspan="1" class="confluenceTd"> </td><td colspan="1" class="confluenceTd"> </td><td colspan="1" class="confluenceTd"> </td></tr><tr><td colspan="1" class="confluenceTd">14</td><td colspan="1" class="confluenceTd"><span style="color: rgb(0,0,0);">---订单品牌维度信息---</span></td><td colspan="1" class="confluenceTd"> </td><td colspan="1" class="confluenceTd"> </td></tr><tr><td class="confluenceTd">15</td><td colspan="1" class="confluenceTd">商品品牌</td><td colspan="1" class="confluenceTd"> </td><td colspan="1" class="confluenceTd"> </td></tr><tr><td colspan="1" class="confluenceTd"> </td><td colspan="1" class="confluenceTd">商品id</td><td colspan="1" class="confluenceTd"> </td><td colspan="1" class="confluenceTd"> </td></tr><tr><td colspan="1" class="confluenceTd"> </td><td colspan="1" class="confluenceTd">商品名称</td><td colspan="1" class="confluenceTd"> </td><td colspan="1" class="confluenceTd"> </td></tr><tr><td colspan="1" class="confluenceTd">17</td><td colspan="1" class="confluenceTd">冻结AB类型</td><td colspan="1" class="confluenceTd"> </td><td colspan="1" class="confluenceTd"> </td></tr><tr><td colspan="1" class="confluenceTd">18</td><td colspan="1" class="confluenceTd"> </td><td colspan="1" class="confluenceTd"> </td><td colspan="1" class="confluenceTd"> </td></tr><tr><td colspan="1" class="confluenceTd">27</td><td colspan="1" class="confluenceTd">---门店基础属性---</td><td colspan="1" class="confluenceTd"> </td><td colspan="1" class="confluenceTd"> </td></tr><tr><td colspan="1" class="confluenceTd"> </td><td colspan="1" class="confluenceTd">门店id</td><td colspan="1" class="confluenceTd"> </td><td colspan="1" class="confluenceTd"> </td></tr><tr><td colspan="1" class="confluenceTd">28</td><td colspan="1" class="confluenceTd">门店名称</td><td colspan="1" class="confluenceTd"> </td><td colspan="1" class="confluenceTd"> </td></tr><tr><td colspan="1" class="confluenceTd">29</td><td colspan="1" class="confluenceTd">门店类型</td><td colspan="1" class="confluenceTd"> </td><td colspan="1" class="confluenceTd">母婴店,员工店,二批商,EPS 等.</td></tr><tr><td colspan="1" class="confluenceTd">30</td><td colspan="1" class="confluenceTd">新签时间</td><td colspan="1" class="confluenceTd"> </td><td colspan="1" class="confluenceTd">门店第一次支付该品牌的支付时间</td></tr><tr><td colspan="1" class="confluenceTd">30</td><td colspan="1" class="confluenceTd"><p>新签日期</p></td><td colspan="1" class="confluenceTd"> </td><td colspan="1" class="confluenceTd">门店第一次支付该品牌的支付日期</td></tr><tr><td colspan="1" class="confluenceTd">31</td><td colspan="1" class="confluenceTd"><p>新签时间排名达成</p></td><td colspan="1" class="confluenceTd"> </td><td colspan="1" class="confluenceTd">对门店支付该品牌的下单时间进行排序 ——row_number() over(partition by shop_id,brand_name order by pay_day)</td></tr><tr><td colspan="1" class="confluenceTd"> </td><td colspan="1" class="confluenceTd">门店商品新签时间</td><td colspan="1" class="confluenceTd"> </td><td colspan="1" class="confluenceTd">该门店首次支付该商品时间</td></tr><tr><td colspan="1" class="confluenceTd"> </td><td colspan="1" class="confluenceTd"> </td><td colspan="1" class="confluenceTd"> </td><td colspan="1" class="confluenceTd"> </td></tr><tr><td colspan="1" class="confluenceTd"> </td><td colspan="1" class="confluenceTd"><span style="color: rgb(0,0,0);">---销售信息--</span></td><td colspan="1" class="confluenceTd"> </td><td colspan="1" class="confluenceTd"> </td></tr><tr><td colspan="1" class="confluenceTd">32</td><td colspan="1" class="confluenceTd">战区名称</td><td colspan="1" class="confluenceTd"> </td><td colspan="1" class="confluenceTd"> </td></tr><tr><td colspan="1" class="confluenceTd">33</td><td colspan="1" class="confluenceTd">战区经理名</td><td colspan="1" class="confluenceTd"> </td><td colspan="1" class="confluenceTd"> </td></tr><tr><td colspan="1" class="confluenceTd">34</td><td colspan="1" class="confluenceTd">大区名</td><td colspan="1" class="confluenceTd"> </td><td colspan="1" class="confluenceTd"> </td></tr><tr><td colspan="1" class="confluenceTd">35</td><td colspan="1" class="confluenceTd">大区经理名</td><td colspan="1" class="confluenceTd"> </td><td colspan="1" class="confluenceTd"> </td></tr><tr><td colspan="1" class="confluenceTd">36</td><td colspan="1" class="confluenceTd">主管区域</td><td colspan="1" class="confluenceTd"> </td><td colspan="1" class="confluenceTd"> </td></tr><tr><td colspan="1" class="confluenceTd">37</td><td colspan="1" class="confluenceTd">BD主管名</td><td colspan="1" class="confluenceTd"> </td><td colspan="1" class="confluenceTd"> </td></tr><tr><td colspan="1" class="confluenceTd">40</td><td colspan="1" class="confluenceTd">冻结销售人员姓名</td><td colspan="1" class="confluenceTd"> </td><td colspan="1" class="confluenceTd"><p>目前只取岗位为BD(不需要保留id)</p></td></tr><tr><td colspan="1" class="confluenceTd">41</td><td colspan="1" class="confluenceTd">冻结销售人员职能</td><td colspan="1" class="confluenceTd"> </td><td colspan="1" class="confluenceTd"><p>目前只取岗位为BD(不需要保留id)</p></td></tr><tr><td colspan="1" class="confluenceTd">42</td><td colspan="1" class="confluenceTd">冻结销售人员角色</td><td colspan="1" class="confluenceTd"> </td><td colspan="1" class="confluenceTd">目前只取岗位为BD(不需要保留id)</td></tr><tr><td colspan="1" class="confluenceTd">43</td><td colspan="1" class="confluenceTd">冻结销售人员部门</td><td colspan="1" class="confluenceTd"> </td><td colspan="1" class="confluenceTd">目前只取岗位为BD(不需要保留id)</td></tr><tr><td colspan="1" class="confluenceTd">46</td><td colspan="1" class="confluenceTd"> </td><td colspan="1" class="confluenceTd"> </td><td colspan="1" class="confluenceTd"> </td></tr><tr><td colspan="1" class="confluenceTd">47</td><td colspan="1" class="confluenceTd"><span style="color: rgb(255,0,0);">-</span><span style="color: rgb(255,0,0);">--GMV数据--</span></td><td colspan="1" class="confluenceTd"> </td><td colspan="1" class="confluenceTd"> </td></tr><tr><td colspan="1" class="confluenceTd">48</td><td colspan="1" class="confluenceTd">实货GMV-退款</td><td colspan="1" class="confluenceTd"><span>是</span></td><td colspan="1" class="confluenceTd"><p>当 业务域 不等于 卡券票 和 其他 时,才进行统计</p><p>=GMV-实货退款</p></td></tr><tr><td colspan="1" class="confluenceTd">49</td><td colspan="1" class="confluenceTd">实货GMV</td><td colspan="1" class="confluenceTd"> </td><td colspan="1" class="confluenceTd"> </td></tr><tr><td colspan="1" class="confluenceTd">50</td><td colspan="1" class="confluenceTd">实货退款</td><td colspan="1" class="confluenceTd"> </td><td colspan="1" class="confluenceTd"> </td></tr><tr><td colspan="1" class="confluenceTd">51</td><td colspan="1" class="confluenceTd">实货清退金额</td><td colspan="1" class="confluenceTd"> </td><td colspan="1" class="confluenceTd"> </td></tr><tr><td colspan="1" class="confluenceTd">52</td><td colspan="1" class="confluenceTd">实货支付金额-退款</td><td colspan="1" class="confluenceTd"><span>是</span></td><td colspan="1" class="confluenceTd"><p>当 业务域 不等于 卡券票 和 其他 时,才进行统计</p><p>=实货支付金额-实货退款-实货清退金额</p></td></tr><tr><td colspan="1" class="confluenceTd">53</td><td colspan="1" class="confluenceTd">支付金额</td><td colspan="1" class="confluenceTd"> </td><td colspan="1" class="confluenceTd"> </td></tr><tr><td colspan="1" class="confluenceTd">54</td><td colspan="1" class="confluenceTd"> </td><td colspan="1" class="confluenceTd"> </td><td colspan="1" class="confluenceTd"> </td></tr><tr><td colspan="1" class="confluenceTd"> </td><td colspan="1" class="confluenceTd"><span style="color: rgb(0,0,0);">---逻辑判断--</span></td><td colspan="1" class="confluenceTd"> </td><td colspan="1" class="confluenceTd"> </td></tr><tr><td colspan="1" class="confluenceTd"> </td><td colspan="1" class="confluenceTd">是否满足新签门槛</td><td colspan="1" class="confluenceTd"> </td><td colspan="1" class="confluenceTd">判断实货GMV-退款是否大于等于新签门槛线，大于等于则为是，小于为否</td></tr><tr><td colspan="1" class="confluenceTd"> </td><td colspan="1" class="confluenceTd">是否首次达成</td><td colspan="1" class="confluenceTd"> </td><td colspan="1" class="confluenceTd">判断门店品牌新签日期排名达成=1，则是，否则则否</td></tr><tr><td colspan="1" class="confluenceTd"> </td><td colspan="1" class="confluenceTd"><p>是否新签成功</p></td><td colspan="1" class="confluenceTd"> </td><td colspan="1" class="confluenceTd">判断是否满足新签门槛和是否首次达成，两者皆为是则是，否则为否</td></tr><tr><td colspan="1" class="confluenceTd"> </td><td colspan="1" class="confluenceTd"> </td><td colspan="1" class="confluenceTd"> </td><td colspan="1" class="confluenceTd"> </td></tr><tr><td colspan="1" class="confluenceTd">55</td><td colspan="1" class="confluenceTd"><span style="color: rgb(255,0,0);">---以下为个性化的配置信息---</span></td><td colspan="1" class="confluenceTd"> </td><td colspan="1" class="confluenceTd"> </td></tr><tr><td colspan="1" class="confluenceTd">56</td><td colspan="1" class="confluenceTd">发放对象类型</td><td colspan="1" class="confluenceTd"> </td><td colspan="1" class="confluenceTd"><p>详见 方案配置 中 的 发放对象</p><p>例: 【辖区】大区经理 , 【辖区】BD主管,【岗位】BD,【岗位】大BD</p></td></tr><tr><td colspan="1" class="confluenceTd">57</td><td colspan="1" class="confluenceTd">发放对象ID</td><td colspan="1" class="confluenceTd"> </td><td colspan="1" class="confluenceTd"><p>如选择的是 辖区类型, 则 直接取 上面销售信息中的 主管/大区/战区 的人的id</p><p>如选择的是 岗位 , 则取 该条订单 service_info_freezed中的对应的岗位的人的ID</p><p>例如,该记录销售人员为 电销丁丁, BD红红,BD新签小明. 如果发放对象类型是 BD . 则取三个人中的 BD红红.</p><p><strong>判断逻辑详见 <a href="http://k.yangtuojia.com/pages/viewpage.action?pageId=19747317" rel="nofollow">一、方案配置</a> 中 发放对象 部分.</strong></p></td></tr><tr><td colspan="1" class="confluenceTd">58</td><td colspan="1" class="confluenceTd">发放对象名称</td><td colspan="1" class="confluenceTd"> </td><td colspan="1" class="confluenceTd">同上</td></tr><tr><td colspan="1" class="confluenceTd">59</td><td colspan="1" class="confluenceTd">发放对象部门</td><td colspan="1" class="confluenceTd"> </td><td colspan="1" class="confluenceTd"><p>同上. 如果是 主管,则取其对应的主管区域(即其主管的部门). 如果是大区经理,则取其对应的大区名,如是BD或者大BD,则直接取其 部门名.</p></td></tr><tr><td colspan="1" class="confluenceTd">60</td><td colspan="1" class="confluenceTd">发放对象离职时间</td><td colspan="1" class="confluenceTd"> </td><td colspan="1" class="confluenceTd">建议提前把离职时间写进service_info_freezed. 主管及其他人的要单独写入</td></tr><tr><td colspan="1" class="confluenceTd">61</td><td colspan="1" class="confluenceTd">是否离职</td><td colspan="1" class="confluenceTd"> </td><td colspan="1" class="confluenceTd">当前支付日期是否大于离职日期. 如果是,则为 &quot;是&quot;. 如果否,则为 &quot;否&quot;</td></tr><tr><td colspan="1" class="confluenceTd">62</td><td colspan="1" class="confluenceTd">统计指标名称</td><td colspan="1" class="confluenceTd"> </td><td colspan="1" class="confluenceTd"><p>详见 方案配置 中 的 模板规则及其对应的统计指标.</p><p>新签门店数/新签商品门店数/新签GMV</p></td></tr></tbody></table></div><p> </p><h1 id="id-06_新签商品模板规则通用明细表-报表逻辑">报表逻辑</h1><ol><li>默认全局只保留 海拍客 业务. (bu_id = 0)</li><li>默认过滤掉 员工店 (store_type != 9 )</li><li><span style="color: rgb(255,0,0);">(V2新增)</span>默认过滤掉 美妆门店和伙伴店(store_type!=3 11) 和 SAAS分销订单(sale_dc_id != 0 )</li><li>默认支付时间小于等于方案结束时间</li><li>门店商品的新签时间在方案时间之内</li><li>默认剔除掉卡券票，其他业务域</li></ol><h1 id="id-06_新签商品模板规则通用明细表-方案汇总指标逻辑">方案汇总指标逻辑</h1><p>1、如统计指标为新签门店数： 则不重复计数shop_id,  cout(distinct case when 是否新签成功='是‘ then shop_id else null end )</p><p>2、如统计指标为新签商品门店数： 则不重复计数shop_id&amp;item_id  ,  cout(distinct case when是否新签成功='是‘ then shop_id&amp;item_id else null end )</p><p>3、如统计指标为新签GMV： 则求和（实货GMV-退款)    sum( case when 是否新签成功='是‘ then 实货GMV-退款  else 0  end )</p><h1 id="id-06_新签商品模板规则通用明细表-示例sql">示例sql</h1><div class="code panel pdl" style="border-width: 1px;">
+ <div class="codeHeader panelHeader pdl hide-border-bottom">
+  <b class="code-title"></b>
+  <span class="collapse-source expand-control" style="display:none;"><span class="expand-control-icon icon">&nbsp;</span><span class="expand-control-text">展开源码</span></span>
+  <span class="collapse-spinner-wrapper"></span>
+ </div>
+ <div class="codeContent panelContent pdl hide-toolbar"> 
+  <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: sql; gutter: true; theme: Confluence; collapse: true" data-theme="Confluence">SELECT
+    --方案基础信息,
+    $方案月份,
+    $方案支付时间区间,
+    $方案ID,
+    $方案名称,
+    $新签门槛线,
+    --模板固定维度,、
+    商品名称，
+    商品品牌,
+    冻结AB类型,
+    门店名称,
+    门店类型,
+    新签时间，
+    新签日期，
+    新签时间达成--row_number() over(partition by shop_id,brand_name order by pay_day) ，
+    门店品牌新签时间，
+    --模板逻辑判断
+    是否满足新签门槛 
+    是否满足新签首次达成
+    是否新签成功
+    ---销售信息--
+    战区名称,
+    战区经理名,
+    大区名,
+    大区经理名,
+    主管区域,
+    BD主管名,
+    服务商名,
+    服务商经理名,
+    冻结销售人员姓名,
+    冻结销售人员职能,
+    冻结销售人员角色,
+    冻结销售人员部门,
+    各角色离职时间,
+    --- 默认的指标
+    实货GMV-退款,
+    实货GMV,
+    实货退款,
+    实货清退金额，
+    支付金额，
+    支付金额—退款
+     
+FROM
+(
+ SELECT
+    --方案基础信息,
+    $方案月份,
+    $方案支付时间区间,
+    $方案ID,
+    $方案名称,
+    --模板固定维度,
+    商品名称，
+    商品品牌,
+    冻结AB类型,
+    门店名称,
+    门店类型,
+    支付时间--min(pay_time)，
+    支付日期--min(pay_day)，
+    门店品牌新签时间
+    ---销售信息--
+    战区名称,
+    战区经理名,
+    大区名,
+    大区经理名,
+    主管区域,
+    BD主管名,
+    冻结销售人员姓名,
+    冻结销售人员职能,
+    冻结销售人员角色,
+    冻结销售人员部门,
+    各角色离职时间,
+    --- 默认的指标
+    sum(实货GMV-退款),
+    sum(实货GMV),
+    sum(实货退款),
+    sum(实货清退金额)，
+    sum(支付金额），
+    sum(支付金额—退款)
+     
+FROM
+(
+    SELECT
+    --方案基础信息,
+    $方案月份,
+    $方案支付时间区间,
+    $方案ID,
+    $方案名称,
+    --模板固定维度,
+   商品名称，
+    商品品牌,
+    冻结AB类型,
+    门店名称,
+    门店类型,
+    支付时间，
+    支付日期，
+    门店品牌新签时间-- first_value(pay_time) over(partition by shop_id,item_name order by pay_time) as shop_brand_sign_day，
+    ---销售信息--
+    战区名称,
+    战区经理名,
+    大区名,
+    大区经理名,
+    主管区域,
+    BD主管名,
+    冻结销售人员姓名,
+    冻结销售人员职能,
+    冻结销售人员角色,
+    冻结销售人员部门,
+    各角色离职时间,
+    --- 默认的指标
+    实货GMV-退款,
+    实货GMV,
+    实货退款,
+    实货清退金额，
+    支付金额，
+    支付金额—退款
+     
+     
+     
+    FROM
+    ---业务中间表
+    (
+    SELECT *
+    FROM  订单宽表1
+     where dayid ='昨天'(和方案月份同一个月) and pay_time&lt;=$方案结束时间
+     --全局过滤条件
+     WHERE  1=1
+    {% if 一级类目%}
+    AND 业务中间表.一级类目 in (....)
+    {% if 品牌%}
+    AND 业务中间表.品牌 in (....)
+   {% if 是否大BD%}
+    AND 
+    " &amp;&amp;
+    group by order_id
+    ）
+    left JOIN
+    (select order_id,refund_amount from 退款宽表 （通过退款的type识别线下清退金额）
+     where dayid ='昨天'(和方案月份同一个月) and refund_stauts='成功' --and refund_time in $方案支付时间区间
+     group by order_id
+    ) 2
+    left join 用户离职信息表3
+    WHERE 1.dayid = 昨天 and 3.dayid=昨天
+    )
+    GROUP BY    --方案基础信息,
+    方案月份,
+    方案时间,
+    方案ID,
+    方案名称,
+    --模板固定维度,
+    业务域,
+    商品一级类目,
+    商品二级类目,
+    商品品牌,
+    商品名称,
+    冻结AB类型
+    门店名称,
+    门店类型,
+     支付时间，
+    支付日期，
+    ---销售信息--
+    战区名称,
+    战区经理名,
+    大区名,
+    大区经理名,
+    主管区域,
+    BD主管名,
+    冻结销售人员姓名,
+    冻结销售人员职能,
+    冻结销售人员角色,
+    冻结销售人员部门,
+    各角色离职时间
+)   
+WHERE 门店品牌新签时间&gt;=方案支付开始时间 and 门店品牌新签时间&lt;=方案支付结束时间
+ GROUP BY    --方案基础信息,
+    方案月份,
+    方案时间,
+    方案ID,
+    方案名称,
+    --模板固定维度,
+    业务域,
+    商品一级类目,
+    商品二级类目,
+    商品品牌,
+    商品名称,
+    冻结AB类型
+    门店名称,
+    门店类型,
+    ---销售信息--
+    战区名称,
+    战区经理名,
+    大区名,
+    大区经理名,
+    主管区域,
+    BD主管名,
+    冻结销售人员姓名,
+    冻结销售人员职能,
+    冻结销售人员角色,
+    冻结销售人员部门,
+    各角色离职时间
+)--where sum(实货GMV-退款)&gt;='新签门槛线'
+
+
+</pre> 
+ </div>
+</div><p> </p><p> </p>
+                    </div>
+
+                    
+                 
+                </div>             </div> 
+            <div id="footer" role="contentinfo">
+                <section class="footer-body">
+                    <p>Document generated by Confluence on 2026-04-14 15:51</p>
+                    <div id="footer-logo"><a href="http://www.atlassian.com/">Atlassian</a></div>
+                </section>
+            </div>
+        </div>     </body>
+</html>

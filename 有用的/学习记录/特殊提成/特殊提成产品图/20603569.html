@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>产品组 : 2020513 过程数据分发</title>
+        <link rel="stylesheet" href="styles/site.css" type="text/css" />
+        <META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    </head>
+
+    <body class="theme-default aui-theme-default">
+        <div id="page">
+            <div id="main" class="aui-page-panel">
+                <div id="main-header">
+                    <div id="breadcrumb-section">
+                        <ol id="breadcrumbs">
+                            <li class="first">
+                                <span><a href="index.html">产品组</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="19745159.html">02_特殊提成项目</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="18831061.html">业务文档</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="19913073.html">一、会议纪要及报告</a></span>
+                            </li>
+                                                </ol>
+                    </div>
+                    <h1 id="title-heading" class="pagetitle">
+                                                <span id="title-text">
+                            产品组 : 2020513 过程数据分发
+                        </span>
+                    </h1>
+                </div>
+
+                <div id="content" class="view">
+                    <div class="page-metadata">
+                        
+        
+    
+        
+    
+        
+        
+            Created by <span class='author'> 未知用户 (lei.xue)</span>, last modified by <span class='editor'> 未知用户 (quanru.wang4324)</span> on 2020-05-14
+                        </div>
+                    <div id="main-content" class="wiki-content group">
+                    <h1 id="id-2020513过程数据分发-目录">目录</h1><div class="table-wrap"><table class="confluenceTable"><tbody><tr><th class="confluenceTh">版本号</th><th class="confluenceTh">内容</th><th class="confluenceTh">修订人</th><th colspan="1" class="confluenceTh">备注</th></tr><tr><td class="confluenceTd">V1</td><td class="confluenceTd">初版.跟参谋长们完成确认</td><td class="confluenceTd">阿雷</td><td colspan="1" class="confluenceTd"> </td></tr><tr><td class="confluenceTd"> </td><td class="confluenceTd"> </td><td class="confluenceTd"> </td><td colspan="1" class="confluenceTd"> </td></tr></tbody></table></div><p> </p><p><style type='text/css'>/*<![CDATA[*/
+div.rbtoc1776153104617 {padding: 0px;}
+div.rbtoc1776153104617 ul {list-style: disc;margin-left: 0px;}
+div.rbtoc1776153104617 li {margin-left: 0px;padding-left: 0px;}
+
+/*]]>*/</style><div class='toc-macro rbtoc1776153104617'>
+<ul class='toc-indentation'>
+<li><a href='#id-2020513过程数据分发-目录'>目录</a></li>
+<li><a href='#id-2020513过程数据分发-过滤过滤逻辑'>过滤过滤逻辑</a></li>
+<li><a href='#id-2020513过程数据分发-方案汇总表'>方案汇总表</a></li>
+<li><a href='#id-2020513过程数据分发-新签明细表'>新签明细表</a></li>
+<li><a href='#id-2020513过程数据分发-存量GMV明细表'>存量GMV明细表</a></li>
+</ul>
+</div></p><h1 id="id-2020513过程数据分发-过滤过滤逻辑">过滤过滤逻辑</h1><ol><li>所有的数据,主表必须来自 准实时的表 rtdw.ods_vf_bounty_plan   . 取其 方案ID,方案名称,方案配置信息  </li><li>所有的数据,需要过滤为 方案名不包含 废弃.  不包含 测试.</li><li>BD部数据导出,需通过方案名称逻辑来配置. 例如 plan_name not like '202005\_'     </li><li>所有数据都通过 发放对象部门 来拆分</li><li>发放对象不为空<br/><br/></li></ol><h1 id="id-2020513过程数据分发-方案汇总表">方案汇总表</h1><p>按 发放对象名称 排序</p><div class="table-wrap"><table class="confluenceTable"><tbody><tr><th class="numberingColumn confluenceTh"> </th><th class="confluenceTh">字段</th><th class="confluenceTh">意义</th><th class="confluenceTh">举例说明</th><th colspan="1" class="confluenceTh">备注</th></tr><tr><td class="numberingColumn confluenceTd">1</td><td class="confluenceTd">更新日期</td><td class="confluenceTd"> </td><td class="confluenceTd">2020-05-12</td><td colspan="1" class="confluenceTd"> </td></tr><tr><td class="numberingColumn confluenceTd">2</td><td class="confluenceTd">方案编号</td><td class="confluenceTd">排查时,可通过方案编号来定位</td><td class="confluenceTd">10625</td><td colspan="1" class="confluenceTd"> </td></tr><tr><td class="numberingColumn confluenceTd">3</td><td class="confluenceTd">品牌名</td><td class="confluenceTd">让销售感知方案细节</td><td class="confluenceTd">迪可贝儿</td><td colspan="1" class="confluenceTd">通过 方案配置中的 品牌来读取.不是实际数据</td></tr><tr><td class="numberingColumn confluenceTd">4</td><td class="confluenceTd">发放对象类型</td><td class="confluenceTd">BD/BD主管</td><td class="confluenceTd">BD/BD主管</td><td colspan="1" class="confluenceTd"> </td></tr><tr><td class="numberingColumn confluenceTd" colspan="1">5</td><td colspan="1" class="confluenceTd">发放对象</td><td colspan="1" class="confluenceTd"> </td><td colspan="1" class="confluenceTd">柯孟</td><td colspan="1" class="confluenceTd"> </td></tr><tr><td class="numberingColumn confluenceTd" colspan="1">6</td><td colspan="1" class="confluenceTd">发放对象部门</td><td colspan="1" class="confluenceTd"> </td><td colspan="1" class="confluenceTd">鄂南区</td><td colspan="1" class="confluenceTd"> </td></tr><tr><td class="numberingColumn confluenceTd" colspan="1">7</td><td colspan="1" class="confluenceTd">指标名称</td><td colspan="1" class="confluenceTd">新签品牌门店数/实货支付金额</td><td colspan="1" class="confluenceTd"><span>新签品牌门店数</span></td><td colspan="1" class="confluenceTd"> </td></tr><tr><td class="numberingColumn confluenceTd" colspan="1">8</td><td colspan="1" class="confluenceTd">指标数值</td><td colspan="1" class="confluenceTd">指标名称对应的数值内容</td><td colspan="1" class="confluenceTd">3</td><td colspan="1" class="confluenceTd"> </td></tr><tr><td class="numberingColumn confluenceTd" colspan="1">9</td><td colspan="1" class="confluenceTd">实际提成</td><td colspan="1" class="confluenceTd">对销售来说的实际理论拿到的钱或者实物奖品</td><td colspan="1" class="confluenceTd">0</td><td colspan="1" class="confluenceTd"> </td></tr><tr><td class="numberingColumn confluenceTd" colspan="1">10</td><td colspan="1" class="confluenceTd">最低门槛线</td><td colspan="1" class="confluenceTd">该方案可拿钱的最低门槛线</td><td colspan="1" class="confluenceTd">4</td><td colspan="1" class="confluenceTd"> </td></tr><tr><td class="numberingColumn confluenceTd" colspan="1">11</td><td colspan="1" class="confluenceTd">门槛线差距</td><td colspan="1" class="confluenceTd">如果未达成,则 最低门槛线-指标数值</td><td colspan="1" class="confluenceTd">1</td><td colspan="1" class="confluenceTd">只有当 提成 不为0或者不为 无奖品时,才进行计算</td></tr></tbody></table></div><h1 id="id-2020513过程数据分发-新签明细表">新签明细表</h1><p>默认按 发放对象名称, 实货GMV去退款 进行排序</p><div class="table-wrap"><table class="confluenceTable"><tbody><tr><th class="numberingColumn confluenceTh"> </th><th class="confluenceTh">字段</th><th class="confluenceTh">意义</th><th class="confluenceTh">举例说明</th><th colspan="1" class="confluenceTh">备注</th></tr><tr><td class="numberingColumn confluenceTd">1</td><td class="confluenceTd">更新日期</td><td class="confluenceTd"> </td><td class="confluenceTd">2020-05-12</td><td colspan="1" class="confluenceTd"> </td></tr><tr><td class="numberingColumn confluenceTd">2</td><td class="confluenceTd">方案编号</td><td class="confluenceTd">排查时,可通过方案编号来定位</td><td class="confluenceTd">10625</td><td colspan="1" class="confluenceTd"> </td></tr><tr><td class="numberingColumn confluenceTd">3</td><td class="confluenceTd">品牌名</td><td class="confluenceTd">让销售感知方案细节</td><td class="confluenceTd">迪可贝儿</td><td colspan="1" class="confluenceTd">通过 方案配置中的 品牌来读取.不是实际数据</td></tr><tr><td class="numberingColumn confluenceTd">4</td><td class="confluenceTd">发放对象类型</td><td class="confluenceTd">BD/BD主管</td><td class="confluenceTd">BD/BD主管</td><td colspan="1" class="confluenceTd"> </td></tr><tr><td class="numberingColumn confluenceTd">5</td><td colspan="1" class="confluenceTd">发放对象</td><td colspan="1" class="confluenceTd"> </td><td colspan="1" class="confluenceTd">柯孟</td><td colspan="1" class="confluenceTd"> </td></tr><tr><td class="numberingColumn confluenceTd">6</td><td colspan="1" class="confluenceTd">发放对象部门</td><td colspan="1" class="confluenceTd"> </td><td colspan="1" class="confluenceTd">鄂南区</td><td colspan="1" class="confluenceTd"> </td></tr><tr><td class="numberingColumn confluenceTd">7</td><td colspan="1" class="confluenceTd">门店名称</td><td colspan="1" class="confluenceTd"> </td><td colspan="1" class="confluenceTd">九九孕婴公安县夹竹园店</td><td colspan="1" class="confluenceTd"> </td></tr><tr><td class="numberingColumn confluenceTd">8</td><td colspan="1" class="confluenceTd">品牌名</td><td colspan="1" class="confluenceTd"> </td><td colspan="1" class="confluenceTd">迪可贝儿</td><td colspan="1" class="confluenceTd"> </td></tr><tr><td class="numberingColumn confluenceTd">9</td><td colspan="1" class="confluenceTd">首次支付日期</td><td colspan="1" class="confluenceTd"> </td><td colspan="1" class="confluenceTd">20200512</td><td colspan="1" class="confluenceTd"> </td></tr><tr><td class="numberingColumn confluenceTd" colspan="1">10</td><td colspan="1" class="confluenceTd"><p>实货GMV去退款</p></td><td colspan="1" class="confluenceTd"> </td><td colspan="1" class="confluenceTd">1200</td><td colspan="1" class="confluenceTd"> </td></tr><tr><td class="numberingColumn confluenceTd" colspan="1">11</td><td colspan="1" class="confluenceTd">是否新签成功</td><td colspan="1" class="confluenceTd"> </td><td colspan="1" class="confluenceTd">否</td><td colspan="1" class="confluenceTd"> </td></tr><tr><td class="numberingColumn confluenceTd" colspan="1">12</td><td colspan="1" class="confluenceTd">新签门槛线</td><td colspan="1" class="confluenceTd"> </td><td colspan="1" class="confluenceTd">1500</td><td colspan="1" class="confluenceTd"> </td></tr><tr><td class="numberingColumn confluenceTd" colspan="1">13</td><td colspan="1" class="confluenceTd">差额</td><td colspan="1" class="confluenceTd"> </td><td colspan="1" class="confluenceTd">300</td><td colspan="1" class="confluenceTd">只有当 是否新签成功为 否 时才进行计算</td></tr></tbody></table></div><h1 id="id-2020513过程数据分发-存量GMV明细表"><br/>存量GMV明细表</h1><p>按品牌直接进行聚合</p><div class="table-wrap"><table class="confluenceTable"><tbody><tr><th class="confluenceTh"> </th><th class="confluenceTh">字段</th><th class="confluenceTh">意义</th><th class="confluenceTh">举例说明</th><th colspan="1" class="confluenceTh">备注</th></tr><tr><td class="confluenceTd">1</td><td class="confluenceTd">更新日期</td><td class="confluenceTd"> </td><td class="confluenceTd">2020-05-12</td><td colspan="1" class="confluenceTd"> </td></tr><tr><td class="confluenceTd">2</td><td class="confluenceTd">方案编号</td><td class="confluenceTd">排查时,可通过方案编号来定位</td><td class="confluenceTd">10625</td><td colspan="1" class="confluenceTd"> </td></tr><tr><td class="confluenceTd">3</td><td class="confluenceTd">品牌名</td><td class="confluenceTd">让销售感知方案细节</td><td class="confluenceTd">迪可贝儿</td><td colspan="1" class="confluenceTd">通过 方案配置中的 品牌来读取.不是实际数据</td></tr><tr><td class="confluenceTd">4</td><td class="confluenceTd">发放对象类型</td><td class="confluenceTd">BD/BD主管</td><td class="confluenceTd">BD/BD主管</td><td colspan="1" class="confluenceTd"> </td></tr><tr><td class="confluenceTd">5</td><td colspan="1" class="confluenceTd">发放对象</td><td colspan="1" class="confluenceTd"> </td><td colspan="1" class="confluenceTd">柯孟</td><td colspan="1" class="confluenceTd"> </td></tr><tr><td class="confluenceTd">6</td><td colspan="1" class="confluenceTd">发放对象部门</td><td colspan="1" class="confluenceTd"> </td><td colspan="1" class="confluenceTd">鄂南区</td><td colspan="1" class="confluenceTd"> </td></tr><tr><td class="confluenceTd">7</td><td colspan="1" class="confluenceTd">门店名称</td><td colspan="1" class="confluenceTd"> </td><td colspan="1" class="confluenceTd">九九孕婴公安县夹竹园店</td><td colspan="1" class="confluenceTd"> </td></tr><tr><td class="confluenceTd">8</td><td colspan="1" class="confluenceTd">品牌名</td><td colspan="1" class="confluenceTd"> </td><td colspan="1" class="confluenceTd">迪可贝儿</td><td colspan="1" class="confluenceTd"> </td></tr><tr><td colspan="1" class="confluenceTd">10</td><td colspan="1" class="confluenceTd"><p>实货支付金额(去退款去优惠券))</p></td><td colspan="1" class="confluenceTd"> </td><td colspan="1" class="confluenceTd">1200</td><td colspan="1" class="confluenceTd"> </td></tr></tbody></table></div><p> </p><p><br/><br/></p>
+                    </div>
+
+                    
+                 
+                </div>             </div> 
+            <div id="footer" role="contentinfo">
+                <section class="footer-body">
+                    <p>Document generated by Confluence on 2026-04-14 15:51</p>
+                    <div id="footer-logo"><a href="http://www.atlassian.com/">Atlassian</a></div>
+                </section>
+            </div>
+        </div>     </body>
+</html>

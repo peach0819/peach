@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>产品组 : 紧急需求-临时调整 新签场景中间表</title>
+        <link rel="stylesheet" href="styles/site.css" type="text/css" />
+        <META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    </head>
+
+    <body class="theme-default aui-theme-default">
+        <div id="page">
+            <div id="main" class="aui-page-panel">
+                <div id="main-header">
+                    <div id="breadcrumb-section">
+                        <ol id="breadcrumbs">
+                            <li class="first">
+                                <span><a href="index.html">产品组</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="19745159.html">02_特殊提成项目</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="PRD_19745164.html">PRD</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="19747333.html">零、需求列表</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="20583372.html">202005_01_项目_特殊提成4期</a></span>
+                            </li>
+                                                </ol>
+                    </div>
+                    <h1 id="title-heading" class="pagetitle">
+                                                <span id="title-text">
+                            产品组 : 紧急需求-临时调整 新签场景中间表
+                        </span>
+                    </h1>
+                </div>
+
+                <div id="content" class="view">
+                    <div class="page-metadata">
+                        
+        
+    
+        
+    
+        
+        
+            Created by <span class='author'> 未知用户 (lei.xue)</span>, last modified on 2020-08-12
+                        </div>
+                    <div id="main-content" class="wiki-content group">
+                    <h1 id="id-紧急需求临时调整新签场景中间表-目录">目录</h1><p><style type='text/css'>/*<![CDATA[*/
+div.rbtoc1776153076392 {padding: 0px;}
+div.rbtoc1776153076392 ul {list-style: disc;margin-left: 0px;}
+div.rbtoc1776153076392 li {margin-left: 0px;padding-left: 0px;}
+
+/*]]>*/</style><div class='toc-macro rbtoc1776153076392'>
+<ul class='toc-indentation'>
+<li><a href='#id-紧急需求临时调整新签场景中间表-目录'>目录</a></li>
+<li><a href='#id-紧急需求临时调整新签场景中间表-链接'>链接</a></li>
+<li><a href='#id-紧急需求临时调整新签场景中间表-需求一:新签场景中间表1.0增加全局AB类型判断'>需求一: 新签场景中间表1.0增加  全局AB类型判断</a>
+<ul class='toc-indentation'>
+<li><a href='#id-紧急需求临时调整新签场景中间表-业务背景'>业务背景</a></li>
+<li><a href='#id-紧急需求临时调整新签场景中间表-需求内容'>需求内容</a></li>
+<li><a href='#id-紧急需求临时调整新签场景中间表-可能导致的问题及歧义'>可能导致的问题及歧义</a></li>
+<li><a href='#id-紧急需求临时调整新签场景中间表-校验逻辑'>校验逻辑</a></li>
+</ul>
+</li>
+<li><a href='#id-紧急需求临时调整新签场景中间表-需求二:新签中间表2.0去掉剔除大BD门店的逻辑'>需求二: 新签中间表2.0去掉  剔除大BD门店的逻辑</a>
+<ul class='toc-indentation'>
+<li><a href='#id-紧急需求临时调整新签场景中间表-业务背景:'>业务背景: </a></li>
+<li><a href='#id-紧急需求临时调整新签场景中间表-需求内容.1'>需求内容</a></li>
+<li><a href='#id-紧急需求临时调整新签场景中间表-校验逻辑.1'>校验逻辑</a></li>
+</ul>
+</li>
+<li><a href='#id-紧急需求临时调整新签场景中间表-后续todo'>后续todo</a></li>
+</ul>
+</div></p><h1 id="id-紧急需求临时调整新签场景中间表-链接">链接</h1><p><a href="http://k.yangtuojia.com/pages/viewpage.action?pageId=20592516" rel="nofollow">其他新签逻辑问题参考链接</a></p><h1 id="id-紧急需求临时调整新签场景中间表-需求一:新签场景中间表1.0增加全局AB类型判断">需求一: 新签场景中间表1.0增加  全局AB类型判断</h1><h2 id="id-紧急需求临时调整新签场景中间表-业务背景">业务背景</h2><p>业务方反馈 11178 方案中, <span style="color: rgb(17,31,44);"><a class="external-link" href="https://iwork.hipac.cn/crm/shopDetail.html?id=7de1e04e013f4a878c89005064f0bbda" rel="nofollow">婴宝母婴生活馆融水县永乐乡店</a> 本该新签 品牌 添乐成功. 但是连数据都看不到. </span></p><p><span style="color: rgb(17,31,44);">最终经过排查,原因如下. </span></p><p><span style="color: rgb(17,31,44);">18年5月份, 添乐 还属于A类.  但是门店直接进行下单. </span></p><p><span style="color: rgb(17,31,44);">到了19年,添乐成为公司的B类合作品牌. </span></p><p><span style="color: rgb(17,31,44);">在2020年7月9日, 门店开通白名单,并下单 商品.</span></p><p><span style="color: rgb(17,31,44);">此时,中间表计算 该门店的该品牌的首次下单时间(shop_brand_sign_day为 18年5月份.   不符合 新签门店的范围(shop_brand_sign_day在7月份)</span></p><p><br/></p><p><span style="color: rgb(255,0,0);">经过沟通,目前电销没有品牌新签的概念. 目前只有 大客户和BD有 品牌新签的概念. 且 因为极端情况下,单个品牌跨AB类型的情况下,则所有的 品牌新签 都应记为 B类品牌新签.</span></p><p><span style="color: rgb(17,31,44);">18年5月的订单作为A类, 不应计入 B类品牌新签的统计范畴.</span></p><p>即 判断 门店的 品牌首次下单时间, 应该用  品牌的B类商品 来进行判断. </p><p><span style="color: rgb(17,31,44);"><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/37375704/37375784.png" data-image-src="attachments/37375704/37375784.png" data-unresolved-comment-count="0" data-linked-resource-id="37375784" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2020-8-12_15-16-25.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="37375704" data-linked-resource-container-version="6"></span></span></p><p><br/></p><h2 id="id-紧急需求临时调整新签场景中间表-需求内容">需求内容</h2><p>1) 新增过滤条件 ab类型 = B类. 参与开窗函数的计算.</p><p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/37375704/37375807.png" data-image-src="attachments/37375704/37375807.png" data-unresolved-comment-count="0" data-linked-resource-id="37375807" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2020-8-12_15-27-11.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="37375704" data-linked-resource-container-version="6"></span></p><p><br/></p><h2 id="id-紧急需求临时调整新签场景中间表-可能导致的问题及歧义">可能导致的问题及歧义</h2><p>1) 从今往后,该模板规则只支持B类场景下的 品牌新签. A类的不支持.</p><p><br/></p><h2 id="id-紧急需求临时调整新签场景中间表-校验逻辑">校验逻辑</h2><p>1) 改动之后的逻辑 理论上 会比 改之前的逻辑 计算出更多的 新签品牌门店数. </p><p>2) 11178 方案中, <span style="color: rgb(17,31,44);"><a class="external-link" href="https://iwork.hipac.cn/crm/shopDetail.html?id=7de1e04e013f4a878c89005064f0bbda" rel="nofollow">婴宝母婴生活馆融水县永乐乡店</a> 的案例中.  该门店属于 新签成功. </span></p><p><br/></p><p><br/></p><h1 id="id-紧急需求临时调整新签场景中间表-需求二:新签中间表2.0去掉剔除大BD门店的逻辑">需求二: 新签中间表2.0去掉  剔除大BD门店的逻辑</h1><h2 id="id-紧急需求临时调整新签场景中间表-业务背景:">业务背景: </h2><p>新签模板1.0的时候,因为只支持 BD 及BD主管,大区,战区 等 BD部的场景. 因此要过滤掉 大BD门店.</p><p>但是在 新签模板2.0的时候,明确是需要支持 大客户的. 所以在 2.0 的计算逻辑中, 是通过在 明细表计算时,通过必填的 销售团队标识 来进行过滤计算的. </p><p>所以现有的如果加上 剔除大BD门店订单的逻辑, 则会导致 无法计算大BD的 新签门店数. </p><p><br/></p><h2 id="id-紧急需求临时调整新签场景中间表-需求内容.1">需求内容</h2><p>1) 去掉 where is_bigbd_shop='否' --剔除大BD门店订单 这条过滤条件</p><p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/37375704/37375810.png" data-image-src="attachments/37375704/37375810.png" data-unresolved-comment-count="0" data-linked-resource-id="37375810" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image2020-8-12_15-28-16.png" data-base-url="http://k.yangtuojia.com" data-linked-resource-content-type="image/png" data-linked-resource-container-id="37375704" data-linked-resource-container-version="6"></span></p><p><br/></p><h2 id="id-紧急需求临时调整新签场景中间表-校验逻辑.1">校验逻辑</h2><p>1) 改之前, 该中间表无法计算出大BD的新签相关的数据. 改之后就可以计算出.</p><p><br/></p><h1 id="id-紧急需求临时调整新签场景中间表-后续todo">后续todo</h1><p>1.新签的定义需要跟BI团队共同探讨. 完成这种极端bad case 的异常确认及统一</p><p><a href="http://k.yangtuojia.com/pages/viewpage.action?pageId=34673092">2_od_新签门店指标</a></p><p><br/></p><p><br/></p><p><br/></p><p><br/></p><p><br/></p><p><br/></p><p><br/></p><p><br/></p><p><br/></p><p><br/></p><p><br/></p><p><br/></p><p><br/></p><p><br/></p><p><br/></p><p><br/></p><p><br/></p><p><br/></p>
+                    </div>
+
+                                        <div class="pageSection group">
+                        <div class="pageSectionHeader">
+                            <h2 id="attachments" class="pageSectionTitle">Attachments:</h2>
+                        </div>
+
+                        <div class="greybox" align="left">
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/37375704/37375784.png">image2020-8-12_15-16-25.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/37375704/37375807.png">image2020-8-12_15-27-11.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/37375704/37375810.png">image2020-8-12_15-28-16.png</a> (image/png)
+                                <br/>
+                                                    </div>
+                    </div>
+                    
+                 
+                </div>             </div> 
+            <div id="footer" role="contentinfo">
+                <section class="footer-body">
+                    <p>Document generated by Confluence on 2026-04-14 15:51</p>
+                    <div id="footer-logo"><a href="http://www.atlassian.com/">Atlassian</a></div>
+                </section>
+            </div>
+        </div>     </body>
+</html>
