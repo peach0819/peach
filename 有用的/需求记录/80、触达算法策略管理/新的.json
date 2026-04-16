@@ -1,0 +1,407 @@
+[
+  {
+    "strategyId": 828,
+    "strategyName": "长尾召回融合list（实时）-品牌置顶（10.25）",
+    "variables": "itemId,itemName,itemBrandName,itemFirstCategory,itemLastCategory,price,feeToCut_couponAmount",
+    "materialTemplates": "1,5,6",
+    "bizList": [
+      "1"
+    ]
+  },
+  {
+    "strategyId": 829,
+    "strategyName": "奶粉价格表推品2.2",
+    "variables": "priceRecV2",
+    "materialTemplates": "4",
+    "bizList": [
+      "1"
+    ]
+  },
+  {
+    "strategyId": 830,
+    "strategyName": "长尾爆品池策略（商品池id：2297）",
+    "variables": "itemId,itemName,itemBrandName,itemFirstCategory,itemLastCategory,price,feeToCut_couponAmount",
+    "materialTemplates": "1,5,6",
+    "bizList": [
+      "1"
+    ]
+  },
+  {
+    "strategyId": 831,
+    "strategyName": "微商品牌推广策略1",
+    "bizList": [
+      "2_8"
+    ]
+  },
+  {
+    "strategyId": 832,
+    "strategyName": "母婴品牌推广策略",
+    "bizList": [
+      "2_10"
+    ]
+  },
+  {
+    "strategyId": 833,
+    "strategyName": "母婴品类推广策略",
+    "bizList": [
+      "2_11"
+    ]
+  },
+  {
+    "strategyId": 834,
+    "strategyName": "长尾召回融合list（实时）-每日必抢三坑加权",
+    "variables": "itemId,itemName,itemBrandName,itemFirstCategory,itemLastCategory,price,feeToCut_couponAmount",
+    "materialTemplates": "1,5,6",
+    "bizList": [
+      "1"
+    ]
+  },
+  {
+    "strategyId": 835,
+    "strategyName": "品牌价表自动回复",
+    "bizList": [
+      "2_12",
+      "2_13"
+    ]
+  },
+  {
+    "strategyId": 836,
+    "strategyName": "长尾召回融合list(实时)-品牌置顶-含奶粉（剔除品牌直供）",
+    "variables": "itemId,itemName,itemShortName,itemBriefRemarks,itemBrandName,itemFirstCategory,itemLastCategory,price,feeToCut_couponAmount",
+    "materialTemplates": "1,5,6",
+    "bizList": [
+      "1"
+    ]
+  },
+  {
+    "strategyId": 837,
+    "strategyName": "爆品策略-美妆",
+    "variables": "itemId,itemName,itemShortName,itemBriefRemarks,itemBrandName,itemFirstCategory,itemLastCategory,price,feeToCut_couponAmount",
+    "materialTemplates": "6,7,8",
+    "bizList": [
+      "1"
+    ]
+  },
+  {
+    "strategyId": 838,
+    "strategyName": "爆品策略-洗护",
+    "variables": "itemId,itemName,itemShortName,itemBriefRemarks,itemBrandName,itemFirstCategory,itemLastCategory,price,feeToCut_couponAmount",
+    "materialTemplates": "6,7,8",
+    "bizList": [
+      "1"
+    ]
+  },
+  {
+    "strategyId": 839,
+    "strategyName": "爆品策略-奶纸",
+    "variables": "itemId,itemName,itemShortName,itemBriefRemarks,itemBrandName,itemFirstCategory,itemLastCategory,price,feeToCut_couponAmount",
+    "materialTemplates": "6,7,8",
+    "bizList": [
+      "1"
+    ]
+  },
+  {
+    "strategyId": 840,
+    "strategyName": "爆品策略-营养品",
+    "variables": "itemId,itemName,itemShortName,itemBriefRemarks,itemBrandName,itemFirstCategory,itemLastCategory,price,feeToCut_couponAmount",
+    "materialTemplates": "6,7,8",
+    "bizList": [
+      "1"
+    ]
+  },
+  {
+    "strategyId": 841,
+    "strategyName": "爆品策略-童装童鞋",
+    "variables": "itemId,itemName,itemShortName,itemBriefRemarks,itemBrandName,itemFirstCategory,itemLastCategory,price,feeToCut_couponAmount",
+    "materialTemplates": "6,7,8",
+    "bizList": [
+      "1"
+    ]
+  },
+  {
+    "strategyId": 842,
+    "strategyName": "爆品策略-零辅食",
+    "variables": "itemId,itemName,itemShortName,itemBriefRemarks,itemBrandName,itemFirstCategory,itemLastCategory,price,feeToCut_couponAmount",
+    "materialTemplates": "6,7,8",
+    "bizList": [
+      "1"
+    ]
+  },
+  {
+    "strategyId": 843,
+    "strategyName": "爆品策略-用品",
+    "variables": "itemId,itemName,itemShortName,itemBriefRemarks,itemBrandName,itemFirstCategory,itemLastCategory,price,feeToCut_couponAmount",
+    "materialTemplates": "6,7,8",
+    "bizList": [
+      "1"
+    ]
+  },
+  {
+    "strategyId": 844,
+    "strategyName": "品类策略-美妆",
+    "bizList": [
+      "2_11"
+    ]
+  },
+  {
+    "strategyId": 845,
+    "strategyName": "品类策略-洗护",
+    "bizList": [
+      "2_11"
+    ]
+  },
+  {
+    "strategyId": 846,
+    "strategyName": "品类策略-奶纸",
+    "bizList": [
+      "2_11"
+    ]
+  },
+  {
+    "strategyId": 847,
+    "strategyName": "品类策略-营养品",
+    "bizList": [
+      "2_11"
+    ]
+  },
+  {
+    "strategyId": 848,
+    "strategyName": "品类策略-童装童鞋",
+    "bizList": [
+      "2_11"
+    ]
+  },
+  {
+    "strategyId": 849,
+    "strategyName": "品类策略-零辅食",
+    "bizList": [
+      "2_11"
+    ]
+  },
+  {
+    "strategyId": 850,
+    "strategyName": "品类策略-用品",
+    "bizList": [
+      "2_11"
+    ]
+  },
+  {
+    "strategyId": 851,
+    "strategyName": "品牌策略-美妆",
+    "bizList": [
+      "2_14"
+    ]
+  },
+  {
+    "strategyId": 852,
+    "strategyName": "品牌策略-洗护",
+    "bizList": [
+      "2_14"
+    ]
+  },
+  {
+    "strategyId": 853,
+    "strategyName": "品牌策略-奶纸",
+    "bizList": [
+      "2_14"
+    ]
+  },
+  {
+    "strategyId": 854,
+    "strategyName": "品牌策略-营养品",
+    "bizList": [
+      "2_14"
+    ]
+  },
+  {
+    "strategyId": 855,
+    "strategyName": "品牌策略-童装童鞋",
+    "bizList": [
+      "2_14"
+    ]
+  },
+  {
+    "strategyId": 856,
+    "strategyName": "品牌策略-零辅食",
+    "bizList": [
+      "2_14"
+    ]
+  },
+  {
+    "strategyId": 857,
+    "strategyName": "品牌策略-用品",
+    "bizList": [
+      "2_14"
+    ]
+  },
+  {
+    "strategyId": 858,
+    "strategyName": "拿样-美妆",
+    "bizList": [
+      "2_15"
+    ]
+  },
+  {
+    "strategyId": 859,
+    "strategyName": "拿样-洗护",
+    "bizList": [
+      "2_15"
+    ]
+  },
+  {
+    "strategyId": 860,
+    "strategyName": "拿样-奶纸",
+    "bizList": [
+      "2_15"
+    ]
+  },
+  {
+    "strategyId": 861,
+    "strategyName": "拿样-营养品",
+    "bizList": [
+      "2_15"
+    ]
+  },
+  {
+    "strategyId": 862,
+    "strategyName": "拿样-童装童鞋",
+    "bizList": [
+      "2_15"
+    ]
+  },
+  {
+    "strategyId": 863,
+    "strategyName": "拿样-零辅食",
+    "bizList": [
+      "2_15"
+    ]
+  },
+  {
+    "strategyId": 864,
+    "strategyName": "拿样-用品",
+    "bizList": [
+      "2_15"
+    ]
+  },
+  {
+    "strategyId": 865,
+    "strategyName": "趋势爆品-美妆",
+    "bizList": [
+      "2_16"
+    ]
+  },
+  {
+    "strategyId": 866,
+    "strategyName": "趋势爆品-洗护",
+    "bizList": [
+      "2_16"
+    ]
+  },
+  {
+    "strategyId": 867,
+    "strategyName": "趋势爆品-奶纸",
+    "bizList": [
+      "2_16"
+    ]
+  },
+  {
+    "strategyId": 868,
+    "strategyName": "趋势爆品-营养品",
+    "bizList": [
+      "2_16"
+    ]
+  },
+  {
+    "strategyId": 869,
+    "strategyName": "趋势爆品-童装童鞋",
+    "bizList": [
+      "2_16"
+    ]
+  },
+  {
+    "strategyId": 870,
+    "strategyName": "趋势爆品-零辅食",
+    "bizList": [
+      "2_16"
+    ]
+  },
+  {
+    "strategyId": 871,
+    "strategyName": "趋势爆品-用品",
+    "bizList": [
+      "2_16"
+    ]
+  },
+  {
+    "strategyId": 872,
+    "strategyName": "引流品-美妆",
+    "bizList": [
+      "2_17"
+    ]
+  },
+  {
+    "strategyId": 873,
+    "strategyName": "引流品-洗护",
+    "bizList": [
+      "2_17"
+    ]
+  },
+  {
+    "strategyId": 875,
+    "strategyName": "引流品-营养品",
+    "bizList": [
+      "2_17"
+    ]
+  },
+  {
+    "strategyId": 876,
+    "strategyName": "引流品-童装童鞋",
+    "bizList": [
+      "2_17"
+    ]
+  },
+  {
+    "strategyId": 877,
+    "strategyName": "引流品-零辅食",
+    "bizList": [
+      "2_17"
+    ]
+  },
+  {
+    "strategyId": 878,
+    "strategyName": "引流品-用品",
+    "bizList": [
+      "2_17"
+    ]
+  },
+  {
+    "strategyId": 879,
+    "strategyName": "大促爆品策略",
+    "variables": "itemId,itemName,itemShortName,itemBriefRemarks,itemBrandName,itemFirstCategory,itemLastCategory,price,feeToCut_couponAmount",
+    "materialTemplates": "6,7,8",
+    "bizList": [
+      "1"
+    ]
+  },
+  {
+    "strategyId": 880,
+    "strategyName": "大促品类策略",
+    "bizList": [
+      "2_11"
+    ]
+  },
+  {
+    "strategyId": 881,
+    "strategyName": "大促品牌策略",
+    "bizList": [
+      "2_10"
+    ]
+  },
+  {
+    "strategyId": 882,
+    "strategyName": "企微触达券后价",
+    "bizList": [
+      "2_18"
+    ]
+  }
+]

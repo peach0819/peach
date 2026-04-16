@@ -1,0 +1,67 @@
+[
+  {
+    "strategyId": 828,
+    "variables": "itemId,itemName,itemBrandName,itemFirstCategory,itemLastCategory,price,feeToCut_couponAmount",
+    "materialTemplates": "1,5,6"
+  },
+  {
+    "strategyId": 829,
+    "variables": "priceRecV2",
+    "materialTemplates": "4"
+  },
+  {
+    "strategyId": 830,
+    "variables": "itemId,itemName,itemBrandName,itemFirstCategory,itemLastCategory,price,feeToCut_couponAmount",
+    "materialTemplates": "1,5,6"
+  },
+  {
+    "strategyId": 834,
+    "variables": "itemId,itemName,itemBrandName,itemFirstCategory,itemLastCategory,price,feeToCut_couponAmount",
+    "materialTemplates": "1,5,6"
+  },
+  {
+    "strategyId": 836,
+    "variables": "itemId,itemName,itemShortName,itemBriefRemarks,itemBrandName,itemFirstCategory,itemLastCategory,price,feeToCut_couponAmount",
+    "materialTemplates": "1,5,6"
+  },
+  {
+    "strategyId": 837,
+    "variables": "itemId,itemName,itemShortName,itemBriefRemarks,itemBrandName,itemFirstCategory,itemLastCategory,price,feeToCut_couponAmount",
+    "materialTemplates": "6,7,8"
+  },
+  {
+    "strategyId": 838,
+    "variables": "itemId,itemName,itemShortName,itemBriefRemarks,itemBrandName,itemFirstCategory,itemLastCategory,price,feeToCut_couponAmount",
+    "materialTemplates": "6,7,8"
+  },
+  {
+    "strategyId": 839,
+    "variables": "itemId,itemName,itemShortName,itemBriefRemarks,itemBrandName,itemFirstCategory,itemLastCategory,price,feeToCut_couponAmount",
+    "materialTemplates": "6,7,8"
+  },
+  {
+    "strategyId": 840,
+    "variables": "itemId,itemName,itemShortName,itemBriefRemarks,itemBrandName,itemFirstCategory,itemLastCategory,price,feeToCut_couponAmount",
+    "materialTemplates": "6,7,8"
+  },
+  {
+    "strategyId": 841,
+    "variables": "itemId,itemName,itemShortName,itemBriefRemarks,itemBrandName,itemFirstCategory,itemLastCategory,price,feeToCut_couponAmount",
+    "materialTemplates": "6,7,8"
+  },
+  {
+    "strategyId": 842,
+    "variables": "itemId,itemName,itemShortName,itemBriefRemarks,itemBrandName,itemFirstCategory,itemLastCategory,price,feeToCut_couponAmount",
+    "materialTemplates": "6,7,8"
+  },
+  {
+    "strategyId": 843,
+    "variables": "itemId,itemName,itemShortName,itemBriefRemarks,itemBrandName,itemFirstCategory,itemLastCategory,price,feeToCut_couponAmount",
+    "materialTemplates": "6,7,8"
+  },
+  {
+    "strategyId": 879,
+    "variables": "itemId,itemName,itemShortName,itemBriefRemarks,itemBrandName,itemFirstCategory,itemLastCategory,price,feeToCut_couponAmount",
+    "materialTemplates": "6,7,8"
+  }
+]
