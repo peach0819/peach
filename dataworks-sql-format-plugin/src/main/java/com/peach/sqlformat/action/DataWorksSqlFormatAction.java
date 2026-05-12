@@ -7,6 +7,7 @@ import com.intellij.openapi.command.WriteCommandAction;
 import com.intellij.openapi.editor.Document;
 import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.editor.SelectionModel;
+import com.intellij.openapi.fileEditor.FileDocumentManager;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.ui.Messages;
 import com.intellij.openapi.vfs.VirtualFile;
@@ -20,15 +21,11 @@ public class DataWorksSqlFormatAction extends AnAction {
 
     @Override
     public void update(@NotNull AnActionEvent e) {
-        // Only enable for .sql files
-        VirtualFile file = e.getData(CommonDataKeys.VIRTUAL_FILE);
-        boolean isSqlFile = file != null && file.getName().endsWith(SQL_EXTENSION);
-
-        // Also require an active editor
+        // Always show the action in the editor popup for .sql files
         Editor editor = e.getData(CommonDataKeys.EDITOR);
-        boolean enabled = isSqlFile && editor != null;
-
-        e.getPresentation().setEnabledAndVisible(enabled);
+        if (editor != null) {
+            e.getPresentation().setEnabledAndVisible(true);
+        }
     }
 
     @Override

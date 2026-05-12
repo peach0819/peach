@@ -17,6 +17,7 @@
     ]]></description>
 
     <depends>com.intellij.modules.platform</depends>
+    <depends>com.intellij.modules.lang</depends>
 
     <extensions defaultExtensionNs="com.intellij">
     </extensions>
@@ -26,9 +27,7 @@
                 class="com.peach.sqlformat.action.DataWorksSqlFormatAction"
                 text="DataWorks SQL 格式化"
                 description="按 DataWorks SQL 规范格式化">
-            <add-to-group group-id="EditorPopupMenu"
-                          anchor="after"
-                          relative-to="Cut"/>
+            <add-to-group group-id="EditorPopupMenu"/>
         </action>
     </actions>
 </idea-plugin>

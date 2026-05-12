@@ -63,6 +63,15 @@ public class SqlFormatter {
 
         // Handle clause-starting keywords
         if (isClauseStartKeyword(upper)) {
+            // Inside OVER(...) — keep keywords inline (window function)
+            if (ctx.inOverClause) {
+                out.append(" ").append(upper).append(" ");
+                ctx.afterKeyword = true;
+                return;
+            }
+
+            ctx.inJoinOn = false;  // new clause ends any JOIN ON context
+
             // Blank line before INSERT at top level
             if (upper.startsWith("INSERT") && ctx.indentLevel == 0 && out.length() > 0) {
                 out.append("\n\n");
@@ -84,6 +93,7 @@ public class SqlFormatter {
                 ctx.firstColumn = true;
             } else if (upper.equals("FROM")) {
                 ctx.currentClause = Clause.FROM;
+                ctx.expectingSubquery = true;  // next ( after FROM is a subquery
             } else if (upper.equals("WHERE")) {
                 ctx.currentClause = Clause.WHERE;
             } else if (upper.startsWith("INSERT")) {
@@ -112,9 +122,14 @@ public class SqlFormatter {
 
         // AND / OR
         if (upper.equals("AND") || upper.equals("OR")) {
-            newline(out);
-            appendIndent(out, ctx.indentLevel);
-            out.append(upper).append(" ");
+            if (ctx.inJoinOn) {
+                // In JOIN ON conditions, keep AND/OR on same line
+                out.append(" ").append(upper).append(" ");
+            } else {
+                newline(out);
+                appendIndent(out, ctx.indentLevel);
+                out.append(upper).append(" ");
+            }
             ctx.afterNewline = false;
             ctx.afterKeyword = true;
             ctx.justHadNewline = false;
@@ -132,11 +147,55 @@ public class SqlFormatter {
         if (upper.equals("ON")) {
             out.append(" ON ");
             ctx.afterKeyword = true;
+            ctx.inJoinOn = true;  // track that we're in a JOIN-ON condition
+            return;
+        }
+
+        // CASE WHEN
+        if (upper.equals("CASE")) {
+            ctx.inCase = true;
+            ctx.caseFirstWhen = true;
+            ctx.caseWhenPosition = -1;
+            out.append("CASE ");
+            ctx.afterKeyword = true;
+            ctx.afterComma = false;
+            return;
+        }
+        if (ctx.inCase && (upper.equals("WHEN") || upper.equals("ELSE") || upper.equals("END"))) {
+            if (upper.equals("WHEN") && ctx.caseFirstWhen) {
+                // First WHEN: stay on same line after CASE
+                // Record column position of WHEN relative to current line start
+                String currentOut = out.toString();
+                int lastNewline = currentOut.lastIndexOf("\n");
+                ctx.caseWhenPosition = (lastNewline >= 0) ? currentOut.length() - lastNewline - 1 : currentOut.length();
+                out.append("WHEN ");
+                ctx.caseFirstWhen = false;
+                ctx.afterComma = false;
+            } else {
+                // Subsequent WHEN, ELSE, END: new line aligned with first WHEN
+                newline(out);
+                if (ctx.caseWhenPosition > 0) {
+                    for (int i = 0; i < ctx.caseWhenPosition; i++) {
+                        out.append(" ");
+                    }
+                } else {
+                    appendIndent(out, ctx.indentLevel);
+                }
+                out.append(upper);
+                if (!upper.equals("END")) {
+                    out.append(" ");
+                }
+            }
+            if (upper.equals("END")) {
+                ctx.inCase = false;
+            }
+            ctx.afterKeyword = true;
             return;
         }
 
         // JOIN keywords
         if (isJoinKeyword(upper)) {
+            ctx.expectingSubquery = true;  // JOIN may be followed by a subquery (SELECT ...)
             if (!ctx.justHadNewline) {
                 newline(out);
             }
@@ -155,6 +214,12 @@ public class SqlFormatter {
             out.append(" ");
         }
         out.append(upper);
+
+        // OVER keyword — next ( opens a window function clause
+        if (upper.equals("OVER")) {
+            ctx.afterOver = true;
+        }
+
         Token next2 = (index + 1 < tokens.size()) ? tokens.get(index + 1) : null;
         if (next2 != null && next2.getType() != TokenType.RPAREN && next2.getType() != TokenType.COMMA
                 && next2.getType() != TokenType.SEMICOLON && next2.getType() != TokenType.LINE_COMMENT) {
@@ -180,6 +245,7 @@ public class SqlFormatter {
         ctx.afterNewline = false;
         ctx.justHadLparen = false;
         ctx.justHadNewline = false;
+        ctx.functionPending = true;  // next LPAREN is a function call
     }
 
     private void handleComma(int index, List<Token> tokens, FormatContext ctx, StringBuilder out) {
@@ -195,8 +261,8 @@ public class SqlFormatter {
             }
         }
 
-        // In SELECT clause, comma triggers newline for next column (but not inside function args)
-        if (ctx.currentClause == Clause.SELECT && ctx.parenDepth == 0) {
+        // In SELECT clause, comma triggers newline for next column (but not inside function args or OVER)
+        if (ctx.currentClause == Clause.SELECT && ctx.functionDepth == 0 && !ctx.inOverClause) {
             newline(out);
             // Align to column position
             if (ctx.columnAlignment > 0) {
@@ -220,12 +286,34 @@ public class SqlFormatter {
 
     private void handleLparen(FormatContext ctx, StringBuilder out) {
         out.append("(");
+
         // CTE body starts: the first ( after WITH opens the CTE body
         if (ctx.insideCte && ctx.cteOpenDepth < 0) {
             ctx.cteOpenDepth = ctx.parenDepth;
             ctx.cteIndentLevel = ctx.indentLevel;
             ctx.indentLevel++;
         }
+
+        // Function call paren: the ( after a function name
+        if (ctx.functionPending) {
+            ctx.functionDepth++;
+            ctx.functionPending = false;
+        }
+
+        // Subquery paren: ( after FROM keyword (before any table identifier)
+        if (ctx.expectingSubquery) {
+            ctx.subqueryOpenDepth = ctx.parenDepth;
+            ctx.indentLevel++;
+            ctx.expectingSubquery = false;
+        }
+
+        // OVER (window function) paren — keep keywords inline inside
+        if (ctx.afterOver) {
+            ctx.overOpenDepth = ctx.parenDepth;
+            ctx.inOverClause = true;
+            ctx.afterOver = false;
+        }
+
         ctx.parenDepth++;
         ctx.afterLparen = true;
         ctx.afterKeyword = false;
@@ -245,9 +333,36 @@ public class SqlFormatter {
             ctx.insideCte = false;
             ctx.cteOpenDepth = -1;
             ctx.afterCte = true;
-        } else {
-            out.append(")");
+            ctx.justHadLparen = false;
+            return;
         }
+
+        // Check if this closes OVER's opening paren (window function)
+        if (ctx.inOverClause && ctx.overOpenDepth >= 0 && ctx.parenDepth == ctx.overOpenDepth) {
+            ctx.inOverClause = false;
+            ctx.overOpenDepth = -1;
+            out.append(")");
+            ctx.justHadLparen = false;
+            return;
+        }
+
+        // Check if this closes a subquery opening paren
+        if (ctx.subqueryOpenDepth >= 0 && ctx.parenDepth == ctx.subqueryOpenDepth) {
+            ctx.indentLevel--;
+            newline(out);
+            appendIndent(out, ctx.indentLevel);
+            out.append(")");
+            ctx.subqueryOpenDepth = -1;
+            ctx.justHadLparen = false;
+            return;
+        }
+
+        // Decrement function depth if inside function call
+        if (ctx.functionDepth > 0) {
+            ctx.functionDepth--;
+        }
+
+        out.append(")");
         ctx.justHadLparen = false;
     }
 
@@ -284,6 +399,9 @@ public class SqlFormatter {
 
     private void handleGenericToken(Token token, FormatContext ctx, StringBuilder out) {
         String text = token.getText();
+
+        // Any non-paren token after FROM means no subquery paren immediately
+        ctx.expectingSubquery = false;
 
         if (ctx.afterNewline || ctx.afterComma) {
             appendIndent(out, ctx.indentLevel);
@@ -333,6 +451,17 @@ public class SqlFormatter {
         boolean justHadLparen = false;
         boolean justHadDot = false;
 
+        // Function call tracking (depth for commas inside function args)
+        int functionDepth = 0;
+        boolean functionPending = false;
+
+        // Subquery tracking
+        int subqueryOpenDepth = -1;
+        boolean expectingSubquery = false;
+
+        // JOIN ON tracking (AND/OR inline)
+        boolean inJoinOn = false;
+
         // CTE state
         boolean insideCte = false;
         boolean firstCte = true;
@@ -342,5 +471,15 @@ public class SqlFormatter {
 
         // INSERT state
         boolean inInsert = false;
+
+        // CASE WHEN tracking
+        boolean inCase = false;
+        boolean caseFirstWhen = true;
+        int caseWhenPosition = -1;
+
+        // OVER (window function) tracking — keep clause keywords inline
+        boolean inOverClause = false;
+        int overOpenDepth = -1;
+        boolean afterOver = false;
     }
 }

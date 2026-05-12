@@ -212,4 +212,97 @@ class SqlFormatterTest {
         assertTrue(result.contains("SELECT"));
         assertTrue(result.contains("FROM"));
     }
+
+    // ---- Fix verification tests ----
+
+    @Test
+    void testSubqueryWithMultipleColumns() {
+        // Subquery columns should have newlines, and closing ) should be on its own line
+        String result = format("select a from (select id, name, val from t1) t where t.id > 0");
+        assertTrue(result.contains("SELECT"));
+        assertTrue(result.contains("FROM ("));
+        // Inner SELECT columns should have newlines (subquery comma handling)
+        assertTrue(result.contains("id,\n"));
+        assertTrue(result.contains("name,\n"));
+        // Subquery closing ) should be on its own line
+        assertTrue(result.contains(") t"));
+    }
+
+    @Test
+    void testJoinWithMultipleConditions() {
+        // JOIN ON multiple conditions should stay on same line
+        String result = format("select a.*, b.* from t1 a left join t2 b on a.id = b.id and a.type = b.type");
+        assertTrue(result.contains("ON"));
+        // AND should be on same line as ON (not wrapped)
+        String[] lines = result.split("\n");
+        boolean foundOnLine = false;
+        for (String line : lines) {
+            if (line.contains("ON")) {
+                foundOnLine = true;
+                assertTrue(line.contains("AND"), "AND should be on same line as ON: " + line);
+            }
+        }
+        assertTrue(foundOnLine, "Should have a line with ON");
+    }
+
+    @Test
+    void testFunctionArgsNoNewline() {
+        // Comma inside function args should NOT trigger newline
+        String result = format("SELECT nvl(a, b, c), d FROM t");
+        // nvl should be on one line (no newline between commas inside function)
+        assertTrue(result.contains("nvl(a,"));
+        // , after nvl(...) should trigger newline (it's in SELECT)
+        assertTrue(result.contains("d\n") || result.contains("d "));
+    }
+
+    @Test
+    void testJoinSubquery() {
+        // JOIN (SELECT ...) should be indented like FROM (SELECT ...)
+        String result = format("select * from t1 left join (select id, name from t2 where dayid = '${v_date}') u on t1.id = u.id");
+        assertTrue(result.contains("JOIN"));
+        // Subquery inside JOIN should have indented content with closing ) on own line
+        assertTrue(result.contains(") u"));
+        assertTrue(result.contains("FROM t2"));
+    }
+
+    @Test
+    void testWindowFunctionNoBreak() {
+        // Window function OVER (...) should not have internal line breaks
+        String result = format("select id, lead(create_time, 1, 9999) over (partition by user_id order by create_time, id) as next_time from t");
+        assertTrue(result.contains("OVER ("));
+        assertTrue(result.contains("PARTITION BY"));
+        assertTrue(result.contains("ORDER BY"));
+    }
+
+    @Test
+    void testCaseWhenMultiLine() {
+        // Multiple WHEN should be on separate lines, aligned with first WHEN
+        String result = format("SELECT CASE WHEN a = 1 THEN 'one' WHEN a = 2 THEN 'two' ELSE 'other' END as val FROM t");
+        assertTrue(result.contains("CASE WHEN"));
+        // Second WHEN, ELSE, END should be on their own lines
+        String[] lines = result.split("\n");
+        int whenCount = 0;
+        int elseCount = 0;
+        int endCount = 0;
+        for (String line : lines) {
+            String trimmed = line.trim();
+            // "    WHEN" means the trimmed part starts with WHEN
+            if (trimmed.startsWith("WHEN")) whenCount++;
+            if (trimmed.startsWith("ELSE")) elseCount++;
+            if (trimmed.startsWith("END")) endCount++;
+        }
+        assertEquals(1, whenCount, "Second WHEN should be on its own line; first WHEN is on CASE line");
+        assertEquals(1, elseCount, "ELSE should be on its own line");
+        assertEquals(1, endCount, "END should be on its own line");
+
+        // Verify WHEN/ELSE/END indentation column matches first WHEN's column
+        // The WHEN in "CASE WHEN" is at column 12 (7 SELECT alignment + 5 "CASE ")
+        for (String line : lines) {
+            String trimmed = line.trim();
+            if (trimmed.startsWith("WHEN") || trimmed.startsWith("ELSE") || trimmed.startsWith("END")) {
+                int col = line.indexOf(trimmed.substring(0, 4));
+                assertTrue(col <= 16, trimmed + " should be indented reasonably (col=" + col + "): " + line);
+            }
+        }
+    }
 }

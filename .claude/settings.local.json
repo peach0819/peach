@@ -42,10 +42,28 @@
       "Bash(JAVA_HOME=\"/c/Users/tao.zheng8833/.jdks/jdk17.0.19_10\" /tmp/gradle-8.5/bin/gradle -p /c/pack/peach1/dataworks-sql-format-plugin test --tests \"*SqlFormatterTest*testHiveFullQuery*\")",
       "Bash(JAVA_HOME=\"/c/Users/tao.zheng8833/.jdks/jdk17.0.19_10\" /tmp/gradle-8.5/bin/gradle -p /c/pack/peach1/dataworks-sql-format-plugin test --tests \"*SqlFormatterTest*testHiveFullQuery*\" -i)",
       "Bash(JAVA_HOME=\"/c/Users/tao.zheng8833/.jdks/jdk17.0.19_10\" /tmp/gradle-8.5/bin/gradle -p /c/pack/peach1/dataworks-sql-format-plugin test)",
-      "Bash(JAVA_HOME=\"/c/Users/tao.zheng8833/.jdks/jdk17.0.19_10\" /tmp/gradle-8.5/bin/gradle -p /c/pack/peach1/dataworks-sql-format-plugin clean build)"
+      "Bash(JAVA_HOME=\"/c/Users/tao.zheng8833/.jdks/jdk17.0.19_10\" /tmp/gradle-8.5/bin/gradle -p /c/pack/peach1/dataworks-sql-format-plugin clean build)",
+      "Bash(grep -E \"\\\\.class$|\\\\.xml$\")",
+      "Bash(JAVA_HOME=\"/c/Users/tao.zheng8833/.jdks/jdk17.0.19_10\" /tmp/gradle-8.5/bin/gradle -p /c/pack/peach1/dataworks-sql-format-plugin test --tests \"*SqlFormatterTest*testSubqueryWithMultipleColumns*\" --tests \"*SqlFormatterTest*testJoinWithMultipleConditions*\" --tests \"*SqlFormatterTest*testFunctionArgsNoNewline*\" -i)",
+      "Bash(JAVA_HOME=\"/c/Users/tao.zheng8833/.jdks/jdk17.0.19_10\" /tmp/gradle-8.5/bin/gradle -p /c/pack/peach1/dataworks-sql-format-plugin test --tests \"*SqlFormatterTest*testSubqueryWithMultipleColumns*\" -i)",
+      "Bash(JAVA_HOME=\"/c/Users/tao.zheng8833/.jdks/jdk17.0.19_10\" /tmp/gradle-8.5/bin/gradle -p /c/pack/peach1/dataworks-sql-format-plugin test --tests \"*SqlFormatterTest*testJoinSubquery*\" --tests \"*SqlFormatterTest*testWindowFunctionNoBreak*\" --tests \"*SqlFormatterTest*testCaseWhen*\" -i)",
+      "Bash(JAVA_HOME=\"/c/Users/tao.zheng8833/.jdks/jdk17.0.19_10\" /tmp/gradle-8.5/bin/gradle -p /c/pack/peach1/dataworks-sql-format-plugin test --tests \"*SqlFormatterTest*testJoinSubquery*\" --tests \"*SqlFormatterTest*testWindowFunctionNoBreak*\" --tests \"*SqlFormatterTest*testCaseWhenMultiLine*\" -i)",
+      "Bash(JAVA_HOME=\"/c/Users/tao.zheng8833/.jdks/jdk17.0.19_10\" /tmp/gradle-8.5/bin/gradle -p /c/pack/peach1/dataworks-sql-format-plugin test --tests \"*SqlFormatterTest*testCaseWhenMultiLine*\" -i)",
+      "Bash(JAVA_HOME=\"/c/Users/tao.zheng8833/.jdks/jdk17.0.19_10\" /tmp/gradle-8.5/bin/gradle -p /c/pack/peach1/dataworks-sql-format-plugin test --info)",
+      "Bash(JAVA_HOME=\"/c/Users/tao.zheng8833/.jdks/jdk17.0.19_10\" /tmp/gradle-8.5/bin/gradle -p /c/pack/peach1/dataworks-sql-format-plugin compileJava)",
+      "Bash(JAVA_HOME=\"/c/Users/tao.zheng8833/.jdks/jdk17.0.19_10\")",
+      "Bash(MAIN_CLASSES=\"/c/pack/peach1/dataworks-sql-format-plugin/build/classes/java/main\")",
+      "Bash(\"$JAVA_HOME/bin/javac\" -cp \"$MAIN_CLASSES\" -d /tmp/diag \"/c/pack/peach1/dataworks-sql-format-plugin/src/test/java/com/peach/sqlformat/engine/FormatDiagnostic.java\")",
+      "Bash(\"$JAVA_HOME/bin/java\" -cp \"$MAIN_CLASSES:/tmp/diag\" com.peach.sqlformat.engine.FormatDiagnostic)",
+      "Bash(\"$JAVA_HOME/bin/javac\" -encoding UTF-8 -cp \"$MAIN_CLASSES\" -d /tmp/diag \"/c/pack/peach1/dataworks-sql-format-plugin/src/test/java/com/peach/sqlformat/engine/FormatDiagnostic.java\")",
+      "Bash(JAVA_HOME=\"/c/Users/tao.zheng8833/.jdks/jdk17.0.19_10\" MAIN_CLASSES=\"/c/pack/peach1/dataworks-sql-format-plugin/build/classes/java/main\" /tmp/gradle-8.5/bin/gradle -p /c/pack/peach1/dataworks-sql-format-plugin compileJava)",
+      "Read(//c/pack/peach1/$JAVA_HOME/bin/**)",
+      "Bash(1 \"$JAVA_HOME/bin/java\" -cp \"$MAIN_CLASSES:/tmp/diag\" com.peach.sqlformat.engine.FormatDiagnostic)",
+      "Bash(1 \"$JAVA_HOME/bin/java\" -cp \"/c/pack/peach1/dataworks-sql-format-plugin/build/classes/java/main:/tmp/diag\" com.peach.sqlformat.engine.FormatDiagnostic)"
     ],
     "deny": [
       "Bash(git commit:*)"
-    ]
+    ],
+    "defaultMode": "auto"
   }
 }
