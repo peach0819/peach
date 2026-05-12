@@ -1,0 +1,12 @@
+[
+  {
+    "name": "资质不全",
+    "bizType": 7,
+    "description": "资质不全"
+  },
+  {
+    "name": "其他",
+    "bizType": 7,
+    "description": "其他"
+  }
+]
