@@ -218,7 +218,7 @@ public class SqlTokenizer {
         if (KeywordDictionary.isKeyword(word)) {
             return new Token(TokenType.KEYWORD, word);
         }
-        if (followedByParen && KeywordDictionary.isFunction(word)) {
+        if (followedByParen) {
             return new Token(TokenType.FUNCTION, word);
         }
         return new Token(TokenType.IDENTIFIER, word);

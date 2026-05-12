@@ -130,7 +130,9 @@ public class SqlFormatter {
                 // In JOIN ON conditions, keep AND/OR on same line
                 out.append(" ").append(upper).append(" ");
             } else {
-                newline(out);
+                if (!ctx.justHadNewline) {
+                    newline(out);
+                }
                 appendIndent(out, ctx.indentLevel);
                 out.append(upper).append(" ");
             }
@@ -346,11 +348,12 @@ public class SqlFormatter {
 
         // Check if this closes a CTE's opening paren
         if (ctx.insideCte && ctx.cteOpenDepth >= 0 && ctx.parenDepth == ctx.cteOpenDepth) {
-            // End of CTE body — output ) at same indent as CTE body content
-            newline(out);
-            appendIndent(out, ctx.indentLevel);
-            out.append(")");
+            // End of CTE body — output ) at same indent as WITH keyword (no extra indent)
             ctx.indentLevel--;   // restore to pre-CTE indent
+            if (!ctx.justHadNewline) {
+                newline(out);
+            }
+            out.append(")");
             ctx.insideCte = false;
             ctx.cteOpenDepth = -1;
             ctx.afterCte = true;

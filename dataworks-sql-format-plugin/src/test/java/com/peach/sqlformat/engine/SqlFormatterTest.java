@@ -334,6 +334,45 @@ class SqlFormatterTest {
     }
 
     @Test
+    void testCteClosingParenNoExtraIndent() {
+        // CTE closing ) should not have extra indentation — at same level as WITH
+        String result = format("WITH a AS (SELECT id FROM t1), b AS (SELECT id FROM t2) SELECT * FROM a");
+        String[] lines = result.split("\n");
+        for (String line : lines) {
+            String trimmed = line.trim();
+            // Lines that are just ")," or ")" — CTE close parens
+            if (trimmed.equals("),") || trimmed.equals(")")) {
+                int col = line.indexOf("),");
+                if (col == -1) col = line.indexOf(")");
+                // Should be at column 0 (no leading whitespace before closing paren)
+                assertEquals(0, col, "CTE closing ) should not be indented: '" + line + "'");
+            }
+        }
+    }
+
+    @Test
+    void testCommentNoExtraBlankLine() {
+        // Comment followed by AND should NOT have a blank line between them
+        String result = format("SELECT a, b FROM t WHERE a = 1 -- comment\nAND b = 2");
+        // There should be no blank line (double \n) between comment and AND
+        assertFalse(result.contains("-- comment\n\n"), "No blank line after comment before AND");
+        // AND should be on the line right after comment
+        assertTrue(result.contains("-- comment\n" + "AND") || result.contains("-- comment\n       AND"),
+                "AND should be on line directly after comment: " + result);
+    }
+
+    @Test
+    void testUnknownUdfNoLineBreak() {
+        // Unknown UDF with schema prefix (like yt_crm.get_subject_service_info)
+        // should NOT have line breaks between arguments
+        String result = format("SELECT yt_crm.get_subject_service_info(feature_ids, service_info) as info FROM t");
+        // The UDF call should be on one line
+        assertTrue(result.contains("get_subject_service_info(feature_ids, service_info)"),
+                "UDF args should be on same line: " + result);
+        assertFalse(result.contains("feature_ids,\n"), "No newline after UDF comma");
+    }
+
+    @Test
     void testCteInsertSelectWithIf() {
         // Combined test: CTE + INSERT-SELECT + IF function + nvl
         String sql = "WITH cte AS (SELECT id, status, name FROM t1)\n"
