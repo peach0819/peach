@@ -59,7 +59,20 @@
       "Bash(JAVA_HOME=\"/c/Users/tao.zheng8833/.jdks/jdk17.0.19_10\" MAIN_CLASSES=\"/c/pack/peach1/dataworks-sql-format-plugin/build/classes/java/main\" /tmp/gradle-8.5/bin/gradle -p /c/pack/peach1/dataworks-sql-format-plugin compileJava)",
       "Read(//c/pack/peach1/$JAVA_HOME/bin/**)",
       "Bash(1 \"$JAVA_HOME/bin/java\" -cp \"$MAIN_CLASSES:/tmp/diag\" com.peach.sqlformat.engine.FormatDiagnostic)",
-      "Bash(1 \"$JAVA_HOME/bin/java\" -cp \"/c/pack/peach1/dataworks-sql-format-plugin/build/classes/java/main:/tmp/diag\" com.peach.sqlformat.engine.FormatDiagnostic)"
+      "Bash(1 \"$JAVA_HOME/bin/java\" -cp \"/c/pack/peach1/dataworks-sql-format-plugin/build/classes/java/main:/tmp/diag\" com.peach.sqlformat.engine.FormatDiagnostic)",
+      "Bash(mvn test:*)",
+      "Bash(./gradlew test:*)",
+      "Bash(gradle test:*)",
+      "Bash(javac -d out src/main/java/com/peach/sqlformat/engine/*.java)",
+      "Bash(javac -encoding UTF-8 -d out src/main/java/com/peach/sqlformat/engine/*.java)",
+      "Bash(javac -version)",
+      "Bash(java -cp out TestFile)",
+      "Bash(rm -rf out)",
+      "Bash(mkdir -p out)",
+      "Bash(javac -encoding UTF-8 -cp out -d out src/test/java/com/peach/sqlformat/engine/SqlFormatterTest.java)",
+      "Bash(JAVA_HOME=\"/c/Users/tao.zheng8833/.jdks/jdk17.0.19_10\" ./gradlew clean build 2>&1)",
+      "Bash(/tmp/gradle-8.5/bin/gradle --version)",
+      "Bash(JAVA_HOME=\"/c/Users/tao.zheng8833/.jdks/jdk17.0.19_10\" /tmp/gradle-8.5/bin/gradle clean build 2>&1)"
     ],
     "deny": [
       "Bash(git commit:*)"

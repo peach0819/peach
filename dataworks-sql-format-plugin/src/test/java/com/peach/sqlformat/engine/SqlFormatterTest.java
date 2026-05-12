@@ -305,4 +305,46 @@ class SqlFormatterTest {
             }
         }
     }
+
+    @Test
+    void testCteInsertSelectAlignment() {
+        // afterCte flag should not leak into INSERT-SELECT's comma handling
+        String result = format("WITH cte AS (SELECT a FROM t1)\nINSERT OVERWRITE TABLE t2\nSELECT cte.a, cte.b FROM cte");
+        assertTrue(result.contains("SELECT cte.a,"));
+        // cte.b should be aligned (not on a new line with blank line)
+        assertTrue(result.contains("       cte.b"), "cte.b should be aligned under cte.a");
+        // No blank line between first and second columns
+        assertFalse(result.contains("cte.a,\n\n"), "No blank line between SELECT columns");
+    }
+
+    @Test
+    void testIfAsFunction() {
+        // IF should be treated as a function (lowercase, no space before paren)
+        String result = format("SELECT IF(a = 1, 0, 1) as val FROM t");
+        assertTrue(result.contains("if(a = 1, 0, 1)"), "IF should be lowercase function: " + result);
+        assertFalse(result.contains("IF ("), "No space between IF and (");
+        // Commas inside IF should NOT create newlines (it's a function)
+        String[] lines = result.split("\n");
+        for (String line : lines) {
+            if (line.contains("if(")) {
+                // The entire IF call should be on one line
+                assertTrue(line.contains("0, 1)"), "IF args should be on same line: " + line);
+            }
+        }
+    }
+
+    @Test
+    void testCteInsertSelectWithIf() {
+        // Combined test: CTE + INSERT-SELECT + IF function + nvl
+        String sql = "WITH cte AS (SELECT id, status, name FROM t1)\n"
+                + "INSERT OVERWRITE TABLE t2\n"
+                + "SELECT cte.id, IF(cte.status = 1, 0, 1) as flag, nvl(cte.name, '') as name FROM cte";
+        String result = format(sql);
+        assertTrue(result.contains("WITH"));
+        assertTrue(result.contains("if(cte.status = 1, 0, 1)"));
+        assertTrue(result.contains("nvl(cte.name,"));
+        // Columns should be properly aligned in SELECT
+        assertTrue(result.contains("       if(cte.status") || result.contains("       nvl(cte.name"),
+                "Columns should be aligned: " + result);
+    }
 }

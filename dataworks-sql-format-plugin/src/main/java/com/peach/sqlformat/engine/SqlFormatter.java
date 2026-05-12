@@ -71,6 +71,7 @@ public class SqlFormatter {
             }
 
             ctx.inJoinOn = false;  // new clause ends any JOIN ON context
+            ctx.afterCte = false;  // new clause ends any CTE context
 
             // Blank line before INSERT at top level
             if (upper.startsWith("INSERT") && ctx.indentLevel == 0 && out.length() > 0) {
@@ -80,6 +81,9 @@ public class SqlFormatter {
                 newline(out);
                 ctx.afterNewline = true;
             }
+
+            // Reset expectingNextCte when a new clause starts (e.g., SELECT after last CTE)
+            ctx.expectingNextCte = false;
 
             // CTE handling: WITH starts CTE mode
             if (upper.equals("WITH")) {
@@ -138,6 +142,11 @@ public class SqlFormatter {
 
         // AS (alias)
         if (upper.equals("AS")) {
+            if (ctx.expectingNextCte) {
+                ctx.insideCte = true;
+                ctx.firstCte = false;
+                ctx.expectingNextCte = false;
+            }
             out.append(" as ");
             ctx.afterKeyword = true;
             return;
@@ -249,6 +258,18 @@ public class SqlFormatter {
     }
 
     private void handleComma(int index, List<Token> tokens, FormatContext ctx, StringBuilder out) {
+        // CTE comma: between CTEs — comma after CTE closing ) means next CTE
+        if (ctx.afterCte) {
+            out.append(",");
+            newline(out);
+            newline(out);
+            ctx.expectingNextCte = true;
+            ctx.afterCte = false;
+            ctx.afterNewline = true;
+            ctx.justHadNewline = true;
+            return;
+        }
+
         out.append(",");
 
         // Check next non-whitespace token to see if we're in SELECT column list
@@ -325,11 +346,11 @@ public class SqlFormatter {
 
         // Check if this closes a CTE's opening paren
         if (ctx.insideCte && ctx.cteOpenDepth >= 0 && ctx.parenDepth == ctx.cteOpenDepth) {
-            // End of CTE body - restore indent
-            ctx.indentLevel--;
+            // End of CTE body — output ) at same indent as CTE body content
             newline(out);
             appendIndent(out, ctx.indentLevel);
             out.append(")");
+            ctx.indentLevel--;   // restore to pre-CTE indent
             ctx.insideCte = false;
             ctx.cteOpenDepth = -1;
             ctx.afterCte = true;
@@ -468,6 +489,7 @@ public class SqlFormatter {
         int cteOpenDepth = -1;    // paren depth when CTE's ( was opened
         int cteIndentLevel = 0;   // indent level when CTE body starts
         boolean afterCte = false;
+        boolean expectingNextCte = false;
 
         // INSERT state
         boolean inInsert = false;

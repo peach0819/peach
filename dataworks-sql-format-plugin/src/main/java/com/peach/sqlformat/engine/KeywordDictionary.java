@@ -38,7 +38,7 @@ public class KeywordDictionary {
             "ORDER", "GROUP", "BY", "PARTITION", "CLUSTER", "DISTRIBUTE", "SORT",
             "HAVING", "LIMIT", "OFFSET",
             "SET", "CREATE", "ALTER", "DROP", "ADD",
-            "IF", "ELSE", "THEN", "END", "CASE", "WHEN",
+            "ELSE", "THEN", "END", "CASE", "WHEN",
             "LIKE", "RLIKE", "REGEXP",
             "IS", "NULL", "BETWEEN", "EXISTS",
             "TRUE", "FALSE",
