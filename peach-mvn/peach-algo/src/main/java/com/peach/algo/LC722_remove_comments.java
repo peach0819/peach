@@ -66,6 +66,6 @@ import java.util.List;
 public class LC722_remove_comments {
 
     public List<String> removeComments(String[] source) {
-
+        return null;
     }
 }
