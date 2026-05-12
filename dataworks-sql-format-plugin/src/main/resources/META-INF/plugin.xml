@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<idea-plugin>
+    <id>com.peach.dataworks-sql-format</id>
+    <name>DataWorks SQL Format</name>
+    <vendor email="dev@peach.com" url="https://github.com/peach">peach</vendor>
+
+    <description><![CDATA[
+    DataWorks SQL 格式化工具，遵循 dataworks-sql-format 规范。
+    支持 Hive SQL / Spark SQL 格式化：
+    <ul>
+        <li>关键字大写</li>
+        <li>函数名小写</li>
+        <li>4空格缩进</li>
+        <li>CTE / 子查询 / JOIN 规范排版</li>
+        <li>保留 ${v_date} 变量和 -- 注释</li>
+    </ul>
+    ]]></description>
+
+    <depends>com.intellij.modules.platform</depends>
+
+    <extensions defaultExtensionNs="com.intellij">
+    </extensions>
+
+    <actions>
+        <action id="DataWorksSqlFormatAction"
+                class="com.peach.sqlformat.action.DataWorksSqlFormatAction"
+                text="DataWorks SQL 格式化"
+                description="按 DataWorks SQL 规范格式化">
+            <add-to-group group-id="EditorPopupMenu"
+                          anchor="after"
+                          relative-to="Cut"/>
+        </action>
+    </actions>
+</idea-plugin>

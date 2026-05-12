@@ -1,0 +1,215 @@
+package com.peach.sqlformat.engine;
+
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+class SqlFormatterTest {
+
+    private String format(String sql) {
+        SqlFormatter formatter = new SqlFormatter(new SqlTokenizer(sql));
+        return formatter.format(sql);
+    }
+
+    @Test
+    void testSimpleSelect() {
+        String result = format("select a, b from t");
+        assertTrue(result.contains("SELECT"));
+        assertTrue(result.contains("FROM"));
+    }
+
+    @Test
+    void testSelectWithWhere() {
+        String result = format("select a, b from t where a = 1");
+        assertTrue(result.contains("SELECT"));
+        assertTrue(result.contains("FROM"));
+        assertTrue(result.contains("WHERE a = 1"));
+    }
+
+    @Test
+    void testFunctionLowercase() {
+        String result = format("SELECT NVL(a, 0)");
+        assertTrue(result.contains("nvl(a,"));
+        assertTrue(result.contains("0)"));
+        assertFalse(result.contains("NVL"));
+    }
+
+    @Test
+    void testVariablePreserved() {
+        String result = format("SELECT * FROM t WHERE dayid = '${v_date}'");
+        assertTrue(result.contains("'${v_date}'"));
+    }
+
+    @Test
+    void testCommentPreserved() {
+        String result = format("SELECT a -- comment\nFROM b");
+        assertTrue(result.contains("-- comment"));
+    }
+
+    @Test
+    void testNoLogicChange() {
+        String input = "SELECT a, b FROM t WHERE c = 1 AND d = 2";
+        String result = format(input);
+        String inputStripped = input.replaceAll("\\s+", "").toLowerCase();
+        String resultStripped = result.replaceAll("\\s+", "").toLowerCase();
+        assertEquals(inputStripped, resultStripped);
+    }
+
+    @Test
+    void testCteQuery() {
+        String result = format("with a as (select id, name from t1), b as (select id, val from t2) select a.id, b.val from a");
+        assertTrue(result.contains("WITH"));
+        assertTrue(result.contains("SELECT"));
+        assertTrue(result.contains("FROM"));
+    }
+
+    @Test
+    void testInsertOverwrite() {
+        String result = format("insert overwrite table tbl partition (dayid='${v_date}') select a, b from src");
+        assertTrue(result.contains("INSERT OVERWRITE TABLE"));
+        assertTrue(result.contains("'${v_date}'"));
+    }
+
+    @Test
+    void testJoinFormat() {
+        String result = format("select a.*, b.* from t1 a left join t2 b on a.id = b.id");
+        assertTrue(result.contains("LEFT JOIN"));
+        assertTrue(result.contains("ON"));
+    }
+
+    @Test
+    void testKeywordsUppercase() {
+        String result = format("select a from t where b > 1 group by b order by b limit 10");
+        assertTrue(result.contains("SELECT"));
+        assertTrue(result.contains("FROM"));
+        assertTrue(result.contains("WHERE"));
+        assertTrue(result.contains("GROUP BY"));
+        assertTrue(result.contains("ORDER BY"));
+        assertTrue(result.contains("LIMIT"));
+    }
+
+    @Test
+    void testSubquery() {
+        String result = format("select a from (select id from t1) t where t.id > 0");
+        assertTrue(result.contains("SELECT"));
+        assertTrue(result.contains("FROM ("));
+    }
+
+    @Test
+    void testGetJsonObject() {
+        String result = format("select GET_JSON_OBJECT(feature, '$.user_id') as uid from t");
+        assertTrue(result.contains("get_json_object(feature,"));
+    }
+
+    @Test
+    void testHiveFullQuery() {
+        String sql = "with base as (select id, name from t1 where dayid = '${v_date}') "
+                + "insert overwrite table target partition (dayid='${v_date}') "
+                + "select base.id, nvl(base.name, '') as name from base left join other on base.id = other.id";
+
+        String result = format(sql);
+        assertTrue(result.contains("WITH"));
+        assertTrue(result.contains("INSERT OVERWRITE TABLE"));
+        assertTrue(result.contains("LEFT JOIN"));
+        assertTrue(result.contains("nvl(base.name,"));
+    }
+
+    @Test
+    void testMultipleCtes() {
+        String sql = "with a as (select id from t1), b as (select id from t2) select a.id from a join b on a.id = b.id";
+        String result = format(sql);
+        assertTrue(result.contains("WITH"));
+        assertTrue(result.contains("SELECT"));
+        assertTrue(result.contains("JOIN"));
+    }
+
+    @Test
+    void testUnionAll() {
+        String result = format("select a from t1 union all select a from t2");
+        assertTrue(result.contains("UNION ALL"));
+    }
+
+    @Test
+    void testWindowFunction() {
+        String result = format("select id, row_number() over (partition by dept order by salary desc) as rn from t");
+        assertTrue(result.contains("row_number()"));
+        assertTrue(result.contains("SELECT"));
+        assertTrue(result.contains("FROM"));
+    }
+
+    @Test
+    void testCaseWhen() {
+        String result = format("select id, case when status = 1 then 'active' else 'inactive' end as status_label from t");
+        assertTrue(result.contains("SELECT"));
+        assertTrue(result.contains("FROM"));
+    }
+
+    @Test
+    void testSelectDistinct() {
+        String result = format("select distinct id, name from t");
+        assertTrue(result.contains("SELECT DISTINCT"));
+        assertTrue(result.contains("FROM"));
+    }
+
+    @Test
+    void testBlockComment() {
+        String result = format("select a /* block comment */ from t");
+        assertTrue(result.contains("/* block comment */"));
+    }
+
+    @Test
+    void testBacktickIdentifier() {
+        String result = format("select `select`, `from` from t");
+        assertTrue(result.contains("`select`"));
+        assertTrue(result.contains("`from`"));
+    }
+
+    @Test
+    void testFunctionMultipleArgs() {
+        String result = format("SELECT coalesce(a, b, c, d) FROM t");
+        assertTrue(result.contains("coalesce(a,"));
+        assertTrue(result.contains("d)"));
+        assertFalse(result.contains("COALESCE"));
+    }
+
+    @Test
+    void testMultipleJoins() {
+        String sql = "select a.*, b.*, c.* from t1 a inner join t2 b on a.id = b.id left join t3 c on a.id = c.id";
+        String result = format(sql);
+        assertTrue(result.contains("INNER JOIN"));
+        assertTrue(result.contains("LEFT JOIN"));
+        assertTrue(result.contains("FROM"));
+    }
+
+    @Test
+    void testNestedSubquery() {
+        String result = format("select a from (select id from (select id from t1) t2) t3 where t3.id > 0");
+        assertTrue(result.contains("SELECT"));
+        assertTrue(result.contains("FROM"));
+    }
+
+    @Test
+    void testNoLogicChangeComplex() {
+        String input = "with cte as (select a, b, c from t1 where dayid = '${v_date}') "
+                + "insert overwrite table t2 partition (dayid='${v_date}') "
+                + "select cte.a, nvl(cte.b, 0) as b, get_json_object(cte.c, '$.key') as c_key "
+                + "from cte left join t3 on cte.a = t3.a where cte.b > 0 order by cte.a limit 100";
+        String result = format(input);
+        String inputStripped = input.replaceAll("\\s+", "").toLowerCase();
+        String resultStripped = result.replaceAll("\\s+", "").toLowerCase();
+        assertEquals(inputStripped, resultStripped);
+    }
+
+    @Test
+    void testHivePartitionedDdl() {
+        String result = format("create table t (id bigint, name string) partitioned by (dayid string) stored as orc");
+        assertTrue(result.contains("CREATE TABLE"));
+        assertTrue(result.contains("PARTITIONED BY"));
+    }
+
+    @Test
+    void testArithmeticExpression() {
+        String result = format("select a + b * c / d as val from t");
+        assertTrue(result.contains("SELECT"));
+        assertTrue(result.contains("FROM"));
+    }
+}
