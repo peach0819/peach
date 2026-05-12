@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "Read(//c/Users/tao.zheng8833/.claude/**)",
+      "Read(//c/Users/tao.zheng8833/.claude/skills/**)",
+      "Bash(./gradlew -p dataworks-sql-format-plugin build)"
+    ]
+  }
+}
