@@ -221,7 +221,32 @@ public class SqlTokenizer {
         if (followedByParen) {
             return new Token(TokenType.FUNCTION, word);
         }
+
+        // Handle concatenated keywords without space (e.g., ENDELSE → END ELSE, ENDWHEN → END WHEN)
+        String[] splits = trySplitConcatKeyword(word);
+        if (splits != null) {
+            pos = start + splits[0].length();
+            return new Token(TokenType.KEYWORD, splits[0]);
+        }
+
         return new Token(TokenType.IDENTIFIER, word);
+    }
+
+    /**
+     * Try to split a concatenated keyword (no space) into two known keywords.
+     * Currently handles: ENDELSE → END + ELSE, ENDWHEN → END + WHEN
+     */
+    private String[] trySplitConcatKeyword(String word) {
+        String upper = word.toUpperCase();
+        if (upper.startsWith("END")) {
+            String rest = upper.substring(3);
+            if (rest.equals("ELSE") || rest.equals("WHEN")) {
+                // Verify remainder is a keyword in the dictionary
+                String[] result = {"END", rest};
+                return result;
+            }
+        }
+        return null;
     }
 
     private String readAheadForMultiWord(String firstWord) {

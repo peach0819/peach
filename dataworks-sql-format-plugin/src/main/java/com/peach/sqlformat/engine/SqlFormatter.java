@@ -43,13 +43,18 @@ public class SqlFormatter {
     }
 
     private void processToken(Token token, int index, List<Token> tokens, FormatContext ctx, StringBuilder out) {
+        // Skip LPAREN already consumed by handleLineComment (e.g., after "as -- comment")
+        if (token.getType() == TokenType.LPAREN && ctx.lparenConsumed) {
+            ctx.lparenConsumed = false;
+            return;
+        }
         switch (token.getType()) {
             case KEYWORD: handleKeyword(token, index, tokens, ctx, out); break;
             case FUNCTION: handleFunction(token, ctx, out); break;
             case COMMA: handleComma(index, tokens, ctx, out); break;
             case LPAREN: handleLparen(ctx, out); break;
             case RPAREN: handleRparen(index, tokens, ctx, out); break;
-            case LINE_COMMENT: handleLineComment(token, ctx, out); break;
+            case LINE_COMMENT: handleLineComment(token, index, tokens, ctx, out); break;
             case BLOCK_COMMENT: handleBlockComment(token, ctx, out); break;
             case SEMICOLON: out.append(";\n"); break;
             case DOT: handleDot(ctx, out); break;
@@ -71,6 +76,8 @@ public class SqlFormatter {
             if (out.length() > 0) {
                 out.append("\n\n");
             }
+            // Indent UNION ALL to match current context (inside CTE/subquery body)
+            appendIndent(out, ctx.indentLevel);
             out.append(upper);
             // Blank line after UNION
             out.append("\n\n");
@@ -193,25 +200,38 @@ public class SqlFormatter {
             return;
         }
 
-        // CASE WHEN
+        // CASE WHEN (nested via caseDepth counter)
         if (upper.equals("CASE")) {
+            ctx.caseDepth++;
+            // Save outer CASE state when entering a nested CASE
+            if (ctx.caseDepth > 1) {
+                ctx.caseStackIndex++;
+                ctx.caseWhenPositionStack[ctx.caseStackIndex] = ctx.caseWhenPosition;
+                ctx.caseWhenCountStack[ctx.caseStackIndex] = ctx.caseWhenCount;
+            }
             ctx.inCase = true;
             ctx.caseFirstWhen = true;
             ctx.caseWhenPosition = -1;
             ctx.caseWhenCount = 0;
             ctx.inWhenCondition = false;
-            if (ctx.justHadNewline) {
-                // Add indent when on a new line (e.g., after line comment in SELECT)
+            if (ctx.justHadNewline || ctx.afterComma) {
+                // Add indent when on a new line (e.g., after SELECT comma or line comment)
                 appendIndent(out, ctx.indentLevel);
                 ctx.afterNewline = false;
                 ctx.justHadNewline = false;
+            } else if (out.length() > 0) {
+                // Ensure space before CASE when it follows an expression/operator (e.g., END+CASE → END + CASE)
+                String outStr = out.toString();
+                if (!outStr.endsWith(" ") && !outStr.endsWith("(") && !outStr.endsWith("\n")) {
+                    out.append(" ");
+                }
             }
             out.append("CASE ");
             ctx.afterKeyword = true;
             ctx.afterComma = false;
             return;
         }
-        if (ctx.inCase && (upper.equals("WHEN") || upper.equals("THEN") || upper.equals("ELSE") || upper.equals("END"))) {
+        if (ctx.caseDepth > 0 && (upper.equals("WHEN") || upper.equals("THEN") || upper.equals("ELSE") || upper.equals("END"))) {
             if (upper.equals("THEN")) {
                 ctx.inWhenCondition = false;
                 // Add space before THEN if not already at a word boundary
@@ -276,8 +296,15 @@ public class SqlFormatter {
                     out.append(" ");
                 }
                 out.append("END");
-                ctx.inCase = false;
-                ctx.afterKeyword = true;
+                ctx.caseDepth--;
+                ctx.inCase = ctx.caseDepth > 0;
+                // Restore outer CASE state when ending a nested CASE
+                if (ctx.caseDepth > 0 && ctx.caseStackIndex >= 0) {
+                    ctx.caseWhenPosition = ctx.caseWhenPositionStack[ctx.caseStackIndex];
+                    ctx.caseWhenCount = ctx.caseWhenCountStack[ctx.caseStackIndex];
+                    ctx.caseStackIndex--;
+                }
+                ctx.afterKeyword = false;  // allow next token to get proper spacing
                 return;
             }
         }
@@ -360,6 +387,12 @@ public class SqlFormatter {
             return;
         }
 
+        // Comma already consumed by handleLineComment (put before comment)
+        if (ctx.commaConsumed) {
+            ctx.commaConsumed = false;
+            return;
+        }
+
         out.append(",");
 
         // Check next non-whitespace token to see if we're in SELECT column list
@@ -389,17 +422,30 @@ public class SqlFormatter {
             }
             ctx.afterComma = true;
             ctx.firstColumn = false;
+            ctx.afterNewline = false;
+            ctx.afterKeyword = false;
+            ctx.justHadLparen = false;
+            ctx.justHadNewline = false;
         } else {
+            // Inside function args / IN list / OVER: comma already added space
             out.append(" ");
             ctx.afterComma = false;
+            ctx.afterNewline = false;
+            ctx.afterKeyword = true;  // buffer already has trailing space
+            ctx.justHadLparen = false;
+            ctx.justHadNewline = false;
         }
-        ctx.afterNewline = false;
-        ctx.afterKeyword = false;
-        ctx.justHadLparen = false;
-        ctx.justHadNewline = false;
     }
 
     private void handleLparen(FormatContext ctx, StringBuilder out) {
+        // Add space before ( when not a function call and output doesn't end with space/paren/newline
+        // This ensures operators like + have proper spacing: "5 + (sum(...)" instead of "5 +(sum(...)"
+        if (!ctx.functionPending && !ctx.justHadNewline && out.length() > 0) {
+            String outStr = out.toString();
+            if (!outStr.endsWith(" ") && !outStr.endsWith("(") && !outStr.endsWith("\n")) {
+                out.append(" ");
+            }
+        }
         out.append("(");
 
         // CTE body starts: the first ( after WITH opens the CTE body
@@ -494,20 +540,49 @@ public class SqlFormatter {
         }
 
         out.append(")");
+        ctx.afterKeyword = false;
         ctx.justHadLparen = false;
     }
 
-    private void handleLineComment(Token token, FormatContext ctx, StringBuilder out) {
+    private void handleLineComment(Token token, int index, List<Token> tokens, FormatContext ctx, StringBuilder out) {
+        // Check next token
+        Token nextTok = (index + 1 < tokens.size()) ? tokens.get(index + 1) : null;
+        boolean nextIsComma = nextTok != null && nextTok.getType() == TokenType.COMMA;
+        boolean nextIsLparen = nextTok != null && nextTok.getType() == TokenType.LPAREN;
+        boolean commaBeforeComment = nextIsComma && ctx.currentClause == Clause.SELECT && ctx.columnAlignment > 0;
+
+        // When "as" keyword + line comment is followed by LPAREN, place "(" before the comment
+        // e.g., "WITH order_base as ( --订单明细" instead of "...as --订单明细\n("
+        String outStr = out.toString();
+        if (nextIsLparen && outStr.endsWith(" as ")) {
+            out.append("(");
+            // Replicate handleLparen side effects for CTE opening
+            if (ctx.insideCte && ctx.cteOpenDepth < 0) {
+                ctx.cteOpenDepth = ctx.parenDepth;
+                ctx.cteIndentLevel = ctx.indentLevel;
+                ctx.indentLevel++;
+            }
+            ctx.parenDepth++;
+            ctx.afterLparen = true;
+            ctx.afterKeyword = false;
+            ctx.justHadLparen = true;
+            ctx.lparenConsumed = true;  // skip the LPAREN token when it's processed later
+        }
+
         // Special case: comment after a SELECT column comma — keep comment on same line
         // as the column, then add the newline+alignment for the next column
         if (ctx.currentClause == Clause.SELECT && ctx.columnAlignment > 0 && !ctx.justHadNewline) {
-            String outStr = out.toString();
             int lastNewline = outStr.lastIndexOf("\n");
             if (lastNewline >= 0) {
                 String afterNewline = outStr.substring(lastNewline + 1);
                 if (afterNewline.length() == ctx.columnAlignment && afterNewline.chars().allMatch(c -> c == ' ')) {
-                    // Strip trailing newline+alignment, put comment on same line, re-add alignment
+                    // Strip trailing newline+alignment, put comment (with comma if next is COMMA)
+                    // on same line, re-add alignment for next column
                     out.setLength(lastNewline);
+                    if (commaBeforeComment) {
+                        out.append(",");
+                        ctx.commaConsumed = true;
+                    }
                     out.append(" ").append(token.getText()).append("\n");
                     for (int i = 0; i < ctx.columnAlignment; i++) {
                         out.append(" ");
@@ -523,9 +598,20 @@ public class SqlFormatter {
         if (ctx.justHadNewline) {
             appendIndent(out, ctx.indentLevel);
         } else if (out.length() > 0) {
+            if (commaBeforeComment) {
+                // Comma should be before the comment on the same line
+                out.append(",");
+                ctx.commaConsumed = true;
+            }
             out.append(" ");
         }
         out.append(token.getText()).append("\n");
+        // When comma was consumed, add columnAlignment spaces for the next column
+        if (commaBeforeComment) {
+            for (int i = 0; i < ctx.columnAlignment; i++) {
+                out.append(" ");
+            }
+        }
         ctx.afterNewline = true;
         ctx.justHadNewline = true;
         ctx.afterKeyword = false;
@@ -627,6 +713,8 @@ public class SqlFormatter {
         int cteIndentLevel = 0;   // indent level when CTE body starts
         boolean afterCte = false;
         boolean expectingNextCte = false;
+        boolean commaConsumed = false;
+        boolean lparenConsumed = false;
 
         // INSERT state
         boolean inInsert = false;
@@ -636,11 +724,15 @@ public class SqlFormatter {
         int inClauseDepth = 0;
 
         // CASE WHEN tracking
+        int caseDepth = 0;
         boolean inCase = false;
         boolean caseFirstWhen = true;
         int caseWhenPosition = -1;
         int caseWhenCount = 0;
         boolean inWhenCondition = false;
+        int[] caseWhenPositionStack = new int[10];
+        int[] caseWhenCountStack = new int[10];
+        int caseStackIndex = -1;
 
         // OVER (window function) tracking — keep clause keywords inline
         boolean inOverClause = false;
