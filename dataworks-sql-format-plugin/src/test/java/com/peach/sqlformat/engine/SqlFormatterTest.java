@@ -277,26 +277,26 @@ class SqlFormatterTest {
     @Test
     void testCaseWhenMultiLine() {
         // Multiple WHEN should be on separate lines, aligned with first WHEN
+        // ELSE should also be on its own line, but END stays on same line as ELSE
         String result = format("SELECT CASE WHEN a = 1 THEN 'one' WHEN a = 2 THEN 'two' ELSE 'other' END as val FROM t");
         assertTrue(result.contains("CASE WHEN"));
-        // Second WHEN, ELSE, END should be on their own lines
         String[] lines = result.split("\n");
         int whenCount = 0;
         int elseCount = 0;
         int endCount = 0;
         for (String line : lines) {
             String trimmed = line.trim();
-            // "    WHEN" means the trimmed part starts with WHEN
             if (trimmed.startsWith("WHEN")) whenCount++;
             if (trimmed.startsWith("ELSE")) elseCount++;
             if (trimmed.startsWith("END")) endCount++;
         }
         assertEquals(1, whenCount, "Second WHEN should be on its own line; first WHEN is on CASE line");
         assertEquals(1, elseCount, "ELSE should be on its own line");
-        assertEquals(1, endCount, "END should be on its own line");
 
-        // Verify WHEN/ELSE/END indentation column matches first WHEN's column
-        // The WHEN in "CASE WHEN" is at column 12 (7 SELECT alignment + 5 "CASE ")
+        // END should NOT be on its own line (stays on same line as ELSE)
+        assertEquals(0, endCount, "END should not be on its own line");
+
+        // Verify WHEN/ELSE/END indentation column matches
         for (String line : lines) {
             String trimmed = line.trim();
             if (trimmed.startsWith("WHEN") || trimmed.startsWith("ELSE") || trimmed.startsWith("END")) {
@@ -413,5 +413,40 @@ class SqlFormatterTest {
         // Columns should be properly aligned in SELECT
         assertTrue(result.contains("       if(cte.status") || result.contains("       nvl(cte.name"),
                 "Columns should be aligned: " + result);
+    }
+
+    @Test
+    void testInListNoLineBreak() {
+        // IN list elements should stay on the same line (no comma line breaks)
+        String result = format("SELECT id FROM t WHERE status IN ('a', 'b', 'c')");
+        assertTrue(result.contains("IN ('a', 'b', 'c')"), "IN list should be on one line: " + result);
+    }
+
+    @Test
+    void testInListInSelectColumn() {
+        // IN list inside SELECT CASE WHEN should stay on one line
+        String result = format("SELECT CASE WHEN status IN ('a', 'b', 'c') THEN 1 END as val FROM t");
+        assertTrue(result.contains("IN ('a', 'b', 'c')"), "IN list in CASE should be on one line: " + result);
+    }
+
+    @Test
+    void testCaseWhenAndNoDoubleSpace() {
+        // AND in CASE WHEN condition should not have double spaces
+        String result = format("SELECT CASE WHEN a IS NOT NULL AND b = 1 THEN 'ok' END as val FROM t");
+        assertFalse(result.contains("  AND"), "No double space before AND in CASE WHEN: " + result);
+    }
+
+    @Test
+    void testNotInList() {
+        // NOT IN list should stay on one line
+        String result = format("SELECT id FROM t WHERE status NOT IN ('a', 'b', 'c')");
+        assertTrue(result.contains("NOT IN ('a', 'b', 'c')"), "NOT IN list should be on one line: " + result);
+    }
+
+    @Test
+    void testInWithMultipleElements() {
+        // IN with many elements should not create line breaks
+        String result = format("SELECT CASE WHEN x IN (1, 2, 3, 4, 5) THEN 'yes' ELSE 'no' END as val FROM t");
+        assertTrue(result.contains("IN (1, 2, 3, 4, 5)"), "IN list with many elements on one line: " + result);
     }
 }

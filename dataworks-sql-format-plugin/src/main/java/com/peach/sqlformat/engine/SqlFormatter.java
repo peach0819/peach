@@ -254,21 +254,8 @@ public class SqlFormatter {
                 return;
             }
             if (upper.equals("END")) {
-                if (ctx.caseWhenCount <= 1) {
-                    // Single WHEN: END on same line
-                    out.append(" END");
-                } else {
-                    // Multiple WHENs: END on new line aligned with WHEN
-                    newline(out);
-                    if (ctx.caseWhenPosition > 0) {
-                        for (int i = 0; i < ctx.caseWhenPosition; i++) {
-                            out.append(" ");
-                        }
-                    } else {
-                        appendIndent(out, ctx.indentLevel);
-                    }
-                    out.append("END");
-                }
+                // END on same line (no line break)
+                out.append(" END");
                 ctx.inCase = false;
                 ctx.afterKeyword = true;
                 return;
@@ -297,6 +284,11 @@ public class SqlFormatter {
         }
         out.append(upper);
 
+        // IN keyword — next ( opens an IN list (suppress comma line breaks)
+        if (upper.equals("IN")) {
+            ctx.afterInKeyword = true;
+        }
+
         // OVER keyword — next ( opens a window function clause
         if (upper.equals("OVER")) {
             ctx.afterOver = true;
@@ -305,7 +297,12 @@ public class SqlFormatter {
         Token next2 = (index + 1 < tokens.size()) ? tokens.get(index + 1) : null;
         if (next2 != null && next2.getType() != TokenType.RPAREN && next2.getType() != TokenType.COMMA
                 && next2.getType() != TokenType.SEMICOLON && next2.getType() != TokenType.LINE_COMMENT) {
-            out.append(" ");
+            // Don't add trailing space before AND/OR (they handle their own spacing)
+            boolean isAndOr = next2.getType() == TokenType.KEYWORD
+                    && (next2.getText().equalsIgnoreCase("AND") || next2.getText().equalsIgnoreCase("OR"));
+            if (!isAndOr) {
+                out.append(" ");
+            }
         }
         ctx.afterKeyword = true;
         ctx.afterComma = false;
@@ -318,7 +315,7 @@ public class SqlFormatter {
         String lower = token.getText().toLowerCase();
         if (ctx.afterNewline || ctx.afterComma) {
             appendIndent(out, ctx.indentLevel);
-        } else if (out.length() > 0 && !ctx.afterKeyword && !ctx.justHadLparen) {
+        } else if (out.length() > 0 && !ctx.afterKeyword && !ctx.justHadLparen && !ctx.justHadDot) {
             out.append(" ");
         }
         out.append(lower);
@@ -355,8 +352,8 @@ public class SqlFormatter {
             }
         }
 
-        // In SELECT clause, comma triggers newline for next column (but not inside function args or OVER)
-        if (ctx.currentClause == Clause.SELECT && ctx.functionDepth == 0 && !ctx.inOverClause) {
+        // In SELECT clause, comma triggers newline for next column (but not inside function args, OVER, or IN list)
+        if (ctx.currentClause == Clause.SELECT && ctx.functionDepth == 0 && !ctx.inOverClause && ctx.inClauseDepth == 0) {
             newline(out);
             // Align to column position
             if (ctx.columnAlignment > 0) {
@@ -394,6 +391,12 @@ public class SqlFormatter {
             ctx.functionPending = false;
         }
 
+        // IN list paren: ( after IN keyword — suppress comma line breaks
+        if (ctx.afterInKeyword) {
+            ctx.inClauseDepth++;
+            ctx.afterInKeyword = false;
+        }
+
         // Subquery paren: ( after FROM keyword (before any table identifier)
         if (ctx.expectingSubquery) {
             ctx.subqueryOpenDepths[++ctx.subqueryDepthIndex] = ctx.parenDepth;
@@ -416,6 +419,11 @@ public class SqlFormatter {
 
     private void handleRparen(int index, List<Token> tokens, FormatContext ctx, StringBuilder out) {
         ctx.parenDepth--;
+
+        // Decrement IN clause depth if inside an IN list
+        if (ctx.inClauseDepth > 0) {
+            ctx.inClauseDepth--;
+        }
 
         // Check if this closes a CTE's opening paren
         if (ctx.insideCte && ctx.cteOpenDepth >= 0 && ctx.parenDepth == ctx.cteOpenDepth) {
@@ -445,11 +453,14 @@ public class SqlFormatter {
         if (ctx.subqueryDepthIndex >= 0 && ctx.parenDepth == ctx.subqueryOpenDepths[ctx.subqueryDepthIndex]) {
             ctx.subqueryDepthIndex--;
             ctx.indentLevel--;
-            newline(out);
+            if (!ctx.justHadNewline) {
+                newline(out);
+            }
             appendIndent(out, ctx.indentLevel);
             out.append(")");
             ctx.justHadLparen = false;
             ctx.afterKeyword = false;  // 允许后续 alias 前加空格
+            ctx.afterNewline = false;
             return;
         }
 
@@ -573,6 +584,10 @@ public class SqlFormatter {
 
         // INSERT state
         boolean inInsert = false;
+
+        // IN clause list tracking (suppress line breaks inside IN (...))
+        boolean afterInKeyword = false;
+        int inClauseDepth = 0;
 
         // CASE WHEN tracking
         boolean inCase = false;
