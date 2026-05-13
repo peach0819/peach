@@ -1,11 +1,15 @@
-with msg as (
-SELECT id, msg_type, content, msg_time, admin_chat_id
-FROM yt_crm.ads_crm_chat_msg_qw
-WHERE msg_time > '20260301000000'
-AND msg_time < '20260417000000'
-AND qw_action = 'send'
-AND direction = 1
-AND msg_type = 'text'
+WITH msg as (
+    SELECT id,
+           msg_type,
+           content,
+           msg_time,
+           admin_chat_id
+    FROM yt_crm.ads_crm_chat_msg_qw
+    WHERE msg_time > '20260301000000'
+    AND msg_time < '20260417000000'
+    AND qw_action = 'send'
+    AND direction = 1
+    AND msg_type = 'text'
 ),
 
 admin_chat as (
@@ -13,29 +17,33 @@ admin_chat as (
 ),
 
 task_detail as (
-    SELECT touch_task_id, qw_msg_id
+    SELECT touch_task_id,
+           qw_msg_id
     FROM ytdw.dw_ytj_sel_touch_task_detail_d
-    WHERE dayid='20260419'
-    AND qw_msg_id is not null
+    WHERE dayid = '20260419'
+    AND qw_msg_id IS NOT NULL
 ),
 
 task as (
-    SELECT  t.id as task_id, u.user_real_name as creator, u.job_id, u.job_title
-    FROM yt_crm.ads_touch_task  t
+    SELECT t.id as task_id,
+           u.user_real_name as creator,
+           u.job_id,
+           u.job_title
+    FROM yt_crm.ads_touch_task t
     LEFT JOIN ytdw.dwd_user_admin_d u ON t.creator = u.user_id
     WHERE u.dayid = '20260419'
 )
 
-SELECT  substr(msg_time, 1, 8) as `发送日期`,
-count(*) as `触达总发送消息数`,
-sum(if(creator NOT IN ('何屹','周明慧','施雅丹','林海庆','樊婷婷','章冰婕','许静雯'), 1, 0)) as `电销自己发的`,
-sum(if(creator IN ('何屹','周明慧','施雅丹','林海庆','樊婷婷','章冰婕','许静雯'), 1, 0)) as `运营发的`,
-sum(if(creator IN ('何屹','周明慧','施雅丹','林海庆','樊婷婷','章冰婕','许静雯') AND content RLIKE '直供品牌|爱他美|领熠|卓傲|美赞臣|毛利率|a2|贝拉米|惠氏|可瑞康|美素佳儿|美赞臣|雀巢|雅培|南瓜树|阿米拉', 1, 0)) as `运营发的电销主推品条数`,
-sum(if(creator IN ('何屹','周明慧','施雅丹','林海庆','樊婷婷','章冰婕','许静雯') AND content NOT RLIKE '直供品牌|爱他美|领熠|卓傲|美赞臣|毛利率|a2|贝拉米|惠氏|可瑞康|美素佳儿|美赞臣|雀巢|雅培|南瓜树|阿米拉', 1, 0)) as `运营发的非电销主推品条数`
+SELECT substr(msg_time, 1, 8) as `发送日期`,
+       count(*) as `触达总发送消息数`,
+       sum(if(creator NOT IN ('何屹', '周明慧', '施雅丹', '林海庆', '樊婷婷', '章冰婕', '许静雯'), 1, 0)) as `电销自己发的`,
+       sum(if(creator IN ('何屹', '周明慧', '施雅丹', '林海庆', '樊婷婷', '章冰婕', '许静雯'), 1, 0)) as `运营发的`,
+       sum(if(creator IN ('何屹', '周明慧', '施雅丹', '林海庆', '樊婷婷', '章冰婕', '许静雯') AND content RLIKE '直供品牌|爱他美|领熠|卓傲|美赞臣|毛利率|a2|贝拉米|惠氏|可瑞康|美素佳儿|美赞臣|雀巢|雅培|南瓜树|阿米拉', 1, 0)) as `运营发的电销主推品条数`,
+       sum(if(creator IN ('何屹', '周明慧', '施雅丹', '林海庆', '樊婷婷', '章冰婕', '许静雯') AND content NOT RLIKE '直供品牌|爱他美|领熠|卓傲|美赞臣|毛利率|a2|贝拉米|惠氏|可瑞康|美素佳儿|美赞臣|雀巢|雅培|南瓜树|阿米拉', 1, 0)) as `运营发的非电销主推品条数`
 FROM msg
 INNER JOIN admin_chat ON msg.admin_chat_id = admin_chat.admin_chat_id
 LEFT JOIN task_detail ON msg.id = task_detail.qw_msg_id
 LEFT JOIN task ON task_detail.touch_task_id = task.task_id
-WHERE creator is not null
-group by substr(msg_time, 1, 8)
-order by substr(msg_time, 1, 8)
+WHERE creator IS NOT NULL
+GROUP BY substr(msg_time, 1, 8)
+ORDER BY substr(msg_time, 1, 8)
