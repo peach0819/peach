@@ -334,6 +334,34 @@ class SqlFormatterTest {
     }
 
     @Test
+    void testUnionAllFormat() {
+        // UNION ALL should have blank lines around it, at indent 0
+        String sql = "SELECT a, b FROM t1 WHERE a = 1\n"
+                + "UNION ALL\n"
+                + "SELECT c, d FROM t2 WHERE c = 2";
+        String result = format(sql);
+        // Should have blank line before UNION ALL
+        assertTrue(result.contains("WHERE a = 1\n\nUNION ALL"),
+                "Blank line before UNION ALL: " + result);
+        // Should have blank line after UNION ALL
+        assertTrue(result.contains("UNION ALL\n\nSELECT"),
+                "Blank line after UNION ALL: " + result);
+        // UNION ALL should be at column 0 (no indent)
+        for (String line : result.split("\n")) {
+            if (line.trim().equals("UNION ALL")) {
+                assertEquals(0, line.indexOf("UNION ALL"), "UNION ALL should not be indented");
+            }
+        }
+        // Subsequent SELECT should start at indent 0
+        // After UNION ALL, the next line should start with SELECT
+        int unionIdx = result.indexOf("UNION ALL");
+        String afterUnion = result.substring(unionIdx + 9);
+        String trimmed = afterUnion.trim();
+        assertTrue(trimmed.startsWith("SELECT"),
+                "First non-blank after UNION ALL should be SELECT, got: '" + trimmed.substring(0, Math.min(20, trimmed.length())) + "'");
+    }
+
+    @Test
     void testCteClosingParenNoExtraIndent() {
         // CTE closing ) should not have extra indentation — at same level as WITH
         String result = format("WITH a AS (SELECT id FROM t1), b AS (SELECT id FROM t2) SELECT * FROM a");

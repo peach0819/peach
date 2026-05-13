@@ -35,7 +35,7 @@ public class KeywordDictionary {
             "INSERT", "OVERWRITE", "TABLE", "INTO", "VALUES",
             "LEFT", "RIGHT", "FULL", "INNER", "CROSS", "JOIN", "ANTI", "SEMI", "OUTER",
             "UNION", "ALL", "DISTINCT",
-            "ORDER", "GROUP", "BY", "PARTITION", "CLUSTER", "DISTRIBUTE", "SORT",
+            "BY", "PARTITION", "CLUSTER", "DISTRIBUTE", "SORT",
             "HAVING", "LIMIT", "OFFSET",
             "SET", "CREATE", "ALTER", "DROP", "ADD",
             "ELSE", "THEN", "END", "CASE", "WHEN",

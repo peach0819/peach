@@ -61,6 +61,27 @@ public class SqlFormatter {
         String text = token.getText();
         String upper = text.toUpperCase();
 
+        // UNION ALL / UNION DISTINCT — set operations with blank lines around them
+        if (upper.equals("UNION ALL") || upper.equals("UNION DISTINCT")) {
+            ctx.inJoinOn = false;
+            ctx.afterCte = false;
+            ctx.expectingNextCte = false;
+
+            // Blank line before UNION
+            if (out.length() > 0) {
+                out.append("\n\n");
+            }
+            out.append(upper);
+            // Blank line after UNION
+            out.append("\n\n");
+
+            ctx.afterNewline = true;
+            ctx.justHadNewline = true;
+            ctx.afterKeyword = false;
+            ctx.currentClause = Clause.NONE;
+            return;
+        }
+
         // Handle clause-starting keywords
         if (isClauseStartKeyword(upper)) {
             // Inside OVER(...) — keep keywords inline (window function)
@@ -126,8 +147,8 @@ public class SqlFormatter {
 
         // AND / OR
         if (upper.equals("AND") || upper.equals("OR")) {
-            if (ctx.inJoinOn) {
-                // In JOIN ON conditions, keep AND/OR on same line
+            if (ctx.inJoinOn || ctx.inWhenCondition) {
+                // In JOIN ON conditions or CASE WHEN conditions, keep AND/OR on same line
                 out.append(" ").append(upper).append(" ");
             } else {
                 if (!ctx.justHadNewline) {
@@ -167,41 +188,91 @@ public class SqlFormatter {
             ctx.inCase = true;
             ctx.caseFirstWhen = true;
             ctx.caseWhenPosition = -1;
+            ctx.caseWhenCount = 0;
+            ctx.inWhenCondition = false;
             out.append("CASE ");
             ctx.afterKeyword = true;
             ctx.afterComma = false;
             return;
         }
-        if (ctx.inCase && (upper.equals("WHEN") || upper.equals("ELSE") || upper.equals("END"))) {
-            if (upper.equals("WHEN") && ctx.caseFirstWhen) {
-                // First WHEN: stay on same line after CASE
-                // Record column position of WHEN relative to current line start
-                String currentOut = out.toString();
-                int lastNewline = currentOut.lastIndexOf("\n");
-                ctx.caseWhenPosition = (lastNewline >= 0) ? currentOut.length() - lastNewline - 1 : currentOut.length();
-                out.append("WHEN ");
-                ctx.caseFirstWhen = false;
-                ctx.afterComma = false;
-            } else {
-                // Subsequent WHEN, ELSE, END: new line aligned with first WHEN
-                newline(out);
-                if (ctx.caseWhenPosition > 0) {
-                    for (int i = 0; i < ctx.caseWhenPosition; i++) {
-                        out.append(" ");
-                    }
-                } else {
-                    appendIndent(out, ctx.indentLevel);
-                }
-                out.append(upper);
-                if (!upper.equals("END")) {
+        if (ctx.inCase && (upper.equals("WHEN") || upper.equals("THEN") || upper.equals("ELSE") || upper.equals("END"))) {
+            if (upper.equals("THEN")) {
+                ctx.inWhenCondition = false;
+                // Add space before THEN if not already at a word boundary
+                String outStr = out.toString();
+                if (!outStr.endsWith(" ") && !outStr.endsWith("\n")) {
                     out.append(" ");
                 }
+                out.append("THEN ");
+                ctx.afterKeyword = true;
+                return;
+            }
+            if (upper.equals("WHEN")) {
+                ctx.caseWhenCount++;
+                ctx.inWhenCondition = true;
+                if (ctx.caseFirstWhen) {
+                    // First WHEN: stay on same line after CASE
+                    // Record column position of WHEN relative to current line start
+                    String currentOut = out.toString();
+                    int lastNewline = currentOut.lastIndexOf("\n");
+                    ctx.caseWhenPosition = (lastNewline >= 0) ? currentOut.length() - lastNewline - 1 : currentOut.length();
+                    out.append("WHEN ");
+                    ctx.caseFirstWhen = false;
+                    ctx.afterComma = false;
+                } else {
+                    // Subsequent WHEN: new line aligned with first WHEN
+                    newline(out);
+                    if (ctx.caseWhenPosition > 0) {
+                        for (int i = 0; i < ctx.caseWhenPosition; i++) {
+                            out.append(" ");
+                        }
+                    } else {
+                        appendIndent(out, ctx.indentLevel);
+                    }
+                    out.append("WHEN ");
+                }
+                ctx.afterKeyword = true;
+                return;
+            }
+            if (upper.equals("ELSE")) {
+                if (ctx.caseWhenCount <= 1) {
+                    // Single WHEN: ELSE on same line
+                    out.append(" ELSE ");
+                } else {
+                    // Multiple WHENs: ELSE on new line aligned with WHEN
+                    newline(out);
+                    if (ctx.caseWhenPosition > 0) {
+                        for (int i = 0; i < ctx.caseWhenPosition; i++) {
+                            out.append(" ");
+                        }
+                    } else {
+                        appendIndent(out, ctx.indentLevel);
+                    }
+                    out.append("ELSE ");
+                }
+                ctx.afterKeyword = true;
+                return;
             }
             if (upper.equals("END")) {
+                if (ctx.caseWhenCount <= 1) {
+                    // Single WHEN: END on same line
+                    out.append(" END");
+                } else {
+                    // Multiple WHENs: END on new line aligned with WHEN
+                    newline(out);
+                    if (ctx.caseWhenPosition > 0) {
+                        for (int i = 0; i < ctx.caseWhenPosition; i++) {
+                            out.append(" ");
+                        }
+                    } else {
+                        appendIndent(out, ctx.indentLevel);
+                    }
+                    out.append("END");
+                }
                 ctx.inCase = false;
+                ctx.afterKeyword = true;
+                return;
             }
-            ctx.afterKeyword = true;
-            return;
         }
 
         // JOIN keywords
@@ -325,7 +396,7 @@ public class SqlFormatter {
 
         // Subquery paren: ( after FROM keyword (before any table identifier)
         if (ctx.expectingSubquery) {
-            ctx.subqueryOpenDepth = ctx.parenDepth;
+            ctx.subqueryOpenDepths[++ctx.subqueryDepthIndex] = ctx.parenDepth;
             ctx.indentLevel++;
             ctx.expectingSubquery = false;
         }
@@ -371,13 +442,14 @@ public class SqlFormatter {
         }
 
         // Check if this closes a subquery opening paren
-        if (ctx.subqueryOpenDepth >= 0 && ctx.parenDepth == ctx.subqueryOpenDepth) {
+        if (ctx.subqueryDepthIndex >= 0 && ctx.parenDepth == ctx.subqueryOpenDepths[ctx.subqueryDepthIndex]) {
+            ctx.subqueryDepthIndex--;
             ctx.indentLevel--;
             newline(out);
             appendIndent(out, ctx.indentLevel);
             out.append(")");
-            ctx.subqueryOpenDepth = -1;
             ctx.justHadLparen = false;
+            ctx.afterKeyword = false;  // 允许后续 alias 前加空格
             return;
         }
 
@@ -391,7 +463,9 @@ public class SqlFormatter {
     }
 
     private void handleLineComment(Token token, FormatContext ctx, StringBuilder out) {
-        if (!ctx.justHadNewline && out.length() > 0) {
+        if (ctx.justHadNewline) {
+            appendIndent(out, ctx.indentLevel);
+        } else if (out.length() > 0) {
             out.append(" ");
         }
         out.append(token.getText()).append("\n");
@@ -401,7 +475,9 @@ public class SqlFormatter {
     }
 
     private void handleBlockComment(Token token, FormatContext ctx, StringBuilder out) {
-        if (!ctx.justHadNewline && out.length() > 0) {
+        if (ctx.justHadNewline) {
+            appendIndent(out, ctx.indentLevel);
+        } else if (out.length() > 0) {
             out.append(" ");
         }
         out.append(token.getText()).append(" ");
@@ -479,8 +555,9 @@ public class SqlFormatter {
         int functionDepth = 0;
         boolean functionPending = false;
 
-        // Subquery tracking
-        int subqueryOpenDepth = -1;
+        // Subquery tracking (stack for nested subqueries)
+        int[] subqueryOpenDepths = new int[10];
+        int subqueryDepthIndex = -1;
         boolean expectingSubquery = false;
 
         // JOIN ON tracking (AND/OR inline)
@@ -501,6 +578,8 @@ public class SqlFormatter {
         boolean inCase = false;
         boolean caseFirstWhen = true;
         int caseWhenPosition = -1;
+        int caseWhenCount = 0;
+        boolean inWhenCondition = false;
 
         // OVER (window function) tracking — keep clause keywords inline
         boolean inOverClause = false;
