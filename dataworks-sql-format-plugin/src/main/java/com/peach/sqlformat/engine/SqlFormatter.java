@@ -112,7 +112,7 @@ public class SqlFormatter {
                 ctx.firstCte = true;
             }
 
-            // SELECT tracking
+            // SELECT / GROUP BY / ORDER BY tracking
             if (upper.equals("SELECT")) {
                 ctx.currentClause = Clause.SELECT;
                 ctx.firstColumn = true;
@@ -121,6 +121,12 @@ public class SqlFormatter {
                 ctx.expectingSubquery = true;  // next ( after FROM is a subquery
             } else if (upper.equals("WHERE")) {
                 ctx.currentClause = Clause.WHERE;
+            } else if (upper.equals("GROUP BY")) {
+                ctx.currentClause = Clause.GROUP_BY;
+                ctx.firstColumn = true;
+            } else if (upper.equals("ORDER BY")) {
+                ctx.currentClause = Clause.ORDER_BY;
+                ctx.firstColumn = true;
             } else if (upper.startsWith("INSERT")) {
                 ctx.currentClause = Clause.INSERT;
                 ctx.inInsert = true;
@@ -130,9 +136,13 @@ public class SqlFormatter {
             out.append(upper);
             ctx.afterKeyword = true;
 
-            // Track column alignment position for SELECT
+            // Track column alignment position for SELECT / GROUP BY / ORDER BY
             if (upper.equals("SELECT")) {
                 // "SELECT " is 7 chars — fixed offset from indent
+                ctx.columnAlignment = upper.length() + 1;
+                ctx.firstColumn = true;
+            } else if (upper.equals("GROUP BY") || upper.equals("ORDER BY")) {
+                // "GROUP BY " / "ORDER BY " is 9 chars
                 ctx.columnAlignment = upper.length() + 1;
                 ctx.firstColumn = true;
             }
@@ -190,6 +200,12 @@ public class SqlFormatter {
             ctx.caseWhenPosition = -1;
             ctx.caseWhenCount = 0;
             ctx.inWhenCondition = false;
+            if (ctx.justHadNewline) {
+                // Add indent when on a new line (e.g., after line comment in SELECT)
+                appendIndent(out, ctx.indentLevel);
+                ctx.afterNewline = false;
+                ctx.justHadNewline = false;
+            }
             out.append("CASE ");
             ctx.afterKeyword = true;
             ctx.afterComma = false;
@@ -254,8 +270,12 @@ public class SqlFormatter {
                 return;
             }
             if (upper.equals("END")) {
-                // END on same line (no line break)
-                out.append(" END");
+                // END on same line (no line break); avoid double space if buffer ends with space
+                String outStr = out.toString();
+                if (!outStr.endsWith(" ") && !outStr.endsWith("\n")) {
+                    out.append(" ");
+                }
+                out.append("END");
                 ctx.inCase = false;
                 ctx.afterKeyword = true;
                 return;
@@ -352,8 +372,12 @@ public class SqlFormatter {
             }
         }
 
-        // In SELECT clause, comma triggers newline for next column (but not inside function args, OVER, or IN list)
-        if (ctx.currentClause == Clause.SELECT && ctx.functionDepth == 0 && !ctx.inOverClause && ctx.inClauseDepth == 0) {
+        // In SELECT / GROUP BY / ORDER BY clause, comma triggers newline for next column
+        // (but not inside function args, OVER, or IN list)
+        boolean isListClause = ctx.currentClause == Clause.SELECT
+                || ctx.currentClause == Clause.GROUP_BY
+                || ctx.currentClause == Clause.ORDER_BY;
+        if (isListClause && ctx.functionDepth == 0 && !ctx.inOverClause && ctx.inClauseDepth == 0) {
             newline(out);
             // Align to column position
             if (ctx.columnAlignment > 0) {
@@ -474,6 +498,28 @@ public class SqlFormatter {
     }
 
     private void handleLineComment(Token token, FormatContext ctx, StringBuilder out) {
+        // Special case: comment after a SELECT column comma — keep comment on same line
+        // as the column, then add the newline+alignment for the next column
+        if (ctx.currentClause == Clause.SELECT && ctx.columnAlignment > 0 && !ctx.justHadNewline) {
+            String outStr = out.toString();
+            int lastNewline = outStr.lastIndexOf("\n");
+            if (lastNewline >= 0) {
+                String afterNewline = outStr.substring(lastNewline + 1);
+                if (afterNewline.length() == ctx.columnAlignment && afterNewline.chars().allMatch(c -> c == ' ')) {
+                    // Strip trailing newline+alignment, put comment on same line, re-add alignment
+                    out.setLength(lastNewline);
+                    out.append(" ").append(token.getText()).append("\n");
+                    for (int i = 0; i < ctx.columnAlignment; i++) {
+                        out.append(" ");
+                    }
+                    ctx.afterNewline = true;
+                    ctx.justHadNewline = true;
+                    ctx.afterKeyword = false;
+                    return;
+                }
+            }
+        }
+
         if (ctx.justHadNewline) {
             appendIndent(out, ctx.indentLevel);
         } else if (out.length() > 0) {
@@ -545,7 +591,7 @@ public class SqlFormatter {
     }
 
     private enum Clause {
-        SELECT, FROM, WHERE, INSERT, NONE
+        SELECT, FROM, WHERE, GROUP_BY, ORDER_BY, INSERT, NONE
     }
 
     private static class FormatContext {
