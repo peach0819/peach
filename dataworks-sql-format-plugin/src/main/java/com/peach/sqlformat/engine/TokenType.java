@@ -16,5 +16,7 @@ public enum TokenType {
     BLOCK_COMMENT,
     VARIABLE,
     SEMICOLON,
+    LBRACKET,
+    RBRACKET,
     EOF
 }

@@ -46,6 +46,12 @@ public class SqlTokenizer {
                 continue;
             }
 
+            // Double-quoted string (Hive SQL allows double quotes for strings)
+            if (c == '"') {
+                tokens.add(readDoubleQuotedString());
+                continue;
+            }
+
             // Variable: ${...}
             if (c == '$' && pos + 1 < length && input.charAt(pos + 1) == '{') {
                 tokens.add(readVariable());
@@ -59,6 +65,8 @@ public class SqlTokenizer {
             if (c == '.') { tokens.add(new Token(TokenType.DOT, ".")); pos++; continue; }
             if (c == '*') { tokens.add(new Token(TokenType.STAR, "*")); pos++; continue; }
             if (c == ';') { tokens.add(new Token(TokenType.SEMICOLON, ";")); pos++; continue; }
+            if (c == '[') { tokens.add(new Token(TokenType.LBRACKET, "[")); pos++; continue; }
+            if (c == ']') { tokens.add(new Token(TokenType.RBRACKET, "]")); pos++; continue; }
 
             // Operators: =, !, <, >, +, -, /, %
             if ("=!<>+-/%".indexOf(c) >= 0) {
@@ -118,6 +126,26 @@ public class SqlTokenizer {
             if (c == '\'') {
                 // Check for escaped quote ''
                 if (pos + 1 < length && input.charAt(pos + 1) == '\'') {
+                    pos += 2;
+                    continue;
+                }
+                pos++;
+                break;
+            }
+            pos++;
+        }
+        return new Token(TokenType.STRING, input.substring(start, pos));
+    }
+
+    private Token readDoubleQuotedString() {
+        int start = pos;
+        // Skip opening double quote
+        pos++;
+        while (pos < length) {
+            char c = input.charAt(pos);
+            if (c == '"') {
+                // Check for escaped double quote ""
+                if (pos + 1 < length && input.charAt(pos + 1) == '"') {
                     pos += 2;
                     continue;
                 }

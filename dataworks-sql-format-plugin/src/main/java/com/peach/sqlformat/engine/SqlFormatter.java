@@ -58,6 +58,8 @@ public class SqlFormatter {
             case BLOCK_COMMENT: handleBlockComment(token, ctx, out); break;
             case SEMICOLON: out.append(";\n"); break;
             case DOT: handleDot(ctx, out); break;
+            case LBRACKET: handleBracket("[", ctx, out); break;
+            case RBRACKET: handleBracket("]", ctx, out); break;
             default: handleGenericToken(token, ctx, out); break;
         }
     }
@@ -66,8 +68,8 @@ public class SqlFormatter {
         String text = token.getText();
         String upper = text.toUpperCase();
 
-        // UNION ALL / UNION DISTINCT — set operations with blank lines around them
-        if (upper.equals("UNION ALL") || upper.equals("UNION DISTINCT")) {
+        // UNION ALL / UNION DISTINCT / UNION — set operations with blank lines around them
+        if (upper.equals("UNION ALL") || upper.equals("UNION DISTINCT") || upper.equals("UNION")) {
             ctx.inJoinOn = false;
             ctx.afterCte = false;
             ctx.expectingNextCte = false;
@@ -164,8 +166,8 @@ public class SqlFormatter {
 
         // AND / OR
         if (upper.equals("AND") || upper.equals("OR")) {
-            if (ctx.inJoinOn || ctx.inWhenCondition) {
-                // In JOIN ON conditions or CASE WHEN conditions, keep AND/OR on same line
+            if (ctx.inJoinOn || ctx.inWhenCondition || ctx.functionDepth > 0) {
+                // In JOIN ON conditions, CASE WHEN conditions, or inside function calls, keep AND/OR on same line
                 out.append(" ").append(upper).append(" ");
             } else {
                 if (!ctx.justHadNewline) {
@@ -458,6 +460,8 @@ public class SqlFormatter {
         // Function call paren: the ( after a function name
         if (ctx.functionPending) {
             ctx.functionDepth++;
+            ctx.functionDepthIndex++;
+            ctx.functionOpenDepths[ctx.functionDepthIndex] = ctx.parenDepth;
             ctx.functionPending = false;
         }
 
@@ -534,9 +538,11 @@ public class SqlFormatter {
             return;
         }
 
-        // Decrement function depth if inside function call
-        if (ctx.functionDepth > 0) {
+        // Decrement function depth if closing the matching function-call paren
+        if (ctx.functionDepth > 0 && ctx.functionDepthIndex >= 0
+                && ctx.parenDepth == ctx.functionOpenDepths[ctx.functionDepthIndex]) {
             ctx.functionDepth--;
+            ctx.functionDepthIndex--;
         }
 
         out.append(")");
@@ -640,6 +646,21 @@ public class SqlFormatter {
         ctx.justHadDot = true;
     }
 
+    private void handleBracket(String bracket, FormatContext ctx, StringBuilder out) {
+        // Bracket: no space before [ or after ] (e.g., arr[1])
+        out.append(bracket);
+        ctx.afterKeyword = false;
+        ctx.afterComma = false;
+        ctx.afterNewline = false;
+        ctx.justHadLparen = false;
+        ctx.justHadNewline = false;
+        ctx.justHadDot = false;
+        // Prevent space after [ (next token should not get leading space)
+        if (bracket.equals("[")) {
+            ctx.justHadLparen = true;
+        }
+    }
+
     private void handleGenericToken(Token token, FormatContext ctx, StringBuilder out) {
         String text = token.getText();
 
@@ -697,6 +718,8 @@ public class SqlFormatter {
         // Function call tracking (depth for commas inside function args)
         int functionDepth = 0;
         boolean functionPending = false;
+        int[] functionOpenDepths = new int[16]; // parenDepth when each function ( was opened
+        int functionDepthIndex = -1;            // stack pointer for functionOpenDepths
 
         // Subquery tracking (stack for nested subqueries)
         int[] subqueryOpenDepths = new int[10];
