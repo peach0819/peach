@@ -22,3 +22,5 @@ j0S5Z0NxRtcYmH8B
 rm-wz9ud54ata429d221.mysql.rds.aliyuncs.com
 query
 j0S5Z0NxRtcYmH8B
+opensearch
+eeY8SmgEQOHSa3dp
