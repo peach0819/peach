@@ -1,5 +1,4 @@
-INSERT
-  OVERWRITE TABLE st_crm_recommend_visit_d PARTITION (dayid = '${v_date}')
+INSERT OVERWRITE TABLE st_crm_recommend_visit_d PARTITION (dayid = '${v_date}')
 SELECT
   shop.shop_id AS shop_id,
   refund.brand_ids AS customer_complaint_brand,
