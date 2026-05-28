@@ -29,3 +29,9 @@ update t_p0_subject set status = 2, do_start = '2025-09-01 00:00:00', do_end = '
 update t_p0_subject set status = 2, do_start = '2025-10-01 00:00:00', do_end = '2025-10-31 00:00:00', stat_start = '2025-10-01 00:00:00', stat_end = '2025-10-31 00:00:00', subject_month = '202510', edit_time = '2025-10-31 00:00:00'  WHERE id = 14472;
 update t_p0_subject set status = 2, do_start = '2025-11-01 00:00:00', do_end = '2025-11-30 00:00:00', stat_start = '2025-11-01 00:00:00', stat_end = '2025-11-30 00:00:00', subject_month = '202511', edit_time = '2025-11-30 00:00:00'  WHERE id = 14473;
 update t_p0_subject set status = 2, do_start = '2025-12-01 00:00:00', do_end = '2025-12-31 00:00:00', stat_start = '2025-12-01 00:00:00', stat_end = '2025-12-31 00:00:00', subject_month = '202512', edit_time = '2025-12-31 00:00:00'  WHERE id = 14474;
+
+
+update t_p0_subject set status = 2, do_start = '2025-02-01 00:00:00', do_end = '2025-02-28 00:00:00', stat_start = '2025-02-01 00:00:00', stat_end = '2025-02-28 00:00:00', subject_month = '202502', edit_time = '2025-02-28 23:59:00'  WHERE id = 14486;
+update t_p0_subject set status = 2, do_start = '2025-07-01 00:00:00', do_end = '2025-07-30 00:00:00', stat_start = '2025-07-01 00:00:00', stat_end = '2025-07-30 00:00:00', subject_month = '202507', edit_time = '2025-07-30 23:59:00'  WHERE id = 14485;
+update t_p0_subject set status = 2, do_start = '2025-08-01 00:00:00', do_end = '2025-08-31 00:00:00', stat_start = '2025-08-01 00:00:00', stat_end = '2025-08-31 00:00:00', subject_month = '202508', edit_time = '2025-08-31 23:59:00'  WHERE id = 14487;
+update t_p0_subject set status = 2, do_start = '2025-06-01 00:00:00', do_end = '2025-06-30 00:00:00', stat_start = '2025-06-01 00:00:00', stat_end = '2025-06-30 00:00:00', subject_month = '202506', edit_time = '2025-06-30 23:59:00'  WHERE id = 14483;
