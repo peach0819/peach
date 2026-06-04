@@ -17,7 +17,7 @@ with base as (
            service_obj_name,
            valid_visit_m,
            if_visit_qualified
-    FROM p_mdson.ads_mdson_user_cur_month_detail_d
+    FROM prod_mdson.ads_mdson_user_cur_month_detail_d
     WHERE dayid = '${v_date}'
 ),
 
@@ -25,7 +25,7 @@ visit_total as (
     SELECT data_month,
            user_id,
            if_visit_qualified_month
-    FROM p_mdson.ads_mdson_user_new_visit_summary_data_d
+    FROM prod_mdson.ads_mdson_user_new_visit_summary_data_d
     WHERE dayid = '${v_date}'
 )
 
