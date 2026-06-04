@@ -1,3 +1,4 @@
+--@exclude_input=prod_mdson.inf_upload_shop_star
 WITH service_obj as (
     SELECT service_obj_id,
            out_service_obj_id
