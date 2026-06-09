@@ -72,3 +72,16 @@ VALUES ('system', 'system', 0, 5, 101, 0),
 
        ('system', 'system', 0, 5, 146, 90),
        ('system', 'system', 0, 28, 146, 90);
+
+--测试岗位
+INSERT INTO t_crm_visit_indicator_visible(`creator`, `editor`, `visible_type`, `job_id`, `indicator_id`, `visiable_sort`)
+VALUES ('system', 'system', 0, 59400, 101, 0),
+       ('system', 'system', 0, 59400, 139, 10),
+       ('system', 'system', 0, 59400, 140, 20),
+       ('system', 'system', 0, 59400, 145, 30),
+       ('system', 'system', 0, 59400, 141, 40),
+       ('system', 'system', 0, 59400, 147, 50),
+       ('system', 'system', 0, 59400, 142, 60),
+       ('system', 'system', 0, 59400, 143, 70),
+       ('system', 'system', 0, 59400, 144, 80),
+       ('system', 'system', 0, 59400, 146, 90);
