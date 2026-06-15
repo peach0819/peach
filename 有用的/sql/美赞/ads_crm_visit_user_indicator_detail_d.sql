@@ -12,11 +12,21 @@ with base as (
                              when 'month_gt_hospital_shop_visit_valid_cnt' then 'month_gt_hospital_shop_visit_valid_rate'
                              when 'quar_gt_hospital_shop_visit_valid_cnt' then 'quar_gt_hospital_shop_visit_valid_rate'
                              when 'month_hospital_visit_valid_cnt_1' then 'month_hospital_visit_valid_rate'
+
+                             when 'month_visit_valid_cnt' then 'month_visit_freq_reach_rate'
+	                         when 'month_nc_shop_visit_valid_cnt' then 'month_nc_visit_reach_rate'
+	                         when 'month_fws_visit_valid_cnt' then 'month_fws_visit_cover_rate'
+	                         when 'quar_fws_visit_valid_cnt' then 'quarter_fws_visit_cover_rate'
+	                         when 'month_star_shop_visit_valid_cnt' then 'month_star_visit_reach_rate'
+	                         when 'month_shop_visit_valid_cnt' then 'month_shop_visit_reach_rate'
+	                         when 'quar_key_shop_visit_valid_cnt' then 'month_all_big_visit_cover_rate'
+	                         when 'month_hospital_visit_valid_cnt' then 'month_hospital_visit_reach_rate'
                              end as indicator_code,
            out_service_obj_id as service_obj_id,
            service_obj_name,
-           valid_visit_m,
-           if_visit_qualified
+           valid_visit_m as indicator,
+           if_visit_qualified as reach,
+           visit_target as target
     FROM prod_mdson.ads_mdson_user_cur_month_detail_d
     WHERE dayid = '${v_date}'
 ),
@@ -50,7 +60,8 @@ SELECT data_month,
        service_obj_id,
        service_obj_name,
        to_json(named_struct(
-           'indicator', valid_visit_m,
-           'reach', if_visit_qualified
+           'indicator', indicator,
+           'reach', reach,
+           'target', target
        )) as biz_value
 FROM base
