@@ -11,7 +11,7 @@ with base as (
                              when 'quar_gt_shop_visit_valid_cnt' then 'quar_gt_shop_visit_valid_rate'
                              when 'month_gt_hospital_shop_visit_valid_cnt' then 'month_gt_hospital_shop_visit_valid_rate'
                              when 'quar_gt_hospital_shop_visit_valid_cnt' then 'quar_gt_hospital_shop_visit_valid_rate'
-                             when 'month_hospital_visit_valid_cnt_1' then 'month_hospital_visit_valid_rate'
+                             when 'month_hospital_visit_valid_cnt' then 'month_hospital_visit_valid_rate'
 
                              when 'month_visit_valid_cnt_1' then 'month_visit_freq_reach_rate'
 	                         when 'month_nc_shop_visit_valid_cnt' then 'month_nc_visit_reach_rate'
