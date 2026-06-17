@@ -18,20 +18,20 @@ indicator as (
            d.user_id,
 
            --当月我的拜访达标 month_visit_my_reach  当月人员拜访达标率 month_visit_reach_rate
-           if_visit_qualified_month as month_visit_my_reach,
+           if_visit_qualified_month_1 as month_visit_my_reach,
            if(array_contains(visible.indicator_config, 'month_visit_reach_rate'), 1, 0) as month_visit_reach_rate_cnt,
-           if(array_contains(visible.indicator_config, 'month_visit_reach_rate') AND if_visit_qualified_month = '达标', 1, 0) as month_visit_reach_rate_reach_cnt,
+           if(array_contains(visible.indicator_config, 'month_visit_reach_rate') AND if_visit_qualified_month_1 = '达标', 1, 0) as month_visit_reach_rate_reach_cnt,
 
            --当季我的拜访达标 quarter_visit_my_reach
-           if_visit_qualified_quar as quarter_visit_my_reach,
+           if_visit_qualified_quar_1 as quarter_visit_my_reach,
 
            --当月拜访频次达标率	month_visit_freq_reach_rate
-           month_visit_valid_cnt as month_visit_freq_reach_rate_numerator,
-           visit_m_target as month_visit_freq_reach_rate_denominator,
-           month_visit_valid_rate * 100 as month_visit_freq_reach_rate,
-           month_visit_valid_rate_qualified as month_visit_freq_reach_rate_reach,
+           month_visit_valid_cnt_1 as month_visit_freq_reach_rate_numerator,
+           visit_m_target_1 as month_visit_freq_reach_rate_denominator,
+           month_visit_valid_rate_1 * 100 as month_visit_freq_reach_rate,
+           month_visit_valid_rate_qualified_1 as month_visit_freq_reach_rate_reach,
            if(array_contains(visible.indicator_config, 'month_visit_freq_reach_rate'), 1, 0) as month_visit_freq_reach_rate_cnt,
-           if(array_contains(visible.indicator_config, 'month_visit_freq_reach_rate') AND month_visit_valid_rate_qualified = '达标', 1, 0) as month_visit_freq_reach_rate_reach_cnt,
+           if(array_contains(visible.indicator_config, 'month_visit_freq_reach_rate') AND month_visit_valid_rate_qualified_1 = '达标', 1, 0) as month_visit_freq_reach_rate_reach_cnt,
 
            --当月专职NC门店拜访达成率	month_nc_visit_reach_rate
            month_nc_shop_visit_valid_cnt as month_nc_visit_reach_rate_numerator,
@@ -42,20 +42,20 @@ indicator as (
            if(array_contains(visible.indicator_config, 'month_nc_visit_reach_rate') AND month_nc_shop_visit_valid_rate_qualified = '达标', 1, 0) as month_nc_visit_reach_rate_reach_cnt,
 
            --当月服务商拜访达成率	month_fws_visit_cover_rate
-           month_fws_visit_valid_cnt as month_fws_visit_cover_rate_numerator,
-           month_fws_sever_obj_m as month_fws_visit_cover_rate_denominator,
-           month_fws_visit_valid_rate * 100 as month_fws_visit_cover_rate,
-           month_fws_visit_valid_rate_qualified as month_fws_visit_cover_rate_reach,
+           month_fws_visit_valid_cnt_1 as month_fws_visit_cover_rate_numerator,
+           month_fws_sever_obj_m_1 as month_fws_visit_cover_rate_denominator,
+           month_fws_visit_valid_rate_1 * 100 as month_fws_visit_cover_rate,
+           month_fws_visit_valid_rate_qualified_1 as month_fws_visit_cover_rate_reach,
            if(array_contains(visible.indicator_config, 'month_fws_visit_cover_rate'), 1, 0) as month_fws_visit_cover_rate_cnt,
-           if(array_contains(visible.indicator_config, 'month_fws_visit_cover_rate') AND month_fws_visit_valid_rate_qualified = '达标', 1, 0) as month_fws_visit_cover_rate_reach_cnt,
+           if(array_contains(visible.indicator_config, 'month_fws_visit_cover_rate') AND month_fws_visit_valid_rate_qualified_1 = '达标', 1, 0) as month_fws_visit_cover_rate_reach_cnt,
 
            --当季服务商拜访覆盖率	quarter_fws_visit_cover_rate
-           quar_fws_visit_valid_cnt as quarter_fws_visit_cover_rate_numerator,
-           quar_fws_sever_obj_m as quarter_fws_visit_cover_rate_denominator,
-           quar_fws_visit_valid_rate * 100 as quarter_fws_visit_cover_rate,
-           quar_fws_visit_valid_rate_qualified as quarter_fws_visit_cover_rate_reach,
+           quar_fws_visit_valid_cnt_1 as quarter_fws_visit_cover_rate_numerator,
+           quar_fws_sever_obj_m_1 as quarter_fws_visit_cover_rate_denominator,
+           quar_fws_visit_valid_rate_1 * 100 as quarter_fws_visit_cover_rate,
+           quar_fws_visit_valid_rate_qualified_1 as quarter_fws_visit_cover_rate_reach,
            if(array_contains(visible.indicator_config, 'quarter_fws_visit_cover_rate'), 1, 0) as quarter_fws_visit_cover_rate_cnt,
-           if(array_contains(visible.indicator_config, 'quarter_fws_visit_cover_rate') AND quar_fws_visit_valid_rate_qualified = '达标', 1, 0) as quarter_fws_visit_cover_rate_reach_cnt,
+           if(array_contains(visible.indicator_config, 'quarter_fws_visit_cover_rate') AND quar_fws_visit_valid_rate_qualified_1 = '达标', 1, 0) as quarter_fws_visit_cover_rate_reach_cnt,
 
            --当月星级门店拜访达成率	month_star_visit_reach_rate
            month_star_shop_visit_valid_cnt as month_star_visit_reach_rate_numerator,
@@ -66,12 +66,12 @@ indicator as (
            if(array_contains(visible.indicator_config, 'month_star_visit_reach_rate') AND month_star_shop_visit_valid_rate_qualified = '达标', 1, 0) as month_star_visit_reach_rate_reach_cnt,
 
            --当月门店拜访达成率	month_shop_visit_reach_rate
-           month_shop_visit_valid_cnt as month_shop_visit_reach_rate_numerator,
-           month_sever_obj_m as month_shop_visit_reach_rate_denominator,
-           month_shop_visit_valid_rate * 100 as month_shop_visit_reach_rate,
-           month_shop_visit_valid_rate_qualified as month_shop_visit_reach_rate_reach,
+           month_shop_visit_valid_cnt_1 as month_shop_visit_reach_rate_numerator,
+           month_sever_obj_m_1 as month_shop_visit_reach_rate_denominator,
+           month_shop_visit_valid_rate_1 * 100 as month_shop_visit_reach_rate,
+           month_shop_visit_valid_rate_qualified_1 as month_shop_visit_reach_rate_reach,
            if(array_contains(visible.indicator_config, 'month_shop_visit_reach_rate'), 1, 0) as month_shop_visit_reach_rate_cnt,
-           if(array_contains(visible.indicator_config, 'month_shop_visit_reach_rate') AND month_shop_visit_valid_rate_qualified = '达标', 1, 0) as month_shop_visit_reach_rate_reach_cnt,
+           if(array_contains(visible.indicator_config, 'month_shop_visit_reach_rate') AND month_shop_visit_valid_rate_qualified_1 = '达标', 1, 0) as month_shop_visit_reach_rate_reach_cnt,
 
            --当季全渠道重点门店拜访覆盖率	month_all_big_visit_cover_rate
            quar_key_shop_visit_valid_cnt as month_all_big_visit_cover_rate_numerator,
@@ -82,12 +82,12 @@ indicator as (
            if(array_contains(visible.indicator_config, 'month_all_big_visit_cover_rate') AND quar_key_shop_visit_valid_rate_qualified = '达标', 1, 0) as month_all_big_visit_cover_rate_reach_cnt,
 
            --当月院线店拜访达成率	month_hospital_visit_reach_rate
-           month_hospital_visit_valid_cnt as month_hospital_visit_reach_rate_numerator,
-           month_hospital_sever_obj_m as month_hospital_visit_reach_rate_denominator,
-           month_hospital_visit_valid_rate * 100 as month_hospital_visit_reach_rate,
-           month_hospital_visit_valid_rate_qualified as month_hospital_visit_reach_rate_reach,
+           month_hospital_visit_valid_cnt_1 as month_hospital_visit_reach_rate_numerator,
+           month_hospital_sever_obj_m_1 as month_hospital_visit_reach_rate_denominator,
+           month_hospital_visit_valid_rate_1 * 100 as month_hospital_visit_reach_rate,
+           month_hospital_visit_valid_rate_qualified_1 as month_hospital_visit_reach_rate_reach,
            if(array_contains(visible.indicator_config, 'month_hospital_visit_reach_rate'), 1, 0) as month_hospital_visit_reach_rate_cnt,
-           if(array_contains(visible.indicator_config, 'month_hospital_visit_reach_rate') AND month_hospital_visit_valid_rate_qualified = '达标', 1, 0) as month_hospital_visit_reach_rate_reach_cnt
+           if(array_contains(visible.indicator_config, 'month_hospital_visit_reach_rate') AND month_hospital_visit_valid_rate_qualified_1 = '达标', 1, 0) as month_hospital_visit_reach_rate_reach_cnt
     FROM (
         SELECT *
         FROM prod_mdson.ads_mdson_user_new_visit_summary_data_d
