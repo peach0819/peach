@@ -1,18 +1,18 @@
 --@exclude_input=prod_mdson.inf_upload_shop_star
-WITH service_obj as (
+WITH all_service_obj as (
     SELECT service_obj_id,
-           out_service_obj_id
+           out_service_obj_id,
+           service_obj_type
     FROM prod_mdson.dwd_service_obj_d
     WHERE dayid = '${v_date}'
-    AND service_obj_type = 1
 
     UNION
 
     SELECT service_obj_id,
-           out_service_obj_id
+           out_service_obj_id,
+           service_obj_type
     FROM prod_mdson.ads_service_obj_d
     WHERE dayid = '${v_date}'
-    AND service_obj_type = 1
 ),
 
 target as (
@@ -22,6 +22,18 @@ target as (
     FROM prod_mdson.ads_mdson_service_target_d
     WHERE dayid = '${v_date}'
     GROUP BY service_obj_id
+),
+
+--实际用到的对象
+service_obj as (
+    SELECT service_obj_id
+    FROM all_service_obj
+    WHERE service_obj_type = 1
+
+    UNION
+
+    SELECT service_obj_id
+    FROM target
 ),
 
 star as (
@@ -45,14 +57,15 @@ nc_shop as (
 )
 
 INSERT OVERWRITE TABLE ads_service_obj_extra_d PARTITION (dayid = '${v_date}')
-SELECT nvl(service_obj.service_obj_id, target.service_obj_id) as service_obj_id,
+SELECT service_obj.service_obj_id as service_obj_id,
        to_json(named_struct(
-           'star', if(service_obj.service_obj_id is not null, nvl(star.star, 0), cast(null as INT)),
+           'star', if(all_service_obj.service_obj_type = 1, nvl(star.star, 0), cast(null as INT)),
            'nc_type', nc_shop.nc_type,
            'month_target', target.month_target,
            'quarter_target', target.quarter_target
        )) as extra
 FROM service_obj
-FULL JOIN target ON service_obj.service_obj_id = target.service_obj_id
-LEFT JOIN star ON service_obj.out_service_obj_id = star.out_service_obj_id
-LEFT JOIN nc_shop ON service_obj.out_service_obj_id = nc_shop.store_code
+INNER JOIN all_service_obj ON service_obj.service_obj_id = all_service_obj.service_obj_id
+LEFT JOIN target ON service_obj.service_obj_id = target.service_obj_id
+LEFT JOIN star ON all_service_obj.out_service_obj_id = star.out_service_obj_id
+LEFT JOIN nc_shop ON all_service_obj.out_service_obj_id = nc_shop.store_code
