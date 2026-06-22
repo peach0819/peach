@@ -37,6 +37,7 @@ visit_total as (
            if_visit_qualified_month_1 as month_visit_reach_rate
     FROM prod_mdson.ads_mdson_user_new_visit_summary_data_d
     WHERE dayid = '${v_date}'
+    AND if_visit_qualified_month_1 is not null
 )
 
 INSERT OVERWRITE TABLE ads_crm_visit_user_indicator_detail_d PARTITION (dayid='${v_date}')
