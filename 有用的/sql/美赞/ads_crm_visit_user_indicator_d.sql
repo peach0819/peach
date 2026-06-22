@@ -19,7 +19,7 @@ indicator as (
 
            --当月我的拜访达标 month_visit_my_reach  当月人员拜访达标率 month_visit_reach_rate
            if_visit_qualified_month_1 as month_visit_my_reach,
-           if(array_contains(visible.indicator_config, 'month_visit_reach_rate'), 1, 0) as month_visit_reach_rate_cnt,
+           if(array_contains(visible.indicator_config, 'month_visit_reach_rate') AND if_visit_qualified_month_1 is not null, 1, 0) as month_visit_reach_rate_cnt,
            if(array_contains(visible.indicator_config, 'month_visit_reach_rate') AND if_visit_qualified_month_1 = '达标', 1, 0) as month_visit_reach_rate_reach_cnt,
 
            --当季我的拜访达标 quarter_visit_my_reach
