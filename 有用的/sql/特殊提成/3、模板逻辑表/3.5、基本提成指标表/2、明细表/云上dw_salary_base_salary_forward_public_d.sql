@@ -16,10 +16,10 @@ with plan as (
            case when bounty_payout_object_id = 1 then '146' --战区经理
                 when bounty_payout_object_id = 2 then '4'   --大区经理
                 when bounty_payout_object_id = 3 then '9'   --BD主管
-                when bounty_payout_object_id = 4 then '8'   --BD
+                when bounty_payout_object_id = 4 then '8,272'   --BD
                 when bounty_payout_object_id = 5 then '93'  --大BD
                 when bounty_payout_object_id = 7 then '128' --大BD省区经理
-                when bounty_payout_object_id = 8 then '8,93' --BD&大BD
+                when bounty_payout_object_id = 8 then '8,93,272' --BD&大BD
                 end as job_id,
 
            --数据类型 （取基本提成主管表还是销售表）
