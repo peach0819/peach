@@ -53,7 +53,7 @@ user_admin as (
            war.area_id as war_area_id,         --战区
            bd.area_id as bd_area_id,           --大区
            manager.area_id as manager_area_id  --主管区域
-    FROM ytdw.dim_ytj_pub_user_admin_m a
+    FROM ytdw.dim_ytj_pub_user_admin_d a
     LEFT JOIN area war ON a.virtual_group_name_lv2 = war.area_name AND war.area_type = 2
     LEFT JOIN area bd ON a.virtual_group_name_lv3 = bd.area_name AND bd.area_type = 1
     LEFT JOIN area manager ON a.virtual_group_name_lv4 = manager.area_name AND manager.area_type = 3
@@ -67,7 +67,8 @@ data as (
            leave_time,
            coefficient_summary as b_pfm,     --业绩口径目标完成值
            coefficient_summary as b_shihuo,             --实货口径目标完成值
-           b_coefficient_summary as big_pack   --大包完成值
+           b_coefficient_summary as big_pack,   --大包完成值
+           0 as ppnf_shihuo
     FROM yt_crm.ads_salary_result_sale_d
     WHERE dayid > '0'
 
@@ -77,9 +78,10 @@ data as (
            'MANAGER' as data_type,
            user_id,
            null as leave_time,
-           big_package_pure_gmv_shihuo + small_package_pure_pay_amount_shihuo * 0.6 as b_pfm,     --业绩口径目标完成值
-           big_package_pure_gmv_shihuo + small_package_pure_pay_amount_shihuo * 0.6 as b_shihuo,  --实货口径目标完成值
-           big_package_pure_gmv_shihuo as big_pack  --大包完成值
+           big_package_pure_gmv_shihuo + small_package_pure_gmv_shihuo as b_pfm,     --业绩口径目标完成值
+           big_package_pure_gmv_shihuo + small_package_pure_gmv_shihuo as b_shihuo,  --实货口径目标完成值
+           big_package_pure_gmv_shihuo as big_pack,  --大包完成值
+           ppnf_big_pagkage_pure_gmv_shihuo * 0.35 + ppnf_small_pagkage_pure_gmv_shihuo * 0.2 as ppnf_shihuo
     FROM yt_crm.ads_salary_result_manager_d
     WHERE dayid > '0'
 ),
@@ -108,16 +110,16 @@ cur as (
 
            --指标计算
            plan.bounty_indicator_name as sts_target_name,
-           ((case when plan.bounty_indicator_code = 'B_PFM_RATE_NO_C' then data.b_pfm
-                  when plan.bounty_indicator_code = 'B_SHIHUO_RATE_NO_C' then data.b_shihuo
+           ((case when plan.bounty_indicator_code = 'B_PFM_RATE_NO_C' then data.b_pfm + least(0.3 * nvl(max(target.target), 0), data.ppnf_shihuo)
+                  when plan.bounty_indicator_code = 'B_SHIHUO_RATE_NO_C' then data.b_shihuo + least(0.3 * nvl(max(target.target), 0), data.ppnf_shihuo)
                   when plan.bounty_indicator_code = 'BIG_PACK_RATE' then data.big_pack
                   end)
              / max(target.target)) * 100 as sts_target,
 
            --冗余字段
            to_json(named_struct(
-               'b_pfm', data.b_pfm,
-               'b_shihuo', data.b_shihuo,
+               'b_pfm', data.b_pfm + least(0.3 * nvl(max(target.target), 0), data.ppnf_shihuo),
+               'b_shihuo', data.b_shihuo + least(0.3 * nvl(max(target.target), 0), data.ppnf_shihuo),
                'big_pack', data.big_pack,
                'target', nvl(max(target.target), 0)
            )) as extra
@@ -142,7 +144,8 @@ cur as (
              plan.bounty_indicator_name,
              data.b_pfm,
              data.b_shihuo,
-             data.big_pack
+             data.big_pack,
+             data.ppnf_shihuo
 )
 
 insert overwrite table dw_salary_base_salary_public_d partition (dayid='${v_date}',pltype='cur')
