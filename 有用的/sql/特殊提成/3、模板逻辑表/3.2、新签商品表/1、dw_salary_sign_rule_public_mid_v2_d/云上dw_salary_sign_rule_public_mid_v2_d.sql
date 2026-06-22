@@ -152,10 +152,18 @@ select order.order_id,
        nvl(refund.refund_retreat_amount,0) as refund_retreat_amount,--实货清退金额
        sale_team_name,
        sale_team_freezed_name,
-       case when sale_team_name='电销部' then 1 when sale_team_name='BD部' then 2 when sale_team_name='大客户部' then 3 when sale_team_name='服务商部' then 4
-       		 when sale_team_name='美妆销售团队' then 5 else null end as sale_team_id,
-       case when sale_team_freezed_name='电销部' then 1 when sale_team_freezed_name='BD部' then 2 when sale_team_freezed_name='大客户部' then 3 when sale_team_freezed_name='服务商部' then 4
-       		 when sale_team_freezed_name='美妆销售团队' then 5 else null end as sale_team_freezed_id,
+       case when sale_team_name='电销部' then 1
+            when sale_team_name='BD部' then 2
+            when sale_team_name='大客户部' then 3
+            when sale_team_name='服务商部' then 4
+       		when sale_team_name='美妆销售团队' then 5
+       		end as sale_team_id,
+       case when sale_team_freezed_name='电销部' then 1
+            when sale_team_freezed_name='BD部' then 2
+            when sale_team_freezed_name='大客户部' then 3
+            when sale_team_freezed_name='服务商部' then 4
+       		when sale_team_freezed_name='美妆销售团队' then 5
+       		end as sale_team_freezed_id,
        null as shop_group,
        category_id_third,
        category_id_third_name,
@@ -203,24 +211,24 @@ from (
            shop_name,--门店名称,
            store_type,--门店类型,
            store_type_name,
-      	   case when sale_team_name ='BD部' then yt_crm.get_service_info('service_job_name:BD;service_job_freezed_name:BD',service_info_freezed,'service_user_id')
+      	   case when sale_team_name ='BD部' then COALESCE(yt_crm.get_service_info('service_job_name:BD;service_job_freezed_name:BD',service_info_freezed,'service_user_id'), yt_crm.get_service_info('service_job_name:省区M0',service_info_freezed,'service_user_id'))
       	        when sale_team_name ='大客户部' then yt_crm.get_service_info('service_job_name:大BD',service_info_freezed,'service_user_id')
-      	        else null end as service_user_id_freezed,
-           case when sale_team_name ='BD部' then yt_crm.get_service_info('service_job_name:BD;service_job_freezed_name:BD',service_info_freezed,'service_department_id')
+      	        end as service_user_id_freezed,
+           case when sale_team_name ='BD部' then COALESCE(yt_crm.get_service_info('service_job_name:BD;service_job_freezed_name:BD',service_info_freezed,'service_department_id'), yt_crm.get_service_info('service_job_name:省区M0',service_info_freezed,'service_department_id'))
       	        when sale_team_name ='大客户部' then yt_crm.get_service_info('service_job_name:大BD',service_info_freezed,'service_department_id')
-      	        else null end as service_department_id_freezed,
-           case when sale_team_name ='BD部' then yt_crm.get_service_info('service_job_name:BD;service_job_freezed_name:BD',service_info_freezed,'service_user_name')
+      	        end as service_department_id_freezed,
+           case when sale_team_name ='BD部' then COALESCE(yt_crm.get_service_info('service_job_name:BD;service_job_freezed_name:BD',service_info_freezed,'service_user_name'), yt_crm.get_service_info('service_job_name:省区M0',service_info_freezed,'service_user_name'))
       	        when sale_team_name ='大客户部' then yt_crm.get_service_info('service_job_name:大BD',service_info_freezed,'service_user_name')
-      	        else null end as service_user_name_freezed,--冻结销售人员姓名,
-           case when sale_team_name ='BD部' then yt_crm.get_service_info('service_job_name:BD;service_job_freezed_name:BD',service_info_freezed,'service_feature_name')
+      	        end as service_user_name_freezed,--冻结销售人员姓名,
+           case when sale_team_name ='BD部' then COALESCE(yt_crm.get_service_info('service_job_name:BD;service_job_freezed_name:BD',service_info_freezed,'service_feature_name'), yt_crm.get_service_info('service_job_name:省区M0',service_info_freezed,'service_feature_name'))
       	        when sale_team_name ='大客户部' then yt_crm.get_service_info('service_job_name:大BD',service_info_freezed,'service_feature_name')
-      	        else null end as service_feature_name_freezed,--冻结销售人员职能,
-           case when sale_team_name ='BD部' then yt_crm.get_service_info('service_job_name:BD;service_job_freezed_name:BD',service_info_freezed,'service_job_name')
+      	        end as service_feature_name_freezed,--冻结销售人员职能,
+           case when sale_team_name ='BD部' then COALESCE(yt_crm.get_service_info('service_job_name:BD;service_job_freezed_name:BD',service_info_freezed,'service_job_name'), yt_crm.get_service_info('service_job_name:省区M0',service_info_freezed,'service_job_name'))
       	        when sale_team_name ='大客户部' then yt_crm.get_service_info('service_job_name:大BD',service_info_freezed,'service_job_name')
-      	        else null end as service_job_name_freezed,--冻结销售人员角色,
-           case when sale_team_name ='BD部' then yt_crm.get_service_info('service_job_name:BD;service_job_freezed_name:BD',service_info_freezed,'service_department_name')
+      	        end as service_job_name_freezed,--冻结销售人员角色,
+           case when sale_team_name ='BD部' then COALESCE(yt_crm.get_service_info('service_job_name:BD;service_job_freezed_name:BD',service_info_freezed,'service_department_name'), yt_crm.get_service_info('service_job_name:省区M0',service_info_freezed,'service_department_name'))
       	        when sale_team_name ='大客户部' then yt_crm.get_service_info('service_job_name:大BD',service_info_freezed,'service_department_name')
-      	        else null end as service_department_name_freezed,--冻结销售人员部门,
+      	        end as service_department_name_freezed,--冻结销售人员部门,
            --默认指标--
            pay_amount,--实货支付金额
            gmv,--实货gmv,
