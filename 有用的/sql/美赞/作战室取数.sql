@@ -1,5 +1,7 @@
 SELECT data.user_id as `用户id`,
        user.user_real_name as `用户名`,
+       user_admin.user_phone as `手机`,
+       user_admin.brand_dept_root_name as `部门`,
        data.tab_type as `指标类型`,
 
        nvl(get_json_object(biz_value, '$.month_visit_my_reach'), '') as `当月我的拜访达标`,
@@ -39,7 +41,7 @@ FROM (
                          when 4 then '区域前线'
                          end as tab_type,
            biz_value
-    FROM prod_mdson.ads_crm_visit_user_indicator_d  --取的灰度表
+    FROM prod_mdson.ads_crm_visit_user_indicator_d
     WHERE dayid = '${v_date}'
     AND data_month = concat(substr('${v_date}', 1, 4), '-', substr('${v_date}', 5, 2))
     AND user_id NOT IN ('admin')
@@ -50,3 +52,8 @@ INNER JOIN (
     FROM prod_mdson.ads_crm_visit_user_d
     WHERE dayid = '${v_date}'
 ) user ON data.user_id = user.user_id
+LEFT JOIN (
+    SELECT user_id, user_phone, brand_dept_root_name
+    FROM prod_mdson.dwd_hpc_user_admin_d
+    WHERE pt = '20260622'
+) user_admin ON data.user_id = user_admin.user_id
