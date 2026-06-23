@@ -115,7 +115,15 @@ select business_unit,--业务域,
 
        --预售卡提货卡指标
        nvl(pre_card.pickup_card_amount, 0) as pre_card_pay_amount,                     --预售提货卡转实货支付金额
-       nvl(pre_card.pickup_card_refund_amount, 0) as pre_card_pay_amount_less_refund   --预售提货卡转实货退款金额
+       nvl(pre_card.pickup_card_refund_amount, 0) as pre_card_pay_amount_less_refund,  --预售提货卡转实货退款金额
+
+       --冻结二级销售团队标识
+       second_sale_team.second_sale_team_freeze_id,
+       second_sale_team.second_sale_team_freeze_name,
+
+       --商品业务组（财务口径）
+       item_bussiness_group.item_business_group_id,
+       item_bussiness_group.item_business_group_name
 --订单表
 from (
     select *
@@ -214,3 +222,33 @@ LEFT JOIN (
     AND order_id IS NOT NULL
     GROUP BY order_id
 ) pre_card ON pre_card.order_id = order.order_id
+
+--冻结二级销售团队标识
+LEFT JOIN (
+    SELECT sale_team.order_id,
+           e.enum_key AS second_sale_team_freeze_id,
+           sale_team.second_sale_team_freezed_name AS second_sale_team_freeze_name
+    FROM (
+        SELECT order_id,
+               second_sale_team_freezed_name
+        FROM ytdw.dw_hpc_trd_order_bd_sale_team_d
+        WHERE dayid = '${v_date}'
+    ) sale_team
+    LEFT JOIN (
+        SELECT enum_key,
+               enum_value
+        FROM ytdw.dw_met_enum_detail_d
+        WHERE dayid = '${v_date}'
+        AND enum_code = 'second_sale_team'
+        AND enum_detail_status = 1
+    ) e ON sale_team.second_sale_team_freezed_name = e.enum_value
+) second_sale_team ON second_sale_team.order_id = order.order_id
+
+--商品业务组（财务口径）
+LEFT JOIN (
+    SELECT item_id,
+           item_business_group_id,
+           item_business_group_name
+    FROM ytdw.dim_ytj_fin_item_bussiness_group_tag_d
+    WHERE dayid = '${v_date}'
+) item_bussiness_group ON item_bussiness_group.item_id = order.item_id
