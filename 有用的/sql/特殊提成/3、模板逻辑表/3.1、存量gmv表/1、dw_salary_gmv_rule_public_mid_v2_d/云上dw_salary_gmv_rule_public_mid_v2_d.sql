@@ -42,37 +42,37 @@ select business_unit,--业务域,
        --默认指标--
        --实货gmv-退款
        if(
-           business_unit not in ('卡券票','其他') OR order.item_id IN (1099344,1099336,1098687,1099453,1099455,1099456,1099454,1099457,1099458),
+           business_unit not in ('卡券票','其他') OR order.is_pre_card_order = 1,
            order.total_pay_amount - nvl(refund.refund_actual_amount,0) - nvl(pre_card.pickup_card_amount, 0) + nvl(pre_card.pickup_card_refund_amount, 0),
            0
        ) as gmv_less_refund,
        --实货gmv
        if(
-           business_unit not in ('卡券票','其他') OR order.item_id IN (1099344,1099336,1098687,1099453,1099455,1099456,1099454,1099457,1099458),
+           business_unit not in ('卡券票','其他') OR order.is_pre_card_order = 1,
            order.total_pay_amount - nvl(pre_card.pickup_card_amount, 0),
            0
        ) as gmv,
        --实货支付金额
        if(
-           business_unit not in ('卡券票','其他') OR order.item_id IN (1099344,1099336,1098687,1099453,1099455,1099456,1099454,1099457,1099458),
+           business_unit not in ('卡券票','其他') OR order.is_pre_card_order = 1,
            order.pay_amount - nvl(pre_card.pickup_card_amount, 0),
            0
        ) as pay_amount,
        --实货支付金额-退款
        if(
-           business_unit not in ('卡券票','其他') OR order.item_id IN (1099344,1099336,1098687,1099453,1099455,1099456,1099454,1099457,1099458),
+           business_unit not in ('卡券票','其他') OR order.is_pre_card_order = 1,
            order.pay_amount - nvl(refund.refund_actual_amount,0) + nvl(pre_card.pickup_card_refund_amount, 0),
            0
        ) as pay_amount_less_refund,
        --实货退款
        if(
-           business_unit not in ('卡券票','其他') OR order.item_id IN (1099344,1099336,1098687,1099453,1099455,1099456,1099454,1099457,1099458),
+           business_unit not in ('卡券票','其他') OR order.is_pre_card_order = 1,
            nvl(refund.refund_actual_amount,0) - nvl(pre_card.pickup_card_refund_amount, 0),
            0
        ) as refund_actual_amount,
        --实货清退金额
        if(
-           business_unit not in ('卡券票','其他') OR order.item_id IN (1099344,1099336,1098687,1099453,1099455,1099456,1099454,1099457,1099458),
+           business_unit not in ('卡券票','其他') OR order.is_pre_card_order = 1,
            nvl(refund.refund_retreat_amount,0),
            0
        ) as refund_retreat_amount,
@@ -114,8 +114,13 @@ select business_unit,--业务域,
        if(big_pack.brand_id is not null, '大包', '小包') as brand_type,
 
        --预售卡提货卡指标
-       nvl(pre_card.pickup_card_amount, 0) as pre_card_pay_amount,                     --预售提货卡转实货支付金额
-       nvl(pre_card.pickup_card_refund_amount, 0) as pre_card_pay_amount_less_refund,  --预售提货卡转实货退款金额
+       nvl(pre_card.pickup_card_amount, 0) as pre_card_pay_amount,                      --预售提货卡转实货支付金额
+       nvl(pre_card.pickup_card_refund_amount, 0) as pre_card_pay_amount_less_refund,   --预售提货卡转实货退款金额
+       order.is_pre_card_order,  --是否预售提货卡订单
+
+       --品牌系列
+       item.brand_series_id,
+       item.brand_series_name,
 
        --冻结二级销售团队标识
        second_sale_team.second_sale_team_freeze_id,
@@ -126,7 +131,8 @@ select business_unit,--业务域,
        item_bussiness_group.item_business_group_name
 --订单表
 from (
-    select *
+    select *,
+           if(item_id IN (1099344,1099336,1098687,1099453,1099455,1099456,1099454,1099457,1099458), 1, 0) as is_pre_card_order
     from ytdw.dw_order_d
     where dayid ='${v_date}'
     -- 保留近100天数据
@@ -196,7 +202,9 @@ LEFT JOIN (
            performance_category_3rd_id,
            performance_category_3rd_name,
            item_brand_tag_code,
-           item_brand_tag_name
+           item_brand_tag_name,
+           brand_series_id,
+           brand_series_name
     FROM ytdw.dim_ytj_itm_item_d
     WHERE dayid = '${v_date}'
 ) item ON order.item_id = item.item_id
