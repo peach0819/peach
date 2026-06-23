@@ -35,7 +35,11 @@ with plan as (
            get_json_object(get_json_object(filter_config_json,'$.brand_type'),'$.value') as brand_type_value,
            get_json_object(get_json_object(filter_config_json,'$.brand_type'),'$.operator') as brand_type_operator,
            get_json_object(get_json_object(filter_config_json,'$.brand_key'),'$.value') as brand_key_value,
-           get_json_object(get_json_object(filter_config_json,'$.brand_key'),'$.operator') as brand_key_operator
+           get_json_object(get_json_object(filter_config_json,'$.brand_key'),'$.operator') as brand_key_operator,
+           get_json_object(get_json_object(filter_config_json,'$.freeze_second_sales_team'),'$.value') as freeze_second_sales_team_value,
+           get_json_object(get_json_object(filter_config_json,'$.freeze_second_sales_team'),'$.operator') as freeze_second_sales_team_operator,
+           get_json_object(get_json_object(filter_config_json,'$.order_group_name'),'$.value') as order_group_name_value,
+           get_json_object(get_json_object(filter_config_json,'$.order_group_name'),'$.operator') as order_group_name_operator
     FROM yt_crm.dw_bounty_plan_schedule_d
     WHERE array_contains(split(backward_date, ','), '${v_date}')
     AND ('@@{supply_mode}' = 'not_supply' OR array_contains(split(supply_date, ','), '${supply_date}'))
@@ -137,7 +141,11 @@ ord as (
            is_pre_card_order,
            brand_series_id,
            brand_series_name,
-           if(brand_series_id is null, brand_id, concat(brand_id, '_', brand_series_id)) as brand_key
+           if(brand_series_id is null, brand_id, concat(brand_id, '_', brand_series_id)) as brand_key,
+           second_sale_team_freezed_id,
+           second_sale_team_freezed_name,
+           item_business_group_id,
+           item_business_group_name
     FROM yt_crm.dw_salary_gmv_rule_public_mid_v2_d d
     LEFT JOIN shop_group_mapping ON d.shop_id = shop_group_mapping.group_shop_id AND d.dayid = shop_group_mapping.dayid
     where d.dayid > '0'
@@ -308,7 +316,11 @@ before_cur as (
                'pickup_recharge_pay_amount_less_refund', if(is_pickup_recharge_order = 1, ord.pickup_recharge_pay_amount - nvl(refund.refund_actual_amount, 0), 0),
                'hi_recharge_gmv', if(item_style = 1 AND category_id_first_name = '卡券票' AND is_pickup_recharge_order = 0, ord.hi_recharge_gmv, 0),
                'hi_recharge_gmv_less_refund', if(item_style = 1 AND category_id_first_name = '卡券票' AND is_pickup_recharge_order = 0, ord.hi_recharge_gmv - nvl(refund.refund_actual_amount, 0), 0),
-               'is_pre_card_order', ord.is_pre_card_order
+               'is_pre_card_order', ord.is_pre_card_order,
+               'second_sale_team_freezed_id', ord.second_sale_team_freezed_id,
+               'second_sale_team_freezed_name', ord.second_sale_team_freezed_name,
+               'item_business_group_id', ord.item_business_group_id,
+               'item_business_group_name', ord.item_business_group_name
            )) as extra
     FROM plan
     CROSS JOIN ord ON ord.dayid = split(plan.backward_date, ',')[0]
@@ -330,6 +342,8 @@ before_cur as (
     and ytdw.simple_expr(ord.brand_type, 'in', brand_type_value) = (case when brand_type_operator = '=' then 1 else 0 end)
     and if(ord.shop_group = '' OR plan.shop_group_value = '', 0, ytdw.simple_expr(substr(plan.shop_group_value, 2, length(plan.shop_group_value) - 2), 'in', concat('[', ord.shop_group, ']'))) = (case when shop_group_operator ='=' then 1 else 0 end)
     and (ytdw.simple_expr(ord.brand_id, 'in', brand_key_value) = (case when brand_key_operator = '=' then 1 else 0 end) OR ytdw.simple_expr(ord.brand_key, 'in', brand_key_value) = (case when brand_key_operator = '=' then 1 else 0 end))
+    and ytdw.simple_expr(ord.second_sale_team_freezed_id, 'in', freeze_second_sales_team_value) = (case when freeze_second_sales_team_operator = '=' then 1 else 0 end)
+    and ytdw.simple_expr(ord.item_business_group_id, 'in', order_group_name_value) = (case when order_group_name_operator = '=' then 1 else 0 end)
 ),
 
 cur as (
