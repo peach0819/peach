@@ -123,8 +123,8 @@ select business_unit,--业务域,
        item.brand_series_name,
 
        --冻结二级销售团队标识
-       second_sale_team.second_sale_team_freeze_id,
-       second_sale_team.second_sale_team_freeze_name,
+       second_sale_team.second_sale_team_freezed_id,
+       second_sale_team.second_sale_team_freezed_name,
 
        --商品业务组（财务口径）
        item_bussiness_group.item_business_group_id,
@@ -234,8 +234,8 @@ LEFT JOIN (
 --冻结二级销售团队标识
 LEFT JOIN (
     SELECT sale_team.order_id,
-           e.enum_key AS second_sale_team_freeze_id,
-           sale_team.second_sale_team_freezed_name AS second_sale_team_freeze_name
+           e.enum_key AS second_sale_team_freezed_id,
+           sale_team.second_sale_team_freezed_name AS second_sale_team_freezed_name
     FROM (
         SELECT order_id,
                second_sale_team_freezed_name
