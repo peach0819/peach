@@ -52,7 +52,11 @@ with plan as (
            get_json_object(get_json_object(filter_config_json,'$.brand_type'),'$.value') as brand_type_value,
            get_json_object(get_json_object(filter_config_json,'$.brand_type'),'$.operator') as brand_type_operator,
            get_json_object(get_json_object(filter_config_json,'$.brand_key'),'$.value') as brand_key_value,
-           get_json_object(get_json_object(filter_config_json,'$.brand_key'),'$.operator') as brand_key_operator
+           get_json_object(get_json_object(filter_config_json,'$.brand_key'),'$.operator') as brand_key_operator,
+           get_json_object(get_json_object(filter_config_json,'$.second_sales_team'),'$.value') as second_sales_team_value,
+           get_json_object(get_json_object(filter_config_json,'$.second_sales_team'),'$.operator') as second_sales_team_operator,
+           get_json_object(get_json_object(filter_config_json,'$.order_group_name'),'$.value') as order_group_name_value,
+           get_json_object(get_json_object(filter_config_json,'$.order_group_name'),'$.operator') as order_group_name_operator
     FROM yt_crm.dw_bounty_plan_schedule_d
     WHERE array_contains(split(backward_date, ','), '${v_date}')
     AND ('@@{supply_mode}' = 'not_supply' OR array_contains(split(supply_date, ','), '${supply_date}'))
@@ -129,6 +133,10 @@ before_sign as (
            ord.item_id,
            ord.brand_tag_code,
            ord.brand_type,
+           ord.second_sale_team_id,
+           ord.second_sale_team_name,
+           ord.item_business_group_id,
+           ord.item_business_group_name,
            nvl(shop_group_mapping.shop_group, ord.shop_group) as shop_group,
 
            --加工字段
@@ -199,6 +207,8 @@ sign as (
     and ytdw.simple_expr(brand_type, 'in', brand_type_value) = (case when brand_type_operator = '=' then 1 else 0 end)
     and if(shop_group = '' OR shop_group_value = '', 0, ytdw.simple_expr(substr(shop_group_value, 2, length(shop_group_value) - 2), 'in', concat('[', shop_group, ']'))) = (case when shop_group_operator ='=' then 1 else 0 end)
     and (ytdw.simple_expr(brand_id, 'in', brand_key_value) = (case when brand_key_operator = '=' then 1 else 0 end) OR ytdw.simple_expr(brand_key, 'in', brand_key_value) = (case when brand_key_operator = '=' then 1 else 0 end))
+    and ytdw.simple_expr(second_sale_team_id, 'in', second_sales_team_value) = (case when second_sales_team_operator = '=' then 1 else 0 end)
+    and ytdw.simple_expr(item_business_group_id, 'in', order_group_name_value) = (case when order_group_name_operator = '=' then 1 else 0 end)
     group by dayid,
              no,
              brand_id,
