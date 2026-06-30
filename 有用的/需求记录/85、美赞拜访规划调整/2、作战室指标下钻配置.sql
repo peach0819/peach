@@ -32,10 +32,6 @@ SET indicator_desc =
     {
       "code": "indicator",
       "name": "覆盖次数"
-    },
-    {
-      "code": "reach",
-      "name": "是否达标"
     }
   ]
 }'
