@@ -85,3 +85,8 @@ VALUES ('system', 'system', 0, 59400, 101, 0),
        ('system', 'system', 0, 59400, 143, 70),
        ('system', 'system', 0, 59400, 144, 80),
        ('system', 'system', 0, 59400, 146, 90);
+
+--城市渠道负责人不可见【当月门店拜访达成率】
+--城市群负责人不可见【当月拜访频次达标率】
+update t_crm_visit_indicator_visible set is_deleted = 1 WHERE job_id = 5 AND indicator_id = 145;
+update t_crm_visit_indicator_visible set is_deleted = 1 WHERE job_id = 28 AND indicator_id = 140;
