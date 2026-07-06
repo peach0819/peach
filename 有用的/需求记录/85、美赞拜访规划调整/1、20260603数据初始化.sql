@@ -90,3 +90,6 @@ VALUES ('system', 'system', 0, 59400, 101, 0),
 --城市群负责人不可见【当月拜访频次达标率】
 update t_crm_visit_indicator_visible set is_deleted = 1 WHERE job_id = 5 AND indicator_id = 145;
 update t_crm_visit_indicator_visible set is_deleted = 1 WHERE job_id = 28 AND indicator_id = 140;
+
+--当月门店拜访达成率 改为 当月拜访家数达成率
+update t_crm_visit_indicator set indicator_name = '当月拜访家数达成率' WHERE id = 145;
