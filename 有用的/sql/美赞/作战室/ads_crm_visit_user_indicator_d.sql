@@ -90,7 +90,7 @@ indicator as (
            if(array_contains(visible.indicator_config, 'month_hospital_visit_reach_rate') AND month_hospital_visit_valid_rate_qualified_1 = '达标', 1, 0) as month_hospital_visit_reach_rate_reach_cnt
     FROM (
         SELECT *
-        FROM prod_mdson.ads_mdson_user_new_visit_summary_data_d
+        FROM prod_mdson.ads_mdson_user_new_visit_summary_data_d_v2
         WHERE dayid = '${v_date}'
     ) d
     INNER JOIN user ON d.user_id = user.user_id
