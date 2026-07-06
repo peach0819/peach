@@ -1,6 +1,6 @@
 with user as (
     SELECT user_id
-    FROM p_mdson.ads_crm_visit_user_d
+    FROM ads_crm_visit_user_d
     WHERE dayid = '${v_date}'
 ),
 
@@ -8,7 +8,7 @@ visible as (
     SELECT job_id,
            channel_id,
            indicator_id
-    FROM p_mdson.dwd_crm_visit_indicator_visible_v2_d
+    FROM dwd_crm_visit_indicator_visible_d
     WHERE dayid = '${v_date}'
     AND is_deleted = 0
 ),
@@ -16,7 +16,7 @@ visible as (
 indicator as (
     SELECT id,
            indicator_code
-    FROM p_mdson.dwd_crm_visit_indicator_d
+    FROM dwd_crm_visit_indicator_d
     WHERE is_deleted = 0
     AND dayid = '${v_date}'
 ),
@@ -25,7 +25,7 @@ base_user as (
     SELECT user_id,
            job_id,
            channel_id
-    FROM p_mdson.dwd_hpc_user_admin_d
+    FROM dwd_hpc_user_admin_d
     WHERE pt = '${v_date}'
 )
 
