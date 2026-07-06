@@ -69,7 +69,7 @@ with indicator as (
            month_hospital_sever_obj_m_new as month_hospital_sever_obj_m,
            month_hospital_visit_valid_rate_new as month_hospital_visit_valid_rate,
            month_hospital_visit_valid_rate_new_qualified as month_hospital_visit_valid_rate_qualified
-    FROM p_mdson.ads_mdson_user_new_visit_summary_data_d
+    FROM prod_mdson.ads_mdson_user_new_visit_summary_data_d
     WHERE dayid = '${v_date}'
 ),
 
@@ -77,7 +77,7 @@ user as (
     SELECT user_id,
            user_root_key,
            user_parent_root_key
-    FROM p_mdson.ads_crm_visit_user_d
+    FROM prod_mdson.ads_crm_visit_user_d
     WHERE dayid = '${v_date}'
 ),
 
@@ -88,14 +88,14 @@ base_user as (
            --部门为 华x区区域市场推广部门
            --角色为区域中台、区域中台N-1 7 10
            if(job_id IN (7, 10) OR size(array_intersect(split(brand_dept_root_name, '_'), ARRAY('华东区区域市场推广','华南区区域市场推广','华北区区域市场推广','华西区区域市场推广','早阶用户发展(EMD)'))) > 0, 1, 0) as need_filter
-    FROM p_mdson.dwd_hpc_user_admin_d
+    FROM prod_mdson.dwd_hpc_user_admin_d
     WHERE pt = '${v_date}'
 ),
 
 visible as (
     SELECT user_id,
            split(visible_config, ',') as indicator_config
-    FROM p_mdson.ads_crm_visit_user_indicator_visible_d
+    FROM prod_mdson.ads_crm_visit_user_indicator_visible_v2_d
     WHERE dayid = '${v_date}'
 ),
 
@@ -103,7 +103,7 @@ visible as (
 virtual_group as (
     SELECT id,
            leader_id
-    FROM p_mdson.dwd_hpc_virtual_group_d
+    FROM prod_mdson.dwd_hpc_virtual_group_d
     WHERE dayid = '${v_date}'
     AND leader_id is not NULL
     AND id IN (655414, 655415, 655426, 655427) --写死虚拟组
