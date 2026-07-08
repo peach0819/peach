@@ -19,7 +19,7 @@ target as (
     SELECT service_obj_id,
            map_from_entries(collect_list(if(month_target is not null, NAMED_STRUCT('key', job_id, 'value', month_target), cast(null as STRUCT<key:STRING, value:INT>)))) as month_target,
            map_from_entries(collect_list(if(quar_target is not null, NAMED_STRUCT('key', job_id, 'value', quar_target), cast(null as STRUCT<key:STRING, value:INT>)))) as quarter_target
-    FROM prod_mdson.ads_mdson_service_target_d
+    FROM prod_mdson.ads_mdson_service_target_d_v2
     WHERE dayid = '${v_date}'
     GROUP BY service_obj_id
 ),
