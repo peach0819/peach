@@ -1,6 +1,6 @@
 with user as (
     SELECT user_id
-    FROM ads_crm_visit_user_d
+    FROM prod_mdson.ads_crm_visit_user_d
     WHERE dayid = '${v_date}'
 ),
 
@@ -8,7 +8,7 @@ visible as (
     SELECT job_id,
            channel_id,
            indicator_id
-    FROM dwd_crm_visit_indicator_visible_d
+    FROM prod_mdson.dwd_crm_visit_indicator_visible_d
     WHERE dayid = '${v_date}'
     AND is_deleted = 0
 ),
@@ -16,16 +16,16 @@ visible as (
 indicator as (
     SELECT id,
            indicator_code
-    FROM dwd_crm_visit_indicator_d
+    FROM prod_mdson.dwd_crm_visit_indicator_d
     WHERE is_deleted = 0
     AND dayid = '${v_date}'
 ),
 
 base_user as (
     SELECT user_id,
-           job_id,
+           case when user_id = '6f0dfa170c9049da98e884a5f6591003' then 28 else job_id end as job_id, --胡志伟写死城市群负责人
            channel_id
-    FROM dwd_hpc_user_admin_d
+    FROM prod_mdson.dwd_hpc_user_admin_d
     WHERE pt = '${v_date}'
 )
 
