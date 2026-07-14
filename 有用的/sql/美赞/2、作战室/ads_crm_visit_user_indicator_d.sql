@@ -6,95 +6,111 @@ with user as (
     WHERE dayid = '${v_date}'
 ),
 
-visible as (
-    SELECT user_id,
-           split(visible_config, ',') as indicator_config
-    FROM prod_mdson.ads_crm_visit_user_indicator_visible_d
-    WHERE dayid = '${v_date}'
+display_indicator as (
+    SELECT concat_ws(',', collect_list(if(need_single = 1, indicator_code, null))) as single_indicator,
+           concat_ws(',', collect_list(if(need_total = 1, indicator_code, null))) as total_indicator,
+           1 as join_tag
+    FROM (
+        SELECT 'month_visit_my_reach' as indicator_code, 1 as need_single, 0 as need_total
+        UNION ALL
+        SELECT 'quarter_visit_my_reach' as indicator_code, 1 as need_single, 0 as need_total
+        UNION ALL
+        SELECT 'month_visit_reach_rate' as indicator_code, 0 as need_single, 1 as need_total
+        UNION ALL
+        SELECT 'month_visit_freq_reach_rate' as indicator_code, 1 as need_single, 1 as need_total
+        UNION ALL
+        SELECT 'month_nc_visit_reach_rate' as indicator_code, 1 as need_single, 1 as need_total
+        UNION ALL
+        SELECT 'month_fws_visit_cover_rate' as indicator_code, 1 as need_single, 1 as need_total
+        UNION ALL
+        SELECT 'quarter_fws_visit_cover_rate' as indicator_code, 1 as need_single, 1 as need_total
+        UNION ALL
+        SELECT 'month_star_visit_reach_rate' as indicator_code, 1 as need_single, 1 as need_total
+        UNION ALL
+        SELECT 'month_shop_visit_reach_rate' as indicator_code, 1 as need_single, 1 as need_total
+        UNION ALL
+        SELECT 'month_all_big_visit_cover_rate' as indicator_code, 1 as need_single, 1 as need_total
+        UNION ALL
+        SELECT 'month_hospital_visit_reach_rate' as indicator_code, 1 as need_single, 1 as need_total
+    ) t
 ),
 
 indicator as (
     SELECT data_month,
            d.user_id,
+           visible.visible_config,
 
-           --当月我的拜访达标 month_visit_my_reach  当月人员拜访达标率 month_visit_reach_rate
-           if_visit_qualified_month_1 as month_visit_my_reach,
-           if(array_contains(visible.indicator_config, 'month_visit_reach_rate') AND if_visit_qualified_month_1 is not null, 1, 0) as month_visit_reach_rate_cnt,
-           if(array_contains(visible.indicator_config, 'month_visit_reach_rate') AND if_visit_qualified_month_1 = '达标', 1, 0) as month_visit_reach_rate_reach_cnt,
+           --需要统计的指标
+           display_indicator.single_indicator,
+           display_indicator.total_indicator,
 
-           --当季我的拜访达标 quarter_visit_my_reach
-           if_visit_qualified_quar_1 as quarter_visit_my_reach,
-
-           --当月拜访频次达标率	month_visit_freq_reach_rate
-           month_visit_valid_cnt_1 as month_visit_freq_reach_rate_numerator,
-           visit_m_target_1 as month_visit_freq_reach_rate_denominator,
-           month_visit_valid_rate_1 * 100 as month_visit_freq_reach_rate,
-           month_visit_valid_rate_qualified_1 as month_visit_freq_reach_rate_reach,
-           if(array_contains(visible.indicator_config, 'month_visit_freq_reach_rate') AND month_visit_valid_rate_qualified_1 is not null, 1, 0) as month_visit_freq_reach_rate_cnt,
-           if(array_contains(visible.indicator_config, 'month_visit_freq_reach_rate') AND month_visit_valid_rate_qualified_1 = '达标', 1, 0) as month_visit_freq_reach_rate_reach_cnt,
-
-           --当月专职NC门店拜访达成率	month_nc_visit_reach_rate
-           month_nc_shop_visit_valid_cnt as month_nc_visit_reach_rate_numerator,
-           month_nc_shop_server_obj_m as month_nc_visit_reach_rate_denominator,
-           month_nc_shop_visit_valid_rate * 100 as month_nc_visit_reach_rate,
-           month_nc_shop_visit_valid_rate_qualified as month_nc_visit_reach_rate_reach,
-           if(array_contains(visible.indicator_config, 'month_nc_visit_reach_rate') AND month_nc_shop_visit_valid_rate_qualified is not null, 1, 0) as month_nc_visit_reach_rate_cnt,
-           if(array_contains(visible.indicator_config, 'month_nc_visit_reach_rate') AND month_nc_shop_visit_valid_rate_qualified = '达标', 1, 0) as month_nc_visit_reach_rate_reach_cnt,
-
-           --当月服务商拜访达成率	month_fws_visit_cover_rate
-           month_fws_visit_valid_cnt_1 as month_fws_visit_cover_rate_numerator,
-           month_fws_sever_obj_m_1 as month_fws_visit_cover_rate_denominator,
-           month_fws_visit_valid_rate_1 * 100 as month_fws_visit_cover_rate,
-           month_fws_visit_valid_rate_qualified_1 as month_fws_visit_cover_rate_reach,
-           if(array_contains(visible.indicator_config, 'month_fws_visit_cover_rate') AND month_fws_visit_valid_rate_qualified_1 is not null, 1, 0) as month_fws_visit_cover_rate_cnt,
-           if(array_contains(visible.indicator_config, 'month_fws_visit_cover_rate') AND month_fws_visit_valid_rate_qualified_1 = '达标', 1, 0) as month_fws_visit_cover_rate_reach_cnt,
-
-           --当季服务商拜访覆盖率	quarter_fws_visit_cover_rate
-           quar_fws_visit_valid_cnt_1 as quarter_fws_visit_cover_rate_numerator,
-           quar_fws_sever_obj_m_1 as quarter_fws_visit_cover_rate_denominator,
-           quar_fws_visit_valid_rate_1 * 100 as quarter_fws_visit_cover_rate,
-           quar_fws_visit_valid_rate_qualified_1 as quarter_fws_visit_cover_rate_reach,
-           if(array_contains(visible.indicator_config, 'quarter_fws_visit_cover_rate') AND quar_fws_visit_valid_rate_qualified_1 is not null, 1, 0) as quarter_fws_visit_cover_rate_cnt,
-           if(array_contains(visible.indicator_config, 'quarter_fws_visit_cover_rate') AND quar_fws_visit_valid_rate_qualified_1 = '达标', 1, 0) as quarter_fws_visit_cover_rate_reach_cnt,
-
-           --当月星级门店拜访达成率	month_star_visit_reach_rate
-           month_star_shop_visit_valid_cnt as month_star_visit_reach_rate_numerator,
-           month_star_shop_server_obj_m as month_star_visit_reach_rate_denominator,
-           month_star_shop_visit_valid_rate * 100 as month_star_visit_reach_rate,
-           month_star_shop_visit_valid_rate_qualified as month_star_visit_reach_rate_reach,
-           if(array_contains(visible.indicator_config, 'month_star_visit_reach_rate') AND month_star_shop_visit_valid_rate_qualified is not null, 1, 0) as month_star_visit_reach_rate_cnt,
-           if(array_contains(visible.indicator_config, 'month_star_visit_reach_rate') AND month_star_shop_visit_valid_rate_qualified = '达标', 1, 0) as month_star_visit_reach_rate_reach_cnt,
-
-           --当月门店拜访达成率	month_shop_visit_reach_rate
-           month_shop_visit_valid_cnt_1 as month_shop_visit_reach_rate_numerator,
-           month_sever_obj_m_1 as month_shop_visit_reach_rate_denominator,
-           month_shop_visit_valid_rate_1 * 100 as month_shop_visit_reach_rate,
-           month_shop_visit_valid_rate_qualified_1 as month_shop_visit_reach_rate_reach,
-           if(array_contains(visible.indicator_config, 'month_shop_visit_reach_rate') AND month_shop_visit_valid_rate_qualified_1 is not null, 1, 0) as month_shop_visit_reach_rate_cnt,
-           if(array_contains(visible.indicator_config, 'month_shop_visit_reach_rate') AND month_shop_visit_valid_rate_qualified_1 = '达标', 1, 0) as month_shop_visit_reach_rate_reach_cnt,
-
-           --当季全渠道重点门店拜访覆盖率	month_all_big_visit_cover_rate
-           quar_key_shop_visit_valid_cnt as month_all_big_visit_cover_rate_numerator,
-           quar_key_shop_server_obj_m as month_all_big_visit_cover_rate_denominator,
-           quar_key_shop_visit_valid_rate * 100 as month_all_big_visit_cover_rate,
-           quar_key_shop_visit_valid_rate_qualified as month_all_big_visit_cover_rate_reach,
-           if(array_contains(visible.indicator_config, 'month_all_big_visit_cover_rate') AND quar_key_shop_visit_valid_rate_qualified is not null, 1, 0) as month_all_big_visit_cover_rate_cnt,
-           if(array_contains(visible.indicator_config, 'month_all_big_visit_cover_rate') AND quar_key_shop_visit_valid_rate_qualified = '达标', 1, 0) as month_all_big_visit_cover_rate_reach_cnt,
-
-           --当月院线店拜访达成率	month_hospital_visit_reach_rate
-           month_hospital_visit_valid_cnt_1 as month_hospital_visit_reach_rate_numerator,
-           month_hospital_sever_obj_m_1 as month_hospital_visit_reach_rate_denominator,
-           month_hospital_visit_valid_rate_1 * 100 as month_hospital_visit_reach_rate,
-           month_hospital_visit_valid_rate_qualified_1 as month_hospital_visit_reach_rate_reach,
-           if(array_contains(visible.indicator_config, 'month_hospital_visit_reach_rate') AND month_hospital_visit_valid_rate_qualified_1 is not null, 1, 0) as month_hospital_visit_reach_rate_cnt,
-           if(array_contains(visible.indicator_config, 'month_hospital_visit_reach_rate') AND month_hospital_visit_valid_rate_qualified_1 = '达标', 1, 0) as month_hospital_visit_reach_rate_reach_cnt
+           to_json(named_struct(
+               'month_visit_my_reach', to_json(named_struct('indicator', if_visit_qualified_month_1)),
+               'quarter_visit_my_reach', to_json(named_struct('indicator', if_visit_qualified_quar_1)),
+               'month_visit_reach_rate', to_json(named_struct('reach', if_visit_qualified_month_1)),
+               'month_visit_freq_reach_rate', to_json(named_struct(
+                                                    'numerator', month_visit_valid_cnt_1,
+                                                    'denominator', visit_m_target_1,
+                                                    'indicator', month_visit_valid_rate_1 * 100,
+                                                    'reach', month_visit_valid_rate_qualified_1
+                                              )),
+               'month_nc_visit_reach_rate', to_json(named_struct(
+                                                    'numerator', month_nc_shop_visit_valid_cnt,
+                                                    'denominator', month_nc_shop_server_obj_m,
+                                                    'indicator', month_nc_shop_visit_valid_rate * 100,
+                                                    'reach', month_nc_shop_visit_valid_rate_qualified
+                                              )),
+               'month_fws_visit_cover_rate', to_json(named_struct(
+                                                    'numerator', month_fws_visit_valid_cnt_1,
+                                                    'denominator', month_fws_sever_obj_m_1,
+                                                    'indicator', month_fws_visit_valid_rate_1 * 100,
+                                                    'reach', month_fws_visit_valid_rate_qualified_1
+                                             )),
+               'quarter_fws_visit_cover_rate', to_json(named_struct(
+                                                    'numerator', quar_fws_visit_valid_cnt_1,
+                                                    'denominator', quar_fws_sever_obj_m_1,
+                                                    'indicator', quar_fws_visit_valid_rate_1 * 100,
+                                                    'reach', quar_fws_visit_valid_rate_qualified_1
+                                               )),
+               'month_star_visit_reach_rate', to_json(named_struct(
+                                                    'numerator', month_star_shop_visit_valid_cnt,
+                                                    'denominator', month_star_shop_server_obj_m,
+                                                    'indicator', month_star_shop_visit_valid_rate * 100,
+                                                    'reach', month_star_shop_visit_valid_rate_qualified
+                                              )),
+               'month_shop_visit_reach_rate', to_json(named_struct(
+                                                    'numerator', month_shop_visit_valid_cnt_1,
+                                                    'denominator', month_sever_obj_m_1,
+                                                    'indicator', month_shop_visit_valid_rate_1 * 100,
+                                                    'reach', month_shop_visit_valid_rate_qualified_1
+                                              )),
+               'month_all_big_visit_cover_rate', to_json(named_struct(
+                                                     'numerator', quar_key_shop_visit_valid_cnt,
+                                                     'denominator', quar_key_shop_server_obj_m,
+                                                     'indicator', quar_key_shop_visit_valid_rate * 100,
+                                                     'reach', quar_key_shop_visit_valid_rate_qualified
+                                                 )),
+               'month_hospital_visit_reach_rate', to_json(named_struct(
+                                                     'numerator', month_hospital_visit_valid_cnt_1,
+                                                     'denominator', month_hospital_sever_obj_m_1,
+                                                     'indicator', month_hospital_visit_valid_rate_1 * 100,
+                                                     'reach', month_hospital_visit_valid_rate_qualified_1
+                                                  ))
+           )) as biz_value
     FROM (
-        SELECT *
+        SELECT *,
+               1 as join_tag
         FROM prod_mdson.ads_mdson_user_new_visit_summary_data_d_v2
         WHERE dayid = '${v_date}'
     ) d
     INNER JOIN user ON d.user_id = user.user_id
-    LEFT JOIN visible ON visible.user_id = user.user_id
+    LEFT JOIN (
+        SELECT user_id,
+               visible_config
+        FROM prod_mdson.ads_crm_visit_user_indicator_visible_d
+        WHERE dayid = '${v_date}'
+    ) visible ON visible.user_id = user.user_id
+    LEFT JOIN display_indicator ON display_indicator.join_tag = d.join_tag
 ),
 
 base_user as (
@@ -123,63 +139,10 @@ INSERT OVERWRITE TABLE ads_crm_visit_user_indicator_d PARTITION (dayid = '${v_da
 SELECT indicator.data_month as data_month,
        user.user_id,
        0 as tab_type,
-       to_json(named_struct(
-           'user_cnt', 1,
-
-           --当月我的拜访达标
-           'month_visit_my_reach', month_visit_my_reach,
-
-           --当季我的拜访达标
-           'quarter_visit_my_reach', quarter_visit_my_reach,
-
-           --当月拜访频次达标率
-           'month_visit_freq_reach_rate', month_visit_freq_reach_rate,
-           'month_visit_freq_reach_rate_numerator', month_visit_freq_reach_rate_numerator,
-           'month_visit_freq_reach_rate_denominator', month_visit_freq_reach_rate_denominator,
-           'month_visit_freq_reach_rate_reach', month_visit_freq_reach_rate_reach,
-
-           --当月专职NC门店拜访达成率
-           'month_nc_visit_reach_rate', month_nc_visit_reach_rate,
-           'month_nc_visit_reach_rate_numerator', month_nc_visit_reach_rate_numerator,
-           'month_nc_visit_reach_rate_denominator', month_nc_visit_reach_rate_denominator,
-           'month_nc_visit_reach_rate_reach', month_nc_visit_reach_rate_reach,
-
-           --当月服务商拜访达成率
-           'month_fws_visit_cover_rate', month_fws_visit_cover_rate,
-           'month_fws_visit_cover_rate_numerator', month_fws_visit_cover_rate_numerator,
-           'month_fws_visit_cover_rate_denominator', month_fws_visit_cover_rate_denominator,
-           'month_fws_visit_cover_rate_reach', month_fws_visit_cover_rate_reach,
-
-           --当季服务商拜访覆盖率
-           'quarter_fws_visit_cover_rate', quarter_fws_visit_cover_rate,
-           'quarter_fws_visit_cover_rate_numerator', quarter_fws_visit_cover_rate_numerator,
-           'quarter_fws_visit_cover_rate_denominator', quarter_fws_visit_cover_rate_denominator,
-           'quarter_fws_visit_cover_rate_reach', quarter_fws_visit_cover_rate_reach,
-
-           --当月星级门店拜访达成率
-           'month_star_visit_reach_rate', month_star_visit_reach_rate,
-           'month_star_visit_reach_rate_numerator', month_star_visit_reach_rate_numerator,
-           'month_star_visit_reach_rate_denominator', month_star_visit_reach_rate_denominator,
-           'month_star_visit_reach_rate_reach', month_star_visit_reach_rate_reach,
-
-           --当月门店拜访达成率
-           'month_shop_visit_reach_rate', month_shop_visit_reach_rate,
-           'month_shop_visit_reach_rate_numerator', month_shop_visit_reach_rate_numerator,
-           'month_shop_visit_reach_rate_denominator', month_shop_visit_reach_rate_denominator,
-           'month_shop_visit_reach_rate_reach', month_shop_visit_reach_rate_reach,
-
-           --当季全渠道重点门店拜访覆盖率
-           'month_all_big_visit_cover_rate', month_all_big_visit_cover_rate,
-           'month_all_big_visit_cover_rate_numerator', month_all_big_visit_cover_rate_numerator,
-           'month_all_big_visit_cover_rate_denominator', month_all_big_visit_cover_rate_denominator,
-           'month_all_big_visit_cover_rate_reach', month_all_big_visit_cover_rate_reach,
-
-           --当月院线店拜访达成率
-           'month_hospital_visit_reach_rate', month_hospital_visit_reach_rate,
-           'month_hospital_visit_reach_rate_numerator', month_hospital_visit_reach_rate_numerator,
-           'month_hospital_visit_reach_rate_denominator', month_hospital_visit_reach_rate_denominator,
-           'month_hospital_visit_reach_rate_reach', month_hospital_visit_reach_rate_reach
-       )) as biz_value
+       prod_mdson.mdson_indicator_single(
+          indicator.single_indicator,
+          indicator.biz_value
+       ) as biz_value
 FROM user
 INNER JOIN indicator ON indicator.user_id = user.user_id
 
@@ -190,54 +153,11 @@ SELECT /*+ mapjoin(user) */
        indicator.data_month as data_month,
        user.user_id,
        1 as tab_type,
-       to_json(named_struct(
-           'user_cnt', count(sub.user_id),
-
-           --当月拜访人员达标率
-           'month_visit_reach_rate', if(sum(month_visit_reach_rate_cnt) = 0, null, round(100 * sum(month_visit_reach_rate_reach_cnt) / sum(month_visit_reach_rate_cnt), 2)),
-           'month_visit_reach_rate_numerator', sum(month_visit_reach_rate_reach_cnt),
-           'month_visit_reach_rate_denominator', sum(month_visit_reach_rate_cnt),
-
-           --当月拜访频次达标率	month_visit_freq_reach_rate
-           'month_visit_freq_reach_rate', if(sum(month_visit_freq_reach_rate_cnt) == 0, null, round(100 * sum(month_visit_freq_reach_rate_reach_cnt) / sum(month_visit_freq_reach_rate_cnt), 2)),
-           'month_visit_freq_reach_rate_numerator', sum(month_visit_freq_reach_rate_reach_cnt),
-           'month_visit_freq_reach_rate_denominator', sum(month_visit_freq_reach_rate_cnt),
-
-           --当月专职NC门店拜访达成率	month_nc_visit_reach_rate
-           'month_nc_visit_reach_rate', if(sum(month_nc_visit_reach_rate_cnt) == 0, null, round(100 * sum(month_nc_visit_reach_rate_reach_cnt) / sum(month_nc_visit_reach_rate_cnt), 2)),
-           'month_nc_visit_reach_rate_numerator', sum(month_nc_visit_reach_rate_reach_cnt),
-           'month_nc_visit_reach_rate_denominator', sum(month_nc_visit_reach_rate_cnt),
-
-           --当月服务商拜访达成率	month_fws_visit_cover_rate
-           'month_fws_visit_cover_rate', if(sum(month_fws_visit_cover_rate_cnt) == 0, null, round(100 * sum(month_fws_visit_cover_rate_reach_cnt) / sum(month_fws_visit_cover_rate_cnt), 2)),
-           'month_fws_visit_cover_rate_numerator', sum(month_fws_visit_cover_rate_reach_cnt),
-           'month_fws_visit_cover_rate_denominator', sum(month_fws_visit_cover_rate_cnt),
-
-           --当季服务商拜访覆盖率	quarter_fws_visit_cover_rate
-           'quarter_fws_visit_cover_rate', if(sum(quarter_fws_visit_cover_rate_cnt) == 0, null, round(100 * sum(quarter_fws_visit_cover_rate_reach_cnt) / sum(quarter_fws_visit_cover_rate_cnt), 2)),
-           'quarter_fws_visit_cover_rate_numerator', sum(quarter_fws_visit_cover_rate_reach_cnt),
-           'quarter_fws_visit_cover_rate_denominator', sum(quarter_fws_visit_cover_rate_cnt),
-
-           --当月星级门店拜访达成率	month_star_visit_reach_rate
-           'month_star_visit_reach_rate', if(sum(month_star_visit_reach_rate_cnt) == 0, null, round(100 * sum(month_star_visit_reach_rate_reach_cnt) / sum(month_star_visit_reach_rate_cnt), 2)),
-           'month_star_visit_reach_rate_numerator', sum(month_star_visit_reach_rate_reach_cnt),
-           'month_star_visit_reach_rate_denominator', sum(month_star_visit_reach_rate_cnt),
-
-           --当月门店拜访达成率	month_shop_visit_reach_rate
-           'month_shop_visit_reach_rate', if(sum(month_shop_visit_reach_rate_cnt) == 0, null, round(100 * sum(month_shop_visit_reach_rate_reach_cnt) / sum(month_shop_visit_reach_rate_cnt), 2)),
-           'month_shop_visit_reach_rate_numerator', sum(month_shop_visit_reach_rate_reach_cnt),
-           'month_shop_visit_reach_rate_denominator', sum(month_shop_visit_reach_rate_cnt),
-
-           --当季全渠道重点门店拜访覆盖率	month_all_big_visit_cover_rate
-           'month_all_big_visit_cover_rate', if(sum(month_all_big_visit_cover_rate_cnt) == 0, null, round(100 * sum(month_all_big_visit_cover_rate_reach_cnt) / sum(month_all_big_visit_cover_rate_cnt), 2)),
-           'month_all_big_visit_cover_rate_numerator', sum(month_all_big_visit_cover_rate_reach_cnt),
-           'month_all_big_visit_cover_rate_denominator', sum(month_all_big_visit_cover_rate_cnt),
-
-           --当月院线店拜访达成率	month_hospital_visit_reach_rate
-           'month_hospital_visit_reach_rate', if(sum(month_hospital_visit_reach_rate_cnt) == 0, null, round(100 * sum(month_hospital_visit_reach_rate_reach_cnt) / sum(month_hospital_visit_reach_rate_cnt), 2)),
-           'month_hospital_visit_reach_rate_numerator', sum(month_hospital_visit_reach_rate_reach_cnt),
-           'month_hospital_visit_reach_rate_denominator', sum(month_hospital_visit_reach_rate_cnt)
-       )) as biz_value
+       prod_mdson.mdson_indicator_total(
+           indicator.total_indicator,
+           indicator.biz_value,
+           indicator.visible_config
+       ) as biz_value
 FROM user
 INNER JOIN user sub ON user.user_root_key = sub.user_root_key OR locate(user.user_id, sub.user_parent_root_key) > 0 --表示contains
 INNER JOIN indicator ON indicator.user_id = sub.user_id
@@ -250,54 +170,11 @@ SELECT /*+ mapjoin(user) */
        indicator.data_month as data_month,
        user.user_id,
        2 as tab_type,
-       to_json(named_struct(
-           'user_cnt', count(sub.user_id),
-
-           --当月拜访人员达标率
-           'month_visit_reach_rate', if(sum(month_visit_reach_rate_cnt) = 0, null, round(100 * sum(month_visit_reach_rate_reach_cnt) / sum(month_visit_reach_rate_cnt), 2)),
-           'month_visit_reach_rate_numerator', sum(month_visit_reach_rate_reach_cnt),
-           'month_visit_reach_rate_denominator', sum(month_visit_reach_rate_cnt),
-
-           --当月拜访频次达标率	month_visit_freq_reach_rate
-           'month_visit_freq_reach_rate', if(sum(month_visit_freq_reach_rate_cnt) == 0, null, round(100 * sum(month_visit_freq_reach_rate_reach_cnt) / sum(month_visit_freq_reach_rate_cnt), 2)),
-           'month_visit_freq_reach_rate_numerator', sum(month_visit_freq_reach_rate_reach_cnt),
-           'month_visit_freq_reach_rate_denominator', sum(month_visit_freq_reach_rate_cnt),
-
-           --当月专职NC门店拜访达成率	month_nc_visit_reach_rate
-           'month_nc_visit_reach_rate', if(sum(month_nc_visit_reach_rate_cnt) == 0, null, round(100 * sum(month_nc_visit_reach_rate_reach_cnt) / sum(month_nc_visit_reach_rate_cnt), 2)),
-           'month_nc_visit_reach_rate_numerator', sum(month_nc_visit_reach_rate_reach_cnt),
-           'month_nc_visit_reach_rate_denominator', sum(month_nc_visit_reach_rate_cnt),
-
-           --当月服务商拜访达成率	month_fws_visit_cover_rate
-           'month_fws_visit_cover_rate', if(sum(month_fws_visit_cover_rate_cnt) == 0, null, round(100 * sum(month_fws_visit_cover_rate_reach_cnt) / sum(month_fws_visit_cover_rate_cnt), 2)),
-           'month_fws_visit_cover_rate_numerator', sum(month_fws_visit_cover_rate_reach_cnt),
-           'month_fws_visit_cover_rate_denominator', sum(month_fws_visit_cover_rate_cnt),
-
-           --当季服务商拜访覆盖率	quarter_fws_visit_cover_rate
-           'quarter_fws_visit_cover_rate', if(sum(quarter_fws_visit_cover_rate_cnt) == 0, null, round(100 * sum(quarter_fws_visit_cover_rate_reach_cnt) / sum(quarter_fws_visit_cover_rate_cnt), 2)),
-           'quarter_fws_visit_cover_rate_numerator', sum(quarter_fws_visit_cover_rate_reach_cnt),
-           'quarter_fws_visit_cover_rate_denominator', sum(quarter_fws_visit_cover_rate_cnt),
-
-           --当月星级门店拜访达成率	month_star_visit_reach_rate
-           'month_star_visit_reach_rate', if(sum(month_star_visit_reach_rate_cnt) == 0, null, round(100 * sum(month_star_visit_reach_rate_reach_cnt) / sum(month_star_visit_reach_rate_cnt), 2)),
-           'month_star_visit_reach_rate_numerator', sum(month_star_visit_reach_rate_reach_cnt),
-           'month_star_visit_reach_rate_denominator', sum(month_star_visit_reach_rate_cnt),
-
-           --当月门店拜访达成率	month_shop_visit_reach_rate
-           'month_shop_visit_reach_rate', if(sum(month_shop_visit_reach_rate_cnt) == 0, null, round(100 * sum(month_shop_visit_reach_rate_reach_cnt) / sum(month_shop_visit_reach_rate_cnt), 2)),
-           'month_shop_visit_reach_rate_numerator', sum(month_shop_visit_reach_rate_reach_cnt),
-           'month_shop_visit_reach_rate_denominator', sum(month_shop_visit_reach_rate_cnt),
-
-           --当季全渠道重点门店拜访覆盖率	month_all_big_visit_cover_rate
-           'month_all_big_visit_cover_rate', if(sum(month_all_big_visit_cover_rate_cnt) == 0, null, round(100 * sum(month_all_big_visit_cover_rate_reach_cnt) / sum(month_all_big_visit_cover_rate_cnt), 2)),
-           'month_all_big_visit_cover_rate_numerator', sum(month_all_big_visit_cover_rate_reach_cnt),
-           'month_all_big_visit_cover_rate_denominator', sum(month_all_big_visit_cover_rate_cnt),
-
-           --当月院线店拜访达成率	month_hospital_visit_reach_rate
-           'month_hospital_visit_reach_rate', if(sum(month_hospital_visit_reach_rate_cnt) == 0, null, round(100 * sum(month_hospital_visit_reach_rate_reach_cnt) / sum(month_hospital_visit_reach_rate_cnt), 2)),
-           'month_hospital_visit_reach_rate_numerator', sum(month_hospital_visit_reach_rate_reach_cnt),
-           'month_hospital_visit_reach_rate_denominator', sum(month_hospital_visit_reach_rate_cnt)
-       )) as biz_value
+       prod_mdson.mdson_indicator_total(
+           indicator.total_indicator,
+           indicator.biz_value,
+           indicator.visible_config
+       ) as biz_value
 FROM user
 INNER JOIN user sub ON locate(user.user_id, sub.user_parent_root_key) > 0 --表示contains
 INNER JOIN indicator ON indicator.user_id = sub.user_id
@@ -310,54 +187,11 @@ SELECT /*+ mapjoin(user) */
        indicator.data_month as data_month,
        'admin' as user_id,
        4 as tab_type,
-       to_json(named_struct(
-           'user_cnt', count(sub.user_id),
-
-           --当月拜访人员达标率
-           'month_visit_reach_rate', if(sum(month_visit_reach_rate_cnt) = 0, null, round(100 * sum(month_visit_reach_rate_reach_cnt) / sum(month_visit_reach_rate_cnt), 2)),
-           'month_visit_reach_rate_numerator', sum(month_visit_reach_rate_reach_cnt),
-           'month_visit_reach_rate_denominator', sum(month_visit_reach_rate_cnt),
-
-           --当月拜访频次达标率	month_visit_freq_reach_rate
-           'month_visit_freq_reach_rate', if(sum(month_visit_freq_reach_rate_cnt) == 0, null, round(100 * sum(month_visit_freq_reach_rate_reach_cnt) / sum(month_visit_freq_reach_rate_cnt), 2)),
-           'month_visit_freq_reach_rate_numerator', sum(month_visit_freq_reach_rate_reach_cnt),
-           'month_visit_freq_reach_rate_denominator', sum(month_visit_freq_reach_rate_cnt),
-
-           --当月专职NC门店拜访达成率	month_nc_visit_reach_rate
-           'month_nc_visit_reach_rate', if(sum(month_nc_visit_reach_rate_cnt) == 0, null, round(100 * sum(month_nc_visit_reach_rate_reach_cnt) / sum(month_nc_visit_reach_rate_cnt), 2)),
-           'month_nc_visit_reach_rate_numerator', sum(month_nc_visit_reach_rate_reach_cnt),
-           'month_nc_visit_reach_rate_denominator', sum(month_nc_visit_reach_rate_cnt),
-
-           --当月服务商拜访达成率	month_fws_visit_cover_rate
-           'month_fws_visit_cover_rate', if(sum(month_fws_visit_cover_rate_cnt) == 0, null, round(100 * sum(month_fws_visit_cover_rate_reach_cnt) / sum(month_fws_visit_cover_rate_cnt), 2)),
-           'month_fws_visit_cover_rate_numerator', sum(month_fws_visit_cover_rate_reach_cnt),
-           'month_fws_visit_cover_rate_denominator', sum(month_fws_visit_cover_rate_cnt),
-
-           --当季服务商拜访覆盖率	quarter_fws_visit_cover_rate
-           'quarter_fws_visit_cover_rate', if(sum(quarter_fws_visit_cover_rate_cnt) == 0, null, round(100 * sum(quarter_fws_visit_cover_rate_reach_cnt) / sum(quarter_fws_visit_cover_rate_cnt), 2)),
-           'quarter_fws_visit_cover_rate_numerator', sum(quarter_fws_visit_cover_rate_reach_cnt),
-           'quarter_fws_visit_cover_rate_denominator', sum(quarter_fws_visit_cover_rate_cnt),
-
-           --当月星级门店拜访达成率	month_star_visit_reach_rate
-           'month_star_visit_reach_rate', if(sum(month_star_visit_reach_rate_cnt) == 0, null, round(100 * sum(month_star_visit_reach_rate_reach_cnt) / sum(month_star_visit_reach_rate_cnt), 2)),
-           'month_star_visit_reach_rate_numerator', sum(month_star_visit_reach_rate_reach_cnt),
-           'month_star_visit_reach_rate_denominator', sum(month_star_visit_reach_rate_cnt),
-
-           --当月门店拜访达成率	month_shop_visit_reach_rate
-           'month_shop_visit_reach_rate', if(sum(month_shop_visit_reach_rate_cnt) == 0, null, round(100 * sum(month_shop_visit_reach_rate_reach_cnt) / sum(month_shop_visit_reach_rate_cnt), 2)),
-           'month_shop_visit_reach_rate_numerator', sum(month_shop_visit_reach_rate_reach_cnt),
-           'month_shop_visit_reach_rate_denominator', sum(month_shop_visit_reach_rate_cnt),
-
-           --当季全渠道重点门店拜访覆盖率	month_all_big_visit_cover_rate
-           'month_all_big_visit_cover_rate', if(sum(month_all_big_visit_cover_rate_cnt) == 0, null, round(100 * sum(month_all_big_visit_cover_rate_reach_cnt) / sum(month_all_big_visit_cover_rate_cnt), 2)),
-           'month_all_big_visit_cover_rate_numerator', sum(month_all_big_visit_cover_rate_reach_cnt),
-           'month_all_big_visit_cover_rate_denominator', sum(month_all_big_visit_cover_rate_cnt),
-
-           --当月院线店拜访达成率	month_hospital_visit_reach_rate
-           'month_hospital_visit_reach_rate', if(sum(month_hospital_visit_reach_rate_cnt) == 0, null, round(100 * sum(month_hospital_visit_reach_rate_reach_cnt) / sum(month_hospital_visit_reach_rate_cnt), 2)),
-           'month_hospital_visit_reach_rate_numerator', sum(month_hospital_visit_reach_rate_reach_cnt),
-           'month_hospital_visit_reach_rate_denominator', sum(month_hospital_visit_reach_rate_cnt)
-       )) as biz_value
+       prod_mdson.mdson_indicator_total(
+           indicator.total_indicator,
+           indicator.biz_value,
+           indicator.visible_config
+       ) as biz_value
 FROM user
 INNER JOIN user sub ON user.user_root_key = sub.user_root_key OR locate(user.user_id, sub.user_parent_root_key) > 0 --表示contains
 INNER JOIN indicator ON indicator.user_id = sub.user_id
@@ -373,54 +207,11 @@ SELECT /*+ mapjoin(user,virtual_group) */
        indicator.data_month as data_month,
        user.user_id as user_id,
        4 as tab_type,
-       to_json(named_struct(
-           'user_cnt', count(sub.user_id),
-
-           --当月拜访人员达标率
-           'month_visit_reach_rate', if(sum(month_visit_reach_rate_cnt) = 0, null, round(100 * sum(month_visit_reach_rate_reach_cnt) / sum(month_visit_reach_rate_cnt), 2)),
-           'month_visit_reach_rate_numerator', sum(month_visit_reach_rate_reach_cnt),
-           'month_visit_reach_rate_denominator', sum(month_visit_reach_rate_cnt),
-
-           --当月拜访频次达标率	month_visit_freq_reach_rate
-           'month_visit_freq_reach_rate', if(sum(month_visit_freq_reach_rate_cnt) == 0, null, round(100 * sum(month_visit_freq_reach_rate_reach_cnt) / sum(month_visit_freq_reach_rate_cnt), 2)),
-           'month_visit_freq_reach_rate_numerator', sum(month_visit_freq_reach_rate_reach_cnt),
-           'month_visit_freq_reach_rate_denominator', sum(month_visit_freq_reach_rate_cnt),
-
-           --当月专职NC门店拜访达成率	month_nc_visit_reach_rate
-           'month_nc_visit_reach_rate', if(sum(month_nc_visit_reach_rate_cnt) == 0, null, round(100 * sum(month_nc_visit_reach_rate_reach_cnt) / sum(month_nc_visit_reach_rate_cnt), 2)),
-           'month_nc_visit_reach_rate_numerator', sum(month_nc_visit_reach_rate_reach_cnt),
-           'month_nc_visit_reach_rate_denominator', sum(month_nc_visit_reach_rate_cnt),
-
-           --当月服务商拜访达成率	month_fws_visit_cover_rate
-           'month_fws_visit_cover_rate', if(sum(month_fws_visit_cover_rate_cnt) == 0, null, round(100 * sum(month_fws_visit_cover_rate_reach_cnt) / sum(month_fws_visit_cover_rate_cnt), 2)),
-           'month_fws_visit_cover_rate_numerator', sum(month_fws_visit_cover_rate_reach_cnt),
-           'month_fws_visit_cover_rate_denominator', sum(month_fws_visit_cover_rate_cnt),
-
-           --当季服务商拜访覆盖率	quarter_fws_visit_cover_rate
-           'quarter_fws_visit_cover_rate', if(sum(quarter_fws_visit_cover_rate_cnt) == 0, null, round(100 * sum(quarter_fws_visit_cover_rate_reach_cnt) / sum(quarter_fws_visit_cover_rate_cnt), 2)),
-           'quarter_fws_visit_cover_rate_numerator', sum(quarter_fws_visit_cover_rate_reach_cnt),
-           'quarter_fws_visit_cover_rate_denominator', sum(quarter_fws_visit_cover_rate_cnt),
-
-           --当月星级门店拜访达成率	month_star_visit_reach_rate
-           'month_star_visit_reach_rate', if(sum(month_star_visit_reach_rate_cnt) == 0, null, round(100 * sum(month_star_visit_reach_rate_reach_cnt) / sum(month_star_visit_reach_rate_cnt), 2)),
-           'month_star_visit_reach_rate_numerator', sum(month_star_visit_reach_rate_reach_cnt),
-           'month_star_visit_reach_rate_denominator', sum(month_star_visit_reach_rate_cnt),
-
-           --当月门店拜访达成率	month_shop_visit_reach_rate
-           'month_shop_visit_reach_rate', if(sum(month_shop_visit_reach_rate_cnt) == 0, null, round(100 * sum(month_shop_visit_reach_rate_reach_cnt) / sum(month_shop_visit_reach_rate_cnt), 2)),
-           'month_shop_visit_reach_rate_numerator', sum(month_shop_visit_reach_rate_reach_cnt),
-           'month_shop_visit_reach_rate_denominator', sum(month_shop_visit_reach_rate_cnt),
-
-           --当季全渠道重点门店拜访覆盖率	month_all_big_visit_cover_rate
-           'month_all_big_visit_cover_rate', if(sum(month_all_big_visit_cover_rate_cnt) == 0, null, round(100 * sum(month_all_big_visit_cover_rate_reach_cnt) / sum(month_all_big_visit_cover_rate_cnt), 2)),
-           'month_all_big_visit_cover_rate_numerator', sum(month_all_big_visit_cover_rate_reach_cnt),
-           'month_all_big_visit_cover_rate_denominator', sum(month_all_big_visit_cover_rate_cnt),
-
-           --当月院线店拜访达成率	month_hospital_visit_reach_rate
-           'month_hospital_visit_reach_rate', if(sum(month_hospital_visit_reach_rate_cnt) == 0, null, round(100 * sum(month_hospital_visit_reach_rate_reach_cnt) / sum(month_hospital_visit_reach_rate_cnt), 2)),
-           'month_hospital_visit_reach_rate_numerator', sum(month_hospital_visit_reach_rate_reach_cnt),
-           'month_hospital_visit_reach_rate_denominator', sum(month_hospital_visit_reach_rate_cnt)
-       )) as biz_value
+       prod_mdson.mdson_indicator_total(
+           indicator.total_indicator,
+           indicator.biz_value,
+           indicator.visible_config
+       ) as biz_value
 FROM user
 INNER JOIN user sub ON user.user_root_key = sub.user_root_key OR locate(user.user_id, sub.user_parent_root_key) > 0 --表示contains
 INNER JOIN indicator ON indicator.user_id = sub.user_id
