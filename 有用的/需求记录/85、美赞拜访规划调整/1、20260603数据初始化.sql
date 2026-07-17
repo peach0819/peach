@@ -93,3 +93,7 @@ update t_crm_visit_indicator_visible set is_deleted = 1 WHERE job_id = 28 AND in
 
 --当月门店拜访达成率 改为 当月拜访家数达成率
 update t_crm_visit_indicator set indicator_name = '当月拜访家数达成率' WHERE id = 145;
+
+
+--NCM不可见【当月拜访人员达标率】
+update t_crm_visit_indicator_visible set is_deleted = 1 WHERE job_id = 24 AND indicator_id = 101;
