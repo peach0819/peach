@@ -1,3 +1,8 @@
+--odps sql
+--********************************************************************--
+--author:quanru.wang4324(Role)
+--create time:2024-11-18 16:02:25
+--********************************************************************--
 WITH mdson_user as (
     SELECT user_id,
            user_real_name,
@@ -13,6 +18,7 @@ WITH mdson_user as (
     AND account_type = '1'
     AND is_deleted = 0
     AND dismiss_status = 0
+    AND
 ),
 
 mdson_service_obj as (
@@ -244,6 +250,41 @@ SELECT mdson_user.user_id,
        department_name,
        region_name,
        sub_region_name,
+       cast(nvl(all_visit_m, 0) as INT) as all_visit_m,
+       cast(nvl(all_valid_visit_m, 0) as INT) as all_valid_visit_m,
+       round(nvl(all_valid_visit_m, 0) / all_visit_m, 4) as valid_visit_m_pre, --当月有效拜访率
+       cast(nvl(all_visit_plan_m, 0) as INT) as all_visit_plan_m,
+       cast(nvl(all_vaild_visit_plan_m, 0) as INT) as all_vaild_visit_plan_m,
+       round(nvl(all_vaild_visit_plan_m, 0) / nvl(all_visit_plan_m, 0), 4) as valid_plan_m_pre, --当月计划拜访门店完成率
+       cast(visit_m_target as INT) as visit_m_target,
+       round(nvl(all_valid_visit_m, 0) / visit_m_target, 4) as target_visit_m_pre, --当月门店拜访频次达标率
+       cast(user_sever_obj_m as INT) as user_sever_obj_m,
+       cast(nvl(all_valid_visit_obj_m, 0) as INT) as all_valid_visit_obj_m,
+       round(all_valid_visit_obj_m / user_sever_obj_m, 4) as valid_visit_obj_m_pre, --当月门店拜访覆盖率
+       cast(user_sever_fws_m as INT) as user_sever_fws_m,
+       cast(nvl(all_valid_visit_obj_fws_m, 0) as INT) as all_valid_visit_obj_fws_m,
+       round(all_valid_visit_obj_fws_m / user_sever_fws_m, 4) as valid_visit_obj_fws_m_pre, --当月服务商拜访覆盖率
+       cast(user_sever_nc_obj_m as INT) as user_sever_nc_obj_m,
+       cast(nvl(all_valid_visit_nc_obj_m, 0) as INT) as all_valid_visit_nc_obj_m,
+       round(all_valid_visit_nc_obj_m / user_sever_nc_obj_m, 4) as valid_visit_nc_obj_m_pre, --当月NC门店拜访覆盖率
+       cast(user_sever_ncm_obj_m as INT) as user_sever_ncm_obj_m,
+       cast(all_valid_visit_ncm_obj_m as INT) as all_valid_visit_ncm_obj_m,
+       round(all_valid_visit_ncm_obj_m / user_sever_ncm_obj_m, 4) as valid_visit_ncm_obj_m_pre, --当月NCM门店拜访覆盖率
+       cast(visit_spec_obi_m_target as INT) as visit_spec_obi_m_target,
+       CASE WHEN job_name IN ('NCM') THEN cast(all_valid_visit_ncm_spec_obj_m as INT) ELSE cast(all_valid_visit_spec_obj_m as INT) END as all_valid_visit_spec_obj_m,
+       CASE WHEN job_name IN ('NCM') THEN round(all_valid_visit_ncm_spec_obj_m / user_sever_ncm_spec_obj_m, 4) ELSE round(all_valid_visit_spec_obj_m / visit_spec_obi_m_target, 4) END as valid_visit_spec_obj_m_pre, --当月重点门店拜访频次达成率
+       avg_visit_time_length,
+       cast(all_valid_visit_m_quar as INT) as all_valid_visit_m_quar,
+       cast(all_valid_visit_obj_fws_m_quar as INT) as all_valid_visit_obj_fws_m_quar,
+       round(all_valid_visit_obj_fws_m_quar / user_sever_fws_m, 4) as valid_visit_obj_fws_m_quar_pre, --季度服务商拜访覆盖率
+       CASE WHEN channel_name IN ('NKA', 'RKA', 'LKA', 'COT', 'KA') -- ('NKA','RKA','LKA')  -- 20260311接通知NKA更名为COT，删除LKA、RKA(保留)=>新增KA
+ AND job_name IN ('城市渠道负责人', '地区渠道负责人', '省区渠道负责人') AND round(all_valid_visit_m / visit_m_target, 4) >= round(dayofmonth(to_date('${v_date}', 'yyyymmdd')) / dayofmonth(last_day(to_date('${v_date}', 'yyyymmdd'))), 4) AND round(all_valid_visit_nc_obj_m / user_sever_nc_obj_m, 4) >= round(dayofmonth(to_date('${v_date}', 'yyyymmdd')) / dayofmonth(last_day(to_date('${v_date}', 'yyyymmdd'))), 4) THEN '达标'
+            WHEN channel_name IN ('GT') AND job_name IN ('城市渠道负责人', '地区渠道负责人', '省区渠道负责人') AND round(all_valid_visit_obj_m / 30, 4) >= round(dayofmonth(to_date('${v_date}', 'yyyymmdd')) / dayofmonth(last_day(to_date('${v_date}', 'yyyymmdd'))), 4) AND round(all_valid_visit_obj_fws_m / 5, 4) >= round(dayofmonth(to_date('${v_date}', 'yyyymmdd')) / dayofmonth(last_day(to_date('${v_date}', 'yyyymmdd'))), 4) THEN '达标'
+            WHEN channel_name IN ('GT') AND job_name IN ('服务商销售代表') AND round(all_valid_visit_obj_m / 30, 4) >= round(dayofmonth(to_date('${v_date}', 'yyyymmdd')) / dayofmonth(last_day(to_date('${v_date}', 'yyyymmdd'))), 4) THEN '达标'
+            WHEN job_name IN ('NCM') AND round(all_valid_visit_ncm_obj_m / user_sever_ncm_obj_m, 4) >= round(dayofmonth(to_date('${v_date}', 'yyyymmdd')) / dayofmonth(last_day(to_date('${v_date}', 'yyyymmdd'))), 4) AND round(all_valid_visit_ncm_spec_obj_m / user_sever_ncm_spec_obj_m, 4) >= round(dayofmonth(to_date('${v_date}', 'yyyymmdd')) / dayofmonth(last_day(to_date('${v_date}', 'yyyymmdd'))), 4) THEN '达标'
+            WHEN job_name NOT IN ('城市渠道负责人', '地区渠道负责人', '省区渠道负责人', '服务商销售代表', 'NCM') AND round(all_valid_visit_m / visit_m_target, 4) >= round(dayofmonth(to_date('${v_date}', 'yyyymmdd')) / dayofmonth(last_day(to_date('${v_date}', 'yyyymmdd'))), 4) THEN '达标'
+            WHEN round(all_valid_visit_m / visit_m_target, 4) >= round(dayofmonth(to_date('${v_date}', 'yyyymmdd')) / dayofmonth(last_day(to_date('${v_date}', 'yyyymmdd'))), 4) THEN '达标'
+            ELSE '未达标' END as if_visit_qualified,
        '${v_opt_month}' as data_month
 FROM mdson_user
 LEFT JOIN mdson_visit_summary ON mdson_user.user_id = mdson_visit_summary.user_id

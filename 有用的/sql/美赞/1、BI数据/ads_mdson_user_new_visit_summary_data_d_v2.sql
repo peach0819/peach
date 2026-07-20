@@ -1,7 +1,13 @@
+--@exclude_input=prod_mdson.dim_pub_date_d
 --@exclude_input=prod_mdson.inf_mdson_vacation_np
 --@exclude_input=prod_mdson_dev.inf_mdson_white_list_empno
--- 人员信息
-WITH user_info as (
+--odps sql
+--********************************************************************--
+--author:hipac_shuai.wu12190
+--create time:2026-07-05 23:40:15
+--********************************************************************--
+-- 20260705：作战室-汇总表v2
+WITH user_info as ( -- 人员信息
     SELECT user_id,
            user_real_name,
            job_name,
@@ -18,18 +24,19 @@ WITH user_info as (
     AND dayid > '${v_pre_3_month}'
 ),
 
--- 系统目标
-mdson_target as (
+mdson_target as ( -- 系统目标
     SELECT user_id,
            data_month,
            cast(max(CASE WHEN indicator_id = 2 AND service_obj_type = 1 THEN actual_indicator_value ELSE 0 END) as BIGINT) as visit_m_target, -- 当月目标拜访店次
-           cast(max(CASE WHEN indicator_id = 2 AND service_obj_type = 1 THEN actual_indicator_value_1 ELSE 0 END) as BIGINT) as visit_m_target_1 -- 20260626：二期当月目标拜访店次
+           cast(max(CASE WHEN indicator_id = 2 AND service_obj_type = 1 THEN actual_indicator_value_1 ELSE 0 END) as BIGINT) as visit_m_target_1, -- 20260626：二期当月目标拜访店次
+           discount_rate
     FROM prod_mdson.ads_crm_user_visit_target_d_v2
     WHERE dayid = '${v_cur_month}'
     AND regexp_replace(data_month, '-', '') <= '${v_cur_month}'
     AND regexp_replace(data_month, '-', '') > '${v_pre_3_month}'
     GROUP BY user_id,
-             data_month
+             data_month,
+             discount_rate
 ) -- 20260623：增加人员白名单部分
 ,
 
@@ -42,15 +49,14 @@ white_list_empno as ( -- 人员白名单家数部分
     FROM prod_mdson_dev.inf_mdson_white_list_empno t1
     LEFT JOIN ( -- 关联人员ID
         SELECT user_id,
-               CASE WHEN instr(empno, '-') > 0 THEN split(empno, '-')[1] ELSE empno END as empno
+       (        CASE WHEN instr(empno, '-') > 0 THEN split(empno, '-')[1] ELSE empno END) as empno
         FROM prod_mdson.dim_user_d
         WHERE dayid = '${v_date}'
         AND account_type = 1 -- 员工账号
         AND is_deleted = 0 -- 未删除
         AND dismiss_status = 0 -- 未离职
     ) t2 ON t1.empno = t2.empno
-    WHERE t1.year_month = '${v_cur_month}'
-    AND change_indicator = '每月拜访不重复门店/客户/经销商'
+    WHERE change_indicator = '每月拜访不重复门店/客户/经销商'
 ) -- 20260622：增加节假日及休假折算部分
 -- 节假日
 ,
@@ -61,6 +67,30 @@ vacation_info as ( -- 节假日
            work_days,
            vacation_days
     FROM prod_mdson.inf_mdson_vacation_np
+),
+
+vacation_info_quar as ( -- 季度节假日
+    SELECT year_quarter,
+           max(year_month) as year_month,
+           sum(total_days) as total_days,
+           sum(work_days) as work_days,
+           sum(vacation_days) as vacation_days
+    FROM prod_mdson.inf_mdson_vacation_np
+    GROUP BY year_quarter
+),
+
+vacation_info_quar_process as ( -- 季度节假日
+    SELECT year_quarter,
+           concat(substr(year_month_id, 1, 4), '-', substr(year_month_id, 5, 2)) as year_month,
+           total_days,
+           work_days,
+           vacation_days
+    FROM vacation_info_quar t1
+    JOIN ( -- 取季度各月
+        SELECT DISTINCT year_quarter_id,
+               year_month_id
+        FROM prod_mdson.dim_pub_date_d
+    ) t2 ON t1.year_quarter = t2.year_quarter_id
 ) -- 休假
 ,
 
@@ -82,37 +112,63 @@ udaf as ( -- 请假明细日期
     FROM leave_info LATERAL VIEW yt_date_flat_map(vacation_begin_time, vacation_end_time) t as vacation_date
 ),
 
-user_leave as ( -- 用户请假汇总
+user_leave_month as ( -- 用户按月请假汇总
     SELECT user_id,
            substr(mid_date, 1, 7) as year_month,
-           count(DISTINCT mid_date) leave_days
+           count(DISTINCT mid_date) as leave_days
     FROM udaf
     GROUP BY user_id,
              substr(mid_date, 1, 7)
-) -- 20260622：当月新入职员工及全月请假员工不计入个人达成及团队达成
+),
+
+user_leave_quar as ( -- 用户按季请假汇总
+    SELECT user_id,
+           t2.year_quarter_id as year_quarter,
+           count(DISTINCT mid_date) as leave_days
+    FROM udaf t1
+    LEFT JOIN prod_mdson.dim_pub_date_d t2 ON t1.mid_date = t2.calendar_date
+    GROUP BY user_id,
+             t2.year_quarter_id
+) -- 20260622：当月新入职员工不计入个人达成及团队达成
 ,
 
-user_discard as ( -- 用户入职时间(join_time字段不可用，用账户创建时间替代)
+user_discard_month as ( -- 用户入职时间(join_time字段不可用，用账户创建时间替代)
     SELECT user_id,
-           substr(create_time, 1, 7) as year_month,
+           substr(nvl(join_time, create_time), 1, 7) as year_month,
            1 as is_discard_user
     FROM prod_mdson.dim_user_d
-    WHERE dayid = '${v_date}'
-    AND replace(substr(create_time, 1, 7), '-', '') = '${v_cur_month}'
+    WHERE dayid = '${v_date}' -- 20260708：全月请假员工不纳入统计
+
 
     UNION
 
-    -- 全月请假员工
     SELECT t1.user_id,
            t1.year_month,
            1 as is_discard_user
-    FROM user_leave t1
+    FROM user_leave_month t1
     JOIN vacation_info t2 ON t1.year_month = t2.year_month AND t1.leave_days >= t2.work_days
+),
+
+user_discard_quar as ( -- 用户入职时间(join_time字段不可用，用账户创建时间替代)
+    SELECT user_id,
+           substr(nvl(join_time, create_time), 1, 7) as year_month,
+           1 as is_discard_user
+    FROM prod_mdson.dim_user_d
+    WHERE dayid = '${v_date}' -- 20260708：全季请假员工不纳入统计
+
+
+    UNION
+
+    SELECT t1.user_id,
+           t2.year_month,
+           1 as is_discard_user
+    FROM user_leave_quar t1
+    JOIN vacation_info_quar_process t2 ON t1.year_quarter = t2.year_quarter AND t1.leave_days >= t2.work_days
 ),
 
 user_summary_data as ( -- 拜访达成明细
     SELECT data_month,
-           t1.user_id, --门店拜访频次达标率
+           user_id, --门店拜访频次达标率
            sum(CASE WHEN indicator_id = 'month_visit_valid_cnt' AND if_visit_qualified = '达标' THEN valid_visit_m ELSE 0 END) as month_visit_valid_cnt --当月有效拜访店次
     --NKA 专职NC门店拜访达成率
        ,
@@ -172,46 +228,41 @@ user_summary_data as ( -- 拜访达成明细
     -- 20260612：新增指标
     -- 当月专职NC门店拜访达成
        ,
-           cast(round(((if(t2.total_days - t2.vacation_days - coalesce(t3.leave_days, 0) < 0, 0, t2.total_days - t2.vacation_days - coalesce(t3.leave_days, 0))) / nullif(t2.total_days, 0)) * count(DISTINCT CASE WHEN indicator_id = 'month_nc_shop_visit_valid_cnt' THEN service_obj_id ELSE NULL END), 0) as bigint) as month_nc_shop_server_obj_m, -- 当月专职NC门店目标拜访覆盖店数
-           count(DISTINCT CASE WHEN indicator_id = 'month_nc_shop_visit_valid_cnt' AND if_visit_qualified = '达标' THEN service_obj_id ELSE NULL END) as month_nc_shop_visit_valid_cnt, -- 当月专职NC门店有效拜访数
-           round(count(DISTINCT CASE WHEN indicator_id = 'month_nc_shop_visit_valid_cnt' AND if_visit_qualified = '达标' THEN service_obj_id ELSE NULL END) / round(((if(t2.total_days - t2.vacation_days - coalesce(t3.leave_days, 0) < 0, 0, t2.total_days - t2.vacation_days - coalesce(t3.leave_days, 0))) / nullif(t2.total_days, 0)) * count(DISTINCT CASE WHEN indicator_id = 'month_nc_shop_visit_valid_cnt' THEN service_obj_id ELSE NULL END), 0), 4) as month_nc_shop_visit_valid_rate -- 当月专职NC门店拜访达成率
+           count(DISTINCT CASE WHEN indicator_id = 'month_nc_shop_visit_valid_cnt' AND visit_target > 0 THEN service_obj_id ELSE NULL END) as month_nc_shop_server_obj_m, -- 当月专职NC门店目标拜访覆盖店数
+           count(DISTINCT CASE WHEN indicator_id = 'month_nc_shop_visit_valid_cnt' AND visit_target > 0 AND if_visit_qualified = '达标' THEN service_obj_id ELSE NULL END) as month_nc_shop_visit_valid_cnt, -- 当月专职NC门店有效拜访数
+           round(count(DISTINCT CASE WHEN indicator_id = 'month_nc_shop_visit_valid_cnt' AND visit_target > 0 AND if_visit_qualified = '达标' THEN service_obj_id ELSE NULL END) / count(DISTINCT CASE WHEN indicator_id = 'month_nc_shop_visit_valid_cnt' AND visit_target > 0 THEN service_obj_id ELSE NULL END), 4) as month_nc_shop_visit_valid_rate -- 当月专职NC门店拜访达成率
     -- 当月星级门店拜访达成
        ,
-           cast(round(((if(t2.total_days - t2.vacation_days - coalesce(t3.leave_days, 0) < 0, 0, t2.total_days - t2.vacation_days - coalesce(t3.leave_days, 0))) / nullif(t2.total_days, 0)) * count(DISTINCT CASE WHEN indicator_id = 'month_star_shop_visit_valid_cnt' THEN service_obj_id ELSE NULL END), 0) as bigint) as month_star_shop_server_obj_m, -- 当月星级门店目标拜访覆盖店数
-           count(DISTINCT CASE WHEN indicator_id = 'month_star_shop_visit_valid_cnt' AND if_visit_qualified = '达标' THEN service_obj_id ELSE NULL END) as month_star_shop_visit_valid_cnt, -- 当月星级门店有效拜访数
-           round(count(DISTINCT CASE WHEN indicator_id = 'month_star_shop_visit_valid_cnt' AND if_visit_qualified = '达标' THEN service_obj_id ELSE NULL END) / round(((if(t2.total_days - t2.vacation_days - coalesce(t3.leave_days, 0) < 0, 0, t2.total_days - t2.vacation_days - coalesce(t3.leave_days, 0))) / nullif(t2.total_days, 0)) * count(DISTINCT CASE WHEN indicator_id = 'month_star_shop_visit_valid_cnt' THEN service_obj_id ELSE NULL END), 0), 4) as month_star_shop_visit_valid_rate -- 当月星级门店拜访达成率
+           count(DISTINCT CASE WHEN indicator_id = 'month_star_shop_visit_valid_cnt' AND visit_target > 0 THEN service_obj_id ELSE NULL END) as month_star_shop_server_obj_m, -- 当月星级门店目标拜访覆盖店数
+           count(DISTINCT CASE WHEN indicator_id = 'month_star_shop_visit_valid_cnt' AND visit_target > 0 AND if_visit_qualified = '达标' THEN service_obj_id ELSE NULL END) as month_star_shop_visit_valid_cnt, -- 当月星级门店有效拜访数
+           round(count(DISTINCT CASE WHEN indicator_id = 'month_star_shop_visit_valid_cnt' AND visit_target > 0 AND if_visit_qualified = '达标' THEN service_obj_id ELSE NULL END) / count(DISTINCT CASE WHEN indicator_id = 'month_star_shop_visit_valid_cnt' AND visit_target > 0 THEN service_obj_id ELSE NULL END), 4) as month_star_shop_visit_valid_rate -- 当月星级门店拜访达成率
     -- 当季全渠道重点门店拜访覆盖率
        ,
-           count(DISTINCT CASE WHEN indicator_id = 'quar_key_shop_visit_valid_cnt' THEN service_obj_id ELSE NULL END) as quar_key_shop_server_obj_m, -- 当季全渠道重点门店目标拜访覆盖店数
-           count(DISTINCT CASE WHEN indicator_id = 'quar_key_shop_visit_valid_cnt' AND if_visit_qualified = '达标' THEN service_obj_id ELSE NULL END) as quar_key_shop_visit_valid_cnt, -- 当季全渠道重点门店有效拜访数
-           round(count(DISTINCT CASE WHEN indicator_id = 'quar_key_shop_visit_valid_cnt' AND if_visit_qualified = '达标' THEN service_obj_id ELSE NULL END) / count(DISTINCT CASE WHEN indicator_id = 'quar_key_shop_visit_valid_cnt' THEN service_obj_id ELSE NULL END), 4) as quar_key_shop_visit_valid_rate -- 当季全渠道重点门店拜访达成率
+           count(DISTINCT CASE WHEN indicator_id = 'quar_key_shop_visit_valid_cnt' AND visit_target > 0 THEN service_obj_id ELSE NULL END) as quar_key_shop_server_obj_m, -- 当季全渠道重点门店目标拜访覆盖店数
+           count(DISTINCT CASE WHEN indicator_id = 'quar_key_shop_visit_valid_cnt' AND visit_target > 0 AND if_visit_qualified = '达标' THEN service_obj_id ELSE NULL END) as quar_key_shop_visit_valid_cnt, -- 当季全渠道重点门店有效拜访数
+           round(count(DISTINCT CASE WHEN indicator_id = 'quar_key_shop_visit_valid_cnt' AND visit_target > 0 AND if_visit_qualified = '达标' THEN service_obj_id ELSE NULL END) / count(DISTINCT CASE WHEN indicator_id = 'quar_key_shop_visit_valid_cnt' AND visit_target > 0 THEN service_obj_id ELSE NULL END), 4) as quar_key_shop_visit_valid_rate -- 当季全渠道重点门店拜访达成率
     -- 20260616：新增指标
     -- 当月拜访频次达标率_改造
        ,
            sum(CASE WHEN indicator_id = 'month_visit_valid_cnt_1' AND if_visit_qualified = '达标' THEN valid_visit_m ELSE 0 END) as month_visit_valid_cnt_1, -- 当月服务商拜访达成
-           cast(round(((if(t2.total_days - t2.vacation_days - coalesce(t3.leave_days, 0) < 0, 0, t2.total_days - t2.vacation_days - coalesce(t3.leave_days, 0))) / nullif(t2.total_days, 0)) * count(DISTINCT CASE WHEN indicator_id = 'month_fws_visit_valid_cnt_1' THEN service_obj_id ELSE NULL END), 0) as bigint) as month_fws_sever_obj_m_1,
+           count(DISTINCT CASE WHEN indicator_id = 'month_fws_visit_valid_cnt_1' THEN service_obj_id ELSE NULL END) as month_fws_sever_obj_m_1,
            count(DISTINCT CASE WHEN indicator_id = 'month_fws_visit_valid_cnt_1' AND if_visit_qualified = '达标' THEN service_obj_id ELSE NULL END) as month_fws_visit_valid_cnt_1,
-           round(count(DISTINCT CASE WHEN indicator_id = 'month_fws_visit_valid_cnt_1' AND if_visit_qualified = '达标' THEN service_obj_id ELSE NULL END) / round(((if(t2.total_days - t2.vacation_days - coalesce(t3.leave_days, 0) < 0, 0, t2.total_days - t2.vacation_days - coalesce(t3.leave_days, 0))) / nullif(t2.total_days, 0)) * count(DISTINCT CASE WHEN indicator_id = 'month_fws_visit_valid_cnt_1' THEN service_obj_id ELSE NULL END), 0), 4) as month_fws_visit_valid_rate_1, -- 当季服务商拜访达成
+           round(count(DISTINCT CASE WHEN indicator_id = 'month_fws_visit_valid_cnt_1' AND if_visit_qualified = '达标' THEN service_obj_id ELSE NULL END) / count(DISTINCT CASE WHEN indicator_id = 'month_fws_visit_valid_cnt_1' THEN service_obj_id ELSE NULL END), 4) as month_fws_visit_valid_rate_1, -- 当季服务商拜访达成
            count(DISTINCT CASE WHEN indicator_id = 'quar_fws_visit_valid_cnt_1' THEN service_obj_id ELSE NULL END) as quar_fws_sever_obj_m_1,
            count(DISTINCT CASE WHEN indicator_id = 'quar_fws_visit_valid_cnt_1' AND if_visit_qualified = '达标' THEN service_obj_id ELSE NULL END) as quar_fws_visit_valid_cnt_1, --季度服务商拜访个数
            round(count(DISTINCT CASE WHEN indicator_id = 'quar_fws_visit_valid_cnt_1' AND if_visit_qualified = '达标' THEN service_obj_id ELSE NULL END) / count(DISTINCT CASE WHEN indicator_id = 'quar_fws_visit_valid_cnt_1' THEN service_obj_id ELSE NULL END), 4) as quar_fws_visit_valid_rate_1, -- 门店拜访达成
-           cast(round(((if(t2.total_days - t2.vacation_days - coalesce(t3.leave_days, 0) < 0, 0, t2.total_days - t2.vacation_days - coalesce(t3.leave_days, 0))) / nullif(t2.total_days, 0)) * count(DISTINCT CASE WHEN indicator_id = 'month_shop_visit_valid_cnt_1' THEN service_obj_id ELSE NULL END), 0) as bigint) as month_sever_obj_m_1,
+           count(DISTINCT CASE WHEN indicator_id = 'month_shop_visit_valid_cnt_1' THEN service_obj_id ELSE NULL END) as month_sever_obj_m_1,
            count(DISTINCT CASE WHEN indicator_id = 'month_shop_visit_valid_cnt_1' AND if_visit_qualified = '达标' THEN service_obj_id ELSE NULL END) as month_shop_visit_valid_cnt_1, --当月有效拜访门店数
-           round(count(DISTINCT CASE WHEN indicator_id = 'month_shop_visit_valid_cnt_1' AND if_visit_qualified = '达标' THEN service_obj_id ELSE NULL END) / round(((if(t2.total_days - t2.vacation_days - coalesce(t3.leave_days, 0) < 0, 0, t2.total_days - t2.vacation_days - coalesce(t3.leave_days, 0))) / nullif(t2.total_days, 0)) * count(DISTINCT CASE WHEN indicator_id = 'month_shop_visit_valid_cnt_1' THEN service_obj_id ELSE NULL END), 0), 4) as month_shop_visit_valid_rate_1, -- 院线店拜访达成
-           cast(round(((if(t2.total_days - t2.vacation_days - coalesce(t3.leave_days, 0) < 0, 0, t2.total_days - t2.vacation_days - coalesce(t3.leave_days, 0))) / nullif(t2.total_days, 0)) * count(DISTINCT CASE WHEN indicator_id = 'month_hospital_visit_valid_cnt_1' THEN service_obj_id ELSE NULL END), 0) as bigint) as month_hospital_sever_obj_m_1,
-           count(DISTINCT CASE WHEN indicator_id = 'month_hospital_visit_valid_cnt_1' AND if_visit_qualified = '达标' THEN service_obj_id ELSE NULL END) as month_hospital_visit_valid_cnt_1,
-           round(count(DISTINCT CASE WHEN indicator_id = 'month_hospital_visit_valid_cnt_1' AND if_visit_qualified = '达标' THEN service_obj_id ELSE NULL END) / round(((if(t2.total_days - t2.vacation_days - coalesce(t3.leave_days, 0) < 0, 0, t2.total_days - t2.vacation_days - coalesce(t3.leave_days, 0))) / nullif(t2.total_days, 0)) * count(DISTINCT CASE WHEN indicator_id = 'month_hospital_visit_valid_cnt_1' THEN service_obj_id ELSE NULL END), 0), 4) as month_hospital_visit_valid_rate_1, -- 全渠道拜访达成
+           round(count(DISTINCT CASE WHEN indicator_id = 'month_shop_visit_valid_cnt_1' AND if_visit_qualified = '达标' THEN service_obj_id ELSE NULL END) / count(DISTINCT CASE WHEN indicator_id = 'month_shop_visit_valid_cnt_1' THEN service_obj_id ELSE NULL END), 4) as month_shop_visit_valid_rate_1, -- 院线店拜访达成
+           count(DISTINCT CASE WHEN indicator_id = 'month_hospital_visit_valid_cnt_1' AND visit_target > 0 THEN service_obj_id ELSE NULL END) as month_hospital_sever_obj_m_1,
+           count(DISTINCT CASE WHEN indicator_id = 'month_hospital_visit_valid_cnt_1' AND visit_target > 0 AND if_visit_qualified = '达标' THEN service_obj_id ELSE NULL END) as month_hospital_visit_valid_cnt_1,
+           round(count(DISTINCT CASE WHEN indicator_id = 'month_hospital_visit_valid_cnt_1' AND visit_target > 0 AND if_visit_qualified = '达标' THEN service_obj_id ELSE NULL END) / count(DISTINCT CASE WHEN indicator_id = 'month_hospital_visit_valid_cnt_1' AND visit_target > 0 THEN service_obj_id ELSE NULL END), 4) as month_hospital_visit_valid_rate_1, -- 全渠道拜访达成
            sum(CASE WHEN indicator_id = 'month_all_visit_valid_cnt' AND if_visit_qualified = '达标' THEN valid_visit_m ELSE 0 END) as month_all_visit_valid_cnt,
            count(DISTINCT CASE WHEN indicator_id = 'month_all_visit_valid_cnt' AND if_visit_qualified = '达标' THEN service_obj_id ELSE NULL END) as month_all_visit_valid_obj_m
-    FROM prod_mdson.ads_mdson_user_cur_month_detail_d_v2 t1
-    LEFT JOIN vacation_info t2 ON t1.data_month = t2.year_month
-    LEFT JOIN user_leave t3 ON t1.data_month = t3.year_month AND t1.user_id = t3.user_id
+    FROM prod_mdson.ads_mdson_user_cur_month_detail_d_v2
     WHERE dayid = '${v_date}'
     GROUP BY data_month,
-             t1.user_id,
-             t2.total_days,
-             t2.vacation_days,
-             t3.leave_days
+             user_id
 ),
 
 quar_rate as (
@@ -247,6 +298,7 @@ mdson_user as ( -- 员工信息
     AND account_type = 1
     AND is_deleted = 0
     AND dismiss_status = 0
+    AND substr(nvl(join_time, create_time), 1, 7) <= '${v_opt_month}'
 ),
 
 mdson_service_obj as ( -- 服务对象信息
@@ -270,9 +322,7 @@ mdson_service_obj as ( -- 服务对象信息
            store_class_name,
            is_star_shop,
            shop_star,
-           is_nc_new_service_obj,
-           is_service_obj_active,
-           is_low_new_nc
+           is_service_obj_active
     FROM prod_mdson.dim_service_obj_d
     WHERE dayid = '${v_date}'
     AND is_deleted = 0 --and      status != 0
@@ -302,7 +352,7 @@ mdson_service_obj_sever as ( -- 服务对象及人员信息
 
 mdson_service_obj_user as ( -- 门店渠道及人员整合
     SELECT DISTINCT service_obj_id,
-           CASE WHEN channel_type = 'GT' THEN 0 ELSE 1 END as channel_type_1,
+       (    CASE WHEN channel_type = 'GT' THEN 0 ELSE 1 END) as channel_type_1,
            t3.user_id
     FROM mdson_service_obj t1
     LEFT JOIN mdson_service_obj_sever t2 ON t1.service_obj_id = t2.store_code
@@ -495,54 +545,67 @@ ELSE '未达标' END as month_fws_visit_valid_rate_qualified,
        NULL  as quar_sever_obj_m,
        NULL  as quar_shop_visit_valid_cnt,
        NULL  as quar_shop_visit_valid_rate, -- 20260612：当月专职NC门店拜访达成率
-       cast(coalesce(month_nc_shop_server_obj_m, 0) as bigint) as month_nc_shop_server_obj_m,
-       cast(coalesce(month_nc_shop_visit_valid_cnt, 0) as bigint) as month_nc_shop_visit_valid_cnt,
-       month_nc_shop_visit_valid_rate,
-       CASE WHEN (month_nc_shop_visit_valid_rate >= month_rate OR nvl(month_nc_shop_server_obj_m, 0) = 0) THEN '达标' ELSE '未达标' END as month_nc_shop_visit_valid_rate_qualified, -- 20260612：当月星级门店拜访达成率
-       cast(coalesce(month_star_shop_server_obj_m, 0) as bigint) as month_star_shop_server_obj_m,
-       cast(coalesce(month_star_shop_visit_valid_cnt, 0) as bigint) as month_star_shop_visit_valid_cnt,
-       month_star_shop_visit_valid_rate,
-       CASE WHEN (month_star_shop_visit_valid_rate >= month_rate OR nvl(month_star_shop_server_obj_m, 0) = 0) THEN '达标' ELSE '未达标' END as month_star_shop_visit_valid_rate_qualified, -- 20260612：当季全渠道重点门店拜访覆盖率
-       cast(coalesce(quar_key_shop_server_obj_m, 0) as bigint) as quar_key_shop_server_obj_m,
-       cast(coalesce(quar_key_shop_visit_valid_cnt, 0) as bigint) as quar_key_shop_visit_valid_cnt,
-       quar_key_shop_visit_valid_rate,
-       CASE WHEN (quar_key_shop_visit_valid_rate >= quar_rate OR nvl(quar_key_shop_server_obj_m, 0) = 0) THEN '达标' ELSE '未达标' END as quar_key_shop_visit_valid_rate_qualified, -- 20260616：当月我的拜访达标
-       CASE WHEN coalesce(user_discard.is_discard_user, 0) = 1 THEN NULL
-            WHEN job_name IN ('城市渠道负责人') AND ( -- 当月拜访频次达成
+       if(coalesce(user_discard_month.is_discard_user, 0) = 1, NULL, cast(coalesce(month_nc_shop_server_obj_m, 0) as bigint)) as month_nc_shop_server_obj_m,
+       if(coalesce(user_discard_month.is_discard_user, 0) = 1, NULL, cast(coalesce(month_nc_shop_visit_valid_cnt, 0) as bigint)) as month_nc_shop_visit_valid_cnt,
+       if(coalesce(user_discard_month.is_discard_user, 0) = 1, NULL, month_nc_shop_visit_valid_rate) as month_nc_shop_visit_valid_rate,
+       CASE WHEN coalesce(user_discard_month.is_discard_user, 0) = 1 THEN NULL
+            WHEN (month_nc_shop_visit_valid_rate >= month_rate OR nvl(month_nc_shop_server_obj_m, 0) = 0) THEN '达标'
+            ELSE '未达标' END as month_nc_shop_visit_valid_rate_qualified, -- 20260612：当月星级门店拜访达成率
+       if(coalesce(user_discard_month.is_discard_user, 0) = 1, NULL, cast(coalesce(month_star_shop_server_obj_m, 0) as bigint)) as month_star_shop_server_obj_m,
+       if(coalesce(user_discard_month.is_discard_user, 0) = 1, NULL, cast(coalesce(month_star_shop_visit_valid_cnt, 0) as bigint)) as month_star_shop_visit_valid_cnt,
+       if(coalesce(user_discard_month.is_discard_user, 0) = 1, NULL, month_star_shop_visit_valid_rate) as month_star_shop_visit_valid_rate,
+       CASE WHEN coalesce(user_discard_month.is_discard_user, 0) = 1 THEN NULL
+            WHEN (month_star_shop_visit_valid_rate >= month_rate OR nvl(month_star_shop_server_obj_m, 0) = 0) THEN '达标'
+            ELSE '未达标' END as month_star_shop_visit_valid_rate_qualified, -- 20260612：当季全渠道重点门店拜访覆盖率
+       if(coalesce(user_discard_quar.is_discard_user, 0) = 1, NULL, cast(coalesce(quar_key_shop_server_obj_m, 0) as bigint)) as quar_key_shop_server_obj_m,
+       if(coalesce(user_discard_quar.is_discard_user, 0) = 1, NULL, cast(coalesce(quar_key_shop_visit_valid_cnt, 0) as bigint)) as quar_key_shop_visit_valid_cnt,
+       if(coalesce(user_discard_quar.is_discard_user, 0) = 1, NULL, quar_key_shop_visit_valid_rate) as quar_key_shop_visit_valid_rate,
+       CASE WHEN coalesce(user_discard_quar.is_discard_user, 0) = 1 THEN NULL
+            WHEN (quar_key_shop_visit_valid_rate >= quar_rate OR nvl(quar_key_shop_server_obj_m, 0) = 0) THEN '达标'
+            ELSE '未达标' END as quar_key_shop_visit_valid_rate_qualified -- 20260616：当月我的拜访达标
+-- 20260713：按指标可见性矩阵调整拜访标准
+       ,
+       CASE WHEN coalesce(user_discard_month.is_discard_user, 0) = 1 THEN NULL
+            WHEN (job_name IN ('城市渠道负责人') AND user_real_name <> '胡志伟') -- 20260707：胡志伟按城市群负责人标准考核
+ AND ( -- 当月拜访频次达成
 round(cast(nvl(month_visit_valid_cnt_1, 0) as BIGINT) / cast(nvl(visit_m_target_1, 0) as BIGINT), 4) >= month_rate) AND ( -- 当月专职NC门店拜访达成
 month_nc_shop_visit_valid_rate >= month_rate OR nvl(month_nc_shop_server_obj_m, 0) = 0) AND ( -- 当月院线店拜访达成
-month_hospital_visit_valid_rate_1 >= month_rate OR nvl(month_hospital_sever_obj_m_1, 0) = 0) AND ( -- 当月门店拜访达成
-month_shop_visit_valid_rate_1 >= month_rate OR nvl(month_sever_obj_m_1, 0) = 0) AND ( -- 当月服务商拜访达成
+month_hospital_visit_valid_rate_1 >= month_rate OR nvl(month_hospital_sever_obj_m_1, 0) = 0) AND ( -- 当月服务商拜访达成
 (coalesce(is_many_channel_type, 0) = 1 AND (round(month_fws_visit_valid_cnt_1 / if(month_fws_sever_obj_m_1 <= 3, month_fws_sever_obj_m_1, 3), 4) >= month_rate OR nvl(month_fws_sever_obj_m_1, 0) = 0)) OR (coalesce(is_many_channel_type, 0) = 0 AND (round(month_fws_visit_valid_cnt_1 / if(month_fws_sever_obj_m_1 <= 5, month_fws_sever_obj_m_1, 5), 4) >= month_rate OR nvl(month_fws_sever_obj_m_1, 0) = 0))) AND ( -- 当月星级门店拜访达成
-month_star_shop_visit_valid_rate >= month_rate OR nvl(month_star_shop_server_obj_m, 0) = 0) AND ( -- 当月全渠道拜访
-month_all_visit_valid_cnt / coalesce(visit_m_target_1, 80) >= month_rate) THEN '达标'
-            WHEN job_name IN ('城市群负责人') AND ( -- 当月拜访频次达成
-round(cast(nvl(month_visit_valid_cnt_1, 0) as BIGINT) / cast(nvl(visit_m_target_1, 0) as BIGINT), 4) >= month_rate) AND ( -- 当月专职NC门店拜访达成
+month_star_shop_visit_valid_rate >= month_rate OR nvl(month_star_shop_server_obj_m, 0) = 0) THEN '达标'
+            WHEN (job_name IN ('城市群负责人') OR user_real_name = '胡志伟') -- 20260707：胡志伟按城市群负责人标准考核
+ AND ( -- 当月专职NC门店拜访达成
 month_nc_shop_visit_valid_rate >= month_rate OR nvl(month_nc_shop_server_obj_m, 0) = 0) AND ( -- 当月院线店拜访达成
-month_hospital_visit_valid_rate_1 >= month_rate OR nvl(month_hospital_sever_obj_m_1, 0) = 0) AND ( -- 当月门店拜访达成
-month_shop_visit_valid_rate_1 >= month_rate OR nvl(month_sever_obj_m_1, 0) = 0) AND ( -- 当月服务商拜访达成
+month_hospital_visit_valid_rate_1 >= month_rate OR nvl(month_hospital_sever_obj_m_1, 0) = 0) AND ( -- 当月拜访家数达成(城市群负责人每月40家，其他名下)
+month_shop_visit_valid_cnt_1 / (coalesce(white_list_empno.change_target, 40) * coalesce(mdson_target.discount_rate, 1)) >= month_rate OR nvl(month_sever_obj_m_1, 0) = 0) AND ( -- 当月服务商拜访达成
 (coalesce(is_many_channel_type, 0) = 1 AND (round(month_fws_visit_valid_cnt_1 / if(month_fws_sever_obj_m_1 <= 3, month_fws_sever_obj_m_1, 3), 4) >= month_rate OR nvl(month_fws_sever_obj_m_1, 0) = 0)) OR (coalesce(is_many_channel_type, 0) = 0 AND (round(month_fws_visit_valid_cnt_1 / if(month_fws_sever_obj_m_1 <= 5, month_fws_sever_obj_m_1, 5), 4) >= month_rate OR nvl(month_fws_sever_obj_m_1, 0) = 0))) AND ( -- 当月星级门店拜访达成
-month_star_shop_visit_valid_rate >= month_rate OR nvl(month_star_shop_server_obj_m, 0) = 0) AND ( -- 当月全渠道拜访达成
-month_all_visit_valid_obj_m / coalesce(white_list_empno.change_target, 40) >= month_rate) THEN '达标'
+month_star_shop_visit_valid_rate >= month_rate OR nvl(month_star_shop_server_obj_m, 0) = 0) THEN '达标'
             WHEN job_name IN ('城市渠道负责人', '城市群负责人') THEN '未达标'
             WHEN job_name IN ('大区通路发展经理') AND substr(dateadd(getdate(), - 1, 'dd'), 1, 7) = '2025-10' AND round(cast(nvl(month_visit_valid_cnt_1, 0) as BIGINT) / cast(nvl(visit_m_target_1, 0) as BIGINT), 4) >= month_rate AND (round(month_fws_visit_valid_cnt_1 / 4, 4) >= month_rate OR nvl(month_fws_sever_obj_m_1, 0) = 0) THEN '达标'
             WHEN job_name IN ('大区通路发展经理') AND round(cast(nvl(month_visit_valid_cnt_1, 0) as BIGINT) / cast(nvl(visit_m_target_1, 0) as BIGINT), 4) >= month_rate AND (round(month_fws_visit_valid_cnt_1 / 5, 4) >= month_rate OR nvl(month_fws_sever_obj_m_1, 0) = 0) THEN '达标'
             WHEN job_name IN ('大区通路发展经理') THEN '未达标'
             WHEN round(cast(nvl(month_visit_valid_cnt_1, 0) as BIGINT) / cast(nvl(visit_m_target_1, 0) as BIGINT), 4) >= month_rate THEN '达标'
-            ELSE '未达标' END as if_visit_qualified_month_1, -- 20260616：当季我的拜访达标
-       CASE WHEN job_name IN ('城市渠道负责人', '城市群负责人') AND ( -- 当季服务商拜访达成
+            ELSE '未达标' -- 20260710：从置空改为未达标
+END as if_visit_qualified_month_1, -- 20260616：当季我的拜访达标
+       CASE WHEN coalesce(user_discard_quar.is_discard_user, 0) = 1 THEN NULL
+            WHEN job_name IN ('城市渠道负责人', '城市群负责人') AND ( -- 当季服务商拜访达成
 round(quar_fws_visit_valid_cnt_1 / quar_fws_sever_obj_m_1, 4) >= quar_rate OR nvl(quar_fws_sever_obj_m_1, 0) = 0) AND ( -- 当季全渠道重点门店拜访覆盖
 quar_key_shop_visit_valid_rate >= quar_rate OR nvl(quar_key_shop_server_obj_m, 0) = 0) THEN '达标'
             WHEN job_name IN ('城市渠道负责人', '城市群负责人') THEN '未达标'
             WHEN job_name IN ('大区通路发展经理') AND dateadd(getdate(), - 1, 'dd') >= to_date('2025-10-01', 'yyyy-MM-dd') AND dateadd(getdate(), - 1, 'dd') <= to_date('2025-12-31', 'yyyy-MM-dd') AND round(quar_fws_visit_valid_cnt_1 / 14, 4) >= quar_rate THEN '达标'
             WHEN job_name IN ('大区通路发展经理') AND round(quar_fws_visit_valid_cnt_1 / 15, 4) >= quar_rate THEN '达标' -----20250903新增GT渠道区域负责人季度达标
 
-            ELSE '未达标' END as if_visit_qualified_quar_1, -- 20260616：当月拜访频次达标
-       visit_m_target_1,
-       cast(nvl(month_visit_valid_cnt_1, 0) as BIGINT) as month_visit_valid_cnt_1,
-       round(cast(nvl(month_visit_valid_cnt_1, 0) as BIGINT) / cast(nvl(visit_m_target_1, 0) as BIGINT), 4) as month_visit_valid_rate_1,
-       CASE WHEN round(cast(nvl(month_visit_valid_cnt, 0) as BIGINT) / cast(nvl(visit_m_target_1, 0) as BIGINT), 4) >= month_rate THEN '达标' ELSE '未达标' END as month_visit_valid_rate_qualified_1, -- 20260616：当月服务商拜访达成率
-       CASE WHEN job_name IN ('大区通路发展经理') AND substr(dateadd(getdate(), - 1, 'dd'), 1, 7) = '2025-10' THEN 4 ----202510拜访次数 = 原次数 * (31-8)/31
+            WHEN job_name IN ('大区通路发展经理') THEN '未达标'
+            ELSE '未达标' -- 20260710：从置空改为未达标
+END as if_visit_qualified_quar_1, -- 20260616：当月拜访频次达标
+       if(coalesce(user_discard_month.is_discard_user, 0) = 1, NULL, visit_m_target_1) as visit_m_target_1,
+       if(coalesce(user_discard_month.is_discard_user, 0) = 1, NULL, cast(nvl(month_visit_valid_cnt_1, 0) as BIGINT)) as month_visit_valid_cnt_1,
+       if(coalesce(user_discard_month.is_discard_user, 0) = 1, NULL, round(cast(nvl(month_visit_valid_cnt_1, 0) as BIGINT) / cast(nvl(visit_m_target_1, 0) as BIGINT), 4)) as month_visit_valid_rate_1,
+       CASE WHEN coalesce(user_discard_month.is_discard_user, 0) = 1 THEN NULL
+            WHEN round(cast(nvl(month_visit_valid_cnt_1, 0) as BIGINT) / cast(nvl(visit_m_target_1, 0) as BIGINT), 4) >= month_rate THEN '达标'
+            ELSE '未达标' END as month_visit_valid_rate_qualified_1, -- 20260616：当月服务商拜访达成率
+       CASE WHEN coalesce(user_discard_month.is_discard_user, 0) = 1 THEN NULL
+            WHEN job_name IN ('大区通路发展经理') AND substr(dateadd(getdate(), - 1, 'dd'), 1, 7) = '2025-10' THEN 4 ----202510拜访次数 = 原次数 * (31-8)/31
 
             WHEN job_name IN ('大区通路发展经理') THEN 5
             WHEN job_name IN ('地区渠道负责人', '省区渠道负责人', '城市渠道负责人') AND substr(dateadd(getdate(), - 1, 'dd'), 1, 7) = '2025-10' THEN cast(round(if(month_fws_sever_obj_m <= 5, month_fws_sever_obj_m, 5) * (31 - 8) / 31, 0) as BIGINT) ----202510拜访次数 = 原次数 * (31-8)/31
@@ -550,8 +613,9 @@ quar_key_shop_visit_valid_rate >= quar_rate OR nvl(quar_key_shop_server_obj_m, 0
             WHEN job_name IN ('城市渠道负责人', '城市群负责人') AND coalesce(is_many_channel_type, 0) = 1 THEN if(month_fws_sever_obj_m_1 <= 3, month_fws_sever_obj_m_1, 3)
             WHEN job_name IN ('城市渠道负责人', '城市群负责人') AND coalesce(is_many_channel_type, 0) = 0 THEN if(month_fws_sever_obj_m_1 <= 5, month_fws_sever_obj_m_1, 5)
             ELSE cast(nvl(month_fws_sever_obj_m_1, 0) as BIGINT) END as month_fws_sever_obj_m_1,
-       cast(nvl(month_fws_visit_valid_cnt_1, 0) as BIGINT) as month_fws_visit_valid_cnt_1,
-       CASE WHEN job_name IN ('大区通路发展经理') AND substr(dateadd(getdate(), - 1, 'dd'), 1, 7) = '2025-10' THEN round(nvl(month_fws_visit_valid_cnt_1, 0) / 4, 4) ----202510拜访次数 = 原次数 * (31-8)/31
+       if(coalesce(user_discard_month.is_discard_user, 0) = 1, NULL, cast(nvl(month_fws_visit_valid_cnt_1, 0) as BIGINT)) as month_fws_visit_valid_cnt_1,
+       CASE WHEN coalesce(user_discard_month.is_discard_user, 0) = 1 THEN NULL
+            WHEN job_name IN ('大区通路发展经理') AND substr(dateadd(getdate(), - 1, 'dd'), 1, 7) = '2025-10' THEN round(nvl(month_fws_visit_valid_cnt_1, 0) / 4, 4) ----202510拜访次数 = 原次数 * (31-8)/31
 
             WHEN job_name IN ('大区通路发展经理') THEN round(nvl(month_fws_visit_valid_cnt_1, 0) / 5, 4)
             WHEN job_name IN ('地区渠道负责人', '省区渠道负责人', '城市渠道负责人') AND substr(dateadd(getdate(), - 1, 'dd'), 1, 7) = '2025-10' THEN round(month_fws_visit_valid_cnt_1 / round(if(month_fws_sever_obj_m_1 <= 5, month_fws_sever_obj_m_1, 5) * (31 - 8) / 31, 0), 4) ----202510调整lsp目标拜访
@@ -559,48 +623,63 @@ quar_key_shop_visit_valid_rate >= quar_rate OR nvl(quar_key_shop_server_obj_m, 0
             WHEN job_name IN ('城市渠道负责人', '城市群负责人') AND coalesce(is_many_channel_type, 0) = 1 THEN round(month_fws_visit_valid_cnt_1 / if(month_fws_sever_obj_m_1 <= 3, month_fws_sever_obj_m_1, 3), 4)
             WHEN job_name IN ('城市渠道负责人', '城市群负责人') AND coalesce(is_many_channel_type, 0) = 0 THEN round(month_fws_visit_valid_cnt_1 / if(month_fws_sever_obj_m_1 <= 5, month_fws_sever_obj_m_1, 5), 4)
             ELSE round(nvl(month_fws_visit_valid_cnt_1, 0) / nvl(month_fws_sever_obj_m_1, 0), 4) END as month_fws_visit_valid_rate_1,
-       CASE  ----202510服务商达标特殊处理
-WHEN job_name IN ('大区通路发展经理') AND substr(dateadd(getdate(), - 1, 'dd'), 1, 7) = '2025-10' AND round(nvl(month_fws_visit_valid_cnt_1, 0) / 4, 4) >= month_rate THEN '达标'
-WHEN job_name IN ('大区通路发展经理') AND round(nvl(month_fws_visit_valid_cnt_1, 0) / 5, 4) >= month_rate THEN '达标'
-WHEN job_name IN ('大区通路发展经理') THEN '未达标' ----202510服务商达标特殊处理
+       CASE WHEN coalesce(user_discard_month.is_discard_user, 0) = 1 THEN NULL ----202510服务商达标特殊处理
 
-WHEN job_name IN ('地区渠道负责人', '省区渠道负责人', '城市渠道负责人') AND substr(dateadd(getdate(), - 1, 'dd'), 1, 7) = '2025-10' AND (round(month_fws_visit_valid_cnt_1 / round(if(month_fws_sever_obj_m_1 <= 5, month_fws_sever_obj_m_1, 5) * (31 - 8) / 31, 0), 4) >= month_rate OR nvl(month_fws_sever_obj_m_1, 0) = 0) THEN '达标'
-WHEN job_name IN ('城市渠道负责人', '城市群负责人') AND coalesce(is_many_channel_type, 0) = 1 AND (round(month_fws_visit_valid_cnt_1 / if(month_fws_sever_obj_m_1 <= 3, month_fws_sever_obj_m_1, 3), 4) >= month_rate OR nvl(month_fws_sever_obj_m_1, 0) = 0) THEN '达标'
-WHEN job_name IN ('城市渠道负责人', '城市群负责人') AND coalesce(is_many_channel_type, 0) = 0 AND (round(month_fws_visit_valid_cnt_1 / if(month_fws_sever_obj_m_1 <= 5, month_fws_sever_obj_m_1, 5), 4) >= month_rate OR nvl(month_fws_sever_obj_m_1, 0) = 0) THEN '达标'
-WHEN channel_name IN ('GT') AND job_name IN ('城市渠道负责人', '城市群负责人') THEN '未达标'
-WHEN (round(month_fws_visit_valid_cnt_1 / month_fws_sever_obj_m_1, 4) >= month_rate OR nvl(month_fws_sever_obj_m_1, 0) = 0) THEN '达标'
-ELSE '未达标' END as month_fws_visit_valid_rate_qualified_1, -- 20260616：当季服务商拜访达成
-       CASE WHEN job_name IN ('大区通路发展经理') AND dateadd(getdate(), - 1, 'dd') >= to_date('2025-10-01', 'yyyy-MM-dd') AND dateadd(getdate(), - 1, 'dd') <= to_date('2025-12-31', 'yyyy-MM-dd') THEN 14 ----2025Q4总次数调整
+            WHEN job_name IN ('大区通路发展经理') AND substr(dateadd(getdate(), - 1, 'dd'), 1, 7) = '2025-10' AND round(nvl(month_fws_visit_valid_cnt_1, 0) / 4, 4) >= month_rate THEN '达标'
+            WHEN job_name IN ('大区通路发展经理') AND round(nvl(month_fws_visit_valid_cnt_1, 0) / 5, 4) >= month_rate THEN '达标'
+            WHEN job_name IN ('大区通路发展经理') THEN '未达标' ----202510服务商达标特殊处理
+
+            WHEN job_name IN ('地区渠道负责人', '省区渠道负责人', '城市渠道负责人') AND substr(dateadd(getdate(), - 1, 'dd'), 1, 7) = '2025-10' AND (round(month_fws_visit_valid_cnt_1 / round(if(month_fws_sever_obj_m_1 <= 5, month_fws_sever_obj_m_1, 5) * (31 - 8) / 31, 0), 4) >= month_rate OR nvl(month_fws_sever_obj_m_1, 0) = 0) THEN '达标'
+            WHEN job_name IN ('城市渠道负责人', '城市群负责人') AND coalesce(is_many_channel_type, 0) = 1 AND (round(month_fws_visit_valid_cnt_1 / if(month_fws_sever_obj_m_1 <= 3, month_fws_sever_obj_m_1, 3), 4) >= month_rate OR nvl(month_fws_sever_obj_m_1, 0) = 0) THEN '达标'
+            WHEN job_name IN ('城市渠道负责人', '城市群负责人') AND coalesce(is_many_channel_type, 0) = 0 AND (round(month_fws_visit_valid_cnt_1 / if(month_fws_sever_obj_m_1 <= 5, month_fws_sever_obj_m_1, 5), 4) >= month_rate OR nvl(month_fws_sever_obj_m_1, 0) = 0) THEN '达标'
+            WHEN channel_name IN ('GT') AND job_name IN ('城市渠道负责人', '城市群负责人') THEN '未达标'
+            WHEN (round(month_fws_visit_valid_cnt_1 / month_fws_sever_obj_m_1, 4) >= month_rate OR nvl(month_fws_sever_obj_m_1, 0) = 0) THEN '达标'
+            ELSE '未达标' END as month_fws_visit_valid_rate_qualified_1, -- 20260616：当季服务商拜访达成
+       CASE WHEN coalesce(user_discard_quar.is_discard_user, 0) = 1 THEN NULL
+            WHEN job_name IN ('大区通路发展经理') AND dateadd(getdate(), - 1, 'dd') >= to_date('2025-10-01', 'yyyy-MM-dd') AND dateadd(getdate(), - 1, 'dd') <= to_date('2025-12-31', 'yyyy-MM-dd') THEN 14 ----2025Q4总次数调整
 
             WHEN job_name IN ('大区通路发展经理') THEN 15 -- WHEN job_name in ('城市渠道负责人','城市群负责人') AND coalesce(is_many_channel_type,0) = 1 then  IF(quar_fws_sever_obj_m_1 <= 9,quar_fws_sever_obj_m_1,9)
 -- WHEN job_name in ('城市渠道负责人','城市群负责人') AND coalesce(is_many_channel_type,0) = 0 then  IF(quar_fws_sever_obj_m_1 <= 15,quar_fws_sever_obj_m_1,15)
 
             ELSE cast(nvl(quar_fws_sever_obj_m_1, 0) as BIGINT) END as quar_fws_sever_obj_m_1,
-       cast(nvl(quar_fws_visit_valid_cnt_1, 0) as BIGINT) as quar_fws_visit_valid_cnt_1, -- 20251016修改：原脚本在计算季度服务商拜访达成率时，对于大区通路发展经理，其分子为名下服务商数，而非拜访服务商数
-       CASE WHEN job_name IN ('大区通路发展经理') AND dateadd(getdate(), - 1, 'dd') >= to_date('2025-10-01', 'yyyy-MM-dd') AND dateadd(getdate(), - 1, 'dd') <= to_date('2025-12-31', 'yyyy-MM-dd') THEN round(nvl(quar_fws_visit_valid_cnt_1, 0) / 14, 4) ----2025Q4特殊处理Q4的季度服务商拜访达成率
+       if(coalesce(user_discard_quar.is_discard_user, 0) = 1, NULL, cast(nvl(quar_fws_visit_valid_cnt_1, 0) as BIGINT)) as quar_fws_visit_valid_cnt_1, -- 20251016修改：原脚本在计算季度服务商拜访达成率时，对于大区通路发展经理，其分子为名下服务商数，而非拜访服务商数
+       CASE WHEN coalesce(user_discard_quar.is_discard_user, 0) = 1 THEN NULL
+            WHEN job_name IN ('大区通路发展经理') AND dateadd(getdate(), - 1, 'dd') >= to_date('2025-10-01', 'yyyy-MM-dd') AND dateadd(getdate(), - 1, 'dd') <= to_date('2025-12-31', 'yyyy-MM-dd') THEN round(nvl(quar_fws_visit_valid_cnt_1, 0) / 14, 4) ----2025Q4特殊处理Q4的季度服务商拜访达成率
 
             WHEN job_name IN ('大区通路发展经理') THEN round(nvl(quar_fws_visit_valid_cnt_1, 0) / 15, 4)
             ELSE quar_fws_visit_valid_rate_1 END as quar_fws_visit_valid_rate_1,
-       CASE  -- 2025Q4季度服务商达成率调整
-WHEN job_name IN ('大区通路发展经理') AND dateadd(getdate(), - 1, 'dd') >= to_date('2025-10-01', 'yyyy-MM-dd') AND dateadd(getdate(), - 1, 'dd') <= to_date('2025-12-31', 'yyyy-MM-dd') AND round(quar_fws_visit_valid_cnt_1 / 14, 4) >= quar_rate THEN '达标'
-WHEN job_name IN ('大区通路发展经理') AND round(quar_fws_visit_valid_cnt_1 / 15, 4) >= quar_rate THEN '达标' -- 20260617新增
+       CASE WHEN coalesce(user_discard_quar.is_discard_user, 0) = 1 THEN NULL -- 2025Q4季度服务商达成率调整
 
-WHEN job_name IN ('城市渠道负责人', '城市群负责人') AND (round(quar_fws_visit_valid_cnt_1 / quar_fws_sever_obj_m_1, 4) >= quar_rate OR nvl(quar_fws_sever_obj_m_1, 0) = 0) THEN '达标'
-WHEN job_name IN ('城市渠道负责人', '城市群负责人') THEN '未达标'
-WHEN (round(quar_fws_visit_valid_cnt_1 / quar_fws_sever_obj_m_1, 4) >= quar_rate OR nvl(quar_fws_sever_obj_m_1, 0) = 0) THEN '达标'
-ELSE '未达标' END as quar_fws_visit_valid_rate_qualified_1, -- 20260616：当月门店拜访达成
-       cast(nvl(month_sever_obj_m_1, 0) as BIGINT) as month_sever_obj_m_1,
-       cast(nvl(month_shop_visit_valid_cnt_1, 0) as BIGINT) as month_shop_visit_valid_cnt_1,
-       month_shop_visit_valid_rate_1,
-       CASE WHEN (month_shop_visit_valid_rate_1 >= month_rate OR nvl(month_sever_obj_m_1, 0) = 0) THEN '达标' ELSE '未达标' END as month_shop_visit_valid_rate_qualified_1, -- 20260616：当月院线店拜访达成
-       cast(nvl(month_hospital_sever_obj_m_1, 0) as BIGINT) as month_hospital_sever_obj_m_1,
-       cast(nvl(month_hospital_visit_valid_cnt_1, 0) as BIGINT) as month_hospital_visit_valid_cnt_1,
-       month_hospital_visit_valid_rate_1,
-       CASE WHEN (month_hospital_visit_valid_rate_1 >= month_rate OR nvl(month_hospital_sever_obj_m_1, 0) = 0) THEN '达标' ELSE '未达标' END as month_hospital_visit_valid_rate_qualified_1
+            WHEN job_name IN ('大区通路发展经理') AND dateadd(getdate(), - 1, 'dd') >= to_date('2025-10-01', 'yyyy-MM-dd') AND dateadd(getdate(), - 1, 'dd') <= to_date('2025-12-31', 'yyyy-MM-dd') AND round(quar_fws_visit_valid_cnt_1 / 14, 4) >= quar_rate THEN '达标'
+            WHEN job_name IN ('大区通路发展经理') AND round(quar_fws_visit_valid_cnt_1 / 15, 4) >= quar_rate THEN '达标' -- 20260617新增
+
+            WHEN job_name IN ('城市渠道负责人', '城市群负责人') AND (round(quar_fws_visit_valid_cnt_1 / quar_fws_sever_obj_m_1, 4) >= quar_rate OR nvl(quar_fws_sever_obj_m_1, 0) = 0) THEN '达标'
+            WHEN job_name IN ('城市渠道负责人', '城市群负责人') THEN '未达标'
+            WHEN (round(quar_fws_visit_valid_cnt_1 / quar_fws_sever_obj_m_1, 4) >= quar_rate OR nvl(quar_fws_sever_obj_m_1, 0) = 0) THEN '达标'
+            ELSE '未达标' END as quar_fws_visit_valid_rate_qualified_1, -- 20260616：当月门店拜访达成
+       cast(CASE WHEN coalesce(user_discard_month.is_discard_user, 0) = 1 THEN NULL
+                 WHEN (job_name IN ('城市群负责人') OR user_real_name = '胡志伟') THEN coalesce(white_list_empno.change_target, 40) * coalesce(mdson_target.discount_rate, 1)
+                 ELSE month_sever_obj_m_1 END as BIGINT) as month_sever_obj_m_1,
+       if(coalesce(user_discard_month.is_discard_user, 0) = 1, NULL, cast(nvl(month_shop_visit_valid_cnt_1, 0) as BIGINT)) as month_shop_visit_valid_cnt_1,
+       ( -- 20260712：城市群负责人按40家(白名单及折算前考核，其余按名下)
+CASE WHEN coalesce(user_discard_month.is_discard_user, 0) = 1 THEN NULL
+     WHEN (job_name IN ('城市群负责人') OR user_real_name = '胡志伟') THEN month_shop_visit_valid_cnt_1 / (coalesce(white_list_empno.change_target, 40) * coalesce(mdson_target.discount_rate, 1))
+     ELSE month_shop_visit_valid_rate_1 END) as month_shop_visit_valid_rate_1, -- 20260712：城市群负责人按40家(白名单及折算前考核，其余按名下)
+       (CASE WHEN coalesce(user_discard_month.is_discard_user, 0) = 1 THEN NULL
+             WHEN (CASE WHEN (job_name IN ('城市群负责人') OR user_real_name = '胡志伟') THEN month_shop_visit_valid_cnt_1 / (coalesce(white_list_empno.change_target, 40) * coalesce(mdson_target.discount_rate, 1)) ELSE month_shop_visit_valid_rate_1 END) >= month_rate
+OR nvl(month_sever_obj_m_1, 0) = 0 THEN '达标'
+             ELSE '未达标' END) as month_shop_visit_valid_rate_qualified_1, -- 20260616：当月院线店拜访达成
+       if(coalesce(user_discard_month.is_discard_user, 0) = 1, NULL, cast(nvl(month_hospital_sever_obj_m_1, 0) as BIGINT)) as month_hospital_sever_obj_m_1,
+       if(coalesce(user_discard_month.is_discard_user, 0) = 1, NULL, cast(nvl(month_hospital_visit_valid_cnt_1, 0) as BIGINT)) as month_hospital_visit_valid_cnt_1,
+       if(coalesce(user_discard_month.is_discard_user, 0) = 1, NULL, month_hospital_visit_valid_rate_1) as month_hospital_visit_valid_rate_1,
+       CASE WHEN coalesce(user_discard_month.is_discard_user, 0) = 1 THEN NULL
+            WHEN (month_hospital_visit_valid_rate_1 >= month_rate OR nvl(month_hospital_sever_obj_m_1, 0) = 0) THEN '达标'
+            ELSE '未达标' END as month_hospital_visit_valid_rate_qualified_1
 FROM user_info
 LEFT JOIN mdson_target ON user_info.user_id = mdson_target.user_id AND user_info.data_month = mdson_target.data_month
 LEFT JOIN user_summary_data ON user_info.user_id = user_summary_data.user_id AND user_info.data_month = user_summary_data.data_month
 LEFT JOIN quar_rate ON regexp_replace(user_info.data_month, '-', '') = quar_rate.year_month_id
 LEFT JOIN channel_type_cnt_user ON user_info.user_id = channel_type_cnt_user.user_id
-LEFT JOIN user_discard ON user_info.user_id = user_discard.user_id AND user_info.data_month = user_discard.year_month
+LEFT JOIN user_discard_month ON user_info.user_id = user_discard_month.user_id AND user_info.data_month = user_discard_month.year_month
+LEFT JOIN user_discard_quar ON user_info.user_id = user_discard_quar.user_id AND user_info.data_month = user_discard_quar.year_month
 LEFT JOIN white_list_empno ON user_info.user_id = white_list_empno.user_id AND user_info.data_month = white_list_empno.year_month
