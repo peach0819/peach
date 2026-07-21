@@ -47,7 +47,10 @@ indicator as (
            to_json(named_struct(
                'month_visit_my_reach', to_json(named_struct('indicator', if_visit_qualified_month_1)),
                'quarter_visit_my_reach', to_json(named_struct('indicator', if_visit_qualified_quar_1)),
-               'month_visit_reach_rate', to_json(named_struct('reach', if_visit_qualified_month_1)),
+               'month_visit_reach_rate', to_json(named_struct(
+                                                    'denominator', 1,
+                                                    'reach', if_visit_qualified_month_1
+                                               )),
                'month_visit_freq_reach_rate', to_json(named_struct(
                                                     'numerator', month_visit_valid_cnt_1,
                                                     'denominator', visit_m_target_1,
