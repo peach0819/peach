@@ -62,7 +62,7 @@ server as (
                max(server_code) as server_code
         FROM prod_mdson.ads_service_obj_server_d
         WHERE dayid IN ('${v_date}', replace(dateadd(date '${v_opt_month}-01', - 1, 'dd'), '-', ''))
-        AND (store_code LIKE '3-%' OR (store_code LIKE '1-%' AND job_name = 'SHOP_SERVER'))
+        AND (store_code NOT LIKE '1-%' OR (store_code LIKE '1-%' AND job_name = 'SHOP_SERVER'))
         group by store_code,
                  dayid
     ) s
