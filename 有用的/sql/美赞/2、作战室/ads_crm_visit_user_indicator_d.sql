@@ -29,7 +29,7 @@ display_indicator as (
         UNION ALL
         SELECT 'month_shop_visit_reach_rate' as indicator_code, 1 as need_single, 1 as need_total
         UNION ALL
-        SELECT 'month_all_big_visit_cover_rate' as indicator_code, 1 as need_single, 1 as need_total
+        SELECT 'quarter_all_big_visit_cover_rate' as indicator_code, 1 as need_single, 1 as need_total
         UNION ALL
         SELECT 'month_hospital_visit_reach_rate' as indicator_code, 1 as need_single, 1 as need_total
     ) t
@@ -87,7 +87,7 @@ indicator as (
                                                     'indicator', month_shop_visit_valid_rate_1 * 100,
                                                     'reach', month_shop_visit_valid_rate_qualified_1
                                               )),
-               'month_all_big_visit_cover_rate', to_json(named_struct(
+               'quarter_all_big_visit_cover_rate', to_json(named_struct(
                                                      'numerator', quar_key_shop_visit_valid_cnt,
                                                      'denominator', quar_key_shop_server_obj_m,
                                                      'indicator', quar_key_shop_visit_valid_rate * 100,
