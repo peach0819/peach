@@ -19,7 +19,7 @@ with base as (
 	                         when 'quar_fws_visit_valid_cnt_1' then 'quarter_fws_visit_cover_rate'
 	                         when 'month_star_shop_visit_valid_cnt' then 'month_star_visit_reach_rate'
 	                         when 'month_shop_visit_valid_cnt_1' then 'month_shop_visit_reach_rate'
-	                         when 'quar_key_shop_visit_valid_cnt' then 'month_all_big_visit_cover_rate'
+	                         when 'quar_key_shop_visit_valid_cnt' then 'quarter_all_big_visit_cover_rate'
 	                         when 'month_hospital_visit_valid_cnt_1' then 'month_hospital_visit_reach_rate'
                              end as indicator_code,
            out_service_obj_id as service_obj_id,
