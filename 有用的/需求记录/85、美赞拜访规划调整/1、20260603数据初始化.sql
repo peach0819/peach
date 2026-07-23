@@ -97,3 +97,5 @@ update t_crm_visit_indicator set indicator_name = '当月拜访家数达成率' 
 
 --NCM不可见【当月拜访人员达标率】
 update t_crm_visit_indicator_visible set is_deleted = 1 WHERE job_id = 24 AND indicator_id = 101;
+
+UPDATE t_crm_visit_indicator set indicator_code = 'quarter_all_big_visit_cover_rate' WHERE id = 146;
