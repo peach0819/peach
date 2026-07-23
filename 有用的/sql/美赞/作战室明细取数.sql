@@ -7,7 +7,7 @@ SELECT data.user_id as `用户id`,
                            when 'quarter_fws_visit_cover_rate' then '当季服务商拜访覆盖率'
                            when 'month_star_visit_reach_rate' then '当月星级门店拜访达成率'
                            when 'month_shop_visit_reach_rate' then '当月门店拜访达成率'
-                           when 'month_all_big_visit_cover_rate' then '当季全渠道重点门店拜访覆盖率'
+                           when 'quarter_all_big_visit_cover_rate' then '当季全渠道重点门店拜访覆盖率'
                            when 'month_hospital_visit_reach_rate' then '当月院线店拜访达成率'
                            end as `指标名称`,
        service_obj_id as `拜访对象id`,
@@ -30,6 +30,6 @@ AND indicator_code IN (
     'quarter_fws_visit_cover_rate',
     'month_star_visit_reach_rate',
     'month_shop_visit_reach_rate',
-    'month_all_big_visit_cover_rate',
+    'quarter_all_big_visit_cover_rate',
     'month_hospital_visit_reach_rate'
 )
