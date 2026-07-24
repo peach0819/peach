@@ -60,13 +60,12 @@ detail as (
            '否' as is_service_obj_indicator,
            visit.user_id as user_id,
            visit.service_obj_id,
-           count(visit.id) as indicator,
+           count(if((visit_type = 1 AND visit_mode = 1) OR visit_type != 1, visit.id, null)) as indicator, --门店拜访只统计有效拜访，服务商不用（因为服务商没有有效拜访概念）
            null as target
     FROM (
         SELECT *
         FROM visit
         WHERE substr(visit_time, 1, 7) = '${v_opt_month}'
-        AND (visit_type = 1 AND visit_mode = 1) OR visit_type != 1 --门店拜访只统计有效拜访，服务商不用（因为服务商没有有效拜访概念）
     ) visit
     LEFT JOIN (
         SELECT *
@@ -206,13 +205,12 @@ detail as (
            '否' as is_service_obj_indicator,
            visit.user_id as user_id,
            visit.service_obj_id,
-           count(visit.id) as indicator,
+           count(if((visit_type = 1 AND visit_mode = 1) OR visit_type != 1, visit.id, null)) as indicator, --门店拜访只统计有效拜访，服务商不用（因为服务商没有有效拜访概念）
            null as target
     FROM (
         SELECT *
         FROM visit
         WHERE substr(visit_time, 1, 7) = '${v_opt_month}'
-        AND (visit_type = 1 AND visit_mode = 1) OR visit_type != 1 --门店拜访只统计有效拜访，服务商不用（因为服务商没有有效拜访概念）
     ) visit
     LEFT JOIN (
         SELECT *
