@@ -18,6 +18,7 @@ with service_obj as (
     WHERE dayid = '${v_date}'
     AND if_virtual = 0  --过滤虚拟门店
     AND INSTR(service_obj_name,'测试') = 0 --过滤测试门店
+    AND status = 1  --正常营业
 ),
 
 --人员信息
@@ -71,7 +72,7 @@ detail as (
     INNER JOIN (
         SELECT *
         FROM service_obj
-        WHERE service_obj_type != 1 OR (store_class_name = '实体门店' AND status = 1)  --门店仅正常营业的实体门店，服务商不用
+        WHERE service_obj_type != 1 OR store_class_name = '实体门店'  --门店仅正常营业的实体门店，服务商不用
     ) service_obj ON service_obj.service_obj_id = visit.service_obj_id
     GROUP BY visit.user_id,
              visit.service_obj_id
@@ -94,7 +95,6 @@ detail as (
         FROM service_obj
         WHERE service_obj_type = 1  --门店
         AND store_class_name = '实体门店'
-        AND status = 1 --正常营业
         AND is_nc = 1 --NC门店
         AND freeze_server_id is not null --有挂服务人员的门店
     ) service_obj
@@ -126,7 +126,6 @@ detail as (
         SELECT *
         FROM service_obj
         WHERE service_obj_type = 3
-        AND status = 1
         AND freeze_server_id is not null --有挂服务人员的正常营业服务商
     ) service_obj
     LEFT JOIN (
@@ -152,7 +151,6 @@ detail as (
         SELECT *
         FROM service_obj
         WHERE service_obj_type = 3
-        AND status = 1
         AND freeze_server_id is not null --有挂服务人员的正常营业服务商
     ) service_obj
     LEFT JOIN (
@@ -179,7 +177,6 @@ detail as (
         SELECT *
         FROM service_obj
         WHERE store_class_name = '实体门店'
-        AND status = 1
         AND is_star = 1
         AND service_obj_type = 1
         AND freeze_server_id is not null
@@ -216,7 +213,7 @@ detail as (
     INNER JOIN (
         SELECT *
         FROM service_obj
-        WHERE service_obj_type != 1 OR (store_class_name = '实体门店' AND status = 1)  --门店仅正常营业的实体门店，服务商不用
+        WHERE service_obj_type != 1 OR store_class_name = '实体门店'  --门店仅正常营业的实体门店，服务商不用
     ) service_obj ON service_obj.service_obj_id = visit.service_obj_id
     GROUP BY visit.user_id,
              visit.service_obj_id
@@ -234,7 +231,6 @@ detail as (
         SELECT *
         FROM service_obj
         WHERE store_class_name = '实体门店'
-        AND status = 1
         AND service_obj_type = 1
         AND (channel_type IN ('COT', 'KA') OR (channel_type = 'GT' AND is_nc = 1) OR is_hospital = 1 OR is_star = 1) --重点门店定义 1、COT、KA渠道门店 2、GT渠道专职NC门店 3、院线店  4、星级门店
         AND freeze_server_id is not null --有挂服务人员的
@@ -267,7 +263,6 @@ detail as (
         FROM service_obj
         WHERE is_hospital = 1
         AND service_obj_type = 1
-        AND status = 1
         AND store_class_name = '实体门店'
         AND freeze_server_id is not null
     ) service_obj
