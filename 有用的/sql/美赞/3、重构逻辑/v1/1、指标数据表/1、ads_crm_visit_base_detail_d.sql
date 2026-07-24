@@ -67,7 +67,7 @@ detail as (
         FROM visit
         WHERE substr(visit_time, 1, 7) = '${v_opt_month}'
     ) visit
-    LEFT JOIN (
+    INNER JOIN (
         SELECT *
         FROM service_obj
         WHERE service_obj_type != 1 OR (store_class_name = '实体门店' AND status = 1)  --门店仅正常营业的实体门店，服务商不用
@@ -191,7 +191,7 @@ detail as (
         AND visit_mode = 1
         AND user_id = freeze_server_id --所有人拜访小记
     ) visit ON service_obj.service_obj_id = visit.service_obj_id
-    LEFT JOIN user ON service_obj.freeze_server_id = user.user_id
+    INNER JOIN user ON service_obj.freeze_server_id = user.user_id
     GROUP BY service_obj.freeze_server_id,
              service_obj.service_obj_id,
              user.job_name,
@@ -212,7 +212,7 @@ detail as (
         FROM visit
         WHERE substr(visit_time, 1, 7) = '${v_opt_month}'
     ) visit
-    LEFT JOIN (
+    INNER JOIN (
         SELECT *
         FROM service_obj
         WHERE service_obj_type != 1 OR (store_class_name = '实体门店' AND status = 1)  --门店仅正常营业的实体门店，服务商不用
@@ -278,7 +278,7 @@ detail as (
         AND visit_mode = 1
         AND user_id = freeze_server_id --所有人拜访小记
     ) visit ON service_obj.service_obj_id = visit.service_obj_id
-    LEFT JOIN user ON service_obj.freeze_server_id = user.user_id
+    INNER JOIN user ON service_obj.freeze_server_id = user.user_id
     GROUP BY service_obj.freeze_server_id,
              service_obj.service_obj_id,
              user.job_name,
