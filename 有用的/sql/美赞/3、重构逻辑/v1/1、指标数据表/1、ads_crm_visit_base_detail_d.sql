@@ -17,6 +17,7 @@ with service_obj as (
     FROM prod_mdson.ads_crm_visit_service_obj_d
     WHERE dayid = '${v_date}'
     AND if_virtual = 0  --过滤虚拟门店
+    AND INSTR(service_obj_name,'测试') = 0 --过滤测试门店
 ),
 
 --人员信息
@@ -304,7 +305,6 @@ mid as (
     FROM detail
     LEFT JOIN service_obj ON detail.service_obj_id = service_obj.service_obj_id
     LEFT JOIN workday ON detail.user_id = workday.user_id
-    INNER JOIN user ON detail.user_id = user.user_id
 )
 
 INSERT OVERWRITE TABLE ads_crm_visit_base_detail_d PARTITION (dayid = '${v_date}')
