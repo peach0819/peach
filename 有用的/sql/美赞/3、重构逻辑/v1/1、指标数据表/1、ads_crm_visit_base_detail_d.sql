@@ -191,7 +191,7 @@ detail as (
         AND visit_mode = 1
         AND user_id = freeze_server_id --所有人拜访小记
     ) visit ON service_obj.service_obj_id = visit.service_obj_id
-    INNER JOIN user ON service_obj.freeze_server_id = user.user_id
+    LEFT JOIN user ON service_obj.freeze_server_id = user.user_id
     GROUP BY service_obj.freeze_server_id,
              service_obj.service_obj_id,
              user.job_name,
@@ -278,7 +278,7 @@ detail as (
         AND visit_mode = 1
         AND user_id = freeze_server_id --所有人拜访小记
     ) visit ON service_obj.service_obj_id = visit.service_obj_id
-    INNER JOIN user ON service_obj.freeze_server_id = user.user_id
+    LEFT JOIN user ON service_obj.freeze_server_id = user.user_id
     GROUP BY service_obj.freeze_server_id,
              service_obj.service_obj_id,
              user.job_name,
@@ -304,6 +304,7 @@ mid as (
     FROM detail
     LEFT JOIN service_obj ON detail.service_obj_id = service_obj.service_obj_id
     LEFT JOIN workday ON detail.user_id = workday.user_id
+    INNER JOIN user ON detail.user_id = user.user_id
 )
 
 INSERT OVERWRITE TABLE ads_crm_visit_base_detail_d PARTITION (dayid = '${v_date}')
