@@ -27,7 +27,7 @@ with base as (
            valid_visit_m as indicator,
            if_visit_qualified as reach,
            visit_target as target
-    FROM prod_mdson.ads_mdson_user_cur_month_detail_d
+    FROM prod_mdson.ads_mdson_user_cur_month_detail_d_v2
     WHERE dayid = '${v_date}'
 ),
 
@@ -35,7 +35,7 @@ visit_total as (
     SELECT data_month,
            user_id,
            if_visit_qualified_month_1 as month_visit_reach_rate
-    FROM prod_mdson.ads_mdson_user_new_visit_summary_data_d
+    FROM prod_mdson.ads_mdson_user_new_visit_summary_data_d_v2
     WHERE dayid = '${v_date}'
     AND if_visit_qualified_month_1 is not null
 )
