@@ -315,6 +315,6 @@ SELECT indicator_code,
        service_obj_name,
        indicator,
        target,
-       if(indicator/target >= time_progress, '达标', '不达标') as reach
+       if(indicator/target >= time_progress, '达标', '未达标') as reach
 FROM mid
 WHERE target > 0
