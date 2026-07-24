@@ -59,7 +59,7 @@ detail as (
     SELECT 'month_visit_freq_reach_rate' as indicator_code,
            '否' as is_service_obj_indicator,
            visit.user_id as user_id,
-           service_obj.service_obj_id,
+           visit.service_obj_id,
            count(visit.id) as indicator,
            null as target
     FROM (
@@ -74,7 +74,7 @@ detail as (
         WHERE service_obj_type != 1 OR (store_class_name = '实体门店' AND status = 1)  --门店仅正常营业的实体门店，服务商不用
     ) service_obj ON service_obj.service_obj_id = visit.service_obj_id
     GROUP BY visit.user_id,
-             service_obj.service_obj_id
+             visit.service_obj_id
 
     UNION ALL
 
@@ -205,7 +205,7 @@ detail as (
     SELECT 'month_shop_visit_reach_rate' as indicator_code,
            '否' as is_service_obj_indicator,
            visit.user_id as user_id,
-           service_obj.service_obj_id,
+           visit.service_obj_id,
            count(visit.id) as indicator,
            null as target
     FROM (
@@ -220,7 +220,7 @@ detail as (
         WHERE service_obj_type != 1 OR (store_class_name = '实体门店' AND status = 1)  --门店仅正常营业的实体门店，服务商不用
     ) service_obj ON service_obj.service_obj_id = visit.service_obj_id
     GROUP BY visit.user_id,
-             service_obj.service_obj_id
+             visit.service_obj_id
 
     UNION ALL
 
