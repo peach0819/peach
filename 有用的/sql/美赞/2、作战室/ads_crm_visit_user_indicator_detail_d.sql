@@ -1,19 +1,7 @@
 with base as (
     SELECT data_month,
            user_id,
-           case indicator_id when 'month_fws_visit_valid_cnt' then 'month_fws_visit_valid_rate'
-                             when 'month_gt_shop_visit_valid_cnt' then 'month_gt_shop_visit_valid_rate'
-                             when 'month_nka_nc_visit_valid_cnt' then 'month_nka_nc_visit_valid_rate'
-                             when 'month_rka_nc_visit_valid_cnt' then 'month_rka_nc_visit_valid_rate'
-                             when 'month_shop_visit_valid_cnt' then 'month_shop_visit_valid_rate'
-                             when 'month_visit_valid_cnt' then 'month_visit_freq_valid_rate'
-                             when 'quar_fws_visit_valid_cnt' then 'quar_fws_visit_valid_rate'
-                             when 'quar_gt_shop_visit_valid_cnt' then 'quar_gt_shop_visit_valid_rate'
-                             when 'month_gt_hospital_shop_visit_valid_cnt' then 'month_gt_hospital_shop_visit_valid_rate'
-                             when 'quar_gt_hospital_shop_visit_valid_cnt' then 'quar_gt_hospital_shop_visit_valid_rate'
-                             when 'month_hospital_visit_valid_cnt' then 'month_hospital_visit_valid_rate'
-
-                             when 'month_visit_valid_cnt_1' then 'month_visit_freq_reach_rate'
+           case indicator_id when 'month_visit_valid_cnt_1' then 'month_visit_freq_reach_rate'
 	                         when 'month_nc_shop_visit_valid_cnt' then 'month_nc_visit_reach_rate'
 	                         when 'month_fws_visit_valid_cnt_1' then 'month_fws_visit_cover_rate'
 	                         when 'quar_fws_visit_valid_cnt_1' then 'quarter_fws_visit_cover_rate'
@@ -29,6 +17,7 @@ with base as (
            visit_target as target
     FROM prod_mdson.ads_mdson_user_cur_month_detail_d_v2
     WHERE dayid = '${v_date}'
+    AND data_month = '${v_opt_month}'
 ),
 
 visit_total as (
@@ -38,6 +27,7 @@ visit_total as (
     FROM prod_mdson.ads_mdson_user_new_visit_summary_data_d_v2
     WHERE dayid = '${v_date}'
     AND if_visit_qualified_month_1 is not null
+    AND data_month = '${v_opt_month}'
 )
 
 INSERT OVERWRITE TABLE ads_crm_visit_user_indicator_detail_d PARTITION (dayid='${v_date}')
@@ -66,3 +56,4 @@ SELECT data_month,
            'target', target
        )) as biz_value
 FROM base
+WHERE indicator_code is not null
