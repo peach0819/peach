@@ -3,7 +3,6 @@ WITH user as (
     SELECT user_id
     FROM prod_mdson.dim_user_d
     WHERE dayid = '${v_date}'
-    AND user_status = 1 --启用
 ),
 
 data_month as (
