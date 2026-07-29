@@ -105,6 +105,7 @@ indicator as (
                1 as join_tag
         FROM prod_mdson.ads_mdson_user_new_visit_summary_data_d_v2
         WHERE dayid = '${v_date}'
+        AND data_month = '${v_opt_month}'
     ) d
     INNER JOIN user ON d.user_id = user.user_id
     LEFT JOIN (
