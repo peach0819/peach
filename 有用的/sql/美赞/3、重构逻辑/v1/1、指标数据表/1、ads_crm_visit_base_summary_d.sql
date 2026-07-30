@@ -42,7 +42,7 @@ target as (
     SELECT user.user_id,
 
            --门店拜访总频次
-           nvl(round(nvl(white_list.change_target, target_content.indicator_value) * workday.month_discount_rate, 0), 0) as month_visit_target,
+           round(nvl(white_list.change_target, target_content.indicator_value) * workday.month_discount_rate, 0) as month_visit_target,
 
            --门店拜访总门店数
            nvl(white_list1.change_target, 40) * workday.month_discount_rate as month_visit_obj_target
