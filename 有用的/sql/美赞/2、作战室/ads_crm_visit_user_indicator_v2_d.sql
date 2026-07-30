@@ -12,7 +12,7 @@ display_indicator as (
            1 as join_tag
     FROM (
         SELECT indicator_code,
-               if('month_visit_reach_rate' == indicator_code, 0, 1) as need_single,  --除了当月人员拜访达标率，别的都需要个人的tab
+               if('month_visit_reach_rate' = indicator_code, 0, 1) as need_single,  --除了当月人员拜访达标率，别的都需要个人的tab
                if(indicator_code like '%_my_%', 0, 1) as need_total   --除了个人指标，别的都需要汇总
         FROM prod_mdson.dwd_crm_visit_indicator_d
         WHERE dayid = '${v_date}'
