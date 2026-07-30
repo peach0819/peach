@@ -6,7 +6,7 @@ WITH user as (
            job_name,
            channel_id,
            channel_name,
-           CASE WHEN instr(empno, '-') > 0 THEN split(empno, '-')[1] ELSE empno,
+           CASE WHEN instr(empno, '-') > 0 THEN split(empno, '-')[1] ELSE empno END as empno,
            substr(nvl(join_time, create_time), 1, 7) as join_month
     FROM prod_mdson.dim_user_d
     WHERE dayid = '${v_date}'
