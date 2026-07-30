@@ -11,24 +11,27 @@ display_indicator as (
            concat_ws(',', collect_list(if(need_total = 1, indicator_code, null))) as total_indicator,
            1 as join_tag
     FROM (
-        SELECT indicator_code,
-               if('month_visit_reach_rate' = indicator_code, 0, 1) as need_single,  --除了当月人员拜访达标率，别的都需要个人的tab
-               if(indicator_code like '%_my_%', 0, 1) as need_total   --除了个人指标，别的都需要汇总
-        FROM prod_mdson.dwd_crm_visit_indicator_d
-        WHERE dayid = '${v_date}'
-        AND indicator_code IN (
-            'month_visit_my_reach',
-            'quarter_visit_my_reach',
-            'month_visit_reach_rate',
-            'month_visit_freq_reach_rate',
-            'month_nc_visit_reach_rate',
-            'month_fws_visit_cover_rate',
-            'quarter_fws_visit_cover_rate',
-            'month_star_visit_reach_rate',
-            'month_shop_visit_reach_rate',
-            'quarter_all_big_visit_cover_rate',
-            'month_hospital_visit_reach_rate'
-        )
+        SELECT 'month_visit_my_reach' as indicator_code, 1 as need_single, 0 as need_total
+        UNION ALL
+        SELECT 'quarter_visit_my_reach' as indicator_code, 1 as need_single, 0 as need_total
+        UNION ALL
+        SELECT 'month_visit_reach_rate' as indicator_code, 0 as need_single, 1 as need_total
+        UNION ALL
+        SELECT 'month_visit_freq_reach_rate' as indicator_code, 1 as need_single, 1 as need_total
+        UNION ALL
+        SELECT 'month_nc_visit_reach_rate' as indicator_code, 1 as need_single, 1 as need_total
+        UNION ALL
+        SELECT 'month_fws_visit_cover_rate' as indicator_code, 1 as need_single, 1 as need_total
+        UNION ALL
+        SELECT 'quarter_fws_visit_cover_rate' as indicator_code, 1 as need_single, 1 as need_total
+        UNION ALL
+        SELECT 'month_star_visit_reach_rate' as indicator_code, 1 as need_single, 1 as need_total
+        UNION ALL
+        SELECT 'month_shop_visit_reach_rate' as indicator_code, 1 as need_single, 1 as need_total
+        UNION ALL
+        SELECT 'quarter_all_big_visit_cover_rate' as indicator_code, 1 as need_single, 1 as need_total
+        UNION ALL
+        SELECT 'month_hospital_visit_reach_rate' as indicator_code, 1 as need_single, 1 as need_total
     ) t
 ),
 
