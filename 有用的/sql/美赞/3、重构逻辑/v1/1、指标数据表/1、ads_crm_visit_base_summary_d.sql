@@ -124,8 +124,8 @@ SELECT user.user_id,
            detail.biz_value,
            to_json(named_struct(
                'dayid', '${v_date}',
-               'month_time_progress', 100 * DAYOFMONTH(TO_DATE('${v_date}', 'yyyymmdd')) / DAYOFMONTH(LAST_DAY(TO_DATE('${v_date}', 'yyyymmdd'))),
-               'quarter_time_progress', 100 * (DATEDIFF(TO_DATE('${v_date}', 'yyyymmdd'), DATETRUNC(TO_DATE('${v_date}', 'yyyymmdd'), 'quarter')) + 1) / DATEDIFF(DATEADD(DATETRUNC(TO_DATE('${v_date}', 'yyyymmdd'), 'quarter'), 3, 'mm'), DATETRUNC(TO_DATE('${v_date}', 'yyyymmdd'), 'quarter'), 'dd'),
+               'month_time_progress', round(100 * DAYOFMONTH(TO_DATE('${v_date}', 'yyyymmdd')) / DAYOFMONTH(LAST_DAY(TO_DATE('${v_date}', 'yyyymmdd'))), 0),
+               'quarter_time_progress', round(100 * (DATEDIFF(TO_DATE('${v_date}', 'yyyymmdd'), DATETRUNC(TO_DATE('${v_date}', 'yyyymmdd'), 'quarter')) + 1) / DATEDIFF(DATEADD(DATETRUNC(TO_DATE('${v_date}', 'yyyymmdd'), 'quarter'), 3, 'mm'), DATETRUNC(TO_DATE('${v_date}', 'yyyymmdd'), 'quarter'), 'dd'), 0),
                'job_name', if(user.user_real_name = '胡志伟', '城市群负责人', user.job_name),
                'join_month', join_month,  --入职月份
                'month_actual_day_num', workday.month_actual_day_num,  --本月实际工作日
