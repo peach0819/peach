@@ -33,10 +33,10 @@ star as (
 
 --门店类型
 sfa_shop as (
-    SELECT storecode,
-           storeclassname
-    FROM prod_mdson.dwd_sfa_shop_d
-    WHERE dayid = 'cur'
+    SELECT service_obj_id,
+           store_class_name
+    FROM prod_mdson.dim_service_obj_d
+    WHERE dayid = '${v_date}'
 ),
 
 --门店白名单目标值
@@ -83,7 +83,7 @@ SELECT base.service_obj_id,
        base.service_obj_type,
        base.channel_type,
        base.status,
-       sfa_shop.storeclassname as store_class_name,
+       sfa_shop.store_class_name,
        nvl(star.star, 0) as star,
        nvl(star.is_star, 0) as is_star,
        base.is_hospital,
@@ -97,7 +97,7 @@ SELECT base.service_obj_id,
        freeze_server.user_id as freeze_server_id,
        kn_server.user_id as kn_server_id
 FROM base
-LEFT JOIN sfa_shop ON base.out_service_obj_id = sfa_shop.storecode
+LEFT JOIN sfa_shop ON base.out_service_obj_id = sfa_shop.service_obj_id
 LEFT JOIN star ON star.out_service_obj_id = base.out_service_obj_id
 LEFT JOIN nc_shop ON nc_shop.service_obj_id = base.service_obj_id
 LEFT JOIN target month_target ON month_target.is_month_target = 1 AND month_target.store_code = base.out_service_obj_id
