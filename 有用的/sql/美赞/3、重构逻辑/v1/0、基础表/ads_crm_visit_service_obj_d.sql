@@ -97,7 +97,7 @@ SELECT base.service_obj_id,
        freeze_server.user_id as freeze_server_id,
        kn_server.user_id as kn_server_id
 FROM base
-LEFT JOIN sfa_shop ON base.out_service_obj_id = sfa_shop.service_obj_id
+LEFT JOIN sfa_shop ON base.service_obj_id = sfa_shop.service_obj_id
 LEFT JOIN star ON star.out_service_obj_id = base.out_service_obj_id
 LEFT JOIN nc_shop ON nc_shop.service_obj_id = base.service_obj_id
 LEFT JOIN target month_target ON month_target.is_month_target = 1 AND month_target.store_code = base.out_service_obj_id
