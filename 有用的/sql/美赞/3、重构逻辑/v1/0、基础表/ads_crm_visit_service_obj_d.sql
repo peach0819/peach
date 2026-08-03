@@ -39,14 +39,16 @@ sfa_shop as (
     WHERE dayid = '${v_date}'
 ),
 
---门店白名单目标值
+--门店白名单目标值, 如果本月没有，就延用最近一份
 target as (
     SELECT store_code,
            if(change_indicator = '月度门店目标拜访频次', 1, 0) as is_month_target,
            max(change_target) as change_target
-    FROM prod_mdson_dev.inf_mdson_white_list_store
-    WHERE year_month = '${v_cur_month}'
-    AND change_indicator IN ('月度门店目标拜访频次', '季度门店目标拜访频次')
+    FROM prod_mdson_dev.inf_mdson_white_list_store s
+    INNER JOIN (
+        SELECT max(year_month) as year_month FROM prod_mdson_dev.inf_mdson_white_list_store WHERE year_month <= '${v_cur_month}'
+    ) t ON s.year_month = t.year_month
+    WHERE change_indicator IN ('月度门店目标拜访频次', '季度门店目标拜访频次')
     group by store_code,
              change_indicator
 ),
