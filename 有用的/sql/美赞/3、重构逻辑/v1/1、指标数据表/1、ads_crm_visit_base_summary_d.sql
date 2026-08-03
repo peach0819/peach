@@ -37,6 +37,17 @@ user_channel_cnt as (
     AND channel_type != 'GT'
 ),
 
+--白名单
+white_list_base as (
+    SELECT empno,
+           change_indicator,
+           change_target
+    FROM prod_mdson_dev.inf_mdson_white_list_empno e
+    INNER JOIN (
+        SELECT max(year_month) as year_month FROM prod_mdson_dev.inf_mdson_white_list_empno WHERE year_month <= '${v_cur_month}'
+    ) t ON e.year_month = t.year_month
+),
+
 --当月目标拜访店次
 target as (
     SELECT user.user_id,
@@ -77,16 +88,14 @@ target as (
     LEFT JOIN (
         SELECT empno,
                change_target
-        FROM prod_mdson_dev.inf_mdson_white_list_empno
+        FROM white_list_base
         WHERE change_indicator = '每月门店/经销商/客户/服务商拜访总频次'
-        AND year_month = '${v_cur_month}'
     ) white_list ON user.empno = white_list.empno
     LEFT JOIN (
         SELECT empno,
                change_target
-        FROM prod_mdson_dev.inf_mdson_white_list_empno
+        FROM white_list_base
         WHERE change_indicator = '每月拜访不重复门店/客户/经销商'
-        AND year_month = '${v_cur_month}'
     ) white_list1 ON user.empno = white_list1.empno
 ),
 
