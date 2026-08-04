@@ -23,7 +23,7 @@ indicator as (
 
 base_user as (
     SELECT user_id,
-           job_id,
+           case when user_id = '6f0dfa170c9049da98e884a5f6591003' then 28 else job_id end as job_id, --胡志伟写死城市群负责人
            channel_id
     FROM prod_mdson.dwd_hpc_user_admin_d
     WHERE pt = '${v_date}'
