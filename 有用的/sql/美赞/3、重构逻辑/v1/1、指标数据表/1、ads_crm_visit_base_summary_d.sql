@@ -6,7 +6,8 @@ WITH user as (
            job_name,
            channel_id,
            channel_name,
-           CASE WHEN instr(empno, '-') > 0 THEN split(empno, '-')[1] ELSE empno END as empno,
+           empno,
+           CASE WHEN instr(empno, '-') > 0 THEN split(empno, '-')[1] ELSE empno END as split_empno,
            substr(nvl(join_time, create_time), 1, 7) as join_month
     FROM prod_mdson.dim_user_d
     WHERE dayid = '${v_date}'
@@ -46,6 +47,17 @@ white_list_base as (
     INNER JOIN (
         SELECT max(year_month) as year_month FROM prod_mdson_dev.inf_mdson_white_list_empno WHERE year_month <= '${v_cur_month}'
     ) t ON e.year_month = t.year_month
+),
+
+--人员辖区
+area as (
+    SELECT user_code as empno,
+           CASE WHEN area_name like 'GT%' then 'GT'
+                WHEN area_name like 'COT%' then 'COT'
+                WHEN area_name like 'KA%' then 'KA'
+                ELSE '全渠道' END as job_channel
+    FROM prod_mdson.ads_sale_area_d
+    WHERE dayid = '${v_date}'
 ),
 
 --当月目标拜访店次
@@ -90,13 +102,13 @@ target as (
                change_target
         FROM white_list_base
         WHERE change_indicator = '每月门店/经销商/客户/服务商拜访总频次'
-    ) white_list ON user.empno = white_list.empno
+    ) white_list ON user.split_empno = white_list.empno
     LEFT JOIN (
         SELECT empno,
                change_target
         FROM white_list_base
         WHERE change_indicator = '每月拜访不重复门店/客户/经销商'
-    ) white_list1 ON user.empno = white_list1.empno
+    ) white_list1 ON user.split_empno = white_list1.empno
 ),
 
 --指标明细数据
@@ -142,7 +154,8 @@ SELECT user.user_id,
                'month_visit_target', target.month_visit_target,         --当月目标拜访次数
                'month_visit_obj_target', target.month_visit_obj_target,   --当月目标拜访门店数
                'is_many_channel_type', if(user_channel_cnt.user_id is not null, 1, 0), --是否多渠道服务人员
-               'visible', visible.visible_config
+               'visible', visible.visible_config,
+               'job_channel', area.job_channel
            ))
        ) as biz_value
 FROM user
@@ -151,3 +164,4 @@ LEFT JOIN workday ON user.user_id = workday.user_id
 LEFT JOIN target ON user.user_id = target.user_id
 LEFT JOIN user_channel_cnt ON user.user_id = user_channel_cnt.user_id
 LEFT JOIN visible ON user.user_id = visible.user_id
+LEFT JOIN area ON user.empno = area.empno
