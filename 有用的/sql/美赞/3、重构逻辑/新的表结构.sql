@@ -45,8 +45,6 @@ CREATE TABLE IF NOT EXISTS ads_crm_visit_record_d (
 )
 PARTITIONED BY (dayid STRING);
 
-ads_crm_visit_base_detail_d
-
 CREATE TABLE IF NOT EXISTS ads_crm_visit_base_detail_d (
 	indicator_code STRING COMMENT '指标code',
 	user_id STRING COMMENT '员工ID',
