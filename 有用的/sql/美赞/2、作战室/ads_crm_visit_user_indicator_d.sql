@@ -36,7 +36,7 @@ display_indicator as (
 ),
 
 indicator as (
-    SELECT data_month,
+    SELECT '${v_opt_month}' as data_month,
            d.user_id,
            visible.visible_config,
 
@@ -44,68 +44,13 @@ indicator as (
            display_indicator.single_indicator,
            display_indicator.total_indicator,
 
-           to_json(named_struct(
-               'month_visit_my_reach', to_json(named_struct('indicator', if_visit_qualified_month_1)),
-               'quarter_visit_my_reach', to_json(named_struct('indicator', if_visit_qualified_quar_1)),
-               'month_visit_reach_rate', to_json(named_struct(
-                                                    'denominator', 1,
-                                                    'reach', if_visit_qualified_month_1
-                                               )),
-               'month_visit_freq_reach_rate', to_json(named_struct(
-                                                    'numerator', month_visit_valid_cnt_1,
-                                                    'denominator', visit_m_target_1,
-                                                    'indicator', month_visit_valid_rate_1 * 100,
-                                                    'reach', month_visit_valid_rate_qualified_1
-                                              )),
-               'month_nc_visit_reach_rate', to_json(named_struct(
-                                                    'numerator', month_nc_shop_visit_valid_cnt,
-                                                    'denominator', month_nc_shop_server_obj_m,
-                                                    'indicator', month_nc_shop_visit_valid_rate * 100,
-                                                    'reach', month_nc_shop_visit_valid_rate_qualified
-                                              )),
-               'month_fws_visit_cover_rate', to_json(named_struct(
-                                                    'numerator', month_fws_visit_valid_cnt_1,
-                                                    'denominator', month_fws_sever_obj_m_1,
-                                                    'indicator', month_fws_visit_valid_rate_1 * 100,
-                                                    'reach', month_fws_visit_valid_rate_qualified_1
-                                             )),
-               'quarter_fws_visit_cover_rate', to_json(named_struct(
-                                                    'numerator', quar_fws_visit_valid_cnt_1,
-                                                    'denominator', quar_fws_sever_obj_m_1,
-                                                    'indicator', quar_fws_visit_valid_rate_1 * 100,
-                                                    'reach', quar_fws_visit_valid_rate_qualified_1
-                                               )),
-               'month_star_visit_reach_rate', to_json(named_struct(
-                                                    'numerator', month_star_shop_visit_valid_cnt,
-                                                    'denominator', month_star_shop_server_obj_m,
-                                                    'indicator', month_star_shop_visit_valid_rate * 100,
-                                                    'reach', month_star_shop_visit_valid_rate_qualified
-                                              )),
-               'month_shop_visit_reach_rate', to_json(named_struct(
-                                                    'numerator', month_shop_visit_valid_cnt_1,
-                                                    'denominator', month_sever_obj_m_1,
-                                                    'indicator', month_shop_visit_valid_rate_1 * 100,
-                                                    'reach', month_shop_visit_valid_rate_qualified_1
-                                              )),
-               'quarter_all_big_visit_cover_rate', to_json(named_struct(
-                                                     'numerator', quar_key_shop_visit_valid_cnt,
-                                                     'denominator', quar_key_shop_server_obj_m,
-                                                     'indicator', quar_key_shop_visit_valid_rate * 100,
-                                                     'reach', quar_key_shop_visit_valid_rate_qualified
-                                                 )),
-               'month_hospital_visit_reach_rate', to_json(named_struct(
-                                                     'numerator', month_hospital_visit_valid_cnt_1,
-                                                     'denominator', month_hospital_sever_obj_m_1,
-                                                     'indicator', month_hospital_visit_valid_rate_1 * 100,
-                                                     'reach', month_hospital_visit_valid_rate_qualified_1
-                                                  ))
-           )) as biz_value
+           --指标值
+           d.biz_value
     FROM (
         SELECT *,
                1 as join_tag
-        FROM prod_mdson.ads_mdson_user_new_visit_summary_data_d_v2
+        FROM prod_mdson.ads_crm_visit_base_summary_d
         WHERE dayid = '${v_date}'
-        AND data_month = '${v_opt_month}'
     ) d
     INNER JOIN user ON d.user_id = user.user_id
     LEFT JOIN (
