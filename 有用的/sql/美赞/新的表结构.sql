@@ -67,3 +67,11 @@ CREATE TABLE IF NOT EXISTS ads_crm_visit_base_summary_d (
     biz_value STRING COMMENT '业务值'
 )
 PARTITIONED BY (dayid STRING);
+
+
+--星级门店标签表
+CREATE TABLE IF NOT EXISTS ads_crm_star_shop_d (
+    service_obj_id STRING COMMENT '服务对象ID',
+    star INT COMMENT '门店星级'
+)
+PARTITIONED BY (dayid STRING);
