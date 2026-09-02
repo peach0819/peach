@@ -1,5 +1,4 @@
 --@exclude_input=prod_mdson_dev.inf_mdson_white_list_store
---@exclude_input=prod_mdson.inf_upload_shop_star
 with base as (
     SELECT service_obj_id,
            service_obj_name,
@@ -25,10 +24,29 @@ nc_shop as (
 
 --门店星级
 star as (
-    SELECT out_service_obj_id,
+    SELECT service_obj_id,
            star,
-           if(star > 0, 1, 0) as is_star
-    FROM prod_mdson.inf_upload_shop_star
+           1 as is_star
+    FROM prod_mdson.ads_crm_star_shop_d
+    WHERE dayid = '${v_date}'
+),
+
+--季度星级门店
+quarter_star as (
+    SELECT distinct service_obj_id,
+                    1 as is_star
+    FROM prod_mdson.ads_crm_star_shop_d
+    WHERE dayid IN (
+        SELECT data_month
+        FROM (
+            SELECT TO_CHAR(DATE_ADD(add_months(DATETRUNC(TO_DATE('${v_date}', 'yyyymmdd'), 'quarter'), 1), -1), 'yyyymmdd') as data_month
+            UNION
+            SELECT TO_CHAR(DATE_ADD(add_months(DATETRUNC(TO_DATE('${v_date}', 'yyyymmdd'), 'quarter'), 2), -1), 'yyyymmdd') as data_month
+            UNION
+            SELECT '${v_date}' as data_month
+        ) t
+        WHERE data_month <= '${v_date}'
+    )
 ),
 
 --门店类型
@@ -97,10 +115,12 @@ SELECT base.service_obj_id,
            'quarter', quarter_target.change_target
        )) as target,
        freeze_server.user_id as freeze_server_id,
-       kn_server.user_id as kn_server_id
+       kn_server.user_id as kn_server_id,
+       nvl(quarter_star.is_star, 0) as is_star_quarter
 FROM base
 LEFT JOIN sfa_shop ON base.service_obj_id = sfa_shop.service_obj_id
-LEFT JOIN star ON star.out_service_obj_id = base.out_service_obj_id
+LEFT JOIN star ON star.service_obj_id = base.service_obj_id
+LEFT JOIN quarter_star ON quarter_star.service_obj_id = base.service_obj_id
 LEFT JOIN nc_shop ON nc_shop.service_obj_id = base.service_obj_id
 LEFT JOIN target month_target ON month_target.is_month_target = 1 AND month_target.store_code = base.out_service_obj_id
 LEFT JOIN target quarter_target ON quarter_target.is_month_target = 0 AND quarter_target.store_code = base.out_service_obj_id
