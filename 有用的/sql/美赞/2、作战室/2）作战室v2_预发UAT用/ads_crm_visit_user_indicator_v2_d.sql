@@ -49,14 +49,14 @@ indicator as (
     FROM (
         SELECT *,
                1 as join_tag
-        FROM prod_mdson.ads_crm_visit_base_summary_d
+        FROM prod_mdson.ads_crm_visit_base_summary_v2_d
         WHERE dayid = '${v_date}'
     ) d
     INNER JOIN user ON d.user_id = user.user_id
     LEFT JOIN (
         SELECT user_id,
                visible_config
-        FROM prod_mdson.ads_crm_visit_user_indicator_visible_d
+        FROM prod_mdson.ads_crm_visit_user_indicator_visible_v2_d
         WHERE dayid = '${v_date}'
     ) visible ON visible.user_id = user.user_id
     LEFT JOIN display_indicator ON display_indicator.join_tag = d.join_tag

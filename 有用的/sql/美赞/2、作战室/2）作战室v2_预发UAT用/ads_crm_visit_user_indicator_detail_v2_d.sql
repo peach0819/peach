@@ -8,7 +8,7 @@ SELECT '${v_opt_month}' as data_month,
        to_json(named_struct(
            'reach', get_json_object(get_json_object(biz_value, '$.month_visit_my_reach'), '$.indicator')
        )) as biz_value
-FROM prod_mdson.ads_crm_visit_base_summary_d
+FROM prod_mdson.ads_crm_visit_base_summary_v2_d
 WHERE dayid = '${v_date}'
 AND get_json_object(biz_value, '$.month_visit_my_reach') is not null
 
@@ -25,5 +25,5 @@ SELECT '${v_opt_month}' as data_month,
            'reach', reach,
            'target', cast(target as int)
        )) as biz_value
-FROM prod_mdson.ads_crm_visit_base_detail_d
+FROM prod_mdson.ads_crm_visit_base_detail_v2_d
 WHERE dayid = '${v_date}'
