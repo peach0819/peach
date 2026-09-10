@@ -60,6 +60,7 @@ sfa_shop as (
 --门店白名单目标值, 如果本月没有，就延用最近一份
 target as (
     SELECT store_code,
+           empno,
            if(change_indicator = '月度门店目标拜访频次', 1, 0) as is_month_target,
            max(change_target) as change_target
     FROM prod_mdson_dev.inf_mdson_white_list_store s
@@ -68,6 +69,7 @@ target as (
     ) t ON s.year_month = t.year_month
     WHERE change_indicator IN ('月度门店目标拜访频次', '季度门店目标拜访频次')
     group by store_code,
+             empno,
              change_indicator
 ),
 
@@ -75,7 +77,8 @@ target as (
 server as (
     SELECT s.service_obj_id,
            s.is_kn,
-           user.user_id
+           user.user_id,
+           CASE WHEN instr(user.empno, '-') > 0 THEN split(user.empno, '-')[1] ELSE user.empno END as empno
     FROM (
         SELECT store_code as service_obj_id,
                if(dayid = '${v_date}', 1, 0) as is_kn,
@@ -122,7 +125,7 @@ LEFT JOIN sfa_shop ON base.service_obj_id = sfa_shop.service_obj_id
 LEFT JOIN star ON star.service_obj_id = base.service_obj_id
 LEFT JOIN quarter_star ON quarter_star.service_obj_id = base.service_obj_id
 LEFT JOIN nc_shop ON nc_shop.service_obj_id = base.service_obj_id
-LEFT JOIN target month_target ON month_target.is_month_target = 1 AND month_target.store_code = base.out_service_obj_id
-LEFT JOIN target quarter_target ON quarter_target.is_month_target = 0 AND quarter_target.store_code = base.out_service_obj_id
 LEFT JOIN server freeze_server ON freeze_server.is_kn = 0 AND base.service_obj_id = freeze_server.service_obj_id
 LEFT JOIN server kn_server ON kn_server.is_kn = 1 AND base.service_obj_id = kn_server.service_obj_id
+LEFT JOIN target month_target ON month_target.is_month_target = 1 AND month_target.store_code = base.out_service_obj_id AND freeze_server.empno = month_target.empno
+LEFT JOIN target quarter_target ON quarter_target.is_month_target = 0 AND quarter_target.store_code = base.out_service_obj_id AND freeze_server.empno = quarter_target.empno
