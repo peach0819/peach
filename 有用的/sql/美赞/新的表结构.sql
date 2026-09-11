@@ -75,3 +75,20 @@ CREATE TABLE IF NOT EXISTS ads_crm_star_shop_d (
     star INT COMMENT '门店星级'
 )
 PARTITIONED BY (dayid STRING);
+
+--人员门店目标表
+CREATE TABLE IF NOT EXISTS ads_crm_visit_user_shop_target_d(
+    user_id STRING COMMENT '用户id',
+    service_obj_id STRING COMMENT '服务对象ID',
+    month_target STRING COMMENT '月度目标值',
+    quarter_target STRING COMMENT '季度目标值'
+)
+PARTITIONED BY (dayid STRING);
+
+CREATE TABLE IF NOT EXISTS ads_crm_visit_user_shop_target_v2_d(
+    user_id STRING COMMENT '用户id',
+    service_obj_id STRING COMMENT '服务对象ID',
+    month_target STRING COMMENT '月度目标值',
+    quarter_target STRING COMMENT '季度目标值'
+)
+PARTITIONED BY (dayid STRING);
