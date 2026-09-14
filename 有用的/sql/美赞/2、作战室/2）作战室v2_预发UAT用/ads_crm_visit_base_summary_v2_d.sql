@@ -122,10 +122,22 @@ detail as (
                    'reach_cnt', sum(if(reach = '达标', 1, 0)),
                    'total_cnt', sum(1),
                    'reach_sum', sum(if(reach = '达标', indicator, 0)),
-                   'total_sum', sum(indicator)
+                   'total_sum', sum(indicator),
+                   'nc_or_hospital_cnt', sum(if(obj.is_nc = 1 OR obj.is_hospital = 1, 1, 0)),
+                   'not_nc_or_hospital_cnt', sum(if(obj.is_nc = 0 AND obj.is_hospital = 0, 1, 0)),
+                   '4_5_star_cnt', sum(if(obj.is_star_quarter = 1 AND obj.star_quarter IN (4, 5), 1, 0)),
+                   '1_2_3_star_cnt', sum(if(obj.is_star_quarter = 1 AND obj.star_quarter IN (1, 2, 3), 1, 0))
                )) as biz_value
-        FROM prod_mdson.ads_crm_visit_base_detail_v2_d
-        WHERE dayid = '${v_date}'
+        FROM (
+            SELECT *
+            FROM prod_mdson.ads_crm_visit_base_detail_v2_d
+            WHERE dayid = '${v_date}'
+        ) detail
+        LEFT JOIN (
+            SELECT *
+            FROM prod_mdson.ads_crm_visit_service_obj_d
+            WHERE dayid = '${v_date}'
+        ) obj ON detail.service_obj_id = obj.service_obj_id
         group by user_id,
                  indicator_code
     ) t1
@@ -141,10 +153,11 @@ visible as (
 
 INSERT OVERWRITE TABLE ads_crm_visit_base_summary_v2_d PARTITION (dayid = '${v_date}')
 SELECT user.user_id,
-       prod_mdson.mdson_indicator_aggregate(
+       prod_mdson.mdson_indicator_aggregate_v2(
            detail.biz_value,
            to_json(named_struct(
                'dayid', '${v_date}',
+               'quarter_begin', TO_CHAR(DATETRUNC(TO_DATE('${v_date}', 'yyyymmdd'), 'quarter'), 'yyyymmdd'),
                'month_time_progress', round(100 * DAYOFMONTH(TO_DATE('${v_date}', 'yyyymmdd')) / DAYOFMONTH(LAST_DAY(TO_DATE('${v_date}', 'yyyymmdd'))), 0),
                'quarter_time_progress', round(100 * (DATEDIFF(TO_DATE('${v_date}', 'yyyymmdd'), DATETRUNC(TO_DATE('${v_date}', 'yyyymmdd'), 'quarter')) + 1) / DATEDIFF(DATEADD(DATETRUNC(TO_DATE('${v_date}', 'yyyymmdd'), 'quarter'), 3, 'mm'), DATETRUNC(TO_DATE('${v_date}', 'yyyymmdd'), 'quarter'), 'dd'), 0),
                'job_name', if(user.user_real_name = '胡志伟', '城市群负责人', user.job_name),
