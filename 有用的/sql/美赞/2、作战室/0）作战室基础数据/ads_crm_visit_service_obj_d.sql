@@ -33,8 +33,9 @@ star as (
 
 --季度星级门店
 quarter_star as (
-    SELECT distinct service_obj_id,
-                    1 as is_star
+    SELECT service_obj_id,
+           1 as is_star,
+           max(star) as star
     FROM prod_mdson.ads_crm_star_shop_d
     WHERE dayid IN (
         SELECT data_month
@@ -47,6 +48,7 @@ quarter_star as (
         ) t
         WHERE data_month <= '${v_date}'
     )
+    group by service_obj_id
 ),
 
 --门店类型
@@ -119,7 +121,8 @@ SELECT base.service_obj_id,
        )) as target,
        freeze_server.user_id as freeze_server_id,
        kn_server.user_id as kn_server_id,
-       nvl(quarter_star.is_star, 0) as is_star_quarter
+       nvl(quarter_star.is_star, 0) as is_star_quarter,
+       nvl(quarter_star.star, 0) as star_quarter
 FROM base
 LEFT JOIN sfa_shop ON base.service_obj_id = sfa_shop.service_obj_id
 LEFT JOIN star ON star.service_obj_id = base.service_obj_id
