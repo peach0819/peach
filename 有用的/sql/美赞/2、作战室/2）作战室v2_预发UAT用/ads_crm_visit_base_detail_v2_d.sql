@@ -174,7 +174,7 @@ detail as (
            service_obj.service_obj_id,
            count(visit.id) as indicator,
            case when user.job_name IN ('城市渠道负责人', '城市群负责人') AND service_obj.channel_type IN ('GT')
-                THEN if(service_obj.star = 5, 2, 1)
+                THEN if(service_obj.star IN (4, 5), 1, 0)
                 END as target
     FROM (
         SELECT *
@@ -232,7 +232,7 @@ detail as (
            count(visit.id) as indicator,
            case when user.job_name IN ('城市渠道负责人', '城市群负责人')
                 THEN case when service_obj.channel_type IN ('COT', 'KA') then 2
-                          WHEN service_obj.channel_type IN ('GT') THEN if(service_obj.is_star = 1, 2, 1)
+                          WHEN service_obj.channel_type IN ('GT') THEN 1
                           END
                 END as target
     FROM (
