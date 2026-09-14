@@ -52,9 +52,9 @@ white_list_base as (
 --人员辖区
 area as (
     SELECT user_code as empno,
-           CASE WHEN area_name like 'GT%' then 'GT'
-                WHEN area_name like 'COT%' then 'COT'
-                WHEN area_name like 'KA%' then 'KA'
+           CASE WHEN area_name like '%GT%' then 'GT'
+                WHEN area_name like '%COT%' then 'COT'
+                WHEN area_name like '%KA%' then 'KA'
                 ELSE '全渠道' END as job_channel
     FROM prod_mdson.ads_sale_area_d
     WHERE dayid = '${v_date}'
