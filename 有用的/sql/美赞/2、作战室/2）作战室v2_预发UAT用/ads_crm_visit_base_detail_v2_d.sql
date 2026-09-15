@@ -14,7 +14,8 @@ with service_obj as (
            get_json_object(target, '$.month') as month_change_target,
            get_json_object(target, '$.quarter') as quarter_change_target,
            freeze_server_id,
-           is_star_quarter
+           is_star_quarter,
+           region
     FROM prod_mdson.ads_crm_visit_service_obj_d
     WHERE dayid = '${v_date}'
     AND if_virtual = 0  --过滤虚拟门店
@@ -24,6 +25,7 @@ with service_obj as (
 --人员信息
 user as (
     SELECT user_id,
+           empno,
            job_name
     FROM prod_mdson.dim_user_d
     WHERE dayid = '${v_date}'
@@ -53,6 +55,19 @@ workday as (
     FROM prod_mdson.ads_crm_visit_user_workday_d
     WHERE dayid = '${v_date}'
     AND data_month = '${v_opt_month}'
+),
+
+--人员辖区信息
+area as (
+    SELECT user.user_id,
+           t.region
+    FROM (
+        SELECT user_code as empno,
+               region_name as region
+        FROM prod_mdson.ads_sale_area_d
+        WHERE dayid = '${v_date}'
+    ) t
+    INNER JOIN user ON t.empno = user.empno
 ),
 
 ------------------------------------------------------------------------------指标
@@ -142,7 +157,8 @@ detail as (
 
     UNION ALL
 
-    --当季服务商拜访覆盖率
+    --当季服务商拜访覆盖率 —— 非大区通路发展经理版本
+    --非大区通路发展经理走所有人逻辑
     SELECT 'quarter_fws_visit_cover_rate' as indicator_code,
           '否' as is_service_obj_indicator,
            service_obj.freeze_server_id as user_id,
@@ -162,7 +178,34 @@ detail as (
         WHERE visit_type = 4 --服务商拜访
         AND user_id = freeze_server_id --所有人拜访小记
     ) visit ON service_obj.service_obj_id = visit.service_obj_id
+    INNER JOIN user ON service_obj.freeze_server_id = user.user_id AND user.job_name NOT IN ('大区通路发展经理')
     GROUP BY service_obj.freeze_server_id,
+             service_obj.service_obj_id
+
+    UNION ALL
+
+    --当季服务商拜访覆盖率 —— 大区通路发展经理版本
+    --大区通路发展经理走辖区逻辑
+    SELECT 'quarter_fws_visit_cover_rate' as indicator_code,
+          '否' as is_service_obj_indicator,
+           area.user_id as user_id,
+           service_obj.service_obj_id,
+           count(visit.id) as indicator,
+           null as target
+    FROM (
+        SELECT *
+        FROM service_obj
+        WHERE service_obj_type = 3
+        AND status = 1  --正常营业
+    ) service_obj
+    INNER JOIN area ON service_obj.region = area.region
+    INNER JOIN user ON area.user_id = user.user_id AND user.job_name IN ('大区通路发展经理')
+    LEFT JOIN (
+        SELECT *
+        FROM visit
+        WHERE visit_type = 4 --服务商拜访
+    ) visit ON service_obj.service_obj_id = visit.service_obj_id AND area.user_id = visit.user_id
+    GROUP BY area.user_id,
              service_obj.service_obj_id
 
     UNION ALL
