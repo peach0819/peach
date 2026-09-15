@@ -7,7 +7,8 @@ with base as (
            channel_type,
            if(service_obj_type = 1 AND service_obj_name LIKE '%虚拟门店%', 1, 0) as is_virtual,
            if(get_json_object(extra_json, '$.IsAroundHospital_PGroup') = 'T', 1, 0) as is_hospital,
-           cast(status as bigint) as status
+           cast(status as bigint) as status,
+           region
     FROM prod_mdson.dwd_service_obj_d
     WHERE dayid = '${v_date}'
     AND is_deleted = 0
@@ -122,7 +123,8 @@ SELECT base.service_obj_id,
        freeze_server.user_id as freeze_server_id,
        kn_server.user_id as kn_server_id,
        nvl(quarter_star.is_star, 0) as is_star_quarter,
-       nvl(quarter_star.star, 0) as star_quarter
+       nvl(quarter_star.star, 0) as star_quarter,
+       base.region
 FROM base
 LEFT JOIN sfa_shop ON base.service_obj_id = sfa_shop.service_obj_id
 LEFT JOIN star ON star.service_obj_id = base.service_obj_id
