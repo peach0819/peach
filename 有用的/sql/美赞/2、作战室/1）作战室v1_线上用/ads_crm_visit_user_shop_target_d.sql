@@ -22,6 +22,7 @@ with service_obj as (
 
 user as (
     SELECT user_id,
+           job_id,
            job_name
     FROM prod_mdson.dim_user_d
     WHERE dayid = '${v_date}'
@@ -42,6 +43,7 @@ workday as (
 
 mid as (
     SELECT service_obj.freeze_server_id as user_id,
+           user.job_id,
            service_obj.service_obj_id as service_obj_id,
            service_obj.month_change_target,
            service_obj.quarter_change_target,
@@ -64,6 +66,7 @@ INSERT OVERWRITE TABLE ads_crm_visit_user_shop_target_d PARTITION (dayid = '${v_
 SELECT mid.user_id,
        mid.service_obj_id,
        prod_mdson.mdson_indicator_target(nvl(mid.month_target, 1), mid.month_change_target, workday.discount_rate) as month_target,
-       prod_mdson.mdson_indicator_target(nvl(mid.quarter_target, 1), mid.quarter_change_target, null) as quarter_target
+       prod_mdson.mdson_indicator_target(nvl(mid.quarter_target, 1), mid.quarter_change_target, null) as quarter_target,
+       mid.job_id
 FROM mid
 LEFT JOIN workday ON mid.user_id = workday.user_id
