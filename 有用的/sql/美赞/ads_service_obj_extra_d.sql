@@ -26,8 +26,8 @@ target as (
 
 target_uat as (
     SELECT service_obj_id,
-           map_from_entries(collect_list(if(month_target is not null, NAMED_STRUCT('key', cast(job_id as STRING), 'value', month_target), cast(null as STRUCT<key:STRING, value:INT>)))) as month_target,
-           map_from_entries(collect_list(if(quarter_target is not null, NAMED_STRUCT('key', cast(job_id as STRING), 'value', quarter_target), cast(null as STRUCT<key:STRING, value:INT>)))) as quarter_target
+           map_from_entries(collect_list(if(month_target is not null, NAMED_STRUCT('key', cast(job_id as STRING), 'value', cast(month_target as INT)), cast(null as STRUCT<key:STRING, value:INT>)))) as month_target,
+           map_from_entries(collect_list(if(quarter_target is not null, NAMED_STRUCT('key', cast(job_id as STRING), 'value', cast(quarter_target as INT)), cast(null as STRUCT<key:STRING, value:INT>)))) as quarter_target
     FROM prod_mdson.ads_crm_visit_user_shop_target_v2_d
     WHERE dayid = '${v_date}'
     GROUP BY service_obj_id
@@ -70,6 +70,7 @@ SELECT service_obj.service_obj_id as service_obj_id,
        to_json(named_struct(
            'star', if(all_service_obj.service_obj_type = 1, nvl(star.star, 0), cast(null as INT)),
            'nc_type', nc_shop.nc_type,
+           'nc_shop', if(nc_shop.store_code is not null, 1, 0),
            'month_target', target.month_target,
            'quarter_target', target.quarter_target,
            'month_target_uat', target_uat.month_target,
