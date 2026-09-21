@@ -216,14 +216,14 @@ detail as (
            service_obj.freeze_server_id as user_id,
            service_obj.service_obj_id,
            count(visit.id) as indicator,
-           case when user.job_name IN ('城市渠道负责人', '城市群负责人') AND service_obj.channel_type IN ('GT')
-                THEN if(service_obj.star IN (4, 5), 1, 0)
+           case when user.job_name IN ('城市渠道负责人', '城市群负责人') AND service_obj.channel_type IN ('GT') THEN 1
                 END as target
     FROM (
         SELECT *
         FROM service_obj
         WHERE store_class_name = '实体门店'
         AND is_star = 1
+        AND star IN (4,5)
         AND service_obj_type = 1
         AND freeze_server_id is not null
         AND status = 1  --正常营业
