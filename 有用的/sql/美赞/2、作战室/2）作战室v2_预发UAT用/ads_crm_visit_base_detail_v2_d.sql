@@ -143,7 +143,6 @@ detail as (
         FROM service_obj
         WHERE service_obj_type = 3
         AND freeze_server_id is not null --有挂服务人员的正常营业服务商
-        AND status = 1  --正常营业
     ) service_obj
     LEFT JOIN (
         SELECT *
@@ -196,7 +195,6 @@ detail as (
         SELECT *
         FROM service_obj
         WHERE service_obj_type = 3
-        AND status = 1  --正常营业
     ) service_obj
     INNER JOIN area ON service_obj.region = area.region
     INNER JOIN user ON area.user_id = user.user_id AND user.job_name IN ('大区通路发展经理')
