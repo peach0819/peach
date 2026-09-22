@@ -12,7 +12,8 @@ with service_obj as (
            is_low_new_nc,
            get_json_object(target, '$.month') as month_change_target,
            get_json_object(target, '$.quarter') as quarter_change_target,
-           freeze_server_id
+           freeze_server_id,
+           is_star_quarter
     FROM prod_mdson.ads_crm_visit_service_obj_d
     WHERE dayid = '${v_date}'
     AND if_virtual = 0  --过滤虚拟门店
@@ -57,7 +58,11 @@ mid as (
                                                                             end
                           end
                 end as month_target,
-           1 as quarter_target
+           case when user.job_name IN ('城市渠道负责人', '城市群负责人')
+                then case when service_obj.channel_type IN ('COT', 'KA') then 1
+                          when service_obj.channel_type IN ('GT') AND service_obj.is_star_quarter = 1 then 1
+                          end
+                end as quarter_target
     FROM service_obj
     INNER JOIN user ON service_obj.freeze_server_id = user.user_id
 )
@@ -65,8 +70,8 @@ mid as (
 INSERT OVERWRITE TABLE ads_crm_visit_user_shop_target_v2_d PARTITION (dayid = '${v_date}')
 SELECT mid.user_id,
        mid.service_obj_id,
-       prod_mdson.mdson_indicator_target(nvl(mid.month_target, 1), mid.month_change_target, workday.discount_rate) as month_target,
-       prod_mdson.mdson_indicator_target(nvl(mid.quarter_target, 1), mid.quarter_change_target, null) as quarter_target,
+       prod_mdson.mdson_indicator_target(mid.month_target, mid.month_change_target, workday.discount_rate) as month_target,
+       prod_mdson.mdson_indicator_target(mid.quarter_target, mid.quarter_change_target, null) as quarter_target,
        mid.job_id
 FROM mid
 LEFT JOIN workday ON mid.user_id = workday.user_id
