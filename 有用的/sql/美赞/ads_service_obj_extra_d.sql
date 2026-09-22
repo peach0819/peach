@@ -26,8 +26,8 @@ target as (
 
 target_uat as (
     SELECT service_obj_id,
-           map_from_entries(collect_list(if(month_target is not null, NAMED_STRUCT('key', cast(job_id as STRING), 'value', cast(month_target as INT)), cast(null as STRUCT<key:STRING, value:INT>)))) as month_target,
-           map_from_entries(collect_list(if(quarter_target is not null, NAMED_STRUCT('key', cast(job_id as STRING), 'value', cast(quarter_target as INT)), cast(null as STRUCT<key:STRING, value:INT>)))) as quarter_target
+           map_from_entries(collect_list(NAMED_STRUCT('key', cast(job_id as STRING), 'value', cast(month_target as INT)))) as month_target,
+           map_from_entries(collect_list(NAMED_STRUCT('key', cast(job_id as STRING), 'value', cast(quarter_target as INT)))) as quarter_target
     FROM prod_mdson.ads_crm_visit_user_shop_target_v2_d
     WHERE dayid = '${v_date}'
     GROUP BY service_obj_id
@@ -43,6 +43,11 @@ service_obj as (
 
     SELECT service_obj_id
     FROM target
+
+    UNION
+
+    SELECT service_obj_id
+    FROM target_uat
 ),
 
 star as (
