@@ -72,7 +72,7 @@ mid as (
                           end
                 end as month_target,
            case when user.job_name IN ('城市渠道负责人', '城市群负责人')
-                then case when service_obj.channel_type IN ('COT', 'KA') then 1
+                then case when service_obj.channel_type IN ('COT', 'KA') AND service_obj.store_class_name = '实体门店' then 1
                           when service_obj.channel_type IN ('GT') AND service_obj.is_star_quarter = 1 then 1
                           when service_obj.service_obj_type = 3 AND (user.job_name = '城市渠道负责人' OR (user.job_name = '城市群负责人' AND area.job_channel = 'GT')) then 1
                           end
