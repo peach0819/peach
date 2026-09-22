@@ -78,7 +78,7 @@ detail as (
            visit.user_id as user_id,
            visit.service_obj_id,
            count(if((visit_type = 1 AND visit_mode = 1) OR visit_type != 1, visit.id, null)) as indicator, --门店拜访只统计有效拜访，服务商不用（因为服务商没有有效拜访概念）
-           null as target
+           1 as target
     FROM (
         SELECT *
         FROM visit
@@ -137,7 +137,7 @@ detail as (
            service_obj.freeze_server_id as user_id,
            service_obj.service_obj_id,
            count(visit.id) as indicator,
-           null as target
+           1 as target
     FROM (
         SELECT *
         FROM service_obj
@@ -164,7 +164,7 @@ detail as (
            service_obj.freeze_server_id as user_id,
            service_obj.service_obj_id,
            count(visit.id) as indicator,
-           null as target
+           1 as target
     FROM (
         SELECT *
         FROM service_obj
@@ -191,7 +191,7 @@ detail as (
            area.user_id as user_id,
            service_obj.service_obj_id,
            count(visit.id) as indicator,
-           null as target
+           1 as target
     FROM (
         SELECT *
         FROM service_obj
@@ -251,7 +251,7 @@ detail as (
            visit.user_id as user_id,
            visit.service_obj_id,
            count(if((visit_type = 1 AND visit_mode = 1) OR visit_type != 1, visit.id, null)) as indicator, --门店拜访只统计有效拜访，服务商不用（因为服务商没有有效拜访概念）
-           null as target
+           1 as target
     FROM (
         SELECT *
         FROM visit
@@ -368,7 +368,7 @@ mid as (
            detail.indicator,
            --折算目标
            prod_mdson.mdson_indicator_target(
-               nvl(detail.target, 1),
+               detail.target,
                if(detail.is_service_obj_indicator = '是', if(detail.indicator_code like 'month_%', service_obj.month_change_target, quarter_change_target), null),
                if(detail.indicator_code like 'month_%', workday.discount_rate, null)
            ) as target,

@@ -68,7 +68,11 @@ target as (
            round(nvl(white_list.change_target, target_content.indicator_value) * workday.month_discount_rate, 0) as month_visit_target,
 
            --门店拜访总门店数
-           nvl(white_list1.change_target, 40) * workday.month_discount_rate as month_visit_obj_target
+           nvl(white_list1.change_target,
+               case when user.job_name = '城市群负责人' then 40
+                    when user.job_name = '大区通路发展经理' then 20
+                    else 0 end
+           ) * workday.month_discount_rate as month_visit_obj_target
     FROM user
     LEFT JOIN workday ON workday.user_id = user.user_id
     LEFT JOIN (
