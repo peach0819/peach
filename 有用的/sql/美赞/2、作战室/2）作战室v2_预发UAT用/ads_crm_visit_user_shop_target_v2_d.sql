@@ -19,18 +19,31 @@ with service_obj as (
     AND if_virtual = 0  --过滤虚拟门店
     AND INSTR(service_obj_name,'测试') = 0 --过滤测试门店
     AND freeze_server_id is not null
+    AND status = 1
 ),
 
 user as (
     SELECT user_id,
            job_id,
-           job_name
+           job_name,
+           empno
     FROM prod_mdson.dim_user_d
     WHERE dayid = '${v_date}'
     AND account_type = 1
     AND is_deleted = 0
     AND dismiss_status = 0
     AND substr(nvl(join_time, create_time), 1, 7) <= '${v_opt_month}'
+),
+
+--辖区
+area as (
+    SELECT user_code as empno,
+           CASE WHEN area_name like '%GT%' then 'GT'
+                WHEN area_name like '%COT%' then 'COT'
+                WHEN area_name like '%KA%' then 'KA'
+                ELSE '全渠道' END as job_channel
+    FROM prod_mdson.ads_sale_area_d
+    WHERE dayid = '${v_date}'
 ),
 
 --人员月度折算信息
@@ -61,10 +74,12 @@ mid as (
            case when user.job_name IN ('城市渠道负责人', '城市群负责人')
                 then case when service_obj.channel_type IN ('COT', 'KA') then 1
                           when service_obj.channel_type IN ('GT') AND service_obj.is_star_quarter = 1 then 1
+                          when service_obj.service_obj_type = 3 AND (user.job_name = '城市渠道负责人' OR (user.job_name = '城市群负责人' AND area.job_channel = 'GT')) then 1
                           end
                 end as quarter_target
     FROM service_obj
     INNER JOIN user ON service_obj.freeze_server_id = user.user_id
+    LEFT JOIN area ON user.empno = area.empno
 )
 
 INSERT OVERWRITE TABLE ads_crm_visit_user_shop_target_v2_d PARTITION (dayid = '${v_date}')
