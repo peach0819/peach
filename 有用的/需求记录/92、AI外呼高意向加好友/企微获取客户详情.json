@@ -1,0 +1,901 @@
+{
+  "errcode": 0,
+  "errmsg": "ok",
+  "external_contact": {
+    "external_userid": "wm9D3QEAAAgxJCyuD_v8kcXFAzamPaGQ",
+    "name": "羊寨金牌宝贝15950270582（调理）",
+    "type": 1,
+    "avatar": "http://wx.qlogo.cn/mmhead/KydxAIB52xmTu35YYn9M3DRnVpk5Dz7JTicNg6Xo9CajPU3lUlGiaR6pTglnz6HGa5brZ070F1lDM/0",
+    "gender": 0
+  },
+  "follow_user": [
+    {
+      "userid": "13067953156",
+      "remark": "苏-盐城-冯玉平-15950270582",
+      "description": "J0523_B6343F4FF681C6D0562AFA168FE5B6F05194F219CF554649F1C4F9C615435A82_B2064",
+      "createtime": 1728965679,
+      "tags": [
+        {
+          "group_name": "建议电销主要沟通时间段",
+          "tag_name": "13-15沟通",
+          "type": 1,
+          "tag_id": "et9D3QEAAAyPbHf8wKoyj5gxbhG4OSTg"
+        },
+        {
+          "group_name": "建议电销主要沟通时间段",
+          "tag_name": "19-22沟通",
+          "type": 1,
+          "tag_id": "et9D3QEAAA_jsCv4dResrIMc1NJ7qT6g"
+        },
+        {
+          "group_name": "门店跨境粉品牌偏好",
+          "tag_name": "无",
+          "type": 1,
+          "tag_id": "et9D3QEAAAbkRrNFt-fc4txjeeiDLs4g"
+        },
+        {
+          "group_name": "门店历史购买过的国产粉品牌名称",
+          "tag_name": "伊利",
+          "type": 1,
+          "tag_id": "et9D3QEAAAmT32w_mHyyZuoMTNdEZtfA"
+        },
+        {
+          "group_name": "门店历史购买过的国产粉品牌名称",
+          "tag_name": "贝因美BEINGMATE",
+          "type": 1,
+          "tag_id": "et9D3QEAAAbg2c36ju_JQofSSWhH-HEw"
+        },
+        {
+          "group_name": "门店历史购买过的尿不湿品牌名称",
+          "tag_name": "赞贝儿ZANBEIER",
+          "type": 1,
+          "tag_id": "et9D3QEAAAioX70_FXgp1QVgS72tJxaA"
+        },
+        {
+          "group_name": "门店历史购买过的A类非奶纸一级类目名称",
+          "tag_name": "婴幼儿营养品",
+          "type": 1,
+          "tag_id": "et9D3QEAAArZUT9rTezrqj718io6RtNg"
+        },
+        {
+          "group_name": "门店历史购买过的A类非奶纸一级类目名称",
+          "tag_name": "童装/婴儿装/亲子装",
+          "type": 1,
+          "tag_id": "et9D3QEAAA5Bc6LwEL3SoS_cTaQlqMFA"
+        },
+        {
+          "group_name": "门店历史购买过的A类非奶纸一级类目名称",
+          "tag_name": "美妆",
+          "type": 1,
+          "tag_id": "et9D3QEAAAJTEix-LwGzXok8wavs5T9A"
+        },
+        {
+          "group_name": "门店历史购买过的B类非奶纸一级类目名称",
+          "tag_name": "无",
+          "type": 1,
+          "tag_id": "et9D3QEAAAjNrC3C3eB5LC5gOzBJWHhw"
+        },
+        {
+          "group_name": "门店历史购买过的非奶纸品牌名称",
+          "tag_name": "无",
+          "type": 1,
+          "tag_id": "et9D3QEAAABvLqzXHcMSPiFm2kGsq58w"
+        },
+        {
+          "group_name": "门店历史购买过的进口粉品牌名称",
+          "tag_name": "惠氏Wyeth",
+          "type": 1,
+          "tag_id": "et9D3QEAAAB0Ye92b41xTU33wJznqGRQ"
+        },
+        {
+          "group_name": "门店历史购买过的进口粉品牌名称",
+          "tag_name": "美素佳儿Frisolac",
+          "type": 1,
+          "tag_id": "et9D3QEAAAlRCEMWtG0-WUGzkZ1d8kIw"
+        },
+        {
+          "group_name": "门店历史购买过的进口粉品牌名称",
+          "tag_name": "美赞臣Meadjohnson",
+          "type": 1,
+          "tag_id": "et9D3QEAAAYfTKz-bZjZrtQjZeiTJXaQ"
+        },
+        {
+          "group_name": "门店历史购买过的跨境粉品牌名称",
+          "tag_name": "无",
+          "type": 1,
+          "tag_id": "et9D3QEAAASVLD_w0HMhda6p56KpR4Ng"
+        },
+        {
+          "group_name": "电销门店客情",
+          "tag_name": "低客情",
+          "type": 1,
+          "tag_id": "et9D3QEAAAxc9qy95xh2_D1VYhJRIRqA"
+        },
+        {
+          "group_name": "门店进口粉品牌偏好",
+          "tag_name": "惠氏Wyeth",
+          "type": 1,
+          "tag_id": "et9D3QEAAAVXiK21HnBtaqCovc2pVnjw"
+        },
+        {
+          "group_name": "门店进口粉品牌偏好",
+          "tag_name": "美素佳儿Frisolac",
+          "type": 1,
+          "tag_id": "et9D3QEAAANRZ5cpmsWRlbldgd3sGjag"
+        },
+        {
+          "group_name": "门店进口粉品牌偏好",
+          "tag_name": "美赞臣Meadjohnson",
+          "type": 1,
+          "tag_id": "et9D3QEAAAxWuoul80J0jb-2Z9An539g"
+        },
+        {
+          "group_name": "5.24大促预热通知门店（勿删）",
+          "tag_name": "5.24大促预热通知门店（勿删）",
+          "type": 1,
+          "tag_id": "et9D3QEAAAMBhiHMfM3sla4zdDFAhM2A"
+        },
+        {
+          "group_name": "大门店业务分层名称",
+          "tag_name": "尾部门店",
+          "type": 1,
+          "tag_id": "et9D3QEAAARgCfnMPuHK_nSRioNchD-g"
+        },
+        {
+          "group_name": "门店企微活跃生命周期",
+          "tag_name": "企微无互动门店",
+          "type": 1,
+          "tag_id": "et9D3QEAAARPZxRr6O1dB3g20w9m3pPQ"
+        },
+        {
+          "group_name": "门店奶粉类型名称偏好",
+          "tag_name": "无",
+          "type": 1,
+          "tag_id": "et9D3QEAAAgwUzE4xZ0Vy5ikaNoMhboQ"
+        },
+        {
+          "group_name": "建议电销沟通方式",
+          "tag_name": "微信",
+          "type": 1,
+          "tag_id": "et9D3QEAAA0JW2PyjZB4MDAd6Z4Yh32Q"
+        },
+        {
+          "group_name": "门店尿不湿品牌偏好",
+          "tag_name": "赞贝儿ZANBEIER",
+          "type": 1,
+          "tag_id": "et9D3QEAAAsKQ1V2Cuz3CnKeXVIItytw"
+        },
+        {
+          "group_name": "门店国产粉品牌偏好",
+          "tag_name": "伊利",
+          "type": 1,
+          "tag_id": "et9D3QEAAA7nnPTrZmQFwJ7BaseeasSg"
+        },
+        {
+          "group_name": "门店国产粉品牌偏好",
+          "tag_name": "贝因美BEINGMATE",
+          "type": 1,
+          "tag_id": "et9D3QEAAAkpM-sm-U1SA-dEtMPGmwPA"
+        },
+        {
+          "group_name": "门店平台活动偏好",
+          "tag_name": "A促",
+          "type": 1,
+          "tag_id": "et9D3QEAAAJsKN1KQrDBJQZpn8S11nAw"
+        },
+        {
+          "group_name": "奶纸月均体量",
+          "tag_name": "月均2K_3K",
+          "type": 1,
+          "tag_id": "et9D3QEAAAgS3Ifa34zMyTvEmEpZYIKw"
+        },
+        {
+          "group_name": "是否秒杀活动偏好门店",
+          "tag_name": "无",
+          "type": 1,
+          "tag_id": "et9D3QEAAAB0_23_gRv8q2wfq4mbiE3g"
+        },
+        {
+          "group_name": "小目标月均体量",
+          "tag_name": "无",
+          "type": 1,
+          "tag_id": "et9D3QEAAAdSVE2pn1b6vvkBZkPFBwTQ"
+        },
+        {
+          "group_name": "门店补贴需求",
+          "tag_name": "无",
+          "type": 1,
+          "tag_id": "et9D3QEAAAITbG73MGfZy2su_ELGM8Rg"
+        },
+        {
+          "group_name": "门店动销需求",
+          "tag_name": "无",
+          "type": 1,
+          "tag_id": "et9D3QEAAATKDvPxaQxO4UsIsKq8OiWQ"
+        }
+      ],
+      "remark_mobiles": [],
+      "add_way": 202,
+      "oper_userid": "lichao.gong"
+    },
+    {
+      "userid": "13282811565",
+      "remark": "苏-盐城-冯玉平-15950270582",
+      "description": "",
+      "createtime": 1724325926,
+      "tags": [],
+      "remark_mobiles": [],
+      "add_way": 201,
+      "oper_userid": "8382"
+    },
+    {
+      "userid": "13282170578",
+      "remark": "苏-盐城-冯玉平-15950270582",
+      "description": "",
+      "createtime": 1720517557,
+      "tags": [],
+      "remark_mobiles": [],
+      "add_way": 201,
+      "oper_userid": "8382"
+    },
+    {
+      "userid": "13022630722",
+      "remark": "苏-盐城-冯玉平-15950270582",
+      "description": "J0523_B6343F4FF681C6D0562AFA168FE5B6F05194F219CF554649F1C4F9C615435A82_B2064",
+      "createtime": 1790152483,
+      "tags": [
+        {
+          "group_name": "建议电销主要沟通时间段",
+          "tag_name": "13-15沟通",
+          "type": 1,
+          "tag_id": "et9D3QEAAAyPbHf8wKoyj5gxbhG4OSTg"
+        },
+        {
+          "group_name": "建议电销主要沟通时间段",
+          "tag_name": "19-22沟通",
+          "type": 1,
+          "tag_id": "et9D3QEAAA_jsCv4dResrIMc1NJ7qT6g"
+        },
+        {
+          "group_name": "门店跨境粉品牌偏好",
+          "tag_name": "无",
+          "type": 1,
+          "tag_id": "et9D3QEAAAbkRrNFt-fc4txjeeiDLs4g"
+        },
+        {
+          "group_name": "门店历史购买过的国产粉品牌名称",
+          "tag_name": "伊利",
+          "type": 1,
+          "tag_id": "et9D3QEAAAmT32w_mHyyZuoMTNdEZtfA"
+        },
+        {
+          "group_name": "门店历史购买过的国产粉品牌名称",
+          "tag_name": "贝因美BEINGMATE",
+          "type": 1,
+          "tag_id": "et9D3QEAAAbg2c36ju_JQofSSWhH-HEw"
+        },
+        {
+          "group_name": "门店历史购买过的尿不湿品牌名称",
+          "tag_name": "赞贝儿ZANBEIER",
+          "type": 1,
+          "tag_id": "et9D3QEAAAioX70_FXgp1QVgS72tJxaA"
+        },
+        {
+          "group_name": "门店历史购买过的A类非奶纸一级类目名称",
+          "tag_name": "婴幼儿营养品",
+          "type": 1,
+          "tag_id": "et9D3QEAAArZUT9rTezrqj718io6RtNg"
+        },
+        {
+          "group_name": "门店历史购买过的A类非奶纸一级类目名称",
+          "tag_name": "童装/婴儿装/亲子装",
+          "type": 1,
+          "tag_id": "et9D3QEAAA5Bc6LwEL3SoS_cTaQlqMFA"
+        },
+        {
+          "group_name": "门店历史购买过的A类非奶纸一级类目名称",
+          "tag_name": "美妆",
+          "type": 1,
+          "tag_id": "et9D3QEAAAJTEix-LwGzXok8wavs5T9A"
+        },
+        {
+          "group_name": "门店历史购买过的B类非奶纸一级类目名称",
+          "tag_name": "无",
+          "type": 1,
+          "tag_id": "et9D3QEAAAjNrC3C3eB5LC5gOzBJWHhw"
+        },
+        {
+          "group_name": "门店历史购买过的非奶纸品牌名称",
+          "tag_name": "无",
+          "type": 1,
+          "tag_id": "et9D3QEAAABvLqzXHcMSPiFm2kGsq58w"
+        },
+        {
+          "group_name": "门店历史购买过的进口粉品牌名称",
+          "tag_name": "惠氏Wyeth",
+          "type": 1,
+          "tag_id": "et9D3QEAAAB0Ye92b41xTU33wJznqGRQ"
+        },
+        {
+          "group_name": "门店历史购买过的进口粉品牌名称",
+          "tag_name": "美素佳儿Frisolac",
+          "type": 1,
+          "tag_id": "et9D3QEAAAlRCEMWtG0-WUGzkZ1d8kIw"
+        },
+        {
+          "group_name": "门店历史购买过的进口粉品牌名称",
+          "tag_name": "美赞臣Meadjohnson",
+          "type": 1,
+          "tag_id": "et9D3QEAAAYfTKz-bZjZrtQjZeiTJXaQ"
+        },
+        {
+          "group_name": "门店历史购买过的跨境粉品牌名称",
+          "tag_name": "无",
+          "type": 1,
+          "tag_id": "et9D3QEAAASVLD_w0HMhda6p56KpR4Ng"
+        },
+        {
+          "group_name": "电销门店客情",
+          "tag_name": "低客情",
+          "type": 1,
+          "tag_id": "et9D3QEAAAxc9qy95xh2_D1VYhJRIRqA"
+        },
+        {
+          "group_name": "门店进口粉品牌偏好",
+          "tag_name": "惠氏Wyeth",
+          "type": 1,
+          "tag_id": "et9D3QEAAAVXiK21HnBtaqCovc2pVnjw"
+        },
+        {
+          "group_name": "门店进口粉品牌偏好",
+          "tag_name": "美素佳儿Frisolac",
+          "type": 1,
+          "tag_id": "et9D3QEAAANRZ5cpmsWRlbldgd3sGjag"
+        },
+        {
+          "group_name": "门店进口粉品牌偏好",
+          "tag_name": "美赞臣Meadjohnson",
+          "type": 1,
+          "tag_id": "et9D3QEAAAxWuoul80J0jb-2Z9An539g"
+        },
+        {
+          "group_name": "5.24大促预热通知门店（勿删）",
+          "tag_name": "5.24大促预热通知门店（勿删）",
+          "type": 1,
+          "tag_id": "et9D3QEAAAMBhiHMfM3sla4zdDFAhM2A"
+        },
+        {
+          "group_name": "大门店业务分层名称",
+          "tag_name": "尾部门店",
+          "type": 1,
+          "tag_id": "et9D3QEAAARgCfnMPuHK_nSRioNchD-g"
+        },
+        {
+          "group_name": "门店企微活跃生命周期",
+          "tag_name": "企微无互动门店",
+          "type": 1,
+          "tag_id": "et9D3QEAAARPZxRr6O1dB3g20w9m3pPQ"
+        },
+        {
+          "group_name": "门店奶粉类型名称偏好",
+          "tag_name": "无",
+          "type": 1,
+          "tag_id": "et9D3QEAAAgwUzE4xZ0Vy5ikaNoMhboQ"
+        },
+        {
+          "group_name": "建议电销沟通方式",
+          "tag_name": "微信",
+          "type": 1,
+          "tag_id": "et9D3QEAAA0JW2PyjZB4MDAd6Z4Yh32Q"
+        },
+        {
+          "group_name": "门店尿不湿品牌偏好",
+          "tag_name": "赞贝儿ZANBEIER",
+          "type": 1,
+          "tag_id": "et9D3QEAAAsKQ1V2Cuz3CnKeXVIItytw"
+        },
+        {
+          "group_name": "门店国产粉品牌偏好",
+          "tag_name": "伊利",
+          "type": 1,
+          "tag_id": "et9D3QEAAA7nnPTrZmQFwJ7BaseeasSg"
+        },
+        {
+          "group_name": "门店国产粉品牌偏好",
+          "tag_name": "贝因美BEINGMATE",
+          "type": 1,
+          "tag_id": "et9D3QEAAAkpM-sm-U1SA-dEtMPGmwPA"
+        },
+        {
+          "group_name": "门店平台活动偏好",
+          "tag_name": "A促",
+          "type": 1,
+          "tag_id": "et9D3QEAAAJsKN1KQrDBJQZpn8S11nAw"
+        },
+        {
+          "group_name": "奶纸月均体量",
+          "tag_name": "月均2K_3K",
+          "type": 1,
+          "tag_id": "et9D3QEAAAgS3Ifa34zMyTvEmEpZYIKw"
+        },
+        {
+          "group_name": "是否秒杀活动偏好门店",
+          "tag_name": "无",
+          "type": 1,
+          "tag_id": "et9D3QEAAAB0_23_gRv8q2wfq4mbiE3g"
+        },
+        {
+          "group_name": "小目标月均体量",
+          "tag_name": "无",
+          "type": 1,
+          "tag_id": "et9D3QEAAAdSVE2pn1b6vvkBZkPFBwTQ"
+        },
+        {
+          "group_name": "门店补贴需求",
+          "tag_name": "无",
+          "type": 1,
+          "tag_id": "et9D3QEAAAITbG73MGfZy2su_ELGM8Rg"
+        },
+        {
+          "group_name": "门店动销需求",
+          "tag_name": "无",
+          "type": 1,
+          "tag_id": "et9D3QEAAATKDvPxaQxO4UsIsKq8OiWQ"
+        }
+      ],
+      "remark_mobiles": [
+        "15950270582"
+      ],
+      "add_way": 201,
+      "oper_userid": "389"
+    },
+    {
+      "userid": "13116746132",
+      "remark": "苏-盐城-冯玉平-15950270582",
+      "description": "",
+      "createtime": 1732001637,
+      "tags": [],
+      "remark_mobiles": [],
+      "add_way": 201,
+      "oper_userid": "8382"
+    },
+    {
+      "userid": "18290328850",
+      "remark": "苏-盐城-冯玉平-15950270582",
+      "description": "J0523_B6343F4FF681C6D0562AFA168FE5B6F05194F219CF554649F1C4F9C615435A82_B2064",
+      "createtime": 1759647247,
+      "tags": [
+        {
+          "group_name": "建议电销主要沟通时间段",
+          "tag_name": "13-15沟通",
+          "type": 1,
+          "tag_id": "et9D3QEAAAyPbHf8wKoyj5gxbhG4OSTg"
+        },
+        {
+          "group_name": "建议电销主要沟通时间段",
+          "tag_name": "19-22沟通",
+          "type": 1,
+          "tag_id": "et9D3QEAAA_jsCv4dResrIMc1NJ7qT6g"
+        },
+        {
+          "group_name": "门店跨境粉品牌偏好",
+          "tag_name": "无",
+          "type": 1,
+          "tag_id": "et9D3QEAAAbkRrNFt-fc4txjeeiDLs4g"
+        },
+        {
+          "group_name": "门店历史购买过的国产粉品牌名称",
+          "tag_name": "伊利",
+          "type": 1,
+          "tag_id": "et9D3QEAAAmT32w_mHyyZuoMTNdEZtfA"
+        },
+        {
+          "group_name": "门店历史购买过的国产粉品牌名称",
+          "tag_name": "贝因美BEINGMATE",
+          "type": 1,
+          "tag_id": "et9D3QEAAAbg2c36ju_JQofSSWhH-HEw"
+        },
+        {
+          "group_name": "门店历史购买过的尿不湿品牌名称",
+          "tag_name": "赞贝儿ZANBEIER",
+          "type": 1,
+          "tag_id": "et9D3QEAAAioX70_FXgp1QVgS72tJxaA"
+        },
+        {
+          "group_name": "门店历史购买过的A类非奶纸一级类目名称",
+          "tag_name": "婴幼儿营养品",
+          "type": 1,
+          "tag_id": "et9D3QEAAArZUT9rTezrqj718io6RtNg"
+        },
+        {
+          "group_name": "门店历史购买过的A类非奶纸一级类目名称",
+          "tag_name": "童装/婴儿装/亲子装",
+          "type": 1,
+          "tag_id": "et9D3QEAAA5Bc6LwEL3SoS_cTaQlqMFA"
+        },
+        {
+          "group_name": "门店历史购买过的A类非奶纸一级类目名称",
+          "tag_name": "美妆",
+          "type": 1,
+          "tag_id": "et9D3QEAAAJTEix-LwGzXok8wavs5T9A"
+        },
+        {
+          "group_name": "门店历史购买过的B类非奶纸一级类目名称",
+          "tag_name": "无",
+          "type": 1,
+          "tag_id": "et9D3QEAAAjNrC3C3eB5LC5gOzBJWHhw"
+        },
+        {
+          "group_name": "门店历史购买过的非奶纸品牌名称",
+          "tag_name": "无",
+          "type": 1,
+          "tag_id": "et9D3QEAAABvLqzXHcMSPiFm2kGsq58w"
+        },
+        {
+          "group_name": "门店历史购买过的进口粉品牌名称",
+          "tag_name": "惠氏Wyeth",
+          "type": 1,
+          "tag_id": "et9D3QEAAAB0Ye92b41xTU33wJznqGRQ"
+        },
+        {
+          "group_name": "门店历史购买过的进口粉品牌名称",
+          "tag_name": "美素佳儿Frisolac",
+          "type": 1,
+          "tag_id": "et9D3QEAAAlRCEMWtG0-WUGzkZ1d8kIw"
+        },
+        {
+          "group_name": "门店历史购买过的进口粉品牌名称",
+          "tag_name": "美赞臣Meadjohnson",
+          "type": 1,
+          "tag_id": "et9D3QEAAAYfTKz-bZjZrtQjZeiTJXaQ"
+        },
+        {
+          "group_name": "门店历史购买过的跨境粉品牌名称",
+          "tag_name": "无",
+          "type": 1,
+          "tag_id": "et9D3QEAAASVLD_w0HMhda6p56KpR4Ng"
+        },
+        {
+          "group_name": "电销门店客情",
+          "tag_name": "低客情",
+          "type": 1,
+          "tag_id": "et9D3QEAAAxc9qy95xh2_D1VYhJRIRqA"
+        },
+        {
+          "group_name": "门店进口粉品牌偏好",
+          "tag_name": "惠氏Wyeth",
+          "type": 1,
+          "tag_id": "et9D3QEAAAVXiK21HnBtaqCovc2pVnjw"
+        },
+        {
+          "group_name": "门店进口粉品牌偏好",
+          "tag_name": "美素佳儿Frisolac",
+          "type": 1,
+          "tag_id": "et9D3QEAAANRZ5cpmsWRlbldgd3sGjag"
+        },
+        {
+          "group_name": "门店进口粉品牌偏好",
+          "tag_name": "美赞臣Meadjohnson",
+          "type": 1,
+          "tag_id": "et9D3QEAAAxWuoul80J0jb-2Z9An539g"
+        },
+        {
+          "group_name": "5.24大促预热通知门店（勿删）",
+          "tag_name": "5.24大促预热通知门店（勿删）",
+          "type": 1,
+          "tag_id": "et9D3QEAAAMBhiHMfM3sla4zdDFAhM2A"
+        },
+        {
+          "group_name": "大门店业务分层名称",
+          "tag_name": "尾部门店",
+          "type": 1,
+          "tag_id": "et9D3QEAAARgCfnMPuHK_nSRioNchD-g"
+        },
+        {
+          "group_name": "门店企微活跃生命周期",
+          "tag_name": "企微无互动门店",
+          "type": 1,
+          "tag_id": "et9D3QEAAARPZxRr6O1dB3g20w9m3pPQ"
+        },
+        {
+          "group_name": "门店奶粉类型名称偏好",
+          "tag_name": "无",
+          "type": 1,
+          "tag_id": "et9D3QEAAAgwUzE4xZ0Vy5ikaNoMhboQ"
+        },
+        {
+          "group_name": "建议电销沟通方式",
+          "tag_name": "微信",
+          "type": 1,
+          "tag_id": "et9D3QEAAA0JW2PyjZB4MDAd6Z4Yh32Q"
+        },
+        {
+          "group_name": "门店尿不湿品牌偏好",
+          "tag_name": "赞贝儿ZANBEIER",
+          "type": 1,
+          "tag_id": "et9D3QEAAAsKQ1V2Cuz3CnKeXVIItytw"
+        },
+        {
+          "group_name": "门店国产粉品牌偏好",
+          "tag_name": "伊利",
+          "type": 1,
+          "tag_id": "et9D3QEAAA7nnPTrZmQFwJ7BaseeasSg"
+        },
+        {
+          "group_name": "门店国产粉品牌偏好",
+          "tag_name": "贝因美BEINGMATE",
+          "type": 1,
+          "tag_id": "et9D3QEAAAkpM-sm-U1SA-dEtMPGmwPA"
+        },
+        {
+          "group_name": "门店平台活动偏好",
+          "tag_name": "A促",
+          "type": 1,
+          "tag_id": "et9D3QEAAAJsKN1KQrDBJQZpn8S11nAw"
+        },
+        {
+          "group_name": "奶纸月均体量",
+          "tag_name": "月均2K_3K",
+          "type": 1,
+          "tag_id": "et9D3QEAAAgS3Ifa34zMyTvEmEpZYIKw"
+        },
+        {
+          "group_name": "是否秒杀活动偏好门店",
+          "tag_name": "无",
+          "type": 1,
+          "tag_id": "et9D3QEAAAB0_23_gRv8q2wfq4mbiE3g"
+        },
+        {
+          "group_name": "小目标月均体量",
+          "tag_name": "无",
+          "type": 1,
+          "tag_id": "et9D3QEAAAdSVE2pn1b6vvkBZkPFBwTQ"
+        },
+        {
+          "group_name": "门店补贴需求",
+          "tag_name": "无",
+          "type": 1,
+          "tag_id": "et9D3QEAAAITbG73MGfZy2su_ELGM8Rg"
+        },
+        {
+          "group_name": "门店动销需求",
+          "tag_name": "无",
+          "type": 1,
+          "tag_id": "et9D3QEAAATKDvPxaQxO4UsIsKq8OiWQ"
+        }
+      ],
+      "remark_mobiles": [],
+      "add_way": 202
+    },
+    {
+      "userid": "18479384711",
+      "remark": "苏-盐城-冯玉平-15950270582",
+      "description": "J0523_B6343F4FF681C6D0562AFA168FE5B6F05194F219CF554649F1C4F9C615435A82_B2064",
+      "createtime": 1767323804,
+      "tags": [
+        {
+          "group_name": "建议电销主要沟通时间段",
+          "tag_name": "13-15沟通",
+          "type": 1,
+          "tag_id": "et9D3QEAAAyPbHf8wKoyj5gxbhG4OSTg"
+        },
+        {
+          "group_name": "建议电销主要沟通时间段",
+          "tag_name": "19-22沟通",
+          "type": 1,
+          "tag_id": "et9D3QEAAA_jsCv4dResrIMc1NJ7qT6g"
+        },
+        {
+          "group_name": "门店跨境粉品牌偏好",
+          "tag_name": "无",
+          "type": 1,
+          "tag_id": "et9D3QEAAAbkRrNFt-fc4txjeeiDLs4g"
+        },
+        {
+          "group_name": "门店历史购买过的国产粉品牌名称",
+          "tag_name": "伊利",
+          "type": 1,
+          "tag_id": "et9D3QEAAAmT32w_mHyyZuoMTNdEZtfA"
+        },
+        {
+          "group_name": "门店历史购买过的国产粉品牌名称",
+          "tag_name": "贝因美BEINGMATE",
+          "type": 1,
+          "tag_id": "et9D3QEAAAbg2c36ju_JQofSSWhH-HEw"
+        },
+        {
+          "group_name": "门店历史购买过的尿不湿品牌名称",
+          "tag_name": "赞贝儿ZANBEIER",
+          "type": 1,
+          "tag_id": "et9D3QEAAAioX70_FXgp1QVgS72tJxaA"
+        },
+        {
+          "group_name": "门店历史购买过的A类非奶纸一级类目名称",
+          "tag_name": "婴幼儿营养品",
+          "type": 1,
+          "tag_id": "et9D3QEAAArZUT9rTezrqj718io6RtNg"
+        },
+        {
+          "group_name": "门店历史购买过的A类非奶纸一级类目名称",
+          "tag_name": "童装/婴儿装/亲子装",
+          "type": 1,
+          "tag_id": "et9D3QEAAA5Bc6LwEL3SoS_cTaQlqMFA"
+        },
+        {
+          "group_name": "门店历史购买过的A类非奶纸一级类目名称",
+          "tag_name": "美妆",
+          "type": 1,
+          "tag_id": "et9D3QEAAAJTEix-LwGzXok8wavs5T9A"
+        },
+        {
+          "group_name": "门店历史购买过的B类非奶纸一级类目名称",
+          "tag_name": "无",
+          "type": 1,
+          "tag_id": "et9D3QEAAAjNrC3C3eB5LC5gOzBJWHhw"
+        },
+        {
+          "group_name": "门店历史购买过的非奶纸品牌名称",
+          "tag_name": "无",
+          "type": 1,
+          "tag_id": "et9D3QEAAABvLqzXHcMSPiFm2kGsq58w"
+        },
+        {
+          "group_name": "门店历史购买过的进口粉品牌名称",
+          "tag_name": "惠氏Wyeth",
+          "type": 1,
+          "tag_id": "et9D3QEAAAB0Ye92b41xTU33wJznqGRQ"
+        },
+        {
+          "group_name": "门店历史购买过的进口粉品牌名称",
+          "tag_name": "美素佳儿Frisolac",
+          "type": 1,
+          "tag_id": "et9D3QEAAAlRCEMWtG0-WUGzkZ1d8kIw"
+        },
+        {
+          "group_name": "门店历史购买过的进口粉品牌名称",
+          "tag_name": "美赞臣Meadjohnson",
+          "type": 1,
+          "tag_id": "et9D3QEAAAYfTKz-bZjZrtQjZeiTJXaQ"
+        },
+        {
+          "group_name": "门店历史购买过的跨境粉品牌名称",
+          "tag_name": "无",
+          "type": 1,
+          "tag_id": "et9D3QEAAASVLD_w0HMhda6p56KpR4Ng"
+        },
+        {
+          "group_name": "电销门店客情",
+          "tag_name": "低客情",
+          "type": 1,
+          "tag_id": "et9D3QEAAAxc9qy95xh2_D1VYhJRIRqA"
+        },
+        {
+          "group_name": "门店进口粉品牌偏好",
+          "tag_name": "惠氏Wyeth",
+          "type": 1,
+          "tag_id": "et9D3QEAAAVXiK21HnBtaqCovc2pVnjw"
+        },
+        {
+          "group_name": "门店进口粉品牌偏好",
+          "tag_name": "美素佳儿Frisolac",
+          "type": 1,
+          "tag_id": "et9D3QEAAANRZ5cpmsWRlbldgd3sGjag"
+        },
+        {
+          "group_name": "门店进口粉品牌偏好",
+          "tag_name": "美赞臣Meadjohnson",
+          "type": 1,
+          "tag_id": "et9D3QEAAAxWuoul80J0jb-2Z9An539g"
+        },
+        {
+          "group_name": "5.24大促预热通知门店（勿删）",
+          "tag_name": "5.24大促预热通知门店（勿删）",
+          "type": 1,
+          "tag_id": "et9D3QEAAAMBhiHMfM3sla4zdDFAhM2A"
+        },
+        {
+          "group_name": "大门店业务分层名称",
+          "tag_name": "尾部门店",
+          "type": 1,
+          "tag_id": "et9D3QEAAARgCfnMPuHK_nSRioNchD-g"
+        },
+        {
+          "group_name": "门店企微活跃生命周期",
+          "tag_name": "企微无互动门店",
+          "type": 1,
+          "tag_id": "et9D3QEAAARPZxRr6O1dB3g20w9m3pPQ"
+        },
+        {
+          "group_name": "门店奶粉类型名称偏好",
+          "tag_name": "无",
+          "type": 1,
+          "tag_id": "et9D3QEAAAgwUzE4xZ0Vy5ikaNoMhboQ"
+        },
+        {
+          "group_name": "建议电销沟通方式",
+          "tag_name": "微信",
+          "type": 1,
+          "tag_id": "et9D3QEAAA0JW2PyjZB4MDAd6Z4Yh32Q"
+        },
+        {
+          "group_name": "门店尿不湿品牌偏好",
+          "tag_name": "赞贝儿ZANBEIER",
+          "type": 1,
+          "tag_id": "et9D3QEAAAsKQ1V2Cuz3CnKeXVIItytw"
+        },
+        {
+          "group_name": "门店国产粉品牌偏好",
+          "tag_name": "伊利",
+          "type": 1,
+          "tag_id": "et9D3QEAAA7nnPTrZmQFwJ7BaseeasSg"
+        },
+        {
+          "group_name": "门店国产粉品牌偏好",
+          "tag_name": "贝因美BEINGMATE",
+          "type": 1,
+          "tag_id": "et9D3QEAAAkpM-sm-U1SA-dEtMPGmwPA"
+        },
+        {
+          "group_name": "门店平台活动偏好",
+          "tag_name": "A促",
+          "type": 1,
+          "tag_id": "et9D3QEAAAJsKN1KQrDBJQZpn8S11nAw"
+        },
+        {
+          "group_name": "奶纸月均体量",
+          "tag_name": "月均2K_3K",
+          "type": 1,
+          "tag_id": "et9D3QEAAAgS3Ifa34zMyTvEmEpZYIKw"
+        },
+        {
+          "group_name": "是否秒杀活动偏好门店",
+          "tag_name": "无",
+          "type": 1,
+          "tag_id": "et9D3QEAAAB0_23_gRv8q2wfq4mbiE3g"
+        },
+        {
+          "group_name": "小目标月均体量",
+          "tag_name": "无",
+          "type": 1,
+          "tag_id": "et9D3QEAAAdSVE2pn1b6vvkBZkPFBwTQ"
+        },
+        {
+          "group_name": "门店补贴需求",
+          "tag_name": "无",
+          "type": 1,
+          "tag_id": "et9D3QEAAAITbG73MGfZy2su_ELGM8Rg"
+        },
+        {
+          "group_name": "门店动销需求",
+          "tag_name": "无",
+          "type": 1,
+          "tag_id": "et9D3QEAAATKDvPxaQxO4UsIsKq8OiWQ"
+        }
+      ],
+      "remark_mobiles": [
+        "15950270582"
+      ],
+      "add_way": 2,
+      "oper_userid": "18479384711"
+    },
+    {
+      "userid": "13221023297",
+      "remark": "苏-盐城-冯玉平-15950270582",
+      "description": "",
+      "createtime": 1767782505,
+      "tags": [],
+      "remark_mobiles": [],
+      "add_way": 202
+    },
+    {
+      "userid": "13282123236",
+      "remark": "苏-盐城-冯玉平-15950270582",
+      "description": "",
+      "createtime": 1780399231,
+      "tags": [],
+      "remark_mobiles": [],
+      "add_way": 202,
+      "oper_userid": "18668211919"
+    }
+  ]
+}
