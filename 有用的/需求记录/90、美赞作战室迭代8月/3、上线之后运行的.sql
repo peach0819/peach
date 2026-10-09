@@ -17,3 +17,6 @@ UPDATE t_crm_visit_indicator_visible set visiable_sort = 120 WHERE indicator_id 
 UPDATE t_crm_visit_indicator_visible SET is_deleted = 1 WHERE job_id = 8 AND indicator_id IN (140, 142);
 INSERT INTO t_crm_visit_indicator_visible(`creator`, `editor`, `visible_type`, `job_id`, `indicator_id`, `visiable_sort`)
 VALUES ('system', 'system', 0, 8, 145, 30);
+
+--当月星级门店拜访达成率改名
+UPDATE t_crm_visit_indicator SET indicator_name = '当月GT4星/5星级店拜访达成率' WHERE id = 144;
