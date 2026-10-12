@@ -16,7 +16,9 @@ WITH base as (
 service_obj as (
     SELECT dayid,
            service_obj_id,
-           freeze_server_id
+           freeze_server_id,
+           kn_server_id,
+           create_time
     FROM prod_mdson.ads_crm_visit_service_obj_d
     WHERE DATETRUNC(TO_DATE('${v_date}', 'yyyymmdd'), 'quarter') = DATETRUNC(TO_DATE(dayid, 'yyyymmdd'), 'quarter') --取本季度的分区
 )
@@ -28,6 +30,6 @@ SELECT base.id,
        base.visit_mode,
        base.service_obj_id,
        base.user_id,
-       service_obj.freeze_server_id
+       if(TO_CHAR(TO_DATE(visit_time, 'yyyy-mm-dd hh:mi:ss'), 'yyyymm') = substr(service_obj.create_time, 1, 6), nvl(service_obj.freeze_server_id, service_obj.kn_server_id), service_obj.freeze_server_id) as freeze_server_id
 FROM base
 LEFT JOIN service_obj ON base.service_obj_id = service_obj.service_obj_id AND base.data_dayid = service_obj.dayid
