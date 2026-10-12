@@ -8,7 +8,6 @@ with base as (
            if(service_obj_type = 1 AND service_obj_name LIKE '%虚拟门店%', 1, 0) as is_virtual,
            if(get_json_object(extra_json, '$.IsAroundHospital_PGroup') = 'T', 1, 0) as is_hospital,
            cast(status as bigint) as status,
-           region,
            TO_CHAR(TO_DATE(create_time, 'yyyy-mm-dd hh:mi:ss'), 'yyyymmddhhmiss') as create_time
     FROM prod_mdson.dwd_service_obj_d
     WHERE dayid = '${v_date}'
@@ -77,6 +76,16 @@ target as (
              change_indicator
 ),
 
+user as (
+    SELECT user_id,
+           empno
+    FROM prod_mdson.dim_user_d
+    WHERE dayid = '${v_date}'
+    AND is_deleted = 0
+    AND dismiss_status = 0
+    AND substr(nvl(join_time, create_time), 1, 7) <= '${v_opt_month}'
+),
+
 --门店所有人
 server as (
     SELECT s.service_obj_id,
@@ -93,15 +102,19 @@ server as (
         group by store_code,
                  dayid
     ) s
-    LEFT JOIN (
-        SELECT user_id,
-               empno
-        FROM prod_mdson.dim_user_d
+    LEFT JOIN user ON user.empno = s.server_code
+),
+
+area as (
+    SELECT user.user_id,
+           t.region
+    FROM (
+        SELECT user_code as empno,
+               region_name as region
+        FROM prod_mdson.ads_sale_area_d
         WHERE dayid = '${v_date}'
-        AND is_deleted = 0
-        AND dismiss_status = 0
-        AND substr(nvl(join_time, create_time), 1, 7) <= '${v_opt_month}'
-    ) user ON user.empno = s.server_code
+    ) t
+    INNER JOIN user ON t.empno = user.empno
 )
 
 INSERT OVERWRITE TABLE ads_crm_visit_service_obj_d PARTITION (dayid = '${v_date}')
@@ -125,7 +138,7 @@ SELECT base.service_obj_id,
        kn_server.user_id as kn_server_id,
        nvl(quarter_star.is_star, 0) as is_star_quarter,
        nvl(quarter_star.star, 0) as star_quarter,
-       base.region,
+       area.region,
        base.create_time
 FROM base
 LEFT JOIN sfa_shop ON base.service_obj_id = sfa_shop.service_obj_id
@@ -136,3 +149,4 @@ LEFT JOIN server freeze_server ON freeze_server.is_kn = 0 AND base.service_obj_i
 LEFT JOIN server kn_server ON kn_server.is_kn = 1 AND base.service_obj_id = kn_server.service_obj_id
 LEFT JOIN target month_target ON month_target.is_month_target = 1 AND month_target.store_code = base.out_service_obj_id AND freeze_server.empno = month_target.empno
 LEFT JOIN target quarter_target ON quarter_target.is_month_target = 0 AND quarter_target.store_code = base.out_service_obj_id AND freeze_server.empno = quarter_target.empno
+LEFT JOIN area ON area.user_id = freeze_server.user_id
