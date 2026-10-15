@@ -15,7 +15,8 @@ with service_obj as (
            get_json_object(target, '$.quarter') as quarter_change_target,
            freeze_server_id,
            is_star_quarter,
-           region
+           region,
+           sub_region
     FROM prod_mdson.ads_crm_visit_service_obj_d
     WHERE dayid = '${v_date}'
     AND if_virtual = 0  --过滤虚拟门店
@@ -60,10 +61,12 @@ workday as (
 --人员辖区信息
 area as (
     SELECT user.user_id,
-           t.region
+           t.region,
+           t.sub_region
     FROM (
         SELECT user_code as empno,
-               region_name as region
+               region_name as region,
+               sub_region_name as sub_region
         FROM prod_mdson.ads_sale_area_d
         WHERE dayid = '${v_date}'
     ) t
@@ -185,9 +188,10 @@ detail as (
 
     --当季服务商拜访覆盖率 —— 大区通路发展经理版本
     --大区通路发展经理走辖区逻辑
-    SELECT 'quarter_fws_visit_cover_rate' as indicator_code,
+    SELECT /*+ mapjoin(service_obj) */
+          'quarter_fws_visit_cover_rate' as indicator_code,
           '否' as is_service_obj_indicator,
-           area.user_id as user_id,
+           user.user_id as user_id,
            service_obj.service_obj_id,
            count(visit.id) as indicator,
            1 as target
@@ -196,14 +200,20 @@ detail as (
         FROM service_obj
         WHERE service_obj_type = 3
     ) service_obj
-    INNER JOIN area ON service_obj.region = area.region
-    INNER JOIN user ON area.user_id = user.user_id AND user.job_name IN ('大区通路发展经理')
+    INNER JOIN (
+        SELECT user.user_id,
+               area.region,
+               area.sub_region
+        FROM user
+        INNER JOIN area ON area.user_id = user.user_id
+        WHERE user.job_name IN ('大区通路发展经理')
+    ) user ON (user.sub_region is not null AND service_obj.sub_region = user.sub_region) OR (user.sub_region is null AND service_obj.region = user.region)
     LEFT JOIN (
         SELECT *
         FROM visit
         WHERE visit_type = 4 --服务商拜访
-    ) visit ON service_obj.service_obj_id = visit.service_obj_id AND area.user_id = visit.user_id
-    GROUP BY area.user_id,
+    ) visit ON service_obj.service_obj_id = visit.service_obj_id AND user.user_id = visit.user_id
+    GROUP BY user.user_id,
              service_obj.service_obj_id
 
     UNION ALL
