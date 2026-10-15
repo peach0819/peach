@@ -107,10 +107,12 @@ server as (
 
 area as (
     SELECT user.user_id,
-           t.region
+           t.region,
+           t.sub_region
     FROM (
         SELECT user_code as empno,
-               region_name as region
+               region_name as region,
+               sub_region_name as sub_region
         FROM prod_mdson.ads_sale_area_d
         WHERE dayid = '${v_date}'
     ) t
@@ -139,7 +141,8 @@ SELECT base.service_obj_id,
        nvl(quarter_star.is_star, 0) as is_star_quarter,
        nvl(quarter_star.star, 0) as star_quarter,
        area.region,
-       base.create_time
+       base.create_time,
+       area.sub_region
 FROM base
 LEFT JOIN sfa_shop ON base.service_obj_id = sfa_shop.service_obj_id
 LEFT JOIN star ON star.service_obj_id = base.service_obj_id
