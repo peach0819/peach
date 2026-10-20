@@ -44,7 +44,11 @@ visit as (
            visit_mode,
            service_obj_id,
            user_id,
-           freeze_server_id
+           freeze_server_id,
+           freeze_region,
+           freeze_sub_region,
+           freeze_user_region,
+           freeze_user_sub_region
     FROM prod_mdson.ads_crm_visit_record_d
     WHERE dayid = '${v_date}'
 ),
@@ -187,7 +191,7 @@ detail as (
     UNION ALL
 
     --当季服务商拜访覆盖率 —— 大区通路发展经理版本
-    --大区通路发展经理走辖区逻辑
+    --大区通路发展经理走辖区逻辑 1、统计大区通路发展经理本月辖区内的所有服务商
     SELECT /*+ mapjoin(service_obj) */
           'quarter_fws_visit_cover_rate' as indicator_code,
           '否' as is_service_obj_indicator,
@@ -212,6 +216,39 @@ detail as (
         SELECT *
         FROM visit
         WHERE visit_type = 4 --服务商拜访
+    ) visit ON service_obj.service_obj_id = visit.service_obj_id AND user.user_id = visit.user_id
+    GROUP BY user.user_id,
+             service_obj.service_obj_id
+
+    UNION ALL
+
+    --当季服务商拜访覆盖率 —— 大区通路发展经理版本
+    --大区通路发展经理走辖区逻辑 2、当前不在辖区，但是历史月份在辖区内且有过拜访的服务商
+    SELECT /*+ mapjoin(service_obj) */
+          'quarter_fws_visit_cover_rate' as indicator_code,
+          '否' as is_service_obj_indicator,
+           user.user_id as user_id,
+           service_obj.service_obj_id,
+           count(visit.id) as indicator,
+           1 as target
+    FROM (
+        SELECT *
+        FROM service_obj
+        WHERE service_obj_type = 3
+    ) service_obj
+    INNER JOIN (
+        SELECT user.user_id,
+               area.region,
+               area.sub_region
+        FROM user
+        INNER JOIN area ON area.user_id = user.user_id
+        WHERE user.job_name IN ('大区通路发展经理')
+    ) user ON !(user.sub_region is not null AND service_obj.sub_region = user.sub_region) AND !(user.sub_region is null AND service_obj.region = user.region)
+    INNER JOIN (
+        SELECT *
+        FROM visit
+        WHERE visit_type = 4 --服务商拜访
+        AND ((freeze_user_sub_region is not null AND freeze_sub_region = freeze_user_sub_region) OR (freeze_user_sub_region is null AND freeze_region = freeze_user_region))
     ) visit ON service_obj.service_obj_id = visit.service_obj_id AND user.user_id = visit.user_id
     GROUP BY user.user_id,
              service_obj.service_obj_id
