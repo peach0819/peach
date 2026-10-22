@@ -140,7 +140,7 @@ detail as (
                    'not_nc_or_hospital_cnt', sum(if(obj.is_nc = 0 AND obj.is_hospital = 0, 1, 0)),
                    '4_5_star_cnt', sum(if(obj.is_star_quarter = 1 AND obj.star_quarter IN (4, 5), 1, 0)),
                    '1_2_3_star_cnt', sum(if(obj.is_star_quarter = 1 AND obj.star_quarter IN (1, 2, 3), 1, 0)),
-                   'area_total_cnt', sum(if(obj.status = 1 AND (area.sub_region is not null AND area.sub_region = obj.sub_region) OR (area.sub_region is null AND area.region = obj.region), 1, 0))
+                   'area_total_cnt', sum(if(obj.status = 1 AND prod_mdson.mdson_area_match(area.region, area.sub_region, obj.region, obj.sub_region), 1, 0))
                )) as biz_value
         FROM (
             SELECT *

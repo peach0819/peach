@@ -211,11 +211,12 @@ detail as (
         FROM user
         INNER JOIN area ON area.user_id = user.user_id
         WHERE user.job_name IN ('大区通路发展经理')
-    ) user ON (user.sub_region is not null AND service_obj.sub_region = user.sub_region) OR (user.sub_region is null AND service_obj.region = user.region)
+    ) user ON prod_mdson.mdson_area_match(user.region, user.sub_region, service_obj.region, service_obj.sub_region)
     LEFT JOIN (
         SELECT *
         FROM visit
         WHERE visit_type = 4 --服务商拜访
+        AND prod_mdson.mdson_area_match(freeze_user_region, freeze_user_sub_region, freeze_region, freeze_sub_region) --辖区内拜访
     ) visit ON service_obj.service_obj_id = visit.service_obj_id AND user.user_id = visit.user_id
     GROUP BY user.user_id,
              service_obj.service_obj_id
@@ -243,12 +244,12 @@ detail as (
         FROM user
         INNER JOIN area ON area.user_id = user.user_id
         WHERE user.job_name IN ('大区通路发展经理')
-    ) user ON !(user.sub_region is not null AND service_obj.sub_region = user.sub_region) AND !(user.sub_region is null AND service_obj.region = user.region)
+    ) user ON !prod_mdson.mdson_area_match(user.region, user.sub_region, service_obj.region, service_obj.sub_region)
     INNER JOIN (
         SELECT *
         FROM visit
         WHERE visit_type = 4 --服务商拜访
-        AND ((freeze_user_sub_region is not null AND freeze_sub_region = freeze_user_sub_region) OR (freeze_user_sub_region is null AND freeze_region = freeze_user_region))
+        AND prod_mdson.mdson_area_match(freeze_user_region, freeze_user_sub_region, freeze_region, freeze_sub_region) --辖区内拜访
     ) visit ON service_obj.service_obj_id = visit.service_obj_id AND user.user_id = visit.user_id
     GROUP BY user.user_id,
              service_obj.service_obj_id
