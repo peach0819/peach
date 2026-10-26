@@ -51,13 +51,22 @@ white_list_base as (
 
 --人员辖区
 area as (
-    SELECT user_code as empno,
-           CASE WHEN area_name like 'GT%' then 'GT'
-                WHEN area_name like 'COT%' then 'COT'
-                WHEN area_name like 'KA%' then 'KA'
+    SELECT user.user_id,
+           t.region,
+           t.sub_region,
+           CASE WHEN t.area_name like '%GT%' then 'GT'
+                WHEN t.area_name like '%COT%' then 'COT'
+                WHEN t.area_name like '%KA%' then 'KA'
                 ELSE '全渠道' END as job_channel
-    FROM prod_mdson.ads_sale_area_d
-    WHERE dayid = '${v_date}'
+    FROM (
+        SELECT user_code as empno,
+               region_name as region,
+               sub_region_name as sub_region,
+               area_name
+        FROM prod_mdson.ads_sale_area_d
+        WHERE dayid = '${v_date}'
+    ) t
+    INNER JOIN user ON t.empno = user.empno
 ),
 
 --当月目标拜访店次
@@ -68,7 +77,11 @@ target as (
            round(nvl(white_list.change_target, target_content.indicator_value) * workday.month_discount_rate, 0) as month_visit_target,
 
            --门店拜访总门店数
-           nvl(white_list1.change_target, 40) * workday.month_discount_rate as month_visit_obj_target
+           round(nvl(white_list1.change_target,
+               case when user.job_name = '城市群负责人' then 40
+                    when user.job_name = '大区通路发展经理' then 20
+                    else 0 end
+           ) * workday.month_discount_rate, 0) as month_visit_obj_target
     FROM user
     LEFT JOIN workday ON workday.user_id = user.user_id
     LEFT JOIN (
@@ -116,18 +129,32 @@ detail as (
     SELECT user_id,
            to_json(map_from_entries(collect_list(NAMED_STRUCT('key', indicator_code, 'value', biz_value)))) as biz_value
     FROM (
-        SELECT user_id,
-               indicator_code,
+        SELECT detail.user_id,
+               detail.indicator_code,
                to_json(named_struct(
                    'reach_cnt', sum(if(reach = '达标', 1, 0)),
                    'total_cnt', sum(1),
                    'reach_sum', sum(if(reach = '达标', indicator, 0)),
-                   'total_sum', sum(indicator)
+                   'total_sum', sum(indicator),
+                   'nc_or_hospital_cnt', sum(if(obj.is_nc = 1 OR obj.is_hospital = 1, 1, 0)),
+                   'not_nc_or_hospital_cnt', sum(if(obj.is_nc = 0 AND obj.is_hospital = 0, 1, 0)),
+                   '4_5_star_cnt', sum(if(obj.is_star_quarter = 1 AND obj.star_quarter IN (4, 5), 1, 0)),
+                   '1_2_3_star_cnt', sum(if(obj.is_star_quarter = 1 AND obj.star_quarter IN (1, 2, 3), 1, 0)),
+                   'area_total_cnt', sum(if(obj.status = 1 AND prod_mdson.mdson_area_match(area.region, area.sub_region, obj.region, obj.sub_region), 1, 0))
                )) as biz_value
-        FROM prod_mdson.ads_crm_visit_base_detail_d
-        WHERE dayid = '${v_date}'
-        group by user_id,
-                 indicator_code
+        FROM (
+            SELECT *
+            FROM prod_mdson.ads_crm_visit_base_detail_d
+            WHERE dayid = '${v_date}'
+        ) detail
+        LEFT JOIN (
+            SELECT *
+            FROM prod_mdson.ads_crm_visit_service_obj_d
+            WHERE dayid = '${v_date}'
+        ) obj ON detail.service_obj_id = obj.service_obj_id
+        LEFT JOIN area ON detail.user_id = area.user_id
+        group by detail.user_id,
+                 detail.indicator_code
     ) t1
     group by user_id
 ),
@@ -145,8 +172,9 @@ SELECT user.user_id,
            detail.biz_value,
            to_json(named_struct(
                'dayid', '${v_date}',
-               'month_time_progress', round(100 * DAYOFMONTH(TO_DATE('${v_date}', 'yyyymmdd')) / DAYOFMONTH(LAST_DAY(TO_DATE('${v_date}', 'yyyymmdd'))), 0),
-               'quarter_time_progress', round(100 * (DATEDIFF(TO_DATE('${v_date}', 'yyyymmdd'), DATETRUNC(TO_DATE('${v_date}', 'yyyymmdd'), 'quarter')) + 1) / DATEDIFF(DATEADD(DATETRUNC(TO_DATE('${v_date}', 'yyyymmdd'), 'quarter'), 3, 'mm'), DATETRUNC(TO_DATE('${v_date}', 'yyyymmdd'), 'quarter'), 'dd'), 0),
+               'quarter_begin', TO_CHAR(DATETRUNC(TO_DATE('${v_date}', 'yyyymmdd'), 'quarter'), 'yyyymmdd'),
+               'month_time_progress', round(100 * DAYOFMONTH(TO_DATE('${v_date}', 'yyyymmdd')) / DAYOFMONTH(LAST_DAY(TO_DATE('${v_date}', 'yyyymmdd'))), 2),
+               'quarter_time_progress', round(100 * (DATEDIFF(TO_DATE('${v_date}', 'yyyymmdd'), DATETRUNC(TO_DATE('${v_date}', 'yyyymmdd'), 'quarter')) + 1) / DATEDIFF(DATEADD(DATETRUNC(TO_DATE('${v_date}', 'yyyymmdd'), 'quarter'), 3, 'mm'), DATETRUNC(TO_DATE('${v_date}', 'yyyymmdd'), 'quarter'), 'dd'), 2),
                'job_name', if(user.user_real_name = '胡志伟', '城市群负责人', user.job_name),
                'join_month', join_month,  --入职月份
                'month_actual_day_num', workday.month_actual_day_num,  --本月实际工作日
@@ -164,4 +192,4 @@ LEFT JOIN workday ON user.user_id = workday.user_id
 LEFT JOIN target ON user.user_id = target.user_id
 LEFT JOIN user_channel_cnt ON user.user_id = user_channel_cnt.user_id
 LEFT JOIN visible ON user.user_id = visible.user_id
-LEFT JOIN area ON user.empno = area.empno
+LEFT JOIN area ON user.user_id = area.user_id

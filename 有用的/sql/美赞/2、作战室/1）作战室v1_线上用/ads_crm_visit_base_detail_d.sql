@@ -13,17 +13,20 @@ with service_obj as (
            is_low_new_nc,
            get_json_object(target, '$.month') as month_change_target,
            get_json_object(target, '$.quarter') as quarter_change_target,
-           freeze_server_id
+           freeze_server_id,
+           is_star_quarter,
+           region,
+           sub_region
     FROM prod_mdson.ads_crm_visit_service_obj_d
     WHERE dayid = '${v_date}'
     AND if_virtual = 0  --过滤虚拟门店
     AND INSTR(service_obj_name,'测试') = 0 --过滤测试门店
-    AND status = 1  --正常营业
 ),
 
 --人员信息
 user as (
     SELECT user_id,
+           empno,
            job_name
     FROM prod_mdson.dim_user_d
     WHERE dayid = '${v_date}'
@@ -41,7 +44,11 @@ visit as (
            visit_mode,
            service_obj_id,
            user_id,
-           freeze_server_id
+           freeze_server_id,
+           freeze_region,
+           freeze_sub_region,
+           freeze_user_region,
+           freeze_user_sub_region
     FROM prod_mdson.ads_crm_visit_record_d
     WHERE dayid = '${v_date}'
 ),
@@ -55,6 +62,21 @@ workday as (
     AND data_month = '${v_opt_month}'
 ),
 
+--人员辖区信息
+area as (
+    SELECT user.user_id,
+           t.region,
+           t.sub_region
+    FROM (
+        SELECT user_code as empno,
+               region_name as region,
+               sub_region_name as sub_region
+        FROM prod_mdson.ads_sale_area_d
+        WHERE dayid = '${v_date}'
+    ) t
+    INNER JOIN user ON t.empno = user.empno
+),
+
 ------------------------------------------------------------------------------指标
 detail as (
     --当月拜访频次达标率
@@ -63,7 +85,7 @@ detail as (
            visit.user_id as user_id,
            visit.service_obj_id,
            count(if((visit_type = 1 AND visit_mode = 1) OR visit_type != 1, visit.id, null)) as indicator, --门店拜访只统计有效拜访，服务商不用（因为服务商没有有效拜访概念）
-           null as target
+           1 as target
     FROM (
         SELECT *
         FROM visit
@@ -97,6 +119,7 @@ detail as (
         AND store_class_name = '实体门店'
         AND is_nc = 1 --NC门店
         AND freeze_server_id is not null --有挂服务人员的门店
+        AND status = 1  --正常营业
     ) service_obj
     LEFT JOIN (
         SELECT *
@@ -121,7 +144,7 @@ detail as (
            service_obj.freeze_server_id as user_id,
            service_obj.service_obj_id,
            count(visit.id) as indicator,
-           null as target
+           1 as target
     FROM (
         SELECT *
         FROM service_obj
@@ -140,18 +163,20 @@ detail as (
 
     UNION ALL
 
-    --当季服务商拜访覆盖率
+    --当季服务商拜访覆盖率 —— 非大区通路发展经理版本
+    --非大区通路发展经理走所有人逻辑
     SELECT 'quarter_fws_visit_cover_rate' as indicator_code,
           '否' as is_service_obj_indicator,
            service_obj.freeze_server_id as user_id,
            service_obj.service_obj_id,
            count(visit.id) as indicator,
-           null as target
+           1 as target
     FROM (
         SELECT *
         FROM service_obj
         WHERE service_obj_type = 3
         AND freeze_server_id is not null --有挂服务人员的正常营业服务商
+        AND status = 1  --正常营业
     ) service_obj
     LEFT JOIN (
         SELECT *
@@ -159,7 +184,74 @@ detail as (
         WHERE visit_type = 4 --服务商拜访
         AND user_id = freeze_server_id --所有人拜访小记
     ) visit ON service_obj.service_obj_id = visit.service_obj_id
+    INNER JOIN user ON service_obj.freeze_server_id = user.user_id AND user.job_name NOT IN ('大区通路发展经理')
     GROUP BY service_obj.freeze_server_id,
+             service_obj.service_obj_id
+
+    UNION ALL
+
+    --当季服务商拜访覆盖率 —— 大区通路发展经理版本
+    --大区通路发展经理走辖区逻辑 1、统计大区通路发展经理本月辖区内的所有服务商
+    SELECT /*+ mapjoin(service_obj) */
+          'quarter_fws_visit_cover_rate' as indicator_code,
+          '否' as is_service_obj_indicator,
+           user.user_id as user_id,
+           service_obj.service_obj_id,
+           count(visit.id) as indicator,
+           1 as target
+    FROM (
+        SELECT *
+        FROM service_obj
+        WHERE service_obj_type = 3
+    ) service_obj
+    INNER JOIN (
+        SELECT user.user_id,
+               area.region,
+               area.sub_region
+        FROM user
+        INNER JOIN area ON area.user_id = user.user_id
+        WHERE user.job_name IN ('大区通路发展经理')
+    ) user ON prod_mdson.mdson_area_match(user.region, user.sub_region, service_obj.region, service_obj.sub_region)
+    LEFT JOIN (
+        SELECT *
+        FROM visit
+        WHERE visit_type = 4 --服务商拜访
+        AND prod_mdson.mdson_area_match(freeze_user_region, freeze_user_sub_region, freeze_region, freeze_sub_region) --辖区内拜访
+    ) visit ON service_obj.service_obj_id = visit.service_obj_id AND user.user_id = visit.user_id
+    GROUP BY user.user_id,
+             service_obj.service_obj_id
+
+    UNION ALL
+
+    --当季服务商拜访覆盖率 —— 大区通路发展经理版本
+    --大区通路发展经理走辖区逻辑 2、当前不在辖区，但是历史月份在辖区内且有过拜访的服务商
+    SELECT /*+ mapjoin(service_obj) */
+          'quarter_fws_visit_cover_rate' as indicator_code,
+          '否' as is_service_obj_indicator,
+           user.user_id as user_id,
+           service_obj.service_obj_id,
+           count(visit.id) as indicator,
+           1 as target
+    FROM (
+        SELECT *
+        FROM service_obj
+        WHERE service_obj_type = 3
+    ) service_obj
+    INNER JOIN (
+        SELECT user.user_id,
+               area.region,
+               area.sub_region
+        FROM user
+        INNER JOIN area ON area.user_id = user.user_id
+        WHERE user.job_name IN ('大区通路发展经理')
+    ) user ON !prod_mdson.mdson_area_match(user.region, user.sub_region, service_obj.region, service_obj.sub_region)
+    INNER JOIN (
+        SELECT *
+        FROM visit
+        WHERE visit_type = 4 --服务商拜访
+        AND prod_mdson.mdson_area_match(freeze_user_region, freeze_user_sub_region, freeze_region, freeze_sub_region) --辖区内拜访
+    ) visit ON service_obj.service_obj_id = visit.service_obj_id AND user.user_id = visit.user_id
+    GROUP BY user.user_id,
              service_obj.service_obj_id
 
     UNION ALL
@@ -170,16 +262,17 @@ detail as (
            service_obj.freeze_server_id as user_id,
            service_obj.service_obj_id,
            count(visit.id) as indicator,
-           case when user.job_name IN ('城市渠道负责人', '城市群负责人') AND service_obj.channel_type IN ('GT')
-                THEN if(service_obj.star = 5, 2, 1)
+           case when user.job_name IN ('城市渠道负责人', '城市群负责人') AND service_obj.channel_type IN ('GT') THEN 1
                 END as target
     FROM (
         SELECT *
         FROM service_obj
         WHERE store_class_name = '实体门店'
         AND is_star = 1
+        AND star IN (4,5)
         AND service_obj_type = 1
         AND freeze_server_id is not null
+        AND status = 1  --正常营业
     ) service_obj
     LEFT JOIN (
         SELECT *
@@ -204,7 +297,7 @@ detail as (
            visit.user_id as user_id,
            visit.service_obj_id,
            count(if((visit_type = 1 AND visit_mode = 1) OR visit_type != 1, visit.id, null)) as indicator, --门店拜访只统计有效拜访，服务商不用（因为服务商没有有效拜访概念）
-           null as target
+           1 as target
     FROM (
         SELECT *
         FROM visit
@@ -220,33 +313,6 @@ detail as (
 
     UNION ALL
 
-    --当季全渠道重点门店拜访覆盖率
-    SELECT 'quarter_all_big_visit_cover_rate',
-           '是' as is_service_obj_indicator,
-           service_obj.freeze_server_id as user_id,
-           service_obj.service_obj_id,
-           count(visit.id) as indicator,
-           1 as target
-    FROM (
-        SELECT *
-        FROM service_obj
-        WHERE store_class_name = '实体门店'
-        AND service_obj_type = 1
-        AND (channel_type IN ('COT', 'KA') OR (channel_type = 'GT' AND is_nc = 1) OR is_hospital = 1 OR is_star = 1) --重点门店定义 1、COT、KA渠道门店 2、GT渠道专职NC门店 3、院线店  4、星级门店
-        AND freeze_server_id is not null --有挂服务人员的
-    ) service_obj
-    LEFT JOIN (
-        SELECT *
-        FROM visit
-        WHERE visit_type = 1
-        AND visit_mode = 1
-        AND user_id = freeze_server_id --所有人拜访小记
-    ) visit ON service_obj.service_obj_id = visit.service_obj_id
-    GROUP BY service_obj.freeze_server_id,
-             service_obj.service_obj_id
-
-    UNION ALL
-
     --当月院线店拜访达成率
     SELECT 'month_hospital_visit_reach_rate' as indicator_code,
           '是' as is_service_obj_indicator,
@@ -255,7 +321,7 @@ detail as (
            count(visit.id) as indicator,
            case when user.job_name IN ('城市渠道负责人', '城市群负责人')
                 THEN case when service_obj.channel_type IN ('COT', 'KA') then 2
-                          WHEN service_obj.channel_type IN ('GT') THEN if(service_obj.is_star = 1, 2, 1)
+                          WHEN service_obj.channel_type IN ('GT') THEN 1
                           END
                 END as target
     FROM (
@@ -265,6 +331,7 @@ detail as (
         AND service_obj_type = 1
         AND store_class_name = '实体门店'
         AND freeze_server_id is not null
+        AND status = 1  --正常营业
     ) service_obj
     LEFT JOIN (
         SELECT *
@@ -280,6 +347,63 @@ detail as (
              user.job_name,
              service_obj.channel_type,
              service_obj.is_star
+
+    UNION ALL
+
+    --当季COT/KA门店拜访覆盖率
+    SELECT 'quarter_cot_ka_visit_cover_rate',
+           '是' as is_service_obj_indicator,
+           service_obj.freeze_server_id as user_id,
+           service_obj.service_obj_id,
+           count(visit.id) as indicator,
+           1 as target
+    FROM (
+        SELECT *
+        FROM service_obj
+        WHERE store_class_name = '实体门店'
+        AND service_obj_type = 1
+        AND channel_type IN ('COT', 'KA') --COT、KA渠道门店
+        AND freeze_server_id is not null --有挂服务人员的
+        AND status = 1  --正常营业
+    ) service_obj
+    LEFT JOIN (
+        SELECT *
+        FROM visit
+        WHERE visit_type = 1
+        AND visit_mode = 1
+        AND user_id = freeze_server_id --所有人拜访小记
+    ) visit ON service_obj.service_obj_id = visit.service_obj_id
+    GROUP BY service_obj.freeze_server_id,
+             service_obj.service_obj_id
+
+    UNION ALL
+
+    --当季GT星级门店拜访覆盖率
+    SELECT 'quarter_gt_star_visit_cover_rate',
+           '是' as is_service_obj_indicator,
+           service_obj.freeze_server_id as user_id,
+           service_obj.service_obj_id,
+           count(visit.id) as indicator,
+           1 as target
+    FROM (
+        SELECT *
+        FROM service_obj
+        WHERE store_class_name = '实体门店'
+        AND service_obj_type = 1
+        AND channel_type = 'GT' --GT渠道门店
+        AND is_star_quarter = 1 --季度星级门店
+        AND freeze_server_id is not null --有挂服务人员的
+        AND status = 1  --正常营业
+    ) service_obj
+    LEFT JOIN (
+        SELECT *
+        FROM visit
+        WHERE visit_type = 1
+        AND visit_mode = 1
+        AND user_id = freeze_server_id --所有人拜访小记
+    ) visit ON service_obj.service_obj_id = visit.service_obj_id
+    GROUP BY service_obj.freeze_server_id,
+             service_obj.service_obj_id
 ),
 
 mid as (
@@ -290,7 +414,7 @@ mid as (
            detail.indicator,
            --折算目标
            prod_mdson.mdson_indicator_target(
-               nvl(detail.target, 1),
+               detail.target,
                if(detail.is_service_obj_indicator = '是', if(detail.indicator_code like 'month_%', service_obj.month_change_target, quarter_change_target), null),
                if(detail.indicator_code like 'month_%', workday.discount_rate, null)
            ) as target,

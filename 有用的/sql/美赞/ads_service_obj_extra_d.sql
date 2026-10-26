@@ -17,9 +17,9 @@ WITH all_service_obj as (
 
 target as (
     SELECT service_obj_id,
-           map_from_entries(collect_list(if(month_target is not null, NAMED_STRUCT('key', job_id, 'value', month_target), cast(null as STRUCT<key:STRING, value:INT>)))) as month_target,
-           map_from_entries(collect_list(if(quar_target is not null, NAMED_STRUCT('key', job_id, 'value', quar_target), cast(null as STRUCT<key:STRING, value:INT>)))) as quarter_target
-    FROM prod_mdson.ads_mdson_service_target_d_v2
+           map_from_entries(collect_list(NAMED_STRUCT('key', cast(job_id as STRING), 'value', cast(month_target as INT)))) as month_target,
+           map_from_entries(collect_list(NAMED_STRUCT('key', cast(job_id as STRING), 'value', cast(quarter_target as INT)))) as quarter_target
+    FROM prod_mdson.ads_crm_visit_user_shop_target_d
     WHERE dayid = '${v_date}'
     GROUP BY service_obj_id
 ),

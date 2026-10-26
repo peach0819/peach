@@ -29,9 +29,11 @@ display_indicator as (
         UNION ALL
         SELECT 'month_shop_visit_reach_rate' as indicator_code, 1 as need_single, 1 as need_total
         UNION ALL
-        SELECT 'quarter_all_big_visit_cover_rate' as indicator_code, 1 as need_single, 1 as need_total
-        UNION ALL
         SELECT 'month_hospital_visit_reach_rate' as indicator_code, 1 as need_single, 1 as need_total
+        UNION ALL
+        SELECT 'quarter_cot_ka_visit_cover_rate' as indicator_code, 1 as need_single, 1 as need_total
+        UNION ALL
+        SELECT 'quarter_gt_star_visit_cover_rate' as indicator_code, 1 as need_single, 1 as need_total
     ) t
 ),
 
