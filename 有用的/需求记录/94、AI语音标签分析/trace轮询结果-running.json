@@ -1,0 +1,101 @@
+{
+  "message": "",
+  "code": "200",
+  "data": {
+    "traceId": "421d4d6767e44f7ab5a61c8427a30e06",
+    "chainDumpJson": null,
+    "traceInfoJson": null,
+    "traceInfo": null,
+    "result": null,
+    "threadId": "421d4d6767e44f7ab5a61c8427a30e06",
+    "sessionId": "421d4d6767e44f7ab5a61c8427a30e06",
+    "status": "RUNNING",
+    "pendingLocalToolCalls": [],
+    "currentNodeId": "repurchase_behavior_list",
+    "nodeStates": [
+      {
+        "id": "hybrid_scene_flow",
+        "status": "SKIPPED",
+        "output": null,
+        "error": null,
+        "suspendTasks": null
+      },
+      {
+        "id": "result",
+        "status": "PENDING",
+        "output": null,
+        "error": null,
+        "suspendTasks": null
+      },
+      {
+        "id": "repurchase_behavior_list",
+        "status": "RUNNING",
+        "output": null,
+        "error": null,
+        "suspendTasks": null
+      },
+      {
+        "id": "new_indicator_desc",
+        "status": "SKIPPED",
+        "output": null,
+        "error": null,
+        "suspendTasks": null
+      },
+      {
+        "id": "start",
+        "status": "SUCCESS",
+        "output": null,
+        "error": null,
+        "suspendTasks": null
+      },
+      {
+        "id": "scene_desc",
+        "status": "SKIPPED",
+        "output": null,
+        "error": null,
+        "suspendTasks": null
+      },
+      {
+        "id": "repurchase_desc",
+        "status": "SUCCESS",
+        "output": null,
+        "error": null,
+        "suspendTasks": null
+      },
+      {
+        "id": "end",
+        "status": "PENDING",
+        "output": null,
+        "error": null,
+        "suspendTasks": null
+      },
+      {
+        "id": "new_behavior_list",
+        "status": "SKIPPED",
+        "output": null,
+        "error": null,
+        "suspendTasks": null
+      },
+      {
+        "id": "scene",
+        "status": "SUCCESS",
+        "output": null,
+        "error": null,
+        "suspendTasks": null
+      }
+    ],
+    "upstreamResults": [],
+    "handoffHistory": [],
+    "checkPoints": [],
+    "message": null,
+    "chainName": "chain_flow_dianxiao_call_indicator_rating",
+    "suspendTasks": []
+  },
+  "pageNo": null,
+  "pageSize": null,
+  "totalCount": null,
+  "totalPage": null,
+  "extPageField": null,
+  "hasNext": null,
+  "success": true
+}
