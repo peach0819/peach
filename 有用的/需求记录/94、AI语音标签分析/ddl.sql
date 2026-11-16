@@ -1,0 +1,22 @@
+--新建通话记录AI分析表
+CREATE TABLE t_conversation_record_analysis (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `creator` varchar(255) COMMENT '提交人',
+  `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `editor` varchar(255) COMMENT '修改人',
+  `edit_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
+  `is_deleted` tinyint(4) NOT NULL DEFAULT '0' COMMENT '已删除',
+  `analysis_type` tinyint(4) COMMENT '分析类型',
+  `conversation_record_id` bigint(11) NOT NULL COMMENT '通话记录id',
+  `conversation_code` varchar(64) COMMENT '通话记录code',
+  `record_url` varchar(256) COMMENT '通话记录url',
+  `asr_url` varchar(256) COMMENT '识别结果url',
+  `analysis_version` varchar(150) COMMENT '分析版本, chainName:提示词版本',
+  `session_id` varchar(64) COMMENT '会话id',
+  `trace_id` varchar(64) COMMENT '链接id',
+  `analysis_status` varchar(50) COMMENT '分析状态',
+  `meta_result` text COMMENT '原始识别结果',
+  `analysis_result` text COMMENT '分析结果',
+  PRIMARY KEY (`id`),
+  KEY `idx_conversation_record_id` (`conversation_record_id`),
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COMMENT='通话记录AI分析表';
