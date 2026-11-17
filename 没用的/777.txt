@@ -1,1 +1,85 @@
--Xms5g -Xmx5g -XX:NewSize=3g -XX:MaxNewSize=3g -XX:MaxMetaspaceSize=512M -XX:MetaspaceSize=512M -XX:+UseConcMarkSweepGC -XX:MaxGCPauseMillis=100 -XX:+ParallelRefProcEnabled -XX:ErrorFile=/alidata/log/hs_err_pid%p.log -Xloggc:/alidata/log/gc.log -XX:HeapDumpPath=/alidata/log -XX:+PrintGCDetails -XX:+PrintGCDateStamps -XX:+HeapDumpOnOutOfMemoryError -XX:+PrintClassHistogramBeforeFullGC -XX:+PrintClassHistogramAfterFullGC -XX:+PrintGCApplicationStoppedTime -XX:+PrintHeapAtGC -XX:+UseCMSInitiatingOccupancyOnly -XX:CMSInitiatingOccupancyFraction=75
+1、对外提供的服务
+
+1.1）touch-center 对外提供
+
+TuseApi.sendPersonalMsg：小二工作台直发私聊消息
+HopTuseLoginApi.getTuseQwList：企微号列表与在线态
+HopTuseLoginApi.getQrCode：扫码登录
+1.2）touch-core 对外提供（被 center 消费）
+
+TuseQueryApi：账号态查询（在线/离线/未登录）
+TuseLoginApi：扫码登录、二次验证
+TuseApi 相关：消息发送与回执查询
+1.3）内部消费方
+
+触达任务执行（TaskInstance → 私聊/群发）
+客服会话与 AI 回复
+离线提醒与账号监控
+2、核心接口调用
+
+2.1）Token 与账号
+
+获取访问 token
+企微号列表（在线态/设备）
+个微号列表
+商家子账号列表
+同步企微客户
+2.2）发送
+
+发私聊消息
+发群聊消息
+下载会话媒体
+2.3）关系数据
+
+企微好友列表
+群列表（企微/个微/素材群）
+群成员列表
+个微好友列表
+个微好友标签
+朋友圈
+刷新个微群成员
+2.4）订阅
+
+订阅群消息
+订阅私聊消息
+2.5）登录
+
+生成扫码登录任务
+登录二维码 / 扫码状态
+二次验证二维码
+提交二次验证码
+2.6）群开通
+
+待开通群列表
+同步待开通群
+开通群（机器人进群）
+取消开通群（机器人退群）
+3、核心回调
+
+发送结果：私聊发送结果、群发结果
+会话消息：企微私聊/群消息、个微私聊/群消息
+账号在线态：企微在线/离线、个微在线/离线（两次确认）
+处理链路：ONS 回调 → 回调表 → 各 Handler → 回写明细状态
+4、核心表
+
+t_crm_tuse_callback_msg：回调原文与幂等、补偿重放
+t_crm_tuse_qw_personal_msg：企微私聊会话
+t_crm_tuse_qw_group_msg：企微群消息
+t_crm_tuse_wx_group_msg：个微群消息
+t_crm_tuse_wx_moments：朋友圈
+t_crm_tuse_qw_heartbeat_msg：在线/离线心跳
+4.1）业务表关键字段
+
+t_crm_chat.tuse_id / tuse_fre_id：账号与好友定位键
+t_crm_chat_group.open_user_id / belong_chat_id：群归属
+t_touch_task_detail 回执字段：opt_ser_no / msg_time / msg_num
+5、核心影响的功能
+
+私聊触达（致命）：18 类系统任务中 15 类仅涂色，路由写死 TuseToucher
+群发任务（致命）：群数据与机器人进群由涂色维护
+会话消息与 AI 回复（高）：消息源与发送通道同时变
+二次推送与补偿重试（高）：在线态与失败码需重映射
+关系数据同步（高）：好友/群/标签/朋友圈断源，影响圈选与去重
+账号登录与小二工作台（高）：扫码登录、二次验证为纯 RPA
+素材与小程序卡片（中）：素材群订阅 + 封面图转换
+离线监控与报表（中）：心跳与事件源消失
